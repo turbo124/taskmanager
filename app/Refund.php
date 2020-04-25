@@ -59,8 +59,6 @@ class Refund
             $credit_note
         );
 
-        $this->createActivity($credit_note);
-
         return $this;
     }
 
@@ -109,39 +107,5 @@ class Refund
         $credit_note->ledger()->updateBalance($adjustment_amount);
 
         return $this;
-    }
-
-    /**
-     * @param array $data
-     * @param int $credit_id
-     */
-    private
-    function createActivity(Credit $credit)
-    {
-        $notification = (new NotificationFactory())->create($this->payment->account_id, $this->payment->user_id);
-
-        $fields = [
-            'notifiable_type' => get_class($this->payment),
-            'notifiable_id'   => $this->payment->user_id,
-            'type'            => 'App\Notifications\RefundCreated'
-        ];
-        $fields['data'] = [
-            'payment_id' => $this->payment->id,
-            'account_id' => $this->payment->account_id,
-            'credit_id'  => $credit->id
-        ];
-
-        $fields['data'] = json_encode($fields['data']);
-
-        if (!empty($this->data['invoices'])) {
-            foreach ($this->data['invoices'] as $invoice) {
-                $fields['data']['invoice_id'] = $invoice->id;
-
-                $notification->fill($fields)->save();;
-
-            }
-        } else {
-            $notification->fill($fields)->save();
-        }
     }
 }
