@@ -79,55 +79,11 @@ class NumberGenerator
         return str_pad($counter, $padding, '0', STR_PAD_LEFT);
     }
 
-    private function applyNumberPattern(Customer $customer, string $counter, $pattern): string
-    {
-
-        if (!$pattern) {
-            return $counter;
-        }
-        $search = ['{$year}'];
-        $replace = [date('Y')];
-        $search[] = '{$counter}';
-        $replace[] = $counter;
-        $search[] = '{$clientCounter}';
-        $replace[] = $counter;
-        $search[] = '{$groupCounter}';
-        $replace[] = $counter;
-        if (strstr($pattern, '{$user_id}')) {
-            $user_id = $customer->user_id ? $customer->user_id : 0;
-            $search[] = '{$user_id}';
-            $replace[] = str_pad(($user_id), 2, '0', STR_PAD_LEFT);
-        }
-        $matches = false;
-        preg_match('/{\$date:(.*?)}/', $pattern, $matches);
-        if (count($matches) > 1) {
-            $format = $matches[1];
-            $search[] = $matches[0];
-            /* The following adjusts for the company timezone - may bork tests depending on the time of day the tests are run!!!!!!*/
-            $date = Carbon::now($customer->account->timezone()->name)->format($format);
-            $replace[] = str_replace($format, $date, $matches[1]);
-        }
-        $search[] = '{$custom1}';
-        $replace[] = $customer->custom_value1;
-        $search[] = '{$custom2}';
-        $replace[] = $customer->custom_value2;
-        $search[] = '{$custom3}';
-        $replace[] = $customer->custom_value3;
-        $search[] = '{$custom4}';
-        $replace[] = $customer->custom_value4;
-        $search[] = '{$id_number}';
-        $replace[] = $customer->id_number;
-
-        return str_replace($search, $replace, $pattern);
-    }
-
     private function checkEntityNumber($class, $customer, $counter, $padding, $pattern)
     {
-
         $check = false;
         do {
             $number = $this->padCounter($counter, $padding);
-            $number = $this->applyNumberPattern($customer, $number, $pattern);
 
             if ($class == Customer::class) {
                 $check = $class::whereAccountId($customer->account_id)->whereIdNumber($number)->withTrashed()->first();
