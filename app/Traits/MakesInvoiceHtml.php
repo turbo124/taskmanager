@@ -41,7 +41,7 @@ trait MakesInvoiceHtml
 
         $css_link = '<link href="' . public_path() . '/css/pdf.css" rel="stylesheet">';
         $data['includes'] = str_replace('$css_link', $css_link, $designer->getSection('includes'));
-        $data['includes'] = str_replace('$custom_css', $this->generateCustomCSS($entity), $data['includes']);
+        $data['includes'] = $data['includes'];
         $data['header'] = $designer->getSection('header');
         $table = $designer->getSection('table');
 
@@ -52,73 +52,37 @@ trait MakesInvoiceHtml
 
         $html = str_replace('$total_tax_labels', $labels['$total_tax_values_label'], $html);
 
+        $html = $this->generateCustomCSS($entity, $html);
+
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
-
-        //  echo $html;
-        // die;
 
         return $html;
     }
 
-    private function generateCustomCSS($entity)
+    private function generateCustomCSS($entity, $html)
     {
         $settings = $entity->account->settings;
 
-        $footer = '
-           .footer {
-             position: fixed; 
-             bottom: 0px; 
-             left: 0px; 
-             right: 0px; 
-             background-color: #000; 
-             height: 50px;
-             width: 100%;
-           }';
-
-        $header = '
-              .header {
-                 position: fixed; 
-                 top: 0px;
-                 left: 0px; 
-                 right: 0px; 
-                 background-color: lightblue; 
-                 width: 100%;
-               }
-             ';
-
-        $css = '';
-
         if ($settings->all_pages_header && $settings->all_pages_footer) {
-            $css .= $header;
-            $css .= $footer;
+            $html = str_replace('header_class', 'header', $html);
+            $html = str_replace('footer_class', 'footer', $html);
         } elseif ($settings->all_pages_header && !$settings->all_pages_footer) {
-            $css .= $header;
+            $html = str_replace('header_class', 'header', $html);
         } elseif (!$settings->all_pages_header && $settings->all_pages_footer) {
-            $css .= $footer;
+            $html = str_replace('footer_class', 'footer', $html);
         }
-        $css .= '
-            .header-space {
-  height: 160px;
-}
-.footer-space {
-  height: 160px;
-}
-.page {
-  page-break-after: always;
-}
-@page {
-  margin: 0mm
-}
+        $css = '
 html {
         ';
 
         $css .= 'font-size:' . $settings->font_size . 'px;';
-//        $css .= 'font-size:14px;';
 
         $css .= '}';
 
-        return $css;
+       $html = str_replace('$custom_css', $css, $html);
+
+       return $html;
 
     }
 }

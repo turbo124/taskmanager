@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Modern extends AbstractDesign
+class Modern
 {
 
     public function __construct()
@@ -18,9 +18,6 @@ class Modern extends AbstractDesign
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
- .table_header_thead_class {text-align:left; text-align:left; color:#fff; background-color:#1a202c;}
- .table_header_td_class {padding-left:1rem;padding-right:1rem; padding-top:.5rem;padding-bottom:.5rem}
- .table_body_td_class {border-top-width:1px; border-bottom-width:1px; border-color:#1a202c; padding-left:1rem;padding-right:1rem; padding-top:1rem;padding-bottom:1rem;}
  $custom_css
 </style>
 </head>
@@ -31,7 +28,7 @@ $css_link
     public function header()
     {
 
-        return '<div class="header bg-warning" style="page-break-inside: avoid;">
+        return '<div class="header_class bg-warning" style="page-break-inside: avoid;">
 <div class="inline-block ml-3" style="width: 50%">
 	<h1 class="text-white font-weight-bold">$company.name</h1>
 </div>
@@ -140,7 +137,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer bg-warning py-4 px-4 pt-4" style="page-break-inside: avoid; width: 100%">
+        return '<div class="footer_class bg-warning py-4 px-4 pt-4" style="page-break-inside: avoid; width: 100%">
 			    <div class="inline-block" style="width: 10%">
 			        <!-- // -->
 			    </div>

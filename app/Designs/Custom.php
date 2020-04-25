@@ -1,7 +1,7 @@
 <?php
 namespace App\Designs;
 
-class Custom extends AbstractDesign
+class Custom
 {
     public $includes;
 
