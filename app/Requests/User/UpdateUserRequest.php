@@ -3,7 +3,6 @@
 namespace App\Requests\User;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Rules\UniqueUserRule;
 use App\User;
 use App\Repositories\UserRepository;
 
@@ -18,10 +17,6 @@ class UpdateUserRequest extends BaseFormRequest
     public function rules()
     {
 
-        $input = $this->all();
-
-        $user = (new UserRepository(new User))->findUserByUsername($input['username']);
-
         $rules = [
             'department'      => 'nullable|numeric',
             'gender'          => 'nullable|string',
@@ -32,12 +27,9 @@ class UpdateUserRequest extends BaseFormRequest
             'username'        => 'required|string',
             'profile_photo'   => 'nullable|string',
             'first_name'      => 'required|string',
-            'last_name'       => 'required|string'
+            'last_name'       => 'required|string',
+            'email' => ['required', \Illuminate\Validation\Rule::unique('users')->ignore($this->route('user_id'))]
         ];
-
-        if (isset($input['email']) && $user && $user->count() > 0) {
-            $rules['email'] = ['sometimes', new UniqueUserRule($user, $input['email'])];
-        }
 
         return $rules;
     }
