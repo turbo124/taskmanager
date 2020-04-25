@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Business extends AbstractDesign
+class Business
 {
 
     public function __construct()
@@ -17,15 +17,6 @@ class Business extends AbstractDesign
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     $css_link
 <style>
-    thead th:first-child {
-        border-top-left-radius: 0.5rem;
-    }
-    thead th:last-child {
-        border-top-right-radius: 0.5rem;
-    }
-.table_header_thead_class { border-top-left-radius: .5rem; text-align: left }
-.table_header_td_class { color: white; padding: .5rem 1rem; font-weight: 800; background-color: #2a4365; }
-.table_body_td_class { color: #c05621; padding: 1rem; border-width: 4px; border-color: white; background-color: #edf2f7; }
 $custom_css
 </style>';
     }
@@ -151,7 +142,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
 </body>
 </html>';
 

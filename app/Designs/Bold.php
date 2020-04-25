@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Bold extends AbstractDesign
+class Bold
 {
 
     public function __construct()
@@ -17,10 +17,6 @@ class Bold extends AbstractDesign
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
-    @page: not(:first-of-type) { size: auto; margin-top: 5mm; }
-    .table_header_thead_class {text-align:left;}
-    .table_header_td_class {padding-left:3rem; padding-right:3rem; font-size:1.5rem; padding-left:1rem;padding-right:1rem; padding-top:.5rem;padding-bottom:.5rem}
-    .table_body_td_class {background-color:#edf2f7; adding-top:1.25rem;padding-bottom:1.25rem; padding-left:3rem;}
     $custom_css
 </style>';
     }
@@ -129,7 +125,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer py-4 px-4" style="page-break-inside: avoid;"></div>';
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>';
 
     }
 

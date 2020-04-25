@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Elegant extends AbstractDesign
+class Elegant
 {
 
     public function __construct()
@@ -18,9 +18,6 @@ class Elegant extends AbstractDesign
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
-    .table_header_thead_class { text-align: left; border-bottom-width: 1px; border-style: dashed; border-color: black; }
-    .table_header_td_class { font-weight: normal; color: #2f855a; padding: .5rem 1rem; }
-    .table_body_td_class { padding: 1rem; }
     $custom_css
 </style>';
     }
@@ -138,7 +135,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer flex justify-between py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class flex justify-between py-4 px-4" style="page-break-inside: avoid;"></div>
 </footer>
 </body>
 </html>';

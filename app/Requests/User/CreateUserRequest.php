@@ -3,7 +3,6 @@
 namespace App\Requests\User;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Rules\NewUniqueUser;
 
 class CreateUserRequest extends BaseFormRequest
 {
@@ -36,7 +35,7 @@ class CreateUserRequest extends BaseFormRequest
             'profile_photo'   => 'nullable|string',
             'first_name'      => 'required|string|max:100',
             'last_name'       => 'required|string:max:100',
-            'email'           => new NewUniqueUser(),
+            'email'           => ['required', 'string', 'unique:users']
         ];
     }
 

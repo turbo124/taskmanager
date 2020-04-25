@@ -176,6 +176,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                     $data['company_user']['notifications']
                 );
             } else {
+
+                $data['company_user']['notifications'] = !empty($data['company_user']['notifications']) ? $data['company_user']['notifications'] : $user->notificationDefaults();
                 $cu->fill($data['company_user']);
                 $cu->restore();
                 $cu->save();

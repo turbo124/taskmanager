@@ -25,7 +25,7 @@ class PaymentService extends ServiceBase
     {
         $invoices = $this->payment->invoices()->get();
         $customer = $this->payment->customer;
-
+        
         $invoices->each(function ($invoice) {
             if ($invoice->pivot->amount > 0) {
                 $invoice->status_id = Invoice::STATUS_SENT;

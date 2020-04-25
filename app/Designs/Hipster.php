@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Hipster extends AbstractDesign
+class Hipster
 {
 
     public function __construct()
@@ -18,9 +18,6 @@ class Hipster extends AbstractDesign
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
-.table_header_thead_class { text-align: left }
-.table_header_td_class { text-transform: uppercase; padding: .5rem 1rem; font-weight: 600; border-color: black;  }
-.table_body_td_class { border-left-width: 2px; border-color: black; padding: 1rem; }
 $custom_css
 </style>';
     }
@@ -147,7 +144,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
 </body>
 </html>';
 

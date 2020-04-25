@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Playful extends AbstractDesign
+class Playful
 {
 
     public function __construct()
@@ -18,9 +18,7 @@ class Playful extends AbstractDesign
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     $css_link
 <style>
-.table_header_thead_class { text-align: left; background-color: #319795; border-radius: .5rem; }
-.table_header_td_class { padding: .75rem 1rem; font-weight: 600; }
-.table_body_td_class { padding: 1rem; border-bottom-width: 4px; border-style: dashed; border-color: #319795 }
+$custom_css
 </style>';
     }
 
@@ -140,7 +138,7 @@ $table_here
 
     public function footer()
     {
-        return '<div class="footer py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
 </body>
 </html>';
 

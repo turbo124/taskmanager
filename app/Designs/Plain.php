@@ -2,7 +2,7 @@
 
 namespace App\Designs;
 
-class Plain extends AbstractDesign
+class Plain
 {
 
     public function __construct()
@@ -18,9 +18,6 @@ class Plain extends AbstractDesign
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
-.table_header_thead_class { text-align: left; background-color: #e2e8f0 }
-.table_header_td_class { padding: 1rem .5rem; }
-.table_body_td_class { padding: 1rem; border-bottom-width: 1px; border-top-width: 2px; border-color: #e2e8f0 }
 $custom_css
 </style>';
     }
@@ -130,7 +127,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
 </body>
 </html>';
 
