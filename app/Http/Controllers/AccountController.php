@@ -1,0 +1,219 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\CompanyToken;
+use App\Factory\AccountFactory;
+use App\Jobs\Domain\CreateDomain;
+use App\Notifications\NewAccountCreated;
+use App\Requests\Account\StoreAccountRequest;
+use App\Account;
+use App\Repositories\AccountRepository;
+use App\Settings;
+use App\Transformations\AccountTransformable;
+use Exception;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Requests\Account\UpdateAccountRequest;
+use App\Traits\UploadableTrait;
+
+/**
+ * Class AccountController
+ * @package App\Http\Controllers
+ */
+class AccountController extends Controller
+{
+    use DispatchesJobs, AccountTransformable, UploadableTrait;
+    protected $account_repo;
+    public $forced_includes = [];
+
+    /**
+     * AccountController constructor.
+     */
+    public function __construct(AccountRepository $account_repo)
+    {
+
+        $this->account_repo = $account_repo;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $accounts = Account::all();
+        return response()->json($accounts);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param StoreAccountRequest $request
+     * @return mixed
+     */
+    public function store(StoreAccountRequest $request)
+    {
+        $this->forced_includes = ['account_user'];
+        $account = AccountFactory::create(auth()->user()->account_user()->account->domain_id);
+        $settings = (new Settings)->saveAccountSettings($request->input('settings'));
+        $logo_path = $this->uploadLogo($request->file('company_logo'));
+        $settings->company_logo = $logo_path;
+        $account->settings = $settings;
+        $account = $this->account_repo->save($request->all(), $account);
+
+        auth()->user()->accounts()->attach($account->id, [
+            'is_owner'    => 1,
+            'is_admin'    => 1,
+            'is_locked'   => 0,
+            'permissions' => '',
+            //'settings' => DefaultSettings::userSettings(),
+        ]);
+
+        /*
+     * Required dependencies
+     */
+        auth()->user()->setAccount($account);
+        $account->notification(new NewAccountCreated(auth()->user(), $account))->run();
+
+        return response()->json($this->transformAccount($account));
+    }
+
+    /**
+     * Display the specified resource.
+     * @param int $id
+     * @return mixed
+     */
+    public function show(int $id)
+    {
+        $account = $this->account_repo->findAccountById($id);
+        return response()->json($this->transformAccount($account));
+    }
+
+    /**
+     *
+     *
+     * the specified resource in storage.
+     * @param UpdateAccountRequest $request
+     * @param int $id
+     * @return mixed
+     */
+    public function update(UpdateAccountRequest $request, int $id)
+    {
+        $account = $this->account_repo->findAccountById($id);
+        $settings = (new Settings)->saveAccountSettings($request->input('settings'));
+        
+        if(!empty($request->file('company_logo')) && $request->file('company_logo') !== 'null') {
+            $logo_path = $this->uploadLogo($request->file('company_logo'));
+            $settings->company_logo = $logo_path;
+        }
+
+        $account->settings = $settings;
+        $account = $this->account_repo->save($request->except('logo'), $account);
+
+        return response()->json($this->transformAccount($account));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return mixed
+     * @throws Exception
+     */
+
+    public function destroy(Request $request, int $id)
+    {
+        $account = Account::find($id);
+
+        $company_count = $account->domains->companies->count();
+
+        if ($company_count == 1) {
+
+            $account->account_users->each(function ($account_user) {
+
+                $account_user->user->forceDelete();
+
+            });
+
+            $account->domain->delete();
+
+        } else {
+
+            $domain = $account->domains;
+            $account_id = $account->id;
+
+            $account->account_users->each(function ($account_user) {
+
+                $account_user->delete();
+
+            });
+
+            $account->delete();
+
+            //If we are deleting the default companies, we'll need to make a new company the default.
+            if ($domain->default_company_id == $account_id) {
+
+                $new_default_company = Account::whereDomainId($domain->id)->first();
+                $domain->default_company_id = $new_default_company->id;
+                $domain->save();
+
+            }
+
+
+        }
+
+        //@todo delete documents also!!
+
+        //@todo in the hosted version deleting the last
+        //account will trigger an account refund.
+
+        return response()->json(['message' => 'success'], 200);
+
+    }
+
+    public function getCustomFields($entity)
+    {
+
+        $account = $this->account_repo->findAccountById(auth()->user()->account_user()->account_id);
+
+        if (empty($account->custom_fields) || empty($account->custom_fields->{$entity})) {
+            return response()->json([]);
+        }
+
+        $fields = json_decode(json_encode($account->custom_fields), true);
+
+        $custom_fields['fields'][0] = $fields[$entity];
+
+        return response()->json($custom_fields);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function saveCustomFields(Request $request)
+    {
+        $objAccount = $this->account_repo->findAccountById(auth()->user()->account_user()->account_id);
+        $response = $objAccount->update(['custom_fields' => json_decode($request->fields, true)]);
+        return response()->json($response);
+    }
+
+    public function getAllCustomFields()
+    {
+        $objAccount = $this->account_repo->findAccountById(auth()->user()->account_user()->account_id);
+        return response()->json($objAccount->custom_fields);
+    }
+
+    public function changeAccount(Request $request)
+    {
+
+        $user = auth()->user();
+        CompanyToken::where('token', $user->auth_token)->update(['account_id' => $request->account_id]);
+    }
+
+    public function getDateFormats()
+    {
+        return response()->json(\App\DateFormat::get());
+    }
+}
