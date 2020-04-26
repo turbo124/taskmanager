@@ -54,7 +54,7 @@ class OrderController extends Controller
     {
         $customer = Customer::find($request->input('customer_id'));
         $order = $this->order_repo->save($request->all(),
-            OrderFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
+            OrderFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
 
         event(new OrderWasCreated($order));
 
