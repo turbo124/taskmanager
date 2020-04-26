@@ -26,7 +26,7 @@ class QuoteService extends ServiceBase
             return null;
         }
 
-        $this->quote->status_id = Quote::STATUS_APPROVED;
+        $this->quote->setStatus(Quote::STATUS_APPROVED);
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('auto_convert_quote')) {
