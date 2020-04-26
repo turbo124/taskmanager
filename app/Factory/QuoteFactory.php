@@ -2,8 +2,10 @@
 
 namespace App\Factory;
 
-use App\Customer;
 use App\Quote;
+use App\Account;
+use App\User;
+use App\Customer;
 use Illuminate\Support\Facades\Log;
 
 class QuoteFactory
@@ -15,14 +17,14 @@ class QuoteFactory
      * @param $total
      * @return Quote
      */
-    public static function create(int $account_id,
-        int $user_id,
+    public static function create(Account $account,
+        User $user,
         Customer $customer): Quote
     {
         $quote = new Quote();
-        $quote->account_id = $account_id;
+        $quote->account_id = $account->id;
         $quote->status_id = Quote::STATUS_DRAFT;
-        $quote->user_id = $user_id;
+        $quote->user_id = $user->id;
         $quote->customer_id = $customer->id;
 
         return $quote;
