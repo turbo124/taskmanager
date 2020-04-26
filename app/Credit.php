@@ -148,4 +148,9 @@ class Credit extends Model
     {
         return $this->morphMany(File::class, 'documentable');
     }
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
 }
