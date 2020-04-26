@@ -93,7 +93,7 @@ class QuoteController extends Controller
     {
         $customer = Customer::find($request->input('customer_id'));
         $quote = $this->quote_repo->save($request->all(),
-            QuoteFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
+            QuoteFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
         SaveRecurringQuote::dispatchNow($request, $quote->account, $quote);
         QuoteOrders::dispatchNow($quote);
         event(new QuoteWasCreated($quote));
