@@ -193,16 +193,10 @@ class Customer extends Model implements HasLocalePreference
     public function setBalance(float $amount)
     {
         $this->balance += $amount;
-        $this->save();
-
-        return $this;
     }
 
     public function setPaidToDate(float $amount)
     {
         $this->paid_to_date += $amount;
-        $this->save();
-
-        return $this;
     }
 }
