@@ -3,16 +3,19 @@
 namespace App\Factory;
 
 use App\Project;
+use App\Account;
+use App\User;
+use App\Customer;
 
 class ProjectFactory
 {
-    public static function create(int $user_id, int $customer_id, int $account_id): Project
+    public static function create(User $user, Customer $customer, Account $account): Project
     {
         $project = new Project;
   
-        $project->customer_id = $customer_id;
-        $project->account_id = $account_id;
-        $project->user_id = $user_id;
+        $project->customer_id = $customer->id;
+        $project->account_id = $account->id;
+        $project->user_id = $user->id;
         
         return $project;
     }
