@@ -156,4 +156,21 @@ class Payment extends Model
 
         return $this;
     }
+
+    public function deletePayment(): bool
+    {
+        $this->is_deleted = true;
+        $this->save();
+
+        $this->delete();
+
+        event(new PaymentWasDeleted($this));
+
+        return true;
+    }
+
+    private function reversePayment ()
+    {
+     
+    }
 }
