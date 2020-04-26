@@ -11,7 +11,6 @@ class SubscriptionFactory
         $subscription = new Subscription;
         $subscription->account_id = $account_id;
         $subscription->user_id = $user_id;
-        $subscription->target_url = '';
         $subscription->event_id = 1;
         $subscription->format = 'JSON';
 
