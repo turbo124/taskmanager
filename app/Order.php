@@ -129,4 +129,9 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
 }
