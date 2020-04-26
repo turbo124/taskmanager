@@ -63,10 +63,8 @@ class HandleReversal
         /* Set invoice balance to 0 */
         $this->invoice->ledger()->updateBalance($balance_remaining * -1, $notes);
 
-        $this->invoice->customer->service()
-            ->updateBalance($balance_remaining * -1)
-            ->updatePaidToDate($total_paid * -1)
-            ->save();
+        $this->invoice->customer->setBalance($balance_remaining * -1);
+        $this->invoice->customer->setPaidToDate($total_paid * -1);
 
         $this->invoice->balance = 0;
         $this->invoice->status_id = Invoice::STATUS_REVERSED;
