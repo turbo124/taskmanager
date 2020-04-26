@@ -39,8 +39,6 @@ class HandleReversal
 
         $total_paid = $this->payment_repo->reversePaymentsForInvoice($this->invoice);
 
-        /*Adjust payment applied and the paymentables to the correct amount */
-
 
         /* Generate a credit for the $total_paid amount */
         $notes = "Credit for reversal of " . $this->invoice->number;
@@ -63,9 +61,13 @@ class HandleReversal
         /* Set invoice balance to 0 */
         $this->invoice->ledger()->updateBalance($balance_remaining * -1, $notes);
 
-        $this->invoice->customer->setBalance($balance_remaining * -1);
-        $this->invoice->customer->setPaidToDate($total_paid * -1);
+        // update customer
+        $customer = $this->invoice->customer;
+        $customer->setBalance($balance_remaining * -1);
+        $customer->setPaidToDate($total_paid * -1);
+        $customer->save();
 
+        // update invoice
         $this->invoice->setBalance(0);
         $this->invoice->setStatus(Invoice::STATUS_REVERSED);
         $this->invoice->save();
