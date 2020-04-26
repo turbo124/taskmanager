@@ -14,7 +14,6 @@ class CompanyTokenFactory
         $token->is_web = false;
         $token->account_id = $account_id;
         $token->token = Str::random(64);
-        $token->name = '';
         $token->domain_id = $domain_id;
 
         return $token;
