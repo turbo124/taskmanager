@@ -78,7 +78,7 @@ class TaskController extends Controller
     public function store(CreateTaskRequest $request)
     {
         $task = $this->task_repo->save($request->all(),
-            (new TaskFactory)->create(auth()->user()->id, auth()->user()->account_user()->account_id));
+            (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account));
         $task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($this->transformTask($task));
     }
