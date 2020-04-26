@@ -44,7 +44,7 @@ class HandleReversal
         $notes = "Credit for reversal of " . $this->invoice->number;
 
         if ($total_paid > 0) {
-            $credit = CreditFactory::create($this->invoice->account_id, $this->invoice->user_id, $this->invoice->customer);
+            $credit = CreditFactory::create($this->invoice->account, $this->invoice->user, $this->invoice->customer);
             $credit->customer_id = $this->invoice->customer_id;
 
             $line_items[] = (new LineItem)

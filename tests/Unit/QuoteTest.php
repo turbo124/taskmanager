@@ -9,6 +9,7 @@
 namespace Tests\Unit;
 
 use App\Filters\QuoteFilter;
+use App\Account;
 use App\NumberGenerator;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
@@ -40,13 +41,14 @@ class QuoteTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
+        $this->account = Account::where('id', 1)->first();
         $this->user = factory(User::class)->create();
         $this->objNumberGenerator = new NumberGenerator;
     }
@@ -87,10 +89,10 @@ class QuoteTest extends TestCase
     public function it_can_create_a_quote()
     {
         $total = $this->faker->randomFloat();
-        $factory = (new QuoteFactory())->create($this->account_id, $this->user->id, $this->customer);
+        $factory = (new QuoteFactory())->create($this->account, $this->user, $this->customer);
 
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'customer_id' => $this->customer->id,
             'total' => $this->faker->randomFloat(),

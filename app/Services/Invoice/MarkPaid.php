@@ -43,7 +43,7 @@ class MarkPaid
         // update customer
         $customer = $this->invoice->customer;
         $customer->setBalance($payment->amount * -1);
-        $customer->updatePaidToDate($payment->amount);
+        $customer->setPaidToDate($payment->amount);
         $customer->save();
 
         return $this->invoice;

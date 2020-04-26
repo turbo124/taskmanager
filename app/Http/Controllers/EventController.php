@@ -64,7 +64,7 @@ class EventController extends Controller
     public function store(CreateEventRequest $request)
     {
         $event = $this->event_repo->save($request->all(),
-            (new EventFactory())->create(auth()->user()->id, auth()->user()->account_user()->account_id));
+            (new EventFactory())->create(auth()->user(), auth()->user()->account_user()->account));
         Notification::send(auth()->user(), new EventCreated($event));
         return $event->toJson();
     }

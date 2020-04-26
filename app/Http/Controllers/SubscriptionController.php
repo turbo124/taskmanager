@@ -85,7 +85,7 @@ class SubscriptionController extends Controller
      */
     public function store(CreateSubscriptionRequest $request)
     {
-        $subscription = SubscriptionFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
+        $subscription = SubscriptionFactory::create(auth()->user()->account_user()->account, auth()->user());
         $this->subscription_repo->save($request->all(), $subscription);
         return response()->json($subscription);
     }

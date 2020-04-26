@@ -75,7 +75,7 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $product = $this->product_repo->save($request->all(),
-            ProductFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id));
+            ProductFactory::create(auth()->user(), auth()->user()->account_user()->account));
 
         return $this->transformProduct($product);
     }

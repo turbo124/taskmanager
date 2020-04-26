@@ -39,8 +39,6 @@ trait TaskTransformable
         $prop->users = $task->users;
         $prop->contributors = $task->users()->pluck('user_id')->all();
         $prop->is_active = $task->is_active;
-        $prop->start_time = $task->getStartTime();
-        $prop->duration = $task->hasPreviousDuration() ? Utils::formatTime($task->getDuration()) : false;
         $prop->project_id = $task->project_id;
         $prop->is_deleted = (bool)$task->is_deleted;
         $prop->time_log = $task->time_log ?: '';

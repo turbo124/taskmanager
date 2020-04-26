@@ -81,7 +81,7 @@ class InvoiceController extends Controller
     {
         $customer = Customer::find($request->input('customer_id'));
         $invoice = $this->invoice_repo->save($request->all(),
-            InvoiceFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
+            InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
         InvoiceOrders::dispatchNow($invoice);
         event(new InvoiceWasCreated($invoice));
         SaveRecurringInvoice::dispatchNow($request, $invoice->account, $invoice);
@@ -171,7 +171,8 @@ class InvoiceController extends Controller
                 break;
             case 'mark_sent':
                 $invoice = $this->invoice_repo->markSent($invoice);
-                $invoice->customer->service()->updateBalance($invoice->balance)->save();
+                $invoice->customer->setBalance($invoice->balance);
+                $invoice->customer->save();
                 $invoice->ledger()->updateBalance($invoice->balance);
                  
                 if (!$bulk) {

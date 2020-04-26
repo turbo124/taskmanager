@@ -3,35 +3,19 @@
 namespace App\Factory;
 
 use App\Task;
+use App\Account;
+use App\User;
+use App\Customer;
 
 class TaskFactory
 {
-    public static function create(int $user_id, int $account_id): Task
+    public static function create(User $user, Account $account): Task
     {
         $task = new Task;
-        $task->title = '';
-        $task->content = '';
-        $task->task_color = '';
-        $task->due_date = null;
-        $task->is_completed = 0;
-        $task->is_active = 1;
-        $task->task_status = null;
-        $task->task_type = null;
-        $task->customer_id = null;
-        $task->rating = null;
-        $task->parent_id = 0;
-        $task->start_date = null;
-        $task->is_running = 0;
         $task->source_type = 1;
-        $task->user_id = $user_id;
-        $task->created_by = $user_id;
-        $task->account_id = $account_id;
-        $task->custom_value1 = '';
-        $task->custom_value2 = '';
-        $task->custom_value3 = '';
-        $task->custom_value4 = '';
-        $task->public_notes = '';
-        $task->private_notes = '';
+        $task->user_id = $user->id;
+        $task->created_by = $user->id;
+        $task->account_id = $account->id;
 
         return $task;
     }

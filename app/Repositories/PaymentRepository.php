@@ -172,7 +172,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     {
         $credit_balance = $credit->balance;
         $status = $amount == $credit_balance ? Credit::STATUS_APPLIED : Credit::STATUS_PARTIAL;
-        $this->credit->setStatus($status);
+        $credit->setStatus($status);
         $balance = floatval($amount * -1);
         $credit->setBalance($credit_balance + $balance);
         $credit->save();

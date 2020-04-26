@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\ClientContact;
 use App\Company;
 use App\Customer;
+use App\Account;
 use App\Filters\CustomerFilter;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
@@ -23,7 +24,7 @@ class CustomerTest extends TestCase
 
     use DatabaseTransactions, CustomerTransformable, WithFaker;
 
-    private $account_id = 1;
+    private $account;
 
     private $user;
 
@@ -36,6 +37,7 @@ class CustomerTest extends TestCase
 
         $this->company = factory(Company::class)->create();
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -78,11 +80,11 @@ class CustomerTest extends TestCase
     public function it_can_find_a_customer()
     {
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'name' => $this->faker->firstName
         ];
         $customer = new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact));
-        $factory = (new CustomerFactory())->create($this->account_id, $this->user->id, $this->company->id);
+        $factory = (new CustomerFactory())->create($this->account, $this->user);
         $created = $customer->save($data, $factory);
         $found = $customer->findCustomerById($created->id);
         $this->assertInstanceOf(Customer::class, $found);
@@ -106,10 +108,10 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_can_create_a_customer()
     {
-        $factory = (new CustomerFactory())->create($this->account_id, $this->user->id, $this->company->id);
+        $factory = (new CustomerFactory())->create($this->account, $this->user);
 
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'name' => $this->faker->firstName,
             'company_id' => $this->company->id,
             'phone' => $this->faker->phoneNumber
@@ -145,7 +147,7 @@ class CustomerTest extends TestCase
     {
         factory(Customer::class, 5)->create();
         $list = (new CustomerFilter(new CustomerRepository(new Customer,
-            new ClientContactRepository(new ClientContact))))->filter(new SearchRequest(), $this->account_id);
+            new ClientContactRepository(new ClientContact))))->filter(new SearchRequest(), $this->account->id);
         $this->assertNotEmpty($list);
         $this->assertInstanceOf(Customer::class, $list[0]);
     }

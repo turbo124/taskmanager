@@ -22,6 +22,7 @@ use App\Factory\PaymentFactory;
 use App\Refund;
 use App\Repositories\CreditRepository;
 use App\Credit;
+use App\Account;
 
 class PaymentUnitTest extends TestCase
 {
@@ -33,7 +34,7 @@ class PaymentUnitTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     private $customer;
 
@@ -42,6 +43,7 @@ class PaymentUnitTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
     }
 
@@ -56,11 +58,11 @@ class PaymentUnitTest extends TestCase
             'amount' => $this->faker->randomFloat()
         ];
 
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
 
         $paymentRepo = new PaymentRepository(new Payment);
         $paymentRepo->processPayment($data, $factory);
-        $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account_id);
+        $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account->id);
         $this->assertInstanceOf(Payment::class, $lists[0]);
     }
 
@@ -100,7 +102,7 @@ class PaymentUnitTest extends TestCase
         ];
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $created = $paymentRepo->processPayment($data, $factory);
         $found = $paymentRepo->findPaymentById($created->id);
         $this->assertEquals($data['customer_id'], $found->customer_id);
@@ -140,7 +142,7 @@ class PaymentUnitTest extends TestCase
     public function it_can_create_a_payments()
     {
         $invoice = factory(Invoice::class)->create();
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
 
         $data = [
             'customer_id' => $this->customer->id,
@@ -211,10 +213,10 @@ class PaymentUnitTest extends TestCase
 
     public function testPaymentGreaterThanPartial()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
         $invoice->customer_id = $client->id;
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->partial = 5.0;
@@ -234,7 +236,7 @@ class PaymentUnitTest extends TestCase
             'date' => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create($client->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
         $this->assertEquals($data['customer_id'], $payment->customer_id);
@@ -249,10 +251,10 @@ class PaymentUnitTest extends TestCase
 
     public function testCreditPayment()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $credit = CreditFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $credit = CreditFactory::create($this->account, $this->user, $client);//stub the company and user_id
         $credit->customer_id = $client->id;
         $credit->status_id = Invoice::STATUS_SENT;
         //$invoice->uses_inclusive_Taxes = false;
@@ -274,7 +276,7 @@ class PaymentUnitTest extends TestCase
 
         ];
 
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
@@ -285,10 +287,10 @@ class PaymentUnitTest extends TestCase
 
     public function testPaymentLessThanPartialAmount()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
         $invoice->customer_id = $client->id;
 
         $invoice->partial = 5.0;
@@ -312,7 +314,7 @@ class PaymentUnitTest extends TestCase
             'date' => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create(3, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
@@ -329,10 +331,10 @@ class PaymentUnitTest extends TestCase
 
     public function testBasicRefundValidation()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
         $invoice->customer_id = $client->id;
         $invoice->status_id = Invoice::STATUS_SENT;
         //$invoice->uses_inclusive_Taxes = false;
@@ -354,7 +356,7 @@ class PaymentUnitTest extends TestCase
 
         ];
 
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
@@ -382,10 +384,10 @@ class PaymentUnitTest extends TestCase
 
     public function testRefundClassWithInvoices()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
         //$invoice->customer_id = $client->id;
 
         $invoice->save();
@@ -411,7 +413,7 @@ class PaymentUnitTest extends TestCase
             'date' => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create(3, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
@@ -432,10 +434,10 @@ class PaymentUnitTest extends TestCase
 
     public function testRefundClassWithoutInvoices()
     {
-        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
 
         $invoice->save();
 
@@ -460,7 +462,7 @@ class PaymentUnitTest extends TestCase
             'date' => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create(3, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
@@ -477,7 +479,7 @@ class PaymentUnitTest extends TestCase
     public function testConversion ()
     {
 
-        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment(['amount' => 800], $factory);
 

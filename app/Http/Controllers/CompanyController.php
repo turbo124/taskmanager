@@ -63,7 +63,7 @@ class CompanyController extends Controller
      */
     public function store(CreateCompanyRequest $request)
     {
-        $company = (new CompanyFactory)->create(auth()->user()->id, auth()->user()->account_user()->account_id);
+        $company = (new CompanyFactory)->create(auth()->user(), auth()->user()->account_user()->account);
         $settings = (new Settings)->saveAccountSettings($request->settings);
 
         if ($request->company_logo !== null) {

@@ -35,6 +35,6 @@ class RecurringQuoteService extends ServiceBase
 
     public function calculateInvoiceTotals(): RecurringQuote
     {
-        return $this->calculateInvoiceTotals($this->invoice);
+        return $this->calculateTotals($this->invoice);
     }
 }

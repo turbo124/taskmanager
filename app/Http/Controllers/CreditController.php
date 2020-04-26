@@ -77,7 +77,7 @@ class CreditController extends Controller
     {
         $customer = Customer::find($request->input('customer_id'));
         $credit = $this->credit_repo->save($request->all(),
-            CreditFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
+            CreditFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
         event(new CreditWasCreated($credit));
         return response()->json($this->transformCredit($credit));
     }

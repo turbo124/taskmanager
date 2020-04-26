@@ -45,8 +45,8 @@ class ProjectController extends Controller
     public function store(CreateProjectRequest $request)
     {
         $project = $this->project_repo->save($request->all(),
-            ProjectFactory::create(auth()->user()->id, $request->customer_id,
-                auth()->user()->account_user()->account_id));
+            ProjectFactory::create(auth()->user(), Customer::where('id', $request->customer_id)->first(),
+                auth()->user()->account_user()->account));
 
         return response()->json($this->transformProject($project));
     }

@@ -45,6 +45,8 @@ class InvoiceTest extends TestCase
 
     private $account;
 
+    private $main_account;
+
     private $user;
 
     private $objNumberGenerator;
@@ -56,6 +58,7 @@ class InvoiceTest extends TestCase
         $this->customer = factory(Customer::class)->create();
         $this->account = factory(Account::class)->create();
         $this->user = factory(User::class)->create();
+        $this->main_account = Account::where('id', 1)->first();
         $this->objNumberGenerator = new NumberGenerator;
     }
 
@@ -95,10 +98,10 @@ class InvoiceTest extends TestCase
     {
         $user = factory(User::class)->create();
         $customer = factory(Customer::class)->create();
-        $factory = (new InvoiceFactory())->create(1, $user->id, $customer);
+        $factory = (new InvoiceFactory())->create($this->main_account, $user, $customer);
 
         $data = [
-            'account_id'     => 1,
+            'account_id'     => $this->main_account->id,
             'user_id'        => $user->id,
             'customer_id'    => $this->customer->id,
             'total'          => 200,
@@ -132,12 +135,12 @@ class InvoiceTest extends TestCase
 
         $total = $this->faker->randomFloat();
         $user = factory(User::class)->create();
-        $factory = (new InvoiceFactory())->create(1, $user->id, $this->customer);
+        $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);
 
         $total = $this->faker->randomFloat();
 
         $data = [
-            'account_id'     => 1,
+            'account_id'     => $this->main_account->id,
             'user_id'        => $user->id,
             'customer_id'    => $this->customer->id,
             'total'          => $total,
@@ -207,7 +210,7 @@ class InvoiceTest extends TestCase
         $customer->settings = $customerSettings;
         $customer->save();
 
-        $invoice = InvoiceFactory::create($this->account->id, $this->user->id, $customer);
+        $invoice = InvoiceFactory::create($this->account, $this->user, $customer);
 
         $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($customer, $invoice);
         $this->assertEquals($customer->getSetting('counter_padding'), 5);
@@ -273,7 +276,7 @@ class InvoiceTest extends TestCase
         });
 
         /* Generate a credit for the $total_paid amount */
-        $credit = CreditFactory::create($invoice->account_id, $invoice->user_id, $invoice->customer);
+        $credit = CreditFactory::create($invoice->account, $invoice->user, $invoice->customer);
         $credit->customer_id = $invoice->customer_id;
 
        $item = (new LineItem($credit))

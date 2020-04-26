@@ -14,8 +14,6 @@ class DesignFactory
         $design->is_deleted = false;
         $design->is_active = true;
         $design->is_custom = true;
-        $design->name = '';
-        $design->design = '';
 
         return $design;
     }

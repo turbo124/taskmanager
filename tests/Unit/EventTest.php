@@ -7,6 +7,7 @@ use App\Customer;
 use App\Factory\EventFactory;
 use App\Task;
 use App\User;
+use App\Account;
 use App\Repositories\EventRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,7 +22,7 @@ class EventTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     private $user;
 
@@ -33,6 +34,7 @@ class EventTest extends TestCase
         $this->beginDatabaseTransaction();
         $this->user = factory(User::class)->create();
         $this->customer = factory(Customer::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -68,7 +70,7 @@ class EventTest extends TestCase
     public function it_can_find_a_event()
     {
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'customer_id' => $this->customer->id,
             'title' => $this->faker->sentence,
             'location' => $this->faker->sentence,
@@ -78,7 +80,7 @@ class EventTest extends TestCase
 
 
         $eventRepo = new EventRepository(new Event);
-        $eventFactory = (new EventFactory())->create($this->user->id, $this->account_id);
+        $eventFactory = (new EventFactory())->create($this->user, $this->account);
         $created = $eventRepo->save($data, $eventFactory);
         $found = $eventRepo->findEventById($created->id);
         $this->assertInstanceOf(Event::class, $found);
@@ -103,9 +105,9 @@ class EventTest extends TestCase
     /** @test */
     public function it_can_create_a_event()
     {
-        $factory = (new EventFactory())->create($this->user->id, $this->account_id);
+        $factory = (new EventFactory())->create($this->user, $this->account);
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'title' => $this->faker->word,
             'description' => $this->faker->sentence,
             'location' => $this->faker->sentence,

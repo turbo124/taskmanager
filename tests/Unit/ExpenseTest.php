@@ -12,6 +12,7 @@ use App\Requests\SearchRequest;
 use Tests\TestCase;
 use App\Quote;
 use App\User;
+use App\Account;
 use App\Customer;
 use App\Repositories\QuoteRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,7 +33,7 @@ class ExpenseTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     public function setUp(): void
     {
@@ -41,6 +42,7 @@ class ExpenseTest extends TestCase
         $this->customer = factory(Customer::class)->create();
         $this->user = factory(User::class)->create();
         $this->company = factory(Company::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     public function it_can_show_all_the_expenses()
@@ -77,10 +79,10 @@ class ExpenseTest extends TestCase
     public function it_can_create_a_expense()
     {
 
-        $factory = (new ExpenseFactory)->create(1, $this->user->id);
+        $factory = (new ExpenseFactory)->create($this->account, $this->user);
 
         $data = [
-            'account_id' => 1,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'customer_id' => $this->customer->id,
             'amount' => $this->faker->randomFloat(),

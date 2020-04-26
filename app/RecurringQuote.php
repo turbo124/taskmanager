@@ -5,6 +5,7 @@ namespace App;
 use App\Services\RecurringQuote\RecurringQuoteService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Account;
 
 /**
  * Class for Recurring Invoices.
@@ -80,4 +81,8 @@ class RecurringQuote extends Model
         return new RecurringQuoteService($this);
     }
 
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

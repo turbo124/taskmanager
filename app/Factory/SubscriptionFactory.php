@@ -3,15 +3,16 @@
 namespace App\Factory;
 
 use App\Subscription;
+use App\Account;
+use App\User;
 
 class SubscriptionFactory
 {
-    public static function create(int $account_id, int $user_id): Subscription
+    public static function create(Account $account, User $user): Subscription
     {
         $subscription = new Subscription;
-        $subscription->account_id = $account_id;
-        $subscription->user_id = $user_id;
-        $subscription->target_url = '';
+        $subscription->account_id = $account->id;
+        $subscription->user_id = $user->id;
         $subscription->event_id = 1;
         $subscription->format = 'JSON';
 

@@ -12,6 +12,7 @@ use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\RecurringInvoice\SendRecurring;
 use App\RecurringQuote;
 use App\Quote;
+use App\Customer;
 use App\Repositories\BaseRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
@@ -82,8 +83,8 @@ class RecurringQuoteController extends Controller
         ), $request->all());
 
         $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote))->save($arrRecurring,
-            RecurringQuoteFactory::create($request->customer_id, auth()->user()->account_user()->account_id,
-                $quote->total));
+            RecurringQuoteFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user()->account_user()->account,
+                auth()->user(), $quote->total));
         return response()->json($this->transformQuote($recurring_quote));
     }
 
