@@ -28,15 +28,16 @@ class PaymentService extends ServiceBase
         
         $invoices->each(function ($invoice) {
             if ($invoice->pivot->amount > 0) {
-                $invoice->status_id = Invoice::STATUS_SENT;
-                $invoice->balance = $invoice->pivot->amount;
+                $invoice->setStatus(Invoice::STATUS_SENT);
+                $invoice->setBalance($invoice->pivot->amount);
                 $invoice->save();
             }
         });
 
         $this->payment->ledger()->updateBalance($this->payment->amount);
 
-        $customer->service()->updateBalance($this->payment->amount)->updatePaidToDate($this->payment->amount * -1)
-            ->save();
+        $customer->setBalance($this->payment->amount);
+        $customer->setPaidToDate($this->payment->amount * -1);
+        $customer->save();
     }
 }
