@@ -178,8 +178,7 @@ class InvoiceTest extends TestCase
     public function it_can_delete_the_invoice()
     {
         $invoice = factory(Invoice::class)->create();
-        $invoiceRepo = new InvoiceRepository($invoice);
-        $deleted = $invoiceRepo->newDelete($invoice);
+        $deleted = $invoice->deleteInvoice();
         $this->assertTrue($deleted);
     }
 
