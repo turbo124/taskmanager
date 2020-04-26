@@ -35,7 +35,7 @@ class HandleCancellation
         $this->invoice->ledger()->updateBalance($old_balance, "Invoice cancellation");
 
         //adjust client balance
-        $this->invoice->customer->service()->updateBalance($old_balance);
+        $this->invoice->customer->setBalance($old_balance);
 
         event(new InvoiceWasCancelled($this->invoice));
 
