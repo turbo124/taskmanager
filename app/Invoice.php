@@ -240,4 +240,14 @@ class Invoice extends Model
         $this->save();
         return $this;
     }
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+    }
 }
