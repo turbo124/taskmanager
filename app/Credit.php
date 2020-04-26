@@ -153,4 +153,9 @@ class Credit extends Model
     {
         $this->status_id = $status;
     }
+
+    public function setBalance($balance) 
+    {
+        $this->balance = $balance;
+    }
 }
