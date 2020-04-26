@@ -3,6 +3,8 @@
 namespace App\Factory;
 
 use App\Company;
+use App\Account;
+use App\User;
 
 class CompanyFactory
 {
@@ -10,11 +12,11 @@ class CompanyFactory
      * @param int $user_id
      * @return Company
      */
-    public function create(int $user_id, int $account_id): Company
+    public function create(User $user, Account $account): Company
     {
         $company = new Company;
-        $company->user_id = $user_id;
-        $company->account_id = $account_id;
+        $company->user_id = $user->id;
+        $company->account_id = $account->id;
         $company->country_id = 225;
         $company->currency_id = 2;
 
