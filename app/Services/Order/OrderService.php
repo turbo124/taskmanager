@@ -43,7 +43,7 @@ class OrderService extends ServiceBase
      */
     public function convert(InvoiceRepository $invoice_repo, OrderRepository $order_repo): OrderService
     {
-        $this->order->status_id = Order::STATUS_COMPLETE;
+        $this->order->setStatus(Order::STATUS_COMPLETE);
         $this->order->save();
 
         $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
