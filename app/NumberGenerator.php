@@ -31,11 +31,9 @@ class NumberGenerator
             $counter_entity = $customer->account;
         }
 
-        //Return a valid counter
-        $pattern = $customer->getSetting($pattern_entity);
         $padding = $customer->getSetting('counter_padding');
 
-        $number = $this->checkEntityNumber($resource, $customer, $counter, $padding, $pattern);
+        $number = $this->checkEntityNumber($resource, $customer, $counter, $padding);
 
         if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class])) {
             $number = $this->prefixCounter($number, $customer->getSetting('recurring_number_prefix'));
@@ -79,7 +77,7 @@ class NumberGenerator
         return str_pad($counter, $padding, '0', STR_PAD_LEFT);
     }
 
-    private function checkEntityNumber($class, $customer, $counter, $padding, $pattern)
+    private function checkEntityNumber($class, $customer, $counter, $padding)
     {
         $check = false;
         do {
