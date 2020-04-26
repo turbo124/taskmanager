@@ -18,7 +18,7 @@ class RecurringInvoiceFactory
         $invoice->total = $total;
         $invoice->balance = $total;
         $invoice->user_id = $user->id;
-        $invoice->frequency_id = RecurringInvoice::FREQUENCY_MONTHLY;
+        $invoice->frequency_id = 30;
      
         return $invoice;
     }

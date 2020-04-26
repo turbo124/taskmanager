@@ -15,6 +15,7 @@ use App\Customer;
 use App\Order;
 use App\Task;
 use App\Project;
+use App\Account;
 use App\Repositories\OrderRepository;
 use App\Repositories\CustomerRepository;
 use App\Factory\TaskFactory;
@@ -28,7 +29,7 @@ class OrderTest extends TestCase
 
     use DatabaseTransactions, DepartmentTransformable, WithFaker;
 
-    private $account_id = 1;
+    private $account;
 
     private $user;
 
@@ -38,6 +39,7 @@ class OrderTest extends TestCase
         $this->beginDatabaseTransaction();
 
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -66,7 +68,7 @@ class OrderTest extends TestCase
     'phone' => '01425 629322'
     ];
 
-    $task = TaskFactory::create($this->user->id, $this->account_id);
+    $task = TaskFactory::create($this->user, $this->account);
 
     $task = (new TaskService($task))->createDeal((object) $data,
         (new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact))),

@@ -41,7 +41,7 @@ class Refund
 
         $this->payment->status_id = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
-        $credit_note = CreditFactory::create($this->payment->account_id, $this->payment->user_id, $this->payment->customer);
+        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
 
         $line_items[] = (new LineItem($credit_note))
             ->setQuantity(1)
@@ -73,7 +73,7 @@ class Refund
         $total_refund = 0;
 
         /* Build Credit Note*/
-        $credit_note = CreditFactory::create($this->payment->account_id, $this->payment->user_id, $this->payment->customer);
+        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
 
         $line_items = [];
         $adjustment_amount = 0;

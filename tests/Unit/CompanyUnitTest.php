@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Company;
 use App\CompanyContact;
 use App\Customer;
+use App\Account;
 use App\Factory\CompanyFactory;
 use App\Filters\CompanyFilter;
 use App\Repositories\CompanyContactRepository;
@@ -24,7 +25,7 @@ class CompanyUnitTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
     private $user;
 
     public function setUp(): void
@@ -33,6 +34,7 @@ class CompanyUnitTest extends TestCase
         $this->beginDatabaseTransaction();
 
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -40,7 +42,7 @@ class CompanyUnitTest extends TestCase
     {
         $insertedbrand = factory(Company::class)->create();
         $list = (new CompanyFilter(new CompanyRepository(new Company,
-            new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account_id);
+            new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account->id);
         $myLastElement = end($list);
         $this->assertNotEmpty($list);
         $this->assertInstanceOf(Company::class, $list[0]);
@@ -90,10 +92,10 @@ class CompanyUnitTest extends TestCase
     public function it_can_create_a_brand()
     {
 
-        $factory = (new CompanyFactory)->create($this->user->id, $this->account_id);
+        $factory = (new CompanyFactory)->create($this->user, $this->account);
 
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'name' => $this->faker->company,
             'website' => $this->faker->url,

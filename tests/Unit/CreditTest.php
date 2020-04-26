@@ -40,7 +40,7 @@ class CreditTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::where('id', 1)->first();
         $this->user = factory(User::class)->create();
     }
 
@@ -99,11 +99,11 @@ class CreditTest extends TestCase
         $customerId = $this->customer->id;
         $total = $this->faker->randomFloat();
         $user = factory(User::class)->create();
-        $factory = (new CreditFactory)->create(1, $user->id, $this->customer);
+        $factory = (new CreditFactory)->create($this->account, $user, $this->customer);
 
 
         $data = [
-            'account_id' => 1,
+            'account_id' => $this->account->id,
             'user_id' => $user->id,
             'customer_id' => $this->customer->id,
             'total' => $this->faker->randomFloat()

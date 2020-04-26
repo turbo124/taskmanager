@@ -34,6 +34,6 @@ class RecurringInvoiceService extends ServiceBase
 
     public function calculateInvoiceTotals(): RecurringInvoice
     {
-        return $this->calculateInvoiceTotals($this->invoice);
+        return $this->calculateTotals($this->invoice);
     }
 }

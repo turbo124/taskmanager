@@ -18,7 +18,7 @@ class RecurringQuoteFactory
         $quote->balance = $total;
         $quote->user_id = $user->id;
         $quote->customer_id = $customer->id;
-        $quote->frequency_id = RecurringQuote::FREQUENCY_MONTHLY;
+        $quote->frequency_id = 30;
      
         return $quote;
     }

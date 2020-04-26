@@ -55,7 +55,7 @@ class CreateDeal
 
     public function run()
     {
-        $factory = (new CustomerFactory())->create($this->task->account_id, $this->task->user_id);
+        $factory = CustomerFactory::create($this->task->account, $this->task->user);
 
         $date = new DateTime(); // Y-m-d
         $date->add(new DateInterval('P30D'));
@@ -135,7 +135,7 @@ class CreateDeal
             ];
         }
 
-        $order = OrderFactory::create($this->task->account_id, $this->task->user_id, $customer);
+        $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
         
         $order = $this->order_repo->save(
             [

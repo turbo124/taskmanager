@@ -6,7 +6,7 @@ use App\Services\RecurringInvoice\RecurringInvoiceService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-
+use App\Account;
 
 /**
  * Class for Recurring Invoices.
@@ -101,4 +101,8 @@ class RecurringInvoice extends Model
         return new RecurringInvoiceService($this);
     }
 
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Task;
 use App\User;
+use App\Account;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\TaskTransformable;
@@ -23,13 +24,14 @@ class LeadTest extends TestCase
     use DatabaseTransactions, WithFaker, TaskTransformable;
 
     private $user;
-    private $account_id = 1;
+    private $account;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -89,7 +91,7 @@ class LeadTest extends TestCase
     {
 
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'task_status' => 1,
             'title' => $this->faker->word,
@@ -101,7 +103,7 @@ class LeadTest extends TestCase
         ];
 
         $leadRepo = new LeadRepository(new Lead);
-        $factory = (new LeadFactory)->create($this->user->id, $this->account_id);
+        $factory = (new LeadFactory)->create($this->account, $this->user);
         $lead = $leadRepo->save($factory, $data);
         $this->assertInstanceOf(Lead::class, $lead);
         $this->assertEquals($data['first_name'], $lead->first_name);

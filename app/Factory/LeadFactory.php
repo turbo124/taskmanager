@@ -3,6 +3,8 @@
 namespace App\Factory;
 
 use App\Lead;
+use App\Account;
+use App\User;
 
 class LeadFactory
 {

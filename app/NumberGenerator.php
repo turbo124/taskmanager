@@ -34,6 +34,7 @@ class NumberGenerator
     private function setType(Customer $customer, $pattern_entity, $counter_var, $resource)
     {
         $pattern = trim($customer->getSetting($pattern_entity));
+
         $this->counter = $customer->account->settings->{$counter_var};
         $this->counter_entity = $customer->account;
 

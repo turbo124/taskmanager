@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Task;
 use App\User;
+use App\Account;
 use App\Product;
 use App\Customer;
 use App\Repositories\TaskRepository;
@@ -26,13 +27,14 @@ class TaskTest extends TestCase
 
     private $user;
     private $customer;
-    private $account_id = 1;
+    private $account;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
     }
 
@@ -103,7 +105,7 @@ class TaskTest extends TestCase
     {
 
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'task_type' => 1,
             'task_status' => 1,
             'customer_id' => $this->customer->id,
@@ -114,7 +116,7 @@ class TaskTest extends TestCase
         ];
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
-        $factory = (new TaskFactory())->create($this->user->id, $this->account_id);
+        $factory = (new TaskFactory())->create($this->user, $this->account);
         $task = $taskRepo->save($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
         $this->assertEquals($data['title'], $task->title);
@@ -128,7 +130,7 @@ class TaskTest extends TestCase
 
         $data = [
             'project_id' => $project->id,
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'task_type' => 1,
             'task_status' => 1,
             'customer_id' => $this->customer->id,
@@ -139,7 +141,7 @@ class TaskTest extends TestCase
         ];
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
-        $factory = (new TaskFactory())->create($this->user->id, $this->account_id);
+        $factory = (new TaskFactory())->create($this->user, $this->account);
         $task = $taskRepo->save($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
         $this->assertEquals($data['title'], $task->title);
@@ -175,7 +177,7 @@ class TaskTest extends TestCase
         $task_type = 2;
 
         $address = factory(Task::class)->create([
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'title' => $title,
             'content' => $content,
             'due_date' => $due_date,

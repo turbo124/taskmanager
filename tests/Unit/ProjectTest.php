@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Project;
+use App\Account;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,7 +22,7 @@ class ProjectTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     private $user;
 
@@ -32,6 +33,7 @@ class ProjectTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->user = factory(User::class)->create();
+        $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
     }
 
@@ -82,7 +84,7 @@ class ProjectTest extends TestCase
     public function it_can_create_a_project()
     {
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'title' => $this->faker->word,
             'description' => $this->faker->sentence,
@@ -90,7 +92,7 @@ class ProjectTest extends TestCase
         ];
 
         $projectRepo = new ProjectRepository(new Project);
-        $factory = (new ProjectFactory())->create($this->user->id, $this->customer->id, $this->account_id);
+        $factory = (new ProjectFactory())->create($this->user, $this->customer, $this->account);
         $project = $projectRepo->save($data, $factory);
         $this->assertInstanceOf(Project::class, $project);
         $this->assertEquals($data['title'], $project->title);

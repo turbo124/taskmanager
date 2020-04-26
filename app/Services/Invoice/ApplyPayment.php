@@ -24,7 +24,8 @@ class ApplyPayment
     {
         $this->payment->ledger()->updateBalance($this->payment_amount * -1);
 
-        $this->payment->customer->service()->updateBalance($this->payment_amount * -1)->save();
+        $this->payment->customer->setBalance($this->payment_amount * -1);
+        $this->payment->customer->save();
 
         /* Update Pivot Record amount */
         $this->payment->invoices->each(function ($inv) {

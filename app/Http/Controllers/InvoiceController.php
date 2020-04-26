@@ -171,7 +171,8 @@ class InvoiceController extends Controller
                 break;
             case 'mark_sent':
                 $invoice = $this->invoice_repo->markSent($invoice);
-                $invoice->customer->service()->updateBalance($invoice->balance)->save();
+                $invoice->customer->setBalance($invoice->balance);
+                $invoice->customer->save();
                 $invoice->ledger()->updateBalance($invoice->balance);
                  
                 if (!$bulk) {

@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Company;
+use App\Account;
 use App\Factory\ProductFactory;
 use App\Filters\ProductFilter;
 use App\Product;
@@ -33,13 +34,14 @@ class ProductTest extends TestCase
     /**
      * @var int
      */
-    private $account_id = 1;
+    private $account;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
 
+        $this->account = Account::where('id', 1)->first();
         $this->user = factory(User::class)->create();
         $this->company = factory(Company::class)->create();
     }
@@ -142,7 +144,7 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
         $attributes = $product->getFillable();
         $products =
-            (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account_id);
+            (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account->id);
         $this->assertNotEmpty($products);
         $this->assertInstanceOf(Product::class, $products[0]);
     }
@@ -176,7 +178,7 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
         $productName = 'apple';
         $data = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'sku' => '11111',
             'name' => $productName,
@@ -193,7 +195,7 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_create_a_product()
     {
-        $factory = (new ProductFactory())->create($this->user->id, $this->account_id);
+        $factory = (new ProductFactory())->create($this->user, $this->account);
         $company = factory(Company::class)->create();
 
         $name = $this->faker->word;
@@ -224,7 +226,7 @@ class ProductTest extends TestCase
         $product = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'sku' => $this->faker->numberBetween(1111111, 999999),
             'name' => $product,
             'slug' => Str::slug($product),
@@ -241,7 +243,7 @@ class ProductTest extends TestCase
             ]
         ];
         $productRepo = new ProductRepository(new Product);
-        $factory = (new ProductFactory())->create($this->user->id, $this->account_id);
+        $factory = (new ProductFactory())->create($this->user, $this->account);
         $created = $productRepo->save($params, $factory);
         //$repo->saveProductImages(collect($params['image']), $created);
         $thumbnails = $productRepo->findProductImages($created);
@@ -261,7 +263,7 @@ class ProductTest extends TestCase
         $product = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
-            'account_id' => $this->account_id,
+            'account_id' => $this->account->id,
             'sku' => $this->faker->numberBetween(1111111, 999999),
             'name' => $product,
             'slug' => Str::slug($product),
@@ -278,7 +280,7 @@ class ProductTest extends TestCase
             ]
         ];
 
-        $factory = (new ProductFactory())->create($this->user->id, $this->account_id);
+        $factory = (new ProductFactory())->create($this->user, $this->account);
         $productRepo = new ProductRepository(new Product);
         $created = $productRepo->save($params, $factory);
         $repo = new ProductRepository($created);
