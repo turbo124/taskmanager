@@ -14,14 +14,6 @@ class CustomerFactory
         $client->account_id = $account_id;
         $client->company_id = $company_id;
         $client->user_id = $user_id;
-        $client->name = '';
-        $client->phone = '';
-        $client->balance = 0;
-        $client->paid_to_date = 0;
-        $client->group_settings_id = null;
-        $client->private_notes = '';
-        $client->public_notes = '';
-        $client->website = '';
         $client->settings = (new Settings)->getAccountDefaults();
 
         return $client;
