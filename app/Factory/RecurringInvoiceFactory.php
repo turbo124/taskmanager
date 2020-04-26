@@ -3,6 +3,9 @@
 namespace App\Factory;
 
 use App\RecurringInvoice;
+use App\Account;
+use App\User;
+use App\Customer;
 
 class RecurringInvoiceFactory
 {
