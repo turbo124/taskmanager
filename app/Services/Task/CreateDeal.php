@@ -3,6 +3,7 @@
 namespace App\Services\Task;
 
 use App\ClientContact;
+use Illuminate\Support\Facades\Log;
 use App\Customer;
 use App\Factory\ClientContactFactory;
 use App\Factory\CustomerFactory;
@@ -38,7 +39,7 @@ class CreateDeal
      * @param $is_deal
      */
     public function __construct($task,
-        Request $request,
+        $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
@@ -72,27 +73,28 @@ class CreateDeal
             'phone'                  => $this->request->phone,
             'website'                => isset($this->request->website) ? $this->request->website : '',
             'currency_id'            => 1,
-            'default_payment_method' => 1,
-            'contacts'               => $contacts
+            'default_payment_method' => 1
         ], $factory);
+
+        (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
 
         $this->task = $this->task_repo->save([
             'due_date'    => $due_date,
             'created_by'  => $this->task->user_id,
             'source_type' => $this->request->source_type,
             'title'       => $this->request->title,
-            'description' => $this->request->description,
+            'description' => isset($this->request->description) ? $this->request->description : '',
             'customer_id' => $customer->id,
             'valued_at'   => $this->request->valued_at,
             'task_type'   => $this->is_deal === true ? 3 : 2,
             'task_status' => $this->request->task_status
         ], $this->task);
 
-        if ($this->request->has('contributors')) {
+        if (!empty($this->request->contributors)) {
             $this->task->users()->sync($this->request->input('contributors'));
         }
 
-        if ($this->request->has('products')) {
+        if (!empty($this->request->products)) {
             $this->saveOrder($customer);
         }
 
@@ -134,7 +136,8 @@ class CreateDeal
         }
 
         $order = OrderFactory::create($this->task->account_id, $this->task->user_id, $customer);
-        $this->order_repo->save(
+        
+        $order = $this->order_repo->save(
             [
                 'invitations'    => $invitations,
                 'balance'        => $total,
@@ -146,6 +149,8 @@ class CreateDeal
                 'task_id'        => $this->task->id,
                 'date'           => date('Y-m-d')
             ], $order);
+
+        Log::emergency(json_encode($order->toArray()));
 
         $order->service()->sendEmail();
     }

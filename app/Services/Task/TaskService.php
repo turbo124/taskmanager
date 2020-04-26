@@ -64,7 +64,7 @@ class TaskService extends ServiceBase
      * @param bool $is_deal
      * @return Invoice|InvoiceSum|Task|null
      */
-    public function createDeal(Request $request,
+    public function createDeal($request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,

@@ -56,6 +56,6 @@ class OrderService extends ServiceBase
 
     public function calculateInvoiceTotals(): Order
     {
-        return $this->calculateInvoiceTotals($this->order);
+        return $this->calculateTotals($this->order);
     }
 }
