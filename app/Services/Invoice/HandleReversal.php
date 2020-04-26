@@ -66,8 +66,8 @@ class HandleReversal
         $this->invoice->customer->setBalance($balance_remaining * -1);
         $this->invoice->customer->setPaidToDate($total_paid * -1);
 
-        $this->invoice->balance = 0;
-        $this->invoice->status_id = Invoice::STATUS_REVERSED;
+        $this->invoice->setBalance(0);
+        $this->invoice->setStatus(Invoice::STATUS_REVERSED);
         $this->invoice->save();
 
         event(new InvoiceWasReversed($this->invoice));
