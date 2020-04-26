@@ -9,6 +9,7 @@ use App\Factory\RecurringInvoiceFactory;
 use App\Filters\InvoiceFilter;
 use App\Notifications\ClientContactRequestCancellation;
 use App\RecurringInvoice;
+use App\Customer;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\RecurringInvoice\StoreRecurringInvoiceRequest;
 use App\Requests\SearchRequest;
@@ -77,7 +78,7 @@ class RecurringInvoiceController extends Controller
         ), $request->all());
 
         $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save($arrRecurring,
-            RecurringInvoiceFactory::create($request->customer_id, auth()->user()->account_user()->account_id,
+            RecurringInvoiceFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user()->account_user()->account, auth()->user(),
                 $invoice->total));
         return response()->json($this->transformInvoice($recurring_invoice));
     }
