@@ -77,7 +77,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_payment()
     {
-            $invoice = factory(Invoice::class)->create();
+        $invoice = factory(Invoice::class)->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
 
         $data = [
@@ -90,7 +90,7 @@ class PaymentUnitTest extends TestCase
         $data['invoices'][0]['amount'] = $invoice->total;
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $created = $paymentRepo->processPayment($data, $factory);
+        $payment = $paymentRepo->processPayment($data, $factory);
         $deleted = $payment->deletePayment();
         $this->assertTrue($deleted);
     }
@@ -170,58 +170,6 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals($data['customer_id'], $created->customer_id);
         $this->assertEquals($data['type_id'], $created->type_id);
     }
-
-//    public function testPartialPaymentAmount()
-//    {
-//        $client = CustomerFactory::create($this->account_id, $this->user->id);
-//        $client->save();
-//
-//        $invoice = InvoiceFactory::create($this->customer->id, $this->user->id,
-//            $this->account_id);//stub the company and user_id
-//        $invoice->customer_id = $client->id;
-//
-//        $invoice->total = 10;
-//        $invoice->partial = 2.0;
-//        //$invoice->uses_inclusive_taxes = false;
-//
-//        $invoice->save();
-//
-//        $invoice_calc = new InvoiceSum($invoice);
-//        $invoice_calc->build();
-//
-//        $invoice = $invoice_calc->getInvoice();
-//        $invoice->total = 2;
-//        $invoice->save();
-//        $invoice->markSent();
-//        $invoice->save();
-//
-//
-//        $data = [
-//            'amount' => 2.0,
-//            'customer_id' => $client->id,
-//            'invoices' => [
-//                [
-//                    'invoice_id' => $invoice->id,
-//                    'amount' => 2.0
-//                ],
-//            ],
-//            'date' => '2019/12/12',
-//        ];
-//
-//        $factory = (new PaymentFactory())->create($this->customer->id, $this->user->id, $this->account_id);
-//        $paymentRepo = new PaymentRepository(new Payment);
-//        $payment = $paymentRepo->save($data, $factory);
-//        $this->assertEquals($data['customer_id'], $payment->customer_id);
-//        $this->assertNotNull($payment);
-//        $this->assertNotNull($payment->invoices());
-//        $this->assertEquals(1, $payment->invoices()->count());
-//
-//        $pivot_invoice = $payment->invoices()->first();
-//        //$this->assertEquals($pivot_invoice->pivot->total, 2);
-//        $this->assertEquals($pivot_invoice->partial, 0);
-//        //$this->assertEquals($pivot_invoice->amount, 10.0000);
-//        $this->assertEquals($pivot_invoice->balance, 8.0000);
-//    }
 
     public function testPaymentGreaterThanPartial()
     {
