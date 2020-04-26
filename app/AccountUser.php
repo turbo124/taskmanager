@@ -39,18 +39,6 @@ class AccountUser extends Pivot
         return $this->belongsTo(Account::class);
     }
 
-    /* public function user_pivot()
-    {
-        return $this->hasOne(User::class)
-            ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked', 'slack_webhook_url');
-    }
-
-    public function account_pivot()
-    {
-        return $this->hasOne(Account::class)
-            ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked', 'slack_webhook_url');
-    } */
-
     public function user()
     {
         return $this->belongsTo(User::class);
