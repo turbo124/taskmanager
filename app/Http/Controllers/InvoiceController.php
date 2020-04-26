@@ -81,7 +81,7 @@ class InvoiceController extends Controller
     {
         $customer = Customer::find($request->input('customer_id'));
         $invoice = $this->invoice_repo->save($request->all(),
-            InvoiceFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
+            InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
         InvoiceOrders::dispatchNow($invoice);
         event(new InvoiceWasCreated($invoice));
         SaveRecurringInvoice::dispatchNow($request, $invoice->account, $invoice);
