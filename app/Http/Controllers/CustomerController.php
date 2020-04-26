@@ -93,7 +93,7 @@ class CustomerController extends Controller
      */
     public function store(CreateCustomerRequest $request)
     {
-        $customer = CustomerFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id,
+        $customer = CustomerFactory::create(auth()->user()->account_user()->account auth()->user(),
             $request->company_id);
         $customer->settings = (new Settings)->saveAccountSettings((object)$request->settings);
         $customer = $this->customer_repo->save($request->except('addresses', 'settings'), $customer);
