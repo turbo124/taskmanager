@@ -24,11 +24,10 @@ class NumberGenerator
 
         $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
 
-        if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class])) {
-            $number = $this->prefixCounter($number, $customer->getSetting('recurring_number_prefix'));
-        }
+        $number = $this->addPrefixToCounter($number);
 
-        $this->incrementCounter($this->counter_entity, $counter_var);
+        $this->updateEntityCounter($this->counter_entity, $counter_var);
+        
         return $number;
     }
 
@@ -52,7 +51,7 @@ class NumberGenerator
      * @param $entity
      * @param string $counter_name
      */
-    private function incrementCounter($entity, string $counter_name): void
+    private function updateEntityCounter($entity, string $counter_name): void
     {
         $settings = $entity->settings;
         $settings->{$counter_name} = $settings->{$counter_name} + 1;
@@ -60,32 +59,22 @@ class NumberGenerator
         $entity->save();
     }
 
-    private function prefixCounter($counter, $prefix): string
+    private function addPrefixToCounter($number): string
     {
-        if (strlen($prefix) == 0) {
-            return $counter;
+        $recurring_prefix = $customer->getSetting('recurring_number_prefix');
+        
+        if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class]) && !empty($recurring_prefix)) {
+            return $recurring_prefix . $number;
         }
-        return $prefix . $counter;
-    }
-
-    /**
-     * Pads a number with leading 000000's
-     *
-     * @param int $counter The counter
-     * @param int $padding The padding
-     *
-     * @return     int  the padded counter
-     */
-    private function padCounter($counter, $padding): string
-    {
-        return str_pad($counter, $padding, '0', STR_PAD_LEFT);
+        
+        return $number;
     }
 
     private function checkEntityNumber($class, $customer, $counter, $padding)
     {
         $check = false;
         do {
-            $number = $this->padCounter($counter, $padding);
+          $number = str_pad($counter, $padding, '0', STR_PAD_LEFT)
 
             if ($class == Customer::class) {
                 $check = $class::whereAccountId($customer->account_id)->whereIdNumber($number)->withTrashed()->first();
