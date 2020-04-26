@@ -14,7 +14,7 @@ class CustomerService extends ServiceBase
         $this->customer = $customer;
     }
 
-    public function updateBalance(float $amount)
+    /* public function updateBalance(float $amount)
     {
         $this->customer->balance += $amount;
         $this->customer->save();
@@ -35,5 +35,5 @@ class CustomerService extends ServiceBase
         $this->customer->save();
 
         return $this->customer;
-    }
+    } */
 }
