@@ -9,7 +9,7 @@ use App\Customer;
 
 class RecurringInvoiceFactory
 {
-    public static function create(Customer $customer, Account $account, $total, User $user): RecurringInvoice
+    public static function create(Customer $customer, Account $account, User $user, $total): RecurringInvoice
     {
         $invoice = new RecurringInvoice();
         $invoice->account_id = $account->id;
