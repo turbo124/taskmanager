@@ -123,55 +123,6 @@ class QuoteTest extends TestCase
         $invoice->findQuoteById(99999);
     }
 
-//    public function testQuoteNumberValue()
-//    {
-//        $customer = factory(Customer::class)->create();
-//        $invoice_number = $this->getNextQuoteNumber($customer);
-//        $this->assertEquals($invoice_number, 000001);
-//        $invoice_number = $this->getNextQuoteNumber($customer);
-//        $this->assertEquals($invoice_number, 000002);
-//    }
-
-    public function testQuoteNumberPattern()
-    {
-        $settings = $this->customer->account->settings;
-        $settings->quote_number_counter = 1;
-        $settings->quote_number_pattern = '{$year}-{$counter}';
-        $this->customer->account->settings = $settings;
-        $this->customer->account->save();
-        $this->customer->settings = $settings;
-        $this->customer->save();
-        $this->customer->fresh();
-
-        $quote = QuoteFactory::create($this->customer->account->id, $this->user->id, $this->customer);
-
-        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $quote);
-        $invoice_number2 = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $quote);
-        $this->assertEquals($invoice_number, date('Y') . '-0001');
-        $this->assertEquals($invoice_number2, date('Y') . '-0002');
-        //$this->assertEquals($this->customer->account->settings->invoice_number_counter,3);
-
-    }
-
-    public function testQuoteNumberPatternWithSharedCounter()
-    {
-        $settings = $this->customer->account->settings;
-        $settings->quote_number_counter = 100;
-        $settings->quote_number_pattern = '{$year}-{$counter}';
-        $settings->counter_padding = 4;
-        $settings->shared_invoice_quote_counter = true;
-        $this->customer->account->settings = $settings;
-        $this->customer->account->save();
-        $this->customer->settings = $settings;
-        $this->customer->save();
-
-        $quote = QuoteFactory::create($this->customer->account->id, $this->user->id, $this->customer);
-        $quote_number = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $quote);
-        $quote_number2 = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $quote);
-        $this->assertEquals($quote_number, date('Y') . '-0100');
-        $this->assertEquals($quote_number2, date('Y') . '-0101');
-    }
-
     /** @test */
     public function it_can_delete_the_quote()
     {

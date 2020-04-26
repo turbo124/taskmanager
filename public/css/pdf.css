@@ -34,10 +34,17 @@
     .table_header_td_class { padding: .5rem 1rem;}
     .table_body_td_class { border-bottom-width: 1px; border-top-width: 1px; border-color: #cbd5e0; padding: 1rem;}
 
+.page {
+  page-break-after: always;
+}
+@page {
+  margin: 0px !important;
+}
+
 .footer {
              position: fixed; 
-             bottom: -45px !important; 
-             left: -45px; 
+             bottom: 0px; 
+             left: 0px; 
              background-color: #000; 
              height: 50px;
              width: 100%;

@@ -18,24 +18,24 @@ class NumberGenerator
         $pattern_entity = "{$entity_id}_number_pattern";
         $counter_var = "{$entity_id}_number_counter";
 
-        $this->setType($pattern_entity);
+        $this->setType($customer, $pattern_entity, $counter_var, $resource);
 
         $padding = $customer->getSetting('counter_padding');
 
         $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
 
-        $number = $this->addPrefixToCounter($number);
+        $number = $this->addPrefixToCounter($customer, $number, $resource);
 
         $this->updateEntityCounter($this->counter_entity, $counter_var);
         
         return $number;
     }
 
-    private function setType($pattern_entity)
+    private function setType(Customer $customer, $pattern_entity, $counter_var, $resource)
     {
         $pattern = trim($customer->getSetting($pattern_entity));
-        $counter = $customer->account->settings->{$counter_var};
-        $counter_entity = $customer->account;
+        $this->counter = $customer->account->settings->{$counter_var};
+        $this->counter_entity = $customer->account;
 
         if ($resource === Customer::class || strpos($pattern, 'clientCounter')) {
             $this->counter = $customer->getSetting($counter_var);
@@ -59,7 +59,7 @@ class NumberGenerator
         $entity->save();
     }
 
-    private function addPrefixToCounter($number): string
+    private function addPrefixToCounter(Customer $customer, $number, $resource): string
     {
         $recurring_prefix = $customer->getSetting('recurring_number_prefix');
         
@@ -74,7 +74,7 @@ class NumberGenerator
     {
         $check = false;
         do {
-          $number = str_pad($counter, $padding, '0', STR_PAD_LEFT)
+          $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
 
             if ($class == Customer::class) {
                 $check = $class::whereAccountId($customer->account_id)->whereIdNumber($number)->withTrashed()->first();

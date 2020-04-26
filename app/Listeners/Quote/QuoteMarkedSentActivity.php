@@ -36,8 +36,6 @@ class QuoteMarkedSentActivity implements ShouldQueue
      */
     public function handle($event)
     {
-        die('here');
-
         $fields = [];
         $fields['data']['id'] = $event->quote->id;
         $fields['data']['message'] = 'A quote was marked sent';
@@ -49,7 +47,5 @@ class QuoteMarkedSentActivity implements ShouldQueue
 
         $notification = NotificationFactory::create($event->quote->account_id, $event->quote->user_id);
         $this->notification_repo->save($notification, $fields);
-
-        echo 'yes 55';
     }
 }

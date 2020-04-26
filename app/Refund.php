@@ -1,9 +1,9 @@
 <?php
 
-
 namespace App;
 
-
+use App\Events\Payment\PaymentWasRefunded;
+use App\Events\Credit\CreditWasCreated;
 use App\Factory\CreditFactory;
 use App\Factory\NotificationFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
@@ -59,6 +59,11 @@ class Refund
             $credit_note
         );
 
+        event(new CreditWasCreated($credit));
+
+        $this->payment->save();
+        event(new PaymentWasRefunded($this->payment));
+
         return $this;
     }
 
@@ -100,7 +105,11 @@ class Refund
             $credit_note
         );
 
+        event(new CreditWasCreated($credit));
+
         $this->payment->save();
+        
+        event(new PaymentWasRefunded($this->payment));
 
         $this->payment->customer->paid_to_date -= $this->data['amount'];
         $this->payment->customer->save();
