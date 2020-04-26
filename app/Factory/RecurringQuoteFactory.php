@@ -9,7 +9,7 @@ use App\Customer;
 
 class RecurringQuoteFactory
 {
-    public static function create(Customer $customer, Account $account, int $total, User $user): RecurringQuote
+    public static function create(Customer $customer, Account $account, User $user, int $total): RecurringQuote
     {
         $quote = new RecurringQuote();
         $quote->account_id = $account->id;
