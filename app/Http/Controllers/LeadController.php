@@ -64,7 +64,7 @@ class LeadController extends Controller
 
         $user = $token->user;
         $account = $token->account;
-        $lead = $this->lead_repo->save(LeadFactory::create($account->id, $user->id), $request->all());
+        $lead = $this->lead_repo->save(LeadFactory::create($account, $user), $request->all());
         event(new LeadWasCreated($lead, $lead->account));
         return response()->json($this->transformLead($lead));
     }
