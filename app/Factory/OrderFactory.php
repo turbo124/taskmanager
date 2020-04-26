@@ -26,26 +26,8 @@ class OrderFactory
     {
         $order = new Order;
         $order->account_id = $account_id;
-        $order->balance = 0;
         $order->status_id = Order::STATUS_DRAFT;
-        $order->discount_total = 0;
-        $order->tax_total = 0;
-        $order->footer = '';
-        $order->terms = '';
-        $order->public_notes = '';
-        $order->private_notes = '';
-        $order->tax_rate_name = '';
-        $order->tax_rate = 0;
-        $order->date = null;
-        $order->partial_due_date = null;
-        $order->total = 0;
-        $order->user_id = $user_id;
-        $order->partial = 0;
         $order->customer_id = $customer->id;
-        $order->custom_value1 = '';
-        $order->custom_value2 = '';
-        $order->custom_value3 = '';
-        $order->custom_value4 = '';
 
         return $order;
     }
