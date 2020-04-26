@@ -159,7 +159,7 @@ class Payment extends Model
 
     public function deletePayment(): bool
     {
-        if(!$this->reversePayment()) {
+        if($this->invoices->count() > 0 && !$this->reversePayment()) {
             return false;
         }
 
