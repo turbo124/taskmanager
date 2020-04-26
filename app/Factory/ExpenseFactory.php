@@ -18,17 +18,6 @@ class ExpenseFactory
         $expense->user_id = $user_id;
         $expense->account_id = $account_id;
         $expense->is_deleted = false;
-        $expense->should_be_invoiced = false;
-        $expense->tax_name1 = '';
-        $expense->tax_rate1 = 0;
-        $expense->tax_name2 = '';
-        $expense->tax_rate2 = 0;
-        $expense->tax_name3 = '';
-        $expense->tax_rate3 = 0;
-        $expense->expense_date = null;
-        $expense->payment_date = null;
-        $expense->public_notes = '';
-        $expense->private_notes = '';
 
         return $expense;
     }
