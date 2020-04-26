@@ -62,8 +62,8 @@ class PaymentController extends Controller
     public function store(CreatePaymentRequest $request)
     {
         $payment = $this->payment_repo->processPayment($request->all(),
-            PaymentFactory::create($request->customer_id, auth()->user()->id,
-                auth()->user()->account_user()->account_id));
+            PaymentFactory::create(Customer->where('id', $request->customer_id)->first(), auth()->user(),
+                auth()->user()->account_user()->account));
 
         $notification = NotificationFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
         (new NotificationRepository(new \App\Notification))->save($notification, [
