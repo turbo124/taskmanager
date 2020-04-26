@@ -80,10 +80,11 @@ class AccountPresenter extends EntityPresenter
         $city = e($settings->city);
         $state = e($settings->state);
         $postalCode = e($settings->postal_code);
+        
         if ($city || $state || $postalCode) {
             return $this->cityStateZip($city, $state, $postalCode, $swap);
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
