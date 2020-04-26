@@ -18,29 +18,33 @@ class NumberGenerator
         $pattern_entity = "{$entity_id}_number_pattern";
         $counter_var = "{$entity_id}_number_counter";
 
-        $pattern = trim($customer->getSetting($pattern_entity));
-
-        if ($resource === Customer::class || strpos($pattern, 'clientCounter')) {
-            $counter = $customer->getSetting($counter_var);
-            $counter_entity = $customer;
-        } elseif (strpos($pattern, 'groupCounter')) {
-            $counter = $customer->group_settings->{$counter_var};
-            $counter_entity = $customer->group_settings;
-        } else {
-            $counter = $customer->account->settings->{$counter_var};
-            $counter_entity = $customer->account;
-        }
+        $this->setType($pattern_entity);
 
         $padding = $customer->getSetting('counter_padding');
 
-        $number = $this->checkEntityNumber($resource, $customer, $counter, $padding);
+        $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
 
         if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class])) {
             $number = $this->prefixCounter($number, $customer->getSetting('recurring_number_prefix'));
         }
 
-        $this->incrementCounter($counter_entity, $counter_var);
+        $this->incrementCounter($this->counter_entity, $counter_var);
         return $number;
+    }
+
+    private function setType($pattern_entity)
+    {
+        $pattern = trim($customer->getSetting($pattern_entity));
+        $counter = $customer->account->settings->{$counter_var};
+        $counter_entity = $customer->account;
+
+        if ($resource === Customer::class || strpos($pattern, 'clientCounter')) {
+            $this->counter = $customer->getSetting($counter_var);
+            $this->counter_entity = $customer;
+        } elseif (strpos($pattern, 'groupCounter')) {
+            $this->counter = $customer->group_settings->{$counter_var};
+            $this->counter_entity = $customer->group_settings;
+        }
     }
 
     /**
