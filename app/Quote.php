@@ -139,4 +139,9 @@ class Quote extends Model
     {
         $this->status_id = $status;
     }
+
+    public function setInvoiceId($invoice_id)
+    {
+        $this->invoice_id = $invoice_id;
+    }
 }
