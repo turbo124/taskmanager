@@ -118,6 +118,13 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $entity->delete();
 
+        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $event_class = "App\Events\\".$entity_class."\\" . $entity_class . "WasArchived";
+
+        if(class_exists($event_class)) {
+            event(new $event_class($entity));
+        }
+
         return true;
     }
 

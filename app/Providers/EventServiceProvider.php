@@ -7,15 +7,28 @@ use App\Events\Invoice\InvoiceWasDeleted;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Events\Invoice\InvoiceWasReversed;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
-use App\Events\Client\ClientWasCreated;
+use App\Events\Customer\CustomerWasCreated;
 use App\Events\Deal\DealWasCreated;
 use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasEmailed;
-use App\Events\Quote\QuoteWasApproved;
 use App\Events\Invoice\InvoiceWasMarkedSent;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Listeners\Invoice\InvoicePaidActivity;
 use App\Events\Invoice\InvoiceWasUpdated;
+use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasArchived;
+use App\Events\Quote\QuoteWasCreated;
+use App\Events\Quote\QuoteWasDeleted;
+use App\Events\Quote\QuoteWasEmailed;
+use App\Events\Quote\QuoteWasMarkedSent;
+use App\Events\Quote\QuoteWasRestored;
+use App\Events\Quote\QuoteWasUpdated;
+use App\Events\Credit\CreditWasArchived;
+use App\Events\Credit\CreditWasCreated;
+use App\Events\Credit\CreditWasDeleted;
+use App\Events\Credit\CreditWasEmailed;
+use App\Events\Credit\CreditWasMarkedSent;
+use App\Events\Credit\CreditWasUpdated;
 use App\Events\Lead\LeadWasCreated;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Order\OrderWasCreated;
@@ -25,11 +38,11 @@ use App\Events\PaymentWasRefunded;
 use App\Events\PaymentWasVoided;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
-use App\Listeners\Activity\CreatedClientActivity;
-use App\Listeners\Activity\PaymentCreatedActivity;
-use App\Listeners\Activity\PaymentDeletedActivity;
-use App\Listeners\Activity\PaymentRefundedActivity;
-use App\Listeners\Activity\PaymentVoidedActivity;
+use App\Listeners\Customer\CustomerCreatedActivity;
+use App\Listeners\Payment\PaymentCreatedActivity;
+use App\Listeners\Payment\PaymentDeletedActivity;
+use App\Listeners\Payment\PaymentRefundedActivity;
+use App\Listeners\Payment\PaymentVoidedActivity;
 use App\Listeners\Deal\DealNotification;
 use App\Listeners\Document\DeleteAccountDocuments;
 use App\Listeners\Quote\QuoteApprovedActivity;
@@ -37,6 +50,11 @@ use App\Listeners\Quote\QuoteCreatedActivity;
 use App\Listeners\Quote\QuoteArchivedActivity;
 use App\Listeners\Quote\QuoteDeletedActivity;
 use App\Listeners\Quote\QuoteMarkedSentActivity;
+use App\Listeners\Credit\CreditApprovedActivity;
+use App\Listeners\Credit\CreditCreatedActivity;
+use App\Listeners\Credit\CreditArchivedActivity;
+use App\Listeners\Credit\CreditDeletedActivity;
+use App\Listeners\Credit\CreditMarkedSentActivity;
 use App\Listeners\Invoice\InvoiceCreatedActivity;
 use App\Listeners\Invoice\InvoiceMarkedSentActivity;
 use App\Listeners\Invoice\InvoiceEmailActivity;
@@ -67,9 +85,8 @@ class EventServiceProvider extends ServiceProvider
             DeletedUserActivity::class,
         ],
         // Clients
-        ClientWasCreated::class           => [
-            CreatedClientActivity::class,
-            // 'App\Listeners\SubscriptionListener@createdClient',
+        CustomerWasCreated::class           => [
+            CustomerCreatedActivity::class
         ],
         //payments
         PaymentWasCreated::class          => [
@@ -127,6 +144,19 @@ class EventServiceProvider extends ServiceProvider
         ],
         QuoteWasMarkedSent::class        => [
             QuoteMarkedSentActivity::class
+        ],
+        // credits
+        CreditWasCreated::class           => [
+            CreditCreatedActivity::class
+        ],
+        CreditWasDeleted::class           => [
+            CreditDeletedActivity::class
+        ],
+        CreditWasArchived::class           => [
+            CreditArchivedActivity::class
+        ],
+        CreditWasMarkedSent::class        => [
+            CreditMarkedSentActivity::class
         ],
         LeadWasCreated::class             => [
             LeadNotification::class

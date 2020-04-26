@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Credit\CreditWasCreated;
+use App\Events\Credit\CreditWasUpdated;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneCreditFactory;
 use App\Factory\CloneCreditToQuoteFactory;
@@ -62,10 +63,9 @@ class CreditController extends Controller
      */
     public function update(UpdateCreditRequest $request, int $id)
     {
-
         $credit = $this->credit_repo->findCreditById($id);
-
         $credit = $this->credit_repo->save($request->all(), $credit);
+        event(new CreditWasUpdated($credit));
         return response()->json($this->transformCredit($credit));
     }
 
@@ -78,7 +78,7 @@ class CreditController extends Controller
         $customer = Customer::find($request->input('customer_id'));
         $credit = $this->credit_repo->save($request->all(),
             CreditFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, $customer));
-        event(new CreditWasCreated($credit, $credit->account));
+        event(new CreditWasCreated($credit));
         return response()->json($this->transformCredit($credit));
     }
 

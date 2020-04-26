@@ -27,32 +27,6 @@ class InvoiceInvitation extends Model
         'client_contact_id'
     ];
 
-    protected $with = [//'account',
-    ];
-
-    /**
-     * @return mixed
-     */
-    public function getEntityType()
-    {
-        return 3;
-    }
-
-    public function isSent()
-    {
-        return $this->sent_date && $this->sent_date != '0000-00-00 00:00:00';
-    }
-
-    /**
-     * @param null $messageId
-     */
-    public function markSent($messageId = null)
-    {
-        $this->message_id = $messageId;
-        $this->sent_date = Carbon::now()->toDateTimeString();
-        $this->save();
-    }
-
     /**
      * @return mixed
      */
@@ -102,11 +76,6 @@ class InvoiceInvitation extends Model
     {
         $this->viewed_date = Carbon::now();
         $this->save();
-    }
-
-    public function entityType()
-    {
-        return Invoice::class;
     }
 
 }

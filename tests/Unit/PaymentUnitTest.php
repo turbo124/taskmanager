@@ -19,6 +19,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\EventTransformable;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Factory\PaymentFactory;
+use App\Refund;
+use App\Repositories\CreditRepository;
+use App\Credit;
 
 class PaymentUnitTest extends TestCase
 {
@@ -375,6 +378,100 @@ class PaymentUnitTest extends TestCase
         $payment = $paymentRepo->processPayment($data, $factory);
         $this->assertNotNull($payment);
         $this->assertEquals(50, $payment->refunded);
+    }
+
+    public function testRefundClassWithInvoices()
+    {
+        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client->save();
+
+        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+        //$invoice->customer_id = $client->id;
+
+        $invoice->save();
+
+        (new InvoiceRepository(new Invoice))->markSent($invoice);
+
+        $account = $invoice->account;
+        $settings = $account->settings;
+        $settings->auto_archive_invoice = false;
+        $account->settings = $settings;
+        $account->save();
+
+
+        $data = [
+            'amount' => 2.0,
+            'customer_id' => $invoice->customer->id,
+            'invoices' => [
+                [
+                    'invoice_id' => $invoice->id,
+                    'amount' => 2.0
+                ],
+            ],
+            'date' => '2019/12/12',
+        ];
+
+        $factory = (new PaymentFactory())->create(3, $this->user->id, $this->account_id);
+        $paymentRepo = new PaymentRepository(new Payment);
+        $payment = $paymentRepo->processPayment($data, $factory);
+
+        (new Refund($payment, (
+            new CreditRepository(new Credit)), 
+            [
+                'amount' => 2,
+                'invoices' => [
+                [
+                    'invoice_id' => $invoice->id,
+                    'amount' => 2.0
+                ],
+            ]]
+        ))->refund();
+       
+        $this->assertEquals(2, $payment->refunded);
+    }
+
+    public function testRefundClassWithoutInvoices()
+    {
+        $client = CustomerFactory::create($this->account_id, $this->user->id);
+        $client->save();
+
+        $invoice = InvoiceFactory::create($this->account_id, $this->user->id, $client);//stub the company and user_id
+
+        $invoice->save();
+
+        (new InvoiceRepository(new Invoice))->markSent($invoice);
+
+        $account = $invoice->account;
+        $settings = $account->settings;
+        $settings->auto_archive_invoice = false;
+        $account->settings = $settings;
+        $account->save();
+
+
+        $data = [
+            'amount' => 2.0,
+            'customer_id' => $invoice->customer->id,
+            'invoices' => [
+                [
+                    'invoice_id' => $invoice->id,
+                    'amount' => 2.0
+                ],
+            ],
+            'date' => '2019/12/12',
+        ];
+
+        $factory = (new PaymentFactory())->create(3, $this->user->id, $this->account_id);
+        $paymentRepo = new PaymentRepository(new Payment);
+        $payment = $paymentRepo->processPayment($data, $factory);
+
+        (new Refund($payment, (
+            new CreditRepository(new Credit)), 
+            [
+                'amount' => 2,
+            ]
+        ))->refund();
+       
+        $this->assertEquals(2, $payment->refunded);
     }
 
     public function testConversion ()

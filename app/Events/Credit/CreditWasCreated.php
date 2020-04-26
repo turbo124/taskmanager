@@ -2,7 +2,6 @@
 
 namespace App\Events\Credit;
 
-use App\Account;
 use App\Credit;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,16 +13,13 @@ class CreditWasCreated
 
     public $credit;
 
-    public $account;
-
     /**
      * Create a new event instance.
      *
      * @param Credit $credit
      */
-    public function __construct(Credit $credit, Account $account)
+    public function __construct(Credit $credit)
     {
         $this->credit = $credit;
-        $this->account = $account;
     }
 }

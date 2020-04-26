@@ -1,9 +1,9 @@
 <?php
 
-
 namespace App;
 
-
+use App\Events\Payment\PaymentWasRefunded;
+use App\Events\Credit\CreditWasCreated;
 use App\Factory\CreditFactory;
 use App\Factory\NotificationFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
@@ -37,7 +37,7 @@ class Refund
     private function refundPaymentWithNoInvoices()
     {
         //adjust payment refunded column amount
-        $this->payment->refunded = $this->data['amount'];
+        $this->payment->refunded += $this->data['amount'];
 
         $this->payment->status_id = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
@@ -59,6 +59,11 @@ class Refund
             $credit_note
         );
 
+        event(new CreditWasCreated($credit_note));
+
+        $this->payment->save();
+        event(new PaymentWasRefunded($this->payment, $this->data['amount']));
+
         return $this;
     }
 
@@ -73,8 +78,17 @@ class Refund
         $line_items = [];
         $adjustment_amount = 0;
 
+        $ids = array_column($this->data['invoices'], 'invoice_id');
+        $invoices = Invoice::whereIn('id', $ids)->get()->keyBy('id');
+
         foreach ($this->data['invoices'] as $invoice) {
-            $inv = Invoice::find($invoice['invoice_id']);
+
+            if(!isset($invoices[$invoice['invoice_id']])) {
+                continue;
+            }
+
+            $inv = $invoices[$invoice['invoice_id']];
+
             $line_items[] = (new LineItem($inv))
                 ->setQuantity(1)
                 ->setUnitPrice($invoice['amount'])
@@ -100,7 +114,11 @@ class Refund
             $credit_note
         );
 
+        event(new CreditWasCreated($credit_note));
+
         $this->payment->save();
+        
+        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
 
         $this->payment->customer->paid_to_date -= $this->data['amount'];
         $this->payment->customer->save();

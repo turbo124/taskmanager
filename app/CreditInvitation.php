@@ -19,9 +19,6 @@ class CreditInvitation extends Model
         'customer_id',
     ];
 
-    protected $with = [//'account',
-    ];
-
     /**
      * @return mixed
      */

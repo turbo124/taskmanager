@@ -197,36 +197,6 @@ class InvoiceTest extends TestCase
         $this->assertInstanceOf(Collection::class, $list);
     }
 
-    /* public function testInvoiceNumberValue()
-    {
-        $customer = factory ( Customer::class )->create ();
-    	$invoice_number = $this->getNextInvoiceNumber($customer);
-        $this->assertEquals($invoice_number, 0002);
-    	$invoice_number = $this->getNextInvoiceNumber($customer->fresh());
-        $this->assertEquals($invoice_number, 0002);
-    } */
-
-    public function testInvoiceNumberPattern()
-    {
-        $settings = $this->customer->account->settings;
-        $settings->invoice_number_counter = 1;
-        $settings->invoice_number_pattern = '{$year}-{$counter}';
-        $this->customer->account->settings = $settings;
-        $this->customer->account->save();
-        $this->customer->settings = $settings;
-        $this->customer->save();
-        $this->customer->fresh();
-
-        $invoice = InvoiceFactory::create($this->customer->account->id, $this->user->id, $this->customer);
-
-        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $invoice);
-        $invoice_number2 = $this->objNumberGenerator->getNextNumberForEntity($this->customer, $invoice);
-        $this->assertEquals($invoice_number, date('Y') . '-0001');
-        $this->assertEquals($invoice_number2, date('Y') . '-0002');
-        $this->assertEquals($this->customer->account->settings->invoice_number_counter, 3);
-
-    }
-
     public function testInvoicePadding()
     {
         $customer = factory(Customer::class)->create();
