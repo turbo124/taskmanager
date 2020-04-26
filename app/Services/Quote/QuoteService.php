@@ -26,12 +26,12 @@ class QuoteService extends ServiceBase
             return null;
         }
 
-        $this->quote->status_id = Quote::STATUS_APPROVED;
+        $this->quote->setStatus(Quote::STATUS_APPROVED);
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('auto_convert_quote')) {
             $invoice = (new ConvertQuote($this->quote, $invoice_repo))->run();
-            $this->quote->invoice_id = $invoice->id;
+            $this->quote->setInvoiceId($invoice->id);
             $this->quote->save();
         }
 

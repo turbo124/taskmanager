@@ -129,4 +129,13 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
+    public function setInvoiceId($invoice_id)
+    {
+        $this->invoice_id = $invoice_id;
+    }
 }

@@ -35,12 +35,16 @@ class MarkPaid
         $payment = $payment->attachInvoice($this->invoice);
 
         // update balance and status
-        $this->invoice->balance += floatval($payment->amount * -1);
-        $this->invoice->status_id = invoice::STATUS_PAID;
+        $new_balance = $this->invoice->balance += floatval($payment->amount * -1);
+        $this->invoice->setBalance($new_balance);
+        $this->invoice->setStatus(Invoice::STATUS_PAID);
         $this->invoice->save();
 
-        // update customer balance
-        $this->invoice->customer->service()->updateBalance($payment->amount * -1)->updatePaidToDate($payment->amount)->save();
+        // update customer
+        $customer = $this->invoice->customer;
+        $customer->setBalance($payment->amount * -1);
+        $customer->updatePaidToDate($payment->amount);
+        $customer->save();
 
         return $this->invoice;
     }

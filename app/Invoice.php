@@ -204,15 +204,15 @@ class Invoice extends Model
         $this->balance += $amount;
 
         if ($this->total == $this->balance) {
-            $this->status_id = Invoice::STATUS_SENT;
+            $this->setStatus(Invoice::STATUS_SENT);
             $this->save();
             return true;
         }
 
-        $this->status_id = Invoice::STATUS_PARTIAL;
+        $this->setStatus(Invoice::STATUS_PARTIAL);
         $this->save();
 
-        $this->customer->balance += $amount;
+        $this->customer->setBalance($amount);
         $this->customer->save();
 
        if(!$this->updateRefundedAmountForInvoice($amount)) {
@@ -239,5 +239,15 @@ class Invoice extends Model
         $this->due_date = Carbon::now()->addDays($this->customer->getSetting('payment_terms'));
         $this->save();
         return $this;
+    }
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
     }
 }

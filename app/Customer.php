@@ -186,7 +186,17 @@ class Customer extends Model implements HasLocalePreference
         if (!empty($address) && $address->count() > 0) {
             return $address->country;
         }
-#
+
         return null;
+    }
+
+    public function setBalance(float $amount)
+    {
+        $this->balance += $amount;
+    }
+
+    public function setPaidToDate(float $amount)
+    {
+        $this->paid_to_date += $amount;
     }
 }

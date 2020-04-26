@@ -149,7 +149,7 @@ class BaseRepository implements BaseRepositoryInterface
 
         $entity->invitations()->where('sent_date', '=', null)->update(['sent_date' => Carbon::now()]);
 
-        $entity->status_id = $entity_class::STATUS_SENT;
+        $entity->setStatus($entity_class::STATUS_SENT);
         $entity->save();
 
         $event_class = "App\Events\\".$class."\\" . $class . "WasMarkedSent";

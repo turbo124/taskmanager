@@ -134,4 +134,14 @@ class Quote extends Model
     {
         return $this->morphMany(File::class, 'documentable');
     }
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
+    public function setInvoiceId($invoice_id)
+    {
+        $this->invoice_id = $invoice_id;
+    }
 }

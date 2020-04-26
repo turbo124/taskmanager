@@ -68,7 +68,8 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     {
         $payment = $this->save($data, $payment);
 
-        $payment->customer->service()->updatePaidToDate($payment->amount)->save();
+        $payment->customer->setPaidToDate($payment->amount);
+        $payment->customer->save();
 
         $invoice_totals = array_key_exists('invoices', $data) && is_array($data['invoices']) ? array_sum(array_column($data['invoices'], 'amount')) : 0;
         $credit_totals = array_key_exists('credits', $data) && is_array($data['credits']) ? array_sum(array_column($data['credits'], 'amount')) : 0;
@@ -171,9 +172,9 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     {
         $credit_balance = $credit->balance;
         $status = $amount == $credit_balance ? Credit::STATUS_APPLIED : Credit::STATUS_PARTIAL;
-        $this->credit_status_id = $status;
+        $this->credit->setStatus($status);
         $balance = floatval($amount * -1);
-        $credit->balance = $credit_balance + $balance;
+        $credit->setBalance($credit_balance + $balance);
         $credit->save();
     }
 
@@ -209,9 +210,9 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function adjustCustomerTotals(Payment $payment) 
     {
-        $payment->customer->paid_to_date += $payment->amount;
-        $payment->customer->credit_balance += $payment->amount;
-        $payment->save();
+        $payment->customer->setPaidToDate($payment->amount);
+        $payment->customer->setBalance($payment->amount);
+        $payment->customer->save();
     }
 
     public function reversePaymentsForInvoice(Invoice $invoice)
