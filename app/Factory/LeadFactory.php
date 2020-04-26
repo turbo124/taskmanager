@@ -6,24 +6,12 @@ use App\Lead;
 
 class LeadFactory
 {
-    public static function create(int $account_id, int $user_id): Lead
+    public static function create(Account $account, User $user): Lead
     {
         $lead = new Lead;
-        $lead->account_id = $account_id;
-        $lead->user_id = $user_id;
-        $lead->first_name = '';
-        $lead->last_name = '';
-        $lead->title = '';
-        $lead->description = '';
-        $lead->phone = '';
-        $lead->email = '';
-        $lead->private_notes = '';
-        $lead->public_notes = '';
-        $lead->website = '';
-        $lead->valued_at = 0;
+        $lead->account_id = $account->id;
+        $lead->user_id = $user->id;
         $lead->source_type = 1;
-        $lead->industry_id = null;
-        $lead->website = '';
 
         return $lead;
     }
