@@ -31,7 +31,7 @@ class QuoteService extends ServiceBase
 
         if ($this->quote->customer->getSetting('auto_convert_quote')) {
             $invoice = (new ConvertQuote($this->quote, $invoice_repo))->run();
-            $this->quote->invoice_id = $invoice->id;
+            $this->quote->setInvoiceId($invoice->id);
             $this->quote->save();
         }
 
