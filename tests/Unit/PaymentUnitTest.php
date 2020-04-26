@@ -77,9 +77,21 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_payment()
     {
-        $payment = factory(Payment::class)->create();
-        $invoiceRepo = new PaymentRepository($payment);
-        $deleted = $invoiceRepo->newDelete($payment);
+            $invoice = factory(Invoice::class)->create();
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
+
+        $data = [
+            'customer_id' => $this->customer->id,
+            'type_id' => 1,
+            'amount' => $this->faker->randomFloat()
+        ];
+
+        $data['invoices'][0]['invoice_id'] = $invoice->id;
+        $data['invoices'][0]['amount'] = $invoice->total;
+
+        $paymentRepo = new PaymentRepository(new Payment);
+        $created = $paymentRepo->processPayment($data, $factory);
+        $deleted = $payment->deletePayment();
         $this->assertTrue($deleted);
     }
 
