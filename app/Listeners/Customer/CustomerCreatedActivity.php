@@ -30,15 +30,15 @@ class CustomerCreatedActivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->client->id;
+        $fields['data']['id'] = $event->customer->id;
         $fields['data']['message'] = 'A new customer was created';
-        $fields['notifiable_id'] = $event->client->user_id;
-        $fields['account_id'] = $event->client->account_id;
-        $fields['notifiable_type'] = get_class($event->client);
+        $fields['notifiable_id'] = $event->customer->user_id;
+        $fields['account_id'] = $event->customer->account_id;
+        $fields['notifiable_type'] = get_class($event->customer);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->client->account_id, $event->client->user_id);
+        $notification = NotificationFactory::create($event->customer->account_id, $event->customer->user_id);
         $this->notification_repo->save($notification, $fields);
     }
 }
