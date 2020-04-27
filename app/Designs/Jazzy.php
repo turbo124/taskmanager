@@ -5,11 +5,6 @@ namespace App\Designs;
 class Jazzy
 {
 
-    public function __construct()
-    {
-    }
-
-
     public function includes()
     {
         return '<title>$number</title>
@@ -40,7 +35,7 @@ $custom_css
         </div>
     </div>
     <div class="border-left pl-4 border-dark inline-block" style="width: 30%">
-        <p class="font-semibold text-uppercase text-info">To:</p>
+        <p class="font-weight-bolder text-uppercase text-info">To:</p>
         $client_details
     </div>
     <div class="inline-block mt-4 h-16" style="width: 30%">
@@ -53,7 +48,7 @@ $custom_css
     public function body()
     {
 
-        return '<div class="flex flex-col mx-4 mt-4">
+        return '<div class="mx-4 mt-4">
 <h1 class="font-weight-bolder text-uppercase">$entity_label</h1>
 <div class="mt-1">
     <span class="font-weight-bolder text-uppercase text-info">$entity_number</span>
