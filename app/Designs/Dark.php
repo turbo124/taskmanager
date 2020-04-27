@@ -5,11 +5,6 @@ namespace App\Designs;
 class Dark
 {
 
-    public function __construct()
-    {
-    }
-
-
     public function includes()
     {
         return '<title>$number</title>
@@ -135,7 +130,7 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer_class flex justify-between py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
 </footer>
 </body>
 </html>';
