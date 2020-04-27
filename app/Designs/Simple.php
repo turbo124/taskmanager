@@ -4,12 +4,6 @@ namespace App\Designs;
 
 class Simple
 {
-
-    public function __construct()
-    {
-    }
-
-
     public function includes()
     {
         return '<title>$number</title>
@@ -50,8 +44,8 @@ $css_link
 </h1>
 <div class="border-bottom border-secondary"></div>
 <div class="ml-4 py-4">
-    <div class="flex">
-        <div class="w-40">
+    <div class="">
+        <div>
             $entity_labels
         </div>
         <div style="width: 60%" class="inline-block">
@@ -116,7 +110,7 @@ $table_here
 
     public function getTaskTable()
     {
-        return '<table class="table-auto mt-4">
+        return '<table class="w-100 table-auto mt-4">
     <thead class="text-left">
         $task_table_header
     </thead>
