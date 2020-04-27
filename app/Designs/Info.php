@@ -5,10 +5,6 @@ namespace App\Designs;
 class Info
 {
 
-    public function __construct()
-    {
-    }
-
     public function includes()
     {
         return '<title>$number</title>
@@ -31,7 +27,7 @@ $css_link
     </div>
 </div>
 <div class="col-6 inline-block">
-    <div class="w-64 text-white">
+    <div class="text-white">
         $company_details
     </div>
     <div class="inline-block text-white">
@@ -49,8 +45,8 @@ $css_link
         <h2 class="text-uppercase font-weight-bolder text-info">$entity_label</h2> $client_details
     </div>
     <div class="inline-block col-6">
-        <div class="w-full bg-info px-4 py-3 text-white">
-            <div class="w-80 flex flex-col text-white">
+        <div class="bg-info px-4 py-3 text-white">
+            <div class="text-white">
                 $entity_details
             </div>
         </div>
@@ -67,7 +63,7 @@ $table_here
         <div class="col-6 text-right">
             $subtotal_label $discount_label $total_tax_labels $line_tax_labels 
         </div>
-        <div class="inline-block col-6 text-right text-right">
+        <div class="inline-block col-6 text-right">
             $subtotal $discount $total_tax_values $line_tax_values 
         </div>
     </div>
