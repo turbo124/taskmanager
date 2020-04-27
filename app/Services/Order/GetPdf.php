@@ -4,7 +4,7 @@ namespace App\Services\Order;
 
 use App\ClientContact;
 use App\Design;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Jobs\Pdf\CreatePdf;
 use App\Order;
 use App\PdfData;
@@ -33,7 +33,7 @@ class GetPdf
         $design = Design::find($this->order->account->settings->order_design_id);
         $objPdf = new PdfData($this->order);
         $designer =
-            new Designer($objPdf, $this->order, $design, $this->order->account->settings->pdf_variables, 'order');
+            new PdfColumns($objPdf, $this->order, $design, $this->order->account->settings->pdf_variables, 'order');
 
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);

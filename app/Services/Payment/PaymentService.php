@@ -20,24 +20,4 @@ class PaymentService extends ServiceBase
     {
         return (new PaymentEmail($this->payment))->run();
     }
-
-    public function reversePayment()
-    {
-        $invoices = $this->payment->invoices()->get();
-        $customer = $this->payment->customer;
-        
-        $invoices->each(function ($invoice) {
-            if ($invoice->pivot->amount > 0) {
-                $invoice->setStatus(Invoice::STATUS_SENT);
-                $invoice->setBalance($invoice->pivot->amount);
-                $invoice->save();
-            }
-        });
-
-        $this->payment->ledger()->updateBalance($this->payment->amount);
-
-        $customer->setBalance($this->payment->amount);
-        $customer->setPaidToDate($this->payment->amount * -1);
-        $customer->save();
-    }
 }

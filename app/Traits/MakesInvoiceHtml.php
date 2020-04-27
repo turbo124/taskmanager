@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Lead;
 use App\PdfData;
 use Exception;
@@ -19,12 +19,12 @@ use Throwable;
 trait MakesInvoiceHtml
 {
     /**
-     * @param Designer $designer
+     * @param PdfColumns $designer
      * @param $entity
      * @param null $contact
      * @return string
      */
-    public function generateEntityHtml(PdfData $objPdf, Designer $designer, $entity, $contact = null): string
+    public function generateEntityHtml(PdfData $objPdf, PdfColumns $designer, $entity, $contact = null): string
     {
 
         App::setLocale($entity->customer->preferredLocale());

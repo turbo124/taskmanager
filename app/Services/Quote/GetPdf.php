@@ -4,7 +4,7 @@ namespace App\Services\Quote;
 
 use App\ClientContact;
 use App\Design;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Jobs\Pdf\CreatePdf;
 use App\PdfData;
 use App\Quote;
@@ -40,7 +40,7 @@ class GetPdf
         $design = Design::find($this->quote->account->settings->quote_design_id);
         $objPdf = new PdfData($this->quote);
         $designer =
-            new Designer($objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote');
+            new PdfColumns($objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote');
 
         return CreatePdf::dispatchNow($objPdf, $this->quote, $file_path, $designer, $this->contact);
     }

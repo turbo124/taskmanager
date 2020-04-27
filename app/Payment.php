@@ -10,6 +10,7 @@ use App\PaymentMethod;
 use App\Customer;
 use App\Invoice;
 use App\Paymentable;
+use App\Events\Payment\PaymentWasDeleted;
 use Laracasts\Presenter\PresentableTrait;
 use Event;
 use App\Events\PaymentWasRefunded;
@@ -188,7 +189,7 @@ class Payment extends Model
 
         $this->ledger()->updateBalance($this->amount);
 
-        $customer->setBalance($this->payment->amount);
+        $customer->setBalance($this->amount);
         $customer->setPaidToDate($this->amount * -1);
         $customer->save();
 

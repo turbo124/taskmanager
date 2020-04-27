@@ -4,7 +4,7 @@ namespace App\Services\Lead;
 
 use App\ClientContact;
 use App\Design;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Jobs\Pdf\CreatePdf;
 use App\Lead;
 use App\Order;
@@ -36,7 +36,7 @@ class GetPdf
         $design = Design::find($this->lead->account->getSetting('invoice_design_id'));
 
         $designer =
-            new Designer($this->lead, $design, $this->lead->account->getSetting('pdf_variables'), 'lead');
+            new PdfColumns($this->lead, $design, $this->lead->account->getSetting('pdf_variables'), 'lead');
 
         return CreatePdf::dispatchNow($this->lead, $file_path, $designer, $this->lead);
     }
