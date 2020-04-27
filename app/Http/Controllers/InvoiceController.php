@@ -191,7 +191,8 @@ class InvoiceController extends Controller
                 }
                 break;
             case 'delete':
-                $this->invoice_repo->newDelete($invoice);
+                $invoice->deleteInvoice();
+                
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));
                 }
@@ -277,7 +278,7 @@ class InvoiceController extends Controller
     public function destroy(int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
-        $invoice->deleteInvoice($invoice);
+        $invoice->deleteInvoice();
         return response()->json([], 200);
     }
 

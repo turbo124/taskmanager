@@ -183,20 +183,12 @@ class Invoice extends Model
 
     public function isCancellable(): bool
     {
-        if (($this->status_id == self::STATUS_SENT || $this->status_id == self::STATUS_PARTIAL) && $this->is_deleted == false && $this->deleted_at == null) {
-            return true;
-        }
-
-        return false;
+       return in_array($this->status_id, [self::STATUS_SENT, self::STATUS_PARTIAL]) && $this->is_deleted === false && $this->deleted_at === null;
     }
 
     public function isReversable(): bool
     {
-        if (($this->status_id == self::STATUS_SENT || $this->status_id == self::STATUS_PARTIAL || $this->status_id == self::STATUS_PAID) && $this->is_deleted === false && $this->deleted_at === null) {
-            return true;
-        }
-
-        return false;
+        return in_array($this->status_id, [self::STATUS_SENT, self::STATUS_PARTIAL, self::STATUS_PAID]) && $this->is_deleted === false && $this->deleted_at === null;
     }
 
     public function adjustInvoices($amount): bool
