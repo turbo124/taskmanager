@@ -5,7 +5,7 @@ namespace App\Jobs\Email;
 use App\Designs\Custom;
 use App\PdfData;
 use App\Designs\Clean;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Design;
 use App\Email;
 use App\Account;

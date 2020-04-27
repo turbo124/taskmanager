@@ -246,7 +246,6 @@ class PdfData
     }
 
     public function buildAddress($entity, $address) {
-    
         $this->data['$client.address1'] = ['value' => $address->address_1 ?: '&nbsp;', 'label' => trans('texts.address')];
         $this->data['$client.address2'] = ['value' => $address->address_2 ?: '&nbsp;', 'label' => trans('texts.address')];
         $this->data['$client.city_state_postal'] = ['value' => isset($address->city) ? $entity->present()->cityStateZip($address->city, $address->state_code, $address->zip, false) : '&nbsp;', 'label' => trans('texts.city_with_zip')];
@@ -259,6 +258,8 @@ class PdfData
 
     public function buildCustomerAddress(Customer $customer): self
     {
+        $this->data['$client.address1'] = ['value' => $customer->present()->address() ?: '&nbsp;', 'label' => trans('texts.address')];
+
         $addresses = $customer->addresses;
         $billing = null;
         $shipping = null;

@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Account;
 use App\Credit;
 use App\Design;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Factory\CreditFactory;
 use App\Factory\DesignFactory;
 use App\Filters\CreditFilter;
@@ -111,7 +111,7 @@ class DesignTest extends TestCase {
 
         $design = Design::find(3);
 
-        $designer = new Designer(new PdfData($this->quote, $this->contact),$this->quote, $design, $this->account->settings->pdf_variables, 'quote');
+        $designer = new PdfColumns(new PdfData($this->quote, $this->contact),$this->quote, $design, $this->account->settings->pdf_variables, 'quote');
 
         $html = $designer->buildDesign();
 
@@ -139,7 +139,7 @@ class DesignTest extends TestCase {
 
         $design = Design::find(3);
 
-        $designer = new Designer(new PdfData($this->invoice, $this->contact), $this->invoice, $design, $this->account->settings->pdf_variables, 'invoice');
+        $designer = new PdfColumns(new PdfData($this->invoice, $this->contact), $this->invoice, $design, $this->account->settings->pdf_variables, 'invoice');
 
         $html = $designer->buildDesign();
 

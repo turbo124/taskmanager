@@ -17,7 +17,7 @@ class AccountPresenter extends EntityPresenter
     {
         $settings = $this->entity->settings;
 
-        return $this->settings->name ?: 'Untitled Account';
+        return $this->settings->name ?: '';
     }
 
     public function logo($settings = null)
@@ -37,54 +37,27 @@ class AccountPresenter extends EntityPresenter
     {
         $str = '';
         $company = $this->entity;
+        $fields = ['address1', 'address2', 'city', 'country_id', 'phone', 'email'];
 
         if (!$settings) {
             $settings = $this->entity->settings;
         }
 
-        if ($address1 = $settings->address1) {
-            $str .= e($address1) . '<br/>';
-        }
+        foreach($fields as $field) {
 
-        if ($address2 = $settings->address2) {
-            $str .= e($address2) . '<br/>';
-        }
+            if(empty($settings->{$field})) {
+                continue;
+            }
 
-        if ($cityState = $this->getCompanyCityState($settings)) {
-            $str .= e($cityState) . '<br/>';
-        }
+            if($field === 'country_id') {
+                $country = Country::where('id', $settings->country_id)->first();
+                $str .= e($country->name) . '<br/>';
+                continue;
+            }
 
-        if ($country = Country::find($settings->country_id)->first()) {
-            $str .= e($country->name) . '<br/>';
-        }
-
-        if ($settings->phone) {
-            $str .= "Work Phone: " . e($settings->phone) . '<br/>';
-        }
-
-        if ($settings->email) {
-            $str .= "Work Email: " . e($settings->email) . '<br/>';
+             $str .= $settings->{$field} . '<br/>';
         }
 
         return $str;
-    }
-
-    public function getCompanyCityState($settings = null)
-    {
-        if (!$settings) {
-            $settings = $this->entity->settings;
-        }
-
-        $country = Country::find($settings->country_id)->first();
-        $swap = $country && $country->swap_postal_code;
-        $city = e($settings->city);
-        $state = e($settings->state);
-        $postalCode = e($settings->postal_code);
-        
-        if ($city || $state || $postalCode) {
-            return $this->cityStateZip($city, $state, $postalCode, $swap);
-        }
-
-        return false;
     }
 }

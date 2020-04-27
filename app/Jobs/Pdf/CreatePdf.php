@@ -4,7 +4,7 @@ namespace App\Jobs\Pdf;
 
 use App\Designs\Custom;
 use App\Designs\Clean;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Design;
 use App\Account;
 use App\PdfData;

@@ -7,7 +7,6 @@ use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Payment;
-use App\Services\Customer\CustomerService;
 use App\Services\Invoice\HandleCancellation;
 use App\Services\Invoice\HandleReversal;
 use App\Services\Invoice\MarkPaid;
@@ -28,9 +27,6 @@ class InvoiceService extends ServiceBase
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
-
-        $this->customer_service = new CustomerService($invoice->customer);
-
     }
 
     public function handleCancellation()

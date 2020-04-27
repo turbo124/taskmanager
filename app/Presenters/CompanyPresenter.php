@@ -24,40 +24,22 @@ class CompanyPresenter extends EntityPresenter
 
     public function address()
     {
+        $fields = ['address1', 'address2', 'city', 'country', 'phone_number', 'email'];
         $str = '';
-        $company = $this->entity;
-        if ($address1 = $company->address_1) {
-            $str .= e($address1) . '<br/>';
-        }
-        if ($address2 = $company->address_2) {
-            $str .= e($address2) . '<br/>';
-        }
-        if ($cityState = $company->city) {
-            $str .= e($company->city) . '<br/>';
-        }
-//        if ($country = $company->country()) {
-//            $str .= e($country->name) . '<br/>';
-//        }
-        if ($company->phone_number) {
-            $str .= "Phone " . ": " . e($company->phone_number) . '<br/>';
-        }
-        if ($company->email) {
-            $str .= "Email " . ": " . e($company->email) . '<br/>';
-        }
-        return $str;
-    }
 
-    public function getCompanyCityState()
-    {
-        $company = $this->entity;
-        $swap = $company->country() && $company->country()->swap_postal_code;
-        $city = e($company->settings->city);
-        $state = e($company->settings->state);
-        $postalCode = e($company->settings->postal_code);
-        if ($city || $state || $postalCode) {
-            return $this->cityStateZip($city, $state, $postalCode, $swap);
-        } else {
-            return false;
+        foreach($fields as $field) {
+            if(empty($company->{$field})) {
+                continue;
+            }
+
+            if($field === 'country') {
+                $str .= $country->name . '<br/>';
+                continue;
+            }
+
+             $str .= e($$company->{$field}) . '<br/>';
         }
+
+        return $str;
     }
 }

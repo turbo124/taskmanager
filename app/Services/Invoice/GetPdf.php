@@ -4,7 +4,7 @@ namespace App\Services\Invoice;
 
 use App\ClientContact;
 use App\Design;
-use App\Designs\Designer;
+use App\Designs\PdfColumns;
 use App\Invoice;
 use App\Jobs\Pdf\CreatePdf;
 use App\PdfData;
@@ -42,7 +42,7 @@ class GetPdf
         $objPdf = new PdfData($this->invoice);
 
         $designer =
-            new Designer($objPdf, $this->invoice, $design, $this->invoice->account->settings->pdf_variables, 'invoice');
+            new PdfColumns($objPdf, $this->invoice, $design, $this->invoice->account->settings->pdf_variables, 'invoice');
 
         return CreatePdf::dispatchNow($objPdf, $this->invoice, $file_path, $designer, $this->contact);
     }

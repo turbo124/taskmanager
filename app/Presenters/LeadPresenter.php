@@ -25,19 +25,21 @@ class LeadPresenter extends Presenter
 
     public function address()
     {
-
+        $fields = ['address_1', 'address_2', 'city', 'country'];
         $str = '';
-        if ($address1 = $this->entity->address_1) {
-            $str .= $address1 . '<br/>';
-        }
-        if ($address2 = $this->entity->address_2) {
-            $str .= e($address2) . '<br/>';
-        }
-        if ($city = $this->city) {
-            $str .= e($city) . '<br/>';
-        }
-        if ($country = $this->entity->country) {
-            $str .= e($country->name) . '<br/>';
+
+        foreach($fields as $field) {
+            if(empty($this->entity->{$field})) {
+                continue;
+            }
+
+            if($field === 'country') {
+                $country = $this->entity->country
+                $str .= $country->name . '<br/>';
+                continue;
+            }
+
+            $str .= $this->entity->{$field} . '<br/>';
         }
 
         return $str;
