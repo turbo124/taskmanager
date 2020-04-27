@@ -52,7 +52,7 @@ $custom_css
         </section>
     </div>
     <div class="inline-block col-6 ml-4 bg-warning px-4 py-4 rounded" style="width: 40%;">
-        <div class="flex text-white">
+        <div class="text-white">
             <section class="col-6">
                 $entity_labels
             </section>
@@ -119,7 +119,7 @@ $table_here
 
     public function getTaskTable() {
         return '
-<table class="table-auto mt-4">
+<table class="w-100 table-auto mt-4">
     <thead class="text-left">
         $task_table_header
     </thead>
