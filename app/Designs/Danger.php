@@ -92,7 +92,7 @@ $table_here
         </div>
     </div>
 </div>
-<div class="flex items-center justify-between mt-4 pb-4 px-4">
+<div class="mt-4 pb-4 px-4">
     <div style="width: 50%">
         <div>
             <p class="font-weight-bolder">$terms_label</p>
@@ -124,7 +124,7 @@ $table_here
 
     public function getTaskTable()
     {
-        return '<table class="w-100 table-auto mt-4 border-t-4 border-pink-700 bg-white">
+        return '<table class="w-100 table-auto mt-4 border-top-4 border-danger bg-white">
     <thead class="text-left rounded">
         $task_table_header
     </thead>
