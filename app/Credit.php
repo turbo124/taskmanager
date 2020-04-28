@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
+use App\NumberGenerator;
+use App\Utils\Number;
 
 class Credit extends Model
 {
@@ -157,5 +159,30 @@ class Credit extends Model
     public function setBalance($balance) 
     {
         $this->balance = $balance;
+    }
+
+    public function setNumber()
+    {
+        if(!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
+
+    public function getFormattedTotal()
+    {
+        return Number::formatMoney($this->total, $this->customer);
+    }
+
+    public function getFormattedSubtotal()
+    {
+        return Number::formatMoney($this->sub_total, $this->customer);
+    }
+
+    public function getFormattedBalance()
+    {
+        return Number::formatMoney($this->balance, $this->customer);
     }
 }

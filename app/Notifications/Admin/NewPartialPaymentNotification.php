@@ -45,22 +45,14 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $invoice_texts = trans('texts.invoice_number_abbreviated');
-
-        foreach ($this->payment->invoices as $invoice) {
-            $invoice_texts .= $invoice->number . ',';
-        }
-
-        $invoice_texts = substr($invoice_texts, 0, -1);
-
         return (new MailMessage)->subject(trans('texts.notification_partial_payment_paid_subject',
             ['customer' => $this->payment->customer->present()->name()]))->markdown('email.admin.new', ['data' => [
             'title'     => trans('texts.notification_partial_payment_paid_subject',
                 ['customer' => $this->payment->customer->present()->name()]),
             'message'   => trans('texts.notification_partial_payment_paid', [
-                'total'  => Number::formatMoney($this->payment->total, $this->payment->customer),
+                'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $invoice_texts,
+                'invoice' => $this->payment->getFormattedInvoices(),
             ]),
             'url'       => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
             'button_text'    => trans('texts.view_payment'),
@@ -86,19 +78,12 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     public function toSlack($notifiable)
     {
         $logo = $this->payment->account->present()->logo();
-        $invoice_numbers = trans('texts.invoice_number_abbreviated');
-
-        foreach ($this->payment->invoices as $invoice) {
-            $invoice_numbers .= $invoice->number . ',';
-        }
-
-        $invoice_numbers = substr($invoice_numbers, 0, -1);
 
         return (new SlackMessage)->success()
             ->from("System")->image($logo)->content(trans('texts.notification_payment_paid', [
-                'total'  => Number::formatMoney($this->payment->total, $this->payment->customer),
+                'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $invoice_numbers
+                'invoice' => $this->payment->getFormattedInvoices()
             ]));
     }
 

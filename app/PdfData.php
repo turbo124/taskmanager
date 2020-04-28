@@ -320,15 +320,15 @@ class PdfData
     {
         $this->data['$entity_label'] = ['value' => '', 'label' => (new \ReflectionClass($this->entity))->getShortName()];
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$'.$class.'.total'] = ['value' => Number::formatMoney($total, $customer) ?: '&nbsp;', 'label' => trans('texts.'.$class . '_amount')];
+        $this->data['$'.$class.'.total'] = ['value' => $this->entity->getFormattedTotal() ?: '&nbsp;', 'label' => trans('texts.'.$class . '_amount')];
         return $this;
     }
 
     public function setBalance(Customer $customer, $balance): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.balance_due'] = ['value' => Number::formatMoney($balance, $customer) ?: '&nbsp;', 'label' => trans('texts.balance_due')];
-        $this->data['$balance_due'] = ['value' => Number::formatMoney($balance, $customer) ?: '&nbsp;', 'label' => trans('texts.balance_due')];
+        $this->data['$' . $class . '.balance_due'] = ['value' => $this->entity->getFormattedBalance() ?: '&nbsp;', 'label' => trans('texts.balance_due')];
+        $this->data['$balance_due'] = ['value' => $this->entity->getFormattedBalance() ?: '&nbsp;', 'label' => trans('texts.balance_due')];
 
         return $this;
 
@@ -336,7 +336,7 @@ class PdfData
 
     public function setSubTotal(Customer $customer, $sub_total): self
     {
-        $this->data['$subtotal'] = ['value' => Number::formatMoney($sub_total, $customer) ?: '&nbsp;', 'label' => trans('texts.sub_total')];
+        $this->data['$subtotal'] = ['value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;', 'label' => trans('texts.sub_total')];
         //$this->data['$invoice.subtotal'] = &$this->data['$subtotal'];
         return $this;
     }
@@ -392,14 +392,11 @@ class PdfData
 
     public function setTaxes(Customer $customer): self
     {
-        //$this->data['$total_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', true), 'label' => trans('texts.taxes')];
          $this->data['$total_tax_values'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
          $this->data['$total_taxes'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
         $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', true), 'label' => trans('texts.taxes')];
          $this->data['$line_tax_values'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
         $this->data['$line_taxes'] = ['value' => $this->makeLineTaxes($customer) ?: '&nbsp;', 'label' => trans('texts.taxes')];
-        // $this->data['$taxes'] = ['value' => Number::formatMoney($this->entity->tax_total, $customer) ?: '&nbsp;', 'label' => trans('texts.taxes')];
-        //$this->data['$invoice.taxes'] = &$this->data['$taxes'];
 
 
         return $this;
@@ -484,15 +481,12 @@ class PdfData
 
     public function parseLabels($labels, $html): string
     {
-        $section = str_replace(array_keys($labels), array_values($labels), $html);
-        //$section = str_replace(array_keys($values), array_values($values), $html);
-        return $section;
+        return str_replace(array_keys($labels), array_values($labels), $html);
     }
 
      public function parseValues($values, $html): string
     {
-        $section = str_replace(array_keys($values), array_values($values), $html);
-        return $section;
+        return str_replace(array_keys($values), array_values($values), $html);
     }
 
     private function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self

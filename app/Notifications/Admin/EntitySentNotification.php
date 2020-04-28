@@ -64,7 +64,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
         'data' => [
             'title'     => $subject,
             'message'   => trans("texts.notification_{$this->entity_name}_sent", [
-                'total'  => Number::formatMoney($this->entity->total, $this->entity->customer),
+                'total'  => $this->entity->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->entity->number,
             ]),
@@ -96,14 +96,14 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
             ->image($this->entity->account->present()->logo)
             ->content(trans("texts.notification_{$this->entity_name}_sent_subject", [
-                'total'  => $total,
+                'total'  => $this->entity->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->entity->number
             ]))->attachment(function ($attachment) use ($total) {
                 $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
                     $this->invitation->getLink() . '?silent=true')->fields([
                     trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total') => Number::formatMoney($this->entity->amount, $this->entity->customer),
+                    trans('texts.total') => $this->entity->getFormattedTotal(),
                 ]);
             });
     }

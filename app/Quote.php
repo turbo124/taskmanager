@@ -5,7 +5,8 @@ namespace App;
 use App\Services\Quote\QuoteService;
 use Illuminate\Database\Eloquent\Model;
 use App\Task;
-use App\InvoiceStatus;
+use App\NumberGenerator;
+use App\Utils\Number;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -143,5 +144,30 @@ class Quote extends Model
     public function setInvoiceId($invoice_id)
     {
         $this->invoice_id = $invoice_id;
+    }
+
+    public function setNumber()
+    {
+        if(!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
+
+    public function getFormattedTotal()
+    {
+        return Number::formatMoney($this->total, $this->customer);
+    }
+
+    public function getFormattedSubtotal()
+    {
+        return Number::formatMoney($this->sub_total, $this->customer);
+    }
+
+    public function getFormattedBalance()
+    {
+        return Number::formatMoney($this->balance, $this->customer);
     }
 }

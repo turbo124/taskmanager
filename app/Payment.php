@@ -13,6 +13,7 @@ use App\Paymentable;
 use App\Events\Payment\PaymentWasDeleted;
 use Laracasts\Presenter\PresentableTrait;
 use Event;
+use App\Utils\Number;
 use App\Events\PaymentWasRefunded;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -179,7 +180,7 @@ class Payment extends Model
         $invoices = $this->invoices;
         $customer = $this->customer;
         
-        $invoices->each(function ($invoice) {
+        foreach($invoices as $invoice) {
             if ($invoice->pivot->amount > 0) {
                 $invoice->setStatus(Invoice::STATUS_SENT);
                 $invoice->setBalance($invoice->pivot->amount);
@@ -194,5 +195,21 @@ class Payment extends Model
         $customer->save();
 
         return true;
+    }
+
+    public function getFormattedAmount()
+    {
+        return Number::formatMoney($this->amount, $this->customer);
+    }
+
+    public function getFormattedInvoices()
+    {
+        $invoice_texts = trans('texts.invoice_number_abbreviated');
+
+        foreach ($this->invoices as $invoice) {
+            $invoice_texts .= $invoice->number . ',';
+        }
+
+        return substr($invoice_texts, 0, -1);
     }
 }

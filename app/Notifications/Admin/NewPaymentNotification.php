@@ -46,22 +46,14 @@ class NewPaymentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $invoice_numbers = trans('texts.invoice_number_abbreviated');
-
-        foreach ($this->payment->invoices as $invoice) {
-            $invoice_numbers .= $invoice->number . ',';
-        }
-
-        $invoice_numbers = substr($invoice_numbers, 0, -1);
-
-        return (new MailMessage)->subject(trans('texts.notification_payment_paid_subject',
+       return (new MailMessage)->subject(trans('texts.notification_payment_paid_subject',
             ['customer' => $this->payment->customer->present()->name(),]))->markdown('email.admin.new', ['data' => [
             'title'     => trans('texts.notification_payment_paid_subject',
                 ['customer' => $this->payment->customer->present()->name()]),
             'message'   => trans('texts.notification_payment_paid', [
-                'total'  => Number::formatMoney($this->payment->amount, $this->payment->customer),
+                'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $invoice_numbers,
+                'invoice' => $this->payment->getFormattedInvoices(),
             ]),
             'signature' => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
             'url'       => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
@@ -86,21 +78,12 @@ class NewPaymentNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-       
-        $invoice_texts = trans('texts.invoice_number_abbreviated');
-
-        foreach ($this->payment->invoices as $invoice) {
-            $invoice_texts .= $invoice->number . ',';
-        }
-
-        $invoice_texts = substr($invoice_texts, 0, -1);
 
         return (new SlackMessage)->success()
-            //->to("#devv2")
             ->from("System")->image($this->account->present()->logo())->content(trans('texts.notification_payment_paid', [
-                'total'  => Number::formatMoney($this->payment->total, $this->payment->customer),
+                'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $invoice_texts
+                'invoice' => $this->payment->getFormattedInvoices()
             ]));
     }
 

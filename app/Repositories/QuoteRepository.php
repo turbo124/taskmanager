@@ -59,10 +59,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
         $quote->fill($data);
         $quote = $this->populateDefaults($quote);
         $quote = $quote->service()->calculateInvoiceTotals();
-
-        if(empty($quote->number)) {
-            $quote->number = (new NumberGenerator)->getNextNumberForEntity($quote->customer, $quote);
-        }
+        $quote->setNumber();
 
         $quote->save();
 
