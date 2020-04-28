@@ -158,4 +158,14 @@ class Credit extends Model
     {
         $this->balance = $balance;
     }
+
+    public function setNumber()
+    {
+        if(!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
 }
