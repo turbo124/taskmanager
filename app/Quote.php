@@ -144,4 +144,14 @@ class Quote extends Model
     {
         $this->invoice_id = $invoice_id;
     }
+
+    public function setNumber()
+    {
+        if(!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
 }
