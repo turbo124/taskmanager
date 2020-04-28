@@ -42,10 +42,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         $credit->fill($data);
         $credit = $this->populateDefaults($credit);
         $credit = $credit->service()->calculateInvoiceTotals();
-        
-        if(empty($credit->number)) {
-            $credit->number = (new NumberGenerator)->getNextNumberForEntity($credit->customer, $credit);
-        }
+        $credit->setNumber()(
 
         $credit->save();
 
