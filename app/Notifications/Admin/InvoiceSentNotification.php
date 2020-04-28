@@ -59,7 +59,7 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
         'data' => [
             'title'     => $subject,
             'message'   => trans('texts.notification_invoice_sent', [
-                'total'  => Number::formatMoney($this->invoice->total, $this->invoice->customer),
+                'total'  => $this->invoice->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->invoice->number,
             ]),
@@ -93,14 +93,14 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
             ->image($logo)
             ->content(trans('texts.notification_invoice_sent_subject', [
-                'total'  => Number::formatMoney($this->invoice->total, $this->invoice->customer),
+                'total'  => $this->invoice->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->invoice->number
             ]))->attachment(function ($attachment) use ($total) {
                 $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->invoice->number]),
                     $this->invitation->getLink() . '?silent=true')->fields([
                     trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total') => $total,
+                    trans('texts.total') => $this->invoice->getFormattedTotal()
                 ]);
             });
     }
