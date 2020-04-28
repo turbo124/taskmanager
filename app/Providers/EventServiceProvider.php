@@ -23,6 +23,14 @@ use App\Events\Quote\QuoteWasEmailed;
 use App\Events\Quote\QuoteWasMarkedSent;
 use App\Events\Quote\QuoteWasRestored;
 use App\Events\Quote\QuoteWasUpdated;
+
+use App\Events\Order\OrderWasDispatched;
+use App\Events\Order\OrderWasArchived;
+use App\Events\Order\OrderWasCreated;
+use App\Events\Order\OrderWasDeleted;
+use App\Events\Order\OrderWasRestored;
+use App\Events\Order\OrderWasUpdated;
+
 use App\Events\Credit\CreditWasArchived;
 use App\Events\Credit\CreditWasCreated;
 use App\Events\Credit\CreditWasDeleted;
@@ -31,7 +39,6 @@ use App\Events\Credit\CreditWasMarkedSent;
 use App\Events\Credit\CreditWasUpdated;
 use App\Events\Lead\LeadWasCreated;
 use App\Events\Misc\InvitationWasViewed;
-use App\Events\Order\OrderWasCreated;
 use App\Events\Payment\PaymentWasCreated;
 use App\Events\Payment\PaymentWasDeleted;
 use App\Events\PaymentWasRefunded;
@@ -49,7 +56,11 @@ use App\Listeners\Quote\QuoteApprovedActivity;
 use App\Listeners\Quote\QuoteCreatedActivity;
 use App\Listeners\Quote\QuoteArchivedActivity;
 use App\Listeners\Quote\QuoteDeletedActivity;
-use App\Listeners\Quote\QuoteMarkedSentActivity;
+use App\Listeners\Order\OrderArchivedActivity;
+use App\Listeners\Order\OrderCreatedActivity;
+use App\Listeners\Order\OrderDeletedActivity;
+use App\Listeners\Order\OrderMarkedSentActivity;
+use App\Listeners\Order\OrderDispatchedActivity;
 use App\Listeners\Credit\CreditApprovedActivity;
 use App\Listeners\Credit\CreditCreatedActivity;
 use App\Listeners\Credit\CreditArchivedActivity;
@@ -144,6 +155,22 @@ class EventServiceProvider extends ServiceProvider
         ],
         QuoteWasMarkedSent::class        => [
             QuoteMarkedSentActivity::class
+        ],
+        //orders
+        OrderWasDispatched::class           => [
+            OrderDispatchedActivity::class
+        ],
+        OrderWasCreated::class           => [
+            OrderCreatedActivity::class
+        ],
+        OrderWasDeleted::class           => [
+            OrderDeletedActivity::class
+        ],
+        OrderWasArchived::class           => [
+            OrderArchivedActivity::class
+        ],
+        OrderWasMarkedSent::class        => [
+            OrderMarkedSentActivity::class
         ],
         // credits
         CreditWasCreated::class           => [

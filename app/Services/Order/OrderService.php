@@ -3,12 +3,13 @@
 namespace App\Services\Order;
 
 use App\Invoice;
+use App\Events\Order\OrderWasDispatched;
 use App\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
-use App\Services\Quote\ConvertOrder;
 use Carbon\Carbon;
 use App\Services\ServiceBase;
+use App\Services\Order\ConvertOrder;
 
 class OrderService extends ServiceBase
 {
@@ -41,17 +42,27 @@ class OrderService extends ServiceBase
      * @param OrderRepository $order_repo
      * @return OrderService
      */
-    public function convert(InvoiceRepository $invoice_repo, OrderRepository $order_repo): OrderService
+    public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo): OrderService
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
         
-        $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
+        if ($this->order->customer->getSetting('auto_convert_order')) {
+            $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
+            $this->order->setInvoiceId($invoice->id);
+            $this->order->save();
+        }
 
-        $this->order->setInvoiceId($invoice->id);
-        $this->order->save();
+        if($this->order->customer->getSetting('auto_email_order')) {
+            $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
+        }
+
+        event(new OrderWasDispatched($this->order));
+
+        if ($this->order->customer->getSetting('auto_archive_order')) {
+            $order_repo->archive($this->order);
+        }
 
         return $this;
-
     }
 
     public function calculateInvoiceTotals(): Order

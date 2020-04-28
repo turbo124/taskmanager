@@ -13,9 +13,6 @@ class Basic
     public function includes()
     {
         return '<title>$number</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
 $custom_css
@@ -40,7 +37,7 @@ $custom_css
             </section>
         </div>
         <section class="px-3">
-            <p class="col-6 mr-4">$balance_label</p>
+            <p class="col-6 mr-4">$balance_due_label</p>
             <p>$balance_due</p>
         </section>
 </div>';

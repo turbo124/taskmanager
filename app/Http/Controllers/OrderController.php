@@ -89,11 +89,11 @@ class OrderController extends Controller
                 break;
            
             case 'approve':
-                if ($order->status_id != Order::STATUS_SENT) {
+                if (!in_array($order->status_id, [Order::STATUS_DRAFT, Order::STATUS_SENT])) {
                     return response()->json(['message' => 'Unable to approve this order as it has expired.'], 400);
                 }
 
-                return response()->json($order->service()->convert($this->invoice_repo, $this->order_repo)->save());
+                return response()->json($order->service()->dispatch($this->invoice_repo, $this->order_repo));
                 break;
             case 'download':
                 $disk = config('filesystems.default');

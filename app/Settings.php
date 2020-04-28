@@ -52,6 +52,7 @@ class Settings
             'late_fee_endless_amount'            => ['required' => false, 'default_value' => 0, 'type' => 'float'],
             'auto_email_invoice'                 => ['required' => false, 'default_value' => true, 'type' => 'bool'],
             'auto_email_quote'                   => ['required' => false, 'default_value' => true, 'type' => 'bool'],
+            'auto_email_order'                   => ['required' => false, 'default_value' => true, 'type' => 'bool'],
             'reminder_send_time'                 => ['required' => false, 'default_value' => 32400, 'type' => 'int'],
             'email_sending_method'               => ['required' => false, 'default_value' => 'default', 'type' => 'string'],
             'gmail_sending_user_id'              => ['required' => false, 'default_value' => '0', 'type' => 'string'],
@@ -400,6 +401,14 @@ class Settings
                 '$invoice.due_date',
                 '$invoice.balance_due',
                 '$invoice.invoice_total',
+            ],
+            'order' => [
+                '$order.order_number',
+                '$order.po_number',
+                '$order.order_date',
+                '$order.due_date',
+                '$order.balance_due',
+                '$order.order_total',
             ],
             'quote'   => [
                 '$quote.quote_number',

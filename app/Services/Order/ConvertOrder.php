@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Quote;
+namespace App\Services\Order;
 
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Factory\CloneQuoteToInvoiceFactory;
@@ -30,7 +30,7 @@ class ConvertOrder
         $invoice->due_date = null;
         $invoice->number = null;
         $this->invoice_repo->save([], $invoice);
-        $invoice->service()->markSent()->createInvitations();
+        $this->invoice_repo->markSent($invoice);
 
         return $invoice;
     }
