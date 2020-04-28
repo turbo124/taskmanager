@@ -13,9 +13,6 @@ class Jazzy
     public function includes()
     {
         return '<title>$number</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
 $custom_css
@@ -66,7 +63,7 @@ $custom_css
         <span>$due_date</span>
     </div>
     <div class="inline-block ml-4">
-        <span class="text-uppercase">$balance_label</span>
+        <span class="text-uppercase">$balance_due_label</span>
         <span class="text-info">$balance_due</span>
     </div>
 </div>

@@ -12,9 +12,6 @@ class Info
     public function includes()
     {
         return '<title>$number</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
 $css_link
 <style>
     $custom_css
@@ -79,10 +76,10 @@ $table_here
     </div>
     <div class="inline-block" style="width: 30%">
         <div class="col-6 text-right">
-            <span class="font-weight-bolder">$balance_label</span>
+            <span class="font-weight-bolder">$balance_due_label</span>
         </div>
         <div class="inline-block col-6 text-right">
-            <span class="text-info font-weight-bolder">$balance</span>
+            <span class="text-info font-weight-bolder">$balance_due</span>
         </div>
     </div>
 </div>';
