@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use App\NumberGenerator;
+use App\Utils\Number;
 
 class Invoice extends Model
 {
@@ -252,5 +253,10 @@ class Invoice extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getFormattedTotal()
+    {
+        return Number::formatMoney($this->total, $this->customer);
     }
 }
