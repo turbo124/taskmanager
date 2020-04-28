@@ -58,11 +58,8 @@ class OrderRepository extends BaseRepository
         $order->fill($data);
         $order = $this->populateDefaults($order);
         $order = $order->service()->calculateInvoiceTotals();
+        $order->setNumber();
 
-        if(empty($order->number)) {
-            $order->number = (new NumberGenerator)->getNextNumberForEntity($order->customer, $order);
-        }
-      
         $order->save();
 
         $this->saveInvitations($order, 'order', $data);
