@@ -161,13 +161,6 @@ class PdfColumns
         return true;
     }
 
-    /**
-     * Returns the template section on with the
-     * stacked variables replaced with single variables.
-     *
-     * @param string $section the method name to be executed ie header/body/table/footer
-     * @return string The HTML of the template section
-     */
     public function getSection($section): string
     {
         return str_replace(array_keys($this->exported_variables), array_values($this->exported_variables),
