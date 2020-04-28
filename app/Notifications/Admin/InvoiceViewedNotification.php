@@ -57,7 +57,7 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
         return (new MailMessage)->subject($subject)->markdown('email.admin.new', ['data' => [
             'title'     => $subject,
             'message'   => trans('texts.notification_invoice_viewed', [
-                'total'  => Number::formatMoney($this->invoice->total, $this->invoice->customer),
+                'total'  => $this->invoice->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->invoice->number,
             ]),
@@ -82,10 +82,9 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($logo)
             ->content(trans('texts.notification_invoice_viewed', [
-                'total'  => Number::formatMoney($this->invoice->total, $this->invoice->customer),
+                'total'  => $this->invoice->getFormattedTotal(),
                 'customer'  => $this->contact->present()->name(),
                 'invoice' => $this->invoice->number,
             ]));
