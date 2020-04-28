@@ -176,6 +176,11 @@ class Credit extends Model
         return Number::formatMoney($this->total, $this->customer);
     }
 
+    public function getFormattedSubtotal()
+    {
+        return Number::formatMoney($this->sub_total, $this->customer);
+    }
+
     public function getFormattedBalance()
     {
         return Number::formatMoney($this->balance, $this->customer);
