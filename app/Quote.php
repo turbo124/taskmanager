@@ -6,6 +6,7 @@ use App\Services\Quote\QuoteService;
 use Illuminate\Database\Eloquent\Model;
 use App\Task;
 use App\NumberGenerator;
+use App\Utils\Number;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -153,5 +154,10 @@ class Quote extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getFormattedTotal()
+    {
+        return Number::formatMoney($this->total, $this->customer);
     }
 }
