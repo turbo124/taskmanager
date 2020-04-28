@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
 use App\NumberGenerator;
+use App\Utils\Number;
 
 /**
  * Class Order
@@ -148,5 +149,10 @@ class Order extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getFormattedTotal()
+    {
+        return Number::formatMoney($this->total, $this->customer);
     }
 }
