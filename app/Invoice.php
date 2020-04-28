@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
+use App\NumberGenerator;
 
 class Invoice extends Model
 {
