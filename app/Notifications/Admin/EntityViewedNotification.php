@@ -64,7 +64,7 @@ class EntityViewedNotification extends Notification implements ShouldQueue
             [
                 'title'     => $subject,
                 'message'   => trans("texts.notification_{$this->entity_name}_viewed", [
-                    'total' => Number::formatMoney($this->entity->total, $this->entity->customer),
+                    'total' => $this->entity->getFormattedTotal(),
                     'customer'           => $this->contact->present()->name(),
                     $this->entity_name => $this->entity->number,
                 ]),
@@ -94,7 +94,7 @@ class EntityViewedNotification extends Notification implements ShouldQueue
     {
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
             ->content(trans("texts.notification_{$this->entity_name}_viewed", [
-                'total'           => Number::formatMoney($this->entity->total, $this->entity->customer),
+                'total'           => $this->entity->getFormattedTotal(),
                 'customer'           => $this->contact->present()->name(),
                 $this->entity_name => $this->entity->number
             ]))->attachment(function ($attachment) use ($total) {
