@@ -5,7 +5,7 @@ namespace App;
 use App\Services\Quote\QuoteService;
 use Illuminate\Database\Eloquent\Model;
 use App\Task;
-use App\InvoiceStatus;
+use App\NumberGenerator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
