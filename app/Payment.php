@@ -13,6 +13,7 @@ use App\Paymentable;
 use App\Events\Payment\PaymentWasDeleted;
 use Laracasts\Presenter\PresentableTrait;
 use Event;
+use App\Utils\Number;
 use App\Events\PaymentWasRefunded;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -194,5 +195,10 @@ class Payment extends Model
         $customer->save();
 
         return true;
+    }
+
+    public function getFormattedAmount()
+    {
+        return Number::formatMoney($this->amount, $this->customer);
     }
 }
