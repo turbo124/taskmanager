@@ -53,7 +53,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
             'message'   => trans('texts.notification_payment_paid', [
                 'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $this->getFormattedInvoices(),
+                'invoice' => $this->payment->getFormattedInvoices(),
             ]),
             'signature' => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
             'url'       => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
@@ -76,17 +76,6 @@ class NewPaymentNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function getFormattedInvoices()
-    {
-        $invoice_texts = trans('texts.invoice_number_abbreviated');
-
-        foreach ($this->payment->invoices as $invoice) {
-            $invoice_texts .= $invoice->number . ',';
-        }
-
-        return substr($invoice_texts, 0, -1);
-    }
-
     public function toSlack($notifiable)
     {
 
@@ -94,7 +83,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
             ->from("System")->image($this->account->present()->logo())->content(trans('texts.notification_payment_paid', [
                 'total'  => $this->payment->getFormattedAmount(),
                 'customer'  => $this->payment->customer->present()->name(),
-                'invoice' => $this->getFormattedInvoices()
+                'invoice' => $this->payment->getFormattedInvoices()
             ]));
     }
 
