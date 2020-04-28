@@ -160,4 +160,9 @@ class Quote extends Model
     {
         return Number::formatMoney($this->total, $this->customer);
     }
+
+    public function getFormattedBalance()
+    {
+        return Number::formatMoney($this->balance, $this->customer);
+    }
 }
