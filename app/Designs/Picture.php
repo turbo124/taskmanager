@@ -44,7 +44,7 @@ $custom_css
     public function body()
     {
 
-        return '<div class="bg-secondary h-auto p-4 pt-4" id="imageContainer">
+        return '<div class="bg-secondary h-auto p-4 pt-4">
 <div>
     <div class="inline-block mr-4" style="width: 40%">
         <p class="text-uppercase text-warning">$to_label:</p>
@@ -94,7 +94,7 @@ $table_here
 <div class="inline-block" style="width: 40%">
     <section class="bg-warning py-2 text-white px-2 mt-1">
         <p class="w-1/2">$balance_due_label</p>
-        <p class="text-right w-1/2">$balance_due</p>
+        <p class="text-right">$balance_due</p>
     </section>
 </div>
 </div>

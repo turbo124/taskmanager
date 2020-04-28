@@ -4,12 +4,6 @@ namespace App\Designs;
 
 class Warning
 {
-
-    public function __construct()
-    {
-    }
-
-
     public function includes()
     {
         return '<title>$number</title>
@@ -58,7 +52,7 @@ $css_link
 
 $table_here
 
-<div class="px-4 mt-4 w-full" style="page-break-inside: avoid; width: 100%">
+<div class="px-4 mt-4 w-100" style="page-break-inside: avoid;">
 			        <div class="inline-block" style="width: 60%">
 			            $entity.public_notes
 			        </div>
@@ -99,7 +93,7 @@ $table_here
     public function table()
     {
         return '<table class="w-100 table-auto mt-4">
-    <thead class="text-left text-white bg-secondary display: table-header-group;">
+    <thead class="text-left text-white bg-secondary">
        $product_table_header
     </thead>
     <tbody>
@@ -112,7 +106,7 @@ $table_here
     {
         return '
 <table class="w-100 table-auto mt-4">
-    <thead class="text-left text-white bg-secondary display: table-header-group;">
+    <thead class="text-left text-white bg-secondary">
         $task_table_header
     </thead>
     <tbody>

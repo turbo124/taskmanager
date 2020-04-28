@@ -4,12 +4,6 @@ namespace App\Designs;
 
 class Happy
 {
-
-    public function __construct()
-    {
-    }
-
-
     public function includes()
     {
         return '<title>$number</title>
