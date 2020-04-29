@@ -152,7 +152,7 @@ class QuoteController extends Controller
                 return response()->json($order);
                 break;
             case 'clone_to_quote':
-                $quote = CloneQuoteFactory::create($quote, auth()->user()->id);
+                $quote = CloneQuoteFactory::create($quote, auth()->user());
                 $this->quote_repo->save($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
