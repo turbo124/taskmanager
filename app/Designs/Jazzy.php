@@ -67,7 +67,7 @@ $custom_css
 $table_here
 
 <div class="mt-4">
-<div class="inline-block" style="width: 50%">
+<div class="inline-block" style="width: 70%">
     <div>
         <p>$entity.public_notes</p>
         <div class="pt-4">
@@ -76,23 +76,12 @@ $table_here
         </div>
     </div>
 </div>
-<div class="inline-block" style="width: 40%">
-    <div class="inline-block px-3 mt-4">
-        <section class="col-6 text-right">
-            $discount_label
-            $total_tax_labels
-            $line_tax_labels
-        </section>
-        <section class="inline-block col-6 text-right">
-            $discount
-            $total_tax_values
-            $line_tax_values
-        </section>
-    </div>
-    <section class="inline-block bg-dark text-white px-3 mt-1">
-        <p class="col-6 text-right">$balance_due_label</p>
-        <p class="text-right col-6">$balance_due</p>
-    </section>
+<div class="inline-block" style="width: 20%">
+        <div class="col-6 text-left">
+            <span style="margin-right: 60px">$discount_label</span> $discount<br>
+            <span style="margin-right: 60px">$tax_label</span> $tax<br>
+             <span style="margin-right: 60px">$balance_due_label</span> $balance_due<br>
+        </div>
 </div>
 </div>
 </div>

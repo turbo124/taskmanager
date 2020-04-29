@@ -181,12 +181,14 @@ class Payment extends Model
         $customer = $this->customer;
         
         foreach($invoices as $invoice) {
-            if ($invoice->pivot->amount > 0) {
-                $invoice->setStatus(Invoice::STATUS_SENT);
-                $invoice->setBalance($invoice->pivot->amount);
-                $invoice->save();
+            if ($invoice->pivot->amount <= 0) {
+                continue;
             }
-        });
+            
+            $invoice->setStatus(Invoice::STATUS_SENT);
+            $invoice->setBalance($invoice->pivot->amount);
+            $invoice->save();
+        }
 
         $this->ledger()->updateBalance($this->amount);
 

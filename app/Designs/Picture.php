@@ -64,36 +64,30 @@ $custom_css
 $table_here
 
 <div class="mt-2 px-4 pb-4">
-<div class="inline-block mt-4" style="width: 50%">
+<div class="inline-block mt-4" style="width: 70%">
     <div>
         <p>$entity.public_notes</p>
     </div>
 </div>
-<div class="inline-block" style="width: 40%">
+<div class="inline-block" style="width: 20%">
     <div class="px-3 mt-2">
-        <section class="inline-block col-6 text-right">
-            $discount_label
-            $total_tax_labels
-            $line_tax_labels
-        </section>
-        <section class="inline-block col-6 text-right">
-            $discount
-            $total_tax_values
-            $line_tax_values
-        </section>
+        <div class="inline-block col-6 text-right">
+            <span style="margin-right: 20px">$discount_label</span> $discount<br>
+            <span style="margin-right: 20px">$tax_label</span> $tax<br>
+        </div>
     </div>
 </div>
 </div>
 <div class="mt-4 pb-4 px-4">
-<div class="inline-block" style="width: 50%">
+<div class="inline-block" style="width: 70%">
     <div>
         <p class="font-weight-bolder">$terms_label</p>
         <p>$terms</p>
     </div>
 </div>
-<div class="inline-block" style="width: 40%">
-    <section class="bg-warning py-2 text-white px-2 mt-1">
-        <p class="w-1/2">$balance_due_label</p>
+<div class="inline-block" style="width: 20%">
+    <section class="bg-warning py-2 pt-4 pr-4 text-white px-2 mt-1">
+        <p class="text-right">$balance_due_label</p>
         <p class="text-right">$balance_due</p>
     </section>
 </div>

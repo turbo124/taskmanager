@@ -42,7 +42,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         $credit->fill($data);
         $credit = $this->populateDefaults($credit);
         $credit = $credit->service()->calculateInvoiceTotals();
-        $credit->setNumber()(
+        $credit->setNumber();
 
         $credit->save();
 

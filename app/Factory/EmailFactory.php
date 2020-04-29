@@ -24,7 +24,6 @@ class EmailFactory
         $email->entity = '';
         $email->entity_id = null;
         $email->direction = 'OUT';
-        $email->sent_at = Carbon::now();
         $email->account_id = $account_id;
 
         return $email;

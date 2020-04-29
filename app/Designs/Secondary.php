@@ -62,39 +62,26 @@ $custom_css
 
 $table_here
 
-<div class="mt-4 px-4 pt-4 pb-4 bg-secondary rounded py-2" style="width: 100%">
-    <div class="inline-block" style="width: 60%">
+<div class="mt-4 px-4 pt-4 pb-4 bg-secondary rounded py-2 text-white" style="width: 100%">
+    <div class="inline-block" style="width: 70%">
         <div>
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block" style="width: 40%">
-        <div class="px-3 mt-2">
-            <section class="inline-block col-6 text-right">
-                $discount_label
-                $total_tax_labels
-                $line_tax_labels
-            </section>
-            <section class="inline-block col-6 text-right">
-                $discount
-                $total_tax_values
-                $line_tax_values
-            </section>
-        </div>
+    <div class="inline-block px-3 mt-1" style="width: 20%">
+            <div class="col-6 text-left">
+                <span style="margin-right: 40px">$discount_label </span>$discount <br>
+                <span style="margin-right: 40px">$tax_label </span>$tax <br>
+                <span style="margin-right: 40px">$balance_due_label </span>$balance_due <br>
+            </div>
     </div>
 </div>
 <div class="mt-4 pb-4 px-4" style="width: 100%">
-<div class="inline-block" style="width: 60%">
+<div class="inline-block" style="width: 70%">
     <div class="">
         <p class="font-weight-bolder">$terms_label</p>
         <p>$terms</p>
     </div>
-</div>
-<div class="inline-block" style="width: 40%">
-    <section class="py-2 bg-primary px-4 py-3 rounded text-white">
-        <p class="col-6">$balance_due_label</p>
-        <p class="text-right col-6">$balance_due</p>
-    </section>
 </div>
 </div>
 </div>';
