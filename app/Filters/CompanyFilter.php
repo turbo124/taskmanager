@@ -104,26 +104,6 @@ class CompanyFilter extends QueryFilter
         $this->query->where('companies.account_id', '=', $account_id);
     }
 
-    public function balance(string $balance): Builder
-    {
-        $parts = $this->split($balance);
-
-        return $this->query->where('balance', $parts->operator, $parts->value);
-    }
-
-    /**
-     * Filter between balances
-     *
-     * @param string balance
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function between_balance(string $balance): Builder
-    {
-        $parts = explode(":", $balance);
-
-        return $this->query->whereBetween('balance', [$parts[0], $parts[1]]);
-    }
-
     /**
      * @param $list
      * @return mixed
