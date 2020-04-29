@@ -167,7 +167,7 @@ class CreditController extends Controller
                 return response()->json($this->transformCredit($credit));
                 break;
             case 'clone_to_quote':
-                $quote = CloneCreditToQuoteFactory::create($credit, auth()->user()->id);
+                $quote = CloneCreditToQuoteFactory::create($credit, auth()->user());
                 (new QuoteRepository(new Quote))->save($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
