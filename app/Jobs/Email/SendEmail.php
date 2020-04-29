@@ -4,6 +4,7 @@ namespace App\Jobs\Email;
 
 use App\Designs\Custom;
 use App\PdfData;
+use Illuminate\Support\Carbon;
 use App\Designs\Clean;
 use App\Designs\PdfColumns;
 use App\Design;
@@ -109,7 +110,9 @@ class SendEmail implements ShouldQueue
         Mail::to($this->contact->email, $this->contact->present()->name())
             ->send($message);
 
-        $this->toDatabase($this->subject, $body);
+            $sent_successfully = count(Mail::failures()) === 0;
+
+        $this->toDatabase($this->subject, $body, $sent_successfully);
 
         return $message;
     }
@@ -135,7 +138,7 @@ class SendEmail implements ShouldQueue
 
     }
 
-    private function toDatabase($subject, $body)
+    private function toDatabase($subject, $body, $sent_successfully)
     {
         if (empty(auth()->user())) {
             return false;
@@ -150,7 +153,8 @@ class SendEmail implements ShouldQueue
                 'entity'          => get_class($this->entity),
                 'entity_id'       => $this->entity->id,
                 'recipient'       => $this->contact->present()->name,
-                'recipient_email' => $this->contact->present()->email
+                'recipient_email' => $this->contact->present()->email,
+                'sent_at'         => $sent_successfully === true ? Carbon::now() : null
             ],
             $email);
     }

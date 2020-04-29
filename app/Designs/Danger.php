@@ -26,7 +26,7 @@ $custom_css
     public function header()
     {
 
-        return '<div class="py-4 px-4 mt-4">
+        return '<div class="py-4 px-4 mt-2">
             <div style="width: 100%">
                 <div class="inline-block mt-4" style="width: 30%">
                     <div class="inline-block">
@@ -40,7 +40,7 @@ $custom_css
                     </div>
                 </div>
                 
-                <div style="width: 60%">
+                <div class="mt-4" style="width: 60%">
     $company_logo
     </div>
 </div>';
@@ -55,7 +55,7 @@ $custom_css
     <h1 class="text-uppercase font-weight-bolder">$entity_label</h1>
     <i class="ml-4 text-danger">$entity_number</i>
 </div>
-<div class="inline-block" style="width: 30%">
+<div class="inline-block text-left" style="width: 30%">
     <div class="inline-block">
         $entity_labels
     </div>
@@ -67,30 +67,26 @@ $custom_css
 
 $table_here
 
-<div class="border-4 border-danger">
-<div class="mt-2 px-4 pb-4">
-    <div class="inline-block" style="width: 50%">
+<div class="border-top-4 border-danger">
+<div class="mt-4 px-4 pb-4">
+    <div class="inline-block" style="width: 70%">
         <div class="">
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block" style="width: 40%">
+    <div class="inline-block" style="width: 20%">
         <div class="px-3 mt-2">
-            <div class="inline-block col-6 text-right">
-                <span>$subtotal_label</span>
-                <span>$discount_label</span>
-                <span>$paid_to_date_label</span>
-            </div>
-            <div class="inline-block col-6 text-right">
-                <span>$subtotal</span>
-                <span>$discount</span>
-                <span>$paid_to_date</span>
+            <div class="inline-block col-6 text-left">
+                <span style="margin-right: 80px">$subtotal_label</span> $subtotal <br>
+                <span style="margin-right: 80px">$discount_label</span> $discount <br>
+                <span style="margin-right: 80px">$tax_label</span> $tax <br>
+                <span style="margin-right: 80px">$balance_due_label</span> <span class="text-danger font-weight-bold">$balance_due</span> <br>
             </div>
         </div>
     </div>
 </div>
-<div class="mt-4 pb-4 px-4">
-    <div style="width: 50%">
+<div class="mt-1 pb-4 px-4">
+    <div style="width: 70%">
         <div>
             <p class="font-weight-bolder">$terms_label</p>
             <p>$terms</p>
@@ -98,10 +94,6 @@ $table_here
     </div>
 </div>
 </div>
-<div class="mt-4" style="width: 40%">
-    <p>$balance_due_label</p>
-    <p class="ml-4 text-danger font-weight-bolder">$balance_due</p>
-    </div>
 </div>
 
 ';

@@ -39,25 +39,26 @@ class CustomerPresenter extends EntityPresenter
     {
         $fields = ['address_1', 'address_2', 'city', 'country_id'];
 
-        $address = $this->entity->addresses->where('address_type', $type)->first()->toArray();
-        if(empty($address)) {
+        $address = $this->entity->addresses->where('address_type', $type)->first();
+        
+        if(empty($address) || $address->count() === 0) {
             return '';
         }
 
         $str = '';
 
         foreach($fields as $field) {
-            if(empty($address[$field])) {
+            if(empty($address->{$field})) {
                  continue;
             }
 
             if($field === 'country_id') {
-                $country = Country::where('id', $address[$field])->first();
+                $country = Country::where('id', $address->{$field})->first();
                 $str .= $country->name;
                 continue;
             }
 
-            $str .= $address[$field] . '<br/>';
+            $str .= $address->{$field} . '<br/>';
         }
 
         return $str;

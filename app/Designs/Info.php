@@ -53,30 +53,22 @@ $css_link
 $table_here
 
    <div class="px-4 mt-4" style="width: 100%">
-    <div class="inline-block" style="width: 60%">
+    <div class="inline-block" style="width: 70%">
         $entity.public_notes
     </div>
-    <div class="inline-block" style="width: 30%">
-        <div class="col-6 text-right">
-            $subtotal_label $discount_label $total_tax_labels $line_tax_labels 
-        </div>
-        <div class="inline-block col-6 text-right">
-            $subtotal $discount $total_tax_values $line_tax_values 
+    <div class="inline-block" style="width: 20%">
+        <div class="col-6 text-left">
+            <span style="margin-right: 20px">$subtotal_label</span> $subtotal<br>
+            <span style="margin-right: 20px">$discount_label</span> $discount<br>
+            <span style="margin-right: 20px">$tax_label</span> $tax<br>
+            <span style="margin-right: 20px">$balance_due_label</span> $balance_due<br>
         </div>
     </div>
 </div>
 <div class="px-4 mt-4" style="width: 100%">
-    <div class="inline-block" style="width: 60%">
+    <div class="inline-block" style="width: 70%">
         <p class="font-weight-bolder">$terms_label</p>
         $terms
-    </div>
-    <div class="inline-block" style="width: 30%">
-        <div class="col-6 text-right">
-            <span class="font-weight-bolder">$balance_due_label</span>
-        </div>
-        <div class="inline-block col-6 text-right">
-            <span class="text-info font-weight-bolder">$balance_due</span>
-        </div>
     </div>
 </div>';
     }

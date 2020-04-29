@@ -392,12 +392,8 @@ class PdfData
 
     public function setTaxes(Customer $customer): self
     {
-         $this->data['$total_tax_values'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
-         $this->data['$total_taxes'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
-        $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', true), 'label' => trans('texts.taxes')];
-         $this->data['$line_tax_values'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
-        $this->data['$line_taxes'] = ['value' => $this->makeLineTaxes($customer) ?: '&nbsp;', 'label' => trans('texts.taxes')];
-
+         $this->data['$tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
+         $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
 
         return $this;
     }

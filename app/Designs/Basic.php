@@ -31,15 +31,11 @@ $custom_css
     </div>
 </div>
     <div class="inline-block mr-4 mt-4" style="width: 60%;">
-        <div class="inline-block">
+        <div class="">
             <section class="">
                 $entity_details
             </section>
         </div>
-        <section class="px-3">
-            <p class="col-6 mr-4">$balance_due_label</p>
-            <p>$balance_due</p>
-        </section>
 </div>';
 
     }
@@ -54,7 +50,7 @@ $custom_css
 $table_here
 
 <div class="mt-4">
-<div class="inline-block col-6">
+<div class="inline-block col-6" style="width: 70%">
     <div class="">
         <p>$entity.public_notes</p>
         <div class="pt-4">
@@ -63,23 +59,14 @@ $table_here
         </div>
     </div>
 </div>
-<div class="inline-block">
-    <div class="inline-block px-3 mt-4">
-        <section class="inline-block col-6 text-right">
-            $discount_label
-            $total_tax_labels
-            $line_tax_labels
-        </section>
-        <section class="inline-block col-6 text-right">
-            $discount
-            $total_tax_values
-            $line_tax_values
-        </section>
+<div class="inline-block" style="width: 20%;">
+    <div class="inline-block px-3">
+        <div class="col-6 text-left">
+            <span style="margin-right: 20px"> $discount_label </span>  $discount<br>
+            <span style="margin-right: 20px">$tax_label</span> $tax<br>
+            <span style="margin-right: 20px"> $balance_due_label </span>  $balance_due<br>
+        </div>
     </div>
-    <section class="inline-block px-3 mt-1">
-        <p class="col-6 text-right">$balance_due_label</p>
-        <p class="text-right col-6">$balance_due</p>
-    </section>
 </div>
 </div>
 ';

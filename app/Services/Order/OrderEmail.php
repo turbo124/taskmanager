@@ -15,7 +15,7 @@ class OrderEmail
     /**
      * @var string|null
      */
-    private $reminder_template = '';
+    private $template = '';
 
     private $contact;
 
@@ -34,34 +34,33 @@ class OrderEmail
      * @param Order $order
      * @param string $subject
      * @param string $body
-     * @param null $reminder_template
+     * @param null $template
      * @param null $contact
      */
-    public function __construct(Order $order, $subject = '', $body = '', $reminder_template = null, $contact = null)
+    public function __construct(Order $order, $subject = '', $body = '', $template = null, $contact = null)
     {
         $this->order = $order;
-        $this->reminder_template = $reminder_template;
+        $this->template = $template;
         $this->contact = $contact;
         $this->subject = $subject;
         $this->body = $body;
     }
 
-    /**
-     * Builds the correct template to send
-     * @param string $reminder_template The template name ie reminder1
-     * @return array
-     */
     public function run()
     {
-        $subject = strlen($this->subject) > 0 ? $this->subject : $this->order->customer->getSetting('email_subject_' . $this->reminder_template);
-        $body = strlen($this->body) > 0 ? $this->body : $this->order->customer->getSetting('email_template_' . $this->reminder_template);
+         if($this->order->invitations->count() === 0) {
+            return true;
+        }
 
-        $this->order->invitations->each(function ($invitation) use ($subject, $body) {
+        $subject = strlen($this->subject) > 0 ? $this->subject : $this->order->customer->getSetting('email_subject_' . $this->template);
+        $body = strlen($this->body) > 0 ? $this->body : $this->order->customer->getSetting('email_template_' . $this->template);
+
+        foreach($this->order->invitations as $invitation) {
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
            
             if ($invitation->contact->send_email && $invitation->contact->email) {
-                SendEmail::dispatchNow($this->order, $subject, $body, $this->reminder_template, $invitation->contact, $footer);
+                SendEmail::dispatchNow($this->order, $subject, $body, $this->template, $invitation->contact, $footer);
             }
-        });
+        }
     }
 }

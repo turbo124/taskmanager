@@ -18,8 +18,8 @@ $custom_css
     {
 
         return '<div class="">
-<div class="">
-    <div class="inline-block col-6" style="width: 50%">
+<div class="mt-4">
+    <div class="inline-block col-6 ml-4" style="width: 40%">
         $company_logo
     </div>
     <div class="inline-block bg-info p-4" style="width: 40%">
@@ -39,11 +39,11 @@ $custom_css
     public function body()
     {
 
-        return '<div class="mt-4">
+        return '<div class="mt-4 border-dashed border-top-4 border-bottom-4 border-info">
 <div class="inline-block" style="width: 50%">
     <div>
         <p class="font-weight-bolder bg-info pl-4">$entity_label</p>
-        <div class="border-dashed border-top-4 border-bottom-4 border-info py-4 mt-4 pl-4">
+        <div class="py-4 mt-4 pl-4">
             <section>
                 $client_details
             </section>
@@ -65,36 +65,30 @@ $custom_css
 $table_here
 
 <div class="mt-3 px-4">
-<div class="inline-block col-6" style="width: 60%">
+<div class="inline-block col-6" style="width: 70%">
     <div>
         <p>$entity.public_notes</p>
     </div>
 </div>
-<div class="inline-block" style="width: 40%">
+<div class="inline-block" style="width: 30%">
     <div class="px-3 mt-2">
-        <section class="col-6 text-right">
-            $discount_label
-            $total_tax_labels
-            $line_tax_labels
-        </section>
-        <section class="col-6 text-right">
-            $discount
-            $total_tax_values
-            $line_tax_values
-        </section>
+        <div class="col-6 text-right">
+            <span style="margin-right: 20px"> $discount_label </span> $discount <br>
+            <span style="margin-right: 20px"> $tax_label </span> $tax <br>
+        </div>
     </div>
 </div>
 </div>
 <div class="w-100 mt-4 pb-4 px-4 mt-2">
-<div class="inline-block" style="width: 50%">
+<div class="inline-block" style="width: 70%">
     <div>
         <p class="font-weight-bolder">$terms_label</p>
         <p>$terms</p>
     </div>
 </div>
-<div class="inline-block mt-4" style="width: 40%">
-    <section class="bg-info py-2 px-3 text-white">
-        <p>$balance_due_label</p>
+<div class="inline-block" style="width: 30%">
+    <section class="bg-info py-2 px-3 pt-4 text-white">
+        <p class="text-right">$balance_due_label</p>
         <p class="text-right">$balance_due</p>
     </section>
 </div>

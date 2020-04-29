@@ -25,11 +25,6 @@ class ClientContact extends Model implements HasLocalePreference
         'deleted_at'
     ];
 
-    protected $with = [
-        //'customer',
-        //'account'
-    ];
-
     protected $casts = [
         'updated_at' => 'timestamp',
         'created_at' => 'timestamp',
@@ -70,24 +65,7 @@ class ClientContact extends Model implements HasLocalePreference
 
     public function preferredLocale()
     {
-        $languages = Language::all();
-
-        return $languages->filter(function ($item) {
-            return $item->id == $this->customer->getSetting('language_id');
-        })->first()->locale;
-
-        //$lang = Language::find($this->client->getSetting('language_id'));
-
-        //return $lang->locale;
-    }
-
-    public function setAvatarAttribute($value)
-    {
-        if (!filter_var($value, FILTER_VALIDATE_URL) && $value) {
-            $this->attributes['avatar'] = url('/') . $value;
-        } else {
-            $this->attributes['avatar'] = $value;
-        }
+        return $this->customer->locale();
     }
 
     public function customer()

@@ -137,11 +137,7 @@ class Customer extends Model implements HasLocalePreference
 
     public function preferredLocale()
     {
-        $languages = Language::all();
-
-        return $languages->filter(function ($item) {
-            return $item->id == $this->getSetting('language_id');
-        })->first()->locale;
+        return $this->locale();
     }
 
     /**

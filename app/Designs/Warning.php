@@ -53,31 +53,25 @@ $css_link
 $table_here
 
 <div class="px-4 mt-4 w-100" style="page-break-inside: avoid;">
-			        <div class="inline-block" style="width: 60%">
+			        <div class="inline-block" style="width: 70%">
 			            $entity.public_notes
 			        </div>
-			        <div class="inline-block" style="page-break-inside: avoid; width: 30%">
-			            <div class="inline-block col-6 text-right" style="page-break-inside: avoid;">
-			            	$discount_label
-			                $total_tax_labels
-			                $line_tax_labels
-			            </div>
-			            <div class="inline-block col-6 text-right" style="page-break-inside: avoid;">
-			            	$discount
-			                $total_tax_values
-			                $line_tax_values
+			        <div class="inline-block" style="page-break-inside: avoid; width: 20%">
+			            <div class="inline-block col-6 text-left" style="page-break-inside: avoid;">
+			            	<span style="margin-right: 20px">$discount_label</span> $discount <br>
+			                <span style="margin-right: 20px">$tax_label</span> $tax <br>
 			            </div>
 			        </div>
 			    </div>
 			    <div class="px-4 mt-4 mt-4" style="page-break-inside: avoid; width: 100%">
-			        <div style="page-break-inside: avoid; width: 60%">
+			        <div style="page-break-inside: avoid; width: 70%">
 			            <p class="font-weight-bolder">$terms_label</p>
 			            $terms
 			        </div>
 			    </div>
 			    <div class="mt-4 px-4 py-2 bg-secondary text-white" style="page-break-inside: avoid; width: 100%">
-			        <div class="inline-block" style="width: 60%"></div>
-			        <div class="inline-block w-auto" style="page-break-inside: avoid; width: 30%" >
+			        <div class="inline-block" style="width: 70%"></div>
+			        <div class="" style="page-break-inside: avoid; width: 20%" >
 			            <div style="page-break-inside: avoid;">
 			                <p class="font-weight-bold">$balance_due_label</p>
 			            </div>

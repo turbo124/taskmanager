@@ -20,10 +20,10 @@ $css_link
 
         return '<div class="py-4 px-4">
 <div class="border-4 border-dark mb-4">
-    <div class="inline-block mt-2" style="margin-bottom: 15px; width: 60%">
+    <div class="inline-block mt-2" style="margin-bottom: 15px; width: 60%; margin-top: 20px;">
         $company_logo
     </div>
-    <div class="inline-block text-right" style="width: 30%">
+    <div class="inline-block text-right" style="width: 40%; margin-top: 20px">
         <div class="inline-block mr-4">
             $entity_labels
         </div>
@@ -40,11 +40,11 @@ $css_link
     {
 
         return '<div class="pt-4">
-<div class="inline-block border-right border-dashed border-dark pt-4" style="width: 40%; marin-top: 60px;">
+<div class="inline-block border-right border-dashed border-dark pt-4" style="width: 40%; margin-left: 40px;">
     $client_details
 </div>
 
-<div class="inline-block pl-4" style="width: 50%">
+<div class="inline-block pl-4" style="width: 20%">
  $company_details
 $company_address
 </div>
@@ -58,37 +58,31 @@ $company_address
 $table_here
 
 <div class="mt-2 px-4 pb-4">
-    <div class="inline-block" style="width: 50%">
+    <div class="inline-block" style="width: 70%">
         <div>
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block" style="width: 40%">
+    <div class="inline-block" style="width: 20%">
         <div class="px-3 mt-2">
-            <section class="inline-block col-6 text-right">
-                $discount_label
-                $total_tax_labels
-                $line_tax_labels
-            </section>
-            <section class="inline-block col-6 text-right">
-                $discount
-                $total_tax_values
-                $line_tax_values
-            </section>
+            <div class="inline-block col-6 text-left">
+                <span style="margin-right: 20px"> $discount_label </span> $discount<br>
+                <span style="margin-right: 20px">$tax_label </span> $tax
+            </div>
         </div>
     </div>
 </div>
-<div class="mt-4 pb-4 px-4">
-    <div class="inline-block" style="width: 50%">
+<div class="mt-1 pb-4 px-4">
+    <div class="inline-block" style="width: 70%">
         <div>
             <p class="font-weight-bolder">$terms_label</p>
             <p>$terms</p>
         </div>
     </div>
-    <div class="inline-block" style="width: 40%">
-        <section class="py-2 text-success border-top border-bottom border-dashed border-dark px-2 mt-1">
-            <p class="w-1/2">$balance_due_label</p>
-            <p class="text-right col-6">$balance_due</p>
+    <div class="inline-block" style="width: 20%">
+        <section class="py-2 pt-4 text-success border-top border-bottom border-dashed border-dark px-2 mt-1">
+            <p class="text-right">$balance_due_label</p>
+            <p class="text-right">$balance_due</p>
         </section>
     </div>
 </div>
