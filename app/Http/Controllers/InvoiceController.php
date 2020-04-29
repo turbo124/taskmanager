@@ -148,8 +148,8 @@ class InvoiceController extends Controller
     {
         switch ($action) {
             case 'clone_to_invoice':
-                $invoice = CloneInvoiceFactory::create($invoice, auth()->user()->id,
-                    auth()->user()->account_user()->account_id);
+                $invoice = CloneInvoiceFactory::create($invoice, auth()->user(),
+                    auth()->user()->account_user()->account);
                 $this->invoice_repo->save($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
