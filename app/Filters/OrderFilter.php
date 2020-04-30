@@ -5,6 +5,7 @@ namespace App\Filters;
 use App\Order;
 use App\Repositories\OrderRepository;
 use App\Repositories\Support;
+use App\Requests\SearchRequest;
 use App\Task;
 use App\Transformations\OrderTransformable;
 
@@ -25,6 +26,49 @@ class OrderFilter
     {
         $this->orderRepository = $orderRepository;
         $this->model = $orderRepository->getModel();
+    }
+
+     /**
+     * @param SearchRequest $request
+     * @param int $account_id
+     * @return LengthAwarePaginator|static
+     */
+    public function filter(SearchRequest $request, int $account_id)
+    {
+        $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
+        $orderBy = !$request->column ? 'due_date' : $request->column;
+        $orderDir = !$request->order ? 'asc' : $request->order;
+
+        $this->query = $this->model->select('*');
+
+        if ($request->filled('search_term')) {
+            $this->query = $this->searchFilter($request->search_term);
+        }
+
+        if ($request->has('status')) {
+            $this->filterStatus($request->status);
+        }
+
+        if ($request->filled('customer_id')) {
+            $this->query->whereCustomerId($request->customer_id);
+        }
+
+        if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
+            $this->filterDates($request);
+        }
+
+        $this->addAccount($account_id);
+
+        $this->orderBy($orderBy, $orderDir);
+
+        $orders = $this->transformList();
+
+        if ($recordsPerPage > 0) {
+            $paginatedResults = $this->orderRepository->paginateArrayResults($orders, $recordsPerPage);
+            return $paginatedResults;
+        }
+
+        return $orders;
     }
 
     private function transformList()
@@ -66,6 +110,16 @@ class OrderFilter
         $filters = explode(',', $filter);
 
         $this->query->whereIn('product_task.status', $filters);
+    }
+
+    private function addAccount(int $account_id)
+    {
+        $this->query->where('account_id', '=', $account_id);
+    }
+
+    private function orderBy($orderBy, $orderDir)
+    {
+        $this->query->orderBy($orderBy, $orderDir);
     }
 
     /**

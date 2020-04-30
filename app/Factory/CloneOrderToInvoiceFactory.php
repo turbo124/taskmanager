@@ -23,7 +23,7 @@ class CloneOrderToInvoiceFactory
         $invoice->public_notes = $order->public_notes;
         $invoice->private_notes = $order->private_notes;
         $invoice->terms = $order->terms;
-        $invoice->sub_total = $order->sub_total;
+        $invoice->sub_total = $order->sub_total ?: 0;
         $invoice->total = $order->total;
         $invoice->balance = $order->balance;
         $invoice->partial = $order->partial;
@@ -36,6 +36,7 @@ class CloneOrderToInvoiceFactory
         $invoice->partial_due_date = null;
         $invoice->balance = $order->total;
         $invoice->line_items = $order->line_items;
+        $invoice->is_amount_discount = $order->is_amount_discount ?: false;
 
         return $invoice;
     }

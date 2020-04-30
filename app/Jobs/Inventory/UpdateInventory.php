@@ -47,8 +47,7 @@ class UpdateInventory implements ShouldQueue
                 continue;
             }
            
-            $product->quantity -= $item->quantity;
-            $product->save();
+            $product->reduceQuantityAvailiable($item->quantity);
         }
     }
 }

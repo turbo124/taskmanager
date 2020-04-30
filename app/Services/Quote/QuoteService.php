@@ -46,7 +46,6 @@ class QuoteService extends ServiceBase
         }
 
         return $this->quote;
-
     }
 
     public function getPdf($contact = null)

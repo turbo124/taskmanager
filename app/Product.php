@@ -73,4 +73,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function reduceQuantityAvailiable($quantity)
+    {
+        $this->quantity -= $quantity;
+        $this->save();
+    }
 }
