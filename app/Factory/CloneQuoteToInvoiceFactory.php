@@ -15,13 +15,13 @@ class CloneQuoteToInvoiceFactory
         $invoice->user_id = $user_id;
         $invoice->discount_total = $quote->discount_total;
         $invoice->tax_total = $quote->tax_total;
-        $invoice->is_amount_discount = $quote->is_amount_discount;
+        $invoice->is_amount_discount = $quote->is_amount_discount ?: false;
         $invoice->po_number = $quote->po_number;
         $invoice->footer = $quote->footer;
         $invoice->public_notes = $quote->public_notes;
         $invoice->private_notes = $quote->private_notes;
         $invoice->terms = $quote->terms;
-        $invoice->sub_total = $quote->sub_total;
+        $invoice->sub_total = $quote->sub_total ?: 0;
         $invoice->total = $quote->total;
         $invoice->balance = $quote->balance;
         $invoice->partial = $quote->partial;

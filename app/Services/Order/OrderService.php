@@ -42,7 +42,7 @@ class OrderService extends ServiceBase
      * @param OrderRepository $order_repo
      * @return OrderService
      */
-    public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo): OrderService
+    public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo): Order
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
         
@@ -62,7 +62,7 @@ class OrderService extends ServiceBase
             $order_repo->archive($this->order);
         }
 
-        return $this;
+        return $this->order;
     }
 
     public function calculateInvoiceTotals(): Order

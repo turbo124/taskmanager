@@ -16,7 +16,9 @@ use Tests\TestCase;
 use App\Quote;
 use App\User;
 use App\Customer;
+use App\Invoice;
 use App\Repositories\QuoteRepository;
+use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -140,5 +142,22 @@ class QuoteTest extends TestCase
         $taskRepo = new QuoteRepository($quote);
         $deleted = $taskRepo->archive($quote);
         $this->assertTrue($deleted);
+    }
+
+    public function testQuoteApproval() {
+        $quote = factory(Quote::class)->create();
+        $quote->setStatus(Quote::STATUS_SENT);
+        $quote->save();
+
+        $account = $quote->account;
+        $settings = $account->settings;
+        $settings->should_convert_quote = true;
+        $settings->should_email_quote = true;
+        $settings->should_archive_quote = true;
+        $account->settings = $settings;
+        $account->save();
+
+        $quote = $quote->service()->approve(new InvoiceRepository(new Invoice), new QuoteRepository(new Quote));
+        $this->assertInstanceOf(Quote::class, $quote);
     }
 }
