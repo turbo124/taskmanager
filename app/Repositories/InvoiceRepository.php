@@ -15,6 +15,7 @@ use App\Payment;
 use App\Factory\InvoiceToPaymentFactory;
 use Exception;
 use Illuminate\Support\Collection;
+use App\Jobs\Inventory\UpdateInventory;
 use App\Task;
 
 class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
@@ -94,6 +95,10 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         if($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total)
         {
             $invoice->ledger()->updateBalance(($invoice->total - $original_amount));
+        }
+
+        if (!empty($invoice->line_items) && $invoice->customer->getSetting('should_update_inventory')) {
+            UpdateInventory::dispatch($invoice->line_items);
         }
 
         return $invoice->fresh();

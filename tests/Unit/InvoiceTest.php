@@ -240,7 +240,7 @@ class InvoiceTest extends TestCase
 
         $account = $invoice->account;
         $settings = $account->settings;
-        $settings->auto_archive_invoice = false;
+        $settings->should_archive_invoice = false;
         $account->settings = $settings;
         $account->save();
 
@@ -323,7 +323,7 @@ class InvoiceTest extends TestCase
 
         $account = $invoice->account;
         $settings = $account->settings;
-        $settings->auto_archive_invoice = false;
+        $settings->should_archive_invoice = false;
         $account->settings = $settings;
         $account->save();
 

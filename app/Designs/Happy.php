@@ -20,7 +20,7 @@ $custom_css
         return '<div class="">
 <div class="mt-4">
     <div class="inline-block col-6 ml-4" style="width: 40%">
-        $company_logo
+        $account_logo
     </div>
     <div class="inline-block bg-info p-4" style="width: 40%">
         <div>
@@ -45,7 +45,7 @@ $custom_css
         <p class="font-weight-bolder bg-info pl-4">$entity_label</p>
         <div class="py-4 mt-4 pl-4">
             <section>
-                $client_details
+                $customer_details
             </section>
         </div>
     </div>
@@ -55,7 +55,7 @@ $custom_css
         <p class="font-weight-bolder text-info pl-4">$from_label:</p>
         <div class="border-dashed border-top-4 border-bottom-4 border-info py-4 mt-2 pl-4">
             <section>
-                $company_details
+                $account_details
             </section>
         </div>
     </div>

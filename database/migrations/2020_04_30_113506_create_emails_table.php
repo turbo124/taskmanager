@@ -23,7 +23,7 @@ class CreateEmailsTable extends Migration {
 			$table->string('entity', 100);
 			$table->integer('entity_id');
 			$table->string('direction', 20);
-			$table->date('sent_at');
+			$table->date('sent_at')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			$table->string('recipient_email', 100);

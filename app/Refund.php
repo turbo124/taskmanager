@@ -98,6 +98,7 @@ class Refund
                 ->toObject();
 
             $adjustment_amount += $invoice['amount'];
+
             $inv->adjustInvoices($invoice['amount']);
 
             $this->payment->refunded += $invoice['amount'];

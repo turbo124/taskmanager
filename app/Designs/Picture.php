@@ -26,7 +26,7 @@ $custom_css
         return '<div class="px-4 py-4">
 <div class="mt-4">
     <div class="inline-block" ref="logo" style="width: 50%">
-        $company_logo
+        $account_logo
     </div>
     <div class="inline-block" style="width: 40%">
         <div class="inline-block-col mr-4">
@@ -49,13 +49,13 @@ $custom_css
     <div class="inline-block mr-4" style="width: 40%">
         <p class="text-uppercase text-warning">$to_label:</p>
         <div class="ml-4 mt-4 text-white">
-            $client_details
+            $customer_details
         </div>
     </div>
     <div class="inline-block" style="width: 30%">
         <p class="text-uppercase text-warning">$from_label:</p>
         <div class="ml-4 text-white">
-            $company_details
+            $account_details
         </div>
     </div>
 </div>

@@ -21,7 +21,7 @@ $css_link
         return '<div class="py-4 px-4">
 <div class="border-4 border-dark mb-4">
     <div class="inline-block mt-2" style="margin-bottom: 15px; width: 60%; margin-top: 20px;">
-        $company_logo
+        $account_logo
     </div>
     <div class="inline-block text-right" style="width: 40%; margin-top: 20px">
         <div class="inline-block mr-4">
@@ -41,12 +41,12 @@ $css_link
 
         return '<div class="pt-4">
 <div class="inline-block border-right border-dashed border-dark pt-4" style="width: 40%; margin-left: 40px;">
-    $client_details
+    $customer_details
 </div>
 
 <div class="inline-block pl-4" style="width: 20%">
- $company_details
-$company_address
+ $account_details
+$account_address
 </div>
    
     

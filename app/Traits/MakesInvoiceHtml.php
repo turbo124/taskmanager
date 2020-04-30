@@ -50,15 +50,10 @@ trait MakesInvoiceHtml
 
         $html = view('pdf.stub', $data)->render();
 
-        //$html = str_replace('$total_tax_labels', $labels['$total_tax_values_label'], $html);
-
         $html = $this->generateCustomCSS($entity, $html);
 
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
-
-        // echo $html;
-        // die;
 
         return $html;
     }

@@ -24,19 +24,19 @@ $custom_css
         <p class="font-weight-bolder text-uppercase text-info">From:</p>
         <div>
             <div class="mr-5">
-                $company_details
+                $account_details
             </div>
             <div>
-                $company_address
+                $account_address
             </div>
         </div>
     </div>
     <div class="border-left pl-4 border-dark inline-block" style="width: 30%">
         <p class="font-weight-bolder text-uppercase text-info">To:</p>
-        $client_details
+        $customer_details
     </div>
     <div class="inline-block mt-4 h-16" style="width: 30%">
-        $company_logo
+        $account_logo
     </div>
 </div>';
 

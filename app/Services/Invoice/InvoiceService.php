@@ -62,13 +62,13 @@ class InvoiceService extends ServiceBase
     {
         $invoice = (new MarkPaid($this->invoice, $payment_repo))->run();
 
-        if($invoice->customer->getSetting('auto_email_invoice')) {
+        if($invoice->customer->getSetting('should_email_invoice')) {
             $this->sendEmail(null, trans('texts.invoice_paid_subject'), trans('texts.invoice_paid_body'));
         }
 
         event(new InvoiceWasPaid($invoice));
 
-        if ($invoice->customer->getSetting('auto_archive_invoice')) {
+        if ($invoice->customer->getSetting('should_archive_invoice')) {
             $invoice_repo->archive($invoice);
         }
 
@@ -85,11 +85,11 @@ class InvoiceService extends ServiceBase
     {
         $invoice = (new ApplyPayment($this->invoice, $payment, $payment_amount))->run();
         
-        if($invoice->customer->getSetting('auto_email_invoice')) {
+        if($invoice->customer->getSetting('should_email_invoice')) {
             $this->sendEmail(null, trans('texts.invoice_paid_subject'), trans('texts.invoice_paid_body'));
         }
 
-        if ($invoice->customer->getSetting('auto_archive_invoice')) {
+        if ($invoice->customer->getSetting('should_archive_invoice')) {
             (new InvoiceRepository(new Invoice))->archive($invoice);
         }
 

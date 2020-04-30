@@ -347,19 +347,29 @@ class PaymentUnitTest extends TestCase
         $client = CustomerFactory::create($this->account, $this->user);
         $client->save();
 
-        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
-        //$invoice->customer_id = $client->id;
+        $invoice = InvoiceFactory::create($this->account, $this->user, $client);
 
+        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            ->setQuantity(1)
+            ->setUnitPrice(2.0)
+            ->calculateSubTotal()
+            ->setUnitDiscount(0)
+            ->setUnitTax(0)
+            ->setProductId($this->faker->word())
+            ->setNotes($this->faker->realText(50))
+            ->toObject();
+
+            $invoice->line_items = $line_items;
+            $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->save();
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
 
         $account = $invoice->account;
         $settings = $account->settings;
-        $settings->auto_archive_invoice = false;
+        $settings->should_archive_invoice = false;
         $account->settings = $settings;
         $account->save();
-
 
         $data = [
             'amount' => 2.0,
@@ -388,7 +398,9 @@ class PaymentUnitTest extends TestCase
                 ],
             ]]
         ))->refund();
-       
+
+        $this->assertEquals($invoice->balance, 2);
+        $this->assertEquals($invoice->status_id, 2);
         $this->assertEquals(2, $payment->refunded);
     }
 
@@ -405,7 +417,7 @@ class PaymentUnitTest extends TestCase
 
         $account = $invoice->account;
         $settings = $account->settings;
-        $settings->auto_archive_invoice = false;
+        $settings->should_archive_invoice = false;
         $account->settings = $settings;
         $account->save();
 

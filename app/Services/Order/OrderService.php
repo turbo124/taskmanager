@@ -46,19 +46,19 @@ class OrderService extends ServiceBase
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
         
-        if ($this->order->customer->getSetting('auto_convert_order')) {
+        if ($this->order->customer->getSetting('should_convert_order')) {
             $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
             $this->order->setInvoiceId($invoice->id);
             $this->order->save();
         }
 
-        if($this->order->customer->getSetting('auto_email_order')) {
+        if($this->order->customer->getSetting('should_email_order')) {
             $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
         }
 
         event(new OrderWasDispatched($this->order));
 
-        if ($this->order->customer->getSetting('auto_archive_order')) {
+        if ($this->order->customer->getSetting('should_archive_order')) {
             $order_repo->archive($this->order);
         }
 

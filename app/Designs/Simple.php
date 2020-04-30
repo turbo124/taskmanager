@@ -20,14 +20,14 @@ $css_link
         return '<div class="px-3 my-4">
 <div class="">
     <div class="inline-block mt-2">
-        <div class="">$company_logo</div>
+        <div class="">$account_logo</div>
     </div>
     <div class="inline-block">
         <div class="mr-4 text-secondary">
-            $company_details
+            $account_details
         </div>
         <div class="ml-5 text-secondary">
-            $company_address
+            $account_address
         </div>
     </div>
 </div>';
@@ -49,7 +49,7 @@ $css_link
             $entity_details
         </div>
         <div class="inline-block mt-4">
-            $client_details
+            $customer_details
         </div>
     </div>
 </div>

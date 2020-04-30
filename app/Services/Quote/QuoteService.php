@@ -29,19 +29,19 @@ class QuoteService extends ServiceBase
         $this->quote->setStatus(Quote::STATUS_APPROVED);
         $this->quote->save();
 
-        if ($this->quote->customer->getSetting('auto_convert_quote')) {
+        if ($this->quote->customer->getSetting('should_convert_quote')) {
             $invoice = (new ConvertQuote($this->quote, $invoice_repo))->run();
             $this->quote->setInvoiceId($invoice->id);
             $this->quote->save();
         }
 
-        if($this->quote->customer->getSetting('auto_email_quote')) {
+        if($this->quote->customer->getSetting('should_email_quote')) {
             $this->sendEmail(null, trans('texts.quote_approved_subject'), trans('texts.quote_approved_body'));
         }
 
         event(new QuoteWasApproved($this->quote));
 
-        if ($this->quote->customer->getSetting('auto_archive_quote')) {
+        if ($this->quote->customer->getSetting('should_archive_quote')) {
             $quote_repo->archive($this->quote);
         }
 
