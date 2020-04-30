@@ -22,7 +22,7 @@ class CompanyLedgerController extends Controller
      */
     public function index()
     {
-        $company_ledger = CompanyLedger::whereAccountId(auth()->user()->company()->id)->orderBy('id', 'ASC');
+        $company_ledger = CompanyLedger::whereAccountId(auth()->user()->account_user()->account_id)->orderBy('id', 'ASC');
 
         return response()->json($company_ledger);
     }

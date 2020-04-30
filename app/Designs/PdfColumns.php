@@ -20,47 +20,47 @@ class PdfColumns
     private $objPdf;
 
     private $default_columns = [
-        'client_details' => [
-            '$client.name'              => '$client.name<br>',
-            '$client.id_number'         => '$client.id_number<br>',
-            '$client.vat_number'        => '$client.vat_number<br>',
-            '$client.address1'          => '$client.address1<br>',
-            '$client.address2'          => '$client.address2<br>',
-            '$client.city_state_postal' => '$client.city_state_postal<br>',
-            '$client.postal_city_state' => '$client.postal_city_state<br>',
-            '$client.country'           => '$client.country<br>',
-            '$contact.email'            => '$client.email<br>',
-            '$client.custom1'           => '$client.custom1<br>',
-            '$client.custom2'           => '$client.custom2<br>',
-            '$client.custom3'           => '$client.custom3<br>',
-            '$client.custom4'           => '$client.custom4<br>',
+        'customer_details' => [
+            '$customer.name'              => '$customer.name<br>',
+            '$customer.id_number'         => '$customer.id_number<br>',
+            '$customer.vat_number'        => '$customer.vat_number<br>',
+            '$customer.address1'          => '$customer.address1<br>',
+            '$customer.address2'          => '$customer.address2<br>',
+            '$customer.city_state_postal' => '$customer.city_state_postal<br>',
+            '$customer.postal_city_state' => '$customer.postal_city_state<br>',
+            '$customer.country'           => '$customer.country<br>',
+            '$contact.email'            => '$customer.email<br>',
+            '$customer.custom1'           => '$customer.custom1<br>',
+            '$customer.custom2'           => '$customer.custom2<br>',
+            '$customer.custom3'           => '$customer.custom3<br>',
+            '$customer.custom4'           => '$customer.custom4<br>',
             '$contact.contact1'         => '$contact.custom1<br>',
             '$contact.contact2'         => '$contact.custom2<br>',
             '$contact.contact3'         => '$contact.custom3<br>',
             '$contact.contact4'         => '$contact.custom4<br>',
         ],
-        'company_details' => [
-            '$company.name'       => '<span>$company.name</span>',
-            '$company.id_number'  => '<span>$company.id_number </span>',
-            '$company.vat_number' => '<span>$company.vat_number </span>',
-            '$company.website'    => '<span>$company.website </span>',
-            '$company.email'      => '<span>$company.email </span>',
-            '$company.phone'      => '<span>$company.phone </span>',
-            '$company.company1'   => '<span>$company1</span>',
-            '$company.company2'   => '<span>$company2</span>',
-            '$company.company3'   => '<span>$company3</span>',
-            '$company.company4'   => '<span>$company4</span>',
+        'account_details' => [
+            '$account.name'       => '<span>$account.name</span>',
+            '$account.id_number'  => '<span>$account.id_number </span>',
+            '$account.vat_number' => '<span>$account.vat_number </span>',
+            '$account.website'    => '<span>$account.website </span>',
+            '$account.email'      => '<span>$account.email </span>',
+            '$account.phone'      => '<span>$account.phone </span>',
+            '$account.account1'   => '<span>$account1</span>',
+            '$account.account2'   => '<span>$account2</span>',
+            '$account.account3'   => '<span>$account3</span>',
+            '$account.account4'   => '<span>$account4</span>',
         ],
-        'company_address' => [
-            '$company.address1'          => '<span>$company.address1 </span>',
-            '$company.address2'          => '<span>$company.address2 </span>',
-            '$company.city_state_postal' => '<span>$company.city_state_postal </span>',
-            '$company.postal_city_state' => '<span>$company.postal_city_state </span>',
-            '$company.country'           => '<span>$company.country </span>',
-            '$company.company1'          => '<span>$company1 </span>',
-            '$company.company2'          => '<span>$company2 </span>',
-            '$company.company3'          => '<span>$company3 </span>',
-            '$company.company4'          => '<span>$company4 </span>',
+        'account_address' => [
+            '$account.address1'          => '<span>$account.address1 </span>',
+            '$account.address2'          => '<span>$account.address2 </span>',
+            '$account.city_state_postal' => '<span>$account.city_state_postal </span>',
+            '$account.postal_city_state' => '<span>$account.postal_city_state </span>',
+            '$account.country'           => '<span>$account.country </span>',
+            '$account.account1'          => '<span>$account1 </span>',
+            '$account.account2'          => '<span>$account2 </span>',
+            '$account.account3'          => '<span>$account3 </span>',
+            '$account.account4'          => '<span>$account4 </span>',
         ]  
         ];
 
@@ -218,6 +218,10 @@ class PdfColumns
         $this->exported_variables['$entity_labels'] = $this->formatVariables(array_keys($this->input_variables[$this->entity_string]), $this->entity_columns[$this->entity_string], 'label');
 
         return true;
+    }
+
+    public function getDefaultColumns() {
+        return $this->default_columns;
     }
 
 }

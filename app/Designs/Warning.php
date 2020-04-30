@@ -21,7 +21,7 @@ $css_link
 
         return '<div class="header_class bg-warning" style="page-break-inside: avoid;">
 <div class="inline-block ml-3" style="width: 50%">
-	<h1 class="text-white font-weight-bold">$company.name</h1>
+	<h1 class="text-white font-weight-bold">$account.name</h1>
 </div>
 <div class="inline-block mt-3 mb-3" style="width: 40%">
 	<div class="inline-block text-white">
@@ -42,10 +42,10 @@ $css_link
 <tbody><tr><td>
 <div class="px-4 pt-4" style="width: 100%">
     <div class="inline-block p-3" style="width: 50%">
-		$company_logo
+		$account_logo
 	</div>
     <div class="inline-block" style="width: 40%">
-		$client_details
+		$customer_details
     </div>
 </div>
 <div class="px-4 pt-4 pb-4">
@@ -128,10 +128,10 @@ $table_here
 			    </div>
 			    <div class="inline-block mt-2" style="width: 70%">
 			        <div class="inline-block text-white" style="width: 40%">
-			            $company_details
+			            $account_details
 			        </div>
 			        <div class="inline-block text-left text-white" style="width: 40%">
-			            $company_address
+			            $account_address
 			        </div>
 			    </div>
 			</div>

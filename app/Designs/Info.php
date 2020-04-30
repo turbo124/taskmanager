@@ -20,15 +20,15 @@ $css_link
         return '<div class="bg-secondary p-4">
 <div class="col-6 inline-block mt-4">
     <div class="bg-white pt-4 px-4 pb-4 inline-block">
-        $company_logo
+        $account_logo
     </div>
 </div>
 <div class="col-6 inline-block">
     <div class="text-white">
-        $company_details
+        $account_details
     </div>
     <div class="inline-block text-white">
-        $company_address
+        $account_address
     </div>
 </div>
 </div>';
@@ -39,7 +39,7 @@ $css_link
     {
         return '<div class="mt-4 pl-4">
     <div class="inline-block col-6 mr-4" style="width: 40%">
-        <h2 class="text-uppercase font-weight-bolder text-info">$entity_label</h2> $client_details
+        <h2 class="text-uppercase font-weight-bolder text-info">$entity_label</h2> $customer_details
     </div>
     <div class="inline-block col-6">
         <div class="bg-info px-4 py-3 text-white">

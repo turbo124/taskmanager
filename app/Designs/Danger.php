@@ -30,18 +30,18 @@ $custom_css
             <div style="width: 100%">
                 <div class="inline-block mt-4" style="width: 30%">
                     <div class="inline-block">
-                        $client_details
+                        $customer_details
                     </div>
                     <div class="inline-block ml-4">
-                        $company_details
+                        $account_details
                     </div>
                     <div class="inline-block ml-4 mr-4">
-                        $company_address
+                        $account_address
                     </div>
                 </div>
                 
                 <div class="mt-4" style="width: 60%">
-    $company_logo
+    $account_logo
     </div>
 </div>';
 

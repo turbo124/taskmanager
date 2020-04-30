@@ -85,17 +85,17 @@ export default class WorkflowSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'auto_email_invoice',
+                    name: 'should_email_invoice',
                     label: 'Auto Email',
                     type: 'switch',
-                    value: settings.auto_email_invoice,
+                    value: settings.should_email_invoice,
                     group: 1
                 },
                 {
-                    name: 'auto_archive_invoice',
+                    name: 'should_archive_invoice',
                     label: 'Auto Archive',
                     type: 'switch',
-                    value: settings.auto_archive_invoice,
+                    value: settings.should_archive_invoice,
                     group: 1
                 }
             ]
@@ -110,24 +110,24 @@ export default class WorkflowSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'auto_email_order',
+                    name: 'should_email_order',
                     label: 'Auto Email',
                     type: 'switch',
-                    value: settings.auto_email_order,
+                    value: settings.should_email_order,
                     group: 1
                 },
                 {
-                    name: 'auto_archive_order',
+                    name: 'should_archive_order',
                     label: 'Auto Archive',
                     type: 'switch',
-                    value: settings.auto_archive_order,
+                    value: settings.should_archive_order,
                     group: 1
                 },
                 {
-                    name: 'auto_convert_order',
+                    name: 'should_convert_order',
                     label: 'Auto Convert',
                     type: 'switch',
-                    value: settings.auto_convert_order,
+                    value: settings.should_convert_order,
                     group: 1
                 }
             ]
@@ -142,24 +142,24 @@ export default class WorkflowSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'auto_email_lead',
+                    name: 'should_email_lead',
                     label: 'Auto Email',
                     type: 'switch',
-                    value: settings.auto_email_lead,
+                    value: settings.should_email_lead,
                     group: 1
                 },
                 {
-                    name: 'auto_archive_lead',
+                    name: 'should_archive_lead',
                     label: 'Auto Archive',
                     type: 'switch',
-                    value: settings.auto_archive_lead,
+                    value: settings.should_archive_lead,
                     group: 1
                 },
                 {
-                    name: 'auto_convert_lead',
+                    name: 'should_convert_lead',
                     label: 'Auto Convert',
                     type: 'switch',
-                    value: settings.auto_convert_lead,
+                    value: settings.should_convert_lead,
                     group: 1
                 }
             ]
@@ -174,24 +174,24 @@ export default class WorkflowSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'auto_email_quote',
+                    name: 'should_email_quote',
                     label: 'Auto Email',
                     type: 'switch',
-                    value: settings.auto_email_quote,
+                    value: settings.should_email_quote,
                     group: 1
                 },
                 {
-                    name: 'auto_archive_quote',
+                    name: 'should_archive_quote',
                     label: 'Auto Archive',
                     type: 'switch',
-                    value: settings.auto_archive_quote,
+                    value: settings.should_archive_quote,
                     group: 1
                 },
                 {
-                    name: 'auto_convert_quote',
+                    name: 'should_convert_quote',
                     label: 'Auto Convert',
                     type: 'switch',
-                    value: settings.auto_convert_quote,
+                    value: settings.should_convert_quote,
                     group: 1
                 }
             ]

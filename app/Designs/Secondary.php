@@ -24,14 +24,14 @@ $custom_css
         return '<div class="my-4 mx-4">
 <div>
     <div class="inline-block" style="width: 10%">
-        $company_logo
+        $account_logo
     </div>
     <div class="ml-4 inline-block" style="width: 80%">
         <div class="text-secondary">
-            $company_details
+            $account_details
         </div>
         <div class="text-secondary ml-4">
-            $company_address
+            $account_address
         </div>
     </div>
 </div>';
@@ -45,7 +45,7 @@ $custom_css
     <div class="inline-block" style="width: 40%">
         <span>$entity_label</span>
         <section class="text-warning mt-4">
-            $client_details
+            $customer_details
         </section>
     </div>
     <div class="inline-block col-6 ml-4 bg-warning px-4 py-4 rounded" style="width: 40%;">

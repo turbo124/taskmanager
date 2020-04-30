@@ -184,16 +184,16 @@ class PdfData
     public function buildCustomer(Customer $customer): self
     {
 
-        $this->data['$client.id_number'] = ['value' => $customer->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
-        $this->data['$client.vat_number'] = ['value' => $customer->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
-        $this->data['$client.website'] = ['value' => $customer->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$client.phone'] = ['value' => $customer->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
-        $this->data['$client.email'] = ['value' => isset($customer->primary_contact()->first()->email) ? $customer->primary_contact()->first()->email : 'no contact email on record', 'label' => trans('texts.email_address')];
-        $this->data['$client.name'] = ['value' => $this->entity->present()->clientName() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
-        $this->data['$client1'] = ['value' => $customer->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value1')];
-        $this->data['$client2'] = ['value' => $customer->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value2')];
-        $this->data['$client3'] = ['value' => $customer->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value3')];
-        $this->data['$client4'] = ['value' => $customer->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value4')];
+        $this->data['$customer.id_number'] = ['value' => $customer->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
+        $this->data['$customer.vat_number'] = ['value' => $customer->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
+        $this->data['$customer.website'] = ['value' => $customer->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
+        $this->data['$customer.phone'] = ['value' => $customer->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
+        $this->data['$customer.email'] = ['value' => isset($customer->primary_contact()->first()->email) ? $customer->primary_contact()->first()->email : 'no contact email on record', 'label' => trans('texts.email_address')];
+        $this->data['$customer.name'] = ['value' => $this->entity->present()->clientName() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
+        $this->data['$customer1'] = ['value' => $customer->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value1')];
+        $this->data['$customer2'] = ['value' => $customer->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value2')];
+        $this->data['$customer3'] = ['value' => $customer->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value3')];
+        $this->data['$customer4'] = ['value' => $customer->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value4')];
 
         return $this;
 
@@ -202,14 +202,14 @@ class PdfData
     public function buildClientForLead(Lead $lead): self
     {
 
-        $this->data['$client.website'] = ['value' => $lead->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$client.phone'] = ['value' => $lead->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
-        $this->data['$client.email'] = ['value' => $lead->email, 'label' => trans('texts.email_address')];
-        $this->data['$client.name'] = ['value' => $lead->present()->name() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
-        $this->data['$client1'] = ['value' => $lead->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value1')];
-        $this->data['$client2'] = ['value' => $lead->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value2')];
-        $this->data['$client3'] = ['value' => $lead->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value3')];
-        $this->data['$client4'] = ['value' => $lead->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value4')];
+        $this->data['$customer.website'] = ['value' => $lead->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
+        $this->data['$customer.phone'] = ['value' => $lead->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
+        $this->data['$customer.email'] = ['value' => $lead->email, 'label' => trans('texts.email_address')];
+        $this->data['$customer.name'] = ['value' => $lead->present()->name() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
+        $this->data['$customer1'] = ['value' => $lead->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value1')];
+        $this->data['$customer2'] = ['value' => $lead->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value2')];
+        $this->data['$customer3'] = ['value' => $lead->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value3')];
+        $this->data['$customer4'] = ['value' => $lead->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value4')];
 
         return $this;
 
@@ -246,11 +246,11 @@ class PdfData
     }
 
     public function buildAddress($entity, $address) {
-        $this->data['$client.address1'] = ['value' => $address->address_1 ?: '&nbsp;', 'label' => trans('texts.address')];
-        $this->data['$client.address2'] = ['value' => $address->address_2 ?: '&nbsp;', 'label' => trans('texts.address')];
-        $this->data['$client.city_state_postal'] = ['value' => isset($address->city) ? $entity->present()->cityStateZip($address->city, $address->state_code, $address->zip, false) : '&nbsp;', 'label' => trans('texts.city_with_zip')];
+        $this->data['$customer.address1'] = ['value' => $address->address_1 ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$customer.address2'] = ['value' => $address->address_2 ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$customer.city_state_postal'] = ['value' => isset($address->city) ? $entity->present()->cityStateZip($address->city, $address->state_code, $address->zip, false) : '&nbsp;', 'label' => trans('texts.city_with_zip')];
         $this->data['$postal_city_state']         = ['value' => $entity->present()->cityStateZip($address->city, $address->state, $entity->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
-        $this->data['$client.country'] = ['value' => isset($address->country->name) ? $address->country->name : 'No Country Set', 'label' => trans('texts.country')];
+        $this->data['$customer.country'] = ['value' => isset($address->country->name) ? $address->country->name : 'No Country Set', 'label' => trans('texts.country')];
 
         return $this;
     }
@@ -258,7 +258,7 @@ class PdfData
 
     public function buildCustomerAddress(Customer $customer): self
     {
-        $this->data['$client.address1'] = ['value' => $customer->present()->address() ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$customer.address1'] = ['value' => $customer->present()->address() ?: '&nbsp;', 'label' => trans('texts.address')];
 
         $addresses = $customer->addresses;
         $billing = null;
@@ -283,29 +283,29 @@ class PdfData
 
     public function buildAccount(Account $account): self
     {
-        $this->data['$company.city_state_postal'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, false) ?: '&nbsp;', 'label' => trans('texts.city_with_zip')];
-        $this->data['$company.postal_city_state'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
-        $this->data['$company.name'] = ['value' => $account->present()->name() ?: '&nbsp;', 'label' => trans('texts.company_name')];
-        $this->data['$company.address1'] = ['value' => $account->settings->address1 ?: '&nbsp;', 'label' => trans('texts.address1')];
-        $this->data['$company.address2'] = ['value' => $account->settings->address2 ?: '&nbsp;', 'label' => trans('texts.address2')];
-        $this->data['$company.city'] = ['value' => $account->settings->city ?: '&nbsp;', 'label' => trans('texts.city')];
-        $this->data['$company.state'] = ['value' => $account->settings->state ?: '&nbsp;', 'label' => trans('texts.town')];
-        $this->data['$company.postal_code'] = ['value' => $account->settings->postal_code ?: '&nbsp;', 'label' => trans('texts.zip')];
-        $this->data['$company.country'] = ['value' => Country::find($account->settings->country_id)->name ?: '&nbsp;', 'label' => trans('texts.country')];
-        $this->data['$company.phone'] = ['value' => $account->settings->phone ?: '&nbsp;', 'label' => trans('texts.phone_number')];
-        $this->data['$company.email'] = ['value' => $account->settings->email ?: '&nbsp;', 'label' => trans('texts.email_address')];
-        $this->data['$company.vat_number'] = ['value' => $account->settings->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
-        $this->data['$company.id_number'] = ['value' => $account->settings->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
-        $this->data['$company.website'] = ['value' => $account->settings->website ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$company.address'] = ['value' => $account->present()->address($account->settings) ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$account.city_state_postal'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, false) ?: '&nbsp;', 'label' => trans('texts.city_with_zip')];
+        $this->data['$account.postal_city_state'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
+        $this->data['$account.name'] = ['value' => $account->present()->name() ?: '&nbsp;', 'label' => trans('texts.company_name')];
+        $this->data['$account.address1'] = ['value' => $account->settings->address1 ?: '&nbsp;', 'label' => trans('texts.address1')];
+        $this->data['$account.address2'] = ['value' => $account->settings->address2 ?: '&nbsp;', 'label' => trans('texts.address2')];
+        $this->data['$account.city'] = ['value' => $account->settings->city ?: '&nbsp;', 'label' => trans('texts.city')];
+        $this->data['$account.state'] = ['value' => $account->settings->state ?: '&nbsp;', 'label' => trans('texts.town')];
+        $this->data['$account.postal_code'] = ['value' => $account->settings->postal_code ?: '&nbsp;', 'label' => trans('texts.zip')];
+        $this->data['$account.country'] = ['value' => Country::find($account->settings->country_id)->name ?: '&nbsp;', 'label' => trans('texts.country')];
+        $this->data['$account.phone'] = ['value' => $account->settings->phone ?: '&nbsp;', 'label' => trans('texts.phone_number')];
+        $this->data['$account.email'] = ['value' => $account->settings->email ?: '&nbsp;', 'label' => trans('texts.email_address')];
+        $this->data['$account.vat_number'] = ['value' => $account->settings->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
+        $this->data['$account.id_number'] = ['value' => $account->settings->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
+        $this->data['$account.website'] = ['value' => $account->settings->website ?: '&nbsp;', 'label' => trans('texts.website')];
+        $this->data['$account.address'] = ['value' => $account->present()->address($account->settings) ?: '&nbsp;', 'label' => trans('texts.address')];
 
         $logo = $account->present()->logo($account->settings);
 
-        $this->data['$company_logo'] = ['value' => "<img src='{$logo}' style='width: 100px; height: 100px;' alt='logo'>" ?: '&nbsp;', 'label' => trans('texts.logo')];
-        $this->data['$company1'] = ['value' => $account->settings->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value1')];
-        $this->data['$company2'] = ['value' => $account->settings->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value2')];
-        $this->data['$company3'] = ['value' => $account->settings->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value3')];
-        $this->data['$company4'] = ['value' => $account->settings->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value4')];
+        $this->data['$account_logo'] = ['value' => "<img src='{$logo}' style='width: 100px; height: 100px;' alt='logo'>" ?: '&nbsp;', 'label' => trans('texts.logo')];
+        $this->data['$account1'] = ['value' => $account->settings->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value1')];
+        $this->data['$account2'] = ['value' => $account->settings->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value2')];
+        $this->data['$account3'] = ['value' => $account->settings->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value3')];
+        $this->data['$account4'] = ['value' => $account->settings->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value4')];
         return $this;
     }
 

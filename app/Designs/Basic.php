@@ -25,9 +25,10 @@ $custom_css
 
         return ' <div class="px-2 py-4">
 <div>
-    $company_logo
+    $account_logo
     <div class="inline-block" style="word-break: break-word">
-        $company_details
+        $account_details <br>
+        $account_address
     </div>
 </div>
     <div class="inline-block mr-4 mt-4" style="width: 60%;">
@@ -44,7 +45,7 @@ $custom_css
     {
 
         return '<div class="inline-block">
-    $client_details
+    $customer_details
 </div>
 
 $table_here

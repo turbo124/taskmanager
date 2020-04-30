@@ -36,28 +36,17 @@ class Account extends Model
         'deleted' => AccountWasDeleted::class,
     ];
     protected $fillable = [
-        'fill_products',
         'industry_id',
         'subdomain',
         'size_id',
         'custom_fields',
-        'enable_product_cost',
-        'enable_product_quantity',
-        'default_quantity',
-        'enable_invoice_quantity',
-        'enabled_tax_rates',
-        'portal_mode',
         'portal_domain',
-        'convert_products',
-        'update_products',
         'custom_surcharge_taxes1',
         'custom_surcharge_taxes2',
         'custom_surcharge_taxes3',
         'custom_surcharge_taxes4',
-        'show_product_details',
         'first_day_of_week',
         'first_month_of_year',
-        'google_analytics_key',
         'settings'
     ];
 
