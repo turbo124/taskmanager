@@ -119,7 +119,11 @@ $table_here
 
     public function footer()
     {
-        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+            <div class="text-center">
+               $signature_here
+           </div>
+        </div>
 </body>
 </html>';
 
