@@ -34,23 +34,20 @@ trait MakesInvoiceHtml
         $values = $objPdf->getValues();
 
         $designer->buildDesign();
-
-        $data = [];
-        $data['entity'] = $entity;
-        $data['lang'] = $entity->customer->preferredLocale();
-
-        $css_link = '<link href="' . public_path() . '/css/pdf.css" rel="stylesheet">';
-        $data['includes'] = str_replace('$css_link', $css_link, $designer->getSection('includes'));
-        $data['includes'] = $data['includes'];
-        $data['header'] = $designer->getSection('header');
         $table = $designer->getSection('table');
+        $settings = $entity->account->settings;
 
-        $data['body'] = str_replace('$table_here', $table, $designer->getSection('body'));
-        $data['footer'] = $designer->getSection('footer');
+        $data = [
+            'entity' => $entity,
+            'lang' => $entity->customer->preferredLocale(),
+            'settings' => $settings,
+            'header' => $designer->getSection('header'),
+            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer' => $designer->getSection('footer')
+        ];
 
         $html = view('pdf.stub', $data)->render();
-
-        $html = $this->generateCustomCSS($entity, $html);
+        $html = $this->generateCustomCSS($settings, $html);
 
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
@@ -58,9 +55,8 @@ trait MakesInvoiceHtml
         return $html;
     }
 
-    private function generateCustomCSS($entity, $html)
+    private function generateCustomCSS($settings, $html)
     {
-        $settings = $entity->account->settings;
 
         if ($settings->all_pages_header && $settings->all_pages_footer) {
             $html = str_replace('header_class', 'header', $html);
@@ -70,17 +66,7 @@ trait MakesInvoiceHtml
         } elseif (!$settings->all_pages_header && $settings->all_pages_footer) {
             $html = str_replace('footer_class', 'footer', $html);
         }
-        $css = '
-html {
-        ';
-
-        $css .= 'font-size:' . $settings->font_size . 'px;';
-
-        $css .= '}';
-
-       $html = str_replace('$custom_css', $css, $html);
 
        return $html;
-
     }
 }

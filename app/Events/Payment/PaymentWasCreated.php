@@ -5,13 +5,21 @@ namespace App\Events\Payment;
 use App\Account;
 use App\Payment;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Bus\Dispatchable;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 
 /**
  * Class PaymentWasCreated.
  */
-class PaymentWasCreated
+class PaymentWasCreated implements PerformsMetrics
 {
     use SerializesModels;
+    use Dispatchable;
+    use Measurable;
+
+    protected $meter = 'payment-created';
+
     /**
      * @var array $payment
      */

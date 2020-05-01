@@ -4,15 +4,6 @@ namespace App\Designs;
 
 class Happy
 {
-    public function includes()
-    {
-        return '<title>$number</title>
-    $css_link
-<style>
-$custom_css
-</style>';
-    }
-
 
     public function header()
     {
@@ -109,6 +100,11 @@ $table_here
     $product_table_body
 </tbody>
 </table>';
+    }
+
+     public function task_table()
+    {
+        
     }
 
     public function task()

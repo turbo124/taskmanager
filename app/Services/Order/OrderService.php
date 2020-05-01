@@ -45,6 +45,7 @@ class OrderService extends ServiceBase
     public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo): Order
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
+        $this->order->save();
         
         if ($this->order->customer->getSetting('should_convert_order')) {
             $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();

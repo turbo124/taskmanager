@@ -4,13 +4,21 @@ namespace App\Events\Order;
 
 use App\Order;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Bus\Dispatchable;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 
 /**
  * Class InvoiceWasMarkedSent.
  */
-class OrderWasDispatched
+class OrderWasDispatched implements PerformsMetrics
 {
     use SerializesModels;
+    use Dispatchable;
+    use Measurable;
+
+    protected $meter = 'order-dispatched';
+
     /**
      * @var Order
      */

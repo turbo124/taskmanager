@@ -27,8 +27,7 @@ class GetPdf
             $this->contact = $this->invoice->customer->primary_contact()->first();
         }
 
-        $path = 'storage/' . $this->invoice->account->id . '/' . $this->invoice->customer->id . '/invoices/';
-        $file_path = $path . $this->invoice->number . '.pdf';
+        $file_path = $this->invoice->getPdfFilename();
 
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
@@ -37,7 +36,7 @@ class GetPdf
             return $file_path;
         }
 
-        $design = Design::find($this->invoice->customer->getSetting('invoice_design_id'));
+        $design = Design::find($this->invoice->getDesignId());
 
         $objPdf = new PdfData($this->invoice);
 

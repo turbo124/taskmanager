@@ -27,10 +27,9 @@ class GetPdf
             $this->contact = $this->order->customer->primary_contact()->first();
         }
 
-        $path = 'storage/' . $this->order->account->id . '/' . $this->order->customer->id . '/orders/';
-        $file_path = $path . $this->order->number . '.pdf';
+        $file_path = $this->order->getPdfFilename();
 
-        $design = Design::find($this->order->account->settings->order_design_id);
+        $design = Design::find($this->order->getDesignId());
         $objPdf = new PdfData($this->order);
         $designer =
             new PdfColumns($objPdf, $this->order, $design, $this->order->account->settings->pdf_variables, 'order');

@@ -9,14 +9,19 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 
 /**
  * Class UserWasCreated
  * @package App\Events\User
  */
-class UserWasCreated
+class UserWasCreated implements PerformsMetrics
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, Measurable;
+
+    protected $meter = 'user-created';
+
     /**
      * @var $user
      */

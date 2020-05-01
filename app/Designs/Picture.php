@@ -5,21 +5,6 @@ namespace App\Designs;
 class Picture
 {
 
-    public function __construct()
-    {
-    }
-
-
-    public function includes()
-    {
-        return '<title>$number</title>
-$css_link
-<style>
-$custom_css
-</style>';
-    }
-
-
     public function header()
     {
 
@@ -109,7 +94,7 @@ $table_here
 </table>';
     }
 
-    public function getTaskTable()
+    public function task_table()
     {
         return '
 <table class="w-100 table-auto">
