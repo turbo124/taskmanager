@@ -60,7 +60,7 @@ $table_here
 </div>
     <div class="px-4 mt-4" style="width: 100%">
         <div class="inline-block" style="width: 80%">
-            <p class="font-weight-bolder">$terms_label</p>
+            <p class="font-weight-bold">$terms_label</p>
             $terms
         </div>
         <div class="inline-block" style="width: 20%">
@@ -76,7 +76,7 @@ $table_here
     public function table()
     {
         return '
-        <table class="col-6 table-auto mt-4">
+        <table class="w-100 col-6 table-auto mt-4">
     <thead class="text-left">
         $product_table_header
     </thead>
