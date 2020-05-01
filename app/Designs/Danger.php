@@ -37,7 +37,7 @@ class Danger
 
         return '<div class="mt-4">
 <div class="inline-block" style="width: 60%">
-    <h1 class="text-uppercase font-weight-bolder">$entity_label</h1>
+    <h1 class="text-uppercase font-weight-bold">$entity_label</h1>
     <i class="ml-4 text-danger">$entity_number</i>
 </div>
 <div class="inline-block text-left" style="width: 30%">
@@ -73,7 +73,7 @@ $table_here
 <div class="mt-1 pb-4 px-4">
     <div style="width: 70%">
         <div>
-            <p class="font-weight-bolder">$terms_label</p>
+            <p class="font-weight-bold">$terms_label</p>
             <p>$terms</p>
         </div>
     </div>
