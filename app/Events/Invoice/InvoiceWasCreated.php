@@ -4,13 +4,21 @@ namespace App\Events\Invoice;
 
 use App\Invoice;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Bus\Dispatchable;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 
 /**
  * Class InvoiceWasCreated.
  */
-class InvoiceWasCreated
+class InvoiceWasCreated implements PerformsMetrics
 {
     use SerializesModels;
+    use Dispatchable;
+    use Measurable;
+
+    protected $meter = 'invoice-created';
+
     /**
      * @var Invoice
      */

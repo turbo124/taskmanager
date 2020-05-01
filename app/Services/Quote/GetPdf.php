@@ -27,8 +27,7 @@ class GetPdf
             $this->contact = $this->quote->customer->primary_contact()->first();
         }
 
-        $path = 'storage/' . $this->quote->account->id . '/' . $this->quote->customer->id . '/quotes/';
-        $file_path = $path . $this->quote->number . '.pdf';
+        $file_path = $this->quote->getPdfFilename();
 
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
@@ -37,7 +36,7 @@ class GetPdf
             return $file_path;
         }
 
-        $design = Design::find($this->quote->account->settings->quote_design_id);
+        $design = Design::find($this->quote->getDesignId());
         $objPdf = new PdfData($this->quote);
         $designer =
             new PdfColumns($objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote');

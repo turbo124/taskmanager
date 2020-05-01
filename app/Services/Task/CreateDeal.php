@@ -13,6 +13,7 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
 use DateInterval;
+use App\Events\Order\OrderWasCreated;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -150,8 +151,8 @@ class CreateDeal
                 'date'           => date('Y-m-d')
             ], $order);
 
-        Log::emergency(json_encode($order->toArray()));
 
+        event(new OrderWasCreated($order));
         $order->service()->sendEmail();
     }
 }

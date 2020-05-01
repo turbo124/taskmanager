@@ -136,6 +136,8 @@ class Quote extends Model
         return $this->morphMany(File::class, 'documentable');
     }
 
+    /********************** Getters and setters ************************************/
+
     public function setStatus(int $status)
     {
         $this->status_id = $status;
@@ -169,5 +171,14 @@ class Quote extends Model
     public function getFormattedBalance()
     {
         return Number::formatMoney($this->balance, $this->customer);
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('quote_design_id');
+    }
+
+    public function getPdfFilename() {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/quotes/' . $this->number . '.pdf';
     }
 }

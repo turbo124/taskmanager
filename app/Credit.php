@@ -151,6 +151,8 @@ class Credit extends Model
         return $this->morphMany(File::class, 'documentable');
     }
 
+    /********************** Getters and setters ************************************/
+
     public function setStatus(int $status)
     {
         $this->status_id = $status;
@@ -184,5 +186,14 @@ class Credit extends Model
     public function getFormattedBalance()
     {
         return Number::formatMoney($this->balance, $this->customer);
+    }
+
+    public function getDesignId()
+    {
+       return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('credit_design_id');
+    }
+
+    public function getPdfFilename() {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/credits/' . $this->number . '.pdf';
     }
 }

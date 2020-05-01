@@ -235,6 +235,8 @@ class Invoice extends Model
         return $this;
     }
 
+    /********************** Getters and setters ************************************/
+
     public function setStatus(int $status)
     {
         $this->status_id = $status;
@@ -268,5 +270,14 @@ class Invoice extends Model
     public function getFormattedBalance()
     {
         return Number::formatMoney($this->balance, $this->customer);
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('invoice_design_id');
+    }
+
+    public function getPdfFilename() {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/invoices/' . $this->number . '.pdf';
     }
 }

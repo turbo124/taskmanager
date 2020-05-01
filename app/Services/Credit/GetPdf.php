@@ -27,10 +27,9 @@ class GetPdf
             $this->contact = $this->credit->customer->primary_contact()->first();
         }
 
-        $path = 'storage/' . $this->credit->account->id . '/' . $this->credit->customer->id . '/credits/';
-        $file_path = $path . $this->credit->number . '.pdf';
+        $file_path = $this->credit->getPdfFilename();
 
-        $design = Design::find($this->credit->customer->getSetting('credit_design_id'));
+        $design = Design::find($this->credit->getDesignId());
 
         $objPdf = new PdfData($this->credit);
 

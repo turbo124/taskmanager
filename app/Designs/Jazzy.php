@@ -5,16 +5,6 @@ namespace App\Designs;
 class Jazzy
 {
 
-    public function includes()
-    {
-        return '<title>$number</title>
-$css_link
-<style>
-$custom_css
-</style>';
-    }
-
-
     public function header()
     {
 
@@ -101,7 +91,7 @@ $table_here
 </table>';
     }
 
-    public function getTaskTable() {
+    public function task_table() {
         return '<table class="w-100 table-auto mt-4">
 <thead class="text-left">
     $task_table_header

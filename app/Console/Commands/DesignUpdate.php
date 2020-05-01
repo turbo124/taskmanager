@@ -45,10 +45,10 @@ class DesignUpdate extends Command
             $invoice_design = new $class();
 
             $design_object = new \stdClass;
-            $design_object->includes = $invoice_design->includes() ?: '';
             $design_object->header = $invoice_design->header() ?: '';
             $design_object->body = $invoice_design->body() ?: '';
             $design_object->table = $invoice_design->table() ?: '';
+            $design_object->table = $invoice_design->task_table() ?: '';
             $design_object->product = $invoice_design->product() ?: '';
             $design_object->task = $invoice_design->task() ?: '';
             $design_object->footer = $invoice_design->footer() ?: '';
