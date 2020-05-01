@@ -39,7 +39,7 @@ $table_here
     <div class="">
         <p>$entity.public_notes</p>
         <div class="pt-4">
-            <p class="font-bold">$terms_label</p>
+            <p class="font-weight-bold">$terms_label</p>
             <p>$terms</p>
         </div>
     </div>
@@ -61,7 +61,7 @@ $table_here
     public function table()
     {
         return '<table class="w-100 table-auto mt-4">
-    <thead class="text-left bg-gray-300">
+    <thead class="text-left bg-secondary">
         $product_table_header
     </thead>
     <tbody>
