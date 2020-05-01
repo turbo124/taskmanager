@@ -57,7 +57,7 @@ $table_here
 </div>
 <div class="px-4 mt-4" style="width: 100%">
     <div class="inline-block" style="width: 70%">
-        <p class="font-weight-bolder">$terms_label</p>
+        <p class="font-weight-bold">$terms_label</p>
         $terms
     </div>
 </div>';
