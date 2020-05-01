@@ -54,7 +54,7 @@ $table_here
 			    </div>
 			    <div class="px-4 mt-4 mt-4" style="page-break-inside: avoid; width: 100%">
 			        <div style="page-break-inside: avoid; width: 70%">
-			            <p class="font-weight-bolder">$terms_label</p>
+			            <p class="font-weight-bold">$terms_label</p>
 			            $terms
 			        </div>
 			    </div>
@@ -112,7 +112,11 @@ $table_here
     {
 
         return '<div class="footer_class bg-warning py-4 px-4 pt-4" style="page-break-inside: avoid; width: 100%">
-			    <div class="inline-block" style="width: 10%">
+			  <div class="text-center">
+               $signature_here
+           </div>    
+
+             <div class="inline-block" style="width: 10%">
 			        <!-- // -->
 			    </div>
 			    <div class="inline-block mt-2" style="width: 70%">

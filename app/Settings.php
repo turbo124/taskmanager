@@ -74,7 +74,7 @@ class Settings
             'enable_email_markup'                => ['required' => false, 'default_value' => true, 'type' => 'bool'],
             'email_template_statement'           => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'email_subject_statement'            => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'signature_on_pdf'                   => ['required' => false, 'default_value' => false, 'type' => 'bool'],
+            'show_signature_on_pdf'                   => ['required' => false, 'default_value' => false, 'type' => 'bool'],
             'quote_footer'                       => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'order_footer'                       => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'page_size'                          => ['required' => false, 'default_value' => 'A4', 'type' => 'string'],

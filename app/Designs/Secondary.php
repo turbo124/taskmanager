@@ -66,7 +66,7 @@ $table_here
 <div class="mt-4 pb-4 px-4" style="width: 100%">
 <div class="inline-block" style="width: 70%">
     <div class="">
-        <p class="font-weight-bolder">$terms_label</p>
+        <p class="font-weight-bold">$terms_label</p>
         <p>$terms</p>
     </div>
 </div>
@@ -113,7 +113,13 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+
+  <div class="text-center">
+               $signature_here
+           </div>
+
+        </div>
 </body>
 </html>';
 

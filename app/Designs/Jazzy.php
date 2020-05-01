@@ -11,7 +11,7 @@ class Jazzy
         return '<div class="px-4 py-4">
 <div class="mt-4 mb-4" style="width: 100%">
     <div class="inline-block border-left pl-2 border-dark mr-4 mt-4" style="width: 30%">
-        <p class="font-weight-bolder text-uppercase text-info">From:</p>
+        <p class="font-weight-bold text-uppercase text-info">From:</p>
         <div>
             <div class="mr-5">
                 $account_details
@@ -22,7 +22,7 @@ class Jazzy
         </div>
     </div>
     <div class="border-left pl-4 border-dark inline-block" style="width: 30%">
-        <p class="font-weight-bolder text-uppercase text-info">To:</p>
+        <p class="font-weight-bold text-uppercase text-info">To:</p>
         $customer_details
     </div>
     <div class="inline-block mt-4 h-16" style="width: 30%">
@@ -36,9 +36,9 @@ class Jazzy
     {
 
         return '<div class="mx-4 mt-4">
-<h1 class="font-weight-bolder text-uppercase">$entity_label</h1>
+<h1 class="font-weight-bold text-uppercase">$entity_label</h1>
 <div class="mt-1">
-    <span class="font-weight-bolder text-uppercase text-info">$entity_number</span>
+    <span class="font-weight-bold text-uppercase text-info">$entity_number</span>
     <div class="inline-block ml-4">
         <span class="text-uppercase">$date_label</span>
         <span>$date</span>
@@ -115,7 +115,13 @@ $table_here
     public function footer()
     {
 
-        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+
+  <div class="text-center">
+               $signature_here
+           </div>
+
+      </div>
 </body>
 </html>';
 

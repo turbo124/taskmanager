@@ -36,14 +36,15 @@ trait MakesInvoiceHtml
         $designer->buildDesign();
         $table = $designer->getSection('table');
         $settings = $entity->account->settings;
-
+        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img src=""> : '';
+        
         $data = [
             'entity' => $entity,
             'lang' => $entity->customer->preferredLocale(),
             'settings' => $settings,
             'header' => $designer->getSection('header'),
             'body' => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer' => $designer->getSection('footer')
+            'footer' => str_replace('$signature_here', $signature, $designer->getSection('footer'))
         ];
 
         $html = view('pdf.stub', $data)->render();

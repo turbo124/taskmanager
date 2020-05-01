@@ -33,7 +33,7 @@ class Happy
         return '<div class="mt-4 border-dashed border-top-4 border-bottom-4 border-info">
 <div class="inline-block" style="width: 50%">
     <div>
-        <p class="font-weight-bolder bg-info pl-4">$entity_label</p>
+        <p class="font-weight-bold bg-info pl-4">$entity_label</p>
         <div class="py-4 mt-4 pl-4">
             <section>
                 $customer_details
@@ -43,7 +43,7 @@ class Happy
 </div>
 <div class="inline-block col-6 ml-4" style="width: 40%">
     <div>
-        <p class="font-weight-bolder text-info pl-4">$from_label:</p>
+        <p class="font-weight-bold text-info pl-4">$from_label:</p>
         <div class="border-dashed border-top-4 border-bottom-4 border-info py-4 mt-2 pl-4">
             <section>
                 $account_details
@@ -73,7 +73,7 @@ $table_here
 <div class="w-100 mt-4 pb-4 px-4 mt-2">
 <div class="inline-block" style="width: 70%">
     <div>
-        <p class="font-weight-bolder">$terms_label</p>
+        <p class="font-weight-bold">$terms_label</p>
         <p>$terms</p>
     </div>
 </div>
@@ -119,7 +119,11 @@ $table_here
 
     public function footer()
     {
-        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;"></div>
+        return '<div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+            <div class="text-center">
+               $signature_here
+           </div>
+        </div>
 </body>
 </html>';
 
