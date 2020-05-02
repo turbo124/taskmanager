@@ -1,6 +1,8 @@
 <?php
 namespace App\Settings;
 
+use App\CompanyGateway;
+
 class GatewaySettings extends BaseSettings
 {
         private $settings = [
