@@ -6,6 +6,7 @@ use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
 use App\Product;
+use App\Timer;
 use App\User;
 use App\TaskStatus;
 use App\Customer;
@@ -84,6 +85,16 @@ class Task extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
+
+    /**
+         * Get associated timers.
+         *
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function timers()
+        {
+            return $this->hasMany(Timer::class);
+        }
 
     /**
      * Get the comments for the blog post.
