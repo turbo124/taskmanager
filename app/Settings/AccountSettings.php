@@ -160,6 +160,11 @@ class AccountSettings extends BaseSettings
             'pdf_variables'                      => ['required' => false, 'default_value' => [], 'type' => 'object'],
         ];
 
+    public function __construct()
+    {
+        $this->settings['pdf_variables']['default_value'] = $this->getPdfVariables();
+    }
+
     public function getAccountDefaults()
     {
         return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
