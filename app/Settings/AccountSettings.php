@@ -160,9 +160,26 @@ class AccountSettings extends BaseSettings
             'pdf_variables'                      => ['required' => false, 'default_value' => [], 'type' => 'object'],
         ];
 
+    public function getAccountDefaults()
+    {
+        return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
+    }
+
     public function save(Account $account, $settings)
     {
+        try {
 
+            $settings = $this->validate($settings, $this->settings);
+
+            if (!$settings) {
+                return false;
+            }
+
+            return $settings;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            die('here');
+        }
     }
 
 }
