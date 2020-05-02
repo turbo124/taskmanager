@@ -3,6 +3,9 @@ namespace App\Settings
 
 class BaseSettings
 {
+
+    protected $validationFailures = [];
+    
     protected function validate($saved_settings, $actual_settings)
     {
 
