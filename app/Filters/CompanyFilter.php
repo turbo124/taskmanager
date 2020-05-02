@@ -86,7 +86,7 @@ class CompanyFilter extends QueryFilter
                 ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
         });
     }
-
+  
     /**
      * @param $list
      * @return mixed
