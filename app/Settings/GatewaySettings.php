@@ -22,6 +22,20 @@ class GatewaySettings extends BaseSettings
     public function save(CompanyGateway $company_gateway, $settings)
     {
 
+        try {
+
+            $settings = $this->validate($settings, $this->settings);
+
+            if (!$settings) {
+                return false;
+            }
+
+            
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            die('here');
+        }
+
     }
 
 }
