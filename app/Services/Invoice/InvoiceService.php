@@ -104,7 +104,7 @@ class InvoiceService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'invoice')
+    public function sendEmail($contact = null, $subject, $body, $template = 'invoice')
     {
         return (new InvoiceEmail($this->invoice, $subject, $body, $template, $contact))->run();
     }

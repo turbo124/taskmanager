@@ -71,7 +71,7 @@ class AccountSettings extends BaseSettings
             'city'                               => ['required' => true, 'default_value' => '', 'type' => 'string'],
             'company_logo'                       => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'country_id'                         => ['required' => false, 'default_value' => 225, 'type' => 'string'],
-            'customer_number_pattern'            => ['required' => true, 'default_value' => '', 'type' => 'string'],
+            'customer_number_pattern'            => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'customer_number_counter'            => ['required' => false, 'default_value' => 1, 'type' => 'integer'],
             'credit_number_pattern'              => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'credit_number_counter'              => ['required' => false, 'default_value' => 1, 'type' => 'integer'],
@@ -145,7 +145,7 @@ class AccountSettings extends BaseSettings
             'tax_rate3'                          => ['required' => false, 'default_value' => 0, 'type' => 'float'],
             'timezone_id'                        => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'date_format_id'                     => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'language_id'                        => ['required' => true, 'default_value' => '', 'type' => 'string'],
+            'language_id'                        => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'show_currency_code'                 => ['required' => false, 'default_value' => false, 'type' => 'bool'],
             'send_reminders'                     => ['required' => false, 'default_value' => false, 'type' => 'bool'],
             'should_archive_invoice'             => ['required' => false, 'default_value' => false, 'type' => 'bool'],
@@ -172,13 +172,18 @@ class AccountSettings extends BaseSettings
         return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
     }
 
-    public function save(Account $account, $settings, $full_validation = false): $account
+    public function save(Account $account, $settings, $full_validation = false): Account
     {
         try {
 
             $settings = $this->validate($settings, $this->settings);
 
-            if (!$settings && $full_validation) {
+            if (!$settings && $full_validation === true) {
+
+                echo '<pre>';
+                print_r($this->validationFailures);
+                die;
+
                 return false;
             }
 

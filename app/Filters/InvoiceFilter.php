@@ -69,14 +69,6 @@ class InvoiceFilter extends QueryFilter
         return $invoices;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-
-    }
-
     /**
      * Filter based on search text
      *
@@ -101,16 +93,6 @@ class InvoiceFilter extends QueryFilter
                 ->orWhere('invoices.custom_value3', 'like', '%' . $filter . '%')
                 ->orWhere('invoices.custom_value4', 'like', '%' . $filter . '%');
         });
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 
     /**

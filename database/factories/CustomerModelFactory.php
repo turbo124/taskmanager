@@ -34,7 +34,7 @@ $factory->define(Customer::class, function (Faker\Generator $faker) {
         'custom_value2' => $faker->text(20),
         'custom_value3' => $faker->text(20),
         'custom_value4' => $faker->text(20),
-        'settings' => (new \App\Settings())->getAccountDefaults(),
+        'settings' => (new \App\Settings\CustomerSettings())->getCustomerDefaults(),
         'account_id' => 1,
         'user_id' => $user->id,
         'phone' => $faker->phoneNumber,

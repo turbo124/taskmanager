@@ -19,9 +19,7 @@ class DesignFilter extends QueryFilter
     private $design_repo;
 
     private $model;
-
-    private $query;
-
+    
     /**
      * GroupSettingFilter constructor.
      * @param GroupSettingRepository $group_setting_repo
@@ -46,7 +44,7 @@ class DesignFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('designs', $request->status);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
@@ -71,13 +69,6 @@ class DesignFilter extends QueryFilter
         return $groups;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -85,16 +76,6 @@ class DesignFilter extends QueryFilter
         }
 
         $this->query->where('name', 'like', '%' . $filter . '%');
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 
     /**
@@ -109,44 +90,6 @@ class DesignFilter extends QueryFilter
         })->all();
 
         return $designs;
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $table = 'designs';
-        $filters = explode(',', $filter);
-
-        return $this->query->where(function ($query) use ($filters, $table) {
-            $query->whereNull($table . '.id');
-
-            if (in_array(parent::STATUS_ACTIVE, $filters)) {
-                $query->orWhereNull($table . '.deleted_at');
-            }
-
-            if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-                $query->orWhere(function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-
-//                    if (!in_array($table, ['users'])) {
-//                        $query->where($table . '.is_deleted', '=', 0);
-//                    }
-                });
-            }
-
-            if (in_array(parent::STATUS_DELETED, $filters)) {
-                $query->orWhere($table . '.is_deleted', '=', 1);
-            }
-        });
     }
 
 }

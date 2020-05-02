@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Invoice;
 use App\User;
-use App\Settings;
+use App\Settings\AccountSettings;
 use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
@@ -153,7 +153,7 @@ class OrderTest extends TestCase
     public function testOrderPadding()
     {
         $customer = factory(Customer::class)->create();
-        $customerSettings = (new Settings())->getAccountDefaults();
+        $customerSettings = (new AccountSettings)->getAccountDefaults();
         $customerSettings->counter_padding = 5;
         $customerSettings->order_number_counter = 7;
         $customerSettings->order_number_pattern = '{$clientCounter}';

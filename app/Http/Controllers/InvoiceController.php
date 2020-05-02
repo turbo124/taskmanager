@@ -214,7 +214,9 @@ class InvoiceController extends Controller
                 break;
 
             case 'email':
-                $invoice->service()->sendEmail(null);
+                $subject = $invoice->customer->getSetting('email_subject_invoice');
+                $body = $invoice->customer->getSetting('email_template_invoice');
+                $invoice->service()->sendEmail(null, $subject, $body);
                 if (!$bulk) {
                     return response()->json(['message' => 'email sent'], 200);
                 }

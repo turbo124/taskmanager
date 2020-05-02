@@ -47,6 +47,10 @@ class LineItem extends BaseCalculator
 
     private $tax_rate_name = '';
 
+    private $tax_rate_id = 0;
+
+    private $description = '';
+
     /**
      * @var float
      */
@@ -179,6 +183,17 @@ class LineItem extends BaseCalculator
         return $this;
     }
 
+    public function getDescription() 
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
     /**
      * @param int $unit_price
      */
@@ -228,6 +243,24 @@ class LineItem extends BaseCalculator
     public function setTaxRateName(string $tax_rate_name): self
     {
         $this->tax_rate_name = $tax_rate_name;
+        return $this;
+    }
+
+      /**
+     * @return string
+     */
+    public function getTaxRateId(): ?int
+    {
+        return $this->tax_rate_id;
+    }
+
+    /**
+     * @param string $tax_rate_name
+     */
+    public function setTaxRateId($tax_rate_id): self
+    {
+
+        $this->tax_rate_id = $tax_rate_id;
         return $this;
     }
 
@@ -333,7 +366,7 @@ class LineItem extends BaseCalculator
     /**
      * @param int $total
      */
-    public function setTotal(int $total): self
+    public function setTotal(float $total): self
     {
         $this->total = $total;
         return $this;
@@ -347,6 +380,7 @@ class LineItem extends BaseCalculator
             'custom_value3'      => '',
             'custom_value4'      => '',
             'tax_rate_name'      => $this->getTaxRateName(),
+            'tax_rate_id'        => $this->getTaxRateId(),
             'type_id'            => $this->getTypeId(),
             'quantity'           => $this->getQuantity(),
             'notes'              => $this->getNotes(),
@@ -358,7 +392,8 @@ class LineItem extends BaseCalculator
             'discount_total'     => $this->getLineDiscountTotal(),
             'tax_total'          => $this->getLineTaxTotal(),
             'is_amount_discount' => $this->isAmountDiscount(),
-            'product_id'         => $this->getProductId()
+            'product_id'         => $this->getProductId(),
+            'description'        => $this->getDescription()
         ];
     }
 }

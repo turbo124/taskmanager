@@ -54,7 +54,7 @@ class CompanyGatewayController extends Controller
         $company_gateway->fill($request->except('fees_and_limits'));
         $company_gateway->save();
 
-        $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits);
+        $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits[0]);
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
 
@@ -70,7 +70,7 @@ class CompanyGatewayController extends Controller
         $company_gateway->save();
 
         if ($request->has('fees_and_limits')) {
-            $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits);
+            $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits[0]);
         }
 
         return response()->json($this->transformCompanyGateway($company_gateway));

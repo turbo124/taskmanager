@@ -32,7 +32,7 @@ class OrderService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'order')
+    public function sendEmail($contact = null, $subject, $body, $template = 'order')
     {
         return (new OrderEmail($this->order, $subject, $body, $template, $contact))->run();
     }

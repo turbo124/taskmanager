@@ -79,7 +79,7 @@ class CompanyContactRepository extends BaseRepository
         /*******************************Create****************************************/
         if (!empty($insert)) {
             foreach ($insert as $item) {
-                $create_contact = ClientContactFactory::create($company->account_id, $company->user_id);
+                $create_contact = CompanyContactFactory::create($company->account_id, $company->user_id);
                 $create_contact->company_id = $company->id;
                 $create_contact->fill($item);
                 $create_contact->password = array_key_exists('password', $item) && strlen($item['password']) > 0 ? Hash::make($item['password']) : '';

@@ -169,8 +169,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
             /*No company user exists - attach the user*/
             if (!$cu) {
-                $this->attachUserToAccount(
-                    $user, 
+                $user->attachUserToAccount(
                     $account, 
                     $data['company_user']['is_admin'], 
                     $data['company_user']['notifications']
@@ -211,17 +210,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $company = $user->account_user()->account;
         $company->forceDelete();
 
-        return true;
-    }
-  
-    public function attachUserToAccount(User $user, Account $account, $is_admin, array $notifications = [])
-    {
-           $user->accounts()->attach($account->id, [
-            'account_id'    => $account->id,
-            'is_owner'      => $is_admin,
-            'is_admin'      => $is_admin,
-            'notifications' => !empty($notifications) ? $notifications : $user->notificationDefaults()
-        ]);
         return true;
     }
 

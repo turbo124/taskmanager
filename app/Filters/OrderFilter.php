@@ -9,12 +9,10 @@ use App\Requests\SearchRequest;
 use App\Task;
 use App\Transformations\OrderTransformable;
 
-class OrderFilter
+class OrderFilter extends QueryFilter
 {
     use OrderTransformable;
     private $orderRepository;
-
-    private $query;
 
     private $model;
 
@@ -110,16 +108,6 @@ class OrderFilter
         $filters = explode(',', $filter);
 
         $this->query->whereIn('product_task.status', $filters);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
     }
 
     /**

@@ -26,6 +26,7 @@ class ServiceBase
                 ->setTypeId(!isset($line_item->type_id) ? 1 : $line_item->type_id)
                 ->setUnitTax($line_item->unit_tax)
                 ->setTaxRateName(isset($line_item->tax_rate_name) ? $line_item->tax_rate_name : '')
+                ->setTaxRateId(isset($line_item->tax_rate_id) ? $line_item->tax_rate_id : null)
                 ->setUnitDiscount($line_item->unit_discount)
                 ->setIsAmountDiscount(isset($entity->is_amount_discount) ? $entity->is_amount_discount : false)
                 ->setInclusiveTaxes($entity->account->settings->inclusive_taxes)
