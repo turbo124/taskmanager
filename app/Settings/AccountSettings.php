@@ -182,4 +182,85 @@ class AccountSettings extends BaseSettings
         }
     }
 
+    private function getPdfVariables()
+    {
+        $variables = [
+            'customer_details'  => [
+                '$customer.name',
+                '$customer.id_number',
+                '$customer.vat_number',
+                '$customer.address1',
+                '$customer.address2',
+                '$customer.city_state_postal',
+                '$customer.country',
+                '$contact.email',
+            ],
+            'account_details' => [
+                '$account.name',
+                '$account.id_number',
+                '$account.vat_number',
+                '$account.website',
+                '$account.email',
+                '$account.phone',
+            ],
+            'account_address' => [
+                '$account.address1',
+                '$account.address2',
+                '$account.city_state_postal',
+                '$account.country',
+            ],
+            'invoice' => [
+                '$invoice.invoice_number',
+                '$invoice.po_number',
+                '$invoice.invoice_date',
+                '$invoice.due_date',
+                '$invoice.balance_due',
+                '$invoice.invoice_total',
+            ],
+            'order' => [
+                '$order.order_number',
+                '$order.po_number',
+                '$order.order_date',
+                '$order.due_date',
+                '$order.balance_due',
+                '$order.order_total',
+            ],
+            'quote'   => [
+                '$quote.quote_number',
+                '$quote.po_number',
+                '$quote.quote_date',
+                '$quote.valid_until',
+                '$quote.balance_due',
+                '$quote.quote_total',
+            ],
+            'credit'  => [
+                '$credit.credit_number',
+                '$credit.po_number',
+                '$credit.credit_date',
+                '$credit.credit_balance',
+                '$credit.credit_amount',
+            ],
+            'product_columns' => [
+                '$product.product_key',
+                '$product.notes',
+                '$product.cost',
+                '$product.quantity',
+                '$product.discount',
+                '$product.tax',
+                '$product.line_total',
+            ],
+            'task_columns'    => [
+                '$task.product_key',
+                '$task.notes',
+                '$task.cost',
+                '$task.quantity',
+                '$task.discount',
+                '$task.tax',
+                '$task.line_total',
+            ],
+        ];
+
+        return json_decode(json_encode($variables));
+    }
+
 }
