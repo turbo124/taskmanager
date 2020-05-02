@@ -44,7 +44,7 @@ class RecurringQuoteFilter extends QueryFilter
         }
 
         if ($request->has('status')) {
-            $this->filterStatus($request->status);
+            $this->status('recurring_quotes', $request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -67,13 +67,6 @@ class RecurringQuoteFilter extends QueryFilter
         }
 
         return $quotes;
-    }
-
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
     }
 
     private function transformList()
@@ -100,64 +93,4 @@ class RecurringQuoteFilter extends QueryFilter
         });
     }
 
-    /**
-     * @param $orderBy
-     * @param $orderDir
-     */
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    /**
-     * @param int $account_id
-     */
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
-    }
-
-    private function filterStatus($filter)
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $status_parameters = explode(',', $filter);
-
-        if (in_array('all', $status_parameters)) {
-            return $this->query;
-        }
-
-        if (in_array('paid', $status_parameters)) {
-            $this->query->where('status_id', Invoice::STATUS_PAID);
-        }
-        if (in_array('unpaid', $status_parameters)) {
-            $this->query->whereIn('status_id', [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]);
-        }
-        if (in_array('overdue', $status_parameters)) {
-            $this->query->whereIn('status_id', [
-                Invoice::STATUS_SENT,
-                Invoice::STATUS_PARTIAL
-            ])->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
-        }
-
-        $table = 'recurring_quotes';
-
-        if (in_array(parent::STATUS_ARCHIVED, $status_parameters)) {
-
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-                if (!in_array($table, ['users'])) {
-                    $query->where($table . '.is_deleted', '=', 0);
-                }
-            });
-
-            $this->query->withTrashed();
-        }
-
-        if (in_array(parent::STATUS_DELETED, $status_parameters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-
-    }
 }

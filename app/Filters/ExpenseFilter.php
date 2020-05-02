@@ -47,7 +47,7 @@ class ExpenseFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('expenses', $request->status);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
@@ -80,12 +80,6 @@ class ExpenseFilter extends QueryFilter
         return $expenses;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
 
     /**
      * @param $list
@@ -126,59 +120,5 @@ class ExpenseFilter extends QueryFilter
                 ->orWhere('expenses.custom_value3', 'like', '%' . $filter . '%')
                 ->orWhere('expenses.custom_value4', 'like', '%' . $filter . '%');
         });
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $table = 'expenses';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-    }
-
-    /**
-     * Sorts the list based on $sort
-     *
-     * @param string sort formatted as column|asc
-     * @return Illuminate\Database\Query\Builder
-     */
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    /**
-     * Filters the query by the users account ID
-     *
-     * @param $company_id The company Id
-     * @return Illuminate\Database\Query\Builder
-     */
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 }

@@ -54,12 +54,9 @@ class QuoteEmail
             return true;
         }
 
-        $subject = strlen($this->subject) > 0 ? $this->subject : $this->quote->customer->getSetting('email_subject_' . $this->template);
-        $body = strlen($this->body) > 0 ? $this->body : $body_template = $this->quote->customer->getSetting('email_template_' . $this->template);
-
        foreach($this->quote->invitations as $invitation) {
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
-            
+
             if ($invitation->contact->send_email && $invitation->contact->email) {
                 SendEmail::dispatchNow($this->quote, $subject, $body, $this->template, $invitation->contact, $footer);
             }

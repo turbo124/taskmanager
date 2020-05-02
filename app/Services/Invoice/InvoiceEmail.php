@@ -54,15 +54,12 @@ class InvoiceEmail
             return true;
         }
 
-        $subject = strlen($this->subject) > 0 ? $this->subject : $this->invoice->customer->getSetting('email_subject_' . $this->template);
-        $body = strlen($this->body) > 0 ? $this->body : $this->invoice->customer->getSetting('email_template_' . $this->template);
-
         foreach($this->invoice->invitations as $invitation) {
             
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
 
             if ($invitation->contact->send_email && $invitation->contact->email) {
-                SendEmail::dispatchNow($this->invoice, $subject, $body, $this->template, $invitation->contact, $footer);
+                SendEmail::dispatchNow($this->invoice, $this->subject, $this->body, $this->template, $invitation->contact, $footer);
             }
         }
 

@@ -39,7 +39,7 @@ class PaymentFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->filterStatus($request->status);
+            $this->status('payments', $request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -67,12 +67,6 @@ class PaymentFilter extends QueryFilter
         return $payments;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
 
     /**
      * Filter based on search text
@@ -97,16 +91,6 @@ class PaymentFilter extends QueryFilter
         });
     }
 
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
-    }
-
     private function transformList()
     {
         $list = $this->query->get();
@@ -115,28 +99,6 @@ class PaymentFilter extends QueryFilter
         })->all();
 
         return $payments;
-    }
-
-    private function filterStatus($filter)
-    {
-        $filters = explode(',', $filter);
-        $table = 'payments';
-        $this->query->whereNull($table . '.id');
-
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
     }
 
 }

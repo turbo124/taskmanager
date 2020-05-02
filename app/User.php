@@ -114,18 +114,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     *
-     * As we are authenticating on CompanyToken,
-     * we need to link the company to the user manually. This allows
-     * us to decouple a $user and their attached companies.
-     *
-     */
-    /* public function setAccount($account)
-    {
-        $this->account = $account;
-    } */
-
-    /**
      * Returns the current company
      *
      * @return Collection
@@ -194,5 +182,16 @@ class User extends Authenticatable implements JWTSubject
         $notification->email = [];
 
         return $notification;
+    }
+
+    public function attachUserToAccount(Account $account, $is_admin, array $notifications = [])
+    {
+           $this->accounts()->attach($account->id, [
+            'account_id'    => $account->id,
+            'is_owner'      => $is_admin,
+            'is_admin'      => $is_admin,
+            'notifications' => !empty($notifications) ? $notifications : $this->notificationDefaults()
+        ]);
+        return true;
     }
 }

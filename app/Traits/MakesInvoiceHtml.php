@@ -36,7 +36,7 @@ trait MakesInvoiceHtml
         $designer->buildDesign();
         $table = $designer->getSection('table');
         $settings = $entity->account->settings;
-        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img src=""> : '';
+        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img src="">' : '';
         
         $data = [
             'entity' => $entity,

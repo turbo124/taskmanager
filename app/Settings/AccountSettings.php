@@ -1,45 +1,11 @@
 <?php
+namespace App\Settings;
 
-namespace App;
+use App\Account;
 
-class Settings
+class AccountSettings extends BaseSettings
 {
-
-    private $entity;
-    private $validationFailures = [];
-    private $settings = [
-        'line_items' => [
-            'type_id'            => ['required' => false, 'default_value' => 1, 'type' => 'int'],
-            'quantity'           => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'unit_price'         => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'product_id'         => ['required' => false, 'default_value' => 1, 'type' => 'int'],
-            'unit_discount'      => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'is_amount_discount' => ['required' => false, 'default_value' => 1, 'type' => 'bool'],
-            'unit_tax'           => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'tax_total'          => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'sub_total'          => ['required' => false, 'default_value' => 1, 'type' => 'float'],
-            'date'               => ['required' => false, 'default_value' => 1, 'type' => 'string'],
-            'custom_value1'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'custom_value2'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'custom_value3'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'custom_value4'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-        ],
-        'gateway'    => [
-            'gateway_type_id'    => ['required' => false, 'default_value' => 1, 'type' => 'int'],
-            'min_limit'          => ['required' => false, 'default_value' => -1, 'type' => 'float'],
-            'max_limit'          => ['required' => false, 'default_value' => -1, 'type' => 'float'],
-            'fee_amount'         => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'fee_percent'        => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'fee_tax_name1'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'fee_tax_name2'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'fee_tax_name3'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'fee_tax_rate1'      => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'fee_tax_rate2'      => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'fee_tax_rate3'      => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'fee_cap'            => ['required' => false, 'default_value' => 0, 'type' => 'float'],
-            'adjust_fee_percent' => ['required' => false, 'default_value' => false, 'type' => 'bool'],
-        ],
-        'account'    => [
+        private $settings = [
             'slack_enabled'                      => ['required' => false, 'default_value' => true, 'type' => 'bool'],
             'late_fee_endless_percent'           => ['required' => false, 'default_value' => 0, 'type' => 'float'],
             'late_fee_endless_amount'            => ['required' => false, 'default_value' => 0, 'type' => 'float'],
@@ -105,7 +71,7 @@ class Settings
             'city'                               => ['required' => true, 'default_value' => '', 'type' => 'string'],
             'company_logo'                       => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'country_id'                         => ['required' => false, 'default_value' => 225, 'type' => 'string'],
-            'customer_number_pattern'            => ['required' => true, 'default_value' => '', 'type' => 'string'],
+            'customer_number_pattern'            => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'customer_number_counter'            => ['required' => false, 'default_value' => 1, 'type' => 'integer'],
             'credit_number_pattern'              => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'credit_number_counter'              => ['required' => false, 'default_value' => 1, 'type' => 'integer'],
@@ -179,7 +145,7 @@ class Settings
             'tax_rate3'                          => ['required' => false, 'default_value' => 0, 'type' => 'float'],
             'timezone_id'                        => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'date_format_id'                     => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'language_id'                        => ['required' => true, 'default_value' => '', 'type' => 'string'],
+            'language_id'                        => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'show_currency_code'                 => ['required' => false, 'default_value' => false, 'type' => 'bool'],
             'send_reminders'                     => ['required' => false, 'default_value' => false, 'type' => 'bool'],
             'should_archive_invoice'             => ['required' => false, 'default_value' => false, 'type' => 'bool'],
@@ -194,144 +160,41 @@ class Settings
             'design'                             => ['required' => false, 'default_value' => 'views/pdf/design1.blade.php', 'type' => 'string'],
             'website'                            => ['required' => false, 'default_value' => '', 'type' => 'string'],
             'pdf_variables'                      => ['required' => false, 'default_value' => [], 'type' => 'object'],
-        ]
-    ];
+        ];
 
     public function __construct()
     {
-        $this->settings['account']['pdf_variables']['default_value'] = $this->getPdfVariables();
-    }
-
-    private function validate($saved_settings, $actual_settings, $full_check = false)
-    {
-
-        if (empty($saved_settings)) {
-            return false;
-        }
-
-        foreach ($actual_settings as $key => $actual_setting) {
-            if (!array_key_exists($key, $saved_settings)) {
-
-                $saved_settings->{$key} = $actual_setting['default_value'];
-            }
-
-            // if required and empty
-            if (empty($saved_settings->{$key}) && $saved_settings->{$key} !== false && $actual_setting['required'] === true && $full_check === true) {
-                $this->validationFailures[] = "{$key} is a required field";
-            }
-
-            if ($actual_setting['type'] === 'bool' && isset($saved_settings->{$key}) && is_string($saved_settings->{$key})) {
-                if (in_array($saved_settings->{$key}, ['true', 'false'])) {
-                    $saved_settings->{$key} = $saved_settings->{$key} === 'true';
-                }
-            }
-
-            // if value empty and has default value then use default
-            if (!is_bool($saved_settings->{$key}) && $saved_settings->{$key} === '' && !empty($actual_setting['default_value'])) {
-                $saved_settings->{$key} = $actual_setting['default_value'];
-            }
-
-            // cast type
-            settype($saved_settings->{$key}, $actual_setting['type']);
-        }
-
-        if (count($this->validationFailures) > 0) {
-
-            echo '<pre>';
-            print_r($this->validationFailures);
-            die;
-
-            return false;
-        }
-
-        return $saved_settings;
+        $this->settings['pdf_variables']['default_value'] = $this->getPdfVariables();
     }
 
     public function getAccountDefaults()
     {
-        return (object)array_filter(array_combine(array_keys($this->settings['account']), array_column($this->settings['account'], 'default_value')));
+        return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
     }
 
-    public function saveAccountSettings($settings)
+    public function save(Account $account, $settings, $full_validation = false): Account
     {
         try {
 
-            $settings = $this->validate($settings, $this->settings['account']);
+            $settings = $this->validate($settings, $this->settings);
 
-            if (!$settings) {
+            if (!$settings && $full_validation === true) {
+
+                echo '<pre>';
+                print_r($this->validationFailures);
+                die;
+
                 return false;
             }
 
-            return $settings;
+        $account->settings = $settings;
+        $account->save();
+
+       return $account;
         } catch (\Exception $e) {
             echo $e->getMessage();
             die('here');
         }
-    }
-
-    public function saveGatewaySettings($settings)
-    {
-        try {
-
-            $settings = $this->validate($settings[0], $this->settings['gateway']);
-
-            if (!$settings) {
-                return false;
-            }
-
-            return [0 => $settings];
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-            die('here');
-        }
-    }
-
-    public function saveLineItems($settings)
-    {
-        try {
-
-            foreach ($settings as $key => $setting) {
-                $settings[$key] = $this->validate((object)$setting, $this->settings['line_items']);
-            }
-
-            if (count($this->validationFailures) > 0) {
-                return false;
-            }
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-            die('here');
-        }
-
-        return $settings;
-    }
-
-    /**
-     * @param $client_settings
-     * @return object
-     */
-    public function buildCustomerSettings($client_settings, $account_settings)
-    {
-        if (!$client_settings) {
-            return $account_settings;
-        }
-
-        foreach ($account_settings as $key => $value) {
-            /* pseudo code
-            if the property exists and is a string BUT has no length, treat it as TRUE
-            */
-            if (((property_exists($client_settings, $key) && is_string($client_settings->{$key}) &&
-                    (iconv_strlen($client_settings->{$key}) < 1))) ||
-                !isset($client_settings->{$key}) && property_exists($account_settings, $key)) {
-                $client_settings->{$key} = $account_settings->{$key};
-            }
-        }
-
-        return $client_settings;
-    }
-
-    public function buildGroupSettings()
-    {
-
     }
 
     private function getPdfVariables()
@@ -414,4 +277,5 @@ class Settings
 
         return json_decode(json_encode($variables));
     }
+
 }

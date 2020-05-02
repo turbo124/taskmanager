@@ -189,7 +189,9 @@ class QuoteController extends Controller
                 return response()->json($quote);
                 break;
             case 'email':
-                $quote->service()->sendEmail();
+                $subject = $quote->customer->getSetting('email_subject_quote');
+                $body = $quote->customer->getSetting('email_template_quote');
+                $quote->service()->sendEmail(null, $subject, $body);
                 return response()->json(['message' => 'email sent'], 200);
                 break;
             default:

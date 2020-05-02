@@ -10,7 +10,7 @@ use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Requests\Customer\BulkCustomerRequest;
-use App\Settings;
+use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
 use App\Requests\Customer\UpdateCustomerRequest;
 use App\Requests\Customer\CreateCustomerRequest;
@@ -67,9 +67,11 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, $id)
     {
         $customer = $this->customer_repo->findCustomerById($id);
+        $customer = $this->customer_repo->save($request->except(['addresses', 'settings']), $customer);
 
-        $customer->settings = (new Settings)->saveAccountSettings((object)$request->settings);
-        $customer = $this->customer_repo->save($request->except('addresses'), $customer);
+        $obj_merged = (object) array_merge((array) $customer->settings, (array) $request->settings);
+        $customer = (new CustomerSettings)->save($customer, $obj_merged);
+  
         $customer = StoreCustomerAddress::dispatchNow($customer, $request->all());
 
         if(!empty($request->contacts)) {
@@ -94,8 +96,10 @@ class CustomerController extends Controller
     public function store(CreateCustomerRequest $request)
     {
         $customer = CustomerFactory::create(auth()->user()->account_user()->account, auth()->user());
-        $customer->settings = (new Settings)->saveAccountSettings((object)$request->settings);
         $customer = $this->customer_repo->save($request->except('addresses', 'settings'), $customer);
+
+        $obj_merged = (object) array_merge((array) $customer->settings, (array) $request->settings);
+        $customer = (new CustomerSettings)->save($customer, $obj_merged);
         $customer = StoreCustomerAddress::dispatchNow($customer, $request->only('addresses'));
         
         if(!empty($request->contacts)) {

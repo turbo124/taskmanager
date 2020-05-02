@@ -59,7 +59,7 @@ class QuoteService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'quote')
+    public function sendEmail($contact = null, $subject, $body, $template = 'quote')
     {
         return (new QuoteEmail($this->quote, $subject, $body, $template, $contact))->run();
     }

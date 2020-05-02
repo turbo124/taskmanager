@@ -66,7 +66,9 @@ class SendReminders
 
     private function sendEmail($template)
     {
-        $this->invoice->service()->sendEmail(null, '', '', $template);
+        $subject = $this->invoice->customer->getSetting('email_subject_' . $this->template);
+        $body = $this->invoice->customer->getSetting('email_template_' . $this->template);
+        $this->invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 
     private function addCharge(float $amount)

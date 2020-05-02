@@ -3,7 +3,7 @@
 namespace App\Requests\Credit;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings;
+use App\Settings\LineItemSettings;
 
 class CreateCreditRequest extends BaseFormRequest
 {
@@ -24,20 +24,13 @@ class CreateCreditRequest extends BaseFormRequest
             'total'                         => 'required',
             'tax_total'                     => 'required',
             'line_items'                    => 'required|array',
-            'line_items.*.description'      => 'max:255',
-            'line_items.*.product_id'       => 'required',
-            'line_items.*.quantity'         => 'required|integer',
-            'line_items.*.unit_price'       => 'required',
-            'line_items.*.unit_discount'    => 'required',
-            'line_items.*.unit_tax'         => 'required'
         ];
     }
 
     protected function prepareForValidation()
     {
         $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new Settings)->saveLineItems($input['line_items']) : [];
-        $input['line_items'] = json_decode(json_encode($input['line_items']), true);
+        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
 
         $this->replace($input);
     }

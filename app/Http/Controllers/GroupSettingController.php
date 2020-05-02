@@ -10,7 +10,7 @@ use App\Requests\GroupSetting\UpdateGroupSettingRequest;
 use App\GroupSetting;
 use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
-use App\Settings;
+use App\Settings\GroupSettings;
 use App\Transformations\GroupSettingTransformable;
 use App\Traits\UploadableTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -34,14 +34,7 @@ class GroupSettingController extends Controller
         $this->group_setting_repo = $group_setting_repo;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     *
-     *
-     *
-     */
+
     public function index(SearchRequest $request)
     {
         $group_settings = (new GroupSettingFilter($this->group_setting_repo))->filter($request,
@@ -57,9 +50,13 @@ class GroupSettingController extends Controller
     public function store(StoreGroupSettingRequest $request)
     {
         $group_setting = GroupSettingFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
-        $group_setting->settings = (new Settings())->saveAccountSettings(auth()->user()->account_user()->account->settings);
-        $group_setting = $this->group_setting_repo->save($request->all(), $group_setting);
-
+        $group_setting = $this->group_setting_repo->save($request->except('settings'), $group_setting);
+        $group_setting = (new GroupSettings)->save($group_setting, $request->settings);
+        
+        if(!$group_setting) {
+            return response()->json('Unable to save group');
+        }
+        
         return response()->json($this->transformGroupSetting($group_setting));
     }
 
@@ -80,8 +77,8 @@ class GroupSettingController extends Controller
     public function update(int $id, UpdateGroupSettingRequest $request)
     {
         $group_setting = $this->group_setting_repo->findGroupSettingById($id);
-        $group_setting->settings = (new Settings())->saveAccountSettings((object)$request->settings);
-        $group_setting = $this->group_setting_repo->save($request->all(), $group_setting);
+        $group_setting = $this->group_setting_repo->save($request->except('settings'), $group_setting);
+        $group_setting = (new GroupSettings)->save($group_setting, (object)$request->settings);
         return response()->json($this->transformGroupSetting($group_setting));
     }
 

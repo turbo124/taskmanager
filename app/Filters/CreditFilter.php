@@ -46,7 +46,7 @@ class CreditFilter extends QueryFilter
         }
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->filterStatus($request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -71,13 +71,6 @@ class CreditFilter extends QueryFilter
         return $companies;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -94,16 +87,6 @@ class CreditFilter extends QueryFilter
                 ->orWhere('credits.custom_value3', 'like', '%' . $filter . '%')
                 ->orWhere('credits.custom_value4', 'like', '%' . $filter . '%');
         });
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 
     /**
@@ -127,7 +110,7 @@ class CreditFilter extends QueryFilter
      * @param string filter
      * @return Illuminate\Database\Query\Builder
      */
-    public function status($filter = '')
+    public function filterStatus($filter = '')
     {
         if (strlen($filter) == 0) {
             return $this->query;

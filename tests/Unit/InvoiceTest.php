@@ -20,7 +20,7 @@ use App\Paymentable;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
-use App\Settings;
+use App\Settings\AccountSettings;
 use Tests\TestCase;
 use App\Invoice;
 use App\User;
@@ -202,7 +202,7 @@ class InvoiceTest extends TestCase
     public function testInvoicePadding()
     {
         $customer = factory(Customer::class)->create();
-        $customerSettings = (new Settings())->getAccountDefaults();
+        $customerSettings = (new AccountSettings)->getAccountDefaults();
         $customerSettings->counter_padding = 5;
         $customerSettings->invoice_number_counter = 7;
         $customerSettings->invoice_number_pattern = '{$clientCounter}';

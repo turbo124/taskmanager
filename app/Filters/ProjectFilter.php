@@ -32,7 +32,7 @@ class ProjectFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('projects', $request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -61,54 +61,6 @@ class ProjectFilter extends QueryFilter
         return $projects;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        $table = 'projects';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-                //if (! in_array($table, ['users'])) {
-                //$query->where($table . '.is_deleted', '=', 0);
-                //}
-            });
-
-            $this->query->withTrashed();
-        }
-
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-
-//        echo '<pre>';
-//        print_r($this->query->toSql());
-//        die;
-    }
-
     /**
      * @param $list
      * @return mixed
@@ -131,21 +83,6 @@ class ProjectFilter extends QueryFilter
 
         return $this->query->where(function ($query) use ($filter) {
             $query->where('projects.title', 'like', '%' . $filter . '%');
-            //->orWhere('companies.id_number', 'like', '%'.$filter.'%')
-//                ->orWhere('companies.custom_value1', 'like', '%' . $filter . '%')
-//                ->orWhere('companies.custom_value2', 'like', '%' . $filter . '%')
-//                ->orWhere('companies.custom_value3', 'like', '%' . $filter . '%')
-//                ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
         });
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 }

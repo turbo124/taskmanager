@@ -4,7 +4,7 @@ namespace App\Factory;
 
 
 use App\Account;
-use App\Settings;
+use App\Settings\AccountSettings;
 use Illuminate\Support\Str;
 
 class AccountFactory
@@ -20,7 +20,7 @@ class AccountFactory
         // $company->name = '';
         $account->domain_id = $account_id;
         $account->subdomain = '';
-        $account->settings = (new Settings)->getAccountDefaults();
+        $account->settings = (new AccountSettings)->getAccountDefaults();
 
         return $account;
     }

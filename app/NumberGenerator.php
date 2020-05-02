@@ -55,7 +55,7 @@ class NumberGenerator
     private function updateEntityCounter($entity, string $counter_name): void
     {
         $settings = $entity->settings;
-        $settings->{$counter_name} = $settings->{$counter_name} + 1;
+        $settings->{$counter_name} = !empty($settings->{$counter_name}) ? $settings->{$counter_name} + 1 : 1;
         $entity->settings = $settings;
         $entity->save();
     }

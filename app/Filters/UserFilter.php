@@ -42,7 +42,7 @@ class UserFilter extends QueryFilter
                 ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('users', $request->status);
         }
 
         if ($request->filled('role_id')) {
@@ -79,13 +79,6 @@ class UserFilter extends QueryFilter
         return $users;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('from_date')));
-        $end = date("Y-m-d", strtotime($request->input('to_date') . "+1 day"));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -96,11 +89,6 @@ class UserFilter extends QueryFilter
                 ->orWhere('users.last_name', 'like', '%' . $filter . '%')
                 ->orWhere('users.email', 'like', '%' . $filter . '%');
         });
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
     }
 
     /**
@@ -114,41 +102,5 @@ class UserFilter extends QueryFilter
         })->all();
 
         return $users;
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     * @param $query
-     * @param string $filter
-     * @return mixed
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        $table = 'users';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-//                if (!in_array($table, ['users'])) {
-//                    $query->where($table . '.is_deleted', '=', 0);
-//                }
-            });
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
     }
 }

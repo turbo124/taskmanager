@@ -152,7 +152,9 @@ class CreateDeal
             ], $order);
 
 
+        $subject = $order->customer->getSetting('email_subject_order');
+        $body = $order->customer->getSetting('email_template_order');
         event(new OrderWasCreated($order));
-        $order->service()->sendEmail();
+        $order->service()->sendEmail(null, $subject, $body);
     }
 }

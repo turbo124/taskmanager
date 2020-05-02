@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ClientContact;
 use App\Customer;
+use App\Address;
 use App\Invoice;
 use App\Traits\MakesInvoiceHtml;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +76,11 @@ class PreviewController extends Controller
             'customer_id' => $client->id,
             'is_primary'  => 1,
             'send_email'  => true,
+        ]);
+
+        $address = factory(Address::class)->create([
+            'customer_id' => $client->id,
+            'address_type'  => 1,
         ]);
 
         $invoice = factory(Invoice::class)->create([

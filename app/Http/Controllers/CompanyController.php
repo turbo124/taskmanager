@@ -9,7 +9,7 @@ use App\Repositories\CompanyContactRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;
-use App\Settings;
+use App\Settings\CompanySettings;
 use App\Transformations\CompanyTransformable;
 use App\Industry;
 use App\Filters\CompanyFilter;
@@ -64,19 +64,19 @@ class CompanyController extends Controller
     public function store(CreateCompanyRequest $request)
     {
         $company = (new CompanyFactory)->create(auth()->user(), auth()->user()->account_user()->account);
-        $settings = (new Settings)->saveAccountSettings($request->settings);
-
-        if ($request->company_logo !== null) {
-            $logo_path = $this->uploadLogo($request->file('company_logo'));
-            $settings->company_logo = $logo_path;
-        }
-
-        $company->settings = $settings;
-        $company = $this->company_repo->save($request->all(), $company);
-
+        
+        $company = $this->company_repo->save($request->except('logo'), $company);
+        
         if(!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
         }
+
+         if ($request->company_logo !== null) {
+            $logo_path = $this->uploadLogo($request->file('company_logo'));
+            $settings['company_logo'] = $logo_path;
+        }
+
+        $company = (new CompanySettings)->save($company, (object)$settings);
 
         return response()->json($this->transformCompany($company));
     }
@@ -100,17 +100,18 @@ class CompanyController extends Controller
     {
         $company = $this->company_repo->findBrandById($id);
 
-        if ($request->company_logo !== null && $request->company_logo !== 'null') {
-            $logo_path = $this->uploadLogo($request->file('company_logo'));
-            $settings = $company->settings;
-            $settings->company_logo = $logo_path;
-            $company->settings = $settings;
-        }
-
         $this->company_repo->save($request->all(), $company);
 
         if(!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
+        }
+
+        if ($request->company_logo !== null && $request->company_logo !== 'null') {
+            $logo_path = $this->uploadLogo($request->file('company_logo'));
+            $settings = $company->settings;
+            $settings->company_logo = $logo_path;
+           
+            $company = (new CompanySettings)->save($company, (object)$settings);
         }
 
         return response()->json($this->transformCompany($company));

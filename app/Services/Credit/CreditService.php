@@ -29,7 +29,7 @@ class CreditService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'credit')
+    public function sendEmail($contact = null, $subject, $body, $template = 'credit')
     {
         return (new CreditEmail($this->credit, $subject, $body, $template, $contact))->run();
     }

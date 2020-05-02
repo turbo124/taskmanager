@@ -198,7 +198,9 @@ class CreditController extends Controller
                 }
                 break;
             case 'email':
-                $credit->service()->sendEmail();
+                $subject = $credit->customer->getSetting('email_subject_credit');
+                $body = $credit->customer->getSetting('email_template_credit');
+                $credit->service()->sendEmail(null, $subject, $body);
                 return response()->json(['message' => 'email sent'], 200);
                 break;
 

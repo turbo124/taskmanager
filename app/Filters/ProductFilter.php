@@ -42,7 +42,7 @@ class ProductFilter extends QueryFilter
             ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('products', $request->status);
         }
 
         if ($request->filled('company_id')) {
@@ -75,23 +75,6 @@ class ProductFilter extends QueryFilter
         }
 
         return $products;
-    }
-
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('created_at', [$start, $end]);
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 
     /**
@@ -130,40 +113,5 @@ class ProductFilter extends QueryFilter
         })->all();
 
         return $products;
-    }
-
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        $table = 'products';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
-
-            $this->query->withTrashed();
-        }
-
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1);
-        }
     }
 }

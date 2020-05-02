@@ -113,7 +113,9 @@ class OrderController extends Controller
                 }
                 break;
             case 'email':
-                $order->service()->sendEmail(null);
+                $subject = $order->customer->getSetting('email_subject_order');
+                $body = $order->customer->getSetting('email_template_order');
+                $order->service()->sendEmail(null, $subject, $body);
                 if (!$bulk) {
                     return response()->json(['message' => 'email sent'], 200);
                 }

@@ -2,7 +2,7 @@
 
 namespace App\Requests\Invoice;
 
-use App\Settings;
+use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateInvoiceRequest extends FormRequest
@@ -32,21 +32,14 @@ class UpdateInvoiceRequest extends FormRequest
             'sub_total'                     => 'required',
             'total'                         => 'required',
             'tax_total'                     => 'required',
-            'line_items'                    => 'required|array',
-            'line_items.*.description'      => 'max:255',
-            'line_items.*.product_id'       => 'required',
-            'line_items.*.quantity'         => 'required|integer',
-            'line_items.*.unit_price'       => 'required',
-            'line_items.*.unit_discount'    => 'required',
-            'line_items.*.unit_tax'         => 'required'
+            'line_items'                    => 'required|array'
         ];
     }
 
     protected function prepareForValidation()
     {
         $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new Settings)->saveLineItems($input['line_items']) : [];
-        $input['line_items'] = json_decode(json_encode($input['line_items']), true);
+        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
 
         $this->replace($input);
     }

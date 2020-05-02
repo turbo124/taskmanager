@@ -41,7 +41,7 @@ class CompanyFilter extends QueryFilter
             ->leftJoin('company_contacts', 'company_contacts.company_id', '=', 'companies.id');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('companies', $request->status);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
@@ -52,7 +52,7 @@ class CompanyFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account_id, 'companies');
 
         $this->orderBy($orderBy, $orderDir);
 
@@ -66,13 +66,6 @@ class CompanyFilter extends QueryFilter
         }
 
         return $companies;
-    }
-
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('companies.created_at', [$start, $end]);
     }
 
     public function searchFilter(string $filter = '')
@@ -93,17 +86,7 @@ class CompanyFilter extends QueryFilter
                 ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
         });
     }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('companies.account_id', '=', $account_id);
-    }
-
+  
     /**
      * @param $list
      * @return mixed
@@ -116,38 +99,6 @@ class CompanyFilter extends QueryFilter
         })->all();
 
         return $companies;
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $table = 'companies';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
     }
 
 }
