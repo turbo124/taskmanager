@@ -22,6 +22,19 @@ class LineItemSettings extends BaseSettings
 
     public function save($line_items)
     {
+        try {
+
+            foreach ($settings as $key => $setting) {
+                $settings[$key] = $this->validate((object)$setting, $this->settings);
+            }
+
+            if (count($this->validationFailures) > 0) {
+                return false;
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            die('here');
+        }
 
     }
 
