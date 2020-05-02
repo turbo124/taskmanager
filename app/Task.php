@@ -102,4 +102,14 @@ class Task extends Model
     {
         return new TaskService($this);
     }
+
+    public function getTotalDuration()
+    {
+        /*
+        SELECT id, employee_id, date, 
+		time_from, time_to, ROUND(TIMESTAMPDIFF(MINUTE, time_from, time_to)/60, 2) as hours, 
+		comments, activity_id, date_submitted 
+		FROM timesheet
+        */
+    }
 }
