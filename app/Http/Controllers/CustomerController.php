@@ -69,7 +69,7 @@ class CustomerController extends Controller
         $customer = $this->customer_repo->findCustomerById($id);
         $customer = $this->customer_repo->save($request->except(['addresses', 'settings']), $customer);
 
-        $customer->settings = (new CustomerSettings)->save($customer, (object)$request->settings);
+        $customer = (new CustomerSettings)->save($customer, (object)$request->settings);
   
         $customer = StoreCustomerAddress::dispatchNow($customer, $request->all());
 
@@ -97,7 +97,7 @@ class CustomerController extends Controller
         $customer = CustomerFactory::create(auth()->user()->account_user()->account, auth()->user());
         $customer = $this->customer_repo->save($request->except('addresses', 'settings'), $customer);
         
-        $customer->settings = (new CustomerSettings)->save($customer, (object)$request->settings);
+        $customer = (new CustomerSettings)->save($customer, (object)$request->settings);
         $customer = StoreCustomerAddress::dispatchNow($customer, $request->only('addresses'));
         
         if(!empty($request->contacts)) {
