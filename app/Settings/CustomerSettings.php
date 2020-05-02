@@ -9,10 +9,21 @@ class CustomerSettings extends BaseSettings
             'payment_type_id'                    => ['required' => false, 'default_value' => 0, 'type' => 'string']
         ];
 
-    public function save(Customer $customer, $settings)
+   public function save(Customer $account, $settings)
     {
+        try {
 
+            $settings = $this->validate($settings, $this->settings);
 
+            if (!$settings) {
+                return false;
+            }
+
+            return $settings;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            die('here');
+        }
     }
 
       /**
