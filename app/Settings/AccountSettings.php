@@ -170,17 +170,20 @@ class AccountSettings extends BaseSettings
         return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
     }
 
-    public function save(Account $account, $settings)
+    public function save(Account $account, $settings, $full_validation = false): $account
     {
         try {
 
             $settings = $this->validate($settings, $this->settings);
 
-            if (!$settings) {
+            if (!$settings && $full_validation) {
                 return false;
             }
 
-            return $settings;
+        $account->settings = $settings;
+        $account->save();
+
+       return $account;
         } catch (\Exception $e) {
             echo $e->getMessage();
             die('here');
