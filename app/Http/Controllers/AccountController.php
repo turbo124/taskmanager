@@ -9,7 +9,7 @@ use App\Notifications\NewAccountCreated;
 use App\Requests\Account\StoreAccountRequest;
 use App\Account;
 use App\Repositories\AccountRepository;
-use App\Settings;
+use App\Settings\AccountSettings;
 use App\Transformations\AccountTransformable;
 use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -57,11 +57,11 @@ class AccountController extends Controller
     {
         $this->forced_includes = ['account_user'];
         $account = AccountFactory::create(auth()->user()->account_user()->account->domain_id);
-        $settings = (new Settings)->saveAccountSettings($request->input('settings'));
+        $this->account_repo->save($account, $request->except('settings));
+
         $logo_path = $this->uploadLogo($request->file('company_logo'));
-        $settings->company_logo = $logo_path;
-        $account->settings = $settings;
-        $account = $this->account_repo->save($request->all(), $account);
+        $request->settings->company_logo = $logo_path;
+        $account = (new AccountSettings)->save($account, $request->settings);
 
         auth()->user()->accounts()->attach($account->id, [
             'is_owner'    => 1,
@@ -102,15 +102,13 @@ class AccountController extends Controller
     public function update(UpdateAccountRequest $request, int $id)
     {
         $account = $this->account_repo->findAccountById($id);
-        $settings = (new Settings)->saveAccountSettings($request->input('settings'));
         
         if(!empty($request->file('company_logo')) && $request->file('company_logo') !== 'null') {
             $logo_path = $this->uploadLogo($request->file('company_logo'));
-            $settings->company_logo = $logo_path;
+            $request->settings->company_logo = $logo_path;
         }
 
-        $account->settings = $settings;
-        $account = $this->account_repo->save($request->except('logo'), $account);
+        $account = (new AccountSettings)->save($account, $request->settings);
 
         return response()->json($this->transformAccount($account));
     }
