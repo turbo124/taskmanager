@@ -14,4 +14,25 @@ class CustomerSettings extends BaseSettings
 
 
     }
+
+      /**
+     * @param $client_settings
+     * @return object
+     */
+    public function buildCustomerSettings($client_settings, $account_settings)
+    {
+        if (!$client_settings) {
+            return $account_settings;
+        }
+
+        foreach ($account_settings as $key => $value) {
+            if (((property_exists($client_settings, $key) && is_string($client_settings->{$key}) &&
+                    (iconv_strlen($client_settings->{$key}) < 1))) ||
+                !isset($client_settings->{$key}) && property_exists($account_settings, $key)) {
+                $client_settings->{$key} = $account_settings->{$key};
+            }
+        }
+
+        return $client_settings;
+    }
 }
