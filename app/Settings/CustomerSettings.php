@@ -1,6 +1,8 @@
 <?php
 namespace App\Settings;
 
+use App\Customer;
+
 class CustomerSettings extends BaseSettings
 {
         private $settings = [
