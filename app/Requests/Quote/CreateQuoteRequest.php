@@ -2,7 +2,7 @@
 
 namespace App\Requests\Quote;
 
-use App\Settings;
+use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateQuoteRequest extends FormRequest
@@ -46,7 +46,7 @@ class CreateQuoteRequest extends FormRequest
      protected function prepareForValidation()
     {
         $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new Settings)->saveLineItems($input['line_items']) : [];
+        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
         $input['line_items'] = json_decode(json_encode($input['line_items']), true);
 
         $this->replace($input);
