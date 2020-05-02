@@ -62,15 +62,7 @@ class InvoiceService extends ServiceBase
     {
         $invoice = (new MarkPaid($this->invoice, $payment_repo))->run();
 
-        if($invoice->customer->getSetting('should_email_invoice')) {
-            $this->sendEmail(null, trans('texts.invoice_paid_subject'), trans('texts.invoice_paid_body'));
-        }
-
-        event(new InvoiceWasPaid($invoice));
-
-        if ($invoice->customer->getSetting('should_archive_invoice')) {
-            $invoice_repo->archive($invoice);
-        }
+        $this->completePaymentWorkflow($invoice);
 
         return $invoice;
     }
@@ -85,6 +77,13 @@ class InvoiceService extends ServiceBase
     {
         $invoice = (new ApplyPayment($this->invoice, $payment, $payment_amount))->run();
         
+       $this->completePaymentWorkflow($invoice);
+
+        return $invoice;
+    }
+
+    private function completePaymentWorkflow(Invoice $invoice): Invoice
+    {
         if($invoice->customer->getSetting('should_email_invoice')) {
             $this->sendEmail(null, trans('texts.invoice_paid_subject'), trans('texts.invoice_paid_body'));
         }
