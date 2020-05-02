@@ -114,15 +114,4 @@ class InvoiceService extends ServiceBase
     {
         return $this->calculateTotals($this->invoice);
     }
-
-
-    /**
-     * Saves the invoice
-     * @return Invoice object
-     */
-    /*public function save(): ?Invoice
-    {
-        $this->invoice->save();
-        return $this->invoice;
-    } */
 }
