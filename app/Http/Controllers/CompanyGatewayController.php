@@ -8,7 +8,7 @@ use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\CompanyGateway;
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyGatewayRepository;
-use App\Settings;
+use App\Settings\GatewaySettings;
 use App\Transformations\CompanyGatewayTransformable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
