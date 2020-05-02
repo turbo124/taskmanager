@@ -49,12 +49,12 @@ class CompanyGatewayController extends Controller
 
     public function store(StoreCompanyGatewayRequest $request)
     {
-
         $company_gateway =
             CompanyGatewayFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
-        $company_gateway->fees_and_limits = (new Settings)->saveGatewaySettings($request->fees_and_limits);
         $company_gateway->fill($request->except('fees_and_limits'));
         $company_gateway->save();
+
+        $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits);
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
 
@@ -66,14 +66,12 @@ class CompanyGatewayController extends Controller
     public function update(UpdateCompanyGatewayRequest $request, int $id)
     {
         $company_gateway = $this->company_gateway_repo->findCompanyGatewayById($id);
-        $company_gateway->fees_and_limits = (new Settings)->saveGatewaySettings($request->fees_and_limits);
-        $company_gateway->fill($request->except('_method'));
-
-        if (!$request->has('fees_and_limits')) {
-            $company_gateway->fees_and_limits = '';
-        }
-
+        $company_gateway->fill($request->except(['fees_and_limits', '_method']));
         $company_gateway->save();
+
+        if ($request->has('fees_and_limits')) {
+            $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits);
+        }
 
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
