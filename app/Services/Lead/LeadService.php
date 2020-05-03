@@ -19,6 +19,7 @@ class LeadService extends ServiceBase
      */
     public function __construct(Lead $lead)
     {
+        parent::__construct($lead);
         $this->lead = $lead;
     }
 
