@@ -5,6 +5,7 @@ namespace App\Services\Credit;
 use App\Credit;
 use App\Services\ServiceBase;
 use Carbon\Carbon;
+use App\Events\Credit\CreditWasEmailed;
 
 class CreditService extends ServiceBase
 {
@@ -31,7 +32,7 @@ class CreditService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'credit'): ?Credit
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+        if(!$this->sendInvitationEmails($contact, $subject, $body, $template)) {
             return null;
         }
 
