@@ -30,9 +30,10 @@ class CreditService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'credit')
+    public function sendEmail($contact = null, $subject, $body, $template = 'credit'): Credit
     {
-        return (new CreditEmail($this->credit, $subject, $body, $template, $contact))->run();
+        $this->sendInvitationEmails($subject, $body, $template);
+        return $this->credit;
     }
 
     public function calculateInvoiceTotals(): Credit
