@@ -15,7 +15,7 @@ class ServiceBase
     protected function sendInvitationEmails(string $subject, string $body, string $template)
     {
         if($this->entity->invitations->count() === 0) {
-            return true;
+            return false;
         }
 
         foreach($this->entity->invitations as $invitation) {
@@ -26,6 +26,8 @@ class ServiceBase
                 SendEmail::dispatchNow($this->entity, $subject, $body, $template, $invitation->contact, $footer);
             }
         }
+
+        return true;
     }
 
     protected function calculateTotals($entity)
