@@ -12,7 +12,23 @@ class ServiceBase
         $this->entity = $entity;
     }
 
-    public function calculateTotals($entity)
+    protected function sendInvitationEmails(string $subject, string $body, string $template)
+    {
+        if($this->entity->invitations->count() === 0) {
+            return true;
+        }
+
+        foreach($this->entity->invitations as $invitation) {
+            
+            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
+
+            if ($invitation->contact->send_email && $invitation->contact->email) {
+                SendEmail::dispatchNow($this->entity, $subject, $body, $template, $invitation->contact, $footer);
+            }
+        }
+    }
+
+    protected function calculateTotals($entity)
     {
 
         if (empty($entity->line_items)) {
