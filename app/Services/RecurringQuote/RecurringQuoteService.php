@@ -21,20 +21,21 @@ use App\Services\ServiceBase;
 
 class RecurringQuoteService extends ServiceBase
 {
-    protected $invoice;
+    protected $quote;
 
     /**
      * RecurringQuoteService constructor.
      * @param RecurringQuote $invoice
      */
-    public function __construct(RecurringQuote $invoice)
+    public function __construct(RecurringQuote $quote)
     {
-        $this->invoice = $invoice;
+        parent::__construct($quote);
+        $this->quote = $quote;
 
     }
 
     public function calculateInvoiceTotals(): RecurringQuote
     {
-        return $this->calculateTotals($this->invoice);
+        return $this->calculateTotals($this->quote);
     }
 }
