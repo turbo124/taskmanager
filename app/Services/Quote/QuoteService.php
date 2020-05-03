@@ -17,6 +17,7 @@ class QuoteService extends ServiceBase
 
     public function __construct(Quote $quote)
     {
+        parent::__construct($quote);
         $this->quote = $quote;
     }
 
