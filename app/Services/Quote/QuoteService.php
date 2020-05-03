@@ -6,6 +6,7 @@ use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Invoice;
 use App\Quote;
 use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasEmailed;
 use App\Repositories\InvoiceRepository;
 use App\Services\Quote\MarkSent;
 use App\Repositories\QuoteRepository;
@@ -62,7 +63,7 @@ class QuoteService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+        if(!$this->sendInvitationEmails($contact, $subject, $body, $template)) {
             return null;
         }
 
