@@ -75,7 +75,7 @@ class EditTaskTimes extends Component {
     }
 
     handleSave (isDelete = false) {
-        axios.put(`/api/tasks/timer/${this.props.task_id}`, {
+        axios.put(`/api/timer/${this.props.task_id}`, {
             time_log: this.state.times
         })
             .then((response) => {
