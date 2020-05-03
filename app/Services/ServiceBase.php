@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Helpers\InvoiceCalculator\LineItem;
+use App\Jobs\Email\SendEmail;
 
 class ServiceBase
 {

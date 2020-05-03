@@ -40,7 +40,6 @@ class LeadTest extends TestCase
         factory(Lead::class)->create();
         $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Lead::class, $list[0]);
         // $this->assertInstanceOf(Collection::class, $list);
         //$this->assertEquals($insertedtask->title, $myLastElement['title']);
     }

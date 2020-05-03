@@ -243,7 +243,7 @@ class SetupController extends Controller
 
            // create new user
            $user = $user_repo->save($request->all(), UserFactory::create($domain->id));
-           $user_repo->attachUserToAccount($user, $account, true);
+           $user->attachUserToAccount($account, true);
 
             if ($user) {
                 auth()->login($user, false);

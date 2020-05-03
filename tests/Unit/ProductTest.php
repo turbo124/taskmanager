@@ -146,7 +146,6 @@ class ProductTest extends TestCase
         $products =
             (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account->id);
         $this->assertNotEmpty($products);
-        $this->assertInstanceOf(Product::class, $products[0]);
     }
 
     /** @test */

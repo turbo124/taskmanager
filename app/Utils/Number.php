@@ -35,7 +35,7 @@ class Number
        // if swap symbol is true put symbol after value
        // elseif  show_currency_code === false show symbole before
        
-       
+    
         $locale = $customer->locale();
         $country = $customer->getCountryId();
         $decimal_separator = isset($customer->country->decimal_separator) ? $customer->country->decimal_separator : $currency->decimal_separator;

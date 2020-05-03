@@ -213,7 +213,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getInvitation($invitation, $resource)
     {
-        if (!array_key_exists('key', $invitation)) {
+        if (!isset($invitation['key'])) {
             return false;
         }
 
@@ -283,6 +283,7 @@ class BaseRepository implements BaseRepositoryInterface
     protected function populateDefaults($entity)
     {
         $class = strtolower((new \ReflectionClass($entity))->getShortName());
+
         if(empty($entity->terms) && !empty($entity->customer->getSetting($class . '_terms'))) $entity->terms = $entity->customer->getSetting($class . '_terms');
         if(empty($entity->footer) && !empty($entity->customer->getSetting($class . '_footer'))) $entity->footer = $entity->customer->getSetting($class . '_footer');
         if(empty($entity->public_notes) && !empty($entity->customer->public_notes)) $entity->public_notes = $entity->customer->public_notes;

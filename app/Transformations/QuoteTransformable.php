@@ -17,50 +17,43 @@ trait QuoteTransformable
      */
     protected function transformQuote(Quote $quote)
     {
-        $prop = new Quote;
-
-        $prop->id = (int)$quote->id;
-        $prop->number = $quote->number ?: '';
-        $prop->company_id = $quote->company_id ?: null;
-        $prop->public_notes = $quote->public_notes ?: '';
-        $prop->private_notes = $quote->private_notes ?: '';
-        $prop->customer_id = $quote->customer_id;
-        $prop->date = $quote->date ?: '';
-        $prop->due_date = $quote->due_date ?: '';
-        $prop->total = $quote->total;
-        $prop->balance = (float)$quote->balance;
-        $prop->status_id = $quote->status_id;
-        $prop->design_id = (int)$quote->design_id;
-        $prop->next_send_date = $quote->date ?: '';
-
-        $prop->sub_total = $quote->sub_total;
-        $prop->deleted_at = $quote->deleted_at;
-        $prop->created_at = $quote->created_at;
-        $prop->tax_total = $quote->tax_total;
-        $prop->discount_total = $quote->discount_total;
-
-        $prop->terms = $quote->terms;
-        $prop->footer = $quote->footer ?: '';
-        $prop->line_items = $quote->line_items ?: (array)[];
-        $prop->invitations = $this->transformInvitations($quote->invitations);
-        $prop->custom_value1 = $quote->custom_value1 ?: '';
-        $prop->custom_value2 = $quote->custom_value2 ?: '';
-        $prop->custom_value3 = $quote->custom_value3 ?: '';
-        $prop->custom_value4 = $quote->custom_value4 ?: '';
-        $prop->custom_surcharge1 = (float)$quote->custom_surcharge1;
-        $prop->custom_surcharge2 = (float)$quote->custom_surcharge2;
-        $prop->custom_surcharge3 = (float)$quote->custom_surcharge3;
-        $prop->custom_surcharge4 = (float)$quote->custom_surcharge4;
-        $prop->custom_surcharge_tax1 = (bool)$quote->custom_surcharge_tax1;
-        $prop->custom_surcharge_tax2 = (bool)$quote->custom_surcharge_tax2;
-        $prop->custom_surcharge_tax3 = (bool)$quote->custom_surcharge_tax3;
-        $prop->custom_surcharge_tax4 = (bool)$quote->custom_surcharge_tax4;
-        $prop->uses_inclusive_taxes = (bool)$quote->uses_inclusive_taxes;
-        $prop->last_sent_date = $quote->last_sent_date ?: '';
-        $prop->invoice_id = (int)($quote->invoice_id ?: 1);
-        $prop->emails = $this->transformQuoteEmails($quote->emails());
-
-        return $prop;
+       return [
+        'id' => (int)$quote->id,
+        'created_at' => $quote->created_at,
+        'user_id' => (int)$quote->user_id,
+        'company_id' => (int)$quote->company_id ?: null,
+        'public_notes' => $quote->public_notes ?: '',
+        'private_notes' => $quote->private_notes ?: '',
+        'number' => $quote->number ?: '',
+        'customer_id' => (int)$quote->customer_id,
+        'date' => $quote->date ?: '',
+        'due_date' => $quote->due_date ?: '',
+        'design_id' => (int)$quote->design_id,
+        'invitations' => $this->transformInvitations($quote->invitations),
+        'total' => $quote->total,
+        'balance' => (float)$quote->balance,
+        'sub_total' => (float)$quote->sub_total,
+        'tax_total' => (float)$quote->tax_total,
+        'status_id' => (int)$quote->status_id,
+        'discount_total' => (float)$quote->discount_total,
+        'deleted_at' => $quote->deleted_at,
+        'terms' => (string)$quote->terms ?: '',
+        'footer' => (string)$quote->footer ?: '',
+        'line_items' => $quote->line_items ?: (array)[],
+        'custom_value1' => (string)$quote->custom_value1 ?: '',
+        'custom_value2' => (string)$quote->custom_value2 ?: '',
+        'custom_value3' => (string)$quote->custom_value3 ?: '',
+        'custom_value4' => (string)$quote->custom_value4 ?: '',
+        'custom_surcharge1' => (float)$quote->custom_surcharge1,
+        'custom_surcharge2' => (float)$quote->custom_surcharge2,
+        'custom_surcharge3' => (float)$quote->custom_surcharge3,
+        'custom_surcharge4' => (float)$quote->custom_surcharge4,
+        'custom_surcharge_tax1' => (bool)$quote->custom_surcharge_tax1,
+        'custom_surcharge_tax2' => (bool)$quote->custom_surcharge_tax2,
+        'custom_surcharge_tax3' => (bool)$quote->custom_surcharge_tax3,
+        'custom_surcharge_tax4' => (bool)$quote->custom_surcharge_tax4,
+        'emails' => $this->transformQuoteEmails($quote->emails()),
+       ];
     }
 
     /**

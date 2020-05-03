@@ -50,7 +50,6 @@ class CreditTest extends TestCase
         factory(Credit::class)->create();
         $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Credit::class, $list[0]);
     }
     /** @test */
     public function it_can_delete_the_credit()

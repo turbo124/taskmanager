@@ -500,7 +500,6 @@ class PdfData
             if(is_numeric($item->product_id)) {
                $product = Product::find($item->product_id);
                 $this->line_items[$key][$table_type . '.product_key'] = $product->name;
-
             }
            
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;

@@ -45,7 +45,6 @@ class CompanyUnitTest extends TestCase
             new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account->id);
         $myLastElement = end($list);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Company::class, $list[0]);
     }
 
     /** @test */

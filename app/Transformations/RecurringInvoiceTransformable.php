@@ -18,33 +18,32 @@ trait RecurringInvoiceTransformable
      */
     protected function transformInvoice(RecurringInvoice $invoice)
     {
-        $prop = new RecurringInvoice;
 
-        $prop->id = (int)$invoice->id;
-        $prop->number = $invoice->number;
-        $prop->customer_id = $invoice->customer_id;
-        $prop->date = $invoice->date;
-        $prop->due_date = $invoice->due_date;
-        $prop->start_date = $invoice->start_date;
-        $prop->total = $invoice->total;
-        $prop->sub_total = $invoice->sub_total;
-        $prop->tax_total = $invoice->tax_total;
-        $prop->discount_total = $invoice->discount_total;
-        $prop->deleted_at = $invoice->deleted_at;
-        $prop->created_at = $invoice->created_at;
-        $prop->status_id = $invoice->status_id;
-        $prop->public_notes = $invoice->public_notes ?: '';
-        $prop->private_notes = $invoice->private_notes ?: '';
-        $prop->terms = $invoice->terms;
+        return [
+        'id' => (int)$invoice->id,
+        'number' => $invoice->number,
+        'customer_id' => $invoice->customer_id,
+        'date' => $invoice->date,
+        'due_date' => $invoice->due_date,
+        'start_date' => $invoice->start_date,
+        'total' => $invoice->total,
+        'sub_total' => $invoice->sub_total,
+        'tax_total' => $invoice->tax_total,
+        'discount_total' => $invoice->discount_total,
+        'deleted_at' => $invoice->deleted_at,
+        'created_at' => $invoice->created_at,
+        'status_id' => $invoice->status_id,
+        'public_notes' => $invoice->public_notes ?: '',
+        'private_notes' => $invoice->private_notes ?: '',
+        'terms' => $invoice->terms,
+        'footer' => $invoice->footer,
+        'line_items' => $invoice->line_items,
+        'custom_value1' => $invoice->custom_value1 ?: '',
+        'custom_value2' => $invoice->custom_value2 ?: '',
+        'custom_value3' => $invoice->custom_value3 ?: '',
+        'custom_value4' => $invoice->custom_value4 ?: '',
 
-        $prop->footer = $invoice->footer;
-        $prop->line_items = $invoice->line_items;
-        $prop->custom_value1 = $invoice->custom_value1 ?: '';
-        $prop->custom_value2 = $invoice->custom_value2 ?: '';
-        $prop->custom_value3 = $invoice->custom_value3 ?: '';
-        $prop->custom_value4 = $invoice->custom_value4 ?: '';
-
-        return $prop;
+    ];
     }
 
 }

@@ -112,7 +112,7 @@ trait SearchableTrait
      */
     protected function getColumns()
     {
-        if (array_key_exists('columns', $this->searchable)) {
+        if (isset($this->searchable['columns'])) {
             $driver = $this->getDatabaseDriver();
             $prefix = Config::get("database.connections.$driver.prefix");
             $columns = [];
@@ -132,7 +132,7 @@ trait SearchableTrait
      */
     protected function getGroupBy()
     {
-        if (array_key_exists('groupBy', $this->searchable)) {
+        if (isset($this->searchable['groupBy'])) {
             return $this->searchable['groupBy'];
         }
         return false;
@@ -168,7 +168,7 @@ trait SearchableTrait
         foreach ($this->getJoins() as $table => $keys) {
             $query->leftJoin($table, function ($join) use ($keys) {
                 $join->on($keys[0], '=', $keys[1]);
-                if (array_key_exists(2, $keys) && array_key_exists(3, $keys)) {
+                if (isset($keys[2]) && isset($keys[3])) {
                     $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
                 }
             });

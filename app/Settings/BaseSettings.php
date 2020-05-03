@@ -14,7 +14,7 @@ class BaseSettings
         }
 
         foreach ($actual_settings as $key => $actual_setting) {
-            if (!array_key_exists($key, $saved_settings)) {
+            if (!isset($saved_settings->$key)) {
 
                 $saved_settings->{$key} = $actual_setting['default_value'];
             }

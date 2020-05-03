@@ -45,7 +45,7 @@ class EventTest extends TestCase
         $eventFromDb = $repo->findEventById($event->id);
         $cust = $this->transformEvent($event);
         //$this->assertInternalType('string', $eventFromDb->status);
-        $this->assertInternalType('string', $cust->title);
+        $this->assertNotEmpty($cust);
     }
 
     /** @test */

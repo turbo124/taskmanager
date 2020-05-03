@@ -71,8 +71,8 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->customer->setPaidToDate($payment->amount);
         $payment->customer->save();
 
-        $invoice_totals = array_key_exists('invoices', $data) && is_array($data['invoices']) ? array_sum(array_column($data['invoices'], 'amount')) : 0;
-        $credit_totals = array_key_exists('credits', $data) && is_array($data['credits']) ? array_sum(array_column($data['credits'], 'amount')) : 0;
+        $invoice_totals = isset($data['invoices']) && is_array($data['invoices']) ? array_sum(array_column($data['invoices'], 'amount')) : 0;
+        $credit_totals = isset($data['credits']) && is_array($data['credits']) ? array_sum(array_column($data['credits'], 'amount')) : 0;
 
         $this->applyPaymentToInvoices($data, $payment);
         $this->applyPaymentToCredits($data, $payment);
@@ -141,7 +141,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function applyPaymentToCredits(array $data, Payment $payment): bool
     {
-       if (array_key_exists('credits', $data) && is_array($data['credits'])) {
+       if (isset($data['credits']) && is_array($data['credits'])) {
 
             $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
 
@@ -181,7 +181,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     private function applyPaymentToInvoices(array $data, Payment $payment): bool
     {
 
-        if (array_key_exists('invoices', $data) && is_array($data['invoices'])) {
+        if (isset($data['invoices']) && is_array($data['invoices'])) {
 
             $invoices = Invoice::whereIn('id', array_column($data['invoices'], 'invoice_id'))->get();
 

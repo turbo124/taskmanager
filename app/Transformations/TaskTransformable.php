@@ -18,40 +18,39 @@ trait TaskTransformable
     protected function transformTask(Task $task)
     {
 
-        $prop = new Task;
-        $prop->id = (int)$task->id;
-        $prop->customer_name = $task->customer->present()->name;
-        $prop->title = $task->title;
-        $prop->content = $task->content;
-        $prop->comments = $task->comments;
-        $prop->due_date = $task->due_date;
-        $prop->start_date = $task->start_date;
-        $prop->is_completed = $task->is_completed;
-        $prop->task_status = $task->task_status;
-        $prop->status_name = $task->taskStatus->title;
-        $prop->task_type = $task->task_type;
-        $prop->deleted_at = $task->deleted_at;
-        $prop->rating = $task->rating;
-        $prop->customer = $this->transformCustomer($task->customer);
-        $prop->customer_id = $task->customer_id;
-        $prop->valued_at = $task->valued_at;
-        $prop->source_type = $task->source_type;
-        $prop->users = $task->users;
-        $prop->contributors = $task->users()->pluck('user_id')->all();
-        $prop->is_active = $task->is_active;
-        $prop->project_id = $task->project_id;
-        $prop->is_deleted = (bool)$task->is_deleted;
-        $prop->time_log = $task->time_log ?: '';
-        $prop->is_running = (bool)$task->is_running;
-        $prop->custom_value1 = $task->custom_value1 ?: '';
-        $prop->custom_value2 = $task->custom_value2 ?: '';
-        $prop->custom_value3 = $task->custom_value3 ?: '';
-        $prop->custom_value4 = $task->custom_value4 ?: '';
-        $prop->public_notes = $task->public_notes ?: '';
-        $prop->private_notes = $task->private_notes ?: '';
-        $prop->task_status_sort_order = (int)$task->task_status_sort_order;
-
-        return $prop;
+        return [
+        'id' => (int)$task->id,
+        'customer_name' => $task->customer->present()->name,
+        'title' => $task->title,
+        'content' => $task->content,
+        'comments' => $task->comments,
+        'comments' => $task->due_date,
+        'start_date' => $task->start_date,
+        'is_completed' => $task->is_completed,
+        'task_status' => $task->task_status,
+        'status_name' => $task->taskStatus->title,
+        'task_type' => $task->task_type,
+        'deleted_at' => $task->deleted_at,
+        'rating' => $task->rating,
+        'customer' => $this->transformCustomer($task->customer),
+        'customer_id' => $task->customer_id,
+        'valued_at' => $task->valued_at,
+        'source_type' => $task->source_type,
+        'users' => $task->users,
+        'contributors' => $task->users()->pluck('user_id')->all(),
+        'is_active' => $task->is_active,
+        'project_id' => $task->project_id,
+        'is_deleted' => (bool)$task->is_deleted,
+        'time_log' => $task->time_log ?: '',
+        'is_running' => (bool)$task->is_running,
+        'custom_value1' => $task->custom_value1 ?: '',
+        'custom_value2' => $task->custom_value2 ?: '',
+        'custom_value3' => $task->custom_value3 ?: '',
+        'custom_value4' => $task->custom_value4 ?: '',
+        'public_notes' => $task->public_notes ?: '',
+        'private_notes' => $task->private_notes ?: '',
+        'task_status_sort_order' => (int)$task->task_status_sort_order,
+    ];
     }
 
 }

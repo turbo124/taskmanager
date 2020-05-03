@@ -13,18 +13,12 @@ class QuoteWasEmailed
     public $quote;
 
     /**
-     * @var string
-     */
-    public $notes;
-
-    /**
      * Create a new event instance.
      *
      * @param $quote
      */
-    public function __construct($quote, $notes)
+    public function __construct($quote)
     {
         $this->quote = $quote;
-        $this->notes = $notes;
     }
 }
