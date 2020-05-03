@@ -14,6 +14,7 @@ use App\Services\Invoice\UpdateBalance;
 use Illuminate\Support\Carbon;
 use App\Services\Invoice\ApplyPayment;
 use App\Events\Invoice\InvoiceWasPaid; 
+use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
 
 class InvoiceService extends ServiceBase
@@ -107,7 +108,7 @@ class InvoiceService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+        if(!$this->sendInvitationEmails($contact, $subject, $body, $template)) {
             return null;
         }
   
