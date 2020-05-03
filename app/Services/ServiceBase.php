@@ -5,6 +5,12 @@ use App\Helpers\InvoiceCalculator\LineItem;
 
 class ServiceBase
 {
+    private $entity;
+
+    public function __construct($entity)
+    {
+        $this->entity = $entity;
+    }
 
     public function calculateTotals($entity)
     {
