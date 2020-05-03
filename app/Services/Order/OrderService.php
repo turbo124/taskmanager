@@ -4,6 +4,7 @@ namespace App\Services\Order;
 
 use App\Invoice;
 use App\Events\Order\OrderWasDispatched;
+use App\Events\Order\OrderWasEmailed;
 use App\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -35,7 +36,7 @@ class OrderService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'order'): ?Order
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+        if(!$this->sendInvitationEmails($contact, $subject, $body, $template)) {
             return null;
         }
 
