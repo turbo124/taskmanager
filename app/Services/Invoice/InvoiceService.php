@@ -25,7 +25,8 @@ class InvoiceService extends ServiceBase
     private $payment_service;
 
     public function __construct(Invoice $invoice)
-    {
+    { 
+        parent::__construct($invoice);
         $this->invoice = $invoice;
     }
 
