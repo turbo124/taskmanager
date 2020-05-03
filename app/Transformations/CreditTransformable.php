@@ -37,7 +37,7 @@ trait CreditTransformable
         'due_date' => $credit->due_date ?: '',
         'design_id' => (int)$credit->design_id,
         'invitations' => $this->transformCreditInvitations($credit->invitations),
-        'total' => $credit->total,
+        'total' => (float) $credit->total,
         'balance' => (float)$credit->balance,
         'sub_total' => (float)$credit->sub_total,
         'tax_total' => (float)$credit->tax_total,
