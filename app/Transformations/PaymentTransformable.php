@@ -14,41 +14,39 @@ trait PaymentTransformable
     public function transformPayment(Payment $payment)
     {
 
-        $obj = new Payment;
-        $obj->id = (int)$payment->id;
-        $obj->user_id = (int)$payment->user_id;
-        $obj->created_at = $payment->created_at;
-        $obj->assigned_user_id = (int)$payment->assigned_user_id;
-        $obj->number = (string)$payment->number ?: '';
-        $obj->customer_id = (int)$payment->customer_id;
-        $obj->date = $payment->date ?: '';
-        $obj->amount = (float)$payment->amount;
-        $obj->transaction_reference = $payment->transaction_reference ?: '';
-        $obj->invoices = $payment->invoices;
+        return [
+        'id' => (int)$payment->id,
+        'user_id' => (int)$payment->user_id,
+        'created_at' => $payment->created_at,
+        'assigned_user_id' => (int)$payment->assigned_user_id,
+        'number' => (string)$payment->number ?: '',
+        'customer_id' => (int)$payment->customer_id,
+        'date' => $payment->date ?: '',
+        'amount' => (float)$payment->amount,
+        'transaction_reference' => $payment->transaction_reference ?: '',
+        'invoices' => $payment->invoices,
 
-        $obj->paymentables = !empty($payment->paymentables) ? $this->transformPaymentables($payment->paymentables) : [];
-        $obj->deleted_at = $payment->deleted_at;
+        'paymentables' => !empty($payment->paymentables) ? $this->transformPaymentables($payment->paymentables) : [],
+        'deleted_at' => $payment->deleted_at,
         //$obj->archived_at = $payment->deleted_at;
         //$obj->is_deleted = (bool) $payment->is_deleted;
-        $obj->type_id = (string)$payment->type_id;
-        $obj->invitation_id = (string)$payment->invitation_id ?: '';
-        $obj->invoice_id = $payment->invoices->pluck('id')->toArray();
-
-        $obj->refunded = (float)$payment->refunded;
-        $obj->is_manual = (bool)$payment->is_manual;
-        $obj->task_id = (int)$payment->task_id;
-        $obj->company_id = (int)$payment->company_id;
-        $obj->applied = (float)$payment->applied;
-        $obj->private_notes = $payment->private_notes ?: '';
-        $obj->currency_id = (int)$payment->currency_id ?: null;
-        $obj->exchange_rate = (float)$payment->exchange_rate ?: 1;
-        $obj->exchange_currency_id = (float)$payment->exchange_currency_id ?: '';
-        $obj->custom_value1 = $payment->custom_value1 ?: '';
-        $obj->custom_value2 = $payment->custom_value2 ?: '';
-        $obj->custom_value3 = $payment->custom_value3 ?: '';
-        $obj->custom_value4 = $payment->custom_value4 ?: '';
-
-        return $obj;
+        'type_id' => (string)$payment->type_id,
+        'invitation_id' => (string)$payment->invitation_id ?: '',
+        'invoice_id' => $payment->invoices->pluck('id')->toArray(),
+        'refunded' => (float)$payment->refunded,
+        'is_manual' => (bool)$payment->is_manual,
+        'task_id' => (int)$payment->task_id,
+        'company_id' => (int)$payment->company_id,
+        'applied' => (float)$payment->applied,
+        'private_notes' => $payment->private_notes ?: '',
+        'currency_id' => (int)$payment->currency_id ?: null,
+        'exchange_rate' => (float)$payment->exchange_rate ?: 1,
+        'exchange_currency_id' => (float)$payment->exchange_currency_id ?: '',
+        'custom_value1' => $payment->custom_value1 ?: '',
+        'custom_value2' => $payment->custom_value2 ?: '',
+        'custom_value3' => $payment->custom_value3 ?: '',
+        'custom_value4' => $payment->custom_value4 ?: '',
+    ];
     }
 
     public function transformPaymentables($paymentables)

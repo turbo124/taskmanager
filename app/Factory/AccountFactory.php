@@ -18,7 +18,7 @@ class AccountFactory
     {
         $account = new Account;
         // $company->name = '';
-        $account->domain_id = $account_id;
+        $account->domain_id = 5;
         $account->subdomain = '';
         $account->settings = (new AccountSettings)->getAccountDefaults();
 

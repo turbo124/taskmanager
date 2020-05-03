@@ -18,13 +18,12 @@ trait GroupSettingTransformable
      */
     protected function transformGroupSetting(GroupSetting $group_setting)
     {
-        $prop = new GroupSetting;
-        $prop->id = $group_setting->id;
-        $prop->created_at = $group_setting->created_at;
-        $prop->deleted_at = $group_setting->deleted_at;
-        $prop->name = (string)$group_setting->name ?: '';
-        $prop->settings = $group_setting->settings ?: new stdClass;
-
-        return $prop;
+        return [
+        'id' => $group_setting->id,
+        'created_at' => $group_setting->created_at,
+        'deleted_at' => $group_setting->deleted_at,
+        'name' => (string)$group_setting->name ?: '',
+        'settings' => $group_setting->settings ?: new stdClass,
+        ];
     }
 }

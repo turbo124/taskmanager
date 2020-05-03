@@ -14,15 +14,14 @@ class PaymentableTransformer
             $entity_key = 'credit_id';
         }
 
-        $prop = new Paymentable;
 
-        $prop->id = $paymentable->id;
-        $prop->{$entity_key} = $paymentable->paymentable_id;
-        $prop->amount = $paymentable->amount;
-        $prop->paymentable_type = $paymentable->paymentable_type;
-        $prop->refunded = (float)$paymentable->refunded;
-        $prop->payment_id = (int)$paymentable->payment_id;
-
-        return $prop;
+        return [
+        'id' => $paymentable->id,
+        $entity_key => $paymentable->paymentable_id,
+        'amount' => $paymentable->amount,
+        'paymentable_type' => $paymentable->paymentable_type,
+        'refunded' => (float)$paymentable->refunded,
+        'payment_id' => (int)$paymentable->payment_id,
+        ];
     }
 }

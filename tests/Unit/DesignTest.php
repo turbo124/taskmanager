@@ -131,7 +131,7 @@ class DesignTest extends TestCase {
     public function testInvoiceDesignExists() {
         $this->invoice = factory(\App\Quote::class)->create([
             'user_id'     => $this->user->id,
-            'customer_id' => 1,
+            'customer_id' => Customer::first(),
             'company_id'  => $this->account->id,
         ]);
 

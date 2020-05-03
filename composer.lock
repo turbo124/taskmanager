@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "631ceebfc6d22df34f6b45d1d3f31075",
+    "content-hash": "0e665a9477dfb39ef2b3cbc812d1e7b4",
     "packages": [
         {
             "name": "ashallendesign/laravel-exchange-rates",
@@ -2211,6 +2211,58 @@
             "time": "2019-07-17T11:01:58+00:00"
         },
         {
+            "name": "michael_hampton/metrics",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michael-hampton/metrics.git",
+                "reference": "9ddead55fc3a6ccacc55169faf4c9db9545b4611"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michael-hampton/metrics/zipball/9ddead55fc3a6ccacc55169faf4c9db9545b4611",
+                "reference": "9ddead55fc3a6ccacc55169faf4c9db9545b4611",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6|^7",
+                "php": "^7.2",
+                "spatie/test-time": "^1.1"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2",
+                "mockery/mockery": "^1.2",
+                "orchestra/testbench": "^5.0.1",
+                "phpunit/phpunit": "^8.5.0",
+                "sempro/phpunit-pretty-print": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "robertogallea\\LaravelMetrics\\MetricsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Metrics": "robertogallea\\LaravelMetrics\\Facades\\Metrics"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "robertogallea\\LaravelMetrics\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Michael Hampton",
+                    "email": "michaelhamptondesign@yahoo.com"
+                }
+            ],
+            "description": "Instrument your Laravel application with smart metrics",
+            "time": "2020-05-02T15:26:31+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.0.2",
             "source": {
@@ -3887,57 +3939,6 @@
                 "uuid"
             ],
             "time": "2020-02-21T04:36:14+00:00"
-        },
-        {
-            "name": "robertogallea/laravel-metrics",
-            "version": "0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/robertogallea/LaravelMetrics.git",
-                "reference": "75b975bef21ade9e7e2b832a29460558a3326b15"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/robertogallea/LaravelMetrics/zipball/75b975bef21ade9e7e2b832a29460558a3326b15",
-                "reference": "75b975bef21ade9e7e2b832a29460558a3326b15",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^6",
-                "php": "^7.2",
-                "spatie/test-time": "^1.1"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.2",
-                "orchestra/testbench": "^5.0.1",
-                "phpunit/phpunit": "^8.5.0",
-                "sempro/phpunit-pretty-print": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "robertogallea\\LaravelMetrics\\MetricsServiceProvider"
-                    ],
-                    "aliases": {
-                        "Metrics": "robertogallea\\LaravelMetrics\\Facades\\Metrics"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "robertogallea\\LaravelMetrics\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Roberto Gallea",
-                    "email": "write@robertogallea.com"
-                }
-            ],
-            "description": "Instrument your Laravel application with smart metrics",
-            "time": "2020-03-04T10:23:52+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -8214,6 +8215,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "michael_hampton/metrics": 20,
         "tymon/jwt-auth": 20
     },
     "prefer-stable": false,

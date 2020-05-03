@@ -4,6 +4,7 @@ namespace App\Services\Order;
 
 use App\Invoice;
 use App\Events\Order\OrderWasDispatched;
+use App\Events\Order\OrderWasEmailed;
 use App\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -18,6 +19,7 @@ class OrderService extends ServiceBase
 
     public function __construct(Order $order)
     {
+        parent::__construct($order);
         $this->order = $order;
     }
 
@@ -32,9 +34,14 @@ class OrderService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'order')
+    public function sendEmail($contact = null, $subject, $body, $template = 'order'): ?Order
     {
-        return (new OrderEmail($this->order, $subject, $body, $template, $contact))->run();
+        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+            return null;
+        }
+
+        event(new OrderWasEmailed($this->order->invitations->first()));
+        return $this->order;
     }
 
     /**

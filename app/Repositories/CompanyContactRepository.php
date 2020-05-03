@@ -33,14 +33,14 @@ class CompanyContactRepository extends BaseRepository
     
         $updates = collect(array_filter($contacts, function ($item) {
 
-            if (array_key_exists('id', $item)) {
+            if (isset($item['id'])) {
                 return true;
             }
             return false;
         }))->keyBy('id')->toArray();
 
         $insert = array_filter($contacts, function ($item) {
-            if (!array_key_exists('id', $item)) {
+            if (!isset($item['id'])) {
                 return true;
             }
             return false;
@@ -71,7 +71,7 @@ class CompanyContactRepository extends BaseRepository
 
                 $contact = $contacts[$key];
                 $contact->fill($update);
-                $contact->password = array_key_exists('password', $update) && strlen($update['password']) > 0 ? Hash::make($update['password']) : $contact->password;
+                $contact->password = isset($update['password']) && strlen($update['password']) > 0 ? Hash::make($update['password']) : $contact->password;
                 $contact->save();
             }
         }
@@ -82,7 +82,7 @@ class CompanyContactRepository extends BaseRepository
                 $create_contact = CompanyContactFactory::create($company->account_id, $company->user_id);
                 $create_contact->company_id = $company->id;
                 $create_contact->fill($item);
-                $create_contact->password = array_key_exists('password', $item) && strlen($item['password']) > 0 ? Hash::make($item['password']) : '';
+                $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make($item['password']) : '';
                 $create_contact->save();
             }
 

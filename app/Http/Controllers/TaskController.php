@@ -112,27 +112,6 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
-    public function updateTimer(int $task_id, Request $request)
-    {
-        $task = $this->task_repo->findTaskById($task_id);
-        $task = SaveTaskTimes::dispatchNow($request->all(), $task);
-        return response()->json($task);
-    }
-
-    /**
-     * @param int $task_id
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function updateLead(int $task_id, Request $request)
-    {
-        $task = $this->task_repo->findTaskById($task_id);
-        $task = $task->service()->updateLead($request,
-            new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact)), $this->task_repo,
-            true);
-        return response()->json($task);
-    }
-
     /**
      * @param UpdateTaskRequest $request
      * @param int $id
@@ -146,17 +125,6 @@ class TaskController extends Controller
         $task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($task);
 
-    }
-
-    public function getLeads()
-    {
-        $list = $this->task_repo->getLeads(null, null, auth()->user()->account_user()->account_id);
-
-        $tasks = $list->map(function (Task $task) {
-            return $this->transformTask($task);
-        })->all();
-
-        return response()->json($tasks);
     }
 
     public function getDeals()
@@ -201,30 +169,6 @@ class TaskController extends Controller
     }
 
     /**
-     * @param int $task_id
-     * @param Request $request
-     * @return mixed
-     */
-    public function addProducts(int $task_id, Request $request)
-    {
-        $task = $this->task_repo->findTaskById($task_id);
-
-        $user = auth()->user();
-
-        if (empty($user)) {
-            $user = User::find(9874);
-        }
-
-        if ($request->has('products')) {
-            $order_factory = (new OrderFactory())->create($user->id, $user->account_user()->account_id, $task_id,
-                empty($request->quantity) ? 1 : $request->quantity);
-            (new OrderRepository(new Order))->buildOrderDetails($request->input('products'), $task,
-                (new ProductRepository(new Product)), $order_factory);
-            return response()->json((new OrderFilter((new OrderRepository(new Order))))->filterByTask($task));
-        }
-    }
-
-    /**
      *
      * @param int $task_id
      * @return type
@@ -263,20 +207,6 @@ class TaskController extends Controller
 
         event(new DealWasCreated($task, $task->account));
 
-        return response()->json($task);
-    }
-
-    /**
-     *
-     * @param CreateDealRequest $request
-     * @return type
-     */
-    public function createLead(Request $request)
-    {
-        $task = (new TaskFactory())->create(9874, 1);
-        $task = $task->service()->createDeal($request,
-            (new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact))),
-            new TaskRepository(new Task, new ProjectRepository(new Project)), false);
         return response()->json($task);
     }
 

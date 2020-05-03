@@ -5,9 +5,10 @@ use Faker\Generator as Faker;
 $factory->define(App\Account::class, function (Faker $faker) {
     return [
         //'name' => $faker->name,
+        'domain_id' => 5,
         'company_key'   => strtolower(\Illuminate\Support\Str::random(25)),
         'ip'            => $faker->ipv4,
-        'settings'      => (new \App\Settings())->getAccountDefaults(),
+        'settings'      => (new \App\Settings\AccountSettings)->getAccountDefaults(),
         'custom_fields' => (object)['custom1' => '1', 'custom2' => '2', 'custom3' => '3'],
         // 'address1' => $faker->secondaryAddress,
         // 'address2' => $faker->address,

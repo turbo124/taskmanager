@@ -198,7 +198,7 @@ class PdfColumns
 
         foreach ($values as $value) {
 
-            if (array_key_exists($value, $variables)) {
+            if (isset($variables[$value])) {
                 $tmp = str_replace("</span>", "_label</span>", $variables[$value]);
                 $output .= $type === 'label' ? $tmp : $variables[$value] . $appends;
                 continue;

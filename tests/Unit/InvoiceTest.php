@@ -56,7 +56,7 @@ class InvoiceTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
-        $this->account = factory(Account::class)->create();
+        //$this->account = factory(Account::class)->create();
         $this->user = factory(User::class)->create();
         $this->main_account = Account::where('id', 1)->first();
         $this->objNumberGenerator = new NumberGenerator;
@@ -68,7 +68,6 @@ class InvoiceTest extends TestCase
         factory(Invoice::class)->create();
         $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Invoice::class, $list[0]);
     }
 
     /** @test */
@@ -209,7 +208,7 @@ class InvoiceTest extends TestCase
         $customer->settings = $customerSettings;
         $customer->save();
 
-        $invoice = InvoiceFactory::create($this->account, $this->user, $customer);
+        $invoice = InvoiceFactory::create($this->main_account, $this->user, $customer);
 
         $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($customer, $invoice);
         $this->assertEquals($customer->getSetting('counter_padding'), 5);

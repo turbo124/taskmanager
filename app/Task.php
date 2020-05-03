@@ -6,6 +6,7 @@ use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
 use App\Product;
+use App\Timer;
 use App\User;
 use App\TaskStatus;
 use App\Customer;
@@ -86,6 +87,16 @@ class Task extends Model
     }
 
     /**
+         * Get associated timers.
+         *
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function timers()
+        {
+            return $this->hasMany(Timer::class);
+        }
+
+    /**
      * Get the comments for the blog post.
      */
     public function comments()
@@ -101,5 +112,15 @@ class Task extends Model
     public function service(): TaskService
     {
         return new TaskService($this);
+    }
+
+    public function getTotalDuration()
+    {
+        /*
+        SELECT id, employee_id, date, 
+		time_from, time_to, ROUND(TIMESTAMPDIFF(MINUTE, time_from, time_to)/60, 2) as hours, 
+		comments, activity_id, date_submitted 
+		FROM timesheet
+        */
     }
 }

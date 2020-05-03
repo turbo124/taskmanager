@@ -14,28 +14,27 @@ trait FileTransformable
      */
     protected function transformFile(File $document)
     {
-        $prop = new File;
 
+return [
+        'id' => $document->id,
+        'user_id' => $document->user_id,
+        'assigned_user_id' => $document->assigned_user_id,
+        'task_id' => $document->task_id,
+        'company_id' => $document->company_id,
+        'file_path' => (string)url($document->file_path) ?: '',
+        'preview' => (string)$document->preview ?: '',
+        'name' => (string)$document->name,
+        'type' => (string)$document->type,
+        'user' => $document->user,
+        'disk' => (string)$document->disk,
+        'hash' => (string)$document->hash,
+        'size' => (int)$document->size,
+        'width' => (int)$document->width,
+        'height' => (int)$document->height,
+        'is_default' => (bool)$document->is_default,
+        'updated_at' => $document->updated_at,
+        'archived_at' => $document->archived_at,
+    ];
 
-        $prop->id = $document->id;
-        $prop->user_id = $document->user_id;
-        $prop->assigned_user_id = $document->assigned_user_id;
-        $prop->task_id = $document->task_id;
-        $prop->company_id = $document->company_id;
-        $prop->file_path = (string)url($document->file_path) ?: '';
-        $prop->preview = (string)$document->preview ?: '';
-        $prop->name = (string)$document->name;
-        $prop->type = (string)$document->type;
-        $prop->user = $document->user;
-        $prop->disk = (string)$document->disk;
-        $prop->hash = (string)$document->hash;
-        $prop->size = (int)$document->size;
-        $prop->width = (int)$document->width;
-        $prop->height = (int)$document->height;
-        $prop->is_default = (bool)$document->is_default;
-        $prop->updated_at = $document->updated_at;
-        $prop->archived_at = $document->archived_at;
-
-        return $prop;
     }
 }

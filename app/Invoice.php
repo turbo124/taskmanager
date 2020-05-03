@@ -27,11 +27,6 @@ class Invoice extends Model
         'is_deleted' => 'boolean',
     ];
 
-    protected $with = [
-        //'account',
-        //'customer',
-    ];
-
     /**
      * The attributes that are mass assignable.
      *

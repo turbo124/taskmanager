@@ -61,7 +61,6 @@ class QuoteTest extends TestCase
         factory(Quote::class)->create();
         $list = (new QuoteFilter(new QuoteRepository(new Quote)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Quote::class, $list[0]);
     }
 
     /** @test */

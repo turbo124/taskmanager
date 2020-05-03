@@ -28,6 +28,7 @@ class RecurringInvoiceService extends ServiceBase
      */
     public function __construct(RecurringInvoice $invoice)
     {
+        parent::__construct($invoice);
         $this->invoice = $invoice;
 
     }

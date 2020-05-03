@@ -14,6 +14,7 @@ use App\Services\Invoice\UpdateBalance;
 use Illuminate\Support\Carbon;
 use App\Services\Invoice\ApplyPayment;
 use App\Events\Invoice\InvoiceWasPaid; 
+use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
 
 class InvoiceService extends ServiceBase
@@ -25,7 +26,8 @@ class InvoiceService extends ServiceBase
     private $payment_service;
 
     public function __construct(Invoice $invoice)
-    {
+    { 
+        parent::__construct($invoice);
         $this->invoice = $invoice;
     }
 
@@ -104,9 +106,14 @@ class InvoiceService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'invoice')
+    public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
-        return (new InvoiceEmail($this->invoice, $subject, $body, $template, $contact))->run();
+        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+            return null;
+        }
+  
+        event(new InvoiceWasEmailed($this->invoice->invitations->first()));
+        return $this->invoice;
     }
 
     public function calculateInvoiceTotals(): Invoice

@@ -23,6 +23,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\CustomerRepository;
 use App\Factory\TaskFactory;
 use App\Factory\OrderFactory;
+use App\Product;
 use App\ClientContact;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\TaskRepository;
@@ -40,6 +41,8 @@ class OrderTest extends TestCase
 
     private $user;
 
+    private $product;
+
       private $objNumberGenerator;
 
     public function setUp(): void
@@ -50,6 +53,7 @@ class OrderTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
+         $this->product = factory(Product::class)->create();
          $this->objNumberGenerator = new NumberGenerator;
     }
 
@@ -59,7 +63,6 @@ class OrderTest extends TestCase
         factory(Order::class)->create();
         $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Order::class, $list[0]);
     }
 
     
@@ -179,7 +182,7 @@ class OrderTest extends TestCase
     'products' => [
         0 => [
             'quantity' => 1,
-                    'product_id' => 306,
+                    'product_id' => $this->product->id,
                     'unit_price' => 12.99,
                     'unit_tax' => 17.5,
                     'unit_discount' => 0,

@@ -2,7 +2,7 @@
 
 namespace App\Events\Credit;
 
-use App\Credit;
+use App\CreditInvitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -18,7 +18,7 @@ class CreditWasEmailed
      *
      * @return void
      */
-    public function __construct(Credit $credit)
+    public function __construct(CreditInvitation $credit)
     {
         $this->credit = $credit;
     }

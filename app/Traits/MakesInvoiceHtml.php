@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Throwable;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class MakesInvoiceHtml.
@@ -36,8 +37,8 @@ trait MakesInvoiceHtml
         $designer->buildDesign();
         $table = $designer->getSection('table');
         $settings = $entity->account->settings;
-        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img src="">' : '';
-        
+        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature .'"/>' : '';
+ 
         $data = [
             'entity' => $entity,
             'lang' => $entity->customer->preferredLocale(),
@@ -52,7 +53,7 @@ trait MakesInvoiceHtml
 
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
-
+        
         return $html;
     }
 

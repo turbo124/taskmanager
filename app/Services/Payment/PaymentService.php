@@ -13,6 +13,7 @@ class PaymentService extends ServiceBase
 
     public function __construct(Payment $payment)
     {
+        parent::__construct($payment);
         $this->payment = $payment;
     }
 

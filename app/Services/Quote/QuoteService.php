@@ -6,6 +6,7 @@ use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Invoice;
 use App\Quote;
 use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasEmailed;
 use App\Repositories\InvoiceRepository;
 use App\Services\Quote\MarkSent;
 use App\Repositories\QuoteRepository;
@@ -17,6 +18,7 @@ class QuoteService extends ServiceBase
 
     public function __construct(Quote $quote)
     {
+        parent::__construct($quote);
         $this->quote = $quote;
     }
 
@@ -59,9 +61,14 @@ class QuoteService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'quote')
+    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
-        return (new QuoteEmail($this->quote, $subject, $body, $template, $contact))->run();
+        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+            return null;
+        }
+
+        event(new QuoteWasEmailed($this->quote->invitations->first()));
+        return $this->quote;
     }
 
     public function calculateInvoiceTotals(): Quote

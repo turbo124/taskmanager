@@ -63,7 +63,7 @@ class PaymentUnitTest extends TestCase
         $paymentRepo = new PaymentRepository(new Payment);
         $paymentRepo->processPayment($data, $factory);
         $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account->id);
-        $this->assertInstanceOf(Payment::class, $lists[0]);
+        $this->assertNotEmpty($lists);    
     }
 
     /** @test */

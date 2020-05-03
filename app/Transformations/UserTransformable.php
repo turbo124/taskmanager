@@ -18,34 +18,34 @@ trait UserTransformable
      */
     protected function transformUser(User $user)
     {
-        $prop = new User;
+        return [
+        'id' => (int)$user->id,
+        'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'email' => $user->email,
+        'username' => $user->username,
+        'phone_number' => $user->phone_number,
+        'password' => $user->password,
+        'job_description' => $user->job_description,
+        'account_users' => $this->transformUserAccounts($user->account_users),
+        'gender' => $user->gender,
+        'dob' => $user->dob,
+        'department' => 0,
+        'custom_value1' => $user->custom_value1 ?: '',
+        'custom_value2' => $user->custom_value2 ?: '',
+        'custom_value3' => $user->custom_value3 ?: '',
+        'custom_value4' => $user->custom_value4 ?: '',
+        'deleted_at' => $user->deleted_at,
+        'created_at' => $user->created_at,
+    ];
 
-        $prop->id = (int)$user->id;
-        $prop->first_name = $user->first_name;
-        $prop->last_name = $user->last_name;
-        $prop->email = $user->email;
-        $prop->username = $user->username;
-        $prop->phone_number = $user->phone_number;
-        $prop->password = $user->password;
-        $prop->job_description = $user->job_description;
-        $prop->account_users = $this->transformUserAccounts($user->account_users);
-        $prop->gender = $user->gender;
-        $prop->dob = $user->dob;
-        $prop->department = 0;
-        $prop->custom_value1 = $user->custom_value1 ?: '';
-        $prop->custom_value2 = $user->custom_value2 ?: '';
-        $prop->custom_value3 = $user->custom_value3 ?: '';
-        $prop->custom_value4 = $user->custom_value4 ?: '';
-        $prop->deleted_at = $user->deleted_at;
-        $prop->created_at = $user->created_at;
-
-        if ($user->departments->count() > 0) {
+        /*if ($user->departments->count() > 0) {
             $objDepartment = $user->departments->first();
             $prop->department = $objDepartment->id;
             $prop->dept = $objDepartment->name;
         }
 
-        return $prop;
+        return $prop;*/
     }
 
     private function transformUserAccounts($account_users)

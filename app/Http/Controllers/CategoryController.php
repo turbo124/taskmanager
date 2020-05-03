@@ -73,7 +73,7 @@ class CategoryController extends Controller
     {
         $categoryObj = $this->categoryRepo->createCategory($request->except('_token', '_method'));
         $category = $this->transformCategory($categoryObj);
-        return $category->toJson();
+        return response()->json($category);
     }
 
     /**

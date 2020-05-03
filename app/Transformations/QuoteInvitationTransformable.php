@@ -14,18 +14,17 @@ class QuoteInvitationTransformable
      */
     public function transformQuoteInvitations(QuoteInvitation $invitation)
     {
-        $prop = new QuoteInvitation;
-        $prop->id = (int)$invitation->id;
-        $prop->client_contact_id = (int)$invitation->client_contact_id;
-        $prop->key = $invitation->key;
-        //$prop->link = $invitation->getLink() ?: '';
-        $prop->sent_date = $invitation->sent_date ?: '';
-        $prop->viewed_date = $invitation->viewed_date ?: '';
-        $prop->opened_date = $invitation->opened_date ?: '';
-        $prop->updated_at = $invitation->updated_at;
-        $prop->archived_at = $invitation->deleted_at;
-
-        return $prop;
+        return [
+        'id' => (int)$invitation->id,
+        'client_contact_id' => (int)$invitation->client_contact_id,
+        'customer_id' => (int)$invitation->customer_id,
+        'key' => $invitation->key,
+        'sent_date' => $invitation->sent_date ?: '',
+        'viewed_date' => $invitation->viewed_date ?: '',
+        'opened_date' => $invitation->opened_date ?: '',
+        'updated_at' => $invitation->updated_at,
+        'archived_at' => $invitation->deleted_at,
+        ];
     }
 
 }

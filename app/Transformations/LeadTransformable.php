@@ -13,34 +13,34 @@ trait LeadTransformable
     protected function transformLead(Lead $lead)
     {
 
-        $prop = new Lead;
-        $prop->id = (int)$lead->id;
-        $prop->website = $lead->website ?: '';
-        $prop->industry_id = (int)$lead->industry_id;
-        $prop->created_at = $lead->created_at;
-        $prop->first_name = $lead->first_name;
-        $prop->last_name = $lead->last_name;
-        $prop->title = $lead->title;
-        $prop->description = $lead->description;
-        $prop->valued_at = $lead->valued_at;
-        $prop->source_type = $lead->source_type;
-        $prop->task_status = $lead->task_status;
-        $prop->address_1 = $lead->address_1;
-        $prop->address_2 = $lead->address_2;
-        $prop->city = $lead->city;
-        $prop->zip = $lead->zip;
-        $prop->email = $lead->email;
-        $prop->phone = $lead->phone;
-        $prop->company_name = $lead->company_name;
-        $prop->job_title = $lead->job_title;
-        $prop->assigned_user_id = (int)$lead->assigned_user_id;
-        $prop->deleted_at = $lead->deleted_at;
-        $prop->website = $lead->website ?: '';
-        $prop->private_notes = $lead->private_notes ?: '';
-        $prop->public_notes = $lead->public_notes ?: '';
-        $prop->emails = $this->transformLeadEmails($lead->emails());
+       return [
+        'id' => (int)$lead->id,
+        'website' => $lead->website ?: '',
+        'industry_id' => (int)$lead->industry_id,
+        'created_at' => $lead->created_at,
+        'first_name' => $lead->first_name,
+        'last_name' => $lead->last_name,
+        'title' => $lead->title,
+        'description' => $lead->description,
+        'valued_at' => $lead->valued_at,
+        'source_type' => $lead->source_type,
+        'task_status' => $lead->task_status,
+        'address_1' => $lead->address_1,
+        'address_2' => $lead->address_2,
+        'city' => $lead->city,
+        'zip' => $lead->zip,
+        'email' => $lead->email,
+        'phone' => $lead->phone,
+        'company_name' => $lead->company_name,
+        'job_title' => $lead->job_title,
+        'assigned_user_id' => (int)$lead->assigned_user_id,
+        'deleted_at' => $lead->deleted_at,
+        'website' => $lead->website ?: '',
+        'private_notes' => $lead->private_notes ?: '',
+        'public_notes' => $lead->public_notes ?: '',
+        'emails' => $this->transformLeadEmails($lead->emails()),
+    ];
 
-        return $prop;
     }
 
     /**
