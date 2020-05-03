@@ -22,14 +22,13 @@
             $this->task_repo = $task_repo;
         }
 
-        public function store(Request $request, int $id)
+        public function store(CreateTimerRequest $request)
         {
-            $data = $request->validate(['name' => 'required|between:3,100']);
-            $task = $this->task_repo->findTaskById($id);
+            $task = $this->task_repo->findTaskById($request->task_id);
 
-            $this->timer_repo->save(TimerFactory::create(auth()->user()->id, $account_id, $task), $request->all);
+            $timer = $this->timer_repo->save(TimerFactory::create(auth()->user()->id, auth()->user()->account_user()->account, $task), $request->all);
 
-            return $timer->with('project')->find($timer->id);
+            return response()->json($timer);
         }
 
         public function running()
