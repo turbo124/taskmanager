@@ -60,9 +60,13 @@ class QuoteService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): Quote
+    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
-        $this->sendInvitationEmails($subject, $body, $template);
+        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+            return null;
+        }
+
+        event(new QuoteWasEmailed($this->quote->invitations->first()));
         return $this->quote;
     }
 
