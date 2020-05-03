@@ -60,9 +60,10 @@ class QuoteService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'quote')
+    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): Quote
     {
-        return (new QuoteEmail($this->quote, $subject, $body, $template, $contact))->run();
+        $this->sendInvitationEmails($subject, $body, $template);
+        return $this->quote;
     }
 
     public function calculateInvoiceTotals(): Quote
