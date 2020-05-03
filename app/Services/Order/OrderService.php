@@ -18,6 +18,7 @@ class OrderService extends ServiceBase
 
     public function __construct(Order $order)
     {
+        parent::__construct($order);
         $this->order = $order;
     }
 
