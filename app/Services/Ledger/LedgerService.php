@@ -13,6 +13,7 @@ class LedgerService extends ServiceBase
 
     public function __construct($entity)
     {
+        parent::__construct($entity);
         $this->entity = $entity;
     }
 
