@@ -16,7 +16,7 @@
 
         private $timer_repo;
 
-        public function __constructor(TaskRepository $task_repo, TimerRepository $timer_repo)
+        public function __construct(TaskRepository $task_repo, TimerRepository $timer_repo)
         {
             $this->timer_repo = $timer_repo;
             $this->task_repo = $task_repo;
