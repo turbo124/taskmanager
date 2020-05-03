@@ -23,16 +23,19 @@ class CreditService extends ServiceBase
         return $get_credit_pdf->run();
     }
 
-
     /**
      * @param null $contact
      * @param string $subject
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'credit'): Credit
+    public function sendEmail($contact = null, $subject, $body, $template = 'credit'): ?Credit
     {
-        $this->sendInvitationEmails($subject, $body, $template);
+        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+            return null;
+        }
+
+        event(new CreditWasEmailed($this->credit->invitations->first()));
         return $this->credit;
     }
 
