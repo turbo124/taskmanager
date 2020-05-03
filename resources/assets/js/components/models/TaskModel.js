@@ -14,7 +14,7 @@ export default class InvoiceModel extends BaseModel {
         this.customers = customers
         this.entity = 'Task'
         this._url = '/api/tasks'
-        this._timerUrl = '/api/tasks/timer'
+        this._timerUrl = '/api/timer'
         this._time_log = []
 
         this._fields = {
