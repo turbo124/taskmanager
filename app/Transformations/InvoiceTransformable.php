@@ -34,7 +34,7 @@ trait InvoiceTransformable
         'next_send_date' => $invoice->date ?: '',
         'design_id' => (int)$invoice->design_id,
         'invitations' => $this->transformInvoiceInvitations($invoice->invitations),
-        'total' => $invoice->total,
+        'total' => (float) $invoice->total,
         'balance' => (float)$invoice->balance,
         'sub_total' => (float)$invoice->sub_total,
         'tax_total' => (float)$invoice->tax_total,
