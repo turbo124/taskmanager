@@ -12,6 +12,7 @@ class CreditService extends ServiceBase
 
     public function __construct(Credit $credit)
     {
+        parent::__construct($credit);
         $this->credit = $credit;
     }
 
