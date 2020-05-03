@@ -105,9 +105,13 @@ class InvoiceService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): Invoice
+    public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
-        $this->sendInvitationEmails($subject, $body, $template);
+        if(!$this->sendInvitationEmails($subject, $body, $template)) {
+            return null;
+        }
+  
+        event(new InvoiceWasEmailed($this->invoice->invitations->first()));
         return $this->invoice;
     }
 
