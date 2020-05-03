@@ -16,6 +16,7 @@ class TimerFactory
         $timer->user_id = $user->id;
         $timer->task_id = $task->id;
         $timer->account_id = $account->id;
+        $timer->started_at = new Carbon;
 
         return $timer;
     }
