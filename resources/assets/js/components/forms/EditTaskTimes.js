@@ -12,6 +12,7 @@ import {
 } from 'reactstrap'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
+import ElapsedTime from './ElapsedTime'
 
 class EditTaskTimes extends Component {
     constructor (props, context) {
@@ -20,7 +21,7 @@ class EditTaskTimes extends Component {
             currentIndex: null,
             showSuccess: false,
             showError: false,
-            times: [{ date: '02/02/2020', start_time: '10:00:00', end_time: '15:00:00' }],
+            times: this.props.timers,
             visible: 'collapse',
             dropdownOpen: false,
             dropdown2Open: true
@@ -53,7 +54,13 @@ class EditTaskTimes extends Component {
     }
 
     handleChange (e) {
-        const times = this.model.updateTaskTime(e.target.dataset.id, e.target.name, e.target.value)
+        let value = e.target.value
+
+        /*if(e.target.name === 'end_time' || e.target.name === 'start_time') {
+            value = value.length > 1 ? moment(value.length).format('HH:MM:SS') : ''
+        }*/
+
+        const times = this.model.updateTaskTime(e.target.dataset.id, e.target.name, value)
         this.setState({ times: times })
         console.log('times', times)
     }
@@ -75,8 +82,9 @@ class EditTaskTimes extends Component {
     }
 
     handleSave (isDelete = false) {
-        axios.put(`/api/timer/${this.props.task_id}`, {
-            time_log: this.state.times
+        axios.post(`/api/timer`, {
+            time_log: this.state.times,
+            task_id: this.props.task_id,
         })
             .then((response) => {
                 this.setState({ showSuccess: true, showError: false })
@@ -101,8 +109,12 @@ class EditTaskTimes extends Component {
             return <div key={index}
                 className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{time.date}</h5>
-                    <small>{model.calculateDuration(time.start_time, time.end_time)}</small>
+                    <h5 className="mb-1">{moment(time.date).format('DD-MM-YYYY')}</h5>
+                    
+                    {time.end_time && <small>{model.calculateDuration(time.start_time, time.end_time)}</small>}
+                    
+                    {!time.end_time.length && <ElapsedTime date={time.date} currentStartTime={time.start_time} />}
+
                     <i onClick={() => this.handleSlideClick(index)} className="fa fa-arrow-right"/>
                 </div>
                 <p className="mb-1">{`${time.start_time} - ${time.end_time}`}</p>
@@ -163,6 +175,8 @@ class EditTaskTimes extends Component {
                         </CardBody>
                     </Card>
                 </div>
+
+                <Button color="primary" onClick={this.handleSave}>Done</Button>
             </React.Fragment>
         )
     }

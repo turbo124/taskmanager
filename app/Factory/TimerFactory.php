@@ -7,6 +7,7 @@ use App\Timer;
 use App\Account;
 use App\User;
 use App\Customer;
+use Carbon\Carbon;
 
 class TimerFactory
 {

@@ -19,12 +19,13 @@ class NewDealNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $deal;
-    protected $account;
+    private $deal;
+    private string $message_type;
 
-    public function __construct($deal, $account)
+    public function __construct($deal, string $message_type = '')
     {
         $this->deal = $deal;
+        $this->message_type = $message_type;
     }
 
 
@@ -36,7 +37,7 @@ class NewDealNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**

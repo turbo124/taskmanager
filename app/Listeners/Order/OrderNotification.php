@@ -30,13 +30,13 @@ class OrderNotification implements ShouldQueue
 
         if (!empty($order->account->account_users)) {
             foreach ($order->account->account_users as $account_user) {
-                $account_user->user->notify(new NewOrderNotification($order, $order->account));
+                $account_user->user->notify(new NewOrderNotification($order));
             }
         }
 
         if (isset($order->account->slack_webhook_url)) {
             Notification::route('slack', $order->account->slack_webhook_url)->notify(new NewOrderNotification($order,
-                $order->account, true));
+                'slack'));
         }
     }
 }

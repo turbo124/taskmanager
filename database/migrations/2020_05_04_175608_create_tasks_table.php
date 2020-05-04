@@ -31,8 +31,6 @@ class CreateTasksTable extends Migration {
 			$table->integer('parent_id')->default(0);
 			$table->integer('source_type')->unsigned()->nullable()->default(1)->index('tasks_source_type_foreign');
 			$table->dateTime('start_date')->nullable();
-			$table->string('time_log');
-			$table->boolean('is_running')->default(0);
 			$table->softDeletes();
 			$table->integer('assigned_user_id')->unsigned()->nullable();
 			$table->integer('account_id')->unsigned()->index();
@@ -40,8 +38,6 @@ class CreateTasksTable extends Migration {
 			$table->string('custom_value2')->nullable();
 			$table->integer('company_id')->nullable();
 			$table->smallInteger('task_status_sort_order')->nullable();
-			$table->dateTime('start_time')->nullable();
-			$table->integer('duration')->nullable();
 			$table->boolean('is_deleted')->default(0);
 			$table->text('custom_value3', 65535)->nullable();
 			$table->text('custom_value4', 65535)->nullable();

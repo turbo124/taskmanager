@@ -79,7 +79,7 @@ class TaskController extends Controller
     {
         $task = $this->task_repo->save($request->all(),
             (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account));
-        $task = SaveTaskTimes::dispatchNow($request->all(), $task);
+        //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($this->transformTask($task));
     }
 
@@ -122,7 +122,7 @@ class TaskController extends Controller
     {
         $task = $this->task_repo->findTaskById($id);
         $task = $this->task_repo->save($request->all(), $task);
-        $task = SaveTaskTimes::dispatchNow($request->all(), $task);
+        //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($task);
 
     }

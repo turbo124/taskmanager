@@ -7,6 +7,8 @@ use App\User;
 use App\Repositories\UserRepository;
 use App\Repositories\TaskStatusRepository;
 use App\TaskStatus;
+use App\Transformations\TimerTransformable;
+use App\Timer;
 use App\Transformations\CustomerTransformable;
 use App\Libraries\Utils;
 
@@ -24,7 +26,7 @@ trait TaskTransformable
         'title' => $task->title,
         'content' => $task->content,
         'comments' => $task->comments,
-        'comments' => $task->due_date,
+        'due_date' => $task->due_date,
         'start_date' => $task->start_date,
         'is_completed' => $task->is_completed,
         'task_status' => $task->task_status,
@@ -41,8 +43,7 @@ trait TaskTransformable
         'is_active' => $task->is_active,
         'project_id' => $task->project_id,
         'is_deleted' => (bool)$task->is_deleted,
-        'time_log' => $task->time_log ?: '',
-        'is_running' => (bool)$task->is_running,
+        'timers' => $this->transformTimers($task->timers),
         'custom_value1' => $task->custom_value1 ?: '',
         'custom_value2' => $task->custom_value2 ?: '',
         'custom_value3' => $task->custom_value3 ?: '',
@@ -51,6 +52,22 @@ trait TaskTransformable
         'private_notes' => $task->private_notes ?: '',
         'task_status_sort_order' => (int)$task->task_status_sort_order,
     ];
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformTimers($timers)
+    {
+
+        if ($timers->count() === 0) {
+            return [];
+        }
+
+        return $timers->map(function (Timer $timer) {
+            return (new TimerTransformable)->transform($timer);
+        })->all();
     }
 
 }
