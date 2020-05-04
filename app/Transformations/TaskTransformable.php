@@ -7,6 +7,8 @@ use App\User;
 use App\Repositories\UserRepository;
 use App\Repositories\TaskStatusRepository;
 use App\TaskStatus;
+use App\Transformations\TimerTransformable;
+use App\Timer;
 use App\Transformations\CustomerTransformable;
 use App\Libraries\Utils;
 
@@ -41,7 +43,7 @@ trait TaskTransformable
         'is_active' => $task->is_active,
         'project_id' => $task->project_id,
         'is_deleted' => (bool)$task->is_deleted,
-        'time_log' => $task->time_log ?: '',
+        'timers' => $this->transformTimers($task->timers),
         'is_running' => (bool)$task->is_running,
         'custom_value1' => $task->custom_value1 ?: '',
         'custom_value2' => $task->custom_value2 ?: '',
@@ -51,6 +53,22 @@ trait TaskTransformable
         'private_notes' => $task->private_notes ?: '',
         'task_status_sort_order' => (int)$task->task_status_sort_order,
     ];
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformTimers($timers)
+    {
+
+        if ($timers->count() === 0) {
+            return [];
+        }
+
+        return $timers->map(function (Timer $timer) {
+            return (new TimerTransformable)->transform($timer);
+        })->all();
     }
 
 }

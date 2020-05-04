@@ -17,10 +17,12 @@ class CreateTimersTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->integer('user_id')->unsigned()->index('timers_user_id_foreign');
-			$table->timestamp('started_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->dateTime('started_at')->nullable();
 			$table->dateTime('stopped_at')->nullable();
 			$table->timestamps();
 			$table->integer('task_id')->unsigned()->index('task_id');
+			$table->integer('account_id')->unsigned()->index('account_id');
+			$table->softDeletes();
 		});
 	}
 

@@ -20,14 +20,15 @@ class NewOrderNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $order;
-    protected $account;
+    private Order $order;
+    
+    private string $message_type;
 
-    public function __construct(Order $order, $account)
+    public function __construct(Order $order, string $message_type = '')
     {
         $this->order = $order;
+        $this->message_type = $message_type;
     }
-
 
      /**
      * Get the notification's delivery channels.
@@ -37,7 +38,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**
@@ -48,7 +49,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $total = Number::formatMoney($this->order->total, $this->order->customer);
+        $total = $this->order->getFormattedTotal();
         $subject = trans('texts.notification_order_subject', [
             'customer' => $this->order->customer->present()->name(),
             'order'  => $this->order->number,
@@ -87,7 +88,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
             ->from("System")->image($logo)->content(trans('texts.notification_deal',
-                ['total' => Number::formatMoney($this->deal->valued_at, $this->deal->customer), 'customer' => $this->deal->customer->present()->name()]));
+                ['total' => $this->order->getFormattedTotal()]));
     }
 
 }

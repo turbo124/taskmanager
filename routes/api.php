@@ -348,6 +348,8 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
 
         Route::get('countries', 'CountryController@index');
         Route::get('currencies', 'CurrencyController@index');
+
+        Route::resource('timer', 'TimerController');
     });
 });
 

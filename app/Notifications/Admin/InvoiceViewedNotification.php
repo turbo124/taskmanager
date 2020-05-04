@@ -19,15 +19,17 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $invitation;
-    protected $invoice;
-    protected $account;
-    protected $contact;
+    private $invitation;
+    private $invoice;
+    private $account;
+    private $contact;
+    private string $message_type;
 
-    public function __construct($invitation)
+    public function __construct($invitation, string $message_type = '')
     {
         $this->invoice = $invitation->invoice;
         $this->contact = $invitation->contact;
+        $this->message_type = $message_type;
     }
 
      /**
@@ -38,7 +40,7 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**

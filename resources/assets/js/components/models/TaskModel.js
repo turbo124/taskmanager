@@ -4,8 +4,8 @@ import BaseModel from './BaseModel'
 
 const TaskTimeItem = {
     date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-    start_time: moment().format('HH::MM'),
-    end_time: moment(new Date()).add(5, 'hours').format('HH:MM')
+    start_time: moment().format('HH:MM:ss'),
+    end_time: ''
 }
 
 export default class InvoiceModel extends BaseModel {
@@ -34,6 +34,7 @@ export default class InvoiceModel extends BaseModel {
             custom_value4: '',
             public_notes: '',
             private_notes: '',
+            timers: [],
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             task_status: null,
@@ -99,13 +100,19 @@ export default class InvoiceModel extends BaseModel {
 
     calculateDuration (currentStartTime, currentEndTime) {
         const startTime = moment(currentStartTime, 'hh:mm:ss a')
-        const endTime = moment(currentEndTime, 'hh:mm:ss a')
-        let totalHours = (endTime.diff(startTime, 'hours'))
-        totalHours = ('0' + totalHours).slice(-2)
-        const totalMinutes = endTime.diff(startTime, 'minutes')
-        let clearMinutes = totalMinutes % 60
-        clearMinutes = ('0' + clearMinutes).slice(-2)
-        return `${totalHours}:${clearMinutes}`
+        let endTime = ''
+
+        if(endTime.length) {
+            endTime = moment(currentEndTime, 'hh:mm:ss a')
+            let totalHours = (endTime.diff(startTime, 'hours'))
+            totalHours = ('0' + totalHours).slice(-2)
+            const totalMinutes = endTime.diff(startTime, 'minutes')
+            let clearMinutes = totalMinutes % 60
+            clearMinutes = ('0' + clearMinutes).slice(-2)
+            return `${totalHours}:${clearMinutes}`
+        }
+
+        return ''
     }
 
     buildDropdownMenu () {

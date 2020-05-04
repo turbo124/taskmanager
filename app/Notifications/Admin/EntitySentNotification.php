@@ -22,17 +22,19 @@ class EntitySentNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $invitation;
-    protected $entity;
-    protected $entity_name;
-    protected $contact;
+    private $invitation;
+    private $entity;
+    private string $entity_name;
+    private $contact;
+    private string $message_type;
 
-    public function __construct($invitation, $entity_name)
+    public function __construct($invitation, $entity_name, string $message_type = '')
     {
         $this->invitation = $invitation;
         $this->entity_name = $entity_name;
         $this->entity = $invitation->{$entity_name};
         $this->contact = $invitation->contact;
+        $this->message_type = $message_type;
     }
 
      /**
@@ -43,7 +45,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+       return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**

@@ -26,6 +26,7 @@ class CreateAccountUserTable extends Migration {
 			$table->softDeletes();
 			$table->string('slack_webhook_url', 200)->nullable();
 			$table->text('notifications', 65535)->nullable();
+			$table->enum('default_notification_type', array('mail','slack','',''))->default('mail');
 		});
 	}
 

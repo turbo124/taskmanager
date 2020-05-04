@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Utils\Number;
+use App\Lead;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,14 +20,15 @@ class NewLeadNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $lead;
-    protected $account;
+    private Lead $lead;
 
-    public function __construct($lead, $account)
+    private string $message_type;
+
+    public function __construct(Lead $lead, string $message_type = '')
     {
         $this->lead = $lead;
+        $this->message_type = $message_type;
     }
-
 
      /**
      * Get the notification's delivery channels.
@@ -36,7 +38,7 @@ class NewLeadNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**

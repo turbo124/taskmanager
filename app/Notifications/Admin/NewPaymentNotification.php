@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Utils\Number;
+use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,11 +20,14 @@ class NewPaymentNotification extends Notification implements ShouldQueue
      * @return void
      */
 
-    protected $payment;
+    private Payment $payment;
 
-    public function __construct($payment)
+    private string $message_type;
+
+    public function __construct(Payment $payment, $message_type = '')
     {
         $this->payment = $payment;
+        $this->message_type = $message_type;
     }
 
 
@@ -35,7 +39,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return isset($this->entity->account->settings->slack_enabled) && $this->entity->account->settings->slack_enabled === true ? ['mail', 'slack'] : ['mail'];
+       return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**

@@ -236,7 +236,7 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>Details</CardHeader>
                         <CardBody>
-                            <EditTaskTimes model={this.taskModel} task_id={this.props.task.id}/>
+                            <EditTaskTimes timers={this.props.task.timers} model={this.taskModel} task_id={this.props.task.id}/>
                         </CardBody>
                     </Card>
                 </TabPane>
