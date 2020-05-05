@@ -18,13 +18,13 @@ trait DesignTransformable
      */
     public function transformDesign(Design $design)
     {
-        $obj = new Design();
-        $obj->id = (int)$design->id;
-        $obj->name = (string)$design->name;
-        $obj->is_custom = (bool)$design->is_custom;
-        $obj->is_active = (bool)$design->is_active;
-        $obj->design = $design->design;
-        return $obj;
+        return [
+        'id' => (int)$design->id,
+        'name' => (string)$design->name,
+        'is_custom' => (bool)$design->is_custom,
+        'is_active' => (bool)$design->is_active,
+        'design' => $design->design,
+        ];
     }
 
 }
