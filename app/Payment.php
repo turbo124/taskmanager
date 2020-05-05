@@ -201,7 +201,7 @@ class Payment extends Model
 
     public function getFormattedAmount()
     {
-        return Number::formatMoney($this->amount, $this->customer);
+        return Number::formatCurrency($this->amount, $this->customer);
     }
 
     public function getFormattedInvoices()
