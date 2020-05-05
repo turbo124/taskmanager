@@ -17,7 +17,7 @@
 
 <body class="bg-secondary my-4 text-white">
 <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-8 offset-2">
             <div style="border-width: 4px !important;" class="bg-dark shadow border-top border-info">
                     @component('email.components.header', ['p' => $body, 'logo' => isset($logo) ? $logo : ''])
         

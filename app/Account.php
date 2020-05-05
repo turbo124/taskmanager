@@ -74,7 +74,7 @@ class Account extends Model
 
     public function getLocale()
     {
-        return isset($this->settings->language_id) && $this->language() ? $this->language()->locale : config('taskmanager.i18n.locale');
+        return isset($this->settings->language_id) && $this->language() ? $this->language()->locale : config('taskmanager.locale');
     }
 
     public function getSettings()

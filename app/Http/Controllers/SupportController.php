@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Support\Messages;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SupportMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class SendingController extends Controller
+class SupportController extends Controller
 {
 
     /**
@@ -20,7 +20,7 @@ class SendingController extends Controller
             'message' => ['required'],
         ]);
 
-        Mail::to(config('taskmanager.contact.primary_email'))->send(new SupportMessage($request->message));
+        Mail::to(config('taskmanager.support_email'))->send(new SupportMessage($request->message));
 
         return response()->json([
             'success' => true

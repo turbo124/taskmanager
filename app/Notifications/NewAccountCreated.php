@@ -59,7 +59,7 @@ class NewAccountCreated extends Notification implements ShouldQueue
             'title'     => trans('texts.new_account_created'),
             'message'   => trans('texts.new_account_text', ['user' => $user_name, 'email' => $email, 'ip' => $ip]),
             'url'       => config('taskmanager.web_url'),
-            'button'    => trans('texts.login'),
+            'button_text'    => trans('texts.login'),
             'signature' => $this->account->settings->email_signature,
             'logo'      => $this->account->present()->logo(),
         ];

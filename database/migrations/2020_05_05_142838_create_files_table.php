@@ -30,10 +30,6 @@ class CreateFilesTable extends Migration {
 			$table->integer('documentable_id')->unsigned();
 			$table->string('documentable_type');
 			$table->integer('company_id')->unsigned()->nullable();
-			$table->string('custom_value1')->nullable();
-			$table->string('custom_value2')->nullable();
-			$table->string('custom_value3')->nullable();
-			$table->string('custom_value4')->nullable();
 			$table->softDeletes();
 		});
 	}
