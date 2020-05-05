@@ -47,9 +47,7 @@ class LoginController extends Controller
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
-            return response()->json(['message' => 'Too many login attempts, you are being throttled'], 401)
-                ->header('X-App-Version', config('taskmanager.app_version'))
-                ->header('X-Api-Version', config('taskmanager.api_version'));
+            return response()->json(['message' => 'Too many login attempts, you are being throttled'], 401);
         }
 
         if ($token = auth()->attempt($request->all())) {

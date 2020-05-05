@@ -48,7 +48,7 @@ class NewDealNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $total = Number::formatMoney($this->deal->valued_at, $this->deal->customer);
+        $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new MailMessage)->subject(trans('texts.notification_deal_subject',
             ['customer' => $this->deal->customer->present()->name(),]))->markdown('email.admin.new', ['data' => [
@@ -79,7 +79,7 @@ class NewDealNotification extends Notification implements ShouldQueue
     public function toSlack($notifiable)
     {
         $logo = $this->deal->account->present()->logo();
-        $total = Number::formatMoney($this->deal->valued_at, $this->deal->customer);
+        $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new SlackMessage)->success()
             ->from("System")->image($logo)->content(trans('texts.notification_deal',

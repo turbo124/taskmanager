@@ -6,6 +6,7 @@ use App\CompanyToken;
 use App\Quote;
 use App\Repositories\Base\BaseRepository;
 use App\Subscription;
+use App\Account;
 
 class SubscriptionRepository extends BaseRepository
 {
@@ -36,6 +37,11 @@ class SubscriptionRepository extends BaseRepository
     public function findSubscriptionById(int $id): Subscription
     {
         return $this->findOneOrFail($id);
+    }
+
+    public function findSubscriptionByEvent(int $event_id, Account $account)
+    {
+        return $this->model->where('event_id', '=', $event_id)->where('account_id', '=', $account->id)->first();
     }
 
     /**

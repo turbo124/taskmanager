@@ -17,7 +17,7 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         Route::get('activity', 'ActivityController@index');
 
         //support
-        Route::post('support/messages/send', 'Support\Messages\SendingController');
+        Route::post('support/messages/send', 'SupportController');
 
         // company ledger
         Route::get('company_ledger', 'CompanyLedgerController@index')->name('company_ledger.index');

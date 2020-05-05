@@ -20,7 +20,7 @@ class Number
      *
      * @return string           The formatted value
      */
-    public static function formatMoney($value, $customer): string
+    public static function formatCurrency($value, $customer): string
     {
         $currency = $customer->currency;
 

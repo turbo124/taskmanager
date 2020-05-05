@@ -160,17 +160,17 @@ class Quote extends Model
 
     public function getFormattedTotal()
     {
-        return Number::formatMoney($this->total, $this->customer);
+        return Number::formatCurrency($this->total, $this->customer);
     }
 
     public function getFormattedSubtotal()
     {
-        return Number::formatMoney($this->sub_total, $this->customer);
+        return Number::formatCurrency($this->sub_total, $this->customer);
     }
 
     public function getFormattedBalance()
     {
-        return Number::formatMoney($this->balance, $this->customer);
+        return Number::formatCurrency($this->balance, $this->customer);
     }
 
     public function getDesignId()

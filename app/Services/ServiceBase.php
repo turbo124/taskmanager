@@ -15,6 +15,7 @@ class ServiceBase
 
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
+        
         if($this->entity->invitations->count() === 0) {
             return false;
         }

@@ -102,7 +102,7 @@ class PdfData
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
         $this->data['$entity_label']       =  ['value' => '', 'label' => trans('texts.' . $class)];
-        $this->data['$invoice.partial_due'] = ['value' => Number::formatMoney($this->entity->partial, $customer) ?: '&nbsp;', 'label' => trans('texts.partial_due_label')];
+        $this->data['$invoice.partial_due'] = ['value' => Number::formatCurrency($this->entity->partial, $customer) ?: '&nbsp;', 'label' => trans('texts.partial_due_label')];
         $this->data['$from']                   = ['value' => '', 'label' => trans('texts.from')];
         $this->data['$to']                     = ['value' => '', 'label' => trans('texts.to')];
         return $this;
@@ -370,7 +370,7 @@ class PdfData
 
     public function setDiscount(Customer $customer, $discount): self
     {
-        $this->data['$discount'] = ['value' => Number::formatMoney($discount, $customer) ?: '&nbsp;', 'label' => trans('texts.discount')];
+        $this->data['$discount'] = ['value' => Number::formatCurrency($discount, $customer) ?: '&nbsp;', 'label' => trans('texts.discount')];
         return $this;
     }
 
@@ -418,13 +418,13 @@ class PdfData
             }
 
             if ($span === true) {
-                $data .= '<span>' . Number::formatMoney($tax['total'], $customer) . '</span>';
+                $data .= '<span>' . Number::formatCurrency($tax['total'], $customer) . '</span>';
                 continue;
             }
 
             $data .= '<tr class="' . $class . '">';
             $data .= '<td>' . $tax['name'] . '</td>';
-            $data .= '<td>' . Number::formatMoney($tax['total'], $customer) . '</td></tr>';
+            $data .= '<td>' . Number::formatCurrency($tax['total'], $customer) . '</td></tr>';
         }
 
         return $data;
@@ -504,14 +504,14 @@ class PdfData
            
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
             $this->line_items[$key][$table_type . '.notes'] = $item->notes ?: '';
-            $this->line_items[$key][$table_type . '.cost'] = Number::formatMoney($item->unit_price, $customer);
-            $this->line_items[$key][$table_type . '.line_total'] = Number::formatMoney($item->sub_total, $customer);
+            $this->line_items[$key][$table_type . '.cost'] = Number::formatCurrency($item->unit_price, $customer);
+            $this->line_items[$key][$table_type . '.line_total'] = Number::formatCurrency($item->sub_total, $customer);
 
             $this->line_items[$key][$table_type . '.discount'] = '';
 
             if (isset($item->unit_discount) && $item->unit_discount > 0) {
                 if ($item->is_amount_discount) {
-                    $this->line_items[$key][$table_type . '.discount'] = Number::formatMoney($item->unit_discount, $customer);
+                    $this->line_items[$key][$table_type . '.discount'] = Number::formatCurrency($item->unit_discount, $customer);
                 } else {
                     $this->line_items[$key][$table_type . '.discount'] = $item->unit_discount . '%';
                 }
