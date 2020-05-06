@@ -31,9 +31,9 @@ class InvoiceService extends ServiceBase
         $this->invoice = $invoice;
     }
 
-    public function handleCancellation()
+    public function cancelInvoice()
     {
-        $this->invoice = (new HandleCancellation($this->invoice))->run();
+        $this->invoice = (new CancelInvoice($this->invoice))->run();
 
         return $this;
     }
