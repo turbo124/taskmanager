@@ -70,12 +70,12 @@ class EventTest extends TestCase
     public function it_can_find_a_event()
     {
         $data = [
-            'account_id' => $this->account->id,
+            'account_id'  => $this->account->id,
             'customer_id' => $this->customer->id,
-            'title' => $this->faker->sentence,
-            'location' => $this->faker->sentence,
-            'beginDate' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
-            'endDate' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
+            'title'       => $this->faker->sentence,
+            'location'    => $this->faker->sentence,
+            'beginDate'   => $this->faker->dateTime()->format('Y-m-d H:i:s'),
+            'endDate'     => $this->faker->dateTime()->format('Y-m-d H:i:s'),
         ];
 
 
@@ -107,14 +107,14 @@ class EventTest extends TestCase
     {
         $factory = (new EventFactory())->create($this->user, $this->account);
         $data = [
-            'account_id' => $this->account->id,
-            'title' => $this->faker->word,
+            'account_id'  => $this->account->id,
+            'title'       => $this->faker->word,
             'description' => $this->faker->sentence,
-            'location' => $this->faker->sentence,
-            'beginDate' => $this->faker->dateTime(),
-            'endDate' => $this->faker->dateTime(),
+            'location'    => $this->faker->sentence,
+            'beginDate'   => $this->faker->dateTime(),
+            'endDate'     => $this->faker->dateTime(),
             'customer_id' => $this->customer->id,
-            'event_type' => 2
+            'event_type'  => 2
         ];
 
         $event = new EventRepository(new Event);

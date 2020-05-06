@@ -29,7 +29,7 @@ class NewDealNotification extends Notification implements ShouldQueue
     }
 
 
-     /**
+    /**
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
@@ -52,15 +52,15 @@ class NewDealNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)->subject(trans('texts.notification_deal_subject',
             ['customer' => $this->deal->customer->present()->name(),]))->markdown('email.admin.new', ['data' => [
-            'title'     => trans('texts.notification_deal_subject', ['customer' => $this->deal->customer->present()->name()]),
-            'message'   => trans('texts.notification_deal', [
-                'total' => $total,
+            'title'       => trans('texts.notification_deal_subject', ['customer' => $this->deal->customer->present()->name()]),
+            'message'     => trans('texts.notification_deal', [
+                'total'    => $total,
                 'customer' => $this->deal->customer->present()->name()
             ]),
-            'url'       => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
-            'button_text'    => trans('texts.view_deal'),
-            'signature' => !empty($this->settings) ? $this->settings->email_signature : '',
-            'logo'      => $this->deal->account->present()->logo(),
+            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
+            'button_text' => trans('texts.view_deal'),
+            'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
+            'logo'        => $this->deal->account->present()->logo(),
         ]]);
     }
 
@@ -82,7 +82,7 @@ class NewDealNotification extends Notification implements ShouldQueue
         $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new SlackMessage)->success()
-            ->from("System")->image($logo)->content(trans('texts.notification_deal',
+                                 ->from("System")->image($logo)->content(trans('texts.notification_deal',
                 ['total' => $total, 'customer' => $this->deal->customer->present()->name()]));
     }
 

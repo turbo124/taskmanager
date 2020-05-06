@@ -87,7 +87,7 @@ class OrderController extends Controller
                 (new QuoteRepository(new Quote))->save($request->all(), $quote);
                 return response()->json($quote);
                 break;
-           
+
             case 'approve':
                 if (!in_array($order->status_id, [Order::STATUS_DRAFT, Order::STATUS_SENT])) {
                     return response()->json(['message' => 'Unable to approve this order as it has expired.'], 400);

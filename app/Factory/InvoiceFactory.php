@@ -19,10 +19,11 @@ class InvoiceFactory
      * @param Customer|null $customer
      * @return Invoice
      */
-    public static function create(Account $account,
+    public static function create(
+        Account $account,
         User $user,
-        Customer $customer): Invoice
-    {
+        Customer $customer
+    ): Invoice {
         $invoice = new Invoice();
         $invoice->account_id = $account->id;
         $invoice->status_id = Invoice::STATUS_DRAFT;

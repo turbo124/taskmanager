@@ -94,18 +94,18 @@ class CompanyUnitTest extends TestCase
         $factory = (new CompanyFactory)->create($this->user, $this->account);
 
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
-            'name' => $this->faker->company,
-            'website' => $this->faker->url,
+            'account_id'   => $this->account->id,
+            'user_id'      => $this->user->id,
+            'name'         => $this->faker->company,
+            'website'      => $this->faker->url,
             'phone_number' => $this->faker->phoneNumber,
-            'email' => $this->faker->email,
-            'address_1' => $this->faker->streetName,
-            'address_2' => $this->faker->streetAddress,
-            'town' => $this->faker->word,
-            'city' => $this->faker->city,
-            'country_id' => 225,
-            'postcode' => $this->faker->postcode
+            'email'        => $this->faker->email,
+            'address_1'    => $this->faker->streetName,
+            'address_2'    => $this->faker->streetAddress,
+            'town'         => $this->faker->word,
+            'city'         => $this->faker->city,
+            'country_id'   => 225,
+            'postcode'     => $this->faker->postcode
         ];
 
         $data['contacts'][0]['first_name'] = $this->faker->firstName;

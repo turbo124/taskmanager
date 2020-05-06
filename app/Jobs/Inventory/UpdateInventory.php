@@ -16,7 +16,7 @@ class UpdateInventory implements ShouldQueue
 
     private $line_items;
 
- 
+
     /**
      * Create a new job instance.
      *
@@ -37,16 +37,16 @@ class UpdateInventory implements ShouldQueue
     {
         foreach ($this->line_items as $item) {
 
-            if(empty($item->product_id)) {
+            if (empty($item->product_id)) {
                 continue;
             }
 
             $product = Product::where('id', $item->product_id)->first();
-                
-            if(empty($product) || $product->count() === 0) {
+
+            if (empty($product) || $product->count() === 0) {
                 continue;
             }
-           
+
             $product->reduceQuantityAvailiable($item->quantity);
         }
     }

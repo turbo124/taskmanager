@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteWasApproved
 {
     use SerializesModels;
+
     /**
      * @var Quote
      */

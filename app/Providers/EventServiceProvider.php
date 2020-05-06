@@ -89,112 +89,112 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UserWasCreated::class             => [
+        UserWasCreated::class       => [
             NewUserNotification::class,
         ],
-        UserWasDeleted::class             => [
+        UserWasDeleted::class       => [
             DeletedUserActivity::class,
         ],
         // Clients
-        CustomerWasCreated::class           => [
+        CustomerWasCreated::class   => [
             CustomerCreatedActivity::class
         ],
         //payments
-        PaymentWasCreated::class          => [
+        PaymentWasCreated::class    => [
             PaymentCreatedActivity::class,
             PaymentNotification::class,
         ],
-        PaymentWasDeleted::class          => [
+        PaymentWasDeleted::class    => [
             PaymentDeletedActivity::class,
         ],
-        PaymentWasRefunded::class         => [
+        PaymentWasRefunded::class   => [
             PaymentRefundedActivity::class,
         ],
-        PaymentWasVoided::class           => [
+        PaymentWasVoided::class     => [
             PaymentVoidedActivity::class,
         ],
         //Invoices
-        InvoiceWasMarkedSent::class       => [
+        InvoiceWasMarkedSent::class => [
             InvoiceMarkedSentActivity::class,
         ],
-        InvoiceWasUpdated::class          => [
+        InvoiceWasUpdated::class    => [
             InvoiceUpdatedActivity::class
         ],
-        InvoiceWasCreated::class          => [
+        InvoiceWasCreated::class    => [
             InvoiceCreatedActivity::class
         ],
-        InvoiceWasPaid::class             => [
+        InvoiceWasPaid::class       => [
             InvoicePaidActivity::class,
         ],
-        InvoiceWasEmailed::class          => [
+        InvoiceWasEmailed::class    => [
             InvoiceEmailActivity::class,
             InvoiceEmailedNotification::class,
         ],
-        InvoiceWasDeleted::class          => [
+        InvoiceWasDeleted::class    => [
             InvoiceDeletedActivity::class,
         ],
-        InvoiceWasReversed::class         => [
+        InvoiceWasReversed::class   => [
         ],
-        InvoiceWasCancelled::class        => [
+        InvoiceWasCancelled::class  => [
         ],
-        InvitationWasViewed::class        => [
+        InvitationWasViewed::class  => [
             InvitationViewedListener::class
         ],
         // quotes
-        QuoteWasApproved::class           => [
+        QuoteWasApproved::class     => [
             QuoteApprovedActivity::class
         ],
-        QuoteWasCreated::class           => [
+        QuoteWasCreated::class      => [
             QuoteCreatedActivity::class
         ],
-        QuoteWasDeleted::class           => [
+        QuoteWasDeleted::class      => [
             QuoteDeletedActivity::class
         ],
-        QuoteWasArchived::class           => [
+        QuoteWasArchived::class     => [
             QuoteArchivedActivity::class
         ],
-        QuoteWasMarkedSent::class        => [
+        QuoteWasMarkedSent::class   => [
             QuoteMarkedSentActivity::class
         ],
         //orders
-        OrderWasDispatched::class           => [
+        OrderWasDispatched::class   => [
             OrderDispatchedActivity::class
         ],
-        OrderWasCreated::class           => [
+        OrderWasCreated::class      => [
             OrderCreatedActivity::class
         ],
-        OrderWasDeleted::class           => [
+        OrderWasDeleted::class      => [
             OrderDeletedActivity::class
         ],
-        OrderWasArchived::class           => [
+        OrderWasArchived::class     => [
             OrderArchivedActivity::class
         ],
-        OrderWasMarkedSent::class        => [
+        OrderWasMarkedSent::class   => [
             OrderMarkedSentActivity::class
         ],
         // credits
-        CreditWasCreated::class           => [
+        CreditWasCreated::class     => [
             CreditCreatedActivity::class
         ],
-        CreditWasDeleted::class           => [
+        CreditWasDeleted::class     => [
             CreditDeletedActivity::class
         ],
-        CreditWasArchived::class           => [
+        CreditWasArchived::class    => [
             CreditArchivedActivity::class
         ],
-        CreditWasMarkedSent::class        => [
+        CreditWasMarkedSent::class  => [
             CreditMarkedSentActivity::class
         ],
-        LeadWasCreated::class             => [
+        LeadWasCreated::class       => [
             LeadNotification::class
         ],
-        OrderWasCreated::class            => [
+        OrderWasCreated::class      => [
             OrderNotification::class
         ],
-        DealWasCreated::class             => [
+        DealWasCreated::class       => [
             DealNotification::class
         ],
-        AccountWasDeleted::class          => [
+        AccountWasDeleted::class    => [
             DeleteAccountDocuments::class,
         ],
     ];

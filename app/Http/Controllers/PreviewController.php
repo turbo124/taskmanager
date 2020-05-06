@@ -26,7 +26,6 @@ class PreviewController extends Controller
      */
     public function show()
     {
-
         if (request()->has('entity') &&
             request()->has('entity_id') &&
             strlen(request()->input('entity')) > 1 &&
@@ -79,8 +78,8 @@ class PreviewController extends Controller
         ]);
 
         $address = factory(Address::class)->create([
-            'customer_id' => $client->id,
-            'address_type'  => 1,
+            'customer_id'  => $client->id,
+            'address_type' => 1,
         ]);
 
         $invoice = factory(Invoice::class)->create([

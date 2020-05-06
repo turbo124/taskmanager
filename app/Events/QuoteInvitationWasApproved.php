@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteInvitationWasApproved
 {
     use SerializesModels;
+
     public $quote;
     /**
      * @var Invitation

@@ -52,11 +52,11 @@ class GroupSettingController extends Controller
         $group_setting = GroupSettingFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
         $group_setting = $this->group_setting_repo->save($request->except('settings'), $group_setting);
         $group_setting = (new GroupSettings)->save($group_setting, $request->settings);
-        
-        if(!$group_setting) {
+
+        if (!$group_setting) {
             return response()->json('Unable to save group');
         }
-        
+
         return response()->json($this->transformGroupSetting($group_setting));
     }
 

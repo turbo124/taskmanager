@@ -37,7 +37,7 @@ class QuoteService extends ServiceBase
             $this->quote->save();
         }
 
-        if($this->quote->customer->getSetting('should_email_quote')) {
+        if ($this->quote->customer->getSetting('should_email_quote')) {
             $this->sendEmail(null, trans('texts.quote_approved_subject'), trans('texts.quote_approved_body'));
         }
 
@@ -63,7 +63,7 @@ class QuoteService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }
 

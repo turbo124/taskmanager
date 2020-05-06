@@ -1,24 +1,25 @@
 <?php
+
 namespace App\Settings;
 
 use App\Customer;
 
 class CustomerSettings extends BaseSettings
 {
-        private $settings = [
-            'payment_terms'                      => ['required' => true, 'default_value' => -1, 'type' => 'integer'],
-            'payment_type_id'                    => ['required' => false, 'default_value' => 0, 'type' => 'string'],
-            'customer_number_counter'            => ['required' => false, 'default_value' => 0, 'type' => 'string'],
-            'customer_number_pattern'            => ['required' => false, 'default_value' => '', 'type' => 'string'],
-            'language_id'                        => ['required' => false, 'default_value' => 1, 'type' => 'string']
-        ];
+    private $settings = [
+        'payment_terms'           => ['required' => true, 'default_value' => -1, 'type' => 'integer'],
+        'payment_type_id'         => ['required' => false, 'default_value' => 0, 'type' => 'string'],
+        'customer_number_counter' => ['required' => false, 'default_value' => 0, 'type' => 'string'],
+        'customer_number_pattern' => ['required' => false, 'default_value' => '', 'type' => 'string'],
+        'language_id'             => ['required' => false, 'default_value' => 1, 'type' => 'string']
+    ];
 
-   public function save(Customer $customer, $settings): ?Customer
+    public function save(Customer $customer, $settings): ?Customer
     {
         try {
 
             $settings = $this->validate($settings, $this->settings);
-            
+
             if (!$settings) {
                 return null;
             }
@@ -38,7 +39,7 @@ class CustomerSettings extends BaseSettings
         return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
     }
 
-      /**
+    /**
      * @param $client_settings
      * @return object
      */

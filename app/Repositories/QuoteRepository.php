@@ -2,9 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\ClientContact;
+use App\Filters\QuoteFilter;
 use App\Repositories\Base\BaseRepository;
 use App\Quote;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
@@ -29,20 +32,8 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     }
 
     /**
-     * Sync the tasks
-     *
-     * @param array $params
-     */
-    /*public function syncTasks(int $task_id)
-    {
-        $this->model->tasks()->sync($task_id);
-    } */
-
-    /**
      * @param int $id
-     *
      * @return Quote
-     * @throws Exception
      */
     public function findQuoteById(int $id): Quote
     {
@@ -54,6 +45,11 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
         return $this->model;
     }
 
+    /**
+     * @param $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
     public function save($data, Quote $quote): ?Quote
     {
         $quote->fill($data);
@@ -74,22 +70,18 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     }
 
     /**
-     * List all the invoices
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function listQuotes(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new QuoteFilter($this))->filter($search_request, $account->id);
     }
 
     /**
-     *
-     * @param int $customerId
-     * @return type
+     * @param Task $objTask
+     * @return Quote
      */
     public function getQuoteForTask(Task $objTask): Quote
     {

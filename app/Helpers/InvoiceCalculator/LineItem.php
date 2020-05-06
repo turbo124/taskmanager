@@ -183,7 +183,7 @@ class LineItem extends BaseCalculator
         return $this;
     }
 
-    public function getDescription() 
+    public function getDescription()
     {
         return $this->description;
     }
@@ -246,7 +246,7 @@ class LineItem extends BaseCalculator
         return $this;
     }
 
-      /**
+    /**
      * @return string
      */
     public function getTaxRateId(): ?int

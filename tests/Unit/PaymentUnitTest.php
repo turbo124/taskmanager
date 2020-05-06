@@ -53,9 +53,9 @@ class PaymentUnitTest extends TestCase
 
         $data = [
             'customer_id' => $this->customer->id,
-            'user_id' => $this->user->id,
-            'type_id' => 1,
-            'amount' => $this->faker->randomFloat()
+            'user_id'     => $this->user->id,
+            'type_id'     => 1,
+            'amount'      => $this->faker->randomFloat()
         ];
 
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
@@ -63,7 +63,7 @@ class PaymentUnitTest extends TestCase
         $paymentRepo = new PaymentRepository(new Payment);
         $paymentRepo->processPayment($data, $factory);
         $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account->id);
-        $this->assertNotEmpty($lists);    
+        $this->assertNotEmpty($lists);
     }
 
     /** @test */
@@ -82,8 +82,8 @@ class PaymentUnitTest extends TestCase
 
         $data = [
             'customer_id' => $this->customer->id,
-            'type_id' => 1,
-            'amount' => $this->faker->randomFloat()
+            'type_id'     => 1,
+            'amount'      => $this->faker->randomFloat()
         ];
 
         $data['invoices'][0]['invoice_id'] = $invoice->id;
@@ -109,8 +109,8 @@ class PaymentUnitTest extends TestCase
 
         $data = [
             'customer_id' => $this->customer->id,
-            'type_id' => 1,
-            'amount' => $this->faker->randomFloat()
+            'type_id'     => 1,
+            'amount'      => $this->faker->randomFloat()
         ];
 
         $paymentRepo = new PaymentRepository(new Payment);
@@ -158,8 +158,8 @@ class PaymentUnitTest extends TestCase
 
         $data = [
             'customer_id' => $this->customer->id,
-            'type_id' => 1,
-            'amount' => $this->faker->randomFloat()
+            'type_id'     => 1,
+            'amount'      => $this->faker->randomFloat()
         ];
 
         $data['invoices'][0]['invoice_id'] = $invoice->id;
@@ -181,19 +181,19 @@ class PaymentUnitTest extends TestCase
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->partial = 5.0;
         $invoice->save();
-       
+
         (new InvoiceRepository(new Invoice))->markSent($invoice);
 
         $data = [
-            'amount' => 6.0,
+            'amount'      => 6.0,
             'customer_id' => $client->id,
-            'invoices' => [
+            'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount' => 6.0
+                    'amount'     => 6.0
                 ],
             ],
-            'date' => '2019/12/12',
+            'date'        => '2019/12/12',
         ];
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
@@ -224,15 +224,15 @@ class PaymentUnitTest extends TestCase
         $credit->save();
 
         $data = [
-            'amount' => 50,
+            'amount'      => 50,
             'customer_id' => $client->id,
-             'credits' => [
-                 [
-                 'credit_id' => $credit->id,
-                 'amount' => $credit->total
-                 ],
-         ],
-            'date' => '2020/12/12',
+            'credits'     => [
+                [
+                    'credit_id' => $credit->id,
+                    'amount'    => $credit->total
+                ],
+            ],
+            'date'        => '2020/12/12',
 
         ];
 
@@ -263,15 +263,15 @@ class PaymentUnitTest extends TestCase
         (new InvoiceRepository(new Invoice))->markSent($invoice);
 
         $data = [
-            'amount' => 2.0,
+            'amount'      => 2.0,
             'customer_id' => $client->id,
-            'invoices' => [
+            'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount' => 2.0
+                    'amount'     => 2.0
                 ],
             ],
-            'date' => '2019/12/12',
+            'date'        => '2019/12/12',
         ];
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
@@ -304,7 +304,7 @@ class PaymentUnitTest extends TestCase
         $invoice->save();
 
         $data = [
-            'amount' => 50,
+            'amount'      => 50,
             'customer_id' => $client->id,
             // 'invoices' => [
             //     [
@@ -312,7 +312,7 @@ class PaymentUnitTest extends TestCase
             //     'amount' => $this->invoice->amount
             //     ],
             // ],
-            'date' => '2020/12/12',
+            'date'        => '2020/12/12',
 
         ];
 
@@ -325,7 +325,7 @@ class PaymentUnitTest extends TestCase
 
 
         $data = [
-            'id' => $payment->id,
+            'id'       => $payment->id,
             'refunded' => 50,
             // 'invoices' => [
             //     [
@@ -333,7 +333,7 @@ class PaymentUnitTest extends TestCase
             //     'amount' => $this->invoice->amount
             //     ],
             // ],
-            'date' => '2020/12/12',
+            'date'     => '2020/12/12',
         ];
 
         $paymentRepo = new PaymentRepository(new Payment);
@@ -359,8 +359,8 @@ class PaymentUnitTest extends TestCase
             ->setNotes($this->faker->realText(50))
             ->toObject();
 
-            $invoice->line_items = $line_items;
-            $invoice = $invoice->service()->calculateInvoiceTotals();
+        $invoice->line_items = $line_items;
+        $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->save();
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
@@ -372,15 +372,15 @@ class PaymentUnitTest extends TestCase
         $account->save();
 
         $data = [
-            'amount' => 2.0,
+            'amount'      => 2.0,
             'customer_id' => $invoice->customer->id,
-            'invoices' => [
+            'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount' => 2.0
+                    'amount'     => 2.0
                 ],
             ],
-            'date' => '2019/12/12',
+            'date'        => '2019/12/12',
         ];
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
@@ -388,15 +388,15 @@ class PaymentUnitTest extends TestCase
         $payment = $paymentRepo->processPayment($data, $factory);
 
         (new Refund($payment, (
-            new CreditRepository(new Credit)), 
+        new CreditRepository(new Credit)),
             [
-                'amount' => 2,
+                'amount'   => 2,
                 'invoices' => [
-                [
-                    'invoice_id' => $invoice->id,
-                    'amount' => 2.0
-                ],
-            ]]
+                    [
+                        'invoice_id' => $invoice->id,
+                        'amount'     => 2.0
+                    ],
+                ]]
         ))->refund();
 
         $this->assertEquals($invoice->balance, 2);
@@ -423,15 +423,15 @@ class PaymentUnitTest extends TestCase
 
 
         $data = [
-            'amount' => 2.0,
+            'amount'      => 2.0,
             'customer_id' => $invoice->customer->id,
-            'invoices' => [
+            'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount' => 2.0
+                    'amount'     => 2.0
                 ],
             ],
-            'date' => '2019/12/12',
+            'date'        => '2019/12/12',
         ];
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
@@ -439,16 +439,16 @@ class PaymentUnitTest extends TestCase
         $payment = $paymentRepo->processPayment($data, $factory);
 
         (new Refund($payment, (
-            new CreditRepository(new Credit)), 
+        new CreditRepository(new Credit)),
             [
                 'amount' => 2,
             ]
         ))->refund();
-       
+
         $this->assertEquals(2, $payment->refunded);
     }
 
-    public function testConversion ()
+    public function testConversion()
     {
 
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
@@ -456,12 +456,12 @@ class PaymentUnitTest extends TestCase
         $payment = $paymentRepo->processPayment(['amount' => 800], $factory);
 
         $converted = (new CurrencyConverter)
-        ->setBaseCurrency($payment->account->getCurrency())
-        ->setExchangeCurrency($payment->customer->currency)
-        ->setAmount(2999.99)
-        ->calculate();
+            ->setBaseCurrency($payment->account->getCurrency())
+            ->setExchangeCurrency($payment->customer->currency)
+            ->setAmount(2999.99)
+            ->calculate();
 
-         $this->assertNotNull($converted);
+        $this->assertNotNull($converted);
     }
 }
 

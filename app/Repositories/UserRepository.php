@@ -108,7 +108,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getUsersForDepartment(Department $objDepartment): Support
     {
         return $this->model->join('department_user', 'department_user.user_id', '=', 'users.id')->select('users.*')
-            ->where('department_user.department_id', $objDepartment->id)->groupBy('users.id')->get();
+                           ->where('department_user.department_id', $objDepartment->id)->groupBy('users.id')->get();
     }
 
     public function getModel()
@@ -145,9 +145,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      */
     public function save(array $data, User $user): ?User
     {
-        if (isset($data['password']) && !empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
+        $data['password'] = isset($data['password']) && !empty($data['password']) ? Hash::make($data['password']) : '';
+        $data['username'] = !isset($data['username']) || empty($data['username']) && !empty($data['email']) ? $data['email'] : $data['username'];
 
         /*************** save new user ***************************/
         $user->fill($data);
@@ -170,8 +169,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             /*No company user exists - attach the user*/
             if (!$cu) {
                 $user->attachUserToAccount(
-                    $account, 
-                    $data['company_user']['is_admin'], 
+                    $account,
+                    $data['company_user']['is_admin'],
                     $data['company_user']['notifications']
                 );
             } else {

@@ -40,10 +40,11 @@ class MessageController extends Controller
      * CustomerRepositoryInterface $customerRepository
      * UserRepositoryInterface $userRepository
      */
-    public function __construct(MessageRepositoryInterface $messageRepository,
+    public function __construct(
+        MessageRepositoryInterface $messageRepository,
         CustomerRepositoryInterface $customerRepository,
-        UserRepositoryInterface $userRepository)
-    {
+        UserRepositoryInterface $userRepository
+    ) {
         $this->messageRepo = $messageRepository;
         $this->customerRepo = $customerRepository;
         $this->userRepo = $userRepository;
@@ -52,7 +53,7 @@ class MessageController extends Controller
     public function getCustomers()
     {
 
-        $customerList = $this->customerRepo->listCustomers();
+        $customerList = $this->customerRepo->getAll();
         $user = Auth::user();
 
         $customers = $customerList->map(function (Customer $customer) use ($user) {

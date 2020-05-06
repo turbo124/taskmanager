@@ -88,14 +88,6 @@ class RecurringInvoice extends Model
         $this->morphMany(InvoiceInvitation::class);
     }
 
-    public function setCompleted(): void
-    {
-        $this->status_id = self::STATUS_COMPLETED;
-        $this->next_send_date = null;
-        $this->remaining_cycles = 0;
-        $this->save();
-    }
-
     public function service(): RecurringInvoiceService
     {
         return new RecurringInvoiceService($this);
@@ -104,5 +96,15 @@ class RecurringInvoice extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function setNumber()
+    {
+        if (!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
     }
 }

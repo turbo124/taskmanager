@@ -56,7 +56,7 @@ class CompanyLedger extends Model
         $this->notes = $notes;
     }
 
-    public function setBalance ($balance)
+    public function setBalance($balance)
     {
         $this->balance = $balance;
     }
@@ -70,12 +70,12 @@ class CompanyLedger extends Model
     {
         $this->create(
             [
-                'user_id' => $this->user_id,
-                'account_id' => $this->account_id,
+                'user_id'     => $this->user_id,
+                'account_id'  => $this->account_id,
                 'customer_id' => $this->customer_id,
-                'balance' => $this->balance,
-                'adjustment' => $this->adjustment,
-                'notes' => $this->notes
+                'balance'     => $this->balance,
+                'adjustment'  => $this->adjustment,
+                'notes'       => $this->notes
             ]
         );
     }

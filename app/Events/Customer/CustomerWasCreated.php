@@ -3,6 +3,7 @@
 namespace App\Events\Customer;
 
 use App\Customer;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
 use robertogallea\LaravelMetrics\Models\Traits\Measurable;
@@ -16,6 +17,7 @@ class CustomerWasCreated implements PerformsMetrics
     use SerializesModels;
     use Dispatchable;
     use Measurable;
+    use SendSubscription;
 
     protected $meter = 'customer-created';
 
@@ -32,5 +34,6 @@ class CustomerWasCreated implements PerformsMetrics
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;
+        $this->send($customer, get_class($this));
     }
 }

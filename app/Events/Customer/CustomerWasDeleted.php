@@ -3,24 +3,27 @@
 namespace App\Events\Customer;
 
 use App\Customer;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 class CustomerWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
-     * @var Client
+     * @var Customer
      */
-    public $client;
+    public $customer;
 
     /**
      * Create a new event instance.
      *
-     * @param Client $client
+     * @param Customer $customer
      */
-    public function __construct(Customer $client)
+    public function __construct(Customer $customer)
     {
-        $this->client = $client;
+        $this->customer = $customer;
+        $this->send($customer, get_class($this));
     }
 }

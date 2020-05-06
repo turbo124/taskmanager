@@ -150,7 +150,7 @@ class Quote extends Model
 
     public function setNumber()
     {
-        if(!empty($this->number)) {
+        if (!empty($this->number)) {
             return true;
         }
 
@@ -178,7 +178,8 @@ class Quote extends Model
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('quote_design_id');
     }
 
-    public function getPdfFilename() {
+    public function getPdfFilename()
+    {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/quotes/' . $this->number . '.pdf';
     }
 }

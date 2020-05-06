@@ -1,23 +1,24 @@
 <?php
+
 namespace App\Settings;
 
 use App\Company;
 
 class CompanySettings extends BaseSettings
 {
-        private $settings = [
-            'payment_terms'                      => ['required' => true, 'default_value' => -1, 'type' => 'integer'],
-            'payment_type_id'                    => ['required' => false, 'default_value' => 0, 'type' => 'string'],
-            'company_number_counter'            => ['required' => false, 'default_value' => 0, 'type' => 'string'],
-            'company_number_pattern'            => ['required' => false, 'default_value' => '', 'type' => 'string']
-        ];
+    private $settings = [
+        'payment_terms'          => ['required' => true, 'default_value' => -1, 'type' => 'integer'],
+        'payment_type_id'        => ['required' => false, 'default_value' => 0, 'type' => 'string'],
+        'company_number_counter' => ['required' => false, 'default_value' => 0, 'type' => 'string'],
+        'company_number_pattern' => ['required' => false, 'default_value' => '', 'type' => 'string']
+    ];
 
-   public function save(Company $company, $settings): ?Company
+    public function save(Company $company, $settings): ?Company
     {
         try {
 
             $settings = $this->validate($settings, $this->settings);
-            
+
             if (!$settings) {
                 return null;
             }

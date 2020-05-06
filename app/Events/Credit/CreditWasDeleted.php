@@ -2,6 +2,7 @@
 
 namespace App\Events\Credit;
 
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Queue\SerializesModels;
 class CreditWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
+
     public $credit;
 
     /**
@@ -20,5 +23,6 @@ class CreditWasDeleted
     public function __construct($credit)
     {
         $this->credit = $credit;
+        $this->send($credit, get_class($this));
     }
 }

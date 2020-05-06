@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 class InvoiceOrders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     private $invoice;
 
     /**

@@ -34,7 +34,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_lists_all_the_task_statuses()
     {
         $create = [
-            'title' => $this->faker->name,
+            'title'        => $this->faker->name,
             'column_color' => $this->faker->word
         ];
         $taskStatusRepo = new TaskStatusRepository(new TaskStatus);
@@ -59,7 +59,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_can_get_the_task_status()
     {
         $create = [
-            'title' => $this->faker->name,
+            'title'        => $this->faker->name,
             'column_color' => $this->faker->word
         ];
         $taskStatusRepo = new TaskStatusRepository(new TaskStatus);
@@ -75,7 +75,7 @@ class TaskStatusUnitTest extends TestCase
         $os = factory(TaskStatus::class)->create();
         $taskStatusRepo = new TaskStatusRepository($os);
         $data = [
-            'title' => $this->faker->name,
+            'title'        => $this->faker->name,
             'column_color' => $this->faker->word
         ];
         $updated = $taskStatusRepo->updateTaskStatus($data);
@@ -89,9 +89,9 @@ class TaskStatusUnitTest extends TestCase
     public function it_can_create_the_task_status()
     {
         $create = [
-            'title' => $this->faker->name,
-            'task_type' => 1,
-            'description' => $this->faker->sentence,
+            'title'        => $this->faker->name,
+            'task_type'    => 1,
+            'description'  => $this->faker->sentence,
             'column_color' => $this->faker->word
         ];
         $taskStatusRepo = new TaskStatusRepository(new TaskStatus);

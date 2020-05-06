@@ -11,18 +11,17 @@ trait CompanyTokenTransformable
 
     /**
      * @param CompanyToken $company_token
-     * @return CompanyToken
+     * @return array
      */
     public function transform(CompanyToken $company_token)
     {
-        $prod = new CompanyToken;
-        $prod->id = (int)$company_token->id;
-        $prod->name = $company_token->name ?: '';
-        $prod->updated_at = (int)$company_token->updated_at;
-        $prod->archived_at = (int)$company_token->deleted_at;
-        $prod->created_at = (int)$company_token->created_at;
-        $prod->is_deleted = (bool)$company_token->is_deleted;
-
-        return $prod;
+        return [
+            'id'          => (int)$company_token->id,
+            'name'        => $company_token->name ?: '',
+            'updated_at'  => $company_token->updated_at,
+            'archived_at' => $company_token->deleted_at,
+            'created_at'  => $company_token->created_at,
+            'is_deleted'  => (bool)$company_token->is_deleted,
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Filters\CreditFilter;
 use App\Services\Ledger\LedgerService;
 use App\Services\Credit\CreditService;
 use Carbon\Carbon;
@@ -158,14 +159,14 @@ class Credit extends Model
         $this->status_id = $status;
     }
 
-    public function setBalance($balance) 
+    public function setBalance($balance)
     {
         $this->balance = $balance;
     }
 
     public function setNumber()
     {
-        if(!empty($this->number)) {
+        if (!empty($this->number)) {
             return true;
         }
 
@@ -190,10 +191,11 @@ class Credit extends Model
 
     public function getDesignId()
     {
-       return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('credit_design_id');
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('credit_design_id');
     }
 
-    public function getPdfFilename() {
+    public function getPdfFilename()
+    {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/credits/' . $this->number . '.pdf';
     }
 }

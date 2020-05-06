@@ -21,17 +21,18 @@ class PdfData
     public function __construct($entity)
     {
         $this->entity = $entity;
-       
+
     }
 
-    public function build($contact = null) {
+    public function build($contact = null)
+    {
 
         $this->data = [];
 
-        if(get_class($this->entity) === 'App\Lead') {
+        if (get_class($this->entity) === 'App\Lead') {
             return $this->buildLead();
         }
-       
+
         return $this->buildInvoice($contact);
     }
 
@@ -39,8 +40,8 @@ class PdfData
     {
 
         $this->buildClientForLead($this->entity)
-            ->buildAddress($this->entity, $this->entity)
-            ->buildAccount($this->entity->account);
+             ->buildAddress($this->entity, $this->entity)
+             ->buildAccount($this->entity->account);
 
         foreach ($this->data as $key => $value) {
             if (isset($value['label'])) {
@@ -59,30 +60,29 @@ class PdfData
     private function buildInvoice($contact = null)
     {
 
-        $contact === null ? $this->entity->customer->contacts->first() : $contact;       
+        $contact === null ? $this->entity->customer->contacts->first() : $contact;
         $customer = $this->entity->customer;
 
         $this->setDefaults($customer)
-            ->buildContact($contact)
-            ->setTaxes($customer)
-            ->setDate($this->entity->date)
-            ->setDueDate($this->entity->due_date)
-            ->setNumber($this->entity->number)
-            ->setPoNumber($this->entity->po_number)            
-            ->buildCustomer($customer)
-            ->buildCustomerAddress($customer)
-            ->buildAccount($this->entity->account)
-            ->setTerms($this->entity->terms)
-            ->setDiscount($customer, $this->entity->discount_total)
-            ->setSubTotal($customer, $this->entity->sub_total)
-            ->setBalance($customer, $this->entity->balance)
-            ->setTotal($customer, $this->entity->total)
-            ->setNotes($this->entity->public_notes)
-            ->setInvoiceCustomValues()
-            ->buildProduct()
-            ->transformLineItems($customer, $this->entity)
-            ->buildTask()
-            ;
+             ->buildContact($contact)
+             ->setTaxes($customer)
+             ->setDate($this->entity->date)
+             ->setDueDate($this->entity->due_date)
+             ->setNumber($this->entity->number)
+             ->setPoNumber($this->entity->po_number)
+             ->buildCustomer($customer)
+             ->buildCustomerAddress($customer)
+             ->buildAccount($this->entity->account)
+             ->setTerms($this->entity->terms)
+             ->setDiscount($customer, $this->entity->discount_total)
+             ->setSubTotal($customer, $this->entity->sub_total)
+             ->setBalance($customer, $this->entity->balance)
+             ->setTotal($customer, $this->entity->total)
+             ->setNotes($this->entity->public_notes)
+             ->setInvoiceCustomValues()
+             ->buildProduct()
+             ->transformLineItems($customer, $this->entity)
+             ->buildTask();
 
         foreach ($this->data as $key => $value) {
             if (isset($value['label'])) {
@@ -101,10 +101,10 @@ class PdfData
     private function setDefaults(Customer $customer): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$entity_label']       =  ['value' => '', 'label' => trans('texts.' . $class)];
+        $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $class)];
         $this->data['$invoice.partial_due'] = ['value' => Number::formatCurrency($this->entity->partial, $customer) ?: '&nbsp;', 'label' => trans('texts.partial_due_label')];
-        $this->data['$from']                   = ['value' => '', 'label' => trans('texts.from')];
-        $this->data['$to']                     = ['value' => '', 'label' => trans('texts.to')];
+        $this->data['$from'] = ['value' => '', 'label' => trans('texts.from')];
+        $this->data['$to'] = ['value' => '', 'label' => trans('texts.to')];
         return $this;
     }
 
@@ -132,11 +132,13 @@ class PdfData
 
     private function makeCustomFieldKeyValuePair($entity, $field, $value)
     {
-        if ($this->findCustomType($entity, $field) == 'date')
+        if ($this->findCustomType($entity, $field) == 'date') {
             $value = date('d-m-Y', strtotime($value));
+        }
 
-        if (!$value)
+        if (!$value) {
             $value = '';
+        }
 
         return ['value' => $value, 'field' => $this->makeCustomField($entity, $field)];
     }
@@ -245,11 +247,12 @@ class PdfData
         return $this;
     }
 
-    public function buildAddress($entity, $address) {
+    public function buildAddress($entity, $address)
+    {
         $this->data['$customer.address1'] = ['value' => $address->address_1 ?: '&nbsp;', 'label' => trans('texts.address')];
         $this->data['$customer.address2'] = ['value' => $address->address_2 ?: '&nbsp;', 'label' => trans('texts.address')];
         $this->data['$customer.city_state_postal'] = ['value' => isset($address->city) ? $entity->present()->cityStateZip($address->city, $address->state_code, $address->zip, false) : '&nbsp;', 'label' => trans('texts.city_with_zip')];
-        $this->data['$postal_city_state']         = ['value' => $entity->present()->cityStateZip($address->city, $address->state, $entity->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
+        $this->data['$postal_city_state'] = ['value' => $entity->present()->cityStateZip($address->city, $address->state, $entity->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
         $this->data['$customer.country'] = ['value' => isset($address->country->name) ? $address->country->name : 'No Country Set', 'label' => trans('texts.country')];
 
         return $this;
@@ -274,10 +277,10 @@ class PdfData
             }
         }
 
-        if(!empty($billing)) {
+        if (!empty($billing)) {
             $this->buildAddress($customer, $billing);
         }
-       
+
         return $this;
     }
 
@@ -312,7 +315,7 @@ class PdfData
     public function setTerms($terms): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$terms'] = ['value' => $terms ?: '&nbsp;', 'label' => trans('texts.'.$class . '_terms')];
+        $this->data['$terms'] = ['value' => $terms ?: '&nbsp;', 'label' => trans('texts.' . $class . '_terms')];
         return $this;
     }
 
@@ -320,7 +323,7 @@ class PdfData
     {
         $this->data['$entity_label'] = ['value' => '', 'label' => (new \ReflectionClass($this->entity))->getShortName()];
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$'.$class.'.total'] = ['value' => $this->entity->getFormattedTotal() ?: '&nbsp;', 'label' => trans('texts.'.$class . '_amount')];
+        $this->data['$' . $class . '.total'] = ['value' => $this->entity->getFormattedTotal() ?: '&nbsp;', 'label' => trans('texts.' . $class . '_amount')];
         return $this;
     }
 
@@ -345,7 +348,7 @@ class PdfData
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
         $this->data['$date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
-        $this->data['$'.$class . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
+        $this->data['$' . $class . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
         return $this;
 
     }
@@ -354,10 +357,10 @@ class PdfData
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
 
-        $this->data['$' . $class .'.custom1'] = ['value' => $this->entity->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value1')];
-        $this->data['$' . $class .'.custom2'] = ['value' => $this->entity->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value2')];
-        $this->data['$' . $class .'.custom3'] = ['value' => $this->entity->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value3')];
-        $this->data['$' . $class .'.custom4'] = ['value' => $this->entity->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value4')];
+        $this->data['$' . $class . '.custom1'] = ['value' => $this->entity->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value1')];
+        $this->data['$' . $class . '.custom2'] = ['value' => $this->entity->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value2')];
+        $this->data['$' . $class . '.custom3'] = ['value' => $this->entity->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value3')];
+        $this->data['$' . $class . '.custom4'] = ['value' => $this->entity->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value4')];
         return $this;
     }
 
@@ -377,7 +380,7 @@ class PdfData
     public function setNumber($number): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.'.$class . '_number')];
+        $this->data['$number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $class . '_number')];
         $this->data['$' . $class . '.number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $class . '_number')];
         $this->data['$' . $class . '.' . $class . '_no'] = $number;
         return $this;
@@ -392,8 +395,8 @@ class PdfData
 
     public function setTaxes(Customer $customer): self
     {
-         $this->data['$tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
-         $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
+        $this->data['$tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
+        $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
 
         return $this;
     }
@@ -441,7 +444,7 @@ class PdfData
 
     public function buildTable($columns, $user_columns = null, string $table_prefix = null): array
     {
-        if(empty($this->line_items)) {
+        if (empty($this->line_items)) {
             return [];
         }
 
@@ -480,14 +483,14 @@ class PdfData
         return str_replace(array_keys($labels), array_values($labels), $html);
     }
 
-     public function parseValues($values, $html): string
+    public function parseValues($values, $html): string
     {
         return str_replace(array_keys($values), array_values($values), $html);
     }
 
     private function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self
     {
-        if(!isset($entity->line_items) || empty($entity->line_items)) {
+        if (!isset($entity->line_items) || empty($entity->line_items)) {
             return $this;
         }
 
@@ -495,13 +498,13 @@ class PdfData
 
         foreach ($entity->line_items as $key => $item) {
 
-             $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
+            $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
 
-            if(is_numeric($item->product_id)) {
-               $product = Product::find($item->product_id);
+            if (is_numeric($item->product_id)) {
+                $product = Product::find($item->product_id);
                 $this->line_items[$key][$table_type . '.product_key'] = $product->name;
             }
-           
+
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
             $this->line_items[$key][$table_type . '.notes'] = $item->notes ?: '';
             $this->line_items[$key][$table_type . '.cost'] = Number::formatCurrency($item->unit_price, $customer);
@@ -528,7 +531,7 @@ class PdfData
 
     private function buildTaxMap()
     {
-        if(!isset($this->entity->line_items)) {
+        if (!isset($this->entity->line_items)) {
             return [];
         }
 

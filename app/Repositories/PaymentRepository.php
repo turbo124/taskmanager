@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\Customer;
+use App\Filters\PaymentFilter;
 use App\Helpers\Currency\CurrencyConverter;
 use App\Factory\PaymentFactory;
 use App\NumberGenerator;
@@ -11,6 +13,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Payment;
 use App\Credit;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Invoice;
@@ -39,15 +42,13 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     }
 
     /**
-     * Return all the couriers
-     *
-     * @param string $order
-     * @param string $sort
-     * @return Collection|mixed
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return array|\Illuminate\Pagination\LengthAwarePaginator
      */
-    public function listPayments(array $columns = ['*'], string $order = 'id', string $sort = 'desc'): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new PaymentFilter($this))->filter($search_request, $account->id);
     }
 
     /**
@@ -82,7 +83,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         if ($invoice_totals == $payment->amount || $invoice_totals < $payment->amount) {
             $payment->applied += $invoice_totals;
         }
-        
+
         $payment->save();
 
         return $payment;
@@ -101,7 +102,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         }
 
         if (!$payment->id) {
-           $payment = $this->convertCurrencies($payment);
+            $payment = $this->convertCurrencies($payment);
         }
 
         $payment->status_id = Payment::STATUS_COMPLETED;
@@ -122,14 +123,14 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function convertCurrencies(Payment $payment)
     {
-         $converted_amount = $objCurrencyConverter = (new CurrencyConverter())
+        $converted_amount = $objCurrencyConverter = (new CurrencyConverter())
             ->setAmount($payment->amount)
             ->setBaseCurrency($payment->account->getCurrency())
             ->setExchangeCurrency($payment->customer->currency)
             ->setDate($payment->date)
             ->calculate();
 
-        if($converted_amount) {
+        if ($converted_amount) {
             $payment->exchange_rate = $converted_amount;
             $payment->currency_id = $payment->account->getCurrency()->id;
             $currency = $payment->customer->currency;
@@ -141,7 +142,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function applyPaymentToCredits(array $data, Payment $payment): bool
     {
-       if (isset($data['credits']) && is_array($data['credits'])) {
+        if (isset($data['credits']) && is_array($data['credits'])) {
 
             $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
 
@@ -149,7 +150,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
             foreach ($credits as $credit) {
 
-                if(empty($data['credits'][$credit->id])) {
+                if (empty($data['credits'][$credit->id])) {
 
                     continue;
                 }
@@ -189,7 +190,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
             foreach ($invoices as $invoice) {
 
-                if(empty($data['invoices'][$invoice->id])) {
+                if (empty($data['invoices'][$invoice->id])) {
 
                     continue;
                 }
@@ -203,12 +204,12 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
             return true;
         }
 
-       $this->adjustCustomerTotals($payment);
+        $this->adjustCustomerTotals($payment);
 
         return true;
     }
 
-    private function adjustCustomerTotals(Payment $payment) 
+    private function adjustCustomerTotals(Payment $payment)
     {
         $payment->customer->setPaidToDate($payment->amount);
         $payment->customer->setBalance($payment->amount);
@@ -220,8 +221,8 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $total_paid = $invoice->total - $invoice->balance;
 
         $paymentables = Paymentable::wherePaymentableType(Invoice::class)
-            ->wherePaymentableId($invoice->id)
-            ->get();
+                                   ->wherePaymentableId($invoice->id)
+                                   ->get();
 
         $paymentables->each(function ($paymentable) use ($total_paid) {
 

@@ -89,8 +89,8 @@ class CommentTest extends TestCase
     {
         $data = [
             'account_id' => 1,
-            'user_id' => $this->user->id,
-            'comment' => $this->faker->sentence,
+            'user_id'    => $this->user->id,
+            'comment'    => $this->faker->sentence,
         ];
 
         $commentRepo = new CommentRepository(new Comment);

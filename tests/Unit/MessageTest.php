@@ -50,11 +50,11 @@ class MessageTest extends TestCase
     {
 
         $data = [
-            'user_id' => $this->user->id,
+            'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'message' => $this->faker->sentence,
-            'has_seen' => 1,
-            'direction' => 1
+            'message'     => $this->faker->sentence,
+            'has_seen'    => 1,
+            'direction'   => 1
         ];
 
         $message = new MessageRepository(new Message);
@@ -79,11 +79,11 @@ class MessageTest extends TestCase
     {
 
         $data = [
-            'user_id' => $this->user->id,
+            'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'message' => $this->faker->sentence,
-            'has_seen' => 1,
-            'direction' => 1
+            'message'     => $this->faker->sentence,
+            'has_seen'    => 1,
+            'direction'   => 1
         ];
 
         $messageRepo = new MessageRepository(new Message);

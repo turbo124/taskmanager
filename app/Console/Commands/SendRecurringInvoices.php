@@ -22,7 +22,7 @@ use App\Jobs\Cron\RecurringInvoicesCron;
 class SendRecurringInvoices extends Command
 {
 
-      /**
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -54,8 +54,8 @@ class SendRecurringInvoices extends Command
     public function handle()
     {
         $toMakeInvoices = RecurringInvoice::whereDate('next_send_date', '=', Carbon::today())
-            ->whereDate('date', '!=', Carbon::today())
-            ->get();
+                                          ->whereDate('date', '!=', Carbon::today())
+                                          ->get();
 
         foreach ($toMakeInvoices as $recurringInvoice) {
             $invoice = RecurringInvoiceToInvoiceFactory::create($recurringInvoice, $recurringInvoice->customer);

@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Account;
+use App\Filters\RecurringQuoteFilter;
 use App\NumberGenerator;
 use App\RecurringQuote;
+use App\Requests\SearchRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Repositories\Base\BaseRepository;
@@ -23,33 +26,26 @@ class RecurringQuoteRepository extends BaseRepository
         $this->model = $quote;
     }
 
+    /**
+     * @param $data
+     * @param RecurringQuote $quote
+     * @return RecurringQuote|null
+     */
     public function save($data, RecurringQuote $quote): ?RecurringQuote
     {
         $quote->fill($data);
-
-        $quote->save();
-//        $quote_calc = new InvoiceSum($quote);
-//        $quote = $quote_calc->build()->getQuote();
-
-        if (!$quote->number) {
-            $quote->number = (new NumberGenerator)->getNextNumberForEntity($quote->customer, $quote);
-        }
+        //$invoice = $this->populateDefaults($invoice);
+        $quote = $quote->service()->calculateInvoiceTotals();
+        $quote->setNumber();
 
         $quote->save();
 
-//fire events here that cascading from the saving of an invoice
-//ie. client balance update...
-
-        return $quote;
+        return $quote->fresh();
     }
 
     /**
-     * Find the product by ID
-     *
      * @param int $id
-     *
-     * @return Product
-     * @throws ProductNotFoundException
+     * @return RecurringQuote
      */
     public function findQuoteById(int $id): RecurringQuote
     {
@@ -58,16 +54,13 @@ class RecurringQuoteRepository extends BaseRepository
 
 
     /**
-     * List all the invoices
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return \Illuminate\Support\Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function listQuotes(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new RecurringQuoteFilter($this))->filter($search_request, $account->id);
     }
 
 

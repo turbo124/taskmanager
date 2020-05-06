@@ -28,13 +28,13 @@ class LeadPresenter extends Presenter
         $fields = ['address_1', 'address_2', 'city', 'country'];
         $str = '';
 
-        foreach($fields as $field) {
-            if(empty($this->entity->{$field})) {
+        foreach ($fields as $field) {
+            if (empty($this->entity->{$field})) {
                 continue;
             }
 
-            if($field === 'country') {
-                $country = $this->entity->country
+            if ($field === 'country') {
+                $country = $this->entity->country;
                 $str .= $country->name . '<br/>';
                 continue;
             }

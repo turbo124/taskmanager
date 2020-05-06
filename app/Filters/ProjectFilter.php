@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class ProjectFilter extends QueryFilter
 {
     use ProjectTransformable;
+
     private $projectRepository;
     private $model;
 

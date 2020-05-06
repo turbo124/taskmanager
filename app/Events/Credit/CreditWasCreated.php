@@ -3,13 +3,14 @@
 namespace App\Events\Credit;
 
 use App\Credit;
+use App\Traits\SendSubscription;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class CreditWasCreated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, SendSubscription;
 
     public $credit;
 
@@ -21,5 +22,6 @@ class CreditWasCreated
     public function __construct(Credit $credit)
     {
         $this->credit = $credit;
+        $this->send($credit, get_class($this));
     }
 }

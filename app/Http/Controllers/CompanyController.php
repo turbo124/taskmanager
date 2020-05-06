@@ -31,7 +31,7 @@ class CompanyController extends Controller
      */
     private $company_repo;
 
-     /**
+    /**
      * @var CompanyContactRepository
      */
     private $company_contact_repo;
@@ -64,14 +64,14 @@ class CompanyController extends Controller
     public function store(CreateCompanyRequest $request)
     {
         $company = (new CompanyFactory)->create(auth()->user(), auth()->user()->account_user()->account);
-        
+
         $company = $this->company_repo->save($request->except('logo'), $company);
-        
-        if(!empty($request->contacts)) {
+
+        if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
         }
 
-         if ($request->company_logo !== null) {
+        if ($request->company_logo !== null) {
             $logo_path = $this->uploadLogo($request->file('company_logo'));
             $settings['company_logo'] = $logo_path;
         }
@@ -102,7 +102,7 @@ class CompanyController extends Controller
 
         $this->company_repo->save($request->all(), $company);
 
-        if(!empty($request->contacts)) {
+        if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
         }
 
@@ -110,7 +110,7 @@ class CompanyController extends Controller
             $logo_path = $this->uploadLogo($request->file('company_logo'));
             $settings = $company->settings;
             $settings->company_logo = $logo_path;
-           
+
             $company = (new CompanySettings)->save($company, (object)$settings);
         }
 

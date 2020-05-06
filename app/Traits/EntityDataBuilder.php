@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Traits;
 
 use App\Requests\SearchRequest;
@@ -23,57 +24,44 @@ trait EntityDataBuilder
 
     public function setRepositoryClass()
     {
-        $repo = 'App\Repositories\\'.$this->entity_string.'Repository';
+        $repo = 'App\Repositories\\' . $this->entity_string . 'Repository';
 
-         if(!class_exists($repo)) {
+        if (!class_exists($repo)) {
             $this->errors[] = 'Unable to find repo';
         }
 
         $this->repository = new $repo($this->entity);
 
         return true;
-     }
-
-    public function setFilterClass()
-    {
-        $filter_class = 'App\Filters\\'.$this->entity_string.'Filter';
-
-        if(!class_exists($filter_class)) {
-            $this->errors[] = 'Unable to find filter class';
-        }
-
-        $this->filter_class = new $filter_class($this->repository);
     }
 
     public function buildEntityData($entity)
     {
-         $this->setEntity($entity);
-         $this->setRepositoryClass();
-         $this->setFilterClass();
+        $this->setEntity($entity);
+        $this->setRepositoryClass();
 
-        if(count($this->errors) > 0) {
+        if (count($this->errors) > 0) {
             return false;
         }
 
-         if(!method_exists($this->filter_class, 'filter')) {
+        if (!method_exists($this->repository, 'getAll')) {
             $this->errors[] = "Unable to filter";
-         }
-
-        $data = $this->filter_class->filter(new SearchRequest(), $this->entity->account_id);
-
-        if(empty($data)) {
-             return false;
         }
 
-        $formatted_data = collect($data)->keyBy('id');
-        $entity_data = $formatted_data[$entity->id];
+        $data = $this->repository->getAll(new SearchRequest(), $this->entity->account);
 
-        if(empty($entity_data)) {
+        if (empty($data)) {
+            return false;
+        }
+
+        $entity_data = collect($data)->where('id', $this->entity->id)->first();
+
+        if (empty($entity_data)) {
             return false;
         }
 
         return $entity_data;
-        
+
     }
 
     public function getErrors()

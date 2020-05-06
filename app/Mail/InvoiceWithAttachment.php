@@ -40,9 +40,9 @@ class InvoiceWithAttachment extends Mailable
         die;
 
         return $this->markdown('email.admin.download', ['logo' => $this->entity->account->present()->logo, 'url' => $this->attachment])
-            ->from(config('mail.from.address'))
-            ->subject(trans('texts.download_attachments'))
-            ->with('content', $this->content)
-        ->attach($this->attachment);
+                    ->from(config('mail.from.address'))
+                    ->subject(trans('texts.download_attachments'))
+                    ->with('content', $this->content)
+                    ->attach($this->attachment);
     }
 }

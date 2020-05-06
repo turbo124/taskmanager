@@ -100,7 +100,7 @@ $table_here
 
     public function task_table()
     {
-        
+
     }
 
     public function task()

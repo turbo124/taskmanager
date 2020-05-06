@@ -17,10 +17,11 @@ class QuoteFactory
      * @param $total
      * @return Quote
      */
-    public static function create(Account $account,
+    public static function create(
+        Account $account,
         User $user,
-        Customer $customer): Quote
-    {
+        Customer $customer
+    ): Quote {
         $quote = new Quote();
         $quote->account_id = $account->id;
         $quote->status_id = Quote::STATUS_DRAFT;

@@ -182,7 +182,7 @@ class Account extends Model
     public function getCurrency()
     {
 
-        if(!empty($this->settings->currency_id)) {
+        if (!empty($this->settings->currency_id)) {
             return Currency::whereId($this->settings->currency_id)->first();
         }
 

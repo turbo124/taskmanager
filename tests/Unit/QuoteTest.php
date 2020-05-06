@@ -93,13 +93,13 @@ class QuoteTest extends TestCase
         $factory = (new QuoteFactory())->create($this->account, $this->user, $this->customer);
 
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
-            'customer_id' => $this->customer->id,
-            'total' => $this->faker->randomFloat(),
-            'tax_total' => $this->faker->randomFloat(),
+            'account_id'     => $this->account->id,
+            'user_id'        => $this->user->id,
+            'customer_id'    => $this->customer->id,
+            'total'          => $this->faker->randomFloat(),
+            'tax_total'      => $this->faker->randomFloat(),
             'discount_total' => $this->faker->randomFloat(),
-            'status_id' => 1,
+            'status_id'      => 1,
         ];
 
         $quoteRepo = new QuoteRepository(new Quote);
@@ -143,7 +143,8 @@ class QuoteTest extends TestCase
         $this->assertTrue($deleted);
     }
 
-    public function testQuoteApproval() {
+    public function testQuoteApproval()
+    {
         $quote = factory(Quote::class)->create();
         $quote->setStatus(Quote::STATUS_SENT);
         $quote->save();

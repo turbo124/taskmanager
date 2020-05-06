@@ -1,4 +1,5 @@
 <?php
+
 class InvoiceCalculator
 {
     /**
@@ -8,7 +9,7 @@ class InvoiceCalculator
 
     public function __construct($entity)
     {
-     }
+    }
 
     public function build()
     {

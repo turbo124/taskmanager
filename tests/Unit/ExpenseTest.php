@@ -82,11 +82,11 @@ class ExpenseTest extends TestCase
         $factory = (new ExpenseFactory)->create($this->account, $this->user);
 
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
+            'account_id'  => $this->account->id,
+            'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'amount' => $this->faker->randomFloat(),
-            'company_id' => $this->company->id
+            'amount'      => $this->faker->randomFloat(),
+            'company_id'  => $this->company->id
         ];
 
         $expenseRepo = new ExpenseRepository(new Expense);

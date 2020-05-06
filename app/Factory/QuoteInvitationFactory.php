@@ -13,7 +13,7 @@ class QuoteInvitationFactory
         $qi->account_id = $account_id;
         $qi->user_id = $user_id;
         $qi->key = Str::random(20);
-  
+
         return $qi;
     }
 

@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\ClientContact;
-use App\Models\Client;
+use App\Account;
+use App\Filters\CustomerFilter;
 use App\NumberGenerator;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Customer;
-use App\Settings;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,42 +23,30 @@ use App\Factory\CustomerFactory;
  */
 class CustomerRepository extends BaseRepository implements CustomerRepositoryInterface
 {
-    /**
-     * @var ClientContactRepository
-     */
-    protected $contact_repo;
 
     /**
      * CustomerRepository constructor.
      * @param Customer $customer
      */
-    public function __construct(Customer $customer, ClientContactRepository $contact_repo)
+    public function __construct(Customer $customer)
     {
         parent::__construct($customer);
         $this->model = $customer;
-        $this->contact_repo = $contact_repo;
     }
 
     /**
-     * List all the employees
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return Support
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Support\Collection
      */
-    public function listCustomers(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Support
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new CustomerFilter($this))->filter($search_request, $account->id);
     }
 
     /**
-     * Find the customer or fail
-     *
      * @param int $id
-     *
      * @return Customer
-     * @throws CustomerNotFoundException
      */
     public function findCustomerById(int $id): Customer
     {
@@ -71,7 +59,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
      */
     public function create($customer): ?Customer
     {
-        return $this->save($client,
+        return $this->save($customer,
             CustomerFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id));
     }
 
@@ -84,18 +72,6 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     public function deleteCustomer(): bool
     {
         return $this->delete();
-    }
-
-    /**
-     * @param string $text
-     * @return mixed
-     */
-    public function searchCustomer(string $text = null): Collection
-    {
-        if (is_null($text)) {
-            return $this->all();
-        }
-        return $this->model->searchCustomer($text)->get();
     }
 
     public function getModel()
@@ -113,14 +89,9 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
         $date = Carbon::today()->subDays($number_of_days);
         $result = $this->model->select(DB::raw('count(*) as total'))->where('created_at', '>=', $date)
-            ->where('account_id', '=', $account_id)->get();
+                              ->where('account_id', '=', $account_id)->get();
 
         return !empty($result[0]) ? $result[0]['total'] : 0;
-    }
-
-    public function addAddressForCustomer(array $arrData)
-    {
-        $this->model->addresses()->updateOrCreate(['customer_id' => $this->model->id], $arrData);
     }
 
     /**
@@ -134,12 +105,10 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     }
 
     /**
-     * Saves the client and its contacts
-     *
-     * @param array $data The data
-     * @param Client $client The client
-     *
-     * @return     Client|Client|null  Client Object
+     * @param array $data
+     * @param Customer $customer
+     * @return Customer|null
+     * @throws Exception
      */
     public function save(array $data, Customer $customer): ?Customer
     {

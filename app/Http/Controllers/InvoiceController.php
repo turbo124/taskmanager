@@ -159,12 +159,12 @@ class InvoiceController extends Controller
                 return response()->json($this->transformQuote($quote));
                 break;
             case 'mark_paid':
-                 $invoice = $invoice->service()->markPaid($this->invoice_repo, new PaymentRepository(new Payment));
+                $invoice = $invoice->service()->markPaid($this->invoice_repo, new PaymentRepository(new Payment));
 
                 if (!$invoice) {
                     return response()->json('Unable to mark invoice as paid', 400);
                 }
-               
+
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));
                 }
@@ -174,7 +174,7 @@ class InvoiceController extends Controller
                 $invoice->customer->setBalance($invoice->balance);
                 $invoice->customer->save();
                 $invoice->ledger()->updateBalance($invoice->balance);
-                 
+
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));
                 }
@@ -192,7 +192,7 @@ class InvoiceController extends Controller
                 break;
             case 'delete':
                 $invoice->deleteInvoice();
-                
+
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));
                 }

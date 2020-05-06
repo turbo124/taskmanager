@@ -4,29 +4,30 @@ namespace App\Events\Lead;
 
 use App\Account;
 use App\Lead;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PaymentWasCreated.
+ * Class LeadWasCreated
+ * @package App\Events\Lead
  */
 class LeadWasCreated
 {
     use SerializesModels;
+    use SendSubscription;
+
     /**
      * @var array $payment
      */
-    public $lead;
-
-    public $account;
+    public Lead $lead;
 
     /**
-     * Create a new event instance.
-     *
-     * @param Payment $payment
+     * LeadWasCreated constructor.
+     * @param Lead $lead
      */
-    public function __construct(Lead $lead, Account $account)
+    public function __construct(Lead $lead)
     {
         $this->lead = $lead;
-        $this->account = $account;
+        $this->send($lead, get_class($lead));
     }
 }

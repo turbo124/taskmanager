@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Invoice;
 
 use App\Factory\CreditFactory;
@@ -57,7 +58,7 @@ class HandleReversal
 
             $this->credit_repo->markSent($credit);
         }
-        
+
         /* Set invoice balance to 0 */
         $this->invoice->ledger()->updateBalance($balance_remaining * -1, $notes);
 

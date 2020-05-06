@@ -18,7 +18,7 @@ class QueryFilter
      */
     const STATUS_DELETED = 'deleted';
 
-    private function filterDates($request)
+    protected function filterDates($request)
     {
         $start = date("Y-m-d", strtotime($request->input('start_date')));
         $end = date("Y-m-d", strtotime($request->input('end_date')));

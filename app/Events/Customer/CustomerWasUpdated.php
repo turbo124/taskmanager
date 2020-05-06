@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class CustomerWasUpdated
 {
     use SerializesModels;
+
     /**
      * @var Customer
      */

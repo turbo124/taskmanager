@@ -56,12 +56,12 @@ class NewAccountCreated extends Notification implements ShouldQueue
         $ip = $this->user->ip;
 
         $data = [
-            'title'     => trans('texts.new_account_created'),
-            'message'   => trans('texts.new_account_text', ['user' => $user_name, 'email' => $email, 'ip' => $ip]),
-            'url'       => config('taskmanager.web_url'),
-            'button_text'    => trans('texts.login'),
-            'signature' => $this->account->settings->email_signature,
-            'logo'      => $this->account->present()->logo(),
+            'title'       => trans('texts.new_account_created'),
+            'message'     => trans('texts.new_account_text', ['user' => $user_name, 'email' => $email, 'ip' => $ip]),
+            'url'         => config('taskmanager.web_url'),
+            'button_text' => trans('texts.login'),
+            'signature'   => $this->account->settings->email_signature,
+            'logo'        => $this->account->present()->logo(),
         ];
 
 
@@ -92,6 +92,6 @@ class NewAccountCreated extends Notification implements ShouldQueue
         $ip = $this->user->ip;
 
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))
-            ->content("A new account has been created by {$user_name} - {$email} - from IP: {$ip}");
+                                 ->content("A new account has been created by {$user_name} - {$email} - from IP: {$ip}");
     }
 }

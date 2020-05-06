@@ -88,7 +88,8 @@ $table_here
 </table>';
     }
 
-    public function task_table() {
+    public function task_table()
+    {
         return '
 <table class="w-100 table-auto mt-4">
     <thead class="text-left">

@@ -2,14 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Account;
+use App\Filters\ProductFilter;
 use App\Repositories\Base\BaseRepository;
 use App\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
 use App\Task;
-use App\Brand;
 use App\Category;
 use App\ProductImage;
 use App\ProductAttribute;
@@ -35,25 +37,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * List all the products
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function listProducts(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Support
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new ProductFilter($this))->filter($search_request, $account->id);
     }
 
     /**
-     * Find the product by ID
-     *
      * @param int $id
-     *
      * @return Product
-     * @throws ProductNotFoundException
      */
     public function findProductById(int $id): Product
     {
@@ -146,8 +141,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
 
         return $this->model->join('category_product', 'category_product.product_id', '=', 'products.id')
-            ->select('products.*')->where('category_product.category_id', $objCategory->id)
-            ->groupBy('products.id')->get();
+                           ->select('products.*')->where('category_product.category_id', $objCategory->id)
+                           ->groupBy('products.id')->get();
     }
 
     /**
@@ -195,13 +190,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getProductsByDealValueAndCategory(Category $category, Request $request): Support
     {
         $query = $this->model->leftJoin('product_attributes', 'product_attributes.product_id', '=', 'products.id')
-            ->join('category_product', 'category_product.product_id', '=', 'products.id')
-            ->select('products.*')
-            ->where('products.status', '=', 1)->where('category_product.category_id', '=', $category->id);
+                             ->join('category_product', 'category_product.product_id', '=', 'products.id')
+                             ->select('products.*')
+                             ->where('products.status', '=', 1)->where('category_product.category_id', '=', $category->id);
 
         if (!empty($request->valued_at) && $request->valued_at > 0) {
             $query->where('product_attributes.range_from', '<', $request->valued_at)
-                ->where('product_attributes.range_to', '>', $request->valued_at);
+                  ->where('product_attributes.range_to', '>', $request->valued_at);
         }
 
         return $query->get();

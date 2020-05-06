@@ -32,7 +32,7 @@ class CompanyGateway extends Model
         'custom_value3',
         'custom_value4',
     ];
-    
+
     public function account()
     {
         return $this->belongsTo(Account::class);

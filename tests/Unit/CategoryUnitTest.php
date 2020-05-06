@@ -173,12 +173,12 @@ class CategoryUnitTest extends TestCase
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         //$parent = factory(Category::class)->create();
         $params = [
-            'name' => 'Boys',
-            'slug' => 'boys',
+            'name'        => 'Boys',
+            'slug'        => 'boys',
             'description' => $this->faker->paragraph,
-            'status' => 1,
-            'parent' => 0,
-            'cover' => $cover
+            'status'      => 1,
+            'parent'      => 0,
+            'cover'       => $cover
         ];
         $categoryRepo = new CategoryRepository($category);
         $updated = $categoryRepo->updateCategory($params);
@@ -196,12 +196,12 @@ class CategoryUnitTest extends TestCase
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $parent = factory(Category::class)->create();
         $params = [
-            'name' => 'Boys',
-            'slug' => 'boys',
-            'cover' => $cover,
+            'name'        => 'Boys',
+            'slug'        => 'boys',
+            'cover'       => $cover,
             'description' => $this->faker->paragraph,
-            'status' => 1,
-            'parent' => $parent->id
+            'status'      => 1,
+            'parent'      => $parent->id
         ];
         $category = new CategoryRepository(new Category);
         $created = $category->createCategory($params);
@@ -217,10 +217,10 @@ class CategoryUnitTest extends TestCase
     public function it_can_create_root_category()
     {
         $params = [
-            'name' => 'Boys',
-            'slug' => 'boys',
+            'name'        => 'Boys',
+            'slug'        => 'boys',
             'description' => $this->faker->paragraph,
-            'status' => 1
+            'status'      => 1
         ];
         $category = new CategoryRepository(new Category);
         $created = $category->createCategory($params);
@@ -253,8 +253,8 @@ class CategoryUnitTest extends TestCase
         // set parent category via repository
         $category = new CategoryRepository($child);
         $updated = $category->updateCategory([
-            'name' => 'Boys',
-            'slug' => 'boys',
+            'name'   => 'Boys',
+            'slug'   => 'boys',
             'parent' => $parent->id
         ]);
         // check if updated category is root

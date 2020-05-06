@@ -14,7 +14,7 @@ class CreateTimerRequest extends BaseFormRequest
     public function rules()
     {
         return [
-         
+
         ];
     }
 }

@@ -89,8 +89,8 @@ class TaxRateUnitTest extends TestCase
         $taxRateRepo = new TaxRateRepository($taxRate);
         $update = [
             'account_id' => $this->account_id,
-            'name' => $this->faker->word,
-            'rate' => $this->faker->randomFloat(),
+            'name'       => $this->faker->word,
+            'rate'       => $this->faker->randomFloat(),
         ];
         $updated = $taxRateRepo->save($update, $taxRate);
         $this->assertInstanceOf(TaxRate::class, $updated);

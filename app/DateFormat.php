@@ -7,5 +7,5 @@ namespace App;
  */
 class DateFormat extends \Illuminate\Database\Eloquent\Model
 {
-    
+
 }

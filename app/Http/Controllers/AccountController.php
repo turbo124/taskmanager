@@ -25,6 +25,7 @@ use App\Traits\UploadableTrait;
 class AccountController extends Controller
 {
     use DispatchesJobs, AccountTransformable, UploadableTrait;
+
     protected $account_repo;
     public $forced_includes = [];
 
@@ -62,7 +63,7 @@ class AccountController extends Controller
         $request->settings->company_logo = $logo_path;
         $account = (new AccountSettings)->save($account, $request->settings, true);
 
-        if(!$account) {
+        if (!$account) {
             return response()->json('Unable to update settings', 500);
         }
 
@@ -95,8 +96,8 @@ class AccountController extends Controller
     public function update(UpdateAccountRequest $request, int $id)
     {
         $account = $this->account_repo->findAccountById($id);
-        
-        if(!empty($request->file('company_logo')) && $request->file('company_logo') !== 'null') {
+
+        if (!empty($request->file('company_logo')) && $request->file('company_logo') !== 'null') {
             $logo_path = $this->uploadLogo($request->file('company_logo'));
             $request->settings->company_logo = $logo_path;
         }

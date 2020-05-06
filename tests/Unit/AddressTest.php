@@ -43,8 +43,8 @@ class AddressTest extends TestCase
         $country = 225;
 
         $address = factory(Address::class)->create([
-            'city' => $city,
-            'country_id' => $country,
+            'city'        => $city,
+            'country_id'  => $country,
             'customer_id' => $customer->id,
         ]);
 
@@ -59,11 +59,11 @@ class AddressTest extends TestCase
     {
         $address = factory(Address::class)->create();
         $data = [
-            'alias' => $this->faker->title('Male'),
+            'alias'     => $this->faker->title('Male'),
             'address_1' => $this->faker->streetName,
             'address_2' => $this->faker->streetAddress,
-            'zip' => $this->faker->postcode,
-            'status' => 1
+            'zip'       => $this->faker->postcode,
+            'status'    => 1
         ];
 
         $addressRepo = new AddressRepository($address);
@@ -120,7 +120,7 @@ class AddressTest extends TestCase
     {
         $customer = factory(Customer::class)->create();
         factory(Address::class)->create(['customer_id' => $customer->id]);
-        $customerRepo = new CustomerRepository($customer, new ClientContactRepository(new ClientContact));
+        $customerRepo = new CustomerRepository($customer);
         $lists = $customerRepo->findAddresses();
         $this->assertCount(1, $lists);
     }

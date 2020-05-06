@@ -43,7 +43,7 @@ class OrderTest extends TestCase
 
     private $product;
 
-      private $objNumberGenerator;
+    private $objNumberGenerator;
 
     public function setUp(): void
     {
@@ -53,11 +53,11 @@ class OrderTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
-         $this->product = factory(Product::class)->create();
-         $this->objNumberGenerator = new NumberGenerator;
+        $this->product = factory(Product::class)->create();
+        $this->objNumberGenerator = new NumberGenerator;
     }
 
-     /** @test */
+    /** @test */
     public function it_can_show_all_the_orders()
     {
         factory(Order::class)->create();
@@ -65,7 +65,7 @@ class OrderTest extends TestCase
         $this->assertNotEmpty($list);
     }
 
-    
+
     /** @test */
     public function it_can_update_the_order()
     {
@@ -79,7 +79,7 @@ class OrderTest extends TestCase
         $this->assertEquals($data['customer_id'], $found->customer_id);
     }
 
-     /** @test */
+    /** @test */
     public function it_can_show_the_order()
     {
         $order = factory(Order::class)->create();
@@ -128,7 +128,7 @@ class OrderTest extends TestCase
         $order->createOrder([]);
     }
 
-     /** @test */
+    /** @test */
     public function it_errors_finding_a_order()
     {
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
@@ -174,41 +174,42 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_create_a_web_order()
     {
-     $data = [
-          'source_type' => 1,
-    'title' => 'New web form request 2020/04/26',
-    'task_type' => 3,
-    'task_status' => 9,
-    'products' => [
-        0 => [
-            'quantity' => 1,
-                    'product_id' => $this->product->id,
-                    'unit_price' => 12.99,
-                    'unit_tax' => 17.5,
+        $data = [
+            'source_type' => 1,
+            'title'       => 'New web form request 2020/04/26',
+            'task_type'   => 3,
+            'task_status' => 9,
+            'products'    => [
+                0 => [
+                    'quantity'      => 1,
+                    'product_id'    => $this->product->id,
+                    'unit_price'    => 12.99,
+                    'unit_tax'      => 17.5,
                     'unit_discount' => 0,
-        ]
-        ],
+                ]
+            ],
 
-    'valued_at' => 12.99,
-    '_token' => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
-    'first_name' => 'Lee',
-    'last_name' => 'Jones',
-    'email' => 'lee.jones@yahoo.com',
-    'phone' => '01425 629322'
-    ];
+            'valued_at'  => 12.99,
+            '_token'     => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
+            'first_name' => 'Lee',
+            'last_name'  => 'Jones',
+            'email'      => 'lee.jones@yahoo.com',
+            'phone'      => '01425 629322'
+        ];
 
-    $task = TaskFactory::create($this->user, $this->account);
+        $task = TaskFactory::create($this->user, $this->account);
 
-    $task = (new TaskService($task))->createDeal((object) $data,
-        (new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact))),
-        (new OrderRepository(new Order)),
-        (new TaskRepository(new Task, new ProjectRepository(new Project))),
-        true);
+        $task = (new TaskService($task))->createDeal((object)$data,
+            (new CustomerRepository(new Customer)),
+            (new OrderRepository(new Order)),
+            (new TaskRepository(new Task, new ProjectRepository(new Project))),
+            true);
 
         $this->assertInstanceOf(Task::class, $task);
     }
 
-    public function testOrderDispatch() {
+    public function testOrderDispatch()
+    {
         $order = factory(Order::class)->create();
 
         $account = $order->account;

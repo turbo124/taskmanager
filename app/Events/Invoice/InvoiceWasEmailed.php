@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class InvoiceWasEmailed
 {
     use SerializesModels;
+
     /**
      * @var Invoice
      */

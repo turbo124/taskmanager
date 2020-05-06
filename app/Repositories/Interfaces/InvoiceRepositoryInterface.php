@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Account;
 use App\Invoice;
+use App\Requests\SearchRequest;
 use App\Task;
 use Illuminate\Support\Collection;
 
@@ -14,11 +16,11 @@ interface InvoiceRepositoryInterface
      * @param string $sort
      * @param array $columns
      */
-    public function listInvoices(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection;
+    public function getAll(SearchRequest $search_request, Account $account);
 
     /**
-     *
      * @param int $id
+     * @return Invoice
      */
     public function findInvoiceById(int $id): Invoice;
 

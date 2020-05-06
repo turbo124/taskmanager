@@ -12,6 +12,7 @@ use App\Transformations\OrderTransformable;
 class OrderFilter extends QueryFilter
 {
     use OrderTransformable;
+
     private $orderRepository;
 
     private $model;
@@ -26,7 +27,7 @@ class OrderFilter extends QueryFilter
         $this->model = $orderRepository->getModel();
     }
 
-     /**
+    /**
      * @param SearchRequest $request
      * @param int $account_id
      * @return LengthAwarePaginator|static
@@ -82,7 +83,7 @@ class OrderFilter extends QueryFilter
     private function baseQuery()
     {
         $this->query = $this->model->join('products', 'products.id', '=', 'product_task.product_id')
-            ->select('product_task.*', 'products.price', 'product_task.id as order_id');
+                                   ->select('product_task.*', 'products.price', 'product_task.id as order_id');
     }
 
     /**

@@ -52,6 +52,7 @@ class ConvertLead
         $task->save();
 
         $this->lead->task_status = Lead::STATUS_COMPLETED;
+        $this->lead->status_id = Lead::STATUS_COMPLETED;
         $this->lead->save();
 
         if ($this->lead->account->getSetting('should_archive_lead')) {

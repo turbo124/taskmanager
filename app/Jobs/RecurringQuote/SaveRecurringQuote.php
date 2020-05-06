@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
 class SaveRecurringQuote
 {
     use Dispatchable;
+
     private $request;
     private $account;
     private $quote;

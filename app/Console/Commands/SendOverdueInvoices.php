@@ -42,9 +42,9 @@ class SendOverdueInvoices extends Command
     public function handle()
     {
         $overdueInvoices = Invoice::whereDate('due_date', '<', Carbon::today()->toDateString())
-                                    ->where('paid', false)
-                                    ->where('overdue_notification_sent', false)
-                                    ->get();
+                                  ->where('paid', false)
+                                  ->where('overdue_notification_sent', false)
+                                  ->get();
 
         foreach ($overdueInvoices as $invoice) {
             Mail::send(new InvoiceOverdue($invoice->customer, $invoice));

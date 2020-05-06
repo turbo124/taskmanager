@@ -27,17 +27,17 @@ class CompanyPresenter extends EntityPresenter
         $fields = ['address1', 'address2', 'city', 'country', 'phone_number', 'email'];
         $str = '';
 
-        foreach($fields as $field) {
-            if(empty($company->{$field})) {
+        foreach ($fields as $field) {
+            if (empty($company->{$field})) {
                 continue;
             }
 
-            if($field === 'country') {
+            if ($field === 'country') {
                 $str .= $country->name . '<br/>';
                 continue;
             }
 
-             $str .= e($$company->{$field}) . '<br/>';
+            $str .= e($$company->{$field}) . '<br/>';
         }
 
         return $str;

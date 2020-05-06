@@ -140,9 +140,9 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return AccountUser::join('company_tokens', 'company_tokens.account_id', '=', 'account_user.account_id')
-            ->where('company_tokens.user_id', '=', $this->id)
-            ->where('company_tokens.is_web', '=', true)
-            ->where('company_tokens.token', '=', $this->auth_token)->select('account_user.*')->first();
+                          ->where('company_tokens.user_id', '=', $this->id)
+                          ->where('company_tokens.is_web', '=', true)
+                          ->where('company_tokens.token', '=', $this->auth_token)->select('account_user.*')->first();
     }
 
     /**
@@ -159,14 +159,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->account_user->is_owner;
     }
-    
-     /**
+
+    /**
      * @return BelongsToMany
      */
     public function accounts()
     {
         return $this->belongsToMany(Account::class)->using(AccountUser::class)
-            ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked');
+                    ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked');
     }
 
 
@@ -186,7 +186,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function attachUserToAccount(Account $account, $is_admin, array $notifications = [])
     {
-           $this->accounts()->attach($account->id, [
+        $this->accounts()->attach($account->id, [
             'account_id'    => $account->id,
             'is_owner'      => $is_admin,
             'is_admin'      => $is_admin,

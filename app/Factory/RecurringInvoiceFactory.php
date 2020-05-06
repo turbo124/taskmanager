@@ -19,7 +19,7 @@ class RecurringInvoiceFactory
         $invoice->balance = $total;
         $invoice->user_id = $user->id;
         $invoice->frequency_id = 30;
-     
+
         return $invoice;
     }
 }

@@ -63,10 +63,10 @@ class DepartmentTest extends TestCase
     {
         $user = factory(User::class)->create();
         $data = [
-            'name' => $this->faker->name,
+            'name'               => $this->faker->name,
             'department_manager' => $user->id,
         ];
-        
+
         $department = new DepartmentRepository(new Department);
         $factory = (new DepartmentFactory())->create($this->account_id, $this->user->id);
         $created = $department->save($data, $factory);
@@ -83,9 +83,9 @@ class DepartmentTest extends TestCase
         $user = factory(User::class)->create();
         //$parent = factory(Category::class)->create();
         $params = [
-            'name' => $this->faker->name,
+            'name'               => $this->faker->name,
             'department_manager' => $user->id,
-            'parent' => 0,
+            'parent'             => 0,
         ];
 
         $departmentRepo = new DepartmentRepository($department);
@@ -104,7 +104,7 @@ class DepartmentTest extends TestCase
         $user = factory(User::class)->create();
 
         $data = [
-            'name' => $this->faker->name,
+            'name'               => $this->faker->name,
             'department_manager' => $user->id
         ];
         $department = new DepartmentRepository(new Department);
@@ -139,7 +139,7 @@ class DepartmentTest extends TestCase
         $user = factory(User::class)->create();
 
         $params = [
-            'name' => $this->faker->name,
+            'name'               => $this->faker->name,
             'department_manager' => $user->id,
         ];
 
@@ -175,7 +175,7 @@ class DepartmentTest extends TestCase
         // set parent category via repository
         $department = new DepartmentRepository($child);
         $updated = $department->save([
-            'name' => $name,
+            'name'   => $name,
             'parent' => $parent->id
         ], $child);
 

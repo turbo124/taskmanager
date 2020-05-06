@@ -175,7 +175,7 @@ class TaskController extends Controller
      */
     public function getProducts(int $task_id)
     {
-        $products = (new ProductRepository(new Product))->listProducts();
+        $products = (new ProductRepository(new Product))->getAll(new SearchRequest, auth()->user()->account_user()->account);
         $task = $this->task_repo->findTaskById($task_id);
         $product_tasks = (new OrderRepository(new Order))->getOrdersForTask($task);
 
@@ -202,7 +202,7 @@ class TaskController extends Controller
 
         $task = (new TaskFactory())->create($user->id, $account->id);
         $task = $task->service()->createDeal($request,
-            (new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact))),
+            (new CustomerRepository(new Customer)),
             new OrderRepository(new Order), new TaskRepository(new Task, new ProjectRepository(new Project)), true);
 
         event(new DealWasCreated($task, $task->account));

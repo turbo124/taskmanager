@@ -60,7 +60,7 @@ class ClientContactRepository extends BaseRepository
 
 
         /******************************* Delete *********************************/
-        if(!empty($delete)) {
+        if (!empty($delete)) {
             ClientContact::destroy($delete);
         }
 
