@@ -27,8 +27,6 @@ class ConvertOrder
     {
         $invoice = CloneOrderToInvoiceFactory::create($this->order, $this->order->user_id, $this->order->account_id);
         $invoice->status_id = Invoice::STATUS_SENT;
-        $invoice->due_date = null;
-        $invoice->number = null;
         $this->invoice_repo->save([], $invoice);
         $this->invoice_repo->markSent($invoice);
 
