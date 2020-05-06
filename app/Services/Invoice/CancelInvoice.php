@@ -12,7 +12,7 @@ use App\Payment;
 use App\Paymentable;
 use App\Services\Payment\PaymentService;
 
-class HandleCancellation
+class CancelInvoice
 {
 
     private $invoice;
