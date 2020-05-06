@@ -3,10 +3,6 @@
 namespace App\Listeners\Payment;
 
 use App\Factory\NotificationFactory;
-use App\Models\Activity;
-use App\Models\Invoice;
-use App\Models\Payment;
-use App\Repositories\ActivityRepository;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
