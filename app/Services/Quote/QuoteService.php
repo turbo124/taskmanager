@@ -6,6 +6,7 @@ use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Invoice;
 use App\Quote;
 use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasArchived;
 use App\Events\Quote\QuoteWasEmailed;
 use App\Repositories\InvoiceRepository;
 use App\Services\Quote\MarkSent;
@@ -45,6 +46,7 @@ class QuoteService extends ServiceBase
 
         if ($this->quote->customer->getSetting('should_archive_quote')) {
             $quote_repo->archive($this->quote);
+            event(new QuoteWasArchived($this->quote));
         }
 
         return $this->quote;
