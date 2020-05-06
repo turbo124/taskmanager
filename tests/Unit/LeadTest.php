@@ -108,6 +108,14 @@ class LeadTest extends TestCase
         $this->assertEquals($data['first_name'], $lead->first_name);
     }
 
+      /** @test */
+    public function it_can_convert_a_lead()
+    {
+        $lead = factory(Lead::class)->create();
+        $lead = $lead->service()->convertLead();
+        $this->assertInstanceOf(Lead::class, $lead);
+    }
+
     public function tearDown(): void
     {
         parent::tearDown();
