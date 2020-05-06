@@ -15,7 +15,7 @@ class QuoteWasApproved
     /**
      * @var Quote
      */
-    public $quote;
+    public Quote $quote;
 
     /**
      * Create a new event instance.

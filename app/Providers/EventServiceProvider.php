@@ -38,6 +38,8 @@ use App\Events\Credit\CreditWasEmailed;
 use App\Events\Credit\CreditWasMarkedSent;
 use App\Events\Credit\CreditWasUpdated;
 use App\Events\Lead\LeadWasCreated;
+use App\Events\Lead\LeadWasArchived;
+use App\Listeners\Lead\LeadArchivedActivity;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Payment\PaymentWasCreated;
 use App\Events\Payment\PaymentWasDeleted;
@@ -187,6 +189,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         LeadWasCreated::class       => [
             LeadNotification::class
+        ],
+        LeadWasArchived::class     => [
+            LeadArchivedActivity::class
         ],
         OrderWasCreated::class      => [
             OrderNotification::class

@@ -26,13 +26,9 @@ class LeadService extends ServiceBase
     /**
      * @return $this
      */
-    public function convertLead()
+    public function convertLead(): Lead
     {
-        $convert_lead = new ConvertLead($this->lead);
-
-        $this->lead = $convert_lead->run();
-
-        return $this;
+       return (new ConvertLead($this->lead))->run();
     }
 
     /**

@@ -4,16 +4,18 @@ namespace App\Factory\Lead;
 
 use App\ClientContact;
 use App\Customer;
+use App\User;
+use App\Account;
 use App\Lead;
 use Illuminate\Support\Str;
 
 class CloneLeadToContactFactory
 {
-    public static function create(Lead $lead, Customer $customer, $user_id, $account_id): ClientContact
+    public static function create(Lead $lead, Customer $customer, User $user, Account $account): ClientContact
     {
         $client_contact = new ClientContact();
-        $client_contact->account_id = $account_id;
-        $client_contact->user_id = $user_id;
+        $client_contact->account_id = $account->id;
+        $client_contact->user_id = $user->id;
         $client_contact->customer_id = $customer->id;
         $client_contact->first_name = $lead->first_name;
         $client_contact->last_name = $lead->last_name;

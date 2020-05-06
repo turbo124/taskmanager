@@ -1,6 +1,7 @@
+
 <?php
 
-namespace App\Listeners\Credit;
+namespace App\Listeners\Lead;
 
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
@@ -8,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class CreditApprovedActivity implements ShouldQueue
+class LeadArchivedActivity implements ShouldQueue
 {
     protected $notification_repo;
 
@@ -31,15 +32,15 @@ class CreditApprovedActivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->credit->id;
-        $fields['data']['message'] = 'A credit was approved';
-        $fields['notifiable_id'] = $event->credit->user_id;
-        $fields['account_id'] = $event->credit->account_id;
-        $fields['notifiable_type'] = get_class($event->credit);
+        $fields['data']['id'] = $event->lead->id;
+        $fields['data']['message'] = 'A lead was archived';
+        $fields['notifiable_id'] = $event->lead->user_id;
+        $fields['account_id'] = $event->lead->account_id;
+        $fields['notifiable_type'] = get_class($event->lead);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->credit->account_id, $event->credit->user_id);
+        $notification = NotificationFactory::create($event->lead->account_id, $event->lead->user_id);
         $this->notification_repo->save($notification, $fields);
     }
 }

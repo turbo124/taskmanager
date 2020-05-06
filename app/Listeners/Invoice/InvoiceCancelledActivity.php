@@ -2,11 +2,6 @@
 
 namespace App\Listeners\Invoice;
 
-use App\Models\Activity;
-use App\Models\ClientContact;
-use App\Models\InvoiceInvitation;
-use App\Repositories\ActivityRepository;
-use App\Utils\Traits\MakesHash;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
@@ -15,14 +10,15 @@ class InvoiceCancelledActivity implements ShouldQueue
 {
     protected $activity_repo;
 
+    
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(ActivityRepository $activity_repo)
+    public function __construct(NotificationRepository $notification_repo)
     {
-        $this->activity_repo = $activity_repo;
+        $this->notification_repo = $notification_repo;
     }
 
     /**
@@ -33,13 +29,18 @@ class InvoiceCancelledActivity implements ShouldQueue
      */
     public function handle($event)
     {
-        $fields = new \stdClass;
+        $fields = [];
+        $fields['data']['id'] = $event->invoice->id;
+        $fields['data']['message'] = 'An invoice was cancelled';
+        $fields['notifiable_id'] = $event->invoice->user_id;
+        $fields['account_id'] = $event->invoice->account_id;
+        $fields['notifiable_type'] = get_class($event->invoice);
+        $fields['type'] = get_class($this);
+        $fields['data'] = json_encode($fields['data']);
 
-        $fields->invoice_id = $event->invoice->id;
-        $fields->user_id = $event->invoice->user_id;
-        $fields->company_id = $event->invoice->company_id;
-        $fields->activity_type_id = Activity::CANCELLED_INVOICE;
+        $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
 
-        $this->activity_repo->save($fields, $event->invoice);
+        $this->notification_repo->save($notification, $fields);
+
     }
 }

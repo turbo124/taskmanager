@@ -15,7 +15,7 @@ class InvoiceWasCancelled
     /**
      * @var Invoice
      */
-    public $invoice;
+    public Invoice $invoice;
 
     /**
      * Create a new event instance.

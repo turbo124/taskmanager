@@ -3,19 +3,20 @@
 namespace App\Events\Order;
 
 use Illuminate\Queue\SerializesModels;
+use App\Order;
 
 class OrderWasArchived
 {
     use SerializesModels;
 
-    public $order;
+    public Order $order;
 
     /**
      * Create a new event instance.
      *
      * @param $order
      */
-    public function __construct($order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
     }
