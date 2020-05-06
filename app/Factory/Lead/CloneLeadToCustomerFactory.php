@@ -5,6 +5,8 @@ namespace App\Factory\Lead;
 use App\ClientContact;
 use App\Customer;
 use App\Lead;
+use App\User;
+use App\Account;
 
 class CloneLeadToCustomerFactory
 {
@@ -14,11 +16,11 @@ class CloneLeadToCustomerFactory
      * @param $account_id
      * @return Customer
      */
-    public static function create(Lead $lead, $user_id, $account_id): Customer
+    public static function create(Lead $lead, User $user, Account $account): Customer
     {
         $client_contact = new Customer();
-        $client_contact->account_id = $account_id;
-        $client_contact->user_id = $user_id;
+        $client_contact->account_id = $account->id;
+        $client_contact->user_id = $user->id;
         $client_contact->name = $lead->first_name . ' ' . $lead->last_name;
         $client_contact->phone = $lead->phone;
         $client_contact->website = $lead->website;
