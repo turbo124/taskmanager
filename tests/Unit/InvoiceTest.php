@@ -326,7 +326,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->status_id);
 
-        $invoice = $invoice->service()->handleReversal(new CreditRepository(new Credit), new PaymentRepository(new Payment));
+        $invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment));
 
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
@@ -366,7 +366,7 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $invoice->service()->handleCancellation();
+        $invoice->service()->cancelInvoice();
 
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals($invoice->customer->balance, ($client_balance + $invoice_balance));
