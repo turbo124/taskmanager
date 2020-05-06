@@ -35,7 +35,11 @@ class SendSubscription
      */
     public function handle()
     {
-        $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent(1, $this->entity->account);
+        $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent($this->event, $this->entity->account);
+
+        if(empty($subscription) || $subscription->count() === 0) {
+            return true;
+        }
 
         $data = $this->buildEntityData($this->entity);
 
@@ -51,6 +55,8 @@ class SendSubscription
 
     private function sendData(array $data, Subscription $subscription)
     {
+        return true;
+
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', $subscription->target_url, [
             'headers'     => [

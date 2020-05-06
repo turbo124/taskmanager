@@ -9,7 +9,30 @@
 namespace App\Repositories\Interfaces;
 
 
+use App\Account;
+use App\Credit;
+use App\Requests\SearchRequest;
+
 interface CreditRepositoryInterface
 {
+    /**
+     * @param int $id
+     * @return Credit
+     */
+    public function findCreditById(int $id): Credit;
+
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return mixed
+     */
+    public function getAll(SearchRequest $search_request, Account $account);
+
+    /**
+     * @param array $data
+     * @param Credit $credit
+     * @return Credit|null
+     */
+    public function save(array $data, Credit $credit): ?Credit;
 
 }

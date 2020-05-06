@@ -34,7 +34,7 @@ class LeadPresenter extends Presenter
             }
 
             if ($field === 'country') {
-                $country = $this->entity->country
+                $country = $this->entity->country;
                 $str .= $country->name . '<br/>';
                 continue;
             }

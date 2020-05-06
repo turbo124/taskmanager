@@ -73,7 +73,7 @@ class RoleTest extends TestCase
     /** @test */
     public function it_can_create_a_role()
     {
-	    $factory = (new RoleFactory)->create($this->account_id, $this->user->id);
+        $factory = (new RoleFactory)->create($this->account_id, $this->user->id);
 
         $data = [
             'name' => 'user',

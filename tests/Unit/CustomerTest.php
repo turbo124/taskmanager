@@ -44,7 +44,7 @@ class CustomerTest extends TestCase
     public function it_can_transform_the_customer()
     {
         $customer = factory(Customer::class)->create();
-        $repo = new CustomerRepository($customer, new ClientContactRepository(new ClientContact));
+        $repo = new CustomerRepository($customer);
         $customerFromDb = $repo->findCustomerById($customer->id);
         $cust = $this->transformCustomer($customer);
         //$this->assertInternalType('string', $customerFromDb->status);
@@ -55,7 +55,7 @@ class CustomerTest extends TestCase
     public function it_can_delete_the_customer()
     {
         $customer = factory(Customer::class)->create();
-        $invoiceRepo = new CustomerRepository($customer, new ClientContactRepository(new ClientContact));
+        $invoiceRepo = new CustomerRepository($customer);
         $deleted = $invoiceRepo->newDelete($customer);
         $this->assertTrue($deleted);
     }
@@ -63,7 +63,7 @@ class CustomerTest extends TestCase
     public function it_can_archive_the_customer()
     {
         $customer = factory(Customer::class)->create();
-        $taskRepo = new CustomerRepository($customer, new ClientContactRepository(new ClientContact));
+        $taskRepo = new CustomerRepository($customer);
         $deleted = $taskRepo->archive($customer);
         $this->assertTrue($deleted);
     }
@@ -72,7 +72,7 @@ class CustomerTest extends TestCase
     public function it_fails_when_the_customer_is_not_found()
     {
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $customer = new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact));
+        $customer = new CustomerRepository(new Customer);
         $customer->findCustomerById(999);
     }
 
@@ -81,9 +81,9 @@ class CustomerTest extends TestCase
     {
         $data = [
             'account_id' => $this->account->id,
-            'name' => $this->faker->firstName
+            'name'       => $this->faker->firstName
         ];
-        $customer = new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact));
+        $customer = new CustomerRepository(new Customer);
         $factory = (new CustomerFactory())->create($this->account, $this->user);
         $created = $customer->save($data, $factory);
         $found = $customer->findCustomerById($created->id);
@@ -95,7 +95,7 @@ class CustomerTest extends TestCase
     public function it_can_update_the_customer()
     {
         $cust = factory(Customer::class)->create();
-        $customer = new CustomerRepository($cust, new ClientContactRepository(new ClientContact));
+        $customer = new CustomerRepository($cust);
         $update = [
             'name' => $this->faker->firstName,
         ];
@@ -112,9 +112,9 @@ class CustomerTest extends TestCase
 
         $data = [
             'account_id' => $this->account->id,
-            'name' => $this->faker->firstName,
+            'name'       => $this->faker->firstName,
             'company_id' => $this->company->id,
-            'phone' => $this->faker->phoneNumber
+            'phone'      => $this->faker->phoneNumber
         ];
 
         $contacts = [];
@@ -124,7 +124,7 @@ class CustomerTest extends TestCase
         $contacts[0]['email'] = $this->faker->safeEmail;
 
 
-        $customer = new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact));
+        $customer = new CustomerRepository(new Customer);
         $created = $customer->save($data, $factory);
         $this->assertInstanceOf(Customer::class, $created);
         $this->assertEquals($data['name'], $created->name);
@@ -138,7 +138,7 @@ class CustomerTest extends TestCase
     public function it_errors_creating_the_customer_when_required_fields_are_not_passed()
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        $task = new CustomerRepository(new Customer, new ClientContactRepository(new ClientContact));
+        $task = new CustomerRepository(new Customer);
         $task->createCustomer([]);
     }
 
@@ -147,7 +147,7 @@ class CustomerTest extends TestCase
     {
         factory(Customer::class, 5)->create();
         $list = (new CustomerFilter(new CustomerRepository(new Customer,
-            new ClientContactRepository(new ClientContact))))->filter(new SearchRequest(), $this->account->id);
+        )))->filter(new SearchRequest(), $this->account->id);
         $this->assertNotEmpty($list);
     }
 

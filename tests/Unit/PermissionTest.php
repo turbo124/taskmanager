@@ -83,7 +83,7 @@ class PermissionTest extends TestCase
     public function it_can_create_permission()
     {
         $data = [
-            'name' => 'can-view-employee-list',
+            'name'        => 'can-view-employee-list',
             'description' => 'can view permission'
         ];
         $permissionRepo = new PermissionRepository(new Permission);

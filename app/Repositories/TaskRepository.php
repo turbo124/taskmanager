@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Invoice;
+use App\Account;
+use App\Filters\TaskFilter;
+use App\Requests\SearchRequest;
 use App\Task;
 use App\Project;
 use App\Repositories\ProjectRepository;
@@ -16,8 +18,6 @@ use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\Mail\sendEmailNotificationToAdminMailable;
-use App\Mail\SendOrderToCustomerMailable;
 use App\Product;
 use Illuminate\Support\Facades\Mail;
 use App\Events\OrderCreateEvent;
@@ -37,26 +37,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         parent::__construct($task);
         $this->model = $task;
         $this->project_repo = $project_repo;
-    }
-
-    /**
-     * Send email to customer
-     */
-    public function sendEmailToCustomer()
-    {
-//        Mail::to($this->model->customer)
-//            ->send(new SendOrderToCustomerMailable($this->findTaskById($this->model->id)));
-    }
-
-    /**
-     * Send email notification to the admin
-     */
-    public function sendEmailNotificationToAdmin()
-    {
-        $userRepo = new UserRepository(new User);
-        $user = $userRepo->findUserById(9874);
-//        Mail::to($user)
-//            ->send(new sendEmailNotificationToAdminMailable($this->findTaskById($this->model->id)));
     }
 
     /**
@@ -82,15 +62,13 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @param array $columns
-     * @param string $orderBy
-     * @param string $sortBy
-     *
-     * @return Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function listTasks($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Support
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $orderBy, $sortBy);
+        return (new TaskFilter($this))->filter($search_request, $account->id);
     }
 
     /**
@@ -109,29 +87,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
             $query->join('task_user', 'tasks.id', '=', 'task_user.task_id')->where('task_user.user_id', $objUser->id);
         }
 
-
-        return $query->get();
-    }
-
-    /**
-     *
-     * @param int $task_type
-     * @param type $limit
-     * @return Support
-     */
-    public function getLeads($limit = null, User $objUser = null, int $account_id): Support
-    {
-        $query = $this->model->where('task_type', 2)->where('is_completed', 0)->where('parent_id', 0)
-                             ->where('account_id', $account_id)->orderBy('tasks.created_at', 'desc');
-
-
-        if ($objUser !== null) {
-            $query->join('task_user', 'tasks.id', '=', 'task_user.task_id')->where('task_user.user_id', $objUser->id);
-        }
-
-        if ($limit !== null) {
-            $query->limit($limit);
-        }
 
         return $query->get();
     }
@@ -266,12 +221,10 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     }
 
     /**
-     * Saves the invoices
-     *
-     * @param array .                                        $data     The invoice data
-     * @param InvoiceSum|Invoice $invoice The invoice
-     *
-     * @return     Invoice|InvoiceSum|Invoice|null  Returns the invoice object
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     * @throws Exception
      */
     public function save($data, Task $task): ?Task
     {
@@ -283,9 +236,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
         $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
 
-//        if (isset($data['task_type']) && $data['task_type'] == 1 && !empty($data['project_id']) ) {
-//           return $this->saveProjectTask($data, $task);
-//        }
         $task->fill($data);
         $task->save();
 

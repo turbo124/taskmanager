@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Account;
 use App\Invoice;
+use App\Requests\SearchRequest;
 use App\Task;
 use App\User;
 use App\Project;
@@ -13,17 +15,16 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface TaskRepositoryInterface extends BaseRepositoryInterface
 {
     /**
-     *
      * @param int $id
+     * @return Task
      */
     public function findTaskById(int $id): Task;
 
     /**
-     *
-     * @param array $data
+     * @param $data
+     * @param Task $task
+     * @return Task|null
      */
-    //public function updateTask(array $data) : bool;
-
     public function save($data, Task $task): ?Task;
 
     /**
@@ -31,20 +32,7 @@ interface TaskRepositoryInterface extends BaseRepositoryInterface
      */
     public function deleteTask(): bool;
 
-    /**
-     *
-     * @param type $columns
-     * @param string $orderBy
-     * @param string $sortBy
-     */
-    public function listTasks($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Support;
-
-    /**
-     *
-     * @param int $task_type
-     * @param type $limit
-     */
-    public function getLeads($limit = null, User $objUser = null, int $account_id): Support;
+    public function getAll(SearchRequest $search_request, Account $account);
 
     /**
      *

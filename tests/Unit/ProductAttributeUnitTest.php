@@ -37,7 +37,7 @@ class ProductAttributeUnitTest extends TestCase
         $productAttribute = factory(ProductAttribute::class)->create([
             'product_id' => $product->id,
             'range_from' => 99.99,
-            'range_to' => 200.00
+            'range_to'   => 200.00
         ]);
 
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
@@ -59,10 +59,10 @@ class ProductAttributeUnitTest extends TestCase
     public function it_can_remove_product_attribute()
     {
         $data = [
-            'range_from' => $this->faker->randomFloat(2),
-            'range_to' => $this->faker->randomFloat(2),
+            'range_from'     => $this->faker->randomFloat(2),
+            'range_to'       => $this->faker->randomFloat(2),
             'payable_months' => 12,
-            'interest_rate' => $this->faker->randomFloat(2)
+            'interest_rate'  => $this->faker->randomFloat(2)
         ];
         $productAttribute = new ProductAttribute($data);
         $product = factory(Product::class)->create();
@@ -76,10 +76,10 @@ class ProductAttributeUnitTest extends TestCase
     public function it_can_create_product_attribute()
     {
         $data = [
-            'range_from' => $this->faker->randomFloat(2),
-            'range_to' => $this->faker->randomFloat(2),
+            'range_from'     => $this->faker->randomFloat(2),
+            'range_to'       => $this->faker->randomFloat(2),
             'payable_months' => 12,
-            'interest_rate' => $this->faker->randomFloat(2),
+            'interest_rate'  => $this->faker->randomFloat(2),
         ];
         $productAttribute = new ProductAttribute($data);
         $product = factory(Product::class)->create();

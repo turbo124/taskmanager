@@ -8,8 +8,10 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Account;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Customer;
+use App\Requests\SearchRequest;
 use Illuminate\Support\Collection as Support;
 
 /**
@@ -20,16 +22,15 @@ interface CustomerRepositoryInterface extends BaseRepositoryInterface
 {
 
     /**
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return mixed
      */
-    public function listCustomers(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Support;
+    public function getAll(SearchRequest $search_request, Account $account);
 
     /**
-     *
      * @param int $id
+     * @return Customer
      */
     public function findCustomerById(int $id): Customer;
 
@@ -37,4 +38,11 @@ interface CustomerRepositoryInterface extends BaseRepositoryInterface
      *
      */
     public function deleteCustomer(): bool;
+
+    /**
+     * @param array $data
+     * @param Customer $customer
+     * @return Customer|null
+     */
+    public function save(array $data, Customer $customer): ?Customer;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events\Quote;
 
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     public $quote;
 
@@ -21,5 +23,6 @@ class QuoteWasDeleted
     public function __construct($quote)
     {
         $this->quote = $quote;
+        $this->send($quote, get_class($this));
     }
 }

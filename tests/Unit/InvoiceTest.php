@@ -189,15 +189,6 @@ class InvoiceTest extends TestCase
         $this->assertTrue($deleted);
     }
 
-    /** @test */
-    public function it_can_list_all_invoices()
-    {
-        factory(Invoice::class, 5)->create();
-        $invoiceRepo = new InvoiceRepository(new Invoice);
-        $list = $invoiceRepo->listInvoices();
-        $this->assertInstanceOf(Collection::class, $list);
-    }
-
     public function testInvoicePadding()
     {
         $customer = factory(Customer::class)->create();
@@ -259,8 +250,8 @@ class InvoiceTest extends TestCase
         /*Adjust payment applied and the paymentables to the correct amount */
 
         $paymentables = Paymentable::wherePaymentableType(Invoice::class)
-            ->wherePaymentableId($invoice->id)
-            ->get();
+                                   ->wherePaymentableId($invoice->id)
+                                   ->get();
 
         $paymentables->each(function ($paymentable) use ($total_paid) {
 
@@ -277,7 +268,7 @@ class InvoiceTest extends TestCase
         $credit = CreditFactory::create($invoice->account, $invoice->user, $invoice->customer);
         $credit->customer_id = $invoice->customer_id;
 
-       $item = (new LineItem($credit))
+        $item = (new LineItem($credit))
             ->setQuantity(1)
             ->setUnitPrice($total_paid)
             ->setNotes("Credit for reversal of " . $invoice->number);
@@ -336,7 +327,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->status_id);
 
         $invoice = $invoice->service()->handleReversal(new CreditRepository(new Credit), new PaymentRepository(new Payment));
-        
+
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date));

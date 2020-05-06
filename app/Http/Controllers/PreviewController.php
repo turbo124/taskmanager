@@ -26,7 +26,6 @@ class PreviewController extends Controller
      */
     public function show()
     {
-
         if (request()->has('entity') &&
             request()->has('entity_id') &&
             strlen(request()->input('entity')) > 1 &&

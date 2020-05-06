@@ -84,10 +84,10 @@ class ProjectTest extends TestCase
     public function it_can_create_a_project()
     {
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
-            'title' => $this->faker->word,
-            'description' => $this->faker->sentence,
+            'account_id'   => $this->account->id,
+            'user_id'      => $this->user->id,
+            'title'        => $this->faker->word,
+            'description'  => $this->faker->sentence,
             'is_completed' => 0,
         ];
 

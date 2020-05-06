@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\Customer;
+use App\Filters\InvoiceFilter;
 use App\NumberGenerator;
 use App\Factory\InvoiceInvitationFactory;
 use App\Invoice;
@@ -13,6 +15,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Repositories\PaymentRepository;
 use App\Payment;
 use App\Factory\InvoiceToPaymentFactory;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Jobs\Inventory\UpdateInventory;
@@ -23,7 +26,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * InvoiceRepository constructor.
-     * @param Order $invoice
+     * @param Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {
@@ -43,16 +46,13 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     }
 
     /**
-     * List all the invoices
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return InvoiceFilter|\Illuminate\Pagination\LengthAwarePaginator
      */
-    public function listInvoices(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new InvoiceFilter($this))->filter($search_request, $account->id);
     }
 
     public function getModel()

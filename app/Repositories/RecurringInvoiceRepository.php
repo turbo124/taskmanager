@@ -2,9 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Account;
+use App\Filters\RecurringInvoiceFilter;
 use App\NumberGenerator;
 use App\Repositories\Base\BaseRepository;
 use App\RecurringInvoice;
+use App\Requests\SearchRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -23,39 +26,36 @@ class RecurringInvoiceRepository extends BaseRepository
         $this->model = $invoice;
     }
 
+    /**
+     * @param $data
+     * @param RecurringInvoice $invoice
+     * @return RecurringInvoice|null
+     */
     public function save($data, RecurringInvoice $invoice): ?RecurringInvoice
     {
         $invoice->fill($data);
+        //$invoice = $this->populateDefaults($invoice);
         $invoice = $invoice->service()->calculateInvoiceTotals();
+        $invoice->setNumber();
+
         $invoice->save();
 
-        if (!$invoice->number) {
-            $invoice->number = (new NumberGenerator)->getNextNumberForEntity($invoice->customer, $invoice);
-        }
-
-        return $invoice;
+        return $invoice->fresh();
     }
 
     /**
-     * List all the invoices
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return \Illuminate\Support\Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function listInvoices(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new RecurringInvoiceFilter($this))->filter($search_request, $account->id);
     }
 
     /**
-     * Find the product by ID
-     *
      * @param int $id
-     *
-     * @return Product
-     * @throws ProductNotFoundException
+     * @return RecurringInvoice
      */
     public function findInvoiceById(int $id): RecurringInvoice
     {

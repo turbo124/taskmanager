@@ -53,7 +53,7 @@ class MessageController extends Controller
     public function getCustomers()
     {
 
-        $customerList = $this->customerRepo->listCustomers();
+        $customerList = $this->customerRepo->getAll();
         $user = Auth::user();
 
         $customers = $customerList->map(function (Customer $customer) use ($user) {

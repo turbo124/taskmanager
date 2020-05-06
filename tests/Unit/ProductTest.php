@@ -177,14 +177,14 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
         $productName = 'apple';
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
-            'sku' => '11111',
-            'name' => $productName,
-            'slug' => Str::slug($productName),
+            'account_id'  => $this->account->id,
+            'user_id'     => $this->user->id,
+            'sku'         => '11111',
+            'name'        => $productName,
+            'slug'        => Str::slug($productName),
             'description' => $this->faker->paragraph,
-            'price' => 9.95,
-            'status' => 1
+            'price'       => 9.95,
+            'status'      => 1
         ];
         $productRepo = new ProductRepository($product);
         $updated = $productRepo->save($data, $product);
@@ -200,13 +200,13 @@ class ProductTest extends TestCase
         $name = $this->faker->word;
 
         $params = [
-            'company_id' => $company->id,
-            'sku' => $this->faker->numberBetween(1111111, 999999),
-            'name' => $name,
-            'slug' => Str::slug($name),
+            'company_id'  => $company->id,
+            'sku'         => $this->faker->numberBetween(1111111, 999999),
+            'name'        => $name,
+            'slug'        => Str::slug($name),
             'description' => $this->faker->paragraph,
-            'price' => 9.95,
-            'status' => 1,
+            'price'       => 9.95,
+            'status'      => 1,
         ];
         $product = new ProductRepository(new Product);
         $created = $product->save($params, $factory);
@@ -225,17 +225,17 @@ class ProductTest extends TestCase
         $product = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
-            'account_id' => $this->account->id,
-            'sku' => $this->faker->numberBetween(1111111, 999999),
-            'name' => $product,
-            'slug' => Str::slug($product),
+            'account_id'  => $this->account->id,
+            'sku'         => $this->faker->numberBetween(1111111, 999999),
+            'name'        => $product,
+            'slug'        => Str::slug($product),
             'description' => $this->faker->paragraph,
-            'cover' => $cover,
-            'quantity' => 10,
-            'price' => 9.95,
-            'company_id' => $this->company->id,
-            'status' => 1,
-            'image' => [
+            'cover'       => $cover,
+            'quantity'    => 10,
+            'price'       => 9.95,
+            'company_id'  => $this->company->id,
+            'status'      => 1,
+            'image'       => [
                 UploadedFile::fake()->image('file.png', 200, 200),
                 UploadedFile::fake()->image('file1.png', 200, 200),
                 UploadedFile::fake()->image('file2.png', 200, 200)
@@ -262,17 +262,17 @@ class ProductTest extends TestCase
         $product = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
-            'account_id' => $this->account->id,
-            'sku' => $this->faker->numberBetween(1111111, 999999),
-            'name' => $product,
-            'slug' => Str::slug($product),
+            'account_id'  => $this->account->id,
+            'sku'         => $this->faker->numberBetween(1111111, 999999),
+            'name'        => $product,
+            'slug'        => Str::slug($product),
             'description' => $this->faker->paragraph,
-            'cover' => $cover,
-            'quantity' => 10,
-            'price' => 9.95,
-            'status' => 1,
-            'company_id' => $this->company->id,
-            'image' => [
+            'cover'       => $cover,
+            'quantity'    => 10,
+            'price'       => 9.95,
+            'status'      => 1,
+            'company_id'  => $this->company->id,
+            'image'       => [
                 UploadedFile::fake()->image('file.png', 200, 200),
                 UploadedFile::fake()->image('file1.png', 200, 200),
                 UploadedFile::fake()->image('file2.png', 200, 200)

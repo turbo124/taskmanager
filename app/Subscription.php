@@ -9,6 +9,21 @@ class Subscription extends Model
 {
     use SoftDeletes;
 
+    const ORDERWASCREATED = 1;
+    const ORDERWASDELETED = 2;
+    const CREDITWASCREATED = 3;
+    const CREDITWASDELETED = 4;
+    const CUSTOMERWASCREATED = 5;
+    const CUSTOMERWASDELETED = 6;
+    const INVOICEWASCREATED = 7;
+    const INVOICEWASDELETED = 8;
+    const PAYMENTWASCREATED = 9;
+    const PAYMENTWASDELETED = 10;
+    const QUOTEWASCREATED = 11;
+    const QUOTEWASDELETED = 12;
+    const LEADWASCREATED = 13;
+
+
     protected $fillable = [
         'name',
         'target_url',

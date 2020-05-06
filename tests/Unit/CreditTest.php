@@ -51,6 +51,7 @@ class CreditTest extends TestCase
         $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
     }
+
     /** @test */
     public function it_can_delete_the_credit()
     {
@@ -102,10 +103,10 @@ class CreditTest extends TestCase
 
 
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $user->id,
+            'account_id'  => $this->account->id,
+            'user_id'     => $user->id,
             'customer_id' => $this->customer->id,
-            'total' => $this->faker->randomFloat()
+            'total'       => $this->faker->randomFloat()
         ];
 
         $creditRepo = new CreditRepository(new Credit);

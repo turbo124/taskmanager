@@ -8,12 +8,15 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\ClientContact;
 use App\Factory\OrderInvitationFactory;
+use App\Filters\OrderFilter;
 use App\NumberGenerator;
 use App\Order;
 use App\OrderInvitation;
 use App\Product;
+use App\Requests\SearchRequest;
 use App\Task;
 use App\Repositories\Base\BaseRepository;
 use Exception;
@@ -46,6 +49,16 @@ class OrderRepository extends BaseRepository
     public function findOrderById(int $id): Order
     {
         return $this->findOneOrFail($id);
+    }
+
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \App\Filters\LengthAwarePaginator|OrderFilter
+     */
+    public function getAll(SearchRequest $search_request, Account $account)
+    {
+        return (new OrderFilter($this))->filter($search_request, $account->id);
     }
 
     /**

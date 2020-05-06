@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Filters\CreditFilter;
 use App\Services\Ledger\LedgerService;
 use App\Services\Credit\CreditService;
 use Carbon\Carbon;

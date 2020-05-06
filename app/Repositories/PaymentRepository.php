@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\Customer;
+use App\Filters\PaymentFilter;
 use App\Helpers\Currency\CurrencyConverter;
 use App\Factory\PaymentFactory;
 use App\NumberGenerator;
@@ -11,6 +13,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Payment;
 use App\Credit;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Invoice;
@@ -39,15 +42,13 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     }
 
     /**
-     * Return all the couriers
-     *
-     * @param string $order
-     * @param string $sort
-     * @return Collection|mixed
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return array|\Illuminate\Pagination\LengthAwarePaginator
      */
-    public function listPayments(array $columns = ['*'], string $order = 'id', string $sort = 'desc'): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $order, $sort);
+        return (new PaymentFilter($this))->filter($search_request, $account->id);
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Account;
 use App\Invoice;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Product;
+use App\Requests\SearchRequest;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
 use App\Task;
@@ -18,31 +20,22 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
 
     /**
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return mixed
      */
-    public function listProducts(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Support;
+    public function getAll(SearchRequest $search_request, Account $account);
 
     /**
-     *
-     * @param array $data
+     * @param $data
+     * @param Product $product
+     * @return Product|null
      */
-    //public function createProduct(array $data): Product;
-
-    /**
-     *
-     * @param array $params
-     * @param int $id
-     */
-    //public function updateProduct(array $params): bool;
-
     public function save($data, Product $product): ?Product;
 
     /**
-     *
      * @param int $id
+     * @return Product
      */
     public function findProductById(int $id): Product;
 
@@ -66,12 +59,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
      *
      */
     public function findBrand();
-
-    /**
-     *
-     * @param Brand $objBrand
-     */
-    public function filterProductsByBrand(Brand $objBrand): Support;
 
     /**
      *

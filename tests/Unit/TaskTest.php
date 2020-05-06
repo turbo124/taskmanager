@@ -105,14 +105,14 @@ class TaskTest extends TestCase
     {
 
         $data = [
-            'account_id' => $this->account->id,
-            'task_type' => 1,
-            'task_status' => 1,
-            'customer_id' => $this->customer->id,
-            'title' => $this->faker->word,
-            'content' => $this->faker->sentence,
+            'account_id'   => $this->account->id,
+            'task_type'    => 1,
+            'task_status'  => 1,
+            'customer_id'  => $this->customer->id,
+            'title'        => $this->faker->word,
+            'content'      => $this->faker->sentence,
             'is_completed' => 0,
-            'due_date' => $this->faker->dateTime,
+            'due_date'     => $this->faker->dateTime,
         ];
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
@@ -129,15 +129,15 @@ class TaskTest extends TestCase
         $project = factory(Project::class)->create();
 
         $data = [
-            'project_id' => $project->id,
-            'account_id' => $this->account->id,
-            'task_type' => 1,
-            'task_status' => 1,
-            'customer_id' => $this->customer->id,
-            'title' => $this->faker->word,
-            'content' => $this->faker->sentence,
+            'project_id'   => $project->id,
+            'account_id'   => $this->account->id,
+            'task_type'    => 1,
+            'task_status'  => 1,
+            'customer_id'  => $this->customer->id,
+            'title'        => $this->faker->word,
+            'content'      => $this->faker->sentence,
             'is_completed' => 0,
-            'due_date' => $this->faker->dateTime,
+            'due_date'     => $this->faker->dateTime,
         ];
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
@@ -178,10 +178,10 @@ class TaskTest extends TestCase
 
         $address = factory(Task::class)->create([
             'account_id' => $this->account->id,
-            'title' => $title,
-            'content' => $content,
-            'due_date' => $due_date,
-            'task_type' => $task_type
+            'title'      => $title,
+            'content'    => $content,
+            'due_date'   => $due_date,
+            'task_type'  => $task_type
         ]);
 
         $transformed = $this->transformTask($address);

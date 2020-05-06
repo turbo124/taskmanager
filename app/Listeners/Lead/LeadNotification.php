@@ -30,13 +30,13 @@ class LeadNotification implements ShouldQueue
 
         if (!empty($lead->account->account_users)) {
             foreach ($lead->account->account_users as $account_user) {
-                $account_user->user->notify(new NewLeadNotification($lead, $lead->account));
+                $account_user->user->notify(new NewLeadNotification($lead, 'mail'));
             }
         }
 
         if (isset($lead->account->slack_webhook_url)) {
             Notification::route('slack', $lead->account->slack_webhook_url)->notify(new NewLeadNotification($lead,
-                $lead->account, true));
+                'slack'));
         }
     }
 }

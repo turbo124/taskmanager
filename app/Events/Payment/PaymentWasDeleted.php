@@ -3,6 +3,7 @@
 namespace App\Events\Payment;
 
 use App\Payment;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class PaymentWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Payment
@@ -25,5 +27,6 @@ class PaymentWasDeleted
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
+        $this->send($payment, get_class($this));
     }
 }

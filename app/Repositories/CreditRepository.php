@@ -3,16 +3,18 @@
 namespace App\Repositories;
 
 use App\ClientContact;
+use App\Filters\CreditFilter;
 use App\NumberGenerator;
 use App\Factory\CreditInvitationFactory;
 use App\CreditInvitation;
 use App\Repositories\Base\BaseRepository;
 use App\Credit;
 use App\Payment;
+use App\Requests\SearchRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
-use App\Libraries\Utils;
 use App\Customer;
+use App\Account;
 use Illuminate\Support\Collection;
 
 class CreditRepository extends BaseRepository implements CreditRepositoryInterface
@@ -71,15 +73,12 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     }
 
     /**
-     * List all the categories
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $except
+     * @param SearchRequest $search_request
+     * @param Account $account
      * @return Collection
      */
-    public function listCredits(string $order = 'id', string $sort = 'desc', $except = []): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->model->orderBy($order, $sort)->get()->except($except);
+        return (new CreditFilter($this))->filter($search_request, $account->id);
     }
 }

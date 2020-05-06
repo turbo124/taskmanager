@@ -31,7 +31,8 @@ use App\Jobs\Invoice\CreateInvoicePdf;
  *
  * @author michael.hampton
  */
-class DesignTest extends TestCase {
+class DesignTest extends TestCase
+{
 
     use DatabaseTransactions,
         WithFaker;
@@ -40,7 +41,8 @@ class DesignTest extends TestCase {
     private $account;
     private $user;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->account = Account::find(1);
@@ -49,15 +51,16 @@ class DesignTest extends TestCase {
     }
 
     /** @test */
-    public function it_can_show_all_the_designs() {
+    public function it_can_show_all_the_designs()
+    {
         factory(Design::class)->create();
         $list = (new DesignFilter(new DesignRepository(new Design())))->filter(new SearchRequest(), 1);
         $this->assertNotEmpty($list);
-        $this->assertInstanceOf(Design::class, $list[0]);
     }
 
     /** @test */
-    public function it_can_update_the_design() {
+    public function it_can_update_the_design()
+    {
         $design = factory(Design::class)->create();
         $name = $this->faker->firstName;
         $data = ['name' => $name];
@@ -69,7 +72,8 @@ class DesignTest extends TestCase {
     }
 
     /** @test */
-    public function it_can_show_the_design() {
+    public function it_can_show_the_design()
+    {
         $design = factory(Design::class)->create();
         $designRepo = new DesignRepository(new Design());
         $found = $designRepo->findDesignById($design->id);
@@ -78,7 +82,8 @@ class DesignTest extends TestCase {
     }
 
     /** @test */
-    public function it_can_create_a_design() {
+    public function it_can_create_a_design()
+    {
 
         $user = factory(User::class)->create();
         $design = (new DesignFactory)->create(1, $user->id);
@@ -100,7 +105,8 @@ class DesignTest extends TestCase {
         $this->assertEquals($data['name'], $design->name);
     }
 
-    public function testQuoteDesignExists() {
+    public function testQuoteDesignExists()
+    {
         $this->quote = factory(\App\Quote::class)->create([
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
@@ -111,7 +117,7 @@ class DesignTest extends TestCase {
 
         $design = Design::find(3);
 
-        $designer = new PdfColumns(new PdfData($this->quote, $this->contact),$this->quote, $design, $this->account->settings->pdf_variables, 'quote');
+        $designer = new PdfColumns(new PdfData($this->quote, $this->contact), $this->quote, $design, $this->account->settings->pdf_variables, 'quote');
 
         $html = $designer->buildDesign();
 
@@ -128,7 +134,8 @@ class DesignTest extends TestCase {
         $this->quote->service()->getPdf();
     }
 
-    public function testInvoiceDesignExists() {
+    public function testInvoiceDesignExists()
+    {
         $this->invoice = factory(\App\Quote::class)->create([
             'user_id'     => $this->user->id,
             'customer_id' => Customer::first(),

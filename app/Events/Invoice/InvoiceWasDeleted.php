@@ -3,6 +3,7 @@
 namespace App\Events\Invoice;
 
 use App\Invoice;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class InvoiceWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Invoice

@@ -2,6 +2,7 @@
 
 namespace App\Events\Order;
 
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class OrderWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     public $order;
 
@@ -21,5 +23,6 @@ class OrderWasDeleted
     public function __construct($order)
     {
         $this->order = $order;
+        $this->send($order, get_class($this));
     }
 }

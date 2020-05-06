@@ -90,15 +90,15 @@ class LeadTest extends TestCase
     {
 
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
+            'account_id'  => $this->account->id,
+            'user_id'     => $this->user->id,
             'task_status' => 1,
-            'title' => $this->faker->word,
+            'title'       => $this->faker->word,
             'description' => $this->faker->sentence,
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'phone' => $this->faker->phoneNumber,
-            'email' => $this->faker->safeEmail
+            'first_name'  => $this->faker->firstName,
+            'last_name'   => $this->faker->lastName,
+            'phone'       => $this->faker->phoneNumber,
+            'email'       => $this->faker->safeEmail
         ];
 
         $leadRepo = new LeadRepository(new Lead);
