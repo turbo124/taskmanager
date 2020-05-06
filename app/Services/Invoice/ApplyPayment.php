@@ -37,13 +37,7 @@ class ApplyPayment
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            if ($this->invoice->partial == $this->payment_amount) {
-                $this->invoice->resetPartialInvoice($this->payment_amount * -1);
-            } elseif ($this->invoice->partial > $this->payment_amount) { //partial amount exists, but the amount is less than the partial amount
-                $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->payment_amount);
-            } elseif ($this->invoice->partial < $this->payment_amount) { //partial exists and the amount paid is GREATER than the partial amount
-                $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->invoice->partial);
-            }
+            $this->adjustInvoiceBalance();
         } elseif ($this->payment_amount == $this->invoice->balance) { //total invoice paid.
             $this->invoice->resetPartialInvoice($this->payment_amount * -1, 0, true);
         } elseif ($this->payment_amount < $this->invoice->balance) { //partial invoice payment made
@@ -51,5 +45,23 @@ class ApplyPayment
         }
 
         return $this->invoice;
+    }
+
+    private function adjustInvoiceBalance()
+    {
+        if ($this->invoice->partial == $this->payment_amount) {
+            $this->invoice->resetPartialInvoice($this->payment_amount * -1);
+            return true;
+        }
+        
+        if ($this->invoice->partial > $this->payment_amount) { //partial amount exists, but the amount is less than the partial amount
+            $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->payment_amount);
+             return true;
+        }
+
+        if ($this->invoice->partial < $this->payment_amount) { //partial exists and the amount paid is GREATER than the partial amount
+            $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->invoice->partial);
+            return true;
+        }
     }
 }
