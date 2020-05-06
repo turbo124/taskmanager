@@ -22,7 +22,7 @@ class OrderWasDispatched implements PerformsMetrics
     /**
      * @var Order
      */
-    public $order;
+    public Order $order;
 
     /**
      * Create a new event instance.
