@@ -36,7 +36,7 @@ class OrderService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'order'): ?Order
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }
 
@@ -53,14 +53,14 @@ class OrderService extends ServiceBase
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
         $this->order->save();
-        
+
         if ($this->order->customer->getSetting('should_convert_order')) {
             $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
             $this->order->setInvoiceId($invoice->id);
             $this->order->save();
         }
 
-        if($this->order->customer->getSetting('should_email_order')) {
+        if ($this->order->customer->getSetting('should_email_order')) {
             $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
         }
 

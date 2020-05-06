@@ -44,8 +44,8 @@ class LedgerService extends ServiceBase
     private function ledger(): ?CompanyLedger
     {
         return CompanyLedger::whereCustomerId($this->entity->customer_id)
-            ->whereAccountId($this->entity->account_id)
-            ->orderBy('id', 'DESC')
-            ->first();
+                            ->whereAccountId($this->entity->account_id)
+                            ->orderBy('id', 'DESC')
+                            ->first();
     }
 }

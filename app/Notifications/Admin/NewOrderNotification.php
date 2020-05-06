@@ -21,7 +21,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
 
     private Order $order;
-    
+
     private string $message_type;
 
     public function __construct(Order $order, string $message_type = '')
@@ -30,7 +30,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
         $this->message_type = $message_type;
     }
 
-     /**
+    /**
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
@@ -52,21 +52,21 @@ class NewOrderNotification extends Notification implements ShouldQueue
         $total = $this->order->getFormattedTotal();
         $subject = trans('texts.notification_order_subject', [
             'customer' => $this->order->customer->present()->name(),
-            'order'  => $this->order->number,
+            'order'    => $this->order->number,
         ]);
 
 
         return (new MailMessage)->subject($subject)->markdown('email.admin.new', ['data' => [
-            'title'     => $subject,
-            'message'   => trans('texts.notification_order', [
-                'total'  => $total,
-                'customer'  => $this->order->customer->present()->name(),
-                'invoice' => $this->order->number,
+            'title'       => $subject,
+            'message'     => trans('texts.notification_order', [
+                'total'    => $total,
+                'customer' => $this->order->customer->present()->name(),
+                'invoice'  => $this->order->number,
             ]),
-            'url'       => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
-            'button_text'    => trans('texts.view_invoice'),
-            'signature' => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
-            'logo'      => $this->order->account->present()->logo(),
+            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
+            'button_text' => trans('texts.view_invoice'),
+            'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
+            'logo'        => $this->order->account->present()->logo(),
         ]]);
     }
 
@@ -87,7 +87,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
         $logo = $this->order->account->present()->logo();
 
         return (new SlackMessage)->success()
-            ->from("System")->image($logo)->content(trans('texts.notification_deal',
+                                 ->from("System")->image($logo)->content(trans('texts.notification_deal',
                 ['total' => $this->order->getFormattedTotal()]));
     }
 

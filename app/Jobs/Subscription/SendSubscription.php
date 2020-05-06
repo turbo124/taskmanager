@@ -13,6 +13,7 @@ class SendSubscription
 {
     use EntityDataBuilder;
     use Dispatchable;
+
     protected $event;
     protected $entity;
 
@@ -38,13 +39,13 @@ class SendSubscription
 
         $data = $this->buildEntityData($this->entity);
 
-        if(empty($data)) {
+        if (empty($data)) {
 
             return false;
         }
 
         $this->sendData($data, $subscription);
-     
+
         return true;
     }
 
@@ -52,7 +53,7 @@ class SendSubscription
     {
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', $subscription->target_url, [
-            'headers' => [
+            'headers'     => [
                 //'Authorization' => 'Bearer ' . 'Mu9tNULggxB9QFRyDytg9RYdpG8GsQJ9LGBBTYWSzlKAkJgaK7hs0xrV9F4qKrM7',
                 'Accept' => 'application/json',
             ],

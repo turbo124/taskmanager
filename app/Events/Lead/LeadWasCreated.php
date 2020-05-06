@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class LeadWasCreated
 {
     use SerializesModels;
+
     /**
      * @var array $payment
      */

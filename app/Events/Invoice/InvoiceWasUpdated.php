@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class InvoiceWasUpdated
 {
     use SerializesModels;
+
     /**
      * @var Invoice
      */

@@ -61,7 +61,7 @@ class PaymentController extends Controller
      */
     public function store(CreatePaymentRequest $request)
     {
-        $payment = 
+        $payment =
         $payment = $this->payment_repo->processPayment($request->all(),
             PaymentFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user(),
                 auth()->user()->account_user()->account));
@@ -176,14 +176,14 @@ class PaymentController extends Controller
     private function attachInvoices(Customer $customer, Payment $payment, $ids): Payment
     {
         $invoices = Invoice::whereIn('id', explode(",", $ids))
-            ->whereCustomerId($customer->id)
-            ->get();
+                           ->whereCustomerId($customer->id)
+                           ->get();
 
-        foreach($invoices as $invoice) {
+        foreach ($invoices as $invoice) {
             $payment->attachInvoice($invoice);
             $payment->ledger()->updateBalance($invoice->balance * -1);
             $payment->customer->service()->updateBalance($invoice->balance * -1)
-                ->updatePaidToDate($invoice->balance)->save();
+                              ->updatePaidToDate($invoice->balance)->save();
             $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
         }
 

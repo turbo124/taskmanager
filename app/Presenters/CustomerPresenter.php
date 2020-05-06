@@ -40,19 +40,19 @@ class CustomerPresenter extends EntityPresenter
         $fields = ['address_1', 'address_2', 'city', 'country_id'];
 
         $address = $this->entity->addresses->where('address_type', $type)->first();
-        
-        if(empty($address) || $address->count() === 0) {
+
+        if (empty($address) || $address->count() === 0) {
             return '';
         }
 
         $str = '';
 
-        foreach($fields as $field) {
-            if(empty($address->{$field})) {
-                 continue;
+        foreach ($fields as $field) {
+            if (empty($address->{$field})) {
+                continue;
             }
 
-            if($field === 'country_id') {
+            if ($field === 'country_id') {
                 $country = Country::where('id', $address->{$field})->first();
                 $str .= $country->name;
                 continue;
@@ -66,7 +66,7 @@ class CustomerPresenter extends EntityPresenter
 
     public function shipping_address()
     {
-       return $this->address(2);
+        return $this->address(2);
     }
 
     public function phone()

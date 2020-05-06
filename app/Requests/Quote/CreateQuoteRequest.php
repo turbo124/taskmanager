@@ -26,18 +26,18 @@ class CreateQuoteRequest extends FormRequest
     {
 
         return [
-            'customer_id'                   => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
-            'date'                          => 'required',
-            'due_date'                      => 'required',
-            'discount_total'                => 'required',
-            'sub_total'                     => 'required',
-            'total'                         => 'required',
-            'tax_total'                     => 'required',
-            'line_items'                    => 'required|array',
+            'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'date'           => 'required',
+            'due_date'       => 'required',
+            'discount_total' => 'required',
+            'sub_total'      => 'required',
+            'total'          => 'required',
+            'tax_total'      => 'required',
+            'line_items'     => 'required|array',
         ];
     }
 
-     protected function prepareForValidation()
+    protected function prepareForValidation()
     {
         $input = $this->all();
         $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];

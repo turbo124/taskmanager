@@ -119,9 +119,9 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->delete();
 
         $entity_class = (new \ReflectionClass($entity))->getShortName();
-        $event_class = "App\Events\\".$entity_class."\\" . $entity_class . "WasArchived";
+        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasArchived";
 
-        if(class_exists($event_class)) {
+        if (class_exists($event_class)) {
             event(new $event_class($entity));
         }
 
@@ -152,9 +152,9 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->setStatus($entity_class::STATUS_SENT);
         $entity->save();
 
-        $event_class = "App\Events\\".$class."\\" . $class . "WasMarkedSent";
+        $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 
-        if(class_exists($event_class)) {
+        if (class_exists($event_class)) {
             event(new $event_class($entity));
         }
 
@@ -171,9 +171,9 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->delete();
 
         $entity_class = (new \ReflectionClass($entity))->getShortName();
-        $event_class = "App\Events\\".$entity_class."\\" . $entity_class . "WasDeleted";
+        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasDeleted";
 
-        if(class_exists($event_class)) {
+        if (class_exists($event_class)) {
             event(new $event_class($entity));
         }
 
@@ -232,7 +232,7 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function saveInvitations($entity, $key, array $data): bool
     {
-        if(empty($data['invitations']) && $entity->invitations->count() === 0) {
+        if (empty($data['invitations']) && $entity->invitations->count() === 0) {
             $created = $entity->customer->contacts->pluck('id')->toArray();
             $this->createNewInvitation($created, $key, $entity);
 
@@ -240,7 +240,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         $invitation_class = sprintf("App\\%sInvitation", ucfirst($key));
-     
+
         $id_key = $key . '_id';
 
         $old_values = $invitation_class::where($id_key, $entity->id)->get()->pluck('client_contact_id')->toArray();
@@ -261,7 +261,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $invitation_factory_class = sprintf("App\\Factory\\%sInvitationFactory", ucfirst($key));
         $id_key = $key . '_id';
-         
+
         foreach ($created as $contact_id) {
 
             /* $invitation = $invitation__class::where($id_key, $entity->id)->where('client_contact_id', $contact_id)->first();
@@ -284,9 +284,15 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $class = strtolower((new \ReflectionClass($entity))->getShortName());
 
-        if(empty($entity->terms) && !empty($entity->customer->getSetting($class . '_terms'))) $entity->terms = $entity->customer->getSetting($class . '_terms');
-        if(empty($entity->footer) && !empty($entity->customer->getSetting($class . '_footer'))) $entity->footer = $entity->customer->getSetting($class . '_footer');
-        if(empty($entity->public_notes) && !empty($entity->customer->public_notes)) $entity->public_notes = $entity->customer->public_notes;
+        if (empty($entity->terms) && !empty($entity->customer->getSetting($class . '_terms'))) {
+            $entity->terms = $entity->customer->getSetting($class . '_terms');
+        }
+        if (empty($entity->footer) && !empty($entity->customer->getSetting($class . '_footer'))) {
+            $entity->footer = $entity->customer->getSetting($class . '_footer');
+        }
+        if (empty($entity->public_notes) && !empty($entity->customer->public_notes)) {
+            $entity->public_notes = $entity->customer->public_notes;
+        }
 
         return $entity;
     }

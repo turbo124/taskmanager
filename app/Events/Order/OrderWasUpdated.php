@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class OrderWasUpdated
 {
     use SerializesModels;
+
     public $order;
 
     /**

@@ -27,7 +27,7 @@ class PaymentEmail
 
         $this->payment->customer->contacts->each(function ($contact) use ($subject, $body) {
             if ($contact->send_email && $contact->email) {
-               SendEmail::dispatchNow($this->payment, $subject, $body, 'payment', $contact);
+                SendEmail::dispatchNow($this->payment, $subject, $body, 'payment', $contact);
             }
         });
     }

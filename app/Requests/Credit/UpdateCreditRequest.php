@@ -15,14 +15,14 @@ class UpdateCreditRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'customer_id'                   => 'required',
-            'date'                          => 'required',
-            'due_date'                      => 'required',
-            'discount_total'                => 'required',
-            'sub_total'                     => 'required',
-            'total'                         => 'required',
-            'tax_total'                     => 'required',
-            'line_items'                    => 'required|array',
+            'customer_id'    => 'required',
+            'date'           => 'required',
+            'due_date'       => 'required',
+            'discount_total' => 'required',
+            'sub_total'      => 'required',
+            'total'          => 'required',
+            'tax_total'      => 'required',
+            'line_items'     => 'required|array',
         ];
     }
 

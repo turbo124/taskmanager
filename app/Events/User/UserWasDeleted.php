@@ -17,6 +17,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class UserWasDeleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
      * @var $user
      */

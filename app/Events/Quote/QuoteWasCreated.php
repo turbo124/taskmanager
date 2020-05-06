@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteWasCreated
 {
     use SerializesModels;
+
     public $quote;
 
     /**

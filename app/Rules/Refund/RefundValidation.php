@@ -8,7 +8,7 @@ use App\Paymentables;
 
 class RefundValidation implements Rule
 {
-  
+
     private $request;
     private $validationFailures = [];
 
@@ -26,39 +26,40 @@ class RefundValidation implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
 
-        if(!isset($this->request['id'])) {
+        if (!isset($this->request['id'])) {
             return false;
         }
 
-        if(!$this->validatePayment()) {
+        if (!$this->validatePayment()) {
             return false;
         }
 
-       return true;
+        return true;
     }
 
 
-    private function validatePayment() {
+    private function validatePayment()
+    {
         $payment = Payment::whereId($this->request['id'])->first();
 
-        if(!$payment) {
+        if (!$payment) {
             $this->validationFailures[] = 'Invalid payment';
             return false;
         }
 
-        if($this->request['amount'] > $payment->amount) {
-             $this->validationFailures[] = 'Refund amount is to high';
+        if ($this->request['amount'] > $payment->amount) {
+            $this->validationFailures[] = 'Refund amount is to high';
             return false;
         }
 
-        if($payment->status_id !== Payment::STATUS_COMPLETED) {
+        if ($payment->status_id !== Payment::STATUS_COMPLETED) {
             $this->validationFailures[] = 'payment has not been completed';
             return false;
         }

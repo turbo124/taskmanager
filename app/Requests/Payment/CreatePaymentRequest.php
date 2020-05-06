@@ -33,7 +33,7 @@ class CreatePaymentRequest extends BaseFormRequest
             'credits.*.credit_id'   => 'required|exists:credits,id',
             'credits.*.amount'      => 'required',
             'invoices'              => new InvoicePaymentValidation($this->all()),
-            'credits'              => new CreditPaymentValidation($this->all()),
+            'credits'               => new CreditPaymentValidation($this->all()),
             'number'                => 'nullable',
         ];
 

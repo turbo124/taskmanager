@@ -26,7 +26,7 @@ class AccountPresenter extends EntityPresenter
             $settings = $this->entity->settings;
         }
 
-        if(empty($settings) || empty($settings->company_logo)) {
+        if (empty($settings) || empty($settings->company_logo)) {
             return '';
         }
 
@@ -43,19 +43,19 @@ class AccountPresenter extends EntityPresenter
             $settings = $this->entity->settings;
         }
 
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
 
-            if(empty($settings->{$field})) {
+            if (empty($settings->{$field})) {
                 continue;
             }
 
-            if($field === 'country_id') {
+            if ($field === 'country_id') {
                 $country = Country::where('id', $settings->country_id)->first();
                 $str .= e($country->name) . '<br/>';
                 continue;
             }
 
-             $str .= $settings->{$field} . '<br/>';
+            $str .= $settings->{$field} . '<br/>';
         }
 
         return $str;

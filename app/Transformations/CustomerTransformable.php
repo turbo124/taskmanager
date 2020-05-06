@@ -8,6 +8,11 @@ use App\Customer;
 
 trait CustomerTransformable
 {
+    /**
+     * @param Customer $customer
+     * @return array
+     * @throws \Exception
+     */
     protected function transformCustomer(Customer $customer)
     {
 
@@ -29,38 +34,38 @@ trait CustomerTransformable
         }
 
         return [
-        'id' => (int)$customer->id,
-        'created_at' => $customer->created_at,
-        'name' => $customer->name,
-        'phone' => $customer->phone,
-        'company_id' => $customer->company_id,
-        'deleted_at' => $customer->deleted_at,
-        'company' => $company,
-        'credit' => $credit,
-        'contacts' => $this->transformContacts($customer->contacts),
-        'default_payment_method' => $customer->default_payment_method,
-        'group_settings_id' => $customer->group_settings_id,
-        'shipping' => $shipping,
-        'billing' => $billing,
-        'website' => $customer->website ?: '',
-        'vat_number' => $customer->vat_number ?: '',
-        'industry_id' => (int)$customer->industry_id ?: null,
-        'size_id' => (int)$customer->size_id ?: null,
-        'currency_id' => $customer->currency_id,
-        'paid_to_date' => (float)$customer->paid_to_date,
-        'credit_balance' => (float)$customer->credit_balance,
-        'balance' => (float)$customer->balance,
-        'assigned_user' => $customer->assigned_user_id,
-        'settings' => [
-            'payment_terms' => $customer->getSetting('payment_terms')
-        ],
-        'custom_value1' => $customer->custom_value1 ?: '',
-        'custom_value2' => $customer->custom_value2 ?: '',
-        'custom_value3' => $customer->custom_value3 ?: '',
-        'custom_value4' => $customer->custom_value4 ?: '',
-        'private_notes' => $customer->private_notes ?: '',
-        'public_notes' => $customer->public_notes ?: '',
-    ];
+            'id'                     => (int)$customer->id,
+            'created_at'             => $customer->created_at,
+            'name'                   => $customer->name,
+            'phone'                  => $customer->phone,
+            'company_id'             => $customer->company_id,
+            'deleted_at'             => $customer->deleted_at,
+            'company'                => $company,
+            'credit'                 => $credit,
+            'contacts'               => $this->transformContacts($customer->contacts),
+            'default_payment_method' => $customer->default_payment_method,
+            'group_settings_id'      => $customer->group_settings_id,
+            'shipping'               => $shipping,
+            'billing'                => $billing,
+            'website'                => $customer->website ?: '',
+            'vat_number'             => $customer->vat_number ?: '',
+            'industry_id'            => (int)$customer->industry_id ?: null,
+            'size_id'                => (int)$customer->size_id ?: null,
+            'currency_id'            => $customer->currency_id,
+            'paid_to_date'           => (float)$customer->paid_to_date,
+            'credit_balance'         => (float)$customer->credit_balance,
+            'balance'                => (float)$customer->balance,
+            'assigned_user'          => $customer->assigned_user_id,
+            'settings'               => [
+                'payment_terms' => $customer->getSetting('payment_terms')
+            ],
+            'custom_value1'          => $customer->custom_value1 ?: '',
+            'custom_value2'          => $customer->custom_value2 ?: '',
+            'custom_value3'          => $customer->custom_value3 ?: '',
+            'custom_value4'          => $customer->custom_value4 ?: '',
+            'private_notes'          => $customer->private_notes ?: '',
+            'public_notes'           => $customer->public_notes ?: '',
+        ];
     }
 
     /**

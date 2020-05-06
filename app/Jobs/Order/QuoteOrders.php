@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteOrders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     private $quote;
 
     /**

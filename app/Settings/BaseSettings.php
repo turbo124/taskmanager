@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Settings;
 
 class BaseSettings
 {
 
     protected $validationFailures = [];
-    
+
     protected function validate($saved_settings, $actual_settings)
     {
 
@@ -15,8 +16,7 @@ class BaseSettings
 
         foreach ($actual_settings as $key => $actual_setting) {
             if (!isset($saved_settings->$key)) {
-
-                $saved_settings->{$key} = $actual_setting['default_value'];
+                $saved_settings->{$key} = !empty($actual_setting['translated_value']) ? trans($actual_setting['translated_value']) : $actual_setting['default_value'];
             }
 
             // if required and empty
@@ -32,7 +32,7 @@ class BaseSettings
 
             // if value empty and has default value then use default
             if (!is_bool($saved_settings->{$key}) && $saved_settings->{$key} === '' && !empty($actual_setting['default_value'])) {
-                $saved_settings->{$key} = $actual_setting['default_value'];
+                $saved_settings->{$key} = !empty($actual_setting['translated_value']) ? trans($actual_setting['translated_value']) : $actual_setting['default_value'];
             }
 
             // cast type

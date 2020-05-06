@@ -31,7 +31,7 @@ class SupportMessage extends Mailable
     public function build()
     {
         return $this->from('tamtamcrm@support.com')
-                ->subject(trans('texts.support_ticket_subject'))
-                ->markdown('email.admin.new', ['data' => ['title' => trans('texts.support_ticket_subject'), 'message' => $this->message]]);
+                    ->subject(trans('texts.support_ticket_subject'))
+                    ->markdown('email.admin.new', ['data' => ['title' => trans('texts.support_ticket_subject'), 'message' => $this->message]]);
     }
 }

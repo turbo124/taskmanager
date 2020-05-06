@@ -60,15 +60,15 @@ class TimerRepository extends BaseRepository
     public function getTotalDuration(Task $task)
     {
         $timers = DB::table('timers')
-                     ->select(\DB::raw('ROUND(TIMESTAMPDIFF(MINUTE, started_at, stopped_at)/60, 2) as hours'))
-                     ->where('task_id', '=', $task->id)
-                     ->get();
+                    ->select(\DB::raw('ROUND(TIMESTAMPDIFF(MINUTE, started_at, stopped_at)/60, 2) as hours'))
+                    ->where('task_id', '=', $task->id)
+                    ->get();
 
-        return array_sum(array_column($timers->toArray(),'hours'));
+        return array_sum(array_column($timers->toArray(), 'hours'));
 
     }
 
-    public function isRunning(Task $task) 
+    public function isRunning(Task $task)
     {
         $timer = Timer::whereNull('stopped_at')->where('task_id', '=', $task->id)->first();
 

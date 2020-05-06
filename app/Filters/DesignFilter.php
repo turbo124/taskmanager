@@ -19,7 +19,7 @@ class DesignFilter extends QueryFilter
     private $design_repo;
 
     private $model;
-    
+
     /**
      * GroupSettingFilter constructor.
      * @param GroupSettingRepository $group_setting_repo

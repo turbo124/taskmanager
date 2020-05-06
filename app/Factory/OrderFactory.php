@@ -22,10 +22,11 @@ class OrderFactory
      * @param Customer|null $customer
      * @return Invoice
      */
-    public static function create(Account $account,
+    public static function create(
+        Account $account,
         User $user,
-        Customer $customer): Order
-    {
+        Customer $customer
+    ): Order {
         $order = new Order;
         $order->account_id = $account->id;
         $order->status_id = Order::STATUS_DRAFT;

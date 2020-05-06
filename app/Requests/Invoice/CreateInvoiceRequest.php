@@ -26,14 +26,14 @@ class CreateInvoiceRequest extends FormRequest
     {
 
         return [
-            'customer_id'                   => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
-            'date'                          => 'required',
-            'due_date'                      => 'required',
-            'discount_total'                => 'required',
-            'sub_total'                     => 'required',
-            'total'                         => 'required',
-            'tax_total'                     => 'required',
-            'line_items'                    => 'required|array',
+            'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'date'           => 'required',
+            'due_date'       => 'required',
+            'discount_total' => 'required',
+            'sub_total'      => 'required',
+            'total'          => 'required',
+            'tax_total'      => 'required',
+            'line_items'     => 'required|array',
         ];
     }
 

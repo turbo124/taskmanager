@@ -12,6 +12,7 @@ use App\ProductAttribute;
 class SaveProductAttributes
 {
     use Dispatchable;
+
     protected $data;
     protected $product;
 

@@ -87,14 +87,14 @@ class Task extends Model
     }
 
     /**
-         * Get associated timers.
-         *
-         * @return \Illuminate\Database\Eloquent\Relations\HasMany
-         */
-        public function timers()
-        {
-            return $this->hasMany(Timer::class);
-        }
+     * Get associated timers.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function timers()
+    {
+        return $this->hasMany(Timer::class);
+    }
 
     /**
      * Get the comments for the blog post.

@@ -39,13 +39,14 @@ class CreateDeal
      * @param TaskRepository $task_repo
      * @param $is_deal
      */
-    public function __construct($task,
+    public function __construct(
+        $task,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
-        $is_deal)
-    {
+        $is_deal
+    ) {
         $this->task = $task;
         $this->request = $request;
         $this->customer_repo = $customer_repo;
@@ -137,7 +138,7 @@ class CreateDeal
         }
 
         $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
-        
+
         $order = $this->order_repo->save(
             [
                 'invitations'    => $invitations,

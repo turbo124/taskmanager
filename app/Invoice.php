@@ -134,7 +134,7 @@ class Invoice extends Model
     public function credits()
     {
         return $this->belongsToMany(Credit::class)->using(Paymentable::class)->withPivot('amount', 'refunded')
-            ->withTimestamps();
+                    ->withTimestamps();
     }
 
     public function payments()
@@ -180,7 +180,7 @@ class Invoice extends Model
 
     public function isCancellable(): bool
     {
-       return in_array($this->status_id, [self::STATUS_SENT, self::STATUS_PARTIAL]) && $this->is_deleted === false && $this->deleted_at === null;
+        return in_array($this->status_id, [self::STATUS_SENT, self::STATUS_PARTIAL]) && $this->is_deleted === false && $this->deleted_at === null;
     }
 
     public function isReversable(): bool
@@ -204,9 +204,9 @@ class Invoice extends Model
         $this->customer->setBalance($amount);
         $this->customer->save();
 
-       if(!$this->updateRefundedAmountForInvoice($amount)) {
-           return false;
-       }
+        if (!$this->updateRefundedAmountForInvoice($amount)) {
+            return false;
+        }
 
         return true;
     }
@@ -222,7 +222,7 @@ class Invoice extends Model
     public function resetPartialInvoice(float $amount, float $partial_amount = 0, $is_paid = false)
     {
         $this->balance += floatval($amount);
-        $this->partial = $partial_amount > 0 ? $this->partial -= $partial_amount : null; 
+        $this->partial = $partial_amount > 0 ? $this->partial -= $partial_amount : null;
         $this->partial_due_date = $partial_amount > 0 ? $this->partial_due_date : null;
         $this->status_id = $is_paid === false ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID;
         $this->due_date = Carbon::now()->addDays($this->customer->getSetting('payment_terms'));
@@ -244,7 +244,7 @@ class Invoice extends Model
 
     public function setNumber()
     {
-        if(!empty($this->number)) {
+        if (!empty($this->number)) {
             return true;
         }
 
@@ -272,7 +272,8 @@ class Invoice extends Model
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('invoice_design_id');
     }
 
-    public function getPdfFilename() {
+    public function getPdfFilename()
+    {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/invoices/' . $this->number . '.pdf';
     }
 }

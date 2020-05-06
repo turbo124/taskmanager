@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Log;
 
 class CreditFactory
 {
-    public static function create(Account $account,
+    public static function create(
+        Account $account,
         User $user,
-        Customer $customer): Credit
-    {
+        Customer $customer
+    ): Credit {
         $credit = new Credit;
         $credit->status_id = Credit::STATUS_DRAFT;
         $credit->customer_id = $customer->id;

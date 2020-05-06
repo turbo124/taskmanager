@@ -13,7 +13,7 @@ use App\Services\Invoice\MarkPaid;
 use App\Services\Invoice\UpdateBalance;
 use Illuminate\Support\Carbon;
 use App\Services\Invoice\ApplyPayment;
-use App\Events\Invoice\InvoiceWasPaid; 
+use App\Events\Invoice\InvoiceWasPaid;
 use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
 
@@ -26,7 +26,7 @@ class InvoiceService extends ServiceBase
     private $payment_service;
 
     public function __construct(Invoice $invoice)
-    { 
+    {
         parent::__construct($invoice);
         $this->invoice = $invoice;
     }
@@ -52,7 +52,7 @@ class InvoiceService extends ServiceBase
      */
     public function handleReversal(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-        return (new HandleReversal($this->invoice, $credit_repo, $payment_repo))->run();  
+        return (new HandleReversal($this->invoice, $credit_repo, $payment_repo))->run();
     }
 
     public function getPdf($contact = null)
@@ -78,15 +78,15 @@ class InvoiceService extends ServiceBase
     public function applyPayment(Payment $payment, float $payment_amount): Invoice
     {
         $invoice = (new ApplyPayment($this->invoice, $payment, $payment_amount))->run();
-        
-       $this->completePaymentWorkflow($invoice);
+
+        $this->completePaymentWorkflow($invoice);
 
         return $invoice;
     }
 
     private function completePaymentWorkflow(Invoice $invoice): Invoice
     {
-        if($invoice->customer->getSetting('should_email_invoice')) {
+        if ($invoice->customer->getSetting('should_email_invoice')) {
             $this->sendEmail(null, trans('texts.invoice_paid_subject'), trans('texts.invoice_paid_body'));
         }
 
@@ -108,10 +108,10 @@ class InvoiceService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }
-  
+
         event(new InvoiceWasEmailed($this->invoice->invitations->first()));
         return $this->invoice;
     }

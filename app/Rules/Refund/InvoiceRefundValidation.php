@@ -9,7 +9,7 @@ use App\Payment;
 
 class InvoiceRefundValidation implements Rule
 {
-     private $request;
+    private $request;
 
     /**
      * Create a new rule instance.
@@ -24,46 +24,46 @@ class InvoiceRefundValidation implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
 
-        if(!isset($this->request['invoices'])) {
+        if (!isset($this->request['invoices'])) {
             return true;
         }
 
-       if(!$this->validate($this->request['invoices'])) {
-           return false;
-       }
+        if (!$this->validate($this->request['invoices'])) {
+            return false;
+        }
 
-       return true;
+        return true;
     }
 
-    private function validate (array $arrInvoices): bool
+    private function validate(array $arrInvoices): bool
     {
         $invoice_total = 0;
         $this->customer = null;
 
-        foreach($arrInvoices as $arrInvoice) {
+        foreach ($arrInvoices as $arrInvoice) {
 
             $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
-            
-            if(!$invoice) {
+
+            if (!$invoice) {
                 return false;
             }
 
-            if(!$this->validateCustomer($invoice)) {
+            if (!$this->validateCustomer($invoice)) {
                 return false;
             }
-           
+
 
             $invoice_total += $invoice->total;
         }
 
-        if($invoice_total > $this->request['amount']) {
+        if ($invoice_total > $this->request['amount']) {
 
             return false;
         }
@@ -74,9 +74,9 @@ class InvoiceRefundValidation implements Rule
     private function validateInvoice(int $invoice_id)
     {
         $invoice = Invoice::whereId($invoice_id)->first();
-     
+
         // check allowed statuses here
-        if(!$invoice || $invoice->is_deleted) {
+        if (!$invoice || $invoice->is_deleted) {
             $this->validationFailures[] = 'Invoice is not a valid invoice';
             return false;
         }
@@ -86,7 +86,7 @@ class InvoiceRefundValidation implements Rule
             return false;
         }*/
 
-        if(!in_array($invoice->status_id, [Invoice::STATUS_PAID])) {
+        if (!in_array($invoice->status_id, [Invoice::STATUS_PAID])) {
             $this->validationFailures[] = 'Invoice is at the wrong status';
             return false;
         }
@@ -95,33 +95,33 @@ class InvoiceRefundValidation implements Rule
 
         $payment = Payment::whereId($this->request['id'])->first();
 
-        if(!$payment) {
+        if (!$payment) {
             return false;
         }
 
         $allowed_invoices = $payment->invoices->pluck('id')->toArray();
-       
-        if(!in_array($invoice_id, $allowed_invoices)) {
+
+        if (!in_array($invoice_id, $allowed_invoices)) {
             $this->validationFailures[] = 'Invoice is invalid';
             return false;
         }
 
-        if($this->request['amount'] + $paymentable->refunded > $payment->amount) {
+        if ($this->request['amount'] + $paymentable->refunded > $payment->amount) {
             return false;
         }
-       
+
         return $invoice;
     }
 
-    private function validateCustomer (Invoice $invoice)
+    private function validateCustomer(Invoice $invoice)
     {
 
-        if($this->customer === null) {
+        if ($this->customer === null) {
             $this->customer = $invoice->customer;
             return true;
         }
 
-        if($this->customer->id !== $invoice->customer->id) {
+        if ($this->customer->id !== $invoice->customer->id) {
             $this->validationFailures[] = 'Cannot create invoice for different customers';
             return false;
         }

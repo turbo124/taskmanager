@@ -146,8 +146,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
 
         return $this->model->join('category_product', 'category_product.product_id', '=', 'products.id')
-            ->select('products.*')->where('category_product.category_id', $objCategory->id)
-            ->groupBy('products.id')->get();
+                           ->select('products.*')->where('category_product.category_id', $objCategory->id)
+                           ->groupBy('products.id')->get();
     }
 
     /**
@@ -195,13 +195,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getProductsByDealValueAndCategory(Category $category, Request $request): Support
     {
         $query = $this->model->leftJoin('product_attributes', 'product_attributes.product_id', '=', 'products.id')
-            ->join('category_product', 'category_product.product_id', '=', 'products.id')
-            ->select('products.*')
-            ->where('products.status', '=', 1)->where('category_product.category_id', '=', $category->id);
+                             ->join('category_product', 'category_product.product_id', '=', 'products.id')
+                             ->select('products.*')
+                             ->where('products.status', '=', 1)->where('category_product.category_id', '=', $category->id);
 
         if (!empty($request->valued_at) && $request->valued_at > 0) {
             $query->where('product_attributes.range_from', '<', $request->valued_at)
-                ->where('product_attributes.range_to', '>', $request->valued_at);
+                  ->where('product_attributes.range_to', '>', $request->valued_at);
         }
 
         return $query->get();

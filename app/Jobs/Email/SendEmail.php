@@ -110,7 +110,7 @@ class SendEmail implements ShouldQueue
         Mail::to($this->contact->email, $this->contact->present()->name())
             ->send($message);
 
-            $sent_successfully = count(Mail::failures()) === 0;
+        $sent_successfully = count(Mail::failures()) === 0;
 
         $this->toDatabase($this->subject, $body, $sent_successfully);
 

@@ -144,8 +144,9 @@ class CreateUbl implements ShouldQueue
     }
 
     private
-    function createCustomerAddress(Customer $customer)
-    {
+    function createCustomerAddress(
+        Customer $customer
+    ) {
         $customer_address = $customer->addresses->where('address_type', 1)->first();
 
         $client = new Party();
@@ -186,8 +187,9 @@ class CreateUbl implements ShouldQueue
 
 
     private
-    function createInvoiceLine($line_item, $taxable)
-    {
+    function createInvoiceLine(
+        $line_item, $taxable
+    ) {
         $product = Product::find($line_item->product_id);
 
         $item = new Item();
@@ -216,8 +218,9 @@ class CreateUbl implements ShouldQueue
     }
 
     private
-    function createTaxRate(&$taxtotal, $taxable, $taxRate, $taxName = 'test')
-    {
+    function createTaxRate(
+        &$taxtotal, $taxable, $taxRate, $taxName = 'test'
+    ) {
         $invoice = $this->invoice;
         $taxAmount = $this->taxAmount($taxable, $taxRate);
         $taxScheme = ((new TaxScheme()))->setId($taxName);
@@ -241,8 +244,9 @@ class CreateUbl implements ShouldQueue
      * @return float|int
      */
     private
-    function getItemTaxable($item, $invoice_total)
-    {
+    function getItemTaxable(
+        $item, $invoice_total
+    ) {
         $total = $item->quantity * $item->unit_price;
 
         if ($this->invoice->discount_total != 0) { // check here
@@ -297,28 +301,33 @@ class CreateUbl implements ShouldQueue
             }
         }
 
-        if ($this->invoice->custom_surcharge1 && $this->invoice->custom_surcharge_tax1)
+        if ($this->invoice->custom_surcharge1 && $this->invoice->custom_surcharge_tax1) {
             $total += $this->invoice->custom_surcharge1;
+        }
 
 
-        if ($this->invoice->custom_surcharge2 && $this->invoice->custom_surcharge_tax2)
+        if ($this->invoice->custom_surcharge2 && $this->invoice->custom_surcharge_tax2) {
             $total += $this->invoice->custom_surcharge2;
+        }
 
 
-        if ($this->invoice->custom_surcharge3 && $this->invoice->custom_surcharge_tax3)
+        if ($this->invoice->custom_surcharge3 && $this->invoice->custom_surcharge_tax3) {
             $total += $this->invoice->custom_surcharge3;
+        }
 
 
-        if ($this->invoice->custom_surcharge4 && $this->invoice->custom_surcharge_tax4)
+        if ($this->invoice->custom_surcharge4 && $this->invoice->custom_surcharge_tax4) {
             $total += $this->invoice->custom_surcharge4;
+        }
 
 
         return $total;
     }
 
     private
-    function taxAmount($taxable, $rate)
-    {
+    function taxAmount(
+        $taxable, $rate
+    ) {
         if ($this->invoice->uses_inclusive_taxes) {
             return round($taxable - ($taxable / (1 + ($rate / 100))), 2);
         } else {

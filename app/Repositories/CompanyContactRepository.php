@@ -30,7 +30,7 @@ class CompanyContactRepository extends BaseRepository
     {
         $old_ids = CompanyContact::whereCompanyId($company->id)->pluck('id')->toArray();
 
-    
+
         $updates = collect(array_filter($contacts, function ($item) {
 
             if (isset($item['id'])) {
@@ -55,7 +55,7 @@ class CompanyContactRepository extends BaseRepository
 
 
         /******************************* Delete *********************************/
-        if(!empty($delete)) {
+        if (!empty($delete)) {
             ClientContact::destroy($delete);
         }
 

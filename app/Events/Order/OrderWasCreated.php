@@ -12,7 +12,7 @@ use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 /**
  * Class InvoiceWasCreated.
  */
-class OrderWasCreated  implements PerformsMetrics
+class OrderWasCreated implements PerformsMetrics
 {
     use SerializesModels;
     use Dispatchable;

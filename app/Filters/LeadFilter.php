@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class LeadFilter extends QueryFilter
 {
     use LeadTransformable;
+
     private $lead_repo;
     private $model;
 
@@ -80,8 +81,8 @@ class LeadFilter extends QueryFilter
 
         return $this->query->where(function ($query) use ($filter) {
             $query->where('leads.title', 'like', '%' . $filter . '%')
-                ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
-                ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
+                  ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
+                  ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
         });
     }
 }

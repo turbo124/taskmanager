@@ -32,7 +32,7 @@ class CreditService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'credit'): ?Credit
     {
-        if(!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }
 

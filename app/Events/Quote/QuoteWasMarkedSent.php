@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteWasMarkedSent
 {
     use SerializesModels;
+
     /**
      * @var Invoice
      */

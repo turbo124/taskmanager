@@ -17,7 +17,8 @@ class MarkPaid
         $this->payment_repo = $payment_repo;
     }
 
-    public function run() {
+    public function run()
+    {
 
         if ($this->invoice->balance < 0 || $this->invoice->status_id == Invoice::STATUS_PAID || $this->invoice->is_deleted === true) {
             return false;
@@ -27,7 +28,7 @@ class MarkPaid
         $payment = $this->payment_repo->save(
             [
                 'transaction_reference' => trans('texts.manual')
-            ], 
+            ],
             InvoiceToPaymentFactory::create($this->invoice)
         );
 
@@ -48,5 +49,5 @@ class MarkPaid
 
         return $this->invoice;
     }
-   
+
 }

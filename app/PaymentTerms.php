@@ -11,5 +11,4 @@ use Illuminate\Support\Facades\Log;
 class PaymentTerm extends BaseModel
 {
     use SoftDeletes;
-   
 }

@@ -13,7 +13,7 @@ class InvoiceInvitationFactory
         $ii->account_id = $account_id;
         $ii->user_id = $user_id;
         $ii->key = Str::random(20);
-   
+
         return $ii;
     }
 

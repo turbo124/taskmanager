@@ -69,7 +69,7 @@ class TemplateEngine
 
     }
 
-    private function render($subject, $body, $entity_obj) 
+    private function render($subject, $body, $entity_obj)
     {
         $email_style = $entity_obj->account->settings->email_style;
         $wrapper = view('email.template.' . $email_style, ['body' => $body])->render();

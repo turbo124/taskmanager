@@ -34,7 +34,7 @@ class InvoiceOverdue extends Mailable
                     ->with('client', $this->client)
                     ->with('invoice', $this->invoice)
                     ->with('overdueDays', $diffInDays)
-                    ->subject('['.$this->client->name.'] Invoice #'.$this->invoice->number.' Is Now Overdue')
+                    ->subject('[' . $this->client->name . '] Invoice #' . $this->invoice->number . ' Is Now Overdue')
                     ->to($this->client->email, $this->client->name);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 class StoreCustomerAddress
 {
     use Dispatchable;
+
     protected $data;
     protected $customer;
 

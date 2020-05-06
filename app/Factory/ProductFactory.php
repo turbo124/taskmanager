@@ -15,7 +15,7 @@ class ProductFactory
         $product->user_id = $user->id;
         $product->account_id = $account->id;
         $product->quantity = 1;
-     
+
         return $product;
     }
 }

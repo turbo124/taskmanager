@@ -111,7 +111,7 @@ $table_here
     public function footer()
     {
 
-		return '
+        return '
 		<div class="text-center mb-2">
                $signature_here
            </div>

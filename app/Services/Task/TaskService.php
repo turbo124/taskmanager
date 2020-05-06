@@ -65,12 +65,13 @@ class TaskService extends ServiceBase
      * @param bool $is_deal
      * @return Invoice|InvoiceSum|Task|null
      */
-    public function createDeal($request,
+    public function createDeal(
+        $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
-        $is_deal = true)
-    {
+        $is_deal = true
+    ) {
         $create_deal = new CreateDeal($this->task, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
 
         $this->task = $create_deal->run();
@@ -85,11 +86,12 @@ class TaskService extends ServiceBase
      * @param bool $is_lead
      * @return mixed
      */
-    public function updateLead(Request $request,
+    public function updateLead(
+        Request $request,
         CustomerRepository $customer_repo,
         TaskRepository $task_repo,
-        $is_lead = true)
-    {
+        $is_lead = true
+    ) {
         $update_lead = new UpdateLead($this->task, $request, $customer_repo, $task_repo, $is_lead);
 
         $this->task = $update_lead->run();

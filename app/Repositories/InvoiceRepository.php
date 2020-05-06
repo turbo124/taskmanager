@@ -87,13 +87,12 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $invoice = $this->populateDefaults($invoice);
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();
-      
+
         $invoice->save();
 
         $this->saveInvitations($invoice, 'invoice', $data);
 
-        if($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total)
-        {
+        if ($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total) {
             $invoice->ledger()->updateBalance(($invoice->total - $original_amount));
         }
 

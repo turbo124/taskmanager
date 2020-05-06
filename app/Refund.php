@@ -83,7 +83,7 @@ class Refund
 
         foreach ($this->data['invoices'] as $invoice) {
 
-            if(!isset($invoices[$invoice['invoice_id']])) {
+            if (!isset($invoices[$invoice['invoice_id']])) {
                 continue;
             }
 
@@ -118,7 +118,7 @@ class Refund
         event(new CreditWasCreated($credit_note));
 
         $this->payment->save();
-        
+
         event(new PaymentWasRefunded($this->payment, $adjustment_amount));
 
         $this->payment->customer->paid_to_date -= $this->data['amount'];

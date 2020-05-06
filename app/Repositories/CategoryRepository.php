@@ -7,7 +7,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-Use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Product;
 use App\Transformations\ProductTransformable;

@@ -145,7 +145,7 @@ class Order extends Model
 
     public function setNumber()
     {
-        if(!empty($this->number)) {
+        if (!empty($this->number)) {
             return true;
         }
 
@@ -173,7 +173,8 @@ class Order extends Model
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('order_design_id');
     }
 
-    public function getPdfFilename() {
+    public function getPdfFilename()
+    {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/orders/' . $this->number . '.pdf';
     }
 }

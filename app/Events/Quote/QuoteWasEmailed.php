@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class QuoteWasEmailed
 {
     use SerializesModels;
+
     public $quote;
 
     /**

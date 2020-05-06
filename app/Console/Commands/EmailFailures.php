@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
 class EmailFailures extends Command
 {
 
-      /**
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -50,14 +50,14 @@ class EmailFailures extends Command
     public function handle()
     {
         $failed_emails = Email::where('sent_at', '=', '')
-        ->orWhereNull('sent_at')
-        ->get();
+                              ->orWhereNull('sent_at')
+                              ->get();
 
         foreach ($failed_emails as $failed_email) {
             $entity_string = $failed_email->entity;
             $entity = $entity_string::where('id', $failed_email->entity_id)->first();
-            
-            if(!$entity) {
+
+            if (!$entity) {
                 continue;
             }
 

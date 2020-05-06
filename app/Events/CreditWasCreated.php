@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 class CreditWasCreated
 {
     use SerializesModels;
+
     /**
      * @var Credit
      */

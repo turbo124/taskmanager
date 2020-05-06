@@ -90,7 +90,7 @@ class SetupController extends Controller
         $response = $this->databaseManager->migrateAndSeed();
 
         return redirect()->route('setup.final')
-            ->with(['message' => $response]);
+                         ->with(['message' => $response]);
     }
 
 
@@ -171,7 +171,7 @@ class SetupController extends Controller
         event(new EnvironmentSaved($input));
 
         return $redirect->route('setup.environmentClassic')
-            ->with(['message' => $message]);
+                        ->with(['message' => $message]);
     }
 
     /**
@@ -205,7 +205,7 @@ class SetupController extends Controller
         event(new EnvironmentSaved($request));
 
         return $redirect->route('setup.database')
-            ->with(['results' => $results]);
+                        ->with(['results' => $results]);
     }
 
     /**
@@ -228,28 +228,28 @@ class SetupController extends Controller
             return $redirect->route('setup.user')->withInput()->withErrors($validator->errors());
         }
 
-           // create domain
-           $domain = (new DomainRepository(new Domain))->create($request->all());
+        // create domain
+        $domain = (new DomainRepository(new Domain))->create($request->all());
 
-           // create account
-           $account = AccountFactory::create($domain->id);
-           $account = (new AccountRepository(new Account))->save($request->all(), $account);
-    
-           // set default account
-           $domain->default_account_id = $account->id;
-           $domain->save();
+        // create account
+        $account = AccountFactory::create($domain->id);
+        $account = (new AccountRepository(new Account))->save($request->all(), $account);
 
-           $user_repo = new UserRepository(new User);
+        // set default account
+        $domain->default_account_id = $account->id;
+        $domain->save();
 
-           // create new user
-           $user = $user_repo->save($request->all(), UserFactory::create($domain->id));
-           $user->attachUserToAccount($account, true);
+        $user_repo = new UserRepository(new User);
 
-            if ($user) {
-                auth()->login($user, false);
-                event(new UserWasCreated($user));
-                $user->notify(new NewAccount($account));
-            }
+        // create new user
+        $user = $user_repo->save($request->all(), UserFactory::create($domain->id));
+        $user->attachUserToAccount($account, true);
+
+        if ($user) {
+            auth()->login($user, false);
+            event(new UserWasCreated($user));
+            $user->notify(new NewAccount($account));
+        }
 
         return $redirect->route('setup.environment');
     }

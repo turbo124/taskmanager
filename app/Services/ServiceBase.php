@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Helpers\InvoiceCalculator\LineItem;
@@ -15,13 +16,13 @@ class ServiceBase
 
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
-        
-        if($this->entity->invitations->count() === 0) {
+
+        if ($this->entity->invitations->count() === 0) {
             return false;
         }
 
-        foreach($this->entity->invitations as $invitation) {
-            
+        foreach ($this->entity->invitations as $invitation) {
+
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
 
             if ($invitation->contact->send_email && $invitation->contact->email) {
@@ -68,8 +69,8 @@ class ServiceBase
             ->setTaxRate($entity->tax_rate)
             ->setPartial($entity->partial)
             ->build();
-            
-       return $objInvoice->getEntity();
+
+        return $objInvoice->getEntity();
 
     }
 }

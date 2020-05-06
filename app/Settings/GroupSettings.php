@@ -1,26 +1,27 @@
 <?php
+
 namespace App\Settings;
 
 use App\GroupSetting;
 
 class GroupSettings extends BaseSettings
 {
-        private $settings = [
-            'currency_id'                        => ['required' => false, 'default_value' => 2, 'type' => 'string'],
-            'payment_terms'                      => ['required' => false, 'default_value' => -1, 'type' => 'integer'],
-            'payment_type_id'                    => ['required' => false, 'default_value' => 0, 'type' => 'string']
-        ];
+    private $settings = [
+        'currency_id'     => ['required' => false, 'default_value' => 2, 'type' => 'string'],
+        'payment_terms'   => ['required' => false, 'default_value' => -1, 'type' => 'integer'],
+        'payment_type_id' => ['required' => false, 'default_value' => 0, 'type' => 'string']
+    ];
 
-   public function save(GroupSetting $group_setting, $settings): ?GroupSetting
+    public function save(GroupSetting $group_setting, $settings): ?GroupSetting
     {
         try {
 
-            if(empty($settings)) {
+            if (empty($settings)) {
                 $settings = $this->getGroupDefaults();
             }
 
             $settings = $this->validate($settings, $this->settings);
-            
+
             if (!$settings) {
                 return null;
             }
@@ -40,7 +41,7 @@ class GroupSettings extends BaseSettings
         return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
     }
 
-      /**
+    /**
      * @param $client_settings
      * @return object
      */

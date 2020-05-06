@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class CreditWasDeleted
 {
     use SerializesModels;
+
     public $credit;
 
     /**

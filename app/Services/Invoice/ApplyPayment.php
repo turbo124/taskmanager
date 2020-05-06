@@ -40,7 +40,7 @@ class ApplyPayment
             if ($this->invoice->partial == $this->payment_amount) {
                 $this->invoice->resetPartialInvoice($this->payment_amount * -1);
             } elseif ($this->invoice->partial > $this->payment_amount) { //partial amount exists, but the amount is less than the partial amount
-                     $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->payment_amount);
+                $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->payment_amount);
             } elseif ($this->invoice->partial < $this->payment_amount) { //partial exists and the amount paid is GREATER than the partial amount
                 $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->invoice->partial);
             }

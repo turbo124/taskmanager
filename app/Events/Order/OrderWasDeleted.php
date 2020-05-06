@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class OrderWasDeleted
 {
     use SerializesModels;
+
     public $order;
 
     /**

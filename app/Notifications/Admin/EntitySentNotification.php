@@ -37,7 +37,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
         $this->message_type = $message_type;
     }
 
-     /**
+    /**
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
@@ -45,7 +45,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-       return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
+        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
     }
 
     /**
@@ -57,26 +57,26 @@ class EntitySentNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $subject = trans("texts.notification_{$this->entity_name}_sent_subject", [
-            'customer'  => $this->contact->present()->name(),
-            'invoice' => $this->entity->number,
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->entity->number,
         ]);
 
-        return (new MailMessage)->subject($subject)->markdown('email.admin.new', 
-    [
-        'data' => [
-            'title'     => $subject,
-            'message'   => trans("texts.notification_{$this->entity_name}_sent", [
-                'total'  => $this->entity->getFormattedTotal(),
-                'customer'  => $this->contact->present()->name(),
-                'invoice' => $this->entity->number,
-            ]),
-            'url'       => $this->invitation->getLink() . '?silent=true',
-            'button_text'    => trans("texts.view_{$this->entity_name}"),
-            'signature' => $this->invitation->account->settings->email_signature,
-            'logo'      => $this->invitation->account->present()->logo(),
-        ]
-    ]
-    );
+        return (new MailMessage)->subject($subject)->markdown('email.admin.new',
+            [
+                'data' => [
+                    'title'       => $subject,
+                    'message'     => trans("texts.notification_{$this->entity_name}_sent", [
+                        'total'    => $this->entity->getFormattedTotal(),
+                        'customer' => $this->contact->present()->name(),
+                        'invoice'  => $this->entity->number,
+                    ]),
+                    'url'         => $this->invitation->getLink() . '?silent=true',
+                    'button_text' => trans("texts.view_{$this->entity_name}"),
+                    'signature'   => $this->invitation->account->settings->email_signature,
+                    'logo'        => $this->invitation->account->present()->logo(),
+                ]
+            ]
+        );
 
 
     }
@@ -94,18 +94,18 @@ class EntitySentNotification extends Notification implements ShouldQueue
     }
 
     public function toSlack($notifiable)
-    {        
+    {
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
-            ->image($this->entity->account->present()->logo)
-            ->content(trans("texts.notification_{$this->entity_name}_sent_subject", [
-                'total'  => $this->entity->getFormattedTotal(),
-                'customer'  => $this->contact->present()->name(),
-                'invoice' => $this->entity->number
-            ]))->attachment(function ($attachment) use ($total) {
+                                 ->image($this->entity->account->present()->logo)
+                                 ->content(trans("texts.notification_{$this->entity_name}_sent_subject", [
+                                     'total'    => $this->entity->getFormattedTotal(),
+                                     'customer' => $this->contact->present()->name(),
+                                     'invoice'  => $this->entity->number
+                                 ]))->attachment(function ($attachment) use ($total) {
                 $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
                     $this->invitation->getLink() . '?silent=true')->fields([
                     trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total') => $this->entity->getFormattedTotal(),
+                    trans('texts.total')    => $this->entity->getFormattedTotal(),
                 ]);
             });
     }

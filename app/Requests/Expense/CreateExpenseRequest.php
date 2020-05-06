@@ -15,9 +15,9 @@ class CreateExpenseRequest extends BaseFormRequest
     public function rules()
     {
         $rules = [
-            'expense_date' => 'required',
+            'expense_date'        => 'required',
             'invoice_category_id' => 'required',
-            'amount' => 'required'
+            'amount'              => 'required'
         ];
 
         return $rules;

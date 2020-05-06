@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Helpers\Currency;
 
 use App\Currency;
 use Illuminate\Support\Carbon;
 use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 
-class CurrencyConverter 
+class CurrencyConverter
 {
     private $currency_repository;
 
@@ -22,7 +23,7 @@ class CurrencyConverter
         $this->currency_repository = $currency_repository;
     }
 
-    public function setBaseCurrency(Currency $currency): self 
+    public function setBaseCurrency(Currency $currency): self
     {
         $this->base_currency = $currency;
         return $this;
@@ -34,13 +35,13 @@ class CurrencyConverter
         return $this;
     }
 
-    public function setExchangeCurrency (Currency $currency): self 
+    public function setExchangeCurrency(Currency $currency): self
     {
         $this->exchange_currency = $currency;
         return $this;
     }
 
-    public function setDate($date): self 
+    public function setDate($date): self
     {
         $this->date = Carbon::parse($date);
         return $this;
@@ -51,9 +52,10 @@ class CurrencyConverter
         return $this->currency_repository->findCurrencyById($currency);
     }
 
-    public function calculate() {
+    public function calculate()
+    {
 
-        if(empty($this->amount) || empty($this->base_currency)) {
+        if (empty($this->amount) || empty($this->base_currency)) {
 
             return false;
         }
@@ -62,6 +64,6 @@ class CurrencyConverter
 
         $converted_amount = $exchangeRates->convert($this->amount, $this->base_currency->code, $this->exchange_currency->code, Carbon::now());
 
-        return $converted_amount; 
+        return $converted_amount;
     }
 }

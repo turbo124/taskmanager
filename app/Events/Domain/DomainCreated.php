@@ -17,6 +17,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class DomainCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
      * @var
      */

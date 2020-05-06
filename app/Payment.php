@@ -150,7 +150,7 @@ class Payment extends Model
         return $this;
     }
 
-     public function attachCredit(Credit $credit): Payment
+    public function attachCredit(Credit $credit): Payment
     {
         $this->credits()->attach($credit->id, [
             'amount' => $this->amount
@@ -161,7 +161,7 @@ class Payment extends Model
 
     public function deletePayment(): bool
     {
-        if($this->invoices->count() > 0 && !$this->reversePayment()) {
+        if ($this->invoices->count() > 0 && !$this->reversePayment()) {
             return false;
         }
 
@@ -175,16 +175,16 @@ class Payment extends Model
         return true;
     }
 
-    private function reversePayment (): bool
+    private function reversePayment(): bool
     {
         $invoices = $this->invoices;
         $customer = $this->customer;
-        
-        foreach($invoices as $invoice) {
+
+        foreach ($invoices as $invoice) {
             if ($invoice->pivot->amount <= 0) {
                 continue;
             }
-            
+
             $invoice->setStatus(Invoice::STATUS_SENT);
             $invoice->setBalance($invoice->pivot->amount);
             $invoice->save();
