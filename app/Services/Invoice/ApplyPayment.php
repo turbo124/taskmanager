@@ -28,40 +28,33 @@ class ApplyPayment
         $this->payment->customer->save();
 
         /* Update Pivot Record amount */
-        $this->payment->invoices->each(function ($inv) {
-            if ($inv->id == $this->invoice->id) {
-                $inv->pivot->amount = $this->payment_amount;
-                $inv->pivot->save();
+        foreach($this->payment->invoices as $invoice) {
+            if ($invoice->id != $this->invoice->id) {
+                continue;
             }
-        });
+               
+            $inv->pivot->amount = $this->payment_amount;
+            $inv->pivot->save();
+        }
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            $this->adjustInvoiceBalance();
-        } elseif ($this->payment_amount == $this->invoice->balance) { //total invoice paid.
-            $this->invoice->resetPartialInvoice($this->payment_amount * -1, 0, true);
-        } elseif ($this->payment_amount < $this->invoice->balance) { //partial invoice payment made
-            $this->invoice->resetPartialInvoice($this->payment_amount * -1);
+            return $this->adjustInvoiceBalance();
+        } 
+
+        if($this->payment_amount > $this->invoice->balance) {
+            return false;
         }
 
+        $this->invoice->resetPartialInvoice($this->payment_amount * -1, 0, $this->payment_amount == $this->invoice->balance);
         return $this->invoice;
     }
 
     private function adjustInvoiceBalance()
     {
-        if ($this->invoice->partial == $this->payment_amount) {
-            $this->invoice->resetPartialInvoice($this->payment_amount * -1);
-            return true;
-        }
-        
-        if ($this->invoice->partial > $this->payment_amount) { //partial amount exists, but the amount is less than the partial amount
-            $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->payment_amount);
-             return true;
-        }
-
-        if ($this->invoice->partial < $this->payment_amount) { //partial exists and the amount paid is GREATER than the partial amount
-            $this->invoice->resetPartialInvoice($this->payment_amount * -1, $this->invoice->partial);
-            return true;
-        }
+        $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
+        $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
+        $this->invoice->resetPartialInvoice($this->payment_amount * -1, $balance_adjustment);
+        return $this->invoice;
     }
 }
