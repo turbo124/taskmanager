@@ -32,17 +32,17 @@ class ConvertLead
             return false;
         }
 
-        $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user_id, $this->lead->account_id);
+        $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user, $this->lead->account);
         $customer->save();
 
         $address = CloneLeadToAddressFactory::create($this->lead, $customer);
         $address->save();
 
         $client_contact =
-            CloneLeadToContactFactory::create($this->lead, $customer, $this->lead->user_id, $this->lead->account_id);
+            CloneLeadToContactFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
         $client_contact->save();
 
-        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user_id, $this->lead->account_id);
+        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
         $date = new \DateTime(); // Y-m-d
         $date->add(new \DateInterval('P30D'));
