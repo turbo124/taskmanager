@@ -198,7 +198,7 @@ class InvoiceController extends Controller
                 }
                 break;
             case 'reverse':
-                $invoice = $invoice->service()->handleReversal(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
+                $invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
 
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));
@@ -206,7 +206,7 @@ class InvoiceController extends Controller
                 break;
 
             case 'cancel':
-                $invoice = $invoice->service()->handleCancellation()->save();
+                $invoice = $invoice->service()->cancelInvoice()->save();
 
                 if (!$bulk) {
                     return response()->json($this->transformInvoice($invoice));

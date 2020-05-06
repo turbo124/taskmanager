@@ -9,7 +9,7 @@ use App\Invoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
-class HandleReversal
+class ReverseInvoicePayment
 {
 
     private $invoice;

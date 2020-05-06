@@ -8,7 +8,7 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Payment;
 use App\Services\Invoice\HandleCancellation;
-use App\Services\Invoice\HandleReversal;
+use App\Services\Invoice\ReverseInvoicePayment;
 use App\Services\Invoice\MarkPaid;
 use App\Services\Invoice\UpdateBalance;
 use Illuminate\Support\Carbon;
@@ -31,9 +31,9 @@ class InvoiceService extends ServiceBase
         $this->invoice = $invoice;
     }
 
-    public function handleCancellation()
+    public function cancelInvoice()
     {
-        $this->invoice = (new HandleCancellation($this->invoice))->run();
+        $this->invoice = (new CancelInvoice($this->invoice))->run();
 
         return $this;
     }
@@ -50,9 +50,9 @@ class InvoiceService extends ServiceBase
      * @param PaymentRepository $payment_repo
      * @return $this
      */
-    public function handleReversal(CreditRepository $credit_repo, PaymentRepository $payment_repo)
+    public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-        return (new HandleReversal($this->invoice, $credit_repo, $payment_repo))->run();
+        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
     }
 
     public function getPdf($contact = null)
