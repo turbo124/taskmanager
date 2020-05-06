@@ -5,16 +5,18 @@ namespace App\Factory\Lead;
 use App\Lead;
 use App\Task;
 use App\Customer;
+use App\User;
+use App\Account;
 use App\TaskStatus;
 
 class CloneLeadToTaskFactory
 {
-    public static function create(Lead $lead, Customer $customer, $user_id, $account_id): Task
+    public static function create(Lead $lead, Customer $customer, User $user, Account $account): Task
     {
         $client_contact = new Task();
-        $client_contact->account_id = $account_id;
+        $client_contact->account_id = $account->id;
         $client_contact->customer_id = $customer->id;
-        $client_contact->user_id = $user_id;
+        $client_contact->user_id = $user->id;
         $client_contact->valued_at = $lead->valued_at;
         $client_contact->task_status = TaskStatus::where('task_type', 3)->first()->id;
         $client_contact->title = $lead->title;
