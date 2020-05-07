@@ -16,7 +16,6 @@ class OrderService extends ServiceBase
 {
     protected $order;
 
-
     public function __construct(Order $order)
     {
         parent::__construct($order);
@@ -60,15 +59,14 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
-        if ($this->order->customer->getSetting('should_email_order')) {
-            $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
-        }
+       event(new OrderWasDispatched($this->order));
 
-        event(new OrderWasDispatched($this->order));
+        $actions = [
+            'email' => $this->order->customer->getSetting('should_email_order'),
+            'archive' => $this->order->customer->getSetting('should_archive_order')
+        ];
 
-        if ($this->order->customer->getSetting('should_archive_order')) {
-            $order_repo->archive($this->order);
-        }
+        $this->runActions($actions);
 
         return $this->order;
     }
