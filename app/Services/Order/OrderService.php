@@ -59,14 +59,15 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
-       event(new OrderWasDispatched($this->order));
+        if ($this->order->customer->getSetting('should_email_order')) {
+            $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
+        }
 
-        $actions = [
-            'email' => $this->order->customer->getSetting('should_email_order'),
-            'archive' => $this->order->customer->getSetting('should_archive_order')
-        ];
+        event(new OrderWasDispatched($this->order));
 
-        $this->runActions($actions);
+        if ($this->order->customer->getSetting('should_archive_order')) {
+            $order_repo->archive($this->order);
+        }
 
         return $this->order;
     }
