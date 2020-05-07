@@ -9,9 +9,30 @@ class ServiceBase
 {
     private $entity;
 
-    public function __construct($entity)
+    private array $config = [];
+
+    public function __construct($entity, array $config = [])
     {
         $this->entity = $entity;
+        $this->config = $config;
+    }
+
+    protected function trigger(string $subject, string $body, $repo)
+    {
+        if(empty($this->config)) {
+            return false;
+        }
+
+        if (!empty($this->config['email'])) {
+            $this->entity->service()->sendEmail(null, $subject, $body);
+        }
+
+        if (!empty($this->config['archive'])) {
+            $repo->archive($this->entity);
+        }
+
+        return true;
+
     }
 
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)

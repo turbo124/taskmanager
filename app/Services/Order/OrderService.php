@@ -18,6 +18,11 @@ class OrderService extends ServiceBase
 
     public function __construct(Order $order)
     {
+        $config = [
+            'email' => $order->customer->getSetting('should_email_order'),
+            'archive' => $order->customer->getSetting('should_archive_order')
+        ];
+
         parent::__construct($order);
         $this->order = $order;
     }
@@ -59,15 +64,12 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
-        if ($this->order->customer->getSetting('should_email_order')) {
-            $this->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
-        }
-
         event(new OrderWasDispatched($this->order));
 
-        if ($this->order->customer->getSetting('should_archive_order')) {
-            $order_repo->archive($this->order);
-        }
+        // trigger
+        $subject = trans('texts.order_dispatched_subject');
+        $body = trans('texts.order_dispatched_body');
+        $this->trigger($subject, $body, $order_repo);
 
         return $this->order;
     }

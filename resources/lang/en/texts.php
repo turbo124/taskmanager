@@ -3,6 +3,8 @@ return [
     'support_ticket_subject' => 'A new Support ticket was sent',
     'quote_approved_subject' => 'Your quote was approved',
     'quote_approved_body' => 'Quote $number has been approved',
+    'lead_converted_subject' => 'A lead has been converted',
+    'lead_converted_body' => 'Congratulations! Your lead has been converted',
     'order_dispatched_subject' => 'Your order has been dispatched',
     'order_dispatched_body' => 'Order $number has been dispatched',
     'invoice_paid_subject' => 'We have received your payment',

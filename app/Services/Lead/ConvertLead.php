@@ -56,11 +56,6 @@ class ConvertLead
         $this->lead->status_id = Lead::STATUS_COMPLETED;
         $this->lead->save();
 
-        if ($this->lead->account->getSetting('should_archive_lead')) {
-            $lead_repo = new LeadRepository($this->lead);
-            $lead_repo->archive($this->lead);
-        }
-
         return $this->lead;
     }
 }

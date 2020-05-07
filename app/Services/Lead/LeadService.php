@@ -4,6 +4,8 @@ namespace App\Services\Lead;
 
 use App\Lead;
 use App\Services\ServiceBase;
+use App\Repositories\LeadRepository;
+use App\Lead;
 
 /**
  * Class TaskService
@@ -19,6 +21,11 @@ class LeadService extends ServiceBase
      */
     public function __construct(Lead $lead)
     {
+        $config = [
+            'email' => $lead->customer->getSetting('should_email_lead'),
+            'archive' => $lead->customer->getSetting('should_archive_lead')
+        ];
+
         parent::__construct($lead);
         $this->lead = $lead;
     }
@@ -28,7 +35,14 @@ class LeadService extends ServiceBase
      */
     public function convertLead(): Lead
     {
-       return (new ConvertLead($this->lead))->run();
+       $lead = (new ConvertLead($this->lead))->run();
+  
+        // trigger
+        $subject = trans('texts.lead_converted_subject');
+        $body = trans('texts.lead_converted_body');
+        $this->trigger($subject, $body, new LeadRepository(new Lead));
+
+        return $lead;
     }
 
     /**
