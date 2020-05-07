@@ -19,6 +19,10 @@ class ServiceBase
 
     protected function runTriggersForAction(string $subject, string $body, $repo)
     {
+        if(empty($this->config)) {
+            return false;
+        }
+
         if (!empty($this->config['email'])) {
             $this->sendEmail(null, $subject, $body);
         }
