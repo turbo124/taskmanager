@@ -80,11 +80,6 @@ class OrderRepository extends BaseRepository
         return $order->fresh();
     }
 
-    public function getInvitationByKey($key): ?OrderInvitation
-    {
-        return OrderInvitation::whereRaw("BINARY `key`= ?", [$key])->first();
-    }
-
     public function getOrdersForTask(Task $task): Collection
     {
         return $this->model->where('task_id', '=', $task->id)->get();

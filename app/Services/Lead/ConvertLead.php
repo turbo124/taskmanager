@@ -6,6 +6,7 @@ use App\Factory\Lead\CloneLeadToAddressFactory;
 use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
+use App\Repositories\LeadRepository;
 use App\Lead;
 use App\Task;
 
@@ -56,7 +57,7 @@ class ConvertLead
         $this->lead->save();
 
         if ($this->lead->account->getSetting('should_archive_lead')) {
-            $lead_repo = new LeadRepository();
+            $lead_repo = new LeadRepository($this->lead);
             $lead_repo->archive($this->lead);
         }
 

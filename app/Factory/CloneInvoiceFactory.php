@@ -8,6 +8,12 @@ use App\Account;
 
 class CloneInvoiceFactory
 {
+    /**
+     * @param Invoice $invoice
+     * @param User $user
+     * @param Account $account
+     * @return Invoice
+     */
     public static function create(Invoice $invoice, User $user, Account $account)
     {
         $clone_invoice = $invoice->replicate();

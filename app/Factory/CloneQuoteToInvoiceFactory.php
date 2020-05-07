@@ -4,15 +4,27 @@ namespace App\Factory;
 
 use App\Invoice;
 use App\Quote;
+use App\User;
+use App\Account;
 
+/**
+ * Class CloneQuoteToInvoiceFactory
+ * @package App\Factory
+ */
 class CloneQuoteToInvoiceFactory
 {
-    public static function create(Quote $quote, $user_id, $account_id): ?Invoice
+    /**
+     * @param Quote $quote
+     * @param User $user
+     * @param Account $account
+     * @return Invoice|null
+     */
+    public static function create(Quote $quote, User $user, Account $account): ?Invoice
     {
         $invoice = new Invoice();
-        $invoice->account_id = $account_id;
+        $invoice->account_id = $account->id;
         $invoice->customer_id = $quote->customer_id;
-        $invoice->user_id = $user_id;
+        $invoice->user_id = $user->id;
         $invoice->discount_total = $quote->discount_total;
         $invoice->tax_total = $quote->tax_total;
         $invoice->is_amount_discount = $quote->is_amount_discount ?: false;
@@ -29,9 +41,6 @@ class CloneQuoteToInvoiceFactory
         $invoice->last_viewed = $quote->last_viewed;
         $invoice->status_id = Invoice::STATUS_DRAFT;
         $invoice->number = '';
-        $invoice->date = null;
-        $invoice->due_date = null;
-        $invoice->partial_due_date = null;
         $invoice->balance = $quote->total;
         $invoice->line_items = $quote->line_items;
         return $invoice;

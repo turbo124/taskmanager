@@ -8,11 +8,9 @@ use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneCreditFactory;
 use App\Factory\CloneCreditToQuoteFactory;
 use App\Filters\CreditFilter;
-use App\Jobs\Credit\EmailCredit;
-use App\Jobs\Invoice\MarkInvoicePaid;
 use App\Quote;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
-use App\Requests\Credit\ActionCreditRequest;
 use App\Requests\Credit\CreateCreditRequest;
 use App\Requests\Credit\UpdateCreditRequest;
 use App\Customer;
@@ -28,7 +26,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
-class CreditController extends Controller
+/**
+ * Class CreditController
+ * @package App\Http\Controllers
+ */
+class CreditController extends BaseController
 {
     use CreditTransformable;
     use QuoteTransformable;
@@ -38,10 +40,13 @@ class CreditController extends Controller
     /**
      * CreditController constructor.
      * @param CreditRepositoryInterface $credit_repo
+     * @param InvoiceRepository $invoice_repo
+     * @param QuoteRepository $quote_repo
      */
-    public function __construct(CreditRepositoryInterface $credit_repo)
+    public function __construct(CreditRepositoryInterface $credit_repo, InvoiceRepository $invoice_repo, QuoteRepository $quote_repo)
     {
         $this->credit_repo = $credit_repo;
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Credit');
     }
 
     /**
@@ -121,25 +126,6 @@ class CreditController extends Controller
         return response()->json($this->transformCredit($credit));
     }
 
-    public function bulk()
-    {
-        $action = request()->input('action');
-
-        $ids = request()->input('ids');
-
-        $credits = Credit::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$credits) {
-            return response()->json(['message' => 'No Credits Found']);
-        }
-
-        $credits->each(function ($credit, $key) use ($action) {
-            $this->performAction($credit, request(), $action, true);
-        });
-
-        return response()->json(Credit::withTrashed()->whereIn('id', $ids));
-    }
-
     /**
      * @param Request $request
      * @param Credit $credit
@@ -148,108 +134,6 @@ class CreditController extends Controller
      */
     public function action(Request $request, Credit $credit, $action)
     {
-        return $this->performAction($credit, $request, $action);
-    }
-
-    /**
-     * @param Credit $credit
-     * @param $action
-     * @param bool $bulk
-     * @return mixed
-     */
-    private function performAction(Credit $credit, Request $request, $action, $bulk = false)
-    {
-        /*If we are using bulk actions, we don't want to return anything */
-        switch ($action) {
-            case 'clone_to_credit':
-                $credit = CloneCreditFactory::create($credit, auth()->user()->id);
-                $this->credit_repo->save($request->all(), $credit);
-                return response()->json($this->transformCredit($credit));
-                break;
-            case 'clone_to_quote':
-                $quote = CloneCreditToQuoteFactory::create($credit, auth()->user());
-                (new QuoteRepository(new Quote))->save($request->all(), $quote);
-                return response()->json($this->transformQuote($quote));
-                break;
-            case 'mark_sent':
-                $this->credit_repo->markSent($credit);
-
-                if (!$bulk) {
-                    return response()->json($this->transformCredit($credit));
-                }
-                break;
-            case 'download':
-                $disk = config('filesystems.default');
-                $content = Storage::disk($disk)->get($credit->service()->getPdf(null));
-                return response()->json(['data' => base64_encode($content)]);
-                break;
-            case 'archive':
-                $this->credit_repo->archive($credit);
-
-                if (!$bulk) {
-                    return $this->listResponse($credit);
-                }
-                break;
-            case 'delete':
-                $this->credit_repo->delete($credit);
-
-                if (!$bulk) {
-                    return $this->listResponse($credit);
-                }
-                break;
-            case 'email':
-                $subject = $credit->customer->getSetting('email_subject_credit');
-                $body = $credit->customer->getSetting('email_template_credit');
-                $credit->service()->sendEmail(null, $subject, $body);
-                return response()->json(['message' => 'email sent'], 200);
-                break;
-
-            default:
-                return response()->json(['message' => "The requested action `{$action}` is not available."], 400);
-                break;
-        }
-    }
-
-    public function downloadPdf()
-    {
-        $ids = request()->input('ids');
-
-        $credits = Credit::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$credits) {
-            return response()->json(['message' => 'No Credits Found']);
-        }
-
-        $disk = config('filesystems.default');
-        $pdfs = [];
-
-        foreach ($credits as $credit) {
-            $content = Storage::disk($disk)->get($credit->service()->getPdf(null));
-            $pdfs[$credit->number] = base64_encode($content);
-        }
-
-        return response()->json(['data' => $pdfs]);
-    }
-
-    /**
-     * @param $invitation_key
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function markViewed($invitation_key)
-    {
-        $invitation = $this->credit_repo->getInvitationByKey($invitation_key);
-        $contact = $invitation->contact;
-        $credit = $invitation->credit;
-
-        $disk = config('filesystems.default');
-        $content = Storage::disk($disk)->get($credit->service()->getPdf($contact));
-
-        if (request()->has('markRead') && request()->input('markRead') === 'true') {
-            $invitation->markViewed();
-            event(new InvitationWasViewed('credit', $invitation));
-        }
-
-        return response()->json(['data' => base64_encode($content)]);
+        return $this->performAction($request, $credit, $action);
     }
 }

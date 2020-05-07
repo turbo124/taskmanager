@@ -11,6 +11,7 @@ use App\Factory\OrderFactory;
 use App\Invoice;
 use App\Order;
 use App\Quote;
+use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -20,21 +21,30 @@ use Illuminate\Http\Request;
 use App\Transformations\OrderTransformable;
 use Illuminate\Support\Facades\Storage;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
     use OrderTransformable;
 
-    private $order_repo;
+    /**
+     * @var OrderRepository
+     */
+    private OrderRepository $order_repo;
 
-    private $invoice_repo;
+    /**
+     * @var InvoiceRepository
+     */
+    private InvoiceRepository $invoice_repo;
 
     /**
      * OrderController constructor.
      * @param OrderRepository $order_repo
      * @param InvoiceRepository $invoice_repo
+     * @param QuoteRepository $quote_repo
+     * @param CreditRepository $credit_repo
      */
-    public function __construct(OrderRepository $order_repo, InvoiceRepository $invoice_repo)
+    public function __construct(OrderRepository $order_repo, InvoiceRepository $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo)
     {
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Order');
         $this->order_repo = $order_repo;
         $this->invoice_repo = $invoice_repo;
     }
@@ -70,121 +80,5 @@ class OrderController extends Controller
     public function action(Request $request, Order $order, $action)
     {
         return $this->performAction($request, $order, $action);
-    }
-
-    private function performAction(Request $request, Order $order, $action, $bulk = false)
-    {
-        switch ($action) {
-            case 'clone_to_invoice':
-                $invoice = CloneOrderToInvoiceFactory::create($order, auth()->user()->id,
-                    auth()->user()->account_user()->account_id);
-                (new InvoiceRepository(new Invoice))->save($request->all(), $invoice);
-                return response()->json($invoice);
-                break;
-            case 'clone_to_quote':
-                $quote = CloneOrderToQuoteFactory::create($order, auth()->user()->id,
-                    auth()->user()->account_user()->account_id);
-                (new QuoteRepository(new Quote))->save($request->all(), $quote);
-                return response()->json($quote);
-                break;
-
-            case 'approve':
-                if (!in_array($order->status_id, [Order::STATUS_DRAFT, Order::STATUS_SENT])) {
-                    return response()->json(['message' => 'Unable to approve this order as it has expired.'], 400);
-                }
-
-                return response()->json($order->service()->dispatch($this->invoice_repo, $this->order_repo));
-                break;
-            case 'download':
-                $disk = config('filesystems.default');
-                $content = Storage::disk($disk)->get($order->service()->getPdf(null));
-                return response()->json(['data' => base64_encode($content)]);
-                break;
-            case 'archive':
-                $this->order_repo->archive($order);
-                if (!$bulk) {
-                    return response()->json($order);
-                }
-                break;
-            case 'delete':
-                $this->order_repo->newDelete($order);
-                if (!$bulk) {
-                    return response()->json($order);
-                }
-                break;
-            case 'email':
-                $subject = $order->customer->getSetting('email_subject_order');
-                $body = $order->customer->getSetting('email_template_order');
-                $order->service()->sendEmail(null, $subject, $body);
-                if (!$bulk) {
-                    return response()->json(['message' => 'email sent'], 200);
-                }
-                break;
-            default:
-                return response()->json(['message' => "The requested action `{$action}` is not available."], 400);
-                break;
-        }
-    }
-
-    public function bulk(Request $request)
-    {
-        $action = $request->action;
-
-        $ids = $request->input('ids');
-
-        $orders = Order::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$orders) {
-            return response()->json(['message' => 'No Orders Found']);
-        }
-
-        $orders->each(function ($order, $key) use ($action, $request) {
-            $this->performAction($request, $order, $action, true);
-        });
-
-        return response()->json(Order::withTrashed()->whereIn('id', $ids));
-    }
-
-    public function downloadPdf()
-    {
-        $ids = request()->input('ids');
-
-        $orders = Order::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$orders) {
-            return response()->json(['message' => 'No Orders Found']);
-        }
-
-        $disk = config('filesystems.default');
-        $pdfs = [];
-
-        foreach ($orders as $order) {
-            $content = Storage::disk($disk)->get($order->service()->getPdf(null));
-            $pdfs[$order->number] = base64_encode($content);
-        }
-
-        return response()->json(['data' => $pdfs]);
-    }
-
-    /**
-     * @param $invitation_key
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function markViewed($invitation_key)
-    {
-        $invitation = $this->order_repo->getInvitationByKey($invitation_key);
-        $contact = $invitation->contact;
-        $order = $invitation->order;
-
-        $disk = config('filesystems.default');
-        $content = Storage::disk($disk)->get($order->service()->getPdf($contact));
-
-        if (request()->has('markRead') && request()->input('markRead') === 'true') {
-            $invitation->markViewed();
-            event(new InvitationWasViewed('order', $invitation));
-        }
-
-        return response()->json(['data' => base64_encode($content)]);
     }
 }

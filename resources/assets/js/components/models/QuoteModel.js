@@ -130,9 +130,7 @@ export default class CreditModel extends BaseModel {
             actions.push('approve')
         }
 
-        if (this.isModuleEnabled('invoices')) {
-            actions.push('convert')
-        }
+        actions.push('cloneToQuote')
 
         if (this.isModuleEnabled('orders')) {
             actions.push('clone_to_order')
@@ -140,6 +138,10 @@ export default class CreditModel extends BaseModel {
 
         if (this.isModuleEnabled('credits')) {
             actions.push('cloneToCredit')
+        }
+
+        if (this.isModuleEnabled('invoices')) {
+            actions.push('cloneQuoteToInvoice')
         }
 
         return actions

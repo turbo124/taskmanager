@@ -5,16 +5,28 @@ namespace App\Factory;
 use App\Invoice;
 use App\Order;
 use App\Quote;
+use App\User;
+use App\Account;
 
+/**
+ * Class CloneQuoteToOrderFactory
+ * @package App\Factory
+ */
 class CloneQuoteToOrderFactory
 {
-    public static function create(Quote $quote, $user_id, $account_id): ?Order
+    /**
+     * @param Quote $quote
+     * @param User $user
+     * @param Account $account
+     * @return Order|null
+     */
+    public static function create(Quote $quote, User $user, Account $account): ?Order
     {
         $order = new Order;
-        $order->account_id = $account_id;
+        $order->account_id = $account->id;
         $order->customer_id = $quote->customer_id;
         $order->quote_id = $quote->id;
-        $order->user_id = $user_id;
+        $order->user_id = $user->id;
         $order->task_id = $quote->task_id;
         $order->discount_total = $quote->discount_total;
         $order->tax_total = $quote->tax_total;
@@ -32,7 +44,6 @@ class CloneQuoteToOrderFactory
         $order->number = '';
         $order->date = $quote->date;
         $order->due_date = $quote->due_date;
-        $order->partial_due_date = null;
         $order->balance = $quote->total;
         $order->line_items = $quote->line_items;
         return $order;

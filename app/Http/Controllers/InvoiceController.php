@@ -22,7 +22,6 @@ use App\Repositories\NotificationRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\QuoteRepository;
 use App\Transformations\QuoteTransformable;
-use App\Utils\Number;
 use Exception;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
@@ -40,7 +39,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
-class InvoiceController extends Controller
+/**
+ * Class InvoiceController
+ * @package App\Http\Controllers
+ */
+class InvoiceController extends BaseController
 {
 
     use InvoiceTransformable, QuoteTransformable;
@@ -50,10 +53,12 @@ class InvoiceController extends Controller
     /**
      * InvoiceController constructor.
      * @param InvoiceRepositoryInterface $invoice_repo
+     * @param QuoteRepository $quote_repo
      */
-    public function __construct(InvoiceRepositoryInterface $invoice_repo)
+    public function __construct(InvoiceRepositoryInterface $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo)
     {
         $this->invoice_repo = $invoice_repo;
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo,'Invoice');
     }
 
     /**
@@ -144,128 +149,6 @@ class InvoiceController extends Controller
         return $this->performAction($request, $invoice, $action);
     }
 
-    private function performAction(Request $request, Invoice $invoice, $action, $bulk = false)
-    {
-        switch ($action) {
-            case 'clone_to_invoice':
-                $invoice = CloneInvoiceFactory::create($invoice, auth()->user(),
-                    auth()->user()->account_user()->account);
-                $this->invoice_repo->save($request->all(), $invoice);
-                return response()->json($this->transformInvoice($invoice));
-                break;
-            case 'clone_to_quote':
-                $quote = CloneInvoiceToQuoteFactory::create($invoice, auth()->user()->id);
-                (new QuoteRepository(new Quote))->save($request->all(), $quote);
-                return response()->json($this->transformQuote($quote));
-                break;
-            case 'mark_paid':
-                $invoice = $invoice->service()->markPaid($this->invoice_repo, new PaymentRepository(new Payment));
-
-                if (!$invoice) {
-                    return response()->json('Unable to mark invoice as paid', 400);
-                }
-
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-            case 'mark_sent':
-                $invoice = $this->invoice_repo->markSent($invoice);
-                $invoice->customer->setBalance($invoice->balance);
-                $invoice->customer->save();
-                $invoice->ledger()->updateBalance($invoice->balance);
-
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-            case 'download':
-                $disk = config('filesystems.default');
-                $content = Storage::disk($disk)->get($invoice->service()->getPdf(null));
-                return response()->json(['data' => base64_encode($content)]);
-                break;
-            case 'archive':
-                $this->invoice_repo->archive($invoice);
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-            case 'delete':
-                $invoice->deleteInvoice();
-
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-            case 'reverse':
-                $invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
-
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-
-            case 'cancel':
-                $invoice = $invoice->service()->cancelInvoice()->save();
-
-                if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
-                }
-                break;
-
-            case 'email':
-                $subject = $invoice->customer->getSetting('email_subject_invoice');
-                $body = $invoice->customer->getSetting('email_template_invoice');
-                $invoice->service()->sendEmail(null, $subject, $body);
-                if (!$bulk) {
-                    return response()->json(['message' => 'email sent'], 200);
-                }
-                break;
-            default:
-                return response()->json(['message' => "The requested action `{$action}` is not available."], 400);
-                break;
-        }
-    }
-
-    public function downloadPdf(Request $request)
-    {
-
-        $ids = request()->input('ids');
-
-        $invoices = Invoice::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$invoices) {
-            return response()->json(['message' => 'No Invoices Found']);
-        }
-
-        $disk = config('filesystems.default');
-        $pdfs = [];
-
-        foreach ($invoices as $invoice) {
-            $content = Storage::disk($disk)->get($invoice->service()->getPdf(null));
-            $pdfs[$invoice->number] = base64_encode($content);
-        }
-
-        return response()->json(['data' => $pdfs]);
-    }
-
-    public function markViewed($invitation_key)
-    {
-        $invitation = $this->invoice_repo->getInvitation(['key' => $invitation_key], 'invoice');
-        $contact = $invitation->contact;
-        $invoice = $invitation->invoice;
-
-        $disk = config('filesystems.default');
-        $content = Storage::disk($disk)->get($invoice->service()->getPdf($contact));
-
-        if (request()->has('markRead') && request()->input('markRead') === 'true') {
-            $invitation->markViewed();
-            event(new InvitationWasViewed('invoice', $invitation));
-        }
-
-        return response()->json(['data' => base64_encode($content)]);
-    }
-
     /**
      * @param int $id
      * @return mixed
@@ -293,36 +176,5 @@ class InvoiceController extends Controller
         $invoice = Invoice::withTrashed()->where('id', '=', $id)->first();
         $this->invoice_repo->restore($invoice);
         return response()->json([], 200);
-    }
-
-    public function bulk(Request $request)
-    {
-        /*
-         * WIP!
-         */
-        $action = request()->input('action');
-
-        $ids = request()->input('ids');
-
-        $invoices = Invoice::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$invoices) {
-            return response()->json(['message' => 'No Invoices Found']);
-        }
-
-
-        if ($action == 'download' && $invoices->count() > 1) {
-
-            Download::dispatch($invoices, $invoices->first()->account, auth()->user()->email);
-
-            return response()->json(['message' => 'Email Sent!'], 200);
-        }
-
-
-        $invoices->each(function ($invoice, $key) use ($action, $request) {
-            $this->performAction($request, $invoice, $action, true);
-        });
-
-        return $this->response->json($invoices);
     }
 }

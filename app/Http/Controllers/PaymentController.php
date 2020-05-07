@@ -132,19 +132,18 @@ class PaymentController extends Controller
      * @param Request $request
      * @param Payment $payment
      * @param $action
+     * @return \Illuminate\Http\JsonResponse
      */
     public function action(Request $request, Payment $payment, $action)
     {
-        switch ($action) {
-            case 'refund':
-                (new Refund($payment, new CreditRepository(new Credit), $request->all()))->refund();
-                break;
-            case 'email':
-                $payment->service()->sendEmail();
-                break;
-            default:
-                # code...
-                break;
+        if ($action === 'refund') {
+            $payment = (new Refund($payment, new CreditRepository(new Credit), $request->all()))->refund();
+            return response()->json($this->transformPayment($payment));
+        }
+
+        if ($action === 'email') {
+            $payment->service()->sendEmail();
+            return response()->json(['email sent']);
         }
     }
 

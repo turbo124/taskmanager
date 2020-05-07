@@ -2,7 +2,6 @@
 
 namespace App\Services\Quote;
 
-use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Invoice;
 use App\Quote;
 use App\Events\Quote\QuoteWasApproved;

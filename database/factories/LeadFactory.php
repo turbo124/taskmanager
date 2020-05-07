@@ -8,6 +8,10 @@ use Faker\Generator as Faker;
 $factory->define(\App\Lead::class, function (Faker $faker) {
     $user = factory(\App\User::class)->create();
     return [
+        'address_1' => $faker->streetAddress,
+        'address_2' => null,
+        'zip' => $faker->postcode,
+        'city' => $faker->city,
         'source_type' => 1,
         'account_id' => 1,
         'user_id' => $user->id,

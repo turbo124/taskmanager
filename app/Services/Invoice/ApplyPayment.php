@@ -9,11 +9,11 @@ use App\Services\Customer\CustomerService;
 class ApplyPayment
 {
 
-    private $invoice;
-    private $payment;
+    private Invoice $invoice;
+    private Payment $payment;
     private $payment_amount;
 
-    public function __construct($invoice, $payment, $payment_amount)
+    public function __construct(Invoice $invoice, Payment $payment, $payment_amount)
     {
         $this->invoice = $invoice;
         $this->payment = $payment;
@@ -28,22 +28,22 @@ class ApplyPayment
         $this->payment->customer->save();
 
         /* Update Pivot Record amount */
-        foreach($this->payment->invoices as $invoice) {
+        foreach ($this->payment->invoices as $invoice) {
             if ($invoice->id != $this->invoice->id) {
                 continue;
             }
-               
-            $inv->pivot->amount = $this->payment_amount;
-            $inv->pivot->save();
+
+            $invoice->pivot->amount = $this->payment_amount;
+            $invoice->pivot->save();
         }
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
             return $this->adjustInvoiceBalance();
-        } 
+        }
 
-        if($this->payment_amount > $this->invoice->balance) {
-            return false;
+        if ($this->payment_amount > $this->invoice->balance) {
+            return $this->invoice;
         }
 
         $this->invoice->resetPartialInvoice($this->payment_amount * -1, 0, $this->payment_amount == $this->invoice->balance);

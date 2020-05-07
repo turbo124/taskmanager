@@ -161,7 +161,7 @@ export default class InvoiceModel extends BaseModel {
 
         actions.push('cloneToInvoice')
         if (this.isModuleEnabled('quotes')) {
-            actions.push('cloneToQuote')
+            actions.push('cloneInvoiceToQuote')
         }
         if (this.isModuleEnabled('credits')) {
             actions.push('cloneToCredit')

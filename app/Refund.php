@@ -64,7 +64,7 @@ class Refund
         $this->payment->save();
         event(new PaymentWasRefunded($this->payment, $this->data['amount']));
 
-        return $this;
+        return $this->payment;
     }
 
     private function refundPaymentWithInvoices()
@@ -125,6 +125,6 @@ class Refund
         $this->payment->customer->save();
         $credit_note->ledger()->updateBalance($adjustment_amount);
 
-        return $this;
+        return $this->payment;
     }
 }

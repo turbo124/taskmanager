@@ -5,15 +5,27 @@ namespace App\Factory;
 use App\Invoice;
 use App\Order;
 use App\Quote;
+use App\User;
+use App\Account;
 
+/**
+ * Class CloneOrderToInvoiceFactory
+ * @package App\Factory
+ */
 class CloneOrderToInvoiceFactory
 {
-    public static function create(Order $order, $user_id, $account_id): ?Invoice
+    /**
+     * @param Order $order
+     * @param User $user
+     * @param Account $account
+     * @return Invoice|null
+     */
+    public static function create(Order $order, User $user, Account $account): ?Invoice
     {
         $invoice = new Invoice();
-        $invoice->account_id = $account_id;
+        $invoice->account_id = $account->id;
         $invoice->customer_id = $order->customer_id;
-        $invoice->user_id = $user_id;
+        $invoice->user_id = $user->id;
         $invoice->order_id = $order->id;
         $invoice->task_id = $order->task_id;
         $invoice->discount_total = $order->discount_total;

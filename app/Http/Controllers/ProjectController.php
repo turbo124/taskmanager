@@ -66,10 +66,8 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {

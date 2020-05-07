@@ -120,7 +120,7 @@ export default class OrderModel extends BaseModel {
         }
 
         if (!this.isApproved) {
-            actions.push('approve')
+            actions.push('dispatch')
         }
 
         if (!this.fields.is_deleted) {
@@ -131,12 +131,16 @@ export default class OrderModel extends BaseModel {
             actions.push('archive')
         }
 
+        if (this.isModuleEnabled('invoices')) {
+            actions.push('cloneOrderToInvoice')
+        }
+
         if (this.isModuleEnabled('invoices') && !this.isApproved) {
             actions.push('convert')
         }
 
         if (this.isModuleEnabled('quotes')) {
-            actions.push('cloneToQuote')
+            actions.push('cloneOrderToQuote')
         }
 
         return actions

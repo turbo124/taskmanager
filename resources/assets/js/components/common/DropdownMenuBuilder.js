@@ -146,7 +146,6 @@ export default class DropdownMenuBuilder extends Component {
                 </DropdownItem>
 
             case 'cloneToInvoice':
-            case 'convert':
                 return <DropdownItem className="primary"
                     onClick={() => this.changeStatus('clone_to_invoice')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Invoice
@@ -155,6 +154,41 @@ export default class DropdownMenuBuilder extends Component {
             case 'cloneToQuote':
                 return <DropdownItem className="primary" onClick={() => this.changeStatus('clone_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone To Quote
+                </DropdownItem>
+
+            case 'cloneCreditToQuote':
+                return <DropdownItem className="primary" onClick={() => this.changeStatus('clone_credit_to_quote')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone Credit To Quote
+                </DropdownItem>
+
+            case 'cloneInvoiceToQuote':
+                return <DropdownItem className="primary"
+                    onClick={() => this.changeStatus('clone_invoice_to_quote')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone To Quote
+                </DropdownItem>
+
+            case 'dispatch':
+                return <DropdownItem className="primary"
+                    onClick={() => this.changeStatus('dispatch')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Dispatch
+                </DropdownItem>
+
+            case 'cloneOrderToInvoice':
+                return <DropdownItem className="primary"
+                    onClick={() => this.changeStatus('clone_order_to_invoice')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Invoice
+                </DropdownItem>
+
+            case 'cloneOrderToQuote':
+                return <DropdownItem className="primary"
+                    onClick={() => this.changeStatus('clone_order_to_quote')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Quote
+                </DropdownItem>
+
+            case 'cloneQuoteToInvoice':
+                return <DropdownItem className="primary"
+                    onClick={() => this.changeStatus('clone_quote_to_invoice')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone To Invoice
                 </DropdownItem>
 
             case 'cloneToCredit':
