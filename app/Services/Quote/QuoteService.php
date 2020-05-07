@@ -17,7 +17,12 @@ class QuoteService extends ServiceBase
 
     public function __construct(Quote $quote)
     {
-        parent::__construct($quote);
+        $config = [
+            'email' => $quote->customer->getSetting('should_email_quote'),
+            'archive' => $quote->customer->getSetting('should_archive_quote')
+        ];
+
+        parent::__construct($quote, $config);
         $this->quote = $quote;
     }
 
@@ -36,15 +41,7 @@ class QuoteService extends ServiceBase
             $this->quote->save();
         }
 
-        if ($this->quote->customer->getSetting('should_email_quote')) {
-            $this->sendEmail(null, trans('texts.quote_approved_subject'), trans('texts.quote_approved_body'));
-        }
-
         event(new QuoteWasApproved($this->quote));
-
-        if ($this->quote->customer->getSetting('should_archive_quote')) {
-            $quote_repo->archive($this->quote);
-        }
 
         return $this->quote;
     }
