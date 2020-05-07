@@ -24,11 +24,11 @@ class ServiceBase
         }
 
         if (!empty($this->config['email'])) {
-            $this->sendEmail(null, $subject, $body);
+            $this->entity->service()->sendEmail(null, $subject, $body);
         }
 
         if (!empty($this->config['archive'])) {
-            $repo->archive($this->quote);
+            $repo->archive($this->entity);
         }
 
         return true;
