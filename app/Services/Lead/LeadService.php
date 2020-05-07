@@ -21,6 +21,11 @@ class LeadService extends ServiceBase
      */
     public function __construct(Lead $lead)
     {
+        $config = [
+            'email' => $lead->customer->getSetting('should_email_lead'),
+            'archive' => $lead->customer->getSetting('should_archive_lead')
+        ];
+
         parent::__construct($lead);
         $this->lead = $lead;
     }
