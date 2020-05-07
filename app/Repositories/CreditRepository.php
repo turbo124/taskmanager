@@ -58,11 +58,6 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         return $this->model->where('customer_id', $objCustomer->id)->get();
     }
 
-    public function getInvitationByKey($key): ?CreditInvitation
-    {
-        return CreditInvitation::whereRaw("BINARY `key`= ?", [$key])->first();
-    }
-
     /**
      * @param int $id
      * @return Credit

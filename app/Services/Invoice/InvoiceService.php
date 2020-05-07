@@ -7,10 +7,8 @@ use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Payment;
-use App\Services\Invoice\HandleCancellation;
 use App\Services\Invoice\ReverseInvoicePayment;
 use App\Services\Invoice\MarkPaid;
-use App\Services\Invoice\UpdateBalance;
 use Illuminate\Support\Carbon;
 use App\Services\Invoice\ApplyPayment;
 use App\Events\Invoice\InvoiceWasPaid;
@@ -31,11 +29,14 @@ class InvoiceService extends ServiceBase
         $this->invoice = $invoice;
     }
 
-    public function cancelInvoice()
+    /**
+     * @return Invoice
+     */
+    public function cancelInvoice(): Invoice
     {
         $this->invoice = (new CancelInvoice($this->invoice))->run();
 
-        return $this;
+        return $this->invoice;
     }
 
     public function sendReminders()
@@ -48,11 +49,11 @@ class InvoiceService extends ServiceBase
     /**
      * @param CreditRepository $credit_repo
      * @param PaymentRepository $payment_repo
-     * @return $this
+     * @return Invoice
      */
     public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
+       return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
     }
 
     public function getPdf($contact = null)

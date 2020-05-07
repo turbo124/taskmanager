@@ -201,12 +201,7 @@ class ProductController extends Controller
 
     public function bulk()
     {
-        $action = request()->input('action');
 
-        $ids = request()->input('ids');
-        $products = Product::withTrashed()->find($ids);
-
-        return response()->json($products);
     }
 
     /**

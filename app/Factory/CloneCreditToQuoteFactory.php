@@ -4,14 +4,24 @@ namespace App\Factory;
 
 use App\Credit;
 use App\Quote;
+use App\User;
 
+/**
+ * Class CloneCreditToQuoteFactory
+ * @package App\Factory
+ */
 class CloneCreditToQuoteFactory
 {
-    public static function create(Credit $credit, $user_id): ?Quote
+    /**
+     * @param Credit $credit
+     * @param User $user
+     * @return Quote|null
+     */
+    public static function create(Credit $credit, User $user): ?Quote
     {
         $quote = new Quote();
         $quote->customer_id = $credit->customer_id;
-        $quote->user_id = $user_id;
+        $quote->user_id = $user->id;
         $quote->account_id = $credit->account_id;
         $quote->tax_rate_name = $credit->tax_rate_name;
         $quote->tax_rate = $credit->tax_rate;

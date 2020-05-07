@@ -347,7 +347,7 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $this->invoice = $invoice->service()->handleReversal(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
+        $this->invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
 
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);

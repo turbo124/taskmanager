@@ -198,6 +198,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
                 $payment->attachInvoice($invoice);
 
                 $amount = $data['invoices'][$invoice->id]['amount'];
+
                 $invoice = $invoice->service()->applyPayment($payment, $amount);
             }
 

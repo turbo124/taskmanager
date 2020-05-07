@@ -57,6 +57,7 @@ use App\Listeners\Document\DeleteAccountDocuments;
 use App\Listeners\Quote\QuoteApprovedActivity;
 use App\Listeners\Quote\QuoteCreatedActivity;
 use App\Listeners\Quote\QuoteArchivedActivity;
+use App\Listeners\Quote\QuoteMarkedSentActivity;
 use App\Listeners\Quote\QuoteDeletedActivity;
 use App\Listeners\Order\OrderArchivedActivity;
 use App\Listeners\Order\OrderCreatedActivity;

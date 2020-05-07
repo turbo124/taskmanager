@@ -138,7 +138,7 @@ export default class CreditModel extends BaseModel {
         }
 
         if (this.isModuleEnabled('quotes')) {
-            actions.push('cloneToQuote')
+            actions.push('cloneCreditToQuote')
         }
 
         return actions

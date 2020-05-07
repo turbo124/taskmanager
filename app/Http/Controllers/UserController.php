@@ -50,6 +50,10 @@ class UserController extends Controller
         $this->role_repo = $role_repo;
     }
 
+    /**
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(SearchRequest $request)
     {
         $users = (new UserFilter($this->user_repo))->filter($request, auth()->user()->account_user()->account_id);
@@ -63,11 +67,8 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param CreateUserRequest $request
-     *
-     * @return Response
+     * @return array
      */
     public function store(CreateUserRequest $request)
     {
@@ -79,11 +80,8 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param int $id
-     *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(int $id)
     {
@@ -116,6 +114,10 @@ class UserController extends Controller
         return response()->json('User could not be deleted!');
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(int $id)
     {
         $user = $this->user_repo->findUserById($id);
@@ -125,9 +127,8 @@ class UserController extends Controller
 
     /**
      * @param UpdateUserRequest $request
-     * @param $id
-     *
-     * @return Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateUserRequest $request, int $id)
     {
@@ -153,9 +154,8 @@ class UserController extends Controller
     }
 
     /**
-     * return a user based on username
      * @param string $username
-     * @return type
+     * @return \Illuminate\Http\JsonResponse
      */
     public function profile(string $username)
     {
@@ -174,16 +174,12 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulk()
     {
-        $action = request()->input('action');
 
-        $ids = request()->input('ids');
-        $users = User::withTrashed()->find($ids);
-        $users->each(function ($user, $key) use ($action) {
-            $this->user_repo->{$action}($user);
-        });
-        return response()->json(User::withTrashed()->whereIn('id', $ids));
     }
 
     /**
