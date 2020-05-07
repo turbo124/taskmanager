@@ -14,6 +14,21 @@ class ServiceBase
         $this->entity = $entity;
     }
 
+    protected function runActions(array $actions)
+    {
+        if (!empty($actions['email'])) {
+            $this->entity->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
+        }
+
+
+        if (!empty($actions['archive']) {
+            $order_repo->archive($this->order);
+        }
+
+        return true;
+
+    }
+
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
 
