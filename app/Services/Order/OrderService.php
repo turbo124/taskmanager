@@ -67,10 +67,10 @@ class OrderService extends ServiceBase
 
         event(new OrderWasDispatched($this->order));
 
-        // run actions
+        // trigger
         $subject = trans('texts.order_dispatched_subject');
         $body = trans('texts.order_dispatched_body');
-        $this->runTriggersForAction($subject, $body, $order_repo);
+        $this->trigger($subject, $body, $order_repo);
 
         return $this->order;
     }
