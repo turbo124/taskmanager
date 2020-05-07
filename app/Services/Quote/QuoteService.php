@@ -43,6 +43,11 @@ class QuoteService extends ServiceBase
 
         event(new QuoteWasApproved($this->quote));
 
+        // run actions
+        $subject = trans('texts.quote_approved_subject');
+        $body = trans('texts.quote_approved_body');
+        $this->runTriggersForAction($subject, $body, $quote_repo);
+
         return $this->quote;
     }
 
