@@ -14,21 +14,6 @@ class ServiceBase
         $this->entity = $entity;
     }
 
-    protected function runActions(array $actions, string $subject, string $body)
-    {
-        if (!empty($actions['email'])) {
-            $this->entity->sendEmail(null, $subject, $body);
-        }
-
-
-        if (!empty($actions['archive']) {
-            $order_repo->archive($this->entity);
-        }
-
-        return true;
-
-    }
-
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
 
