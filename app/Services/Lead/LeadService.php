@@ -28,7 +28,14 @@ class LeadService extends ServiceBase
      */
     public function convertLead(): Lead
     {
-       return (new ConvertLead($this->lead))->run();
+       $lead = (new ConvertLead($this->lead))->run();
+  
+         // run actions
+        $subject = trans('texts.order_dispatched_subject');
+        $body = trans('texts.order_dispatched_body');
+        $this->runTriggersForAction($subject, $body, $order_repo);
+
+        return $lead;
     }
 
     /**
