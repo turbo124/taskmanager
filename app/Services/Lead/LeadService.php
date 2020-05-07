@@ -4,6 +4,8 @@ namespace App\Services\Lead;
 
 use App\Lead;
 use App\Services\ServiceBase;
+use App\Repositories\LeadRepository;
+use App\Lead;
 
 /**
  * Class TaskService
@@ -30,10 +32,10 @@ class LeadService extends ServiceBase
     {
        $lead = (new ConvertLead($this->lead))->run();
   
-         // run actions
-        $subject = trans('texts.order_dispatched_subject');
-        $body = trans('texts.order_dispatched_body');
-        $this->runTriggersForAction($subject, $body, $order_repo);
+        // run actions
+        $subject = trans('texts.lead_converted_subject');
+        $body = trans('texts.lead_converted_body');
+        $this->runTriggersForAction($subject, $body, new LeadRepository(new Lead));
 
         return $lead;
     }
