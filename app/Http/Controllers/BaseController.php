@@ -105,9 +105,6 @@ class BaseController extends Controller
 
             case 'dispatch': // done
 
-                $this->markViewed('VVQcJLOLV9La9hgWJLcX');
-                die;
-
                 if (!in_array($entity->status_id, [Order::STATUS_DRAFT, Order::STATUS_SENT])) {
                     return response()->json(['message' => 'Unable to approve this order as it has expired.'], 400);
                 }
