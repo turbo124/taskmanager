@@ -14,15 +14,15 @@ class ServiceBase
         $this->entity = $entity;
     }
 
-    protected function runActions(array $actions)
+    protected function runActions(array $actions, string $subject, string $body)
     {
         if (!empty($actions['email'])) {
-            $this->entity->sendEmail(null, trans('texts.order_dispatched_subject'), trans('texts.order_dispatched_body'));
+            $this->entity->sendEmail(null, $subject, $body);
         }
 
 
         if (!empty($actions['archive']) {
-            $order_repo->archive($this->order);
+            $order_repo->archive($this->entity);
         }
 
         return true;
