@@ -72,10 +72,10 @@ class InvoiceService extends ServiceBase
 
         event(new InvoiceWasPaid($invoice));
 
-        // run actions
+        // trigger
         $subject = trans('texts.invoice_paid_subject');
         $body = trans('texts.invoice_paid_body');
-        $this->runTriggersForAction($subject, $body, $invoice_repo);
+        $this->trigger($subject, $body, $invoice_repo);
 
         return $invoice;
     }
@@ -92,10 +92,10 @@ class InvoiceService extends ServiceBase
 
         event(new InvoiceWasPaid($invoice));
 
-        // run actions
+        // trigger
         $subject = trans('texts.invoice_paid_subject');
         $body = trans('texts.invoice_paid_body');
-        $this->runTriggersForAction($subject, $body, $invoice_repo);
+        $this->trigger($subject, $body, $invoice_repo);
 
         return $invoice;
     }
