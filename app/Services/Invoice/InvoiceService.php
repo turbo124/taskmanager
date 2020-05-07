@@ -25,7 +25,12 @@ class InvoiceService extends ServiceBase
 
     public function __construct(Invoice $invoice)
     {
-        parent::__construct($invoice);
+        $config = [
+            'email' => $invoice->customer->getSetting('should_email_invoice'),
+            'archive' => $invoice->customer->getSetting('should_archive_invoice')
+        ];
+
+        parent::__construct($invoice, $config);
         $this->invoice = $invoice;
     }
 
