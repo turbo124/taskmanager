@@ -37,10 +37,10 @@ class LeadService extends ServiceBase
     {
        $lead = (new ConvertLead($this->lead))->run();
   
-        // run actions
+        // trigger
         $subject = trans('texts.lead_converted_subject');
         $body = trans('texts.lead_converted_body');
-        $this->runTriggersForAction($subject, $body, new LeadRepository(new Lead));
+        $this->trigger($subject, $body, new LeadRepository(new Lead));
 
         return $lead;
     }
