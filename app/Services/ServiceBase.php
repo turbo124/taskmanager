@@ -17,7 +17,7 @@ class ServiceBase
         $this->config = $config;
     }
 
-    protected function runTriggersForAction(string $subject, string $body, $repo)
+    protected function trigger(string $subject, string $body, $repo)
     {
         if(empty($this->config)) {
             return false;
