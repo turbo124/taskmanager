@@ -5,7 +5,6 @@ namespace App\Services\Lead;
 use App\Lead;
 use App\Services\ServiceBase;
 use App\Repositories\LeadRepository;
-use App\Lead;
 
 /**
  * Class TaskService
@@ -22,8 +21,8 @@ class LeadService extends ServiceBase
     public function __construct(Lead $lead)
     {
         $config = [
-            'email' => $lead->customer->getSetting('should_email_lead'),
-            'archive' => $lead->customer->getSetting('should_archive_lead')
+            'email' => $lead->account->getSetting('should_email_lead'),
+            'archive' => $lead->account->getSetting('should_archive_lead')
         ];
 
         parent::__construct($lead);

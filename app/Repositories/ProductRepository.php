@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Account;
+use App\AttributeValue;
 use App\Filters\ProductFilter;
 use App\Repositories\Base\BaseRepository;
 use App\Product;
@@ -176,8 +177,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute
     {
-        $product->attributes()->updateOrCreate(['product_id' => $product->id], $productAttribute->toArray());
-
+        $this->model->attributes()->save($productAttribute);
         return $productAttribute;
     }
 
@@ -187,7 +187,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues) : Collection
+    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues) : \Illuminate\Support\Collection
     {
         return collect($attributeValues)->each(function (AttributeValue $value) use ($productAttribute) {
             return $productAttribute->attributesValues()->save($value);

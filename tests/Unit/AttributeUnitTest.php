@@ -4,14 +4,24 @@ namespace Tests\Unit;
 
 use App\Attribute;
 use App\Repositories\AttributeRepository;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AttributeUnitTest extends TestCase
 {
+    use WithFaker, DatabaseTransactions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->beginDatabaseTransaction();
+    }
+
     /** @test */
     public function it_should_error_when_the_attribute_is_not_found()
     {
-                $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 
         $attributeRepo = new AttributeRepository(new Attribute);
         $attributeRepo->findAttributeById(999);
@@ -48,7 +58,7 @@ class AttributeUnitTest extends TestCase
 
         $this->assertNull($delete);
     }
-    
+
     /** @test */
     public function it_can_delete_the_attribute()
     {
@@ -88,15 +98,6 @@ class AttributeUnitTest extends TestCase
     }
 
     /** @test */
-    public function it_errors_when_creating_attribute()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-
-        $attributeRepo = new AttributeRepository(new Attribute);
-        $attributeRepo->createAttribute([]);
-    }
-
-    /** @test */
     public function it_can_create_attribute()
     {
         $data = [
@@ -109,3 +110,4 @@ class AttributeUnitTest extends TestCase
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($data['name'], $attribute->name);
     }
+}

@@ -95,7 +95,7 @@ class InvoiceService extends ServiceBase
         // trigger
         $subject = trans('texts.invoice_paid_subject');
         $body = trans('texts.invoice_paid_body');
-        $this->trigger($subject, $body, $invoice_repo);
+        $this->trigger($subject, $body, (new InvoiceRepository(new Invoice)));
 
         return $invoice;
     }
