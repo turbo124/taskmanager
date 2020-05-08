@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Repositories;
@@ -25,7 +24,7 @@ class AttributeValueRepository extends BaseRepository
      * @param array $data
      * @return AttributeValue
      */
-    public function createAttributeValue(Attribute $attribute, array $data) : AttributeValue
+    public function createAttributeValue(Attribute $attribute, array $data): AttributeValue
     {
         $attributeValue = new AttributeValue($data);
         $attributeValue->attribute()->associate($attribute);
@@ -39,7 +38,7 @@ class AttributeValueRepository extends BaseRepository
      * @param Attribute $attribute
      * @return AttributeValue
      */
-    public function associateToAttribute(Attribute $attribute) : AttributeValue
+    public function associateToAttribute(Attribute $attribute): AttributeValue
     {
         $this->model->attribute()->associate($attribute);
         $this->model->save();
@@ -49,7 +48,7 @@ class AttributeValueRepository extends BaseRepository
     /**
      * Remove association from the attribute
      */
-    public function dissociateFromAttribute() : bool
+    public function dissociateFromAttribute(): bool
     {
         return $this->model->delete();
     }
@@ -57,7 +56,7 @@ class AttributeValueRepository extends BaseRepository
     /**
      * @return Collection
      */
-    public function findProductAttributes() : Collection
+    public function findProductAttributes(): Collection
     {
         return $this->model->productAttributes()->get();
     }

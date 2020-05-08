@@ -2,7 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\Attribute;
+use App\AttributeValue;
 use App\ProductAttribute;
+use App\Repositories\AttributeRepository;
+use App\Repositories\AttributeValueRepository;
 use App\Repositories\ProductAttributeRepository;
 use App\Product;
 use App\Repositories\ProductRepository;
@@ -29,15 +33,13 @@ class ProductAttributeUnitTest extends TestCase
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
         $productAttributeRepo->findProductAttributeById(999);
     }
-
-    /** @test */
-       }
     
     /** @test */
     public function it_can_find_the_product_attribute_by_id()
     {
+        $product = factory(Product::class)->create();
         $productAttribute = factory(ProductAttribute::class)->create([
-            'product_id' => $this->product->id
+            'product_id' => $product->id
         ]);
 
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
@@ -68,9 +70,9 @@ class ProductAttributeUnitTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $deleted = $productRepo->removeProductAttribute(new ProductAttribute);
+        $deleted = $productRepo->removeProductAttribute(new ProductAttribute, $product);
 
-        $this->assertNull($deleted);
+        $this->assertFalse($deleted);
     }
 
     /** @test */
@@ -85,9 +87,9 @@ class ProductAttributeUnitTest extends TestCase
 
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $created = $productRepo->saveProductAttributes($productAttribute);
+        $created = $productRepo->saveProductAttributes($productAttribute, $product);
 
-        $deleted = $productRepo->removeProductAttribute($created);
+        $deleted = $productRepo->removeProductAttribute($created, $product);
 
         $this->assertTrue($deleted);
     }
@@ -104,7 +106,7 @@ class ProductAttributeUnitTest extends TestCase
 
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $created = $productRepo->saveProductAttributes($productAttribute);
+        $created = $productRepo->saveProductAttributes($productAttribute, $product);
 
         $this->assertInstanceOf(ProductAttribute::class, $created);
         $this->assertInstanceOf(Product::class, $productAttribute->product);

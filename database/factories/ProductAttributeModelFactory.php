@@ -16,14 +16,8 @@ use App\Product;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(ProductAttribute::class, function (Faker\Generator $faker) {
-
-    $product = factory(Product::class)->create();
-
     return [
-        'range_from' => $faker->randomFloat(2),
-        'range_to' => $faker->randomFloat(2),
-        'payable_months' => 12,
-        'interest_rate' => $faker->randomFloat(2),
-        'product_id' => $product->id
+        'quantity' => 1,
+        'price' => 1.55
     ];
 });
