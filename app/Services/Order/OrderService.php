@@ -16,7 +16,6 @@ class OrderService extends ServiceBase
 {
     protected $order;
 
-
     public function __construct(Order $order)
     {
         $config = [

@@ -176,10 +176,49 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute
     {
-
         $product->attributes()->updateOrCreate(['product_id' => $product->id], $productAttribute->toArray());
 
         return $productAttribute;
+    }
+
+      /**
+     * @param ProductAttribute $productAttribute
+     * @param AttributeValue ...$attributeValues
+     *
+     * @return Collection
+     */
+    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues) : Collection
+    {
+        return collect($attributeValues)->each(function (AttributeValue $value) use ($productAttribute) {
+            return $productAttribute->attributesValues()->save($value);
+        });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function listCombinations() : Collection
+    {
+        return $this->model->attributes()->map(function (ProductAttribute $productAttribute) {
+            return $productAttribute->attributesValues;
+        });
+    }
+
+    /**
+     * @param ProductAttribute $productAttribute
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findProductCombination(ProductAttribute $productAttribute)
+    {
+        $values = $productAttribute->attributesValues()->get();
+
+        return $values->map(function (AttributeValue $attributeValue) {
+            return $attributeValue;
+        })->keyBy(function (AttributeValue $item) {
+            return strtolower($item->attribute->name);
+        })->transform(function (AttributeValue $value) {
+            return $value->value;
+        });
     }
 
     /**

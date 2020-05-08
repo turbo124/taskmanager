@@ -31,19 +31,36 @@ class ProductAttributeUnitTest extends TestCase
     }
 
     /** @test */
+       }
+    
+    /** @test */
     public function it_can_find_the_product_attribute_by_id()
     {
-        $product = factory(Product::class)->create();
         $productAttribute = factory(ProductAttribute::class)->create([
-            'product_id' => $product->id,
-            'range_from' => 99.99,
-            'range_to'   => 200.00
+            'product_id' => $this->product->id
         ]);
 
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
         $found = $productAttributeRepo->findProductAttributeById($productAttribute->id);
-        $this->assertEquals($productAttribute->range_from, $found->range_from);
-        $this->assertEquals($productAttribute->range_to, $found->range_to);
+
+        $this->assertEquals($productAttribute->quantity, $found->quantity);
+        $this->assertEquals($productAttribute->price, $found->price);
+    }
+
+    /** @test */
+    public function it_can_sync_the_attribute_values_to_product_attributes()
+    {
+        $attribute = factory(Attribute::class)->create(['name' => 'Color']);
+
+        $attributeValueRepo = new AttributeValueRepository(new AttributeValue);
+        $created = $attributeValueRepo->createAttributeValue($attribute, ['value' => 'green']);
+
+        $attributeRepo = new AttributeRepository($attribute);
+        $associated = $attributeRepo->associateAttributeValue($created);
+
+        $this->assertInstanceOf(AttributeValue::class, $created);
+        $this->assertInstanceOf(AttributeValue::class, $associated);
+        $this->assertEquals($created->name, $associated->name);
     }
 
     /** @test */
@@ -51,24 +68,27 @@ class ProductAttributeUnitTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $deleted = $productRepo->removeProductAttribute(new ProductAttribute, $product);
-        $this->assertFalse($deleted);
+        $deleted = $productRepo->removeProductAttribute(new ProductAttribute);
+
+        $this->assertNull($deleted);
     }
 
     /** @test */
     public function it_can_remove_product_attribute()
     {
         $data = [
-            'range_from'     => $this->faker->randomFloat(2),
-            'range_to'       => $this->faker->randomFloat(2),
-            'payable_months' => 12,
-            'interest_rate'  => $this->faker->randomFloat(2)
+            'quantity' => 1,
+            'price' => 10.45
         ];
+
         $productAttribute = new ProductAttribute($data);
+
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $created = $productRepo->saveProductAttributes($productAttribute, $product);
-        $deleted = $productRepo->removeProductAttribute($created, $product);
+        $created = $productRepo->saveProductAttributes($productAttribute);
+
+        $deleted = $productRepo->removeProductAttribute($created);
+
         $this->assertTrue($deleted);
     }
 
@@ -76,21 +96,22 @@ class ProductAttributeUnitTest extends TestCase
     public function it_can_create_product_attribute()
     {
         $data = [
-            'range_from'     => $this->faker->randomFloat(2),
-            'range_to'       => $this->faker->randomFloat(2),
-            'payable_months' => 12,
-            'interest_rate'  => $this->faker->randomFloat(2),
+            'quantity' => 1,
+            'price' => 10.45
         ];
+
         $productAttribute = new ProductAttribute($data);
+
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $created = $productRepo->saveProductAttributes($productAttribute, $product);
+        $created = $productRepo->saveProductAttributes($productAttribute);
 
         $this->assertInstanceOf(ProductAttribute::class, $created);
-        $this->assertEquals($data['range_from'], $created->range_from);
-        $this->assertEquals($data['range_to'], $created->range_to);
-        $this->assertEquals($data['payable_months'], $created->payable_months);
-        $this->assertEquals($data['interest_rate'], $created->interest_rate);
-    }
+        $this->assertInstanceOf(Product::class, $productAttribute->product);
 
+        $this->assertEquals($data['quantity'], $created->quantity);
+        $this->assertEquals($data['price'], $created->price);
+        $this->assertEquals($product->name, $created->product->name);
+        $this->assertEquals($product->price, $created->product->price);
+    }
 }
