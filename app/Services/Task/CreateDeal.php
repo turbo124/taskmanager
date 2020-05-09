@@ -146,6 +146,14 @@ class CreateDeal
             $total += $tax_total;
         }
 
+        if(!empty($this->request->shipping)) {
+
+        }
+
+        if(!empty($this->request->tax_rate)) {
+
+        }
+
         $contacts = $customer->contacts->toArray();
         $invitations = [];
 
