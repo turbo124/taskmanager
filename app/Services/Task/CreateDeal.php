@@ -84,6 +84,20 @@ class CreateDeal
 
         (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
 
+        if(!empty($this->request->billing)) {
+            $address = App\Address::updateOrCreate(
+    ['customer_id' => $customer->id, 'address_type' => 1],
+    ['address_1' => $this->request->billing['address_1'], 'address_2' => $this->request->billing['address_2'], 'address_type' => 1]
+);
+        }
+
+        if(!empty($this->request->shipping)) {
+            $address = App\Address::updateOrCreate(
+    ['customer_id' => $customer->id, 'address_type' => 2],
+    ['address_1' => $this->request->shipping['address_1'], 'address_2' => $this->request->shipping['address_2'], 'address_type' => 2]
+);
+        }
+
         $this->task = $this->task_repo->save([
             'due_date'    => $due_date,
             'created_by'  => $this->task->user_id,
