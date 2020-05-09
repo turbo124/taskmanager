@@ -53,7 +53,7 @@ export default class ImageForm extends React.Component {
                         this.props.images && this.props.images.map((image, index) => {
                             return (<div key={index} className="col-md-3">
                                 <div className="row">
-                                    <img src={`/storage/${image.src}`} alt=""
+                                    <img src={`/${image.src}`} alt=""
                                         className="img-responsive img-thumbnail"/>
                                     <br/> <br/>
                                     {this.props.deleteImage &&
