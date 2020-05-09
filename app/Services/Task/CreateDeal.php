@@ -2,6 +2,7 @@
 
 namespace App\Services\Task;
 
+use App\Address;
 use App\ClientContact;
 use Illuminate\Support\Facades\Log;
 use App\Customer;
@@ -57,22 +58,37 @@ class CreateDeal
 
     public function run()
     {
-        $factory = CustomerFactory::create($this->task->account, $this->task->user);
+
+        $customer = CustomerFactory::create($this->task->account, $this->task->user);
 
         $date = new DateTime(); // Y-m-d
         $date->add(new DateInterval('P30D'));
         $due_date = $date->format('Y-m-d');
 
         $contact = ClientContact::where('email', '=', $this->request->email)->first();
- 
-        $customer = $contact->count() > 0 ? $contact->customer : $factory;
 
-        $contacts [] = [
-            'first_name' => $this->request->first_name,
-            'last_name'  => $this->request->last_name,
-            'email'      => $this->request->email,
-            'phone'      => $this->request->phone,
-        ];
+        if (!empty($contact)) {
+            $contact->update(
+                [
+                    'first_name' => $this->request->first_name,
+                    'last_name'  => $this->request->last_name,
+                    'email'      => $this->request->email,
+                    'phone'      => $this->request->phone,
+                ]
+            );
+
+            $customer = $contact->customer;
+
+        } else {
+            $contacts [] = [
+                'first_name' => $this->request->first_name,
+                'last_name'  => $this->request->last_name,
+                'email'      => $this->request->email,
+                'phone'      => $this->request->phone,
+            ];
+
+            (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
+        }
 
         $customer = $this->customer_repo->save([
             'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
@@ -82,20 +98,30 @@ class CreateDeal
             'default_payment_method' => 1
         ], $customer);
 
-        (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
+        if (!empty($this->request->billing)) {
 
-        if(!empty($this->request->billing)) {
-            $address = App\Address::updateOrCreate(
-    ['customer_id' => $customer->id, 'address_type' => 1],
-    ['address_1' => $this->request->billing['address_1'], 'address_2' => $this->request->billing['address_2'], 'address_type' => 1]
-);
+            Address::updateOrCreate(
+                ['customer_id' => $customer->id, 'address_type' => 1],
+                [
+                    'address_1'    => $this->request->billing['address_1'],
+                    'address_2'    => $this->request->billing['address_2'],
+                    'zip'          => $this->request->billing['zip'],
+                    'country_id'   => isset($this->request->billing['country_id']) ? $this->request->billing['country_id'] : 225,
+                    'address_type' => 1]
+            );
         }
 
-        if(!empty($this->request->shipping)) {
-            $address = App\Address::updateOrCreate(
-    ['customer_id' => $customer->id, 'address_type' => 2],
-    ['address_1' => $this->request->shipping['address_1'], 'address_2' => $this->request->shipping['address_2'], 'address_type' => 2]
-);
+        if (!empty($this->request->shipping)) {
+
+            $address = Address::updateOrCreate(
+                ['customer_id' => $customer->id, 'address_type' => 2],
+                [
+                    'address_1'    => $this->request->shipping['address_1'],
+                    'address_2'    => $this->request->shipping['address_2'],
+                    'zip'          => $this->request->shipping['zip'],
+                    'country_id'   => isset($this->request->shipping['country_id']) ? $this->request->shipping['country_id'] : 225,
+                    'address_type' => 2]
+            );
         }
 
         $this->task = $this->task_repo->save([
@@ -123,36 +149,6 @@ class CreateDeal
 
     private function saveOrder(Customer $customer)
     {
-        $total = 0;
-        $tax_total = 0;
-        $discount_total = 0;
-        $sub_total = 0;
-
-        foreach ($this->request->products as $product) {
-            $total += $product['unit_price'] * $product['quantity'];
-
-            if (isset($product['unit_tax']) && $product['unit_tax'] > 0) {
-                $tax_total += ($total / 100) * $product['unit_tax'];
-            }
-
-            if (isset($product['unit_discount']) && $product['unit_discount'] > 0) {
-                $discount_total += $product['unit_discount'];
-            }
-        }
-
-        $sub_total = $total;
-
-        if ($tax_total > 0) {
-            $total += $tax_total;
-        }
-
-        if(!empty($this->request->shipping)) {
-
-        }
-
-        if(!empty($this->request->tax_rate)) {
-
-        }
 
         $contacts = $customer->contacts->toArray();
         $invitations = [];
@@ -167,20 +163,23 @@ class CreateDeal
 
         $order = $this->order_repo->save(
             [
-                'invitations'    => $invitations,
-                'balance'        => $total,
-                'sub_total'      => $sub_total,
-                'total'          => $total,
-                'discount_total' => $discount_total,
-                'tax_total'      => $tax_total,
-                'line_items'     => $this->request->products,
-                'task_id'        => $this->task->id,
-                'date'           => date('Y-m-d')
+                'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
+                'invitations'       => $invitations,
+                'balance'           => $this->request->total,
+                'sub_total'         => $this->request->sub_total,
+                'total'             => $this->request->total,
+                //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
+                'discount_total'    => isset($this->request->discount) ? $this->request->discount : 0,
+                'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace('%', '', $this->request->tax_rate) : 0,
+                'line_items'        => $this->request->products,
+                'task_id'           => $this->task->id,
+                'date'              => date('Y-m-d')
             ], $order);
 
 
         $subject = $order->customer->getSetting('email_subject_order');
         $body = $order->customer->getSetting('email_template_order');
+
         event(new OrderWasCreated($order));
         $order->service()->sendEmail(null, $subject, $body);
     }

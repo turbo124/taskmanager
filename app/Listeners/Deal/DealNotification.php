@@ -30,13 +30,13 @@ class DealNotification implements ShouldQueue
 
         if (!empty($deal->account->account_users)) {
             foreach ($deal->account->account_users as $account_user) {
-                $account_user->user->notify(new NewDealNotification($deal, $deal->account));
+                $account_user->user->notify(new NewDealNotification($deal, 'mail'));
             }
         }
 
         if (isset($deal->account->slack_webhook_url)) {
             Notification::route('slack', $deal->account->slack_webhook_url)->notify(new NewDealNotification($deal,
-                $deal->account, true));
+                'slack'));
         }
     }
 }

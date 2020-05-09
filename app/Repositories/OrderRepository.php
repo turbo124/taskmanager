@@ -21,6 +21,7 @@ use App\Task;
 use App\Repositories\Base\BaseRepository;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class OrderRepository extends BaseRepository
 {

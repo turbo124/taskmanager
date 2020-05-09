@@ -3,6 +3,7 @@
 namespace App\Helpers\InvoiceCalculator;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Invoice
@@ -106,28 +107,49 @@ class Invoice extends BaseCalculator
 
     private function calculateCustomValues()
     {
-        if (!empty($this->entity->custom_surcharge1) && $this->entity->custom_surcharge_tax1) {
-            $tax_total = $this->applyTax($this->entity->custom_surcharge_tax1, $this->sub_total, true);
-            $this->setTaxTotal($tax_total);
-            $this->setCustomTax($this->entity->custom_surcharge1);
+        if (!empty($this->entity->custom_surcharge1)) {
+
+            $this->total += $this->entity->custom_surcharge1;
+
+            if (!empty($this->entity->custom_surcharge_tax1)) {
+                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax1, $this->sub_total, true);
+                $this->setTaxTotal($tax_total);
+                $this->setCustomTax($this->entity->custom_surcharge1);
+            }
         }
 
-        if (!empty($this->entity->custom_surcharge2) && $this->entity->custom_surcharge_tax2) {
-            $tax_total = $this->applyTax($this->entity->custom_surcharge_tax2, $this->sub_total, true);
-            $this->setTaxTotal($tax_total);
-            $this->setCustomTax($this->entity->custom_surcharge2);
+        if (!empty($this->entity->custom_surcharge2)) {
+
+            $this->total += $this->entity->custom_surcharge2;
+
+            if (!empty($this->entity->custom_surcharge_tax2)) {
+                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax2, $this->sub_total, true);
+                $this->setTaxTotal($tax_total);
+                $this->setCustomTax($this->entity->custom_surcharge2);
+            }
+
         }
 
-        if (!empty($this->entity->custom_surcharge3) && $this->entity->custom_surcharge_tax3) {
-            $tax_total = $this->applyTax($this->entity->custom_surcharge_tax3, $this->sub_total, true);
-            $this->setTaxTotal($tax_total);
-            $this->setCustomTax($this->entity->custom_surcharge3);
+        if (!empty($this->entity->custom_surcharge3)) {
+
+            $this->total += $this->entity->custom_surcharge3;
+
+            if (!empty($this->entity->custom_surcharge_tax3)) {
+                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax3, $this->sub_total, true);
+                $this->setTaxTotal($tax_total);
+                $this->setCustomTax($this->entity->custom_surcharge3);
+            }
         }
 
-        if (!empty($this->entity->custom_surcharge4) && $this->entity->custom_surcharge_tax4) {
-            $tax_total = $this->applyTax($this->entity->custom_surcharge_tax4, $this->sub_total, true);
-            $this->setTaxTotal($tax_total);
-            $this->setCustomTax($this->entity->custom_surcharge4);
+        if (!empty($this->entity->custom_surcharge4)) {
+
+            $this->total += $this->entity->custom_surcharge4;
+
+            if (!empty($this->entity->custom_surcharge_tax4)) {
+                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax4, $this->sub_total, true);
+                $this->setTaxTotal($tax_total);
+                $this->setCustomTax($this->entity->custom_surcharge4);
+            }
         }
 
         return $this;
@@ -343,6 +365,8 @@ class Invoice extends BaseCalculator
 
     public function getEntity()
     {
+        Log::emergency($this->getSubTotal() . ' ' . $this->getTotal());
+        
         $this->entity->sub_total = $this->getSubTotal();
         $this->entity->balance = $this->getBalance();
         $this->entity->total = $this->getTotal();
