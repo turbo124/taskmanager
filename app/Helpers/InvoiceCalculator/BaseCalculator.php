@@ -3,6 +3,8 @@
 namespace App\Helpers\InvoiceCalculator;
 
 
+use Illuminate\Support\Facades\Log;
+
 class BaseCalculator
 {
     private $customer;
@@ -25,7 +27,7 @@ class BaseCalculator
     {
         $this->entity = $entity;
         $this->customer = $entity !== null ? $entity->customer : null;
-        $this->decimals = $entity !== null ? $this->customer->currency->precision : null;
+        $this->decimals = $entity !== null ? $this->customer->currency->precision : 2;
     }
 
     /**

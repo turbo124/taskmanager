@@ -13,18 +13,6 @@ trait ProductTransformable
      */
     protected function transformProduct(Product $product)
     {
-        $attributes = $product->attributes->first();
-
-        $range_from = $range_to = $payable_months = $minimum_downpayment = $number_of_years = $interest_rate = 0;
-
-        if ($attributes && $attributes->count() > 0) {
-            $range_from = $attributes->range_from;
-            $range_to = $attributes->range_to;
-            $payable_months = $attributes->payable_months;
-            $minimum_downpayment = $attributes->minimum_downpayment;
-            $number_of_years = $attributes->number_of_years;
-            $interest_rate = $attributes->interest_rate;
-        }
 
         return [
             'id'                  => (int)$product->id,
@@ -50,13 +38,7 @@ trait ProductTransformable
             'custom_value1'       => $product->custom_value1 ?: '',
             'custom_value2'       => $product->custom_value2 ?: '',
             'custom_value3'       => $product->custom_value3 ?: '',
-            'custom_value4'       => $product->custom_value4 ?: '',
-            'range_from'          => $range_from,
-            'range_to'            => $range_to,
-            'payable_months'      => $payable_months,
-            'minimum_downpayment' => $minimum_downpayment,
-            'number_of_years'     => $number_of_years,
-            'interest_rate'       => $interest_rate
+            'custom_value4'       => $product->custom_value4 ?: ''
         ];
 
     }

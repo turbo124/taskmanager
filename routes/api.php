@@ -88,7 +88,6 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         Route::get('products/tasks/{task_id}/{status}', 'OrderController@getOrderForTask');
         Route::post('products/filterProducts', 'ProductController@filterProducts');
         Route::get('product/{slug}', 'ProductController@getProduct');
-        //Route::get('products/{product_id}', 'ProductController@show');
         Route::post('products/restore/{id}', 'ProductController@restore');
 
 // projects

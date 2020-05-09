@@ -100,7 +100,7 @@ class ProductController extends Controller
         $fields = $request->only('range_from', 'range_to', 'payable_months', 'number_of_years', 'minimum_downpayment',
             'interest_rate');
 
-        (new SaveProductAttributes($product))->handle($this->product_repo, $fields);
+        //(new SaveProductAttributes($product))->handle($this->product_repo, $fields);
 
         return response()->json($this->transformProduct($product));
     }

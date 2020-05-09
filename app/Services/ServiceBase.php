@@ -72,7 +72,7 @@ class ServiceBase
                 ->setProductId($line_item->product_id)
                 ->setSubTotal(isset($line_item->sub_total) ? $line_item->sub_total : 0)
                 ->setTypeId(!isset($line_item->type_id) ? 1 : $line_item->type_id)
-                ->setUnitTax($line_item->unit_tax)
+                ->setUnitTax(isset($line_item->unit_tax) ? $line_item->unit_tax : 0)
                 ->setTaxRateName(isset($line_item->tax_rate_name) ? $line_item->tax_rate_name : '')
                 ->setTaxRateId(isset($line_item->tax_rate_id) ? $line_item->tax_rate_id : null)
                 ->setUnitDiscount($line_item->unit_discount)
