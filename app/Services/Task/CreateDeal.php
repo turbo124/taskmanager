@@ -63,6 +63,10 @@ class CreateDeal
         $date->add(new DateInterval('P30D'));
         $due_date = $date->format('Y-m-d');
 
+        $contact = ClientContact::where('email', '=', $this->request->email)->first();
+ 
+        $customer = $contact->count() > 0 ? $contact->customer : $factory;
+
         $contacts [] = [
             'first_name' => $this->request->first_name,
             'last_name'  => $this->request->last_name,
@@ -76,7 +80,7 @@ class CreateDeal
             'website'                => isset($this->request->website) ? $this->request->website : '',
             'currency_id'            => 1,
             'default_payment_method' => 1
-        ], $factory);
+        ], $customer);
 
         (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
 
