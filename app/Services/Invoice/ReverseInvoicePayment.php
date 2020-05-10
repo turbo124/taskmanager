@@ -87,7 +87,7 @@ class ReverseInvoicePayment
         
         $customer = $this->invoice->customer;
         $customer->increaseBalance($balance_remaining * -1);
-        $customer->setPaidToDate($total_paid * -1);
+        $customer->increasePaidToDate($total_paid * -1);
         $customer->save();
 
         return true;
