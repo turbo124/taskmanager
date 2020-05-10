@@ -27,8 +27,7 @@ class ApplyPayment
         $this->payment->customer->setBalance($this->payment_amount * -1);
         $this->payment->customer->save();
 
-        /* Update Pivot Record amount */
-       
+        $this->updateInvoiceTotal();
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
@@ -51,7 +50,7 @@ class ApplyPayment
         return $this->invoice;
     }
 
-    private function test()
+    private function updateInvoiceTotal()
     {
         $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
         $invoice->pivot->amount = $this->payment_amount;
