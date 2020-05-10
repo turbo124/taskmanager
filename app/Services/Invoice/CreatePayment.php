@@ -54,8 +54,8 @@ class CreatePayment
     private function updateCustomer(Payment $payment)
     {
         $customer = $this->invoice->customer;
-        $customer->setBalance($payment->amount * -1);
-        $customer->setPaidToDate($payment->amount);
+        $customer->increaseBalance($payment->amount * -1);
+        $customer->increasePaidToDate($payment->amount);
         $customer->save();
         return true;
     }
