@@ -6,7 +6,7 @@ use App\Invoice;
 use App\Payment;
 use App\Services\Customer\CustomerService;
 
-class ApplyPayment
+class MakeInvoicePayment
 {
 
     private Invoice $invoice;
