@@ -24,8 +24,7 @@ class ApplyPayment
     {
         $this->payment->ledger()->updateBalance($this->payment_amount * -1);
 
-        $this->payment->customer->setBalance($this->payment_amount * -1);
-        $this->payment->customer->save();
+        $this->updateCustomer();
 
         $this->updateInvoiceTotal();
 
@@ -40,6 +39,12 @@ class ApplyPayment
 
         $this->invoice->resetPartialInvoice($this->payment_amount * -1, 0, $this->payment_amount == $this->invoice->balance);
         return $this->invoice;
+    }
+
+    private function updateCustomer()
+    {
+              $this->payment->customer->setBalance($this->payment_amount * -1);
+        $this->payment->customer->save();
     }
 
     private function adjustInvoiceBalance()
