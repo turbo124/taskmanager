@@ -111,7 +111,7 @@ export default class AddSubscription extends React.Component {
 
                          <FormGroup>
                             <Label for="event_id">Event<span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('target_url') ? 'is-invalid' : ''} type="select" name="event_id"
+                            <Input className={this.hasErrorFor('event_id') ? 'is-invalid' : ''} type="select" name="event_id"
                                 id="event_id" value={this.state.event_id}
                                 onChange={this.handleInput.bind(this)}>
 
