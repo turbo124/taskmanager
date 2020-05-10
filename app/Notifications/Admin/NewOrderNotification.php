@@ -50,24 +50,25 @@ class NewOrderNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $total = $this->order->getFormattedTotal();
-        $subject = trans('texts.notification_order_subject', [
-            'customer' => $this->order->customer->present()->name(),
-            'order'    => $this->order->number,
-        ]);
-
+        $subject = trans('texts.notification_order_subject', $this->getDataArray());
 
         return (new MailMessage)->subject($subject)->markdown('email.admin.new', ['data' => [
             'title'       => $subject,
-            'message'     => trans('texts.notification_order', [
-                'total'    => $total,
-                'customer' => $this->order->customer->present()->name(),
-                'order'  => $this->order->number,
-            ]),
+            'message'     => trans('texts.notification_order', $this->getDataArray()),
             'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
             'button_text' => trans('texts.view_invoice'),
             'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
             'logo'        => $this->order->account->present()->logo(),
         ]]);
+    }
+
+    private function getDataArray()
+    {
+        return [
+            'total'    => $total,
+            'customer' => $this->order->customer->present()->name(),
+            'order'  => $this->order->getNumber(),
+        ];
     }
 
     /**
