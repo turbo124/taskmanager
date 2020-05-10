@@ -6,7 +6,7 @@ use App\Invoice;
 use App\Repositories\PaymentRepository;
 use App\Factory\InvoiceToPaymentFactory;
 
-class MarkPaid
+class CreatePayment
 {
     private $invoice;
     private $payment_repo;
