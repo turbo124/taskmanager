@@ -41,6 +41,9 @@ class MakeInvoicePayment
         return $this->invoice;
     }
 
+    /**
+     * @return bool
+     */
     private function updateCustomer(): bool
     {
         $this->payment->customer->increaseBalance($this->payment_amount * -1);
@@ -48,6 +51,9 @@ class MakeInvoicePayment
         return true;
     }
 
+    /**
+     * @return Invoice
+     */
     private function adjustInvoiceBalance(): Invoice
     {
         $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
@@ -56,11 +62,14 @@ class MakeInvoicePayment
         return $this->invoice;
     }
 
-    private function updateInvoiceTotal(): bool
+    /**
+     * @return Invoice
+     */
+    private function updateInvoiceTotal(): Invoice
     {
         $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
         $invoice->pivot->amount = $this->payment_amount;
         $invoice->pivot->save();
-        return true;
+        return $invoice;
     }
 }

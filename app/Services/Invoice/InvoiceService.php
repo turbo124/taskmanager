@@ -81,12 +81,11 @@ class InvoiceService extends ServiceBase
     }
 
     /**
-     * Apply a payment amount to an invoice.
-     * @param Payment $payment The Payment
-     * @param float $payment_amount The Payment amount
-     * @return RecurringInvoiceService          Parent class object
+     * @param Payment $payment
+     * @param float $payment_amount
+     * @return Invoice
      */
-    public function applyPayment(Payment $payment, float $payment_amount): Invoice
+    public function makeInvoicePayment(Payment $payment, float $payment_amount): Invoice
     {
         $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->run();
 
