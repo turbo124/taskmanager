@@ -255,6 +255,11 @@ class Invoice extends Model
         return true;
     }
 
+    public function getNumber()
+    {
+        return $this->number;
+    } 
+
     public function getFormattedTotal()
     {
         return Number::formatCurrency($this->total, $this->customer);
