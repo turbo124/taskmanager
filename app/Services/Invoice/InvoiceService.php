@@ -8,7 +8,7 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Payment;
 use App\Services\Invoice\ReverseInvoicePayment;
-use App\Services\Invoice\MarkPaid;
+use App\Services\Invoice\CreatePayment;
 use Illuminate\Support\Carbon;
 use App\Services\Invoice\MakeInvoicePayment;
 use App\Events\Invoice\InvoiceWasPaid;
@@ -68,7 +68,7 @@ class InvoiceService extends ServiceBase
 
     public function markPaid(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo)
     {
-        $invoice = (new MarkPaid($this->invoice, $payment_repo))->run();
+        $invoice = (new CreatePayment($this->invoice, $payment_repo))->run();
 
         event(new InvoiceWasPaid($invoice));
 
