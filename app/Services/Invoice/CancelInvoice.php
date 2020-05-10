@@ -29,21 +29,34 @@ class CancelInvoice
         }
 
         // update invoice
+        $this->updateInvoice();
+   
         $old_balance = $this->invoice->balance;
-        $this->invoice->setBalance(0);
-        $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
-        $this->invoice->save();
-
         $this->invoice->ledger()->updateBalance($old_balance, "Invoice cancellation");
 
         // update customer
-        $customer = $this->invoice->customer;
-        $customer->setBalance($old_balance);
-        $customer->save();
+       $this->updateCustomer();
 
         event(new InvoiceWasCancelled($this->invoice));
 
         return $this->invoice;
     }
 
+    private function updateInvoice()
+    {
+        $this->invoice->setBalance(0);
+        $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
+        $this->invoice->save();
+
+        return true;
+    }
+
+    private function updateCustomer(): bool
+    {
+        $customer = $this->invoice->customer;
+        $customer->setBalance($this->invoice->balance);
+        $customer->save();
+   
+        return true;
+    }
 }
