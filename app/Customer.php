@@ -153,22 +153,17 @@ class Customer extends Model implements HasLocalePreference
     {
 
         /*Client Settings*/
-        if ($this->settings && property_exists($this->settings, $setting) && isset($this->settings->{$setting})) {
-            /*need to catch empty string here*/
-            if (!empty($this->settings->{$setting})) {
-                return $this->settings->{$setting};
-            }
+        if (!empty($this->settings->{$setting})) {
+            return $this->settings->{$setting};
         }
 
         /*Group Settings*/
-        if ($this->group_settings && (property_exists($this->group_settings->settings, $setting) !== false) &&
-            (isset($this->group_settings->settings->{$setting}) !== false)) {
+        if ($this->group_settings && !empty($this->group_settings->settings->{$setting})) {
             return $this->group_settings->settings->{$setting};
         }
 
         /*Company Settings*/
-        if ((property_exists($this->account->settings, $setting) != false) &&
-            (isset($this->account->settings->{$setting}) !== false)) {
+        if (isset($this->account->settings->{$setting})) {
             return $this->account->settings->{$setting};
         }
 
