@@ -50,7 +50,17 @@ class Address extends Model
     protected $hidden = [];
     protected $dates = ['deleted_at'];
 
-    private $repository = 'App\Repositories\AddressRepository';
+    public $relation = [
+        'belongsTo' => [
+            'customer' => 'App\Customer',
+            'country' => 'App\Country',
+        ],
+    ];
+
+    protected $casts = [
+        'customer_id' => 'integer',
+        'country_id' => 'integer',
+    ];
 
     /**
      * Searchable rules.
