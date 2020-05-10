@@ -21,8 +21,8 @@ class Invoice extends Model
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
     protected $casts = [
-        'date'.       => 'date',
-        'due_date'.   => 'due_date',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
@@ -258,7 +258,7 @@ class Invoice extends Model
     public function getNumber()
     {
         return $this->number;
-    } 
+    }
 
     public function getFormattedTotal()
     {

@@ -79,15 +79,6 @@ class CreateDeal
 
             $customer = $contact->customer;
 
-        } else {
-            $contacts [] = [
-                'first_name' => $this->request->first_name,
-                'last_name'  => $this->request->last_name,
-                'email'      => $this->request->email,
-                'phone'      => $this->request->phone,
-            ];
-
-            (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
         }
 
         $customer = $this->customer_repo->save([
@@ -97,6 +88,17 @@ class CreateDeal
             'currency_id'            => 1,
             'default_payment_method' => 1
         ], $customer);
+
+        if (empty($contact)) {
+            $contacts [] = [
+                'first_name' => $this->request->first_name,
+                'last_name'  => $this->request->last_name,
+                'email'      => $this->request->email,
+                'phone'      => $this->request->phone,
+            ];
+
+            (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
+        }
 
         if (!empty($this->request->billing)) {
 

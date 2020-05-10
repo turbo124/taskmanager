@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProductAttribute extends Model
 {
 
-   protected $fillable = [
+    protected $fillable = [
         'quantity',
         'price',
         'sale_price',

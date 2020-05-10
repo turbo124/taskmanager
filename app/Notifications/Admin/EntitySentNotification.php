@@ -99,12 +99,12 @@ class EntitySentNotification extends Notification implements ShouldQueue
                                  ->image($this->entity->account->present()->logo)
                                  ->content(trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray()
                                  ]))->attachment(function ($attachment) use ($total) {
-                $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
-                    $this->invitation->getLink() . '?silent=true')->fields([
-                    trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total')    => $this->entity->getFormattedTotal(),
-                ]);
-            });
+        $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
+            $this->invitation->getLink() . '?silent=true')->fields([
+            trans('texts.customer') => $this->contact->present()->name(),
+            trans('texts.total')    => $this->entity->getFormattedTotal(),
+        ]);
+    });
     }
 
 }

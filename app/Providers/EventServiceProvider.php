@@ -191,7 +191,7 @@ class EventServiceProvider extends ServiceProvider
         LeadWasCreated::class       => [
             LeadNotification::class
         ],
-        LeadWasArchived::class     => [
+        LeadWasArchived::class      => [
             LeadArchivedActivity::class
         ],
         OrderWasCreated::class      => [

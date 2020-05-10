@@ -2,14 +2,16 @@
 
 namespace App\Services\Invoice;
 
+use App\Customer;
 use App\Invoice;
+use App\Payment;
 use App\Repositories\PaymentRepository;
 use App\Factory\InvoiceToPaymentFactory;
 
 class CreatePayment
 {
-    private $invoice;
-    private $payment_repo;
+    private Invoice $invoice;
+    private PaymentRepository $payment_repo;
 
     public function __construct(Invoice $invoice, PaymentRepository $payment_repo)
     {
@@ -31,14 +33,17 @@ class CreatePayment
         $this->updateInvoice($payment);
 
         // update customer
-        $this->updateCustomer();
+        $this->updateCustomer($payment);
 
         return $this->invoice;
     }
 
+    /**
+     * @return Payment
+     */
     private function createPayment(): Payment
     {
-         $payment = $this->payment_repo->save(
+        $payment = $this->payment_repo->save(
             [
                 'transaction_reference' => trans('texts.manual')
             ],
@@ -51,22 +56,30 @@ class CreatePayment
         return $payment;
     }
 
-    private function updateCustomer(Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return Customer
+     */
+    private function updateCustomer(Payment $payment): Customer
     {
         $customer = $this->invoice->customer;
         $customer->increaseBalance($payment->amount * -1);
-        $customer->increasePaidToDate($payment->amount);
+        $customer->increasePaidToDateAmount($payment->amount);
         $customer->save();
-        return true;
+        return $customer;
     }
 
-    private function updateInvoice(Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return Invoice
+     */
+    private function updateInvoice(Payment $payment): Invoice
     {
         $new_balance = $this->invoice->balance += floatval($payment->amount * -1);
         $this->invoice->setBalance($new_balance);
         $this->invoice->setStatus(Invoice::STATUS_PAID);
         $this->invoice->save();
-        return true;
+        return $this->invoice;
     }
 
 }

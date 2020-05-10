@@ -108,34 +108,18 @@ class LineItem extends BaseCalculator
     /**
      * @return int
      */
-    public function getSubTotal(): int
+    public function getSubTotal(): float
     {
         return $this->sub_total;
     }
 
     /**
-     * @param int $sub_total
+     * @param float $sub_total
+     * @return $this
      */
-    public function setSubTotal(int $sub_total): self
+    public function setSubTotal(float $sub_total): self
     {
         $this->sub_total = $sub_total;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLineItem(): int
-    {
-        return $this->line_item;
-    }
-
-    /**
-     * @param int $line_item
-     */
-    public function setLineItem(int $line_item): self
-    {
-        $this->line_item = $line_item;
         return $this;
     }
 
@@ -183,7 +167,7 @@ class LineItem extends BaseCalculator
         return $this;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -195,9 +179,10 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @param int $unit_price
+     * @param float $unit_price
+     * @return $this
      */
-    public function setUnitPrice(int $unit_price): self
+    public function setUnitPrice(float $unit_price): self
     {
         $this->unit_price = $unit_price;
         return $this;

@@ -19,7 +19,7 @@ class ServiceBase
 
     protected function trigger(string $subject, string $body, $repo)
     {
-        if(empty($this->config)) {
+        if (empty($this->config)) {
             return false;
         }
 

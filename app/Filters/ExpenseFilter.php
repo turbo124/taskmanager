@@ -111,7 +111,7 @@ class ExpenseFilter extends QueryFilter
 
         return $this->query->where(function ($query) use ($filter) {
             $query->where('expenses.name', 'like', '%' . $filter . '%')
-                  ->orWhere('expenses.id_number', 'like', '%' . $filter . '%')
+                  ->orWhere('expenses.number', 'like', '%' . $filter . '%')
                 //->orWhere('expense_contacts.first_name', 'like', '%'.$filter.'%')
                 //->orWhere('expense_contacts.last_name', 'like', '%'.$filter.'%')
                 //->orWhere('expense_contacts.email', 'like', '%'.$filter.'%')

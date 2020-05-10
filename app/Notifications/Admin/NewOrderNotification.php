@@ -49,7 +49,6 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $total = $this->order->getFormattedTotal();
         $subject = trans('texts.notification_order_subject', $this->getDataArray());
 
         return (new MailMessage)->subject($subject)->markdown('email.admin.new', ['data' => [
@@ -65,9 +64,9 @@ class NewOrderNotification extends Notification implements ShouldQueue
     private function getDataArray()
     {
         return [
-            'total'    => $total,
+            'total'    => $this->order->getFormattedTotal(),
             'customer' => $this->order->customer->present()->name(),
-            'order'  => $this->order->getNumber(),
+            'order'    => $this->order->getNumber(),
         ];
     }
 

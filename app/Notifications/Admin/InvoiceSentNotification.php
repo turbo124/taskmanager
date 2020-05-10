@@ -99,12 +99,12 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
                                  ->image($logo)
                                  ->content(trans('texts.notification_invoice_sent_subject', $this->getDataArray()))
                                  ->attachment(function ($attachment) {
-                $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->invoice->getNumber()]),
-                    $this->invitation->getLink() . '?silent=true')->fields([
-                    trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total')    => $this->invoice->getFormattedTotal()
-                ]);
-            });
+                                     $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->invoice->getNumber()]),
+                                         $this->invitation->getLink() . '?silent=true')->fields([
+                                         trans('texts.customer') => $this->contact->present()->name(),
+                                         trans('texts.total')    => $this->invoice->getFormattedTotal()
+                                     ]);
+                                 });
     }
 
 }

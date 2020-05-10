@@ -12,9 +12,30 @@ use App\Repositories\PaymentRepository;
 class ReverseInvoicePayment
 {
 
-    private $invoice;
-    private $credit_repo;
-    private $payment_repo;
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
+
+    /**
+     * @var CreditRepository
+     */
+    private CreditRepository $credit_repo;
+
+    /**
+     * @var PaymentRepository
+     */
+    private PaymentRepository $payment_repo;
+
+    /**
+     * @var float|mixed
+     */
+    private float $balance;
+
+    /**
+     * @var string
+     */
+    private string $note;
 
     /**
      * HandleReversal constructor.
@@ -27,6 +48,8 @@ class ReverseInvoicePayment
         $this->credit_repo = $credit_repo;
         $this->payment_repo = $payment_repo;
         $this->invoice = $invoice;
+        $this->balance = $this->invoice->balance;
+        $this->note = "Credit for reversal of " . $this->invoice->getNumber();
     }
 
     public function run()
@@ -42,7 +65,7 @@ class ReverseInvoicePayment
             $this->createCreditNote($total_paid);
         }
 
-        $this->invoice->ledger()->updateBalance($balance_remaining * -1, $notes);
+        $this->invoice->ledger()->updateBalance($this->balance * -1, $this->note);
 
         // update customer
         $this->updateCustomer($total_paid);
@@ -55,23 +78,28 @@ class ReverseInvoicePayment
         return $this->invoice;
     }
 
+    /**
+     * @param float $total_paid
+     */
     private function createCreditNote(float $total_paid)
     {
-           $credit = CreditFactory::create($this->invoice->account, $this->invoice->user, $this->invoice->customer);
-           $credit->customer_id = $this->invoice->customer_id;
-           $notes = "Credit for reversal of " . $this->invoice->getNumber();
+        $credit = CreditFactory::create($this->invoice->account, $this->invoice->user, $this->invoice->customer);
+        $credit->customer_id = $this->invoice->customer_id;
 
-            $line_items[] = (new LineItem)
-                ->setQuantity(1)
-                ->setUnitPrice($total_paid)
-                ->setNotes($notes)
-                ->toObject();
+        $line_items[] = (new LineItem)
+            ->setQuantity(1)
+            ->setUnitPrice($total_paid)
+            ->setNotes($this->note)
+            ->toObject();
 
-            $credit = $this->credit_repo->save(['line_items' => $line_items], $credit);
+        $credit = $this->credit_repo->save(['line_items' => $line_items], $credit);
 
-            $this->credit_repo->markSent($credit);
+        $this->credit_repo->markSent($credit);
     }
 
+    /**
+     * @return bool
+     */
     private function updateInvoice(): bool
     {
         $this->invoice->setBalance(0);
@@ -81,13 +109,15 @@ class ReverseInvoicePayment
         return true;
     }
 
+    /**
+     * @param float $total_paid
+     * @return bool
+     */
     private function updateCustomer(float $total_paid): bool
     {
-        $balance_remaining = $this->invoice->balance;
-        
         $customer = $this->invoice->customer;
-        $customer->increaseBalance($balance_remaining * -1);
-        $customer->increasePaidToDate($total_paid * -1);
+        $customer->increaseBalance($this->balance * -1);
+        $customer->increasePaidToDateAmount($total_paid * -1);
         $customer->save();
 
         return true;

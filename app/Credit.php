@@ -64,8 +64,8 @@ class Credit extends Model
     ];
 
     protected $casts = [
-        'date'.       => 'date',
-        'due_date'.   => 'due_date',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
@@ -178,9 +178,9 @@ class Credit extends Model
     }
 
     public function getNumber()
-     {
-         return $this->number;
-     } 
+    {
+        return $this->number;
+    }
 
     public function getFormattedTotal()
     {

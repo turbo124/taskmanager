@@ -109,7 +109,7 @@ export default class AddSubscription extends React.Component {
                             {this.renderErrorFor('target_url')}
                         </FormGroup>
 
-                         <FormGroup>
+                        <FormGroup>
                             <Label for="event_id">Event<span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('event_id') ? 'is-invalid' : ''} type="select" name="event_id"
                                 id="event_id" value={this.state.event_id}
@@ -124,11 +124,12 @@ export default class AddSubscription extends React.Component {
                                 <option value="6">Customer Deleted</option>
                                 <option value="7">Invoice Created</option>
                                 <option value="8">Invoice Deleted</option>
-                                <option value="9">Payment Created/option>
+                                <option value="9">Payment Created</option>
                                 <option value="10">Payment Deleted</option>
                                 <option value="11">Quote Created</option>
                                 <option value="12">Quote Deleted</option>
                                 <option value="13">Lead Created</option>
+                            </Input>
                             {this.renderErrorFor('event_id')}
                         </FormGroup>
                     </ModalBody>

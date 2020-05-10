@@ -10,7 +10,7 @@ class InvoiceCancelledActivity implements ShouldQueue
 {
     protected $activity_repo;
 
-    
+
     /**
      * Create the event listener.
      *

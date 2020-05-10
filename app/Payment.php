@@ -192,8 +192,8 @@ class Payment extends Model
 
         $this->ledger()->updateBalance($this->amount);
 
-        $customer->setBalance($this->amount);
-        $customer->setPaidToDate($this->amount * -1);
+        $customer->increaseBalance($this->amount);
+        $customer->increasePaidToDateAmount($this->amount * -1);
         $customer->save();
 
         return true;

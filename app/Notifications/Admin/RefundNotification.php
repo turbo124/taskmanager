@@ -69,7 +69,7 @@ class RefundNotification extends Notification implements ShouldQueue
             'customer' => $this->payment->customer->present()->name(),
             'invoice'  => $this->payment->getFormattedInvoices(),
             'payment'  => $this->payment->number,
-       ];
+        ];
     }
 
     /**

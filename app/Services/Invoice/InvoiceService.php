@@ -26,7 +26,7 @@ class InvoiceService extends ServiceBase
     public function __construct(Invoice $invoice)
     {
         $config = [
-            'email' => $invoice->customer->getSetting('should_email_invoice'),
+            'email'   => $invoice->customer->getSetting('should_email_invoice'),
             'archive' => $invoice->customer->getSetting('should_archive_invoice')
         ];
 
@@ -58,7 +58,7 @@ class InvoiceService extends ServiceBase
      */
     public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-       return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
+        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
     }
 
     public function getPdf($contact = null)

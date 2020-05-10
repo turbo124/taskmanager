@@ -53,13 +53,13 @@ class Address extends Model
     public $relation = [
         'belongsTo' => [
             'customer' => 'App\Customer',
-            'country' => 'App\Country',
+            'country'  => 'App\Country',
         ],
     ];
 
     protected $casts = [
         'customer_id' => 'integer',
-        'country_id' => 'integer',
+        'country_id'  => 'integer',
     ];
 
     /**

@@ -68,7 +68,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
             'total'    => $this->payment->getFormattedAmount(),
             'customer' => $this->payment->customer->present()->name(),
             'invoice'  => $this->payment->getFormattedInvoices(),
-       ];
+        ];
     }
 
     /**

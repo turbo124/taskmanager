@@ -36,13 +36,13 @@ class Order extends Model
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
-        'date'.       => 'date',
-        'due_date'.  => 'due_date',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
         'customer_id' => 'integer',
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-        'is_deleted' => 'boolean',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
+        'is_deleted'  => 'boolean',
     ];
 
     protected $fillable = [
@@ -154,6 +154,11 @@ class Order extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
     }
 
     public function getFormattedTotal()

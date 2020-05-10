@@ -181,13 +181,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $productAttribute;
     }
 
-      /**
+    /**
      * @param ProductAttribute $productAttribute
      * @param AttributeValue ...$attributeValues
      *
      * @return Collection
      */
-    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues) : \Illuminate\Support\Collection
+    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues): \Illuminate\Support\Collection
     {
         return collect($attributeValues)->each(function (AttributeValue $value) use ($productAttribute) {
             return $productAttribute->attributesValues()->save($value);
@@ -197,7 +197,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * @return Collection
      */
-    public function listCombinations() : Collection
+    public function listCombinations(): Collection
     {
         return $this->model->attributes()->map(function (ProductAttribute $productAttribute) {
             return $productAttribute->attributesValues;

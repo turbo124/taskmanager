@@ -21,7 +21,7 @@ class LeadService extends ServiceBase
     public function __construct(Lead $lead)
     {
         $config = [
-            'email' => $lead->account->getSetting('should_email_lead'),
+            'email'   => $lead->account->getSetting('should_email_lead'),
             'archive' => $lead->account->getSetting('should_archive_lead')
         ];
 
@@ -34,8 +34,8 @@ class LeadService extends ServiceBase
      */
     public function convertLead(): Lead
     {
-       $lead = (new ConvertLead($this->lead))->run();
-  
+        $lead = (new ConvertLead($this->lead))->run();
+
         // trigger
         $subject = trans('texts.lead_converted_subject');
         $body = trans('texts.lead_converted_body');

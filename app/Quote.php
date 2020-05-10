@@ -20,13 +20,13 @@ class Quote extends Model
     protected $presenter = 'App\Presenters\QuotePresenter';
 
     protected $casts = [
-        'date'.       => 'date',
-        'due_date'.  => 'due_date',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
         'customer_id' => 'integer',
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-        'is_deleted' => 'boolean',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
+        'is_deleted'  => 'boolean',
     ];
 
     /**

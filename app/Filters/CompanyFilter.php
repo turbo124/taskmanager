@@ -76,7 +76,7 @@ class CompanyFilter extends QueryFilter
 
         return $this->query->where(function ($query) use ($filter) {
             $query->where('companies.name', 'like', '%' . $filter . '%')
-                //->orWhere('companies.id_number', 'like', '%'.$filter.'%')
+                //->orWhere('companies.number', 'like', '%'.$filter.'%')
                   ->orWhere('company_contacts.first_name', 'like', '%' . $filter . '%')
                   ->orWhere('company_contacts.last_name', 'like', '%' . $filter . '%')
                   ->orWhere('company_contacts.email', 'like', '%' . $filter . '%')
@@ -86,7 +86,7 @@ class CompanyFilter extends QueryFilter
                   ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
         });
     }
-  
+
     /**
      * @param $list
      * @return mixed

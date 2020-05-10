@@ -52,10 +52,10 @@ class ProductAttributeUnitTest extends TestCase
     /** @test */
     public function it_can_sync_the_attribute_values_to_product_attributes()
     {
-        $attribute = factory(Attribute::class)->create(['name' => 'Color']);
+        $attribute = factory(Attribute::class)->create(['name' => $this->faker->word()]);
 
         $attributeValueRepo = new AttributeValueRepository(new AttributeValue);
-        $created = $attributeValueRepo->createAttributeValue($attribute, ['value' => 'green']);
+        $created = $attributeValueRepo->createAttributeValue($attribute, ['value' => $this->faker->word()]);
 
         $attributeRepo = new AttributeRepository($attribute);
         $associated = $attributeRepo->associateAttributeValue($created);

@@ -40,7 +40,7 @@ class CreateCustomersTable extends Migration {
 			$table->string('custom_value2')->nullable();
 			$table->string('custom_value3')->nullable();
 			$table->string('custom_value4')->nullable();
-			$table->string('id_number')->nullable();
+			$table->string('number')->nullable();
 			$table->text('public_notes', 65535)->nullable();
 			$table->text('private_notes', 65535)->nullable();
 			$table->integer('industry_id')->unsigned()->nullable()->index('industry_id');

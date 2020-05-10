@@ -109,7 +109,7 @@ class AccountSettings extends BaseSettings
         'state'                           => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
         'email'                           => ['required' => true, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
         'vat_number'                      => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
-        'id_number'                       => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
+        'number'                          => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
         'tax_name1'                       => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
         'tax_name2'                       => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
         'tax_name3'                       => ['required' => false, 'translated_value' => '', 'default_value' => '', 'type' => 'string'],
@@ -212,7 +212,7 @@ class AccountSettings extends BaseSettings
         $variables = [
             'customer_details' => [
                 '$customer.name',
-                '$customer.id_number',
+                '$customer.number',
                 '$customer.vat_number',
                 '$customer.address1',
                 '$customer.address2',
@@ -222,7 +222,7 @@ class AccountSettings extends BaseSettings
             ],
             'account_details'  => [
                 '$account.name',
-                '$account.id_number',
+                '$account.number',
                 '$account.vat_number',
                 '$account.website',
                 '$account.email',

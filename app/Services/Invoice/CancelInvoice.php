@@ -15,14 +15,30 @@ use App\Services\Payment\PaymentService;
 class CancelInvoice
 {
 
-    private $invoice;
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
 
+    /**
+     * @var float
+     */
+    private float $balance;
+
+    /**
+     * CancelInvoice constructor.
+     * @param Invoice $invoice
+     */
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
+        $this->balance = $this->invoice->balance;
     }
 
-    public function run()
+    /**
+     * @return Invoice
+     */
+    public function run(): Invoice
     {
         if (!$this->invoice->isCancellable()) {
             return $this->invoice;
@@ -30,33 +46,39 @@ class CancelInvoice
 
         // update invoice
         $this->updateInvoice();
-   
+
         $old_balance = $this->invoice->balance;
         $this->invoice->ledger()->updateBalance($old_balance, "Invoice cancellation");
 
         // update customer
-       $this->updateCustomer();
+        $this->updateCustomer();
 
         event(new InvoiceWasCancelled($this->invoice));
 
         return $this->invoice;
     }
 
-    private function updateInvoice()
+    /**
+     * @return Invoice
+     */
+    private function updateInvoice(): Invoice
     {
         $this->invoice->setBalance(0);
         $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
         $this->invoice->save();
 
-        return true;
+        return $this->invoice;
     }
 
-    private function updateCustomer(): bool
+    /**
+     * @return Customer
+     */
+    private function updateCustomer(): Customer
     {
         $customer = $this->invoice->customer;
-        $customer->increaseBalance($this->invoice->balance);
+        $customer->increaseBalance($this->balance);
         $customer->save();
-   
-        return true;
+
+        return $customer;
     }
 }
