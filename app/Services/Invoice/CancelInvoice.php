@@ -54,7 +54,7 @@ class CancelInvoice
     private function updateCustomer(): bool
     {
         $customer = $this->invoice->customer;
-        $customer->setBalance($this->invoice->balance);
+        $customer->increaseBalance($this->invoice->balance);
         $customer->save();
    
         return true;
