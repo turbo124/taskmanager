@@ -53,18 +53,14 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
     {
         $subject = trans('texts.notification_invoice_sent_subject', [
             'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->invoice->number,
+            'invoice'  => $this->invoice->getNumber(),
         ]);
 
         return (new MailMessage)->subject($subject)->markdown('email.admin.new',
             [
                 'data' => [
                     'title'       => $subject,
-                    'message'     => trans('texts.notification_invoice_sent', [
-                        'total'    => $this->invoice->getFormattedTotal(),
-                        'customer' => $this->contact->present()->name(),
-                        'invoice'  => $this->invoice->number,
-                    ]),
+                    'message'     => trans('texts.notification_invoice_sent', $this->getDataArray()),
                     'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
@@ -72,8 +68,15 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
                 ]
             ]
         );
+    }
 
-
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->invoice->getFormattedTotal(),
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->invoice->getNumber(),
+        ];
     }
 
     /**
@@ -94,17 +97,14 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($logo)
-                                 ->content(trans('texts.notification_invoice_sent_subject', [
-                                     'total'    => $this->invoice->getFormattedTotal(),
-                                     'customer' => $this->contact->present()->name(),
-                                     'invoice'  => $this->invoice->number
-                                 ]))->attachment(function ($attachment) use ($total) {
-                $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->invoice->number]),
-                    $this->invitation->getLink() . '?silent=true')->fields([
-                    trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total')    => $this->invoice->getFormattedTotal()
-                ]);
-            });
+                                 ->content(trans('texts.notification_invoice_sent_subject', $this->getDataArray()))
+                                 ->attachment(function ($attachment) {
+                                     $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->invoice->getNumber()]),
+                                         $this->invitation->getLink() . '?silent=true')->fields([
+                                         trans('texts.customer') => $this->contact->present()->name(),
+                                         trans('texts.total')    => $this->invoice->getFormattedTotal()
+                                     ]);
+                                 });
     }
 
 }

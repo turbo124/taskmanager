@@ -115,7 +115,7 @@ class InvoiceTest extends TestCase
         $invoice_balance = $invoice->balance;
         $client = $invoice->customer;
         $client_balance = $client->balance;
-        $invoice = $invoice->service()->markPaid($invoiceRepo, new PaymentRepository(new Payment));
+        $invoice = $invoice->service()->createPayment($invoiceRepo, new PaymentRepository(new Payment));
 
         $this->assertEquals(0, $invoice->balance);
 
@@ -234,7 +234,7 @@ class InvoiceTest extends TestCase
         $account->settings = $settings;
         $account->save();
 
-        $invoice->service()->markPaid(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment))->save();
+        $invoice->service()->createPayment(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment))->save();
 
         $first_payment = $invoice->payments->first();
 
@@ -319,7 +319,7 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $invoice = $invoice->service()->markPaid(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment));
+        $invoice = $invoice->service()->createPayment(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment));
 
         $this->assertEquals($invoice->customer->balance, ($invoice->balance * -1));
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date + $invoice_balance));

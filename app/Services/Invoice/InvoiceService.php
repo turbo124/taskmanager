@@ -8,9 +8,9 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Payment;
 use App\Services\Invoice\ReverseInvoicePayment;
-use App\Services\Invoice\MarkPaid;
+use App\Services\Invoice\CreatePayment;
 use Illuminate\Support\Carbon;
-use App\Services\Invoice\ApplyPayment;
+use App\Services\Invoice\MakeInvoicePayment;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
@@ -26,7 +26,7 @@ class InvoiceService extends ServiceBase
     public function __construct(Invoice $invoice)
     {
         $config = [
-            'email' => $invoice->customer->getSetting('should_email_invoice'),
+            'email'   => $invoice->customer->getSetting('should_email_invoice'),
             'archive' => $invoice->customer->getSetting('should_archive_invoice')
         ];
 
@@ -58,7 +58,7 @@ class InvoiceService extends ServiceBase
      */
     public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-       return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
+        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
     }
 
     public function getPdf($contact = null)
@@ -66,9 +66,9 @@ class InvoiceService extends ServiceBase
         return (new GetPdf($this->invoice, $contact))->run();
     }
 
-    public function markPaid(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo)
+    public function createPayment(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo)
     {
-        $invoice = (new MarkPaid($this->invoice, $payment_repo))->run();
+        $invoice = (new CreatePayment($this->invoice, $payment_repo))->run();
 
         event(new InvoiceWasPaid($invoice));
 
@@ -88,7 +88,7 @@ class InvoiceService extends ServiceBase
      */
     public function applyPayment(Payment $payment, float $payment_amount): Invoice
     {
-        $invoice = (new ApplyPayment($this->invoice, $payment, $payment_amount))->run();
+        $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->run();
 
         event(new InvoiceWasPaid($invoice));
 

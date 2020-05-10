@@ -58,7 +58,7 @@ class InvoiceController extends BaseController
     public function __construct(InvoiceRepositoryInterface $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo)
     {
         $this->invoice_repo = $invoice_repo;
-        parent::__construct($invoice_repo, $quote_repo, $credit_repo,'Invoice');
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Invoice');
     }
 
     /**

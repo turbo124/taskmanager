@@ -69,7 +69,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     {
         $payment = $this->save($data, $payment);
 
-        $payment->customer->setPaidToDate($payment->amount);
+        $payment->customer->increasePaidToDateAmount($payment->amount);
         $payment->customer->save();
 
         $invoice_totals = isset($data['invoices']) && is_array($data['invoices']) ? array_sum(array_column($data['invoices'], 'amount')) : 0;
@@ -212,8 +212,8 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function adjustCustomerTotals(Payment $payment)
     {
-        $payment->customer->setPaidToDate($payment->amount);
-        $payment->customer->setBalance($payment->amount);
+        $payment->customer->increasePaidToDateAmount($payment->amount);
+        $payment->customer->increaseBalance($payment->amount);
         $payment->customer->save();
     }
 

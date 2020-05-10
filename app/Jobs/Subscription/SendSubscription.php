@@ -37,7 +37,7 @@ class SendSubscription
     {
         $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent($this->event, $this->entity->account);
 
-        if(empty($subscription) || $subscription->count() === 0) {
+        if (empty($subscription) || $subscription->count() === 0) {
             return true;
         }
 

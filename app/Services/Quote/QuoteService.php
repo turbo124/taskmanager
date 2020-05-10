@@ -18,7 +18,7 @@ class QuoteService extends ServiceBase
     public function __construct(Quote $quote)
     {
         $config = [
-            'email' => $quote->customer->getSetting('should_email_quote'),
+            'email'   => $quote->customer->getSetting('should_email_quote'),
             'archive' => $quote->customer->getSetting('should_archive_quote')
         ];
 

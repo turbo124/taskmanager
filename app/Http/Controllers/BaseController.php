@@ -196,8 +196,8 @@ class BaseController extends Controller
                 (new QuoteRepository(new Quote))->save($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
-            case 'mark_paid': // done
-                $invoice = $entity->service()->markPaid($this->invoice_repo, new PaymentRepository(new Payment));
+            case 'create_payment': // done
+                $invoice = $entity->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
 
                 if (!$invoice) {
                     return response()->json('Unable to mark invoice as paid', 400);

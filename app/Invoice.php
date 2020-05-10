@@ -21,10 +21,13 @@ class Invoice extends Model
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
     protected $casts = [
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-        'is_deleted' => 'boolean',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
+        'customer_id' => 'integer',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
+        'is_deleted'  => 'boolean',
     ];
 
     /**
@@ -250,6 +253,11 @@ class Invoice extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
     }
 
     public function getFormattedTotal()

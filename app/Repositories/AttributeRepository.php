@@ -30,11 +30,11 @@ class AttributeRepository extends BaseRepository
      * @return Attribute
      * @throws CreateAttributeErrorException
      */
-    public function createAttribute(array $data) : Attribute
+    public function createAttribute(array $data): Attribute
     {
-            $attribute = new Attribute($data);
-            $attribute->save();
-            return $attribute;
+        $attribute = new Attribute($data);
+        $attribute->save();
+        return $attribute;
     }
 
     /**
@@ -42,7 +42,7 @@ class AttributeRepository extends BaseRepository
      * @return Attribute
      * @throws AttributeNotFoundException
      */
-    public function findAttributeById(int $id) : Attribute
+    public function findAttributeById(int $id): Attribute
     {
         return $this->findOneOrFail($id);
     }
@@ -52,16 +52,16 @@ class AttributeRepository extends BaseRepository
      * @return bool
      * @throws UpdateAttributeErrorException
      */
-    public function updateAttribute(array $data) : bool
+    public function updateAttribute(array $data): bool
     {
         return $this->model->update($data);
-        
+
     }
 
     /**
      * @return bool|null
      */
-    public function deleteAttribute() : ?bool
+    public function deleteAttribute(): ?bool
     {
         return $this->model->delete();
     }
@@ -72,7 +72,7 @@ class AttributeRepository extends BaseRepository
      * @param string $sortBy
      * @return Collection
      */
-    public function listAttributes($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc') : Collection
+    public function listAttributes($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection
     {
         return $this->all($columns, $orderBy, $sortBy);
     }
@@ -80,7 +80,7 @@ class AttributeRepository extends BaseRepository
     /**
      * @return Collection
      */
-    public function listAttributeValues() : Collection
+    public function listAttributeValues(): Collection
     {
         return $this->model->values()->get();
     }
@@ -89,7 +89,7 @@ class AttributeRepository extends BaseRepository
      * @param AttributeValue $attributeValue
      * @return AttributeValue
      */
-    public function associateAttributeValue(AttributeValue $attributeValue) : AttributeValue
+    public function associateAttributeValue(AttributeValue $attributeValue): AttributeValue
     {
         return $this->model->values()->save($attributeValue);
     }

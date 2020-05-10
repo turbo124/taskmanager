@@ -65,11 +65,7 @@ class EntityViewedNotification extends Notification implements ShouldQueue
                 'data' =>
                     [
                         'title'       => $subject,
-                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", [
-                            'total'            => $this->entity->getFormattedTotal(),
-                            'customer'         => $this->contact->present()->name(),
-                            $this->entity_name => $this->entity->number,
-                        ]),
+                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()),
                         'url'         => config('taskmanager.site_url') . "/portal/{$this->entity_name}/" . $this->invitation->key .
                             "?silent=true",
                         'button_text' => trans("texts.view_{$this->entity_name}"),
@@ -92,20 +88,26 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getDataArray()
+    {
+        return [
+            'total'            => $this->entity->getFormattedTotal(),
+            'customer'         => $this->contact->present()->name(),
+            $this->entity_name => $this->entity->getNumber()
+        ];
+    }
+
     public function toSlack($notifiable)
     {
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
-                                 ->content(trans("texts.notification_{$this->entity_name}_viewed", [
-                                     'total'            => $this->entity->getFormattedTotal(),
-                                     'customer'         => $this->contact->present()->name(),
-                                     $this->entity_name => $this->entity->number
-                                 ]))->attachment(function ($attachment) use ($total) {
-                $attachment->title(trans('texts.entity_number_here',
-                    ['entity' => ucfirst($this->entity_name), 'entity_number' => $this->entity->number]),
-                    $this->invitation->getLink() . '?silent=true')->fields([
-                    trans('texts.customer')      => $this->contact->present()->name(),
-                    trans('texts.status_viewed') => $this->invitation->viewed_date,
-                ]);
-            });
+                                 ->content(trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()))
+                                 ->attachment(function ($attachment) use ($total) {
+                                     $attachment->title(trans('texts.entity_number_here',
+                                         ['entity' => ucfirst($this->entity_name), 'entity_number' => $this->entity->number]),
+                                         $this->invitation->getLink() . '?silent=true')->fields([
+                                         trans('texts.customer')      => $this->contact->present()->name(),
+                                         trans('texts.status_viewed') => $this->invitation->viewed_date,
+                                     ]);
+                                 });
     }
 }

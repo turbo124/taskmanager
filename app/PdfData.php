@@ -186,7 +186,7 @@ class PdfData
     public function buildCustomer(Customer $customer): self
     {
 
-        $this->data['$customer.id_number'] = ['value' => $customer->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
+        $this->data['$customer.number'] = ['value' => $customer->number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
         $this->data['$customer.vat_number'] = ['value' => $customer->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
         $this->data['$customer.website'] = ['value' => $customer->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
         $this->data['$customer.phone'] = ['value' => $customer->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
@@ -298,7 +298,7 @@ class PdfData
         $this->data['$account.phone'] = ['value' => $account->settings->phone ?: '&nbsp;', 'label' => trans('texts.phone_number')];
         $this->data['$account.email'] = ['value' => $account->settings->email ?: '&nbsp;', 'label' => trans('texts.email_address')];
         $this->data['$account.vat_number'] = ['value' => $account->settings->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
-        $this->data['$account.id_number'] = ['value' => $account->settings->id_number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
+        $this->data['$account.number'] = ['value' => $account->settings->number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
         $this->data['$account.website'] = ['value' => $account->settings->website ?: '&nbsp;', 'label' => trans('texts.website')];
         $this->data['$account.address'] = ['value' => $account->present()->address($account->settings) ?: '&nbsp;', 'label' => trans('texts.address')];
 

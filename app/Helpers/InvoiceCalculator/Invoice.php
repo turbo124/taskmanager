@@ -111,7 +111,7 @@ class Invoice extends BaseCalculator
 
         if (!empty($this->entity->custom_surcharge1)) {
 
-           $custom_surcharge_total += $this->entity->custom_surcharge1;
+            $custom_surcharge_total += $this->entity->custom_surcharge1;
 
             if (!empty($this->entity->custom_surcharge_tax1)) {
                 $tax_total = $this->applyTax($this->entity->custom_surcharge_tax1, $this->sub_total, true);
@@ -154,7 +154,7 @@ class Invoice extends BaseCalculator
             }
         }
 
-        if($custom_surcharge_total > 0) {
+        if ($custom_surcharge_total > 0) {
             $this->total += $custom_surcharge_total;
         }
 
@@ -372,7 +372,7 @@ class Invoice extends BaseCalculator
     public function getEntity()
     {
         Log::emergency($this->getSubTotal() . ' ' . $this->getTotal());
-        
+
         $this->entity->sub_total = $this->getSubTotal();
         $this->entity->balance = $this->getBalance();
         $this->entity->total = $this->getTotal();

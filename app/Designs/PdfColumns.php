@@ -23,7 +23,7 @@ class PdfColumns
     private $default_columns = [
         'customer_details' => [
             '$customer.name'              => '$customer.name<br>',
-            '$customer.id_number'         => '$customer.id_number<br>',
+            '$customer.number'            => '$customer.number<br>',
             '$customer.vat_number'        => '$customer.vat_number<br>',
             '$customer.address1'          => '$customer.address1<br>',
             '$customer.address2'          => '$customer.address2<br>',
@@ -42,7 +42,7 @@ class PdfColumns
         ],
         'account_details'  => [
             '$account.name'       => '<span>$account.name</span>',
-            '$account.id_number'  => '<span>$account.id_number </span>',
+            '$account.number'     => '<span>$account.number </span>',
             '$account.vat_number' => '<span>$account.vat_number </span>',
             '$account.website'    => '<span>$account.website </span>',
             '$account.email'      => '<span>$account.email </span>',

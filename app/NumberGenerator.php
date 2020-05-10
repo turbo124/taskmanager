@@ -76,12 +76,7 @@ class NumberGenerator
         $check = false;
         do {
             $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
-
-            if ($class == Customer::class) {
-                $check = $class::whereAccountId($customer->account_id)->whereIdNumber($number)->withTrashed()->first();
-            } else {
-                $check = $class::whereAccountId($customer->account_id)->whereNumber($number)->withTrashed()->first();
-            }
+            $check = $class::whereAccountId($customer->account_id)->whereNumber($number)->withTrashed()->first();
 
             $counter++;
         } while ($check);

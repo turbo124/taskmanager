@@ -86,7 +86,7 @@ export default class DropdownMenuBuilder extends Component {
                     message = `The ${this.props.model.entity} ${translations.sent}`
                 }
 
-                if (action === 'mark_paid') {
+                if (action === 'create_payment') {
                     message = `The ${this.props.model.entity} ${translations.paid}.`
                 }
 
@@ -204,7 +204,7 @@ export default class DropdownMenuBuilder extends Component {
                 </DropdownItem>
 
             case 'markPaid':
-                return <DropdownItem color="primary" onClick={() => this.changeStatus('mark_paid')}>
+                return <DropdownItem color="primary" onClick={() => this.changeStatus('create_payment')}>
                     <i className={`fa ${icons.mark_paid} mr-2`}/>{translations.mark_paid}
                 </DropdownItem>
 

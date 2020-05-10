@@ -175,26 +175,29 @@ class OrderTest extends TestCase
     public function it_can_create_a_web_order()
     {
         $data = [
-            'source_type' => 1,
-            'title'       => 'New web form request 2020/04/26',
-            'task_type'   => 3,
-            'task_status' => 9,
-            'products'    => [
+            'source_type'   => 1,
+            'title'         => 'New web form request 2020/04/26',
+            'task_type'     => 3,
+            'task_status'   => 9,
+            'products'      => [
                 0 => [
                     'quantity'      => 1,
                     'product_id'    => $this->product->id,
                     'unit_price'    => 12.99,
-                    'unit_tax'      => 17.5,
+                    'unit_tax'      => 0,
                     'unit_discount' => 0,
                 ]
             ],
-
-            'valued_at'  => 12.99,
-            '_token'     => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
-            'first_name' => 'Lee',
-            'last_name'  => 'Jones',
-            'email'      => 'lee.jones@yahoo.com',
-            'phone'      => '01425 629322'
+            'sub_total'     => 12.99,
+            'tax_rate'      => 17.5,
+            'total'         => 25.26,
+            'valued_at'     => 12.99,
+            'shipping_cost' => 10,
+            '_token'        => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
+            'first_name'    => 'Lee',
+            'last_name'     => 'Jones',
+            'email'         => 'lee.jones@yahoo.com',
+            'phone'         => '01425 629322'
         ];
 
         $task = TaskFactory::create($this->user, $this->account);
@@ -206,6 +209,8 @@ class OrderTest extends TestCase
             true);
 
         $this->assertInstanceOf(Task::class, $task);
+        $this->assertEquals($task->orders->count(), 1);
+        $this->assertEquals((float)$task->orders->first()->total, $data['total']);
     }
 
     public function testOrderDispatch()
@@ -222,6 +227,7 @@ class OrderTest extends TestCase
 
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
         $this->assertInstanceOf(Order::class, $order);
+        $this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
     }
 
     public function tearDown(): void

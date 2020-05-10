@@ -115,8 +115,8 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
         $customer->fill($data);
         $customer->save();
 
-        if ($customer->id_number == "" || !$customer->id_number) {
-            $customer->id_number = (new NumberGenerator)->getNextNumberForEntity($customer, $customer);
+        if ($customer->number == "" || !$customer->number) {
+            $customer->number = (new NumberGenerator)->getNextNumberForEntity($customer, $customer);
         }
 
         $customer->save();

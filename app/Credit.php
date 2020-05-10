@@ -64,9 +64,12 @@ class Credit extends Model
     ];
 
     protected $casts = [
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
+        'date'        => 'date',
+        'due_date'    => 'due_date',
+        'customer_id' => 'integer',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
     ];
 
     const STATUS_DRAFT = 1;
@@ -172,6 +175,11 @@ class Credit extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
     }
 
     public function getFormattedTotal()

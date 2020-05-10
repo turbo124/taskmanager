@@ -96,6 +96,11 @@ class Task extends Model
         return $this->hasMany(Timer::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     /**
      * Get the comments for the blog post.
      */
