@@ -56,20 +56,13 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans("texts.notification_{$this->entity_name}_sent_subject", [
-            'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->number,
-        ]);
+        $subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray();
 
         return (new MailMessage)->subject($subject)->markdown('email.admin.new',
             [
                 'data' => [
                     'title'       => $subject,
-                    'message'     => trans("texts.notification_{$this->entity_name}_sent", [
-                        'total'    => $this->entity->getFormattedTotal(),
-                        'customer' => $this->contact->present()->name(),
-                        'invoice'  => $this->entity->number,
-                    ]),
+                    'message'     => trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray()),
                     'url'         => $this->invitation->getLink() . '?silent=true',
                     'button_text' => trans("texts.view_{$this->entity_name}"),
                     'signature'   => $this->invitation->account->settings->email_signature,
@@ -77,8 +70,15 @@ class EntitySentNotification extends Notification implements ShouldQueue
                 ]
             ]
         );
+    }
 
-
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->entity->getFormattedTotal(),
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->entity->getNumber(),
+        ];
     }
 
     /**
@@ -97,10 +97,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
     {
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
-                                 ->content(trans("texts.notification_{$this->entity_name}_sent_subject", [
-                                     'total'    => $this->entity->getFormattedTotal(),
-                                     'customer' => $this->contact->present()->name(),
-                                     'invoice'  => $this->entity->number
+                                 ->content(trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray()
                                  ]))->attachment(function ($attachment) use ($total) {
                 $attachment->title(trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
                     $this->invitation->getLink() . '?silent=true')->fields([
