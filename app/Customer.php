@@ -26,7 +26,7 @@ class Customer extends Model implements HasLocalePreference
      * @var array
      */
     protected $fillable = [
-        'id_number',
+        'number',
         'balance',
         'name',
         'credits',
