@@ -108,6 +108,29 @@ export default class EditSubscription extends React.Component {
                                 placeholder="target_url" onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('target_url')}
                         </FormGroup>
+
+                        <FormGroup>
+                            <Label for="event_id">Event<span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('event_id') ? 'is-invalid' : ''} type="select" name="event_id"
+                                id="event_id" value={this.state.event_id}
+                                onChange={this.handleInput.bind(this)}>
+
+                                <option value="">Select Event</option>
+                                <option value="1">Order Created</option>
+                                <option value="2">Order Deleted</option>
+                                <option value="3">Credit Created</option>
+                                <option value="4">Credit Deleted</option>
+                                <option value="5">Customer Created</option>
+                                <option value="6">Customer Deleted</option>
+                                <option value="7">Invoice Created</option>
+                                <option value="8">Invoice Deleted</option>
+                                <option value="9">Payment Created/option>
+                                <option value="10">Payment Deleted</option>
+                                <option value="11">Quote Created</option>
+                                <option value="12">Quote Deleted</option>
+                                <option value="13">Lead Created</option>
+                            {this.renderErrorFor('event_id')}
+                        </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
