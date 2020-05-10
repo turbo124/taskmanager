@@ -61,7 +61,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
             'message'     => trans('texts.notification_order', [
                 'total'    => $total,
                 'customer' => $this->order->customer->present()->name(),
-                'invoice'  => $this->order->number,
+                'order'  => $this->order->number,
             ]),
             'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
             'button_text' => trans('texts.view_invoice'),
