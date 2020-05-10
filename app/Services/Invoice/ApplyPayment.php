@@ -28,14 +28,7 @@ class ApplyPayment
         $this->payment->customer->save();
 
         /* Update Pivot Record amount */
-        foreach ($this->payment->invoices as $invoice) {
-            if ($invoice->id != $this->invoice->id) {
-                continue;
-            }
-
-            $invoice->pivot->amount = $this->payment_amount;
-            $invoice->pivot->save();
-        }
+       
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
@@ -56,5 +49,12 @@ class ApplyPayment
         $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
         $this->invoice->resetPartialInvoice($this->payment_amount * -1, $balance_adjustment);
         return $this->invoice;
+    }
+
+    private function test()
+    {
+        $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
+        $invoice->pivot->amount = $this->payment_amount;
+        $invoice->pivot->save();
     }
 }
