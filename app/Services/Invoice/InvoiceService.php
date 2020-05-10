@@ -10,7 +10,7 @@ use App\Payment;
 use App\Services\Invoice\ReverseInvoicePayment;
 use App\Services\Invoice\MarkPaid;
 use Illuminate\Support\Carbon;
-use App\Services\Invoice\ApplyPayment;
+use App\Services\Invoice\MakeInvoicePayment;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
@@ -88,7 +88,7 @@ class InvoiceService extends ServiceBase
      */
     public function applyPayment(Payment $payment, float $payment_amount): Invoice
     {
-        $invoice = (new ApplyPayment($this->invoice, $payment, $payment_amount))->run();
+        $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->run();
 
         event(new InvoiceWasPaid($invoice));
 
