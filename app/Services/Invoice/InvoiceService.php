@@ -66,7 +66,7 @@ class InvoiceService extends ServiceBase
         return (new GetPdf($this->invoice, $contact))->run();
     }
 
-    public function markPaid(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo)
+    public function createPayment(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo)
     {
         $invoice = (new CreatePayment($this->invoice, $payment_repo))->run();
 
