@@ -6,9 +6,11 @@ use App\Company;
 use App\Account;
 use App\Factory\ProductFactory;
 use App\Filters\ProductFilter;
+use App\Jobs\Inventory\UpdateInventory;
 use App\Product;
 use App\Repositories\ProductRepository;
 use App\Requests\SearchRequest;
+use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\ProductTransformable;
@@ -70,6 +72,10 @@ class ProductTest extends TestCase
             $this->assertEquals($product->quantity, $foundProduct->quantity);
             $this->assertEquals($product->price, $foundProduct->price);
             $this->assertEquals($product->status, $foundProduct->status);
+
+            if (File::exists(public_path($image->src))) {
+                File::delete(public_path($image->src));
+            }
         });
     }
 
@@ -90,6 +96,7 @@ class ProductTest extends TestCase
         $images->each(function (ProductImage $image) {
             $exists = Storage::disk('public')->exists($image->src);
             $this->assertTrue($exists);
+            File::delete(public_path($image->src));
         });
     }
 
@@ -102,6 +109,10 @@ class ProductTest extends TestCase
         $filename = $productRepo->saveCoverImage($cover);
         $exists = Storage::disk('public')->exists($filename);
         $this->assertTrue($exists);
+
+        if ($exists) {
+            File::delete(public_path($filename));
+        }
     }
 
     /** @test */
@@ -251,9 +262,17 @@ class ProductTest extends TestCase
         $thumbnails->each(function ($thumbnail) {
             $repo = new ProductRepository(new Product());
             $repo->deleteThumb($thumbnail->src);
+
+            if (File::exists(public_path($thumbnail->src))) {
+                File::delete(public_path($thumbnail->src));
+            }
         });
 
         $this->assertCount(0, $productRepo->findProductImages($created));
+
+        if (File::exists(public_path($created->cover))) {
+            File::delete(public_path($created->cover));
+        }
     }
 
     /** @test */
@@ -285,6 +304,16 @@ class ProductTest extends TestCase
         $repo = new ProductRepository($created);
         //$repo->saveProductImages(collect($params['image']), $created);
         $this->assertCount(3, $repo->findProductImages($created));
+
+        if (File::exists(public_path($created->cover))) {
+            File::delete(public_path($created->cover));
+        }
+
+        foreach ($created->images as $image) {
+            if (File::exists(public_path($image->src))) {
+                File::delete(public_path($image->src));
+            }
+        }
     }
 
     /** @test */
@@ -294,6 +323,17 @@ class ProductTest extends TestCase
         $productRepo = new ProductRepository($product);
         $this->assertTrue($productRepo->deleteFile(['product' => $product->id]));
     }
+
+    /**
+     * @test
+     */
+    public function testInventoryReduction()
+    {
+        $product = factory(Product::class)->create(['quantity' => 5]);
+        $product->reduceQuantityAvailiable(1);
+        $this->assertEquals($product->quantity, 4);
+    }
+
 
     /** @test */
     public function it_can_detach_all_the_categories()

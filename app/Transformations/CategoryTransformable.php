@@ -12,6 +12,7 @@ trait CategoryTransformable
         return [
             'id'          => (int)$category->id,
             'name'        => $category->name,
+            'cover'       => $category->cover,
             'description' => $category->description,
             'slug'        => $category->slug,
             'parent_id'   => $category->parent_id,

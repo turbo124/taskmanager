@@ -17,7 +17,8 @@ class Currency extends Model
         'iso3',
         'numcode',
         'phonecode',
-        'status'
+        'status',
+        'exchange_rate'
     ];
     /**
      * The attributes that should be hidden for arrays.

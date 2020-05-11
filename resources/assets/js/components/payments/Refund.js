@@ -5,7 +5,7 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import InvoiceLine from './InvoiceLine'
-import {icons, translations} from "../common/_icons";
+import { icons, translations } from '../common/_icons'
 
 class Refund extends React.Component {
     constructor (props) {

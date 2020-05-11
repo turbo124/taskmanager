@@ -25,7 +25,7 @@ import DetailsForm from './DetailsForm'
 import CompanyDropdown from './CompanyDropdown'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
-import {icons, translations} from '../common/_icons'
+import { icons, translations } from '../common/_icons'
 
 class EditCompany extends React.Component {
     constructor (props) {

@@ -7,6 +7,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Product;
@@ -69,10 +70,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         $collection = collect($params);
         if (isset($params['name'])) {
-            $slug = Str::slug($params['name']);
+            $params['slug'] = Str::slug($params['name']);
         }
+
         if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
-            $cover = $this->uploadOne($params['cover'], 'categories');
+            $params['cover'] = $this->saveCoverImage($params['cover']);
         }
 
         $category = CategoryFactory::create();
@@ -84,6 +86,15 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         }
         $category->save();
         return $category;
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return string
+     */
+    public function saveCoverImage(UploadedFile $file): string
+    {
+        return $file->store('categories', ['disk' => 'public']);
     }
 
     /**
@@ -99,19 +110,26 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $collection = collect($params)->except('_token');
         $slug = Str::slug($collection->get('name'));
 
-        $merge = $collection->merge(compact('slug'));
+        if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
+            $cover = $this->saveCoverImage($params['cover']);
+        }
+
+        $merge = $collection->merge(compact('slug', 'cover'));
+
         // set parent attribute default value if not set
         $params['parent'] = $params['parent'] ?? 0;
+
         // If parent category is not set on update
         // just make current category as root
         // else we need to find the parent
         // and associate it as child
-        if ((int)$params['parent'] == 0) {
+        if ( (int)$params['parent'] == 0) {
             $category->saveAsRoot();
         } else {
             $parent = $this->findCategoryById($params['parent']);
             $category->parent()->associate($parent);
         }
+
         $category->update($merge->all());
 
         return $category;

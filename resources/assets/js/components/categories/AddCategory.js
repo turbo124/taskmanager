@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, CustomInput } from 'reactstrap'
 import axios from 'axios'
 
 class AddCategory extends React.Component {
@@ -20,6 +19,13 @@ class AddCategory extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.buildParentOptions = this.buildParentOptions.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+    }
+
+    handleFileChange (e) {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
     }
 
     handleInput (e) {
@@ -43,12 +49,14 @@ class AddCategory extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/categories', {
-            parent: this.state.parent,
-            name: this.state.name,
-            description: this.state.description,
-            status: this.state.status
-        })
+        const formData = new FormData()
+        formData.append('cover', this.state.cover)
+        formData.append('parent', this.state.parent)
+        formData.append('name', this.state.name)
+        formData.append('description', this.state.description)
+        formData.append('status', this.state.status)
+
+        axios.post('/api/categories', formData)
             .then((response) => {
                 this.toggle()
                 const newUser = response.data
@@ -128,10 +136,10 @@ class AddCategory extends React.Component {
                         {parentDropdown}
 
                         <FormGroup>
-                            <Label for="cover">Cover </Label>
-                            <Input className={this.hasErrorFor('cover') ? 'is-invalid' : ''} type="file" name="cover"
-                                id="cover" onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('cover')}
+                            <Label>Cover Image</Label>
+                            <CustomInput onChange={this.handleFileChange} type="file" id="cover"
+                                name="cover"
+                                label="Cover!"/>
                         </FormGroup>
 
                         <FormGroup>

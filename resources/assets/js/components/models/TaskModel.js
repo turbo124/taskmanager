@@ -102,7 +102,7 @@ export default class InvoiceModel extends BaseModel {
         const startTime = moment(currentStartTime, 'hh:mm:ss a')
         let endTime = ''
 
-        if(endTime.length) {
+        if (endTime.length) {
             endTime = moment(currentEndTime, 'hh:mm:ss a')
             let totalHours = (endTime.diff(startTime, 'hours'))
             totalHours = ('0' + totalHours).slice(-2)

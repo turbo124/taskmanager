@@ -22,20 +22,20 @@ class ElapsedTime extends React.Component {
         this.tick = this.tick.bind(this)
     }
 
-    componentDidMount() {
+    componentDidMount () {
         this.tick()
-        this.interval = setInterval(this.tick, 1000);
+        this.interval = setInterval(this.tick, 1000)
     }
 
-    tick() {
+    tick () {
         const formattedDate = moment(this.state.date + ' ' + this.state.currentStartTime)
-        const elapsedDuration = moment.duration(moment().diff(moment(formattedDate).format('YYYY-MM-DD hh:mm:ss')));                
-        this.setState({secondsElapsed: elapsedDuration});
+        const elapsedDuration = moment.duration(moment().diff(moment(formattedDate).format('YYYY-MM-DD hh:mm:ss')))
+        this.setState({ secondsElapsed: elapsedDuration })
     }
 
-    render() {
+    render () {
         return Object.keys(this.state.secondsElapsed).length ? <small>{moment.utc(this.state.secondsElapsed.as('milliseconds')).format('HH:mm:ss')}</small> : null
-  }
+    }
 }
 
 export default ElapsedTime

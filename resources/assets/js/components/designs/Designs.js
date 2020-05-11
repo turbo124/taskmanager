@@ -25,7 +25,7 @@ class Designs extends React.Component {
                 header: '',
                 body: '',
                 footer: '',
-                //includes: '',
+                // includes: '',
                 product: '',
                 task: ''
             },
@@ -164,7 +164,7 @@ class Designs extends React.Component {
                 body: this.state.design.body,
                 header: this.state.design.header,
                 footer: this.state.design.footer,
-                //includes: this.state.design.includes,
+                // includes: this.state.design.includes,
                 table: this.state.design.table,
                 product: '',
                 task: ''
