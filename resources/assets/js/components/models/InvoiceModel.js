@@ -171,7 +171,7 @@ export default class InvoiceModel extends BaseModel {
     }
 
     addItem () {
-        //const newArray = this.fields.line_items.slice()
+        // const newArray = this.fields.line_items.slice()
         this.fields.line_items.push(LineItem)
         return this.fields.line_items
     }

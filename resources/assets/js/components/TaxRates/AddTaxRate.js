@@ -13,7 +13,7 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import {translations} from "../common/_icons";
+import { translations } from '../common/_icons'
 
 class AddTaxRate extends React.Component {
     constructor (props) {

@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import CustomerTabs from './CustomerTabs'
 import AddButtons from '../common/AddButtons'
-import {translations} from "../common/_icons";
+import { translations } from '../common/_icons'
 
 class AddCustomer extends React.Component {
     constructor (props) {

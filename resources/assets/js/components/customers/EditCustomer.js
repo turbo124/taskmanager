@@ -9,7 +9,7 @@ import CustomerTabs from './CustomerTabs'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
-import {icons, translations} from "../common/_icons";
+import { icons, translations } from '../common/_icons'
 
 class EditCustomer extends React.Component {
     constructor (props) {

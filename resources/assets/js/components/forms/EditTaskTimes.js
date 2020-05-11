@@ -54,11 +54,11 @@ class EditTaskTimes extends Component {
     }
 
     handleChange (e) {
-        let value = e.target.value
+        const value = e.target.value
 
-        /*if(e.target.name === 'end_time' || e.target.name === 'start_time') {
+        /* if(e.target.name === 'end_time' || e.target.name === 'start_time') {
             value = value.length > 1 ? moment(value.length).format('HH:MM:SS') : ''
-        }*/
+        } */
 
         const times = this.model.updateTaskTime(e.target.dataset.id, e.target.name, value)
         this.setState({ times: times })
@@ -82,9 +82,9 @@ class EditTaskTimes extends Component {
     }
 
     handleSave (isDelete = false) {
-        axios.post(`/api/timer`, {
+        axios.post('/api/timer', {
             time_log: this.state.times,
-            task_id: this.props.task_id,
+            task_id: this.props.task_id
         })
             .then((response) => {
                 this.setState({ showSuccess: true, showError: false })
@@ -110,9 +110,9 @@ class EditTaskTimes extends Component {
                 className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">{moment(time.date).format('DD-MM-YYYY')}</h5>
-                    
+
                     {time.end_time && <small>{model.calculateDuration(time.start_time, time.end_time)}</small>}
-                    
+
                     {!time.end_time.length && <ElapsedTime date={time.date} currentStartTime={time.start_time} />}
 
                     <i onClick={() => this.handleSlideClick(index)} className="fa fa-arrow-right"/>

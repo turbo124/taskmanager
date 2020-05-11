@@ -4,7 +4,7 @@ import {
     InputGroupAddon, InputGroupText, DropdownItem
 } from 'reactstrap'
 import axios from 'axios'
-import {icons, translations} from "../common/_icons";
+import { icons, translations } from '../common/_icons'
 
 class EditTaxRate extends React.Component {
     constructor (props) {
