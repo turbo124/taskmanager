@@ -32,6 +32,7 @@ trait ProductTransformable
             'cover'            => $product->cover,
             'company_id'       => (int)$product->company_id,
             'brand'            => !empty($product->company) ? $product->company->name : null,
+            'is_featured'      => (bool) $product->is_featured,
             'category_ids'     => $product->categories()->pluck('category_id')->all(),
             'images'           => $product->images()->get(['src']),
             'attributes'       => $product->attributes->count() > 0 ? $this->transformProductAttributes($product->attributes) : [],
