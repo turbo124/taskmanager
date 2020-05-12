@@ -106,7 +106,33 @@ class Refund
 
         $this->payment->status_id = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
-        $credit_note = $this->credit_repo->save(
+        $this->createCreditNote($line_items, $adjustment_amount);
+
+        $this->payment->save();
+
+        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
+
+        $this->updateCustomer();
+       
+
+        return $this->payment;
+    }
+
+    public function gatewayRefund()
+    {
+
+    }
+
+    private function updateCustomer()
+    {
+        $this->payment->customer->paid_to_date -= $this->data['amount'];
+        $this->payment->customer->save();
+        return $this->payment->customer;
+    }
+
+    private function createCreditNote($line_items, $adjustment_amount)
+    {
+           $credit_note = $this->credit_repo->save(
             [
                 'line_items' => $line_items,
                 'total'      => $this->payment->refunded,
@@ -116,15 +142,9 @@ class Refund
         );
 
         event(new CreditWasCreated($credit_note));
-
-        $this->payment->save();
-
-        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
-
-        $this->payment->customer->paid_to_date -= $this->data['amount'];
-        $this->payment->customer->save();
+         
         $credit_note->ledger()->updateBalance($adjustment_amount);
 
-        return $this->payment;
+        return $credit_note;
     }
 }
