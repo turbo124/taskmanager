@@ -170,7 +170,8 @@ class AddProduct extends React.Component {
                         <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
                             handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
                             selectedCategories={this.state.selectedCategories}
-                            companies={this.state.companies}/>
+                            companies={this.state.companies}
+                            handleCheck={this. handleCheck}/>
 
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}
