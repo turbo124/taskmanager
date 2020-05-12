@@ -132,6 +132,13 @@ export default class DetailsForm extends React.Component {
                         onChange={this.props.handleInput}
                     />
                 </FormGroup>
+
+                <FormGroup check>
+                    <Label check>
+                        <Input value={this.props.product.is_featured} onChange={this.props.handleCheck} type="checkbox"/>
+                            Is Featured
+                    </Label>
+                </FormGroup>
             </CardBody>
         </Card>
 
