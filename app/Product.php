@@ -34,6 +34,7 @@ class Product extends Model
         'company_id',
         'sale_price',
         'slug',
+        'is_featured',
         'account_id',
         'assigned_user_id',
         'user_id',
