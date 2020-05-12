@@ -9,4 +9,5 @@ return [
     'support_email' => 'support@taskmanager.co.uk',
     'web_url' => 'http://taskman.develop',
     'site_url' => env('APP_URL', ''),
+    'currency_converter_key' => env('CURRENCY_CONVERTER_KEY')
     ];

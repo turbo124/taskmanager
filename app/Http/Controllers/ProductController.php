@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CompanyToken;
 use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
 use App\Jobs\Customer\StoreProductAttributes;
@@ -26,6 +27,7 @@ use App\Task;
 use App\Requests\SearchRequest;
 use App\Filters\ProductFilter;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -156,20 +158,25 @@ class ProductController extends Controller
      *
      * @param int $id
      */
-    public function getProductsForCategory(int $id, Request $request)
+    public function getProductsForCategory(int $id)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
+
         $category = $this->category_repo->findCategoryById($id);
 
         $repo = new CategoryRepository($category);
         $parentCategory = $repo->findParentCategory();
 
-        $list = $request->has('valued_at') ? $this->product_repo->getProductsByDealValueAndCategory($category,
-            $request) : $repo->findProducts()->where('status', 1);
+        $list = Product::where('status', '=', 1)
+                       ->where('account_id', '=', $account->id)
+                       ->orderBy('price', 'asc')
+                       ->get();
 
-        $products = $list->map(function (Product $product) use ($request, $parentCategory) {
-            return $this->transformProduct($product, $parentCategory, $request);
+        $products = $list->map(function (Product $product) {
+            return $this->transformProduct($product);
         })->all();
-
 
         return response()->json([
             'products'        => $products,

@@ -30,6 +30,7 @@ $factory->define(Category::class, function (Faker\Generator $faker) {
     ]);
     $file = UploadedFile::fake()->image('category.png', 600, 600);
     return [
+        'account_id' => 1,
         'name' => $name,
         'slug' => \Illuminate\Support\Str::slug($name),
         'description' => $faker->paragraph,

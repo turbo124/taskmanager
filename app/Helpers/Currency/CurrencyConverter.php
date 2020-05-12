@@ -94,7 +94,7 @@ class CurrencyConverter
     public function download()
     {
         $client = new Client();
-        $response = $client->get('https://openexchangerates.org/api/latest.json?app_id=2a6b8f2b3b6345df8ccd495705a251f9');
+        $response = $client->get('https://openexchangerates.org/api/latest.json?app_id=' . config('taskmanager.currency_converter_key'));
         $list = json_decode($response->getBody(), true);
         $this->exchange_rates = $list['rates'];
     }

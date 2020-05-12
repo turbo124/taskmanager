@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Account;
 use App\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\UploadedFile;
@@ -16,10 +17,16 @@ class CategoryUnitTest extends TestCase
 
     use DatabaseTransactions, WithFaker;
 
+    /**
+     * @var Account
+     */
+    private $account;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
+        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -69,7 +76,7 @@ class CategoryUnitTest extends TestCase
         $category = factory(Category::class)->create();
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
         $categoryRepo = new CategoryRepository($category);
-        $categoryRepo->findCategoryBySlug('unknown');
+        $categoryRepo->findCategoryBySlug('unknown', $this->account);
     }
 
     /** @test */
@@ -77,7 +84,7 @@ class CategoryUnitTest extends TestCase
     {
         $category = factory(Category::class)->create();
         $categoryRepo = new CategoryRepository($category);
-        $cat = $categoryRepo->findCategoryBySlug($category->slug);
+        $cat = $categoryRepo->findCategoryBySlug($category->slug, $this->account);
         $this->assertEquals($category->name, $cat->name);
     }
 
@@ -204,7 +211,7 @@ class CategoryUnitTest extends TestCase
             'parent'      => $parent->id
         ];
         $category = new CategoryRepository(new Category);
-        $created = $category->createCategory($params);
+        $created = $category->createCategory($params, $this->account);
         $this->assertInstanceOf(Category::class, $created);
         $this->assertEquals($params['name'], $created->name);
         $this->assertEquals($params['slug'], $created->slug);
@@ -223,7 +230,7 @@ class CategoryUnitTest extends TestCase
             'status'      => 1
         ];
         $category = new CategoryRepository(new Category);
-        $created = $category->createCategory($params);
+        $created = $category->createCategory($params, $this->account);
         $this->assertTrue($created->isRoot());
     }
 

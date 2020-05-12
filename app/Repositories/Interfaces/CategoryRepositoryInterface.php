@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Account;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Category;
 use App\Product;
@@ -19,10 +20,11 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     public function listCategories(string $order = 'id', string $sort = 'desc', $except = []): Collection;
 
     /**
-     *
      * @param array $params
+     * @param Account $account
+     * @return Category
      */
-    public function createCategory(array $params): Category;
+    public function createCategory(array $params, Account $account): Category;
 
     /**
      *
@@ -71,10 +73,11 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     public function deleteFile(array $file, $disk = null): bool;
 
     /**
-     *
-     * @param array $slug
+     * @param string $slug
+     * @param Account $account
+     * @return Category
      */
-    public function findCategoryBySlug(string $slug): Category;
+    public function findCategoryBySlug(string $slug, Account $account): Category;
 
     /**
      *
