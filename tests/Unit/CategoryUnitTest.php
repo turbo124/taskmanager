@@ -144,7 +144,7 @@ class CategoryUnitTest extends TestCase
         $category = factory(Category::class)->create();
         $attributes = $category->getFillable();
         $categoryRepo = new CategoryRepository(new Category);
-        $categories = $categoryRepo->listCategories();
+        $categories = $categoryRepo->listCategories('id', 'desc', $this->account);
         $categories->each(function ($category, $key) use ($attributes) {
             foreach ($category->getFillable() as $key => $value) {
                 $this->assertArrayHasKey($key, $attributes);
