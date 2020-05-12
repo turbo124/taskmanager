@@ -23,6 +23,7 @@ class AddProduct extends React.Component {
             name: '',
             description: '',
             company_id: null,
+            is_featured: false,
             quantity: 0,
             cost: 0,
             assigned_user_id: null,
@@ -47,6 +48,7 @@ class AddProduct extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.handleMultiSelect = this.handleMultiSelect.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
+        this.handleCheck = this.handleCheck.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
@@ -84,6 +86,7 @@ class AddProduct extends React.Component {
         formData.append('name', this.state.name)
         formData.append('description', this.state.description)
         formData.append('price', this.state.price)
+        formData.append('is_featured', this.state.is_featured)
         formData.append('cost', this.state.cost)
         formData.append('quantity', this.state.quantity)
         formData.append('sku', this.state.sku)
@@ -114,6 +117,10 @@ class AddProduct extends React.Component {
                     errors: error.response.data.errors
                 })
             })
+    }
+
+    handleCheck () {
+        this.setState({ is_featured: !this.state.is_featured }, () => localStorage.setItem('productForm', JSON.stringify(this.state)))
     }
 
     handleFileChange (e) {
