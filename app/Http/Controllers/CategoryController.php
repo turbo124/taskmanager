@@ -48,9 +48,9 @@ class CategoryController extends Controller
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->categoryRepo->searchCategory(request()->input('search_term'));
+            $list = $this->categoryRepo->searchCategory(request()->input('search_term'), auth()->user()->account_user()->account);
         } else {
-            $list = $this->categoryRepo->listCategories($orderBy, $orderDir);
+            $list = $this->categoryRepo->listCategories($orderBy, $orderDir, auth()->user()->account_user()->account);
         }
 
         $categories = $list->map(function (Category $category) {
