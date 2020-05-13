@@ -17,6 +17,10 @@ class Product extends Model
 
     use SoftDeletes;
 
+    protected $casts = [
+        'is_featured' => 'boolean'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +38,7 @@ class Product extends Model
         'company_id',
         'sale_price',
         'slug',
+        'is_featured',
         'account_id',
         'assigned_user_id',
         'user_id',

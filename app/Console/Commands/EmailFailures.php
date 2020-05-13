@@ -4,12 +4,7 @@ namespace App\Console\Commands;
 
 use App\Email;
 use App\ClientContact;
-use DateTime;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Auth;
-use Exception;
-use App\Libraries\Utils;
 use Illuminate\Support\Carbon;
 
 /**

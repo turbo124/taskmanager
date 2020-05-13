@@ -7,6 +7,10 @@ use App\Category;
 trait CategoryTransformable
 {
 
+    /**
+     * @param Category $category
+     * @return array
+     */
     protected function transformCategory(Category $category)
     {
         return [

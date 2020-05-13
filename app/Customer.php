@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Services\Customer\CustomerService;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 
 class Customer extends Model implements HasLocalePreference
@@ -85,11 +84,6 @@ class Customer extends Model implements HasLocalePreference
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class, 'default_payment_method');
-    }
-
-    public function service(): CustomerService
-    {
-        return new CustomerService($this);
     }
 
     /**

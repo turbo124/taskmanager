@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Account;
 use App\Factory\CategoryFactory;
 use App\Repositories\Base\BaseRepository;
 use App\Category;
@@ -63,14 +64,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     }
 
     /**
-     * Create the category
-     *
      * @param array $params
-     *
+     * @param Account $account
      * @return Category
-     * @throws CategoryInvalidArgumentException
      */
-    public function createCategory(array $params): Category
+    public function createCategory(array $params, Account $account): Category
     {
         $collection = collect($params);
         if (isset($params['name'])) {
@@ -81,7 +79,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $params['cover'] = $this->saveCoverImage($params['cover']);
         }
 
-        $category = CategoryFactory::create();
+        $category = CategoryFactory::create($account);
         $category->fill($params);
 
         if (isset($params['parent']) && !empty($params['parent'])) {
@@ -113,6 +111,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $category = $this->findCategoryById($this->model->id);
         $collection = collect($params)->except('_token');
         $slug = Str::slug($collection->get('name'));
+        $cover = '';
 
         if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
             $cover = $this->saveCoverImage($params['cover']);
@@ -208,15 +207,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     }
 
     /**
-     * Return the category by using the slug as the parameter
-     *
-     * @param array $slug
-     *
+     * @param string $slug
+     * @param Account $account
      * @return Category
      */
-    public function findCategoryBySlug(string $slug): Category
+    public function findCategoryBySlug(string $slug, Account $account): Category
     {
-        return $this->findOneByOrFail(['slug' => $slug]);
+        return $this->findOneByOrFail(['slug' => $slug, 'account_id' => $account->id]);
     }
 
     /**

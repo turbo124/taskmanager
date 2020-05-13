@@ -72,9 +72,6 @@ class Refund
         $total_refund = 0;
         $total_refund = 0;
 
-        /* Build Credit Note*/
-        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
-
         $line_items = [];
         $adjustment_amount = 0;
 
@@ -106,6 +103,39 @@ class Refund
 
         $this->payment->status_id = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
+        $this->createCreditNote($line_items, $adjustment_amount);
+
+        $this->payment->save();
+
+        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
+
+        $this->updateCustomer();
+
+
+        return $this->payment;
+    }
+
+    public function gatewayRefund()
+    {
+
+    }
+
+    private function updateCustomer()
+    {
+        $this->payment->customer->paid_to_date -= $this->data['amount'];
+        $this->payment->customer->save();
+        return $this->payment->customer;
+    }
+
+    /**
+     * @param $line_items
+     * @param $adjustment_amount
+     * @return Credit|null
+     */
+    private function createCreditNote($line_items, $adjustment_amount)
+    {
+        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
+
         $credit_note = $this->credit_repo->save(
             [
                 'line_items' => $line_items,
@@ -117,14 +147,8 @@ class Refund
 
         event(new CreditWasCreated($credit_note));
 
-        $this->payment->save();
-
-        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
-
-        $this->payment->customer->paid_to_date -= $this->data['amount'];
-        $this->payment->customer->save();
         $credit_note->ledger()->updateBalance($adjustment_amount);
 
-        return $this->payment;
+        return $credit_note;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CompanyToken;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Requests\CreateCategoryRequest;
@@ -13,6 +14,7 @@ use App\Category;
 use App\Transformations\CategoryTransformable;
 use App\Requests\SearchRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -46,9 +48,9 @@ class CategoryController extends Controller
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->categoryRepo->searchCategory(request()->input('search_term'));
+            $list = $this->categoryRepo->searchCategory(request()->input('search_term'), auth()->user()->account_user()->account);
         } else {
-            $list = $this->categoryRepo->listCategories($orderBy, $orderDir);
+            $list = $this->categoryRepo->listCategories($orderBy, $orderDir, auth()->user()->account_user()->account);
         }
 
         $categories = $list->map(function (Category $category) {
@@ -71,7 +73,7 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $categoryObj = $this->categoryRepo->createCategory($request->except('_token', '_method'));
+        $categoryObj = $this->categoryRepo->createCategory($request->except('_token', '_method'), auth()->user()->account_user()->account);
         $category = $this->transformCategory($categoryObj);
         return response()->json($category);
     }
@@ -126,8 +128,11 @@ class CategoryController extends Controller
      */
     public function getCategory(string $slug)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
 
-        $category = $this->categoryRepo->findCategoryBySlug($slug);
+        $category = $this->categoryRepo->findCategoryBySlug($slug, $account);
         return response()->json($category);
     }
 
@@ -138,8 +143,11 @@ class CategoryController extends Controller
      */
     public function getChildCategories(string $slug)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
 
-        $category = $this->categoryRepo->findCategoryBySlug($slug);
+        $category = $this->categoryRepo->findCategoryBySlug($slug, $account);
         $categoryRepo = new CategoryRepository($category);
         $categories = $categoryRepo->findChildren();
         return response()->json($categories);

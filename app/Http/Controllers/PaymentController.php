@@ -181,8 +181,9 @@ class PaymentController extends Controller
         foreach ($invoices as $invoice) {
             $payment->attachInvoice($invoice);
             $payment->ledger()->updateBalance($invoice->balance * -1);
-            $payment->customer->service()->updateBalance($invoice->balance * -1)
-                              ->updatePaidToDate($invoice->balance)->save();
+            $payment->customer->increaseBalance($invoice->balance * -1);
+            $payment->customer->increasePaidToDateAmount($invoice->balance);
+            $payment->customer->save();
             $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
         }
 
@@ -196,7 +197,7 @@ class PaymentController extends Controller
     public function completePayment(Request $request)
     {
         $customer = Customer::find($request->customer_id);
-        $payment = PaymentFactory::create($request->customer_id, $customer->user->id, $customer->account->id);
+        $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
         $payment->customer_id = $customer->id;
         $payment->company_gateway_id = $request->company_gateway_id;
         $payment->status_id = Payment::STATUS_COMPLETED;

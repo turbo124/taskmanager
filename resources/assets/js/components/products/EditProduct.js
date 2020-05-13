@@ -52,6 +52,7 @@ class EditProduct extends React.Component {
             images: this.props.product.images,
             id: this.props.product.id,
             categories: [],
+            is_featured: false,
             selectedCategories: this.props.product.category_ids ? this.props.product.category_ids : [],
             company_id: this.props.product.company_id,
             assigned_user_id: this.props.product.assigned_user_id,
@@ -70,6 +71,7 @@ class EditProduct extends React.Component {
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleMultiSelect = this.handleMultiSelect.bind(this)
         this.handleInput = this.handleInput.bind(this)
+        this.handleCheck = this.handleCheck.bind(this)
         this.deleteImage = this.deleteImage.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
@@ -88,6 +90,7 @@ class EditProduct extends React.Component {
         formData.append('name', this.state.name)
         formData.append('assigned_user_id', this.state.assigned_user_id)
         formData.append('notes', this.state.notes)
+        formData.append('is_featured', this.state.is_featured)
         formData.append('description', this.state.description)
         formData.append('quantity', this.state.quantity)
         formData.append('price', this.state.price)
@@ -126,6 +129,10 @@ class EditProduct extends React.Component {
                     errors: error.response.data.errors
                 })
             })
+    }
+
+     handleCheck () {
+        this.setState({ is_featured: !this.state.is_featured })
     }
 
     renderErrorFor (field) {
@@ -226,7 +233,8 @@ class EditProduct extends React.Component {
                         <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
                             handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
                             selectedCategories={this.state.selectedCategories}
-                            companies={this.state.companies}/>
+                            companies={this.state.companies}
+                            handleCheck={this. handleCheck}/>
 
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}

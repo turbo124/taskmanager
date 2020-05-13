@@ -369,7 +369,7 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::get("category/form/{id}", 'CategoryController@getForm');
     Route::get("category/{slug}", 'CategoryController@getCategory');
     Route::post('tasks/products/{task_id}', 'TaskController@addProducts');
-    Route::post("categories/products/{id}", 'ProductController@getProductsForCategory');
+    Route::get("categories/products/{id}", 'ProductController@getProductsForCategory');
     Route::post('tasks/deal', 'TaskController@createDeal');
     Route::post('lead', 'LeadController@store');
     Route::get('lead/convert/{id}', 'LeadController@convert');

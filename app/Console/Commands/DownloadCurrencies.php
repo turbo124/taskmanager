@@ -3,16 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Currency;
-use App\Email;
-use App\ClientContact;
 use App\Helpers\Currency\CurrencyConverter;
-use DateTime;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Auth;
-use Exception;
-use App\Libraries\Utils;
-use Illuminate\Support\Carbon;
 
 /**
  * Class EmailFailures.

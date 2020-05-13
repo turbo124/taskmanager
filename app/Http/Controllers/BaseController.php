@@ -134,7 +134,7 @@ class BaseController extends Controller
                 $invoice = $this->invoice_repo->markSent($entity);
 
                 if ($this->entity_string === 'Invoice') {
-                    $invoice->customer->setBalance($invoice->balance);
+                    $invoice->customer->increaseBalance($invoice->balance);
                     $invoice->customer->save();
                     $invoice->ledger()->updateBalance($invoice->balance);
                 }
