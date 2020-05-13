@@ -304,6 +304,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $data['cover'] = $this->saveCoverImage($data['cover']);
         }
 
+        $data['is_featured'] = !empty($data['is_featured']) && $data['is_featured'] === 'true' ? 1 : 0;
+
         $product->fill($data);
         $product->save();
 

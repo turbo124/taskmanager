@@ -72,9 +72,6 @@ class Refund
         $total_refund = 0;
         $total_refund = 0;
 
-        /* Build Credit Note*/
-        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
-
         $line_items = [];
         $adjustment_amount = 0;
 
@@ -113,7 +110,7 @@ class Refund
         event(new PaymentWasRefunded($this->payment, $adjustment_amount));
 
         $this->updateCustomer();
-       
+
 
         return $this->payment;
     }
@@ -130,9 +127,16 @@ class Refund
         return $this->payment->customer;
     }
 
+    /**
+     * @param $line_items
+     * @param $adjustment_amount
+     * @return Credit|null
+     */
     private function createCreditNote($line_items, $adjustment_amount)
     {
-           $credit_note = $this->credit_repo->save(
+        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
+
+        $credit_note = $this->credit_repo->save(
             [
                 'line_items' => $line_items,
                 'total'      => $this->payment->refunded,
@@ -142,7 +146,7 @@ class Refund
         );
 
         event(new CreditWasCreated($credit_note));
-         
+
         $credit_note->ledger()->updateBalance($adjustment_amount);
 
         return $credit_note;
