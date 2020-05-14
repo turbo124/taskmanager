@@ -78,9 +78,12 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
 
         return (new MailMessage)
             ->subject('Request for recurring invoice cancellation from ' . $client_contact_name)
-            ->markdown('email.support.cancellation', [
-                'message' => "Contact [{$client_contact_name}] from Client [{$client_name}] requested to cancel Recurring Invoice [#{$recurring_invoice_number}]",
-            ]);
+            ->markdown(
+                'email.support.cancellation',
+                [
+                    'message' => "Contact [{$client_contact_name}] from Client [{$client_name}] requested to cancel Recurring Invoice [#{$recurring_invoice_number}]",
+                ]
+            );
     }
 
     /**
@@ -107,7 +110,9 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
             ->to("#devv2")
             ->from("System")
             ->image($this->recurring_invoice->account->present()->logo)
-            ->content("Contact {$name} from client {$client_name} requested to cancel Recurring Invoice #{$recurring_invoice_number}");
+            ->content(
+                "Contact {$name} from client {$client_name} requested to cancel Recurring Invoice #{$recurring_invoice_number}"
+            );
     }
 
 

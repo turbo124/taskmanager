@@ -79,7 +79,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getTasksForProject(Project $objProject, User $objUser = null): Support
     {
-
         $query = $this->model->select('tasks.*')->where('project_id', $objProject->id)->where('is_completed', 0)
                              ->where('parent_id', 0);
 
@@ -124,7 +123,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     public function getTasksWithProducts(): Support
     {
-
         return $this->model->join('product_task', 'product_task.task_id', '=', 'tasks.id')->select('tasks.*')
                            ->groupBy('tasks.id')->get();
     }
@@ -157,8 +155,10 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     public function getStatusCounts(int $task_type, int $account_id): Support
     {
         return $this->model->join('task_statuses', 'task_statuses.id', '=', 'tasks.task_status')
-                           ->select('task_statuses.title AS name',
-                               DB::raw('CEILING(count(*) * 100 / (select count(*) from tasks)) as value'))
+                           ->select(
+                               'task_statuses.title AS name',
+                               DB::raw('CEILING(count(*) * 100 / (select count(*) from tasks)) as value')
+                           )
                            ->where('tasks.task_type', $task_type)->where('tasks.account_id', $account_id)
                            ->groupBy('task_statuses.title')->get();
     }
@@ -171,7 +171,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getRecentTasks(int $task_type, int $number_of_days, int $account_id)
     {
-
         $date = Carbon::today()->subDays($number_of_days);
         $result = $this->model->select(DB::raw('count(*) as total'))->where('created_at', '>=', $date)
                               ->where('task_type', $task_type)->where('account_id', $account_id)->get();
@@ -186,7 +185,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getNewDeals(int $task_type, int $account_id)
     {
-
         $result = $this->model->select(DB::raw('count(*) as total'))->where('task_type', $task_type)
                               ->where('account_id', $account_id)->get();
 
@@ -200,7 +198,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getTotalEarnt(int $task_type, int $account_id)
     {
-
         return $this->model->where('task_type', $task_type)->where('account_id', $account_id)->sum('valued_at');
     }
 

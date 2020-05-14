@@ -39,9 +39,11 @@ class UploadController extends Controller
 
         $uploads = $this->fileRepository->getFilesForEntity($entity);
 
-        $uploads = $uploads->map(function (File $file) {
-            return $this->transformFile($file);
-        })->all();
+        $uploads = $uploads->map(
+            function (File $file) {
+                return $this->transformFile($file);
+            }
+        )->all();
 
         return response()->json($uploads);
     }
@@ -80,7 +82,6 @@ class UploadController extends Controller
      */
     public function destroy($id)
     {
-
         $file = $this->fileRepository->findFileById($id);
         $fileRepo = new FileRepository($file);
         $fileRepo->deleteFile();

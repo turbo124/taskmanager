@@ -22,7 +22,6 @@ class Custom
 
     public function __construct($design)
     {
-
         $this->name = $design->name;
 
         $this->includes = $design->design->includes;
@@ -38,7 +37,6 @@ class Custom
         $this->task = $design->design->task ?: '';
 
         $this->footer = $design->design->footer;
-
     }
 
 }

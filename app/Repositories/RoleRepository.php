@@ -78,7 +78,6 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
      */
     public function updateRole(array $data): bool
     {
-
         return $this->update($data);
     }
 

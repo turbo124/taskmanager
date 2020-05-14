@@ -26,11 +26,9 @@ class LineItemSettings extends BaseSettings
     public function save($line_items)
     {
         try {
-
             $formatted_items = [];
 
             foreach ($line_items as $line_id => $line_item) {
-
                 $line_item = $this->validate((object)$line_item, $this->settings);
 
                 if (!$line_item) {
@@ -46,7 +44,9 @@ class LineItemSettings extends BaseSettings
                     ->setProductId($line_item->product_id)
                     ->setSubTotal($line_item->sub_total)
                     ->setTotal($line_item->sub_total)
-                    ->setIsAmountDiscount(isset($line_item->is_amount_discount) ? $line_item->is_amount_discount : false)
+                    ->setIsAmountDiscount(
+                        isset($line_item->is_amount_discount) ? $line_item->is_amount_discount : false
+                    )
                     ->setTaxRateName(!empty($line_item->tax_rate_name) ? $line_item->tax_rate_name : '')
                     ->setNotes(!empty($line_item->notes) ? $line_item->notes : '')
                     ->setDescription(!empty($line_item->description) ? $line_item->description : '')
@@ -56,12 +56,10 @@ class LineItemSettings extends BaseSettings
             }
 
             return $formatted_items;
-
         } catch (\Exception $e) {
             echo $e->getMessage();
             die('here');
         }
-
     }
 
 }

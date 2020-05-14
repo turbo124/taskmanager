@@ -72,8 +72,12 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->customer->increasePaidToDateAmount($payment->amount);
         $payment->customer->save();
 
-        $invoice_totals = isset($data['invoices']) && is_array($data['invoices']) ? array_sum(array_column($data['invoices'], 'amount')) : 0;
-        $credit_totals = isset($data['credits']) && is_array($data['credits']) ? array_sum(array_column($data['credits'], 'amount')) : 0;
+        $invoice_totals = isset($data['invoices']) && is_array($data['invoices']) ? array_sum(
+            array_column($data['invoices'], 'amount')
+        ) : 0;
+        $credit_totals = isset($data['credits']) && is_array($data['credits']) ? array_sum(
+            array_column($data['credits'], 'amount')
+        ) : 0;
 
         $this->applyPaymentToInvoices($data, $payment);
         $this->applyPaymentToCredits($data, $payment);
@@ -143,15 +147,12 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     private function applyPaymentToCredits(array $data, Payment $payment): bool
     {
         if (isset($data['credits']) && is_array($data['credits'])) {
-
             $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
 
             $data['credits'] = collect($data['credits'])->keyBy('credit_id')->toArray();
 
             foreach ($credits as $credit) {
-
                 if (empty($data['credits'][$credit->id])) {
-
                     continue;
                 }
 
@@ -181,17 +182,13 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
     private function applyPaymentToInvoices(array $data, Payment $payment): bool
     {
-
         if (isset($data['invoices']) && is_array($data['invoices'])) {
-
             $invoices = Invoice::whereIn('id', array_column($data['invoices'], 'invoice_id'))->get();
 
             $data['invoices'] = collect($data['invoices'])->keyBy('invoice_id')->toArray();
 
             foreach ($invoices as $invoice) {
-
                 if (empty($data['invoices'][$invoice->id])) {
-
                     continue;
                 }
 
@@ -225,16 +222,16 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
                                    ->wherePaymentableId($invoice->id)
                                    ->get();
 
-        $paymentables->each(function ($paymentable) use ($total_paid) {
+        $paymentables->each(
+            function ($paymentable) use ($total_paid) {
+                $reversable_amount = $paymentable->amount - $paymentable->refunded;
 
-            $reversable_amount = $paymentable->amount - $paymentable->refunded;
+                $total_paid -= $reversable_amount;
 
-            $total_paid -= $reversable_amount;
-
-            $paymentable->amount = $paymentable->refunded;
-            $paymentable->save();
-
-        });
+                $paymentable->amount = $paymentable->refunded;
+                $paymentable->save();
+            }
+        );
 
         return $total_paid;
     }

@@ -21,12 +21,10 @@ class PdfData
     public function __construct($entity)
     {
         $this->entity = $entity;
-
     }
 
     public function build($contact = null)
     {
-
         $this->data = [];
 
         if (get_class($this->entity) === 'App\Lead') {
@@ -38,7 +36,6 @@ class PdfData
 
     private function buildLead($contact = null)
     {
-
         $this->buildClientForLead($this->entity)
              ->buildAddress($this->entity, $this->entity)
              ->buildAccount($this->entity->account);
@@ -54,12 +51,10 @@ class PdfData
         }
 
         return $this;
-
     }
 
     private function buildInvoice($contact = null)
     {
-
         $contact === null ? $this->entity->customer->contacts->first() : $contact;
         $customer = $this->entity->customer;
 
@@ -95,14 +90,19 @@ class PdfData
         }
 
         return $this;
-
     }
 
     private function setDefaults(Customer $customer): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
         $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $class)];
-        $this->data['$invoice.partial_due'] = ['value' => Number::formatCurrency($this->entity->partial, $customer) ?: '&nbsp;', 'label' => trans('texts.partial_due_label')];
+        $this->data['$invoice.partial_due'] = [
+            'value' => Number::formatCurrency(
+                $this->entity->partial,
+                $customer
+            ) ?: '&nbsp;',
+            'label' => trans('texts.partial_due_label')
+        ];
         $this->data['$from'] = ['value' => '', 'label' => trans('texts.from')];
         $this->data['$to'] = ['value' => '', 'label' => trans('texts.to')];
         return $this;
@@ -116,12 +116,14 @@ class PdfData
             return '';
         }
 
-        $new_array = array_filter($custom_fields->{$entity}, function ($obj) use ($field) {
-
-            if ($field === $obj->name) {
-                return $obj;
+        $new_array = array_filter(
+            $custom_fields->{$entity},
+            function ($obj) use ($field) {
+                if ($field === $obj->name) {
+                    return $obj;
+                }
             }
-        });
+        );
 
         if (empty($new_array) || empty($new_array[0]->type)) {
             return '';
@@ -151,12 +153,14 @@ class PdfData
             return '';
         }
 
-        $new_array = array_filter($custom_fields->{$entity}, function ($obj) use ($field) {
-
-            if ($field === $obj->name) {
-                return $obj;
+        $new_array = array_filter(
+            $custom_fields->{$entity},
+            function ($obj) use ($field) {
+                if ($field === $obj->name) {
+                    return $obj;
+                }
             }
-        });
+        );
 
         if (empty($new_array) || empty($new_array[0]->label)) {
             return '';
@@ -176,45 +180,106 @@ class PdfData
         $this->data['$contact.phone'] = ['value' => $contact->phone, 'label' => trans('texts.phone_number')];
 
         $this->data['$contact_name'] = ['value' => $contact->present()->name(), 'label' => trans('texts.contact_name')];
-        $this->data['$contact.custom1'] = ['value' => isset($contact) ? $contact->custom_value1 : '&nbsp;', 'label' => $this->makeCustomField('Contact', 'custom_value1')];
-        $this->data['$contact.custom2'] = ['value' => isset($contact) ? $contact->custom_value2 : '&nbsp;', 'label' => $this->makeCustomField('Contact', 'custom_value2')];
-        $this->data['$contact.custom3'] = ['value' => isset($contact) ? $contact->custom_value3 : '&nbsp;', 'label' => $this->makeCustomField('Contact', 'custom_value3')];
-        $this->data['$contact.custom4'] = ['value' => isset($contact) ? $contact->custom_value4 : '&nbsp;', 'label' => $this->makeCustomField('Contact', 'custom_value4')];
+        $this->data['$contact.custom1'] = [
+            'value' => isset($contact) ? $contact->custom_value1 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value1')
+        ];
+        $this->data['$contact.custom2'] = [
+            'value' => isset($contact) ? $contact->custom_value2 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value2')
+        ];
+        $this->data['$contact.custom3'] = [
+            'value' => isset($contact) ? $contact->custom_value3 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value3')
+        ];
+        $this->data['$contact.custom4'] = [
+            'value' => isset($contact) ? $contact->custom_value4 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value4')
+        ];
         return $this;
     }
 
     public function buildCustomer(Customer $customer): self
     {
-
-        $this->data['$customer.number'] = ['value' => $customer->number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
-        $this->data['$customer.vat_number'] = ['value' => $customer->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
-        $this->data['$customer.website'] = ['value' => $customer->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$customer.phone'] = ['value' => $customer->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
-        $this->data['$customer.email'] = ['value' => isset($customer->primary_contact()->first()->email) ? $customer->primary_contact()->first()->email : 'no contact email on record', 'label' => trans('texts.email_address')];
-        $this->data['$customer.name'] = ['value' => $this->entity->present()->clientName() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
-        $this->data['$customer1'] = ['value' => $customer->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value1')];
-        $this->data['$customer2'] = ['value' => $customer->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value2')];
-        $this->data['$customer3'] = ['value' => $customer->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value3')];
-        $this->data['$customer4'] = ['value' => $customer->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Customer', 'custom_value4')];
+        $this->data['$customer.number'] = [
+            'value' => $customer->number ?: '&nbsp;',
+            'label' => trans('texts.customer_id_number')
+        ];
+        $this->data['$customer.vat_number'] = [
+            'value' => $customer->vat_number ?: '&nbsp;',
+            'label' => trans('texts.vat_number')
+        ];
+        $this->data['$customer.website'] = [
+            'value' => $customer->present()->website() ?: '&nbsp;',
+            'label' => trans('texts.website')
+        ];
+        $this->data['$customer.phone'] = [
+            'value' => $customer->present()->phone() ?: '&nbsp;',
+            'label' => trans('texts.phone_number')
+        ];
+        $this->data['$customer.email'] = [
+            'value' => isset(
+                $customer->primary_contact()->first()->email
+            ) ? $customer->primary_contact()->first()->email : 'no contact email on record',
+            'label' => trans('texts.email_address')
+        ];
+        $this->data['$customer.name'] = [
+            'value' => $this->entity->present()->clientName() ?: '&nbsp;',
+            'label' => trans('texts.customer_name')
+        ];
+        $this->data['$customer1'] = [
+            'value' => $customer->custom_value1 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Customer', 'custom_value1')
+        ];
+        $this->data['$customer2'] = [
+            'value' => $customer->custom_value2 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Customer', 'custom_value2')
+        ];
+        $this->data['$customer3'] = [
+            'value' => $customer->custom_value3 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Customer', 'custom_value3')
+        ];
+        $this->data['$customer4'] = [
+            'value' => $customer->custom_value4 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Customer', 'custom_value4')
+        ];
 
         return $this;
-
     }
 
     public function buildClientForLead(Lead $lead): self
     {
-
-        $this->data['$customer.website'] = ['value' => $lead->present()->website() ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$customer.phone'] = ['value' => $lead->present()->phone() ?: '&nbsp;', 'label' => trans('texts.phone_number')];
+        $this->data['$customer.website'] = [
+            'value' => $lead->present()->website() ?: '&nbsp;',
+            'label' => trans('texts.website')
+        ];
+        $this->data['$customer.phone'] = [
+            'value' => $lead->present()->phone() ?: '&nbsp;',
+            'label' => trans('texts.phone_number')
+        ];
         $this->data['$customer.email'] = ['value' => $lead->email, 'label' => trans('texts.email_address')];
-        $this->data['$customer.name'] = ['value' => $lead->present()->name() ?: '&nbsp;', 'label' => trans('texts.customer_name')];
-        $this->data['$customer1'] = ['value' => $lead->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value1')];
-        $this->data['$customer2'] = ['value' => $lead->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value2')];
-        $this->data['$customer3'] = ['value' => $lead->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value3')];
-        $this->data['$customer4'] = ['value' => $lead->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Lead', 'custom_value4')];
+        $this->data['$customer.name'] = [
+            'value' => $lead->present()->name() ?: '&nbsp;',
+            'label' => trans('texts.customer_name')
+        ];
+        $this->data['$customer1'] = [
+            'value' => $lead->custom_value1 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Lead', 'custom_value1')
+        ];
+        $this->data['$customer2'] = [
+            'value' => $lead->custom_value2 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Lead', 'custom_value2')
+        ];
+        $this->data['$customer3'] = [
+            'value' => $lead->custom_value3 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Lead', 'custom_value3')
+        ];
+        $this->data['$customer4'] = [
+            'value' => $lead->custom_value4 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Lead', 'custom_value4')
+        ];
 
         return $this;
-
     }
 
     public function buildTask(): self
@@ -249,11 +314,36 @@ class PdfData
 
     public function buildAddress($entity, $address)
     {
-        $this->data['$customer.address1'] = ['value' => $address->address_1 ?: '&nbsp;', 'label' => trans('texts.address')];
-        $this->data['$customer.address2'] = ['value' => $address->address_2 ?: '&nbsp;', 'label' => trans('texts.address')];
-        $this->data['$customer.city_state_postal'] = ['value' => isset($address->city) ? $entity->present()->cityStateZip($address->city, $address->state_code, $address->zip, false) : '&nbsp;', 'label' => trans('texts.city_with_zip')];
-        $this->data['$postal_city_state'] = ['value' => $entity->present()->cityStateZip($address->city, $address->state, $entity->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
-        $this->data['$customer.country'] = ['value' => isset($address->country->name) ? $address->country->name : 'No Country Set', 'label' => trans('texts.country')];
+        $this->data['$customer.address1'] = [
+            'value' => $address->address_1 ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
+        $this->data['$customer.address2'] = [
+            'value' => $address->address_2 ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
+        $this->data['$customer.city_state_postal'] = [
+            'value' => isset($address->city) ? $entity->present()->cityStateZip(
+                $address->city,
+                $address->state_code,
+                $address->zip,
+                false
+            ) : '&nbsp;',
+            'label' => trans('texts.city_with_zip')
+        ];
+        $this->data['$postal_city_state'] = [
+            'value' => $entity->present()->cityStateZip(
+                $address->city,
+                $address->state,
+                $entity->postal_code,
+                true
+            ) ?: '&nbsp;',
+            'label' => trans('texts.zip_with_city')
+        ];
+        $this->data['$customer.country'] = [
+            'value' => isset($address->country->name) ? $address->country->name : 'No Country Set',
+            'label' => trans('texts.country')
+        ];
 
         return $this;
     }
@@ -261,7 +351,10 @@ class PdfData
 
     public function buildCustomerAddress(Customer $customer): self
     {
-        $this->data['$customer.address1'] = ['value' => $customer->present()->address() ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$customer.address1'] = [
+            'value' => $customer->present()->address() ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
 
         $addresses = $customer->addresses;
         $billing = null;
@@ -286,29 +379,99 @@ class PdfData
 
     public function buildAccount(Account $account): self
     {
-        $this->data['$account.city_state_postal'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, false) ?: '&nbsp;', 'label' => trans('texts.city_with_zip')];
-        $this->data['$account.postal_city_state'] = ['value' => $account->present()->cityStateZip($account->settings->city, $account->settings->state, $account->settings->postal_code, true) ?: '&nbsp;', 'label' => trans('texts.zip_with_city')];
-        $this->data['$account.name'] = ['value' => $account->present()->name() ?: '&nbsp;', 'label' => trans('texts.company_name')];
-        $this->data['$account.address1'] = ['value' => $account->settings->address1 ?: '&nbsp;', 'label' => trans('texts.address1')];
-        $this->data['$account.address2'] = ['value' => $account->settings->address2 ?: '&nbsp;', 'label' => trans('texts.address2')];
-        $this->data['$account.city'] = ['value' => $account->settings->city ?: '&nbsp;', 'label' => trans('texts.city')];
-        $this->data['$account.state'] = ['value' => $account->settings->state ?: '&nbsp;', 'label' => trans('texts.town')];
-        $this->data['$account.postal_code'] = ['value' => $account->settings->postal_code ?: '&nbsp;', 'label' => trans('texts.zip')];
-        $this->data['$account.country'] = ['value' => Country::find($account->settings->country_id)->name ?: '&nbsp;', 'label' => trans('texts.country')];
-        $this->data['$account.phone'] = ['value' => $account->settings->phone ?: '&nbsp;', 'label' => trans('texts.phone_number')];
-        $this->data['$account.email'] = ['value' => $account->settings->email ?: '&nbsp;', 'label' => trans('texts.email_address')];
-        $this->data['$account.vat_number'] = ['value' => $account->settings->vat_number ?: '&nbsp;', 'label' => trans('texts.vat_number')];
-        $this->data['$account.number'] = ['value' => $account->settings->number ?: '&nbsp;', 'label' => trans('texts.customer_id_number')];
-        $this->data['$account.website'] = ['value' => $account->settings->website ?: '&nbsp;', 'label' => trans('texts.website')];
-        $this->data['$account.address'] = ['value' => $account->present()->address($account->settings) ?: '&nbsp;', 'label' => trans('texts.address')];
+        $this->data['$account.city_state_postal'] = [
+            'value' => $account->present()->cityStateZip(
+                $account->settings->city,
+                $account->settings->state,
+                $account->settings->postal_code,
+                false
+            ) ?: '&nbsp;',
+            'label' => trans('texts.city_with_zip')
+        ];
+        $this->data['$account.postal_city_state'] = [
+            'value' => $account->present()->cityStateZip(
+                $account->settings->city,
+                $account->settings->state,
+                $account->settings->postal_code,
+                true
+            ) ?: '&nbsp;',
+            'label' => trans('texts.zip_with_city')
+        ];
+        $this->data['$account.name'] = [
+            'value' => $account->present()->name() ?: '&nbsp;',
+            'label' => trans('texts.company_name')
+        ];
+        $this->data['$account.address1'] = [
+            'value' => $account->settings->address1 ?: '&nbsp;',
+            'label' => trans('texts.address1')
+        ];
+        $this->data['$account.address2'] = [
+            'value' => $account->settings->address2 ?: '&nbsp;',
+            'label' => trans('texts.address2')
+        ];
+        $this->data['$account.city'] = [
+            'value' => $account->settings->city ?: '&nbsp;',
+            'label' => trans('texts.city')
+        ];
+        $this->data['$account.state'] = [
+            'value' => $account->settings->state ?: '&nbsp;',
+            'label' => trans('texts.town')
+        ];
+        $this->data['$account.postal_code'] = [
+            'value' => $account->settings->postal_code ?: '&nbsp;',
+            'label' => trans('texts.zip')
+        ];
+        $this->data['$account.country'] = [
+            'value' => Country::find($account->settings->country_id)->name ?: '&nbsp;',
+            'label' => trans('texts.country')
+        ];
+        $this->data['$account.phone'] = [
+            'value' => $account->settings->phone ?: '&nbsp;',
+            'label' => trans('texts.phone_number')
+        ];
+        $this->data['$account.email'] = [
+            'value' => $account->settings->email ?: '&nbsp;',
+            'label' => trans('texts.email_address')
+        ];
+        $this->data['$account.vat_number'] = [
+            'value' => $account->settings->vat_number ?: '&nbsp;',
+            'label' => trans('texts.vat_number')
+        ];
+        $this->data['$account.number'] = [
+            'value' => $account->settings->number ?: '&nbsp;',
+            'label' => trans('texts.customer_id_number')
+        ];
+        $this->data['$account.website'] = [
+            'value' => $account->settings->website ?: '&nbsp;',
+            'label' => trans('texts.website')
+        ];
+        $this->data['$account.address'] = [
+            'value' => $account->present()->address($account->settings) ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
 
         $logo = $account->present()->logo($account->settings);
 
-        $this->data['$account_logo'] = ['value' => "<img src='{$logo}' style='width: 100px; height: 100px;' alt='logo'>" ?: '&nbsp;', 'label' => trans('texts.logo')];
-        $this->data['$account1'] = ['value' => $account->settings->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value1')];
-        $this->data['$account2'] = ['value' => $account->settings->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value2')];
-        $this->data['$account3'] = ['value' => $account->settings->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value3')];
-        $this->data['$account4'] = ['value' => $account->settings->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Account', 'custom_value4')];
+        $this->data['$account_logo'] = [
+            'value' => "<img src='{$logo}' style='width: 100px; height: 100px;' alt='logo'>" ?: '&nbsp;',
+            'label' => trans('texts.logo')
+        ];
+        $this->data['$account1'] = [
+            'value' => $account->settings->custom_value1 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Account', 'custom_value1')
+        ];
+        $this->data['$account2'] = [
+            'value' => $account->settings->custom_value2 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Account', 'custom_value2')
+        ];
+        $this->data['$account3'] = [
+            'value' => $account->settings->custom_value3 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Account', 'custom_value3')
+        ];
+        $this->data['$account4'] = [
+            'value' => $account->settings->custom_value4 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Account', 'custom_value4')
+        ];
         return $this;
     }
 
@@ -321,25 +484,39 @@ class PdfData
 
     public function setTotal(Customer $customer, $total): self
     {
-        $this->data['$entity_label'] = ['value' => '', 'label' => (new \ReflectionClass($this->entity))->getShortName()];
+        $this->data['$entity_label'] = [
+            'value' => '',
+            'label' => (new \ReflectionClass($this->entity))->getShortName()
+        ];
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.total'] = ['value' => $this->entity->getFormattedTotal() ?: '&nbsp;', 'label' => trans('texts.' . $class . '_amount')];
+        $this->data['$' . $class . '.total'] = [
+            'value' => $this->entity->getFormattedTotal() ?: '&nbsp;',
+            'label' => trans('texts.' . $class . '_amount')
+        ];
         return $this;
     }
 
     public function setBalance(Customer $customer, $balance): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.balance_due'] = ['value' => $this->entity->getFormattedBalance() ?: '&nbsp;', 'label' => trans('texts.balance_due')];
-        $this->data['$balance_due'] = ['value' => $this->entity->getFormattedBalance() ?: '&nbsp;', 'label' => trans('texts.balance_due')];
+        $this->data['$' . $class . '.balance_due'] = [
+            'value' => $this->entity->getFormattedBalance() ?: '&nbsp;',
+            'label' => trans('texts.balance_due')
+        ];
+        $this->data['$balance_due'] = [
+            'value' => $this->entity->getFormattedBalance() ?: '&nbsp;',
+            'label' => trans('texts.balance_due')
+        ];
 
         return $this;
-
     }
 
     public function setSubTotal(Customer $customer, $sub_total): self
     {
-        $this->data['$subtotal'] = ['value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;', 'label' => trans('texts.sub_total')];
+        $this->data['$subtotal'] = [
+            'value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;',
+            'label' => trans('texts.sub_total')
+        ];
         //$this->data['$invoice.subtotal'] = &$this->data['$subtotal'];
         return $this;
     }
@@ -350,30 +527,47 @@ class PdfData
         $this->data['$date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
         $this->data['$' . $class . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
         return $this;
-
     }
 
     public function setInvoiceCustomValues(): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
 
-        $this->data['$' . $class . '.custom1'] = ['value' => $this->entity->custom_value1 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value1')];
-        $this->data['$' . $class . '.custom2'] = ['value' => $this->entity->custom_value2 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value2')];
-        $this->data['$' . $class . '.custom3'] = ['value' => $this->entity->custom_value3 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value3')];
-        $this->data['$' . $class . '.custom4'] = ['value' => $this->entity->custom_value4 ?: '&nbsp;', 'label' => $this->makeCustomField('Invoice', 'custom_value4')];
+        $this->data['$' . $class . '.custom1'] = [
+            'value' => $this->entity->custom_value1 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Invoice', 'custom_value1')
+        ];
+        $this->data['$' . $class . '.custom2'] = [
+            'value' => $this->entity->custom_value2 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Invoice', 'custom_value2')
+        ];
+        $this->data['$' . $class . '.custom3'] = [
+            'value' => $this->entity->custom_value3 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Invoice', 'custom_value3')
+        ];
+        $this->data['$' . $class . '.custom4'] = [
+            'value' => $this->entity->custom_value4 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Invoice', 'custom_value4')
+        ];
         return $this;
     }
 
     public function setPoNumber($po_number): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.po_number'] = ['value' => $po_number ?: '&nbsp;', 'label' => trans('texts.po_number')];
+        $this->data['$' . $class . '.po_number'] = [
+            'value' => $po_number ?: '&nbsp;',
+            'label' => trans('texts.po_number')
+        ];
         return $this;
     }
 
     public function setDiscount(Customer $customer, $discount): self
     {
-        $this->data['$discount'] = ['value' => Number::formatCurrency($discount, $customer) ?: '&nbsp;', 'label' => trans('texts.discount')];
+        $this->data['$discount'] = [
+            'value' => Number::formatCurrency($discount, $customer) ?: '&nbsp;',
+            'label' => trans('texts.discount')
+        ];
         return $this;
     }
 
@@ -381,10 +575,12 @@ class PdfData
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
         $this->data['$number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $class . '_number')];
-        $this->data['$' . $class . '.number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $class . '_number')];
+        $this->data['$' . $class . '.number'] = [
+            'value' => $number ?: '&nbsp;',
+            'label' => trans('texts.' . $class . '_number')
+        ];
         $this->data['$' . $class . '.' . $class . '_no'] = $number;
         return $this;
-
     }
 
     public function setNotes($notes): self
@@ -395,15 +591,20 @@ class PdfData
 
     public function setTaxes(Customer $customer): self
     {
-        $this->data['$tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
-        $this->data['$line_tax'] = ['value' => $this->makeLineTaxes($customer, 'line_taxes', false, true), 'label' => trans('texts.taxes')];
+        $this->data['$tax'] = [
+            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
+            'label' => trans('texts.taxes')
+        ];
+        $this->data['$line_tax'] = [
+            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
+            'label' => trans('texts.taxes')
+        ];
 
         return $this;
     }
 
     private function makeLineTaxes(Customer $customer, $class = 'line_taxes', $line = false, $span = false): string
     {
-
         $data = '';
 
         $tax_map = $this->buildTaxMap();
@@ -414,7 +615,6 @@ class PdfData
 
 
         foreach ($tax_map as $tax) {
-
             if ($line === true) {
                 $data .= '<span>' . $tax['name'] . '</span>';
                 continue;
@@ -436,7 +636,10 @@ class PdfData
     public function setDueDate($due_date): self
     {
         $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.due_date'] = ['value' => $due_date ?: '&nbsp;', 'label' => trans('texts.due_date')];
+        $this->data['$' . $class . '.due_date'] = [
+            'value' => $due_date ?: '&nbsp;',
+            'label' => trans('texts.due_date')
+        ];
         $this->data['$due_date'] = &$this->data['$' . $class . '.due_date'];
         $this->data['$quote.valid_until'] = ['value' => $due_date, 'label' => trans('texts.valid_until')];
         return $this;
@@ -497,7 +700,6 @@ class PdfData
         $this->line_items = [];
 
         foreach ($entity->line_items as $key => $item) {
-
             $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
 
             if (is_numeric($item->product_id)) {
@@ -514,7 +716,10 @@ class PdfData
 
             if (isset($item->unit_discount) && $item->unit_discount > 0) {
                 if ($item->is_amount_discount) {
-                    $this->line_items[$key][$table_type . '.discount'] = Number::formatCurrency($item->unit_discount, $customer);
+                    $this->line_items[$key][$table_type . '.discount'] = Number::formatCurrency(
+                        $item->unit_discount,
+                        $customer
+                    );
                 } else {
                     $this->line_items[$key][$table_type . '.discount'] = $item->unit_discount . '%';
                 }
@@ -540,20 +745,28 @@ class PdfData
         $tax_collection = collect([]);
 
         foreach ($line_items as $key => $line_item) {
-            $group_tax = ['key' => $key, 'total' => $line_item->tax_total, 'tax_name' => $line_item->tax_rate_name . ' ' . $line_item->unit_tax . '%'];
+            $group_tax = [
+                'key'      => $key,
+                'total'    => $line_item->tax_total,
+                'tax_name' => $line_item->tax_rate_name . ' ' . $line_item->unit_tax . '%'
+            ];
             $tax_collection->push(collect($group_tax));
         }
 
         $keys = $tax_collection->pluck('key')->unique();
 
         foreach ($keys as $key) {
-            $tax_name = $tax_collection->filter(function ($value, $k) use ($key) {
-                return $value['key'] == $key;
-            })->pluck('tax_name')->first();
+            $tax_name = $tax_collection->filter(
+                function ($value, $k) use ($key) {
+                    return $value['key'] == $key;
+                }
+            )->pluck('tax_name')->first();
 
-            $total_line_tax = $tax_collection->filter(function ($value, $k) use ($key) {
-                return $value['key'] == $key;
-            })->sum('total');
+            $total_line_tax = $tax_collection->filter(
+                function ($value, $k) use ($key) {
+                    return $value['key'] == $key;
+                }
+            )->sum('total');
 
             $tax_map[] = ['name' => $tax_name, 'total' => $total_line_tax];
 
@@ -575,7 +788,6 @@ class PdfData
 
     public function setDesignHtml()
     {
-
     }
 
     /**

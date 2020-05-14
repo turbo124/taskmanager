@@ -36,8 +36,10 @@ class InvoiceWithAttachment extends Mailable
      */
     public function build()
     {
-
-        return $this->markdown('email.admin.download', ['logo' => $this->entity->account->present()->logo, 'url' => $this->attachment])
+        return $this->markdown(
+            'email.admin.download',
+            ['logo' => $this->entity->account->present()->logo, 'url' => $this->attachment]
+        )
                     ->from(config('mail.from.address'))
                     ->subject(trans('texts.download_attachments'))
                     ->with('content', $this->content)

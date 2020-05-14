@@ -15,7 +15,6 @@ class ProductAttributeTransformable
      */
     public function transformProductAttribute(ProductAttribute $product_attribute)
     {
-
         return [
             'id'          => (int)$product_attribute->id,
             'product_id'  => (int)$product_attribute->product_id,
@@ -38,8 +37,10 @@ class ProductAttributeTransformable
             return [];
         }
 
-        return $attributeValues->map(function (AttributeValue $attribute_value) {
-            return (new AttributeValueTransformable())->transformAttributeValue($attribute_value);
-        })->all();
+        return $attributeValues->map(
+            function (AttributeValue $attribute_value) {
+                return (new AttributeValueTransformable())->transformAttributeValue($attribute_value);
+            }
+        )->all();
     }
 }

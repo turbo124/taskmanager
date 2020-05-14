@@ -55,8 +55,12 @@ class SetupController extends Controller
      * @param PermissionsChecker $checker
      * @param RequirementsChecker $requirementsChecker
      */
-    public function __construct(DatabaseManager $databaseManager, EnvironmentManager $environmentManager, PermissionsChecker $checker, RequirementsChecker $requirementsChecker)
-    {
+    public function __construct(
+        DatabaseManager $databaseManager,
+        EnvironmentManager $environmentManager,
+        PermissionsChecker $checker,
+        RequirementsChecker $requirementsChecker
+    ) {
         $this->databaseManager = $databaseManager;
         $this->environmentManager = $environmentManager;
         $this->permissions = $checker;
@@ -195,9 +199,11 @@ class SetupController extends Controller
         }
 
         if (!$this->checkDatabaseConnection($request)) {
-            return $redirect->route('setup.environment-wizard')->withInput()->withErrors([
-                'database_connection' => trans('texts.environment.wizard.form.db_connection_failed'),
-            ]);
+            return $redirect->route('setup.environment-wizard')->withInput()->withErrors(
+                [
+                    'database_connection' => trans('texts.environment.wizard.form.db_connection_failed'),
+                ]
+            );
         }
 
         $results = $this->environmentManager->saveFileWizard($request);
@@ -267,21 +273,26 @@ class SetupController extends Controller
 
         $settings = config("database.connections.$connection");
 
-        config([
-            'database' => [
-                'default'     => $connection,
-                'connections' => [
-                    $connection => array_merge($settings, [
-                        'driver'   => $connection,
-                        'host'     => $request->input('database_hostname'),
-                        'port'     => $request->input('database_port'),
-                        'database' => $request->input('database_name'),
-                        'username' => $request->input('database_username'),
-                        'password' => $request->input('database_password'),
-                    ]),
+        config(
+            [
+                'database' => [
+                    'default'     => $connection,
+                    'connections' => [
+                        $connection => array_merge(
+                            $settings,
+                            [
+                                'driver'   => $connection,
+                                'host'     => $request->input('database_hostname'),
+                                'port'     => $request->input('database_port'),
+                                'database' => $request->input('database_name'),
+                                'username' => $request->input('database_username'),
+                                'password' => $request->input('database_password'),
+                            ]
+                        ),
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         try {
             DB::connection()->getPdo();
@@ -300,8 +311,11 @@ class SetupController extends Controller
      * @param \RachidLaasri\LaravelInstaller\Helpers\EnvironmentManager $environment
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function finish(InstalledFileManager $fileManager, FinalInstallManager $finalInstall, EnvironmentManager $environment)
-    {
+    public function finish(
+        InstalledFileManager $fileManager,
+        FinalInstallManager $finalInstall,
+        EnvironmentManager $environment
+    ) {
         $finalMessages = $finalInstall->runFinal();
         $finalStatusMessage = $fileManager->update();
         $finalEnvFile = $environment->getEnvContent();

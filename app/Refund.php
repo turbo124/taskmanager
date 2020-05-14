@@ -55,7 +55,8 @@ class Refund
             [
                 'line_items' => $line_items,
                 'total'      => $this->data['amount'],
-                'balance'    => $this->data['amount']],
+                'balance'    => $this->data['amount']
+            ],
             $credit_note
         );
 
@@ -79,7 +80,6 @@ class Refund
         $invoices = Invoice::whereIn('id', $ids)->get()->keyBy('id');
 
         foreach ($this->data['invoices'] as $invoice) {
-
             if (!isset($invoices[$invoice['invoice_id']])) {
                 continue;
             }
@@ -117,7 +117,6 @@ class Refund
 
     public function gatewayRefund()
     {
-
     }
 
     private function updateCustomer()

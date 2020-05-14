@@ -85,9 +85,11 @@ class DesignFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $designs = $list->map(function (Design $design) {
-            return $this->transformDesign($design);
-        })->all();
+        $designs = $list->map(
+            function (Design $design) {
+                return $this->transformDesign($design);
+            }
+        )->all();
 
         return $designs;
     }

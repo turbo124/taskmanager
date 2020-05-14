@@ -57,19 +57,25 @@ class ActivityController extends Controller
         $list = $this->notification_repo->listNotifications();
         $userEvents = $this->event_repo->getEventsForUser($currentUser, auth()->user()->account_user()->account_id);
 
-        $events = $userEvents->map(function (Event $event) {
-            return $this->transformEvent($event);
-        })->all();
+        $events = $userEvents->map(
+            function (Event $event) {
+                return $this->transformEvent($event);
+            }
+        )->all();
 
-        $notifications = $list->map(function (Notification $notification) {
-            return $this->transformNotification($notification);
-        })->all();
+        $notifications = $list->map(
+            function (Notification $notification) {
+                return $this->transformNotification($notification);
+            }
+        )->all();
 
-        return response()->json([
-            'notifications' => $notifications,
-            'comments'      => $comments,
-            'events'        => $events
-        ]);
+        return response()->json(
+            [
+                'notifications' => $notifications,
+                'comments'      => $comments,
+                'events'        => $events
+            ]
+        );
     }
 
 }

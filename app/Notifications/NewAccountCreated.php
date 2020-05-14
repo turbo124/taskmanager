@@ -50,7 +50,6 @@ class NewAccountCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-
         $user_name = $this->user->first_name . " " . $this->user->last_name;
         $email = $this->user->email;
         $ip = $this->user->ip;
@@ -66,8 +65,6 @@ class NewAccountCreated extends Notification implements ShouldQueue
 
 
         return (new MailMessage)->subject(trans('texts.new_account_created'))->markdown('email.admin.new', $data);
-
-
     }
 
     /**
@@ -84,7 +81,6 @@ class NewAccountCreated extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-
         $this->user->setAccount($this->account);
 
         $user_name = $this->user->first_name . " " . $this->user->last_name;
@@ -92,6 +88,8 @@ class NewAccountCreated extends Notification implements ShouldQueue
         $ip = $this->user->ip;
 
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))
-                                 ->content("A new account has been created by {$user_name} - {$email} - from IP: {$ip}");
+                                 ->content(
+                                     "A new account has been created by {$user_name} - {$email} - from IP: {$ip}"
+                                 );
     }
 }

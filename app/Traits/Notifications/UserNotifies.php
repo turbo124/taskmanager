@@ -16,9 +16,13 @@ trait UserNotifies
             return $notifiable_methods;
         }
 
-        $found = array_filter($notifications, function ($v, $k) {
-            return $v['isChecked'] == 1;
-        }, ARRAY_FILTER_USE_BOTH);
+        $found = array_filter(
+            $notifications,
+            function ($v, $k) {
+                return $v['isChecked'] == 1;
+            },
+            ARRAY_FILTER_USE_BOTH
+        );
 
         $keys = array_column($found, 'value');
 
@@ -32,7 +36,6 @@ trait UserNotifies
         }
 
         return $notifiable_methods;
-
     }
 
 }

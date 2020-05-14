@@ -65,7 +65,6 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
      */
     public function getMessagesForCustomer(Customer $customer, User $user, $blLastOnly = false)
     {
-
         $query = Message::where('customer_id', '=', $customer->id);
 
         if (!is_null($user)) {

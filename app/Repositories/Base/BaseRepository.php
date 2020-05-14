@@ -191,11 +191,13 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $page = request()->input('page', 1);
         $offset = ($page * $perPage) - $perPage;
-        return new LengthAwarePaginator(array_values(array_slice($data, $offset, $perPage, true)), count($data),
+        return new LengthAwarePaginator(
+            array_values(array_slice($data, $offset, $perPage, true)), count($data),
             $perPage, $page, [
                 'path'  => app('request')->url(),
                 'query' => app('request')->query()
-            ]);
+            ]
+        );
     }
 
     public function paginateCollection($items, $perPage = 15, $options = [])
@@ -204,11 +206,13 @@ class BaseRepository implements BaseRepositoryInterface
         //$items = $items->forPage($page, $perPage); //Filter the page var
 
 
-        return new LengthAwarePaginator($items->forPage($page, $perPage), count($items) ?: $this->count(), $perPage,
+        return new LengthAwarePaginator(
+            $items->forPage($page, $perPage), count($items) ?: $this->count(), $perPage,
             $page, [
                 'path'  => app('request')->url(),
                 'query' => app('request')->query(),
-            ]);
+            ]
+        );
     }
 
     public function getInvitation($invitation, $resource)
@@ -263,7 +267,6 @@ class BaseRepository implements BaseRepositoryInterface
         $id_key = $key . '_id';
 
         foreach ($created as $contact_id) {
-
             /* $invitation = $invitation__class::where($id_key, $entity->id)->where('client_contact_id', $contact_id)->first();
 
             if($invitation) {
@@ -274,7 +277,6 @@ class BaseRepository implements BaseRepositoryInterface
             $new_invitation->{$id_key} = $entity->id;
             $new_invitation->client_contact_id = $contact_id;
             $new_invitation->save();
-
         }
 
         return true;

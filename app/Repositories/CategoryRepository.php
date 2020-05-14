@@ -41,8 +41,12 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      * @param array $except
      * @return Collection
      */
-    public function listCategories(string $order = 'id', string $sort = 'desc', Account $account, $except = []): Collection
-    {
+    public function listCategories(
+        string $order = 'id',
+        string $sort = 'desc',
+        Account $account,
+        $except = []
+    ): Collection {
         return $this->model
             ->where('account_id', '=', $account->id)
             ->orderBy($order, $sort)
@@ -126,7 +130,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         // just make current category as root
         // else we need to find the parent
         // and associate it as child
-        if ( (int)$params['parent'] == 0) {
+        if ((int)$params['parent'] == 0) {
             $category->saveAsRoot();
         } else {
             $parent = $this->findCategoryById($params['parent']);

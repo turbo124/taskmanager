@@ -12,7 +12,6 @@ trait FileTransformable
      */
     protected function transformFile(File $document)
     {
-
         return [
             'id'               => $document->id,
             'user_id'          => $document->user_id,
@@ -33,6 +32,5 @@ trait FileTransformable
             'updated_at'       => $document->updated_at,
             'archived_at'      => $document->archived_at,
         ];
-
     }
 }

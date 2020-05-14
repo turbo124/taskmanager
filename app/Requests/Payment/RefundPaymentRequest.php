@@ -6,6 +6,7 @@ use App\Payment;
 use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Refund\RefundValidation;
 use App\Rules\Refund\InvoiceRefundValidation;
+use Illuminate\Support\Facades\Log;
 
 
 class RefundPaymentRequest extends BaseFormRequest
@@ -27,6 +28,8 @@ class RefundPaymentRequest extends BaseFormRequest
     public function rules()
     {
         $input = $this->all();
+
+        Log::emergency($input);
 
         $rules = [
             'id'                    => 'bail|required',

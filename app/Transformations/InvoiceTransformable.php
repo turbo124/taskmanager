@@ -69,9 +69,11 @@ trait InvoiceTransformable
             return [];
         }
 
-        return $invitations->map(function (InvoiceInvitation $invitation) {
-            return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
-        })->all();
+        return $invitations->map(
+            function (InvoiceInvitation $invitation) {
+                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            }
+        )->all();
     }
 
     /**
@@ -80,13 +82,14 @@ trait InvoiceTransformable
      */
     private function transformEmails($emails)
     {
-
         if ($emails->count() === 0) {
             return [];
         }
 
-        return $emails->map(function (Email $email) {
-            return (new EmailTransformable())->transformEmail($email);
-        })->all();
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
     }
 }

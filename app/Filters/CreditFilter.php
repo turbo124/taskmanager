@@ -76,17 +76,19 @@ class CreditFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('credits.number', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.number', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.date', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.total', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.balance', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('credits.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('credits.number', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.number', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.date', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.total', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.balance', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('credits.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -96,9 +98,11 @@ class CreditFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $credits = $list->map(function (Credit $credit) {
-            return $this->transformCredit($credit);
-        })->all();
+        $credits = $list->map(
+            function (Credit $credit) {
+                return $this->transformCredit($credit);
+            }
+        )->all();
 
         return $credits;
     }
@@ -126,9 +130,11 @@ class CreditFilter extends QueryFilter
         }
 
         if (in_array(parent::STATUS_ARCHIVED, $status_parameters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
+            $this->query->orWhere(
+                function ($query) use ($table) {
+                    $query->whereNotNull($table . '.deleted_at');
+                }
+            );
 
             $this->query->withTrashed();
         }

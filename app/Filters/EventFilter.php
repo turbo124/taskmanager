@@ -66,10 +66,12 @@ class EventFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('location', 'like', '%' . $filter . '%')->orWhere('title', 'like', '%' . $filter . '%')
-                  ->orWhere('description', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('location', 'like', '%' . $filter . '%')->orWhere('title', 'like', '%' . $filter . '%')
+                      ->orWhere('description', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     private function orderBy($orderBy, $orderDir)
@@ -89,9 +91,11 @@ class EventFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $events = $list->map(function (Event $event) {
-            return $this->transformEvent($event);
-        })->all();
+        $events = $list->map(
+            function (Event $event) {
+                return $this->transformEvent($event);
+            }
+        )->all();
 
         return $events;
     }
@@ -105,7 +109,6 @@ class EventFilter extends QueryFilter
     {
         $this->query = $this->model->select('events.*')->join('event_user', 'event_user.user_id', '=', 'events.id');
         foreach ($filters as $column => $value) {
-
             if (empty($value)) {
                 continue;
             }
@@ -143,12 +146,14 @@ class EventFilter extends QueryFilter
         }
 
         if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-                //if (!in_array($table, ['users'])) {
-                //$query->where($table . '.is_deleted', '=', 0);
-                //}
-            });
+            $this->query->orWhere(
+                function ($query) use ($table) {
+                    $query->whereNotNull($table . '.deleted_at');
+                    //if (!in_array($table, ['users'])) {
+                    //$query->where($table . '.is_deleted', '=', 0);
+                    //}
+                }
+            );
 
             $this->query->withTrashed();
         }

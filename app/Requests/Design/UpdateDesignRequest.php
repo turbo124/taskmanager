@@ -15,14 +15,16 @@ class UpdateDesignRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'   => 'required',
+            'name' => 'required',
             'design' => 'required',
         ];
     }
 
     protected function prepareForValidation()
     {
-        if (!isset($input['design']['product']) || empty($input['design']['product']) || is_null($input['design']['product'])) {
+        if (!isset($input['design']['product']) || empty($input['design']['product']) || is_null(
+                $input['design']['product']
+            )) {
             $input['design']['product'] = '';
         }
 

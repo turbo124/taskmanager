@@ -72,9 +72,11 @@ class RecurringInvoiceFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $invoices = $list->map(function (RecurringInvoice $invoice) {
-            return $this->transformInvoice($invoice);
-        })->all();
+        $invoices = $list->map(
+            function (RecurringInvoice $invoice) {
+                return $this->transformInvoice($invoice);
+            }
+        )->all();
 
         return $invoices;
     }
@@ -84,11 +86,13 @@ class RecurringInvoiceFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('recurring_invoices.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_invoices.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_invoices.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_invoices.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('recurring_invoices.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_invoices.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_invoices.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_invoices.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 }

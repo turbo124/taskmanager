@@ -35,7 +35,10 @@ class SendSubscription
      */
     public function handle()
     {
-        $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent($this->event, $this->entity->account);
+        $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent(
+            $this->event,
+            $this->entity->account
+        );
 
         if (empty($subscription) || $subscription->count() === 0) {
             return true;
@@ -44,7 +47,6 @@ class SendSubscription
         $data = $this->buildEntityData($this->entity);
 
         if (empty($data)) {
-
             return false;
         }
 
@@ -58,12 +60,16 @@ class SendSubscription
         return true;
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', $subscription->target_url, [
-            'headers'     => [
-                //'Authorization' => 'Bearer ' . 'Mu9tNULggxB9QFRyDytg9RYdpG8GsQJ9LGBBTYWSzlKAkJgaK7hs0xrV9F4qKrM7',
-                'Accept' => 'application/json',
-            ],
-            'form_params' => $data
-        ]);
+        $response = $client->request(
+            'POST',
+            $subscription->target_url,
+            [
+                'headers' => [
+                    //'Authorization' => 'Bearer ' . 'Mu9tNULggxB9QFRyDytg9RYdpG8GsQJ9LGBBTYWSzlKAkJgaK7hs0xrV9F4qKrM7',
+                    'Accept' => 'application/json',
+                ],
+                'form_params' => $data
+            ]
+        );
     }
 }

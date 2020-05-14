@@ -62,7 +62,6 @@ class UserController extends Controller
 
     public function dashboard()
     {
-
         return view('index');
     }
 
@@ -72,7 +71,10 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $user = $this->user_repo->save($request->all(), UserFactory::create(auth()->user()->account_user()->account->domains->id));
+        $user = $this->user_repo->save(
+            $request->all(),
+            UserFactory::create(auth()->user()->account_user()->account->domains->id)
+        );
         //$user = $this->user_repo->save($request->all(), (new UserFactory())->create());
         return $this->transformUser($user);
 
@@ -86,7 +88,10 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $user = $this->user_repo->findUserById($id);
-        $roles = $this->role_repo->listRoles('created_at', 'desc')->where('account_id', auth()->user()->account_user()->account_id);
+        $roles = $this->role_repo->listRoles('created_at', 'desc')->where(
+            'account_id',
+            auth()->user()->account_user()->account_id
+        );
         $arrData = [
             'user'        => $this->transformUser($user),
             'roles'       => $roles,
@@ -179,7 +184,6 @@ class UserController extends Controller
      */
     public function bulk()
     {
-
     }
 
     /**

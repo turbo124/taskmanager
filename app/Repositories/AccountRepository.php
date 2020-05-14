@@ -54,6 +54,5 @@ class AccountRepository extends BaseRepository
         $account->fill($data);
         $account->save();
         return $account;
-
     }
 }

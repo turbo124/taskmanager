@@ -41,7 +41,6 @@ class TemplateEngine
         $this->template = $template;
 
         $this->objPdf = $objPdf;
-
     }
 
     public function build()
@@ -59,14 +58,15 @@ class TemplateEngine
         $subject = $this->objPdf->parseLabels($labels, $subject);
         $body = $this->objPdf->parseValues($values, $body);
 
-        $converter = new CommonMarkConverter([
-            'allow_unsafe_links' => false,
-        ]);
+        $converter = new CommonMarkConverter(
+            [
+                'allow_unsafe_links' => false,
+            ]
+        );
 
         $body = $converter->convertToHtml($body);
 
         return $this->render($subject, $body, $entity_obj);
-
     }
 
     private function render($subject, $body, $entity_obj)
@@ -79,6 +79,5 @@ class TemplateEngine
             'body'    => $body,
             'wrapper' => $wrapper
         ];
-
     }
 }

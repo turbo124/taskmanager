@@ -82,17 +82,19 @@ class InvoiceFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('invoices.number', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.po_number', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.date', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.total', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.balance', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('invoices.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('invoices.number', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.po_number', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.date', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.total', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.balance', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('invoices.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -102,9 +104,11 @@ class InvoiceFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $invoices = $list->map(function (Invoice $invoice) {
-            return $this->transformInvoice($invoice);
-        })->all();
+        $invoices = $list->map(
+            function (Invoice $invoice) {
+                return $this->transformInvoice($invoice);
+            }
+        )->all();
 
         return $invoices;
     }
@@ -129,22 +133,26 @@ class InvoiceFilter extends QueryFilter
             //->orWhere('partial_due_date', '>', Carbon::now());
         }
         if (in_array('overdue', $status_parameters)) {
-            $this->query->whereIn('status_id', [
-                Invoice::STATUS_SENT,
-                Invoice::STATUS_PARTIAL
-            ])->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
+            $this->query->whereIn(
+                'status_id',
+                [
+                    Invoice::STATUS_SENT,
+                    Invoice::STATUS_PARTIAL
+                ]
+            )->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
         }
 
         $table = 'invoices';
 
         if (in_array(parent::STATUS_ARCHIVED, $status_parameters)) {
-
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-                if (!in_array($table, ['users'])) {
-                    $query->where($table . '.is_deleted', '=', 0);
+            $this->query->orWhere(
+                function ($query) use ($table) {
+                    $query->whereNotNull($table . '.deleted_at');
+                    if (!in_array($table, ['users'])) {
+                        $query->where($table . '.is_deleted', '=', 0);
+                    }
                 }
-            });
+            );
 
             $this->query->withTrashed();
         }

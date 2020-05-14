@@ -55,8 +55,11 @@ class InvoiceController extends BaseController
      * @param InvoiceRepositoryInterface $invoice_repo
      * @param QuoteRepository $quote_repo
      */
-    public function __construct(InvoiceRepositoryInterface $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo)
-    {
+    public function __construct(
+        InvoiceRepositoryInterface $invoice_repo,
+        QuoteRepository $quote_repo,
+        CreditRepository $credit_repo
+    ) {
         $this->invoice_repo = $invoice_repo;
         parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Invoice');
     }
@@ -85,8 +88,10 @@ class InvoiceController extends BaseController
     public function store(CreateInvoiceRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $invoice = $this->invoice_repo->save($request->all(),
-            InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
+        $invoice = $this->invoice_repo->save(
+            $request->all(),
+            InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
+        );
         InvoiceOrders::dispatchNow($invoice);
         event(new InvoiceWasCreated($invoice));
         SaveRecurringInvoice::dispatchNow($request, $invoice->account, $invoice);
@@ -100,7 +105,6 @@ class InvoiceController extends BaseController
      */
     public function show(int $invoice_id)
     {
-
         $invoice = $this->invoice_repo->findInvoiceById($invoice_id);
         return response()->json($this->transformInvoice($invoice));
     }
@@ -120,7 +124,7 @@ class InvoiceController extends BaseController
         }
 
         $arrTest = [
-            'lines'   => $invoice->line_items,
+            'lines' => $invoice->line_items,
             'invoice' => $invoice
         ];
 

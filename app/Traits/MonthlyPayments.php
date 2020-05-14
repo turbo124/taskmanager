@@ -66,7 +66,6 @@ trait MonthlyPayments
 
     public function calculateTotal($value, $interest_rate)
     {
-
         $value = (float)$value;
         $interest_rate = (float)$interest_rate;
         $new_total = $value + (($interest_rate / 100) * $value);

@@ -20,6 +20,5 @@ class InvoiceToPaymentFactory
         $payment->transaction_reference = trans('texts.manual');
 
         return $payment;
-
     }
 }

@@ -35,7 +35,6 @@ class InvoiceOrders implements ShouldQueue
         $line_items = $this->invoice->line_items;
 
         foreach ($line_items as $item) {
-
             $order = Order::whereId($item->order_id)->first();
 
             if ($order) {

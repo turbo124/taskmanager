@@ -79,7 +79,11 @@ class TokenController extends Controller
      */
     public function create()
     {
-        $token = CompanyTokenFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, auth()->user()->account_user()->account->domain_id);
+        $token = CompanyTokenFactory::create(
+            auth()->user()->account_user()->account_id,
+            auth()->user()->id,
+            auth()->user()->account_user()->account->domain_id
+        );
 
         return response()->json($this->transform($token));
     }
@@ -90,7 +94,11 @@ class TokenController extends Controller
      */
     public function store(CreateTokenRequest $request)
     {
-        $company_token = CompanyTokenFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id, auth()->user()->account_user()->account->domain_id);
+        $company_token = CompanyTokenFactory::create(
+            auth()->user()->account_user()->account_id,
+            auth()->user()->id,
+            auth()->user()->account_user()->account->domain_id
+        );
         $token = $this->token_repo->save($request->all(), $company_token);
         return response()->json($this->transform($token));
     }

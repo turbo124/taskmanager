@@ -155,9 +155,11 @@ class CustomerController extends Controller
         $ids = request()->input('ids');
         $clients = Customer::withTrashed()->find($ids);
 
-        $clients->each(function ($client, $key) use ($action) {
-            $this->customer_repo->{$action}($client);
-        });
+        $clients->each(
+            function ($client, $key) use ($action) {
+                $this->customer_repo->{$action}($client);
+            }
+        );
         return response()->json(Customer::withTrashed()->whereIn('id', $ids));
     }
 

@@ -35,21 +35,22 @@ class InvitationViewedListener implements ShouldQueue
         $notification = new EntityViewedNotification($invitation, $entity_name);
 
         foreach ($invitation->account->account_users as $account_user) {
-
             $entity_viewed = "{$entity_name}_viewed";
 
-            $notification->method = $this->findUserNotificationTypes($invitation, $account_user, $entity_name,
-                ['all_notifications', $entity_viewed]);
+            $notification->method = $this->findUserNotificationTypes(
+                $invitation,
+                $account_user,
+                $entity_name,
+                ['all_notifications', $entity_viewed]
+            );
 
             $account_user->user->notify($notification);
         }
 
         if (isset($invitation->account->slack_webhook_url)) {
-
             $notification->method = ['slack'];
 
             Notification::route('slack', $invitation->account->slack_webhook_url)->notify($notification);
-
         }
     }
 
@@ -57,7 +58,6 @@ class InvitationViewedListener implements ShouldQueue
     private function userNotificationArray($notifications)
     {
         $via_array = [];
-
     }
 
 }

@@ -252,7 +252,6 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
     Route::delete('payments/archive/{payment_id}', 'PaymentController@archive');
     Route::delete('payments/{payment_id}', 'PaymentController@destroy');
     Route::put('payments/{payment_id}', 'PaymentController@update');
-    Route::put('refund/{payment_id}', 'PaymentController@refund');
     Route::post('payments/{payment}/{action}', 'PaymentController@action')->name('payments.action');
     Route::post('payments/restore/{id}', 'PaymentController@restore');
 
@@ -373,6 +372,8 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('tasks/deal', 'TaskController@createDeal');
     Route::post('lead', 'LeadController@store');
     Route::get('lead/convert/{id}', 'LeadController@convert');
+
+    Route::put('refund/{payment_id}', 'PaymentController@refund');
    
     Route::get('invoice/pdf/{key}', 'InvoiceController@markViewed');
     Route::get('quote/pdf/{key}', 'QuoteController@markViewed');

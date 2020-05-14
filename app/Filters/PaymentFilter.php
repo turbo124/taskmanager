@@ -81,22 +81,26 @@ class PaymentFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('payments.amount', 'like', '%' . $filter . '%')
-                  ->orWhere('payments.date', 'like', '%' . $filter . '%')
-                  ->orWhere('payments.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('payments.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('payments.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('payments.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('payments.amount', 'like', '%' . $filter . '%')
+                      ->orWhere('payments.date', 'like', '%' . $filter . '%')
+                      ->orWhere('payments.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('payments.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('payments.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('payments.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     private function transformList()
     {
         $list = $this->query->get();
-        $payments = $list->map(function (Payment $payment) {
-            return $this->transformPayment($payment);
-        })->all();
+        $payments = $list->map(
+            function (Payment $payment) {
+                return $this->transformPayment($payment);
+            }
+        )->all();
 
         return $payments;
     }

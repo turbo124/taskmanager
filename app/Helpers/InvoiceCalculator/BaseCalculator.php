@@ -67,7 +67,6 @@ class BaseCalculator
 
     protected function calculateTaxTotal(float $total, float $tax, $inclusive = false)
     {
-
     }
 
     /**

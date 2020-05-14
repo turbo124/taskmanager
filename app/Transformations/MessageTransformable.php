@@ -17,7 +17,6 @@ trait MessageTransformable
      */
     protected function transformMessage(Message $message, User $currentUser, Customer $customer)
     {
-
         $prop = new Message;
         $author = $message->direction === 1 ? $currentUser->first_name . ' ' .
             $currentUser->last_name : $customer->first_name . ' ' . $customer->last_name;

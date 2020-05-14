@@ -66,7 +66,6 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
      */
     public function getInvoiceForTask(Task $objTask): Invoice
     {
-
         return $this->model->where('task_id', '=', $objTask->id)->first();
     }
 

@@ -167,12 +167,15 @@ trait SearchableTrait
     protected function makeJoins(Builder $query)
     {
         foreach ($this->getJoins() as $table => $keys) {
-            $query->leftJoin($table, function ($join) use ($keys) {
-                $join->on($keys[0], '=', $keys[1]);
-                if (isset($keys[2]) && isset($keys[3])) {
-                    $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
+            $query->leftJoin(
+                $table,
+                function ($join) use ($keys) {
+                    $join->on($keys[0], '=', $keys[1]);
+                    if (isset($keys[2]) && isset($keys[3])) {
+                        $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -195,11 +198,14 @@ trait SearchableTrait
             $query->groupBy($columns);
             $joins = array_keys(($this->getJoins()));
             foreach ($this->getColumns() as $column => $relevance) {
-                array_map(function ($join) use ($column, $query) {
-                    if (Str::contains($column, $join)) {
-                        $query->groupBy($column);
-                    }
-                }, $joins);
+                array_map(
+                    function ($join) use ($column, $query) {
+                        if (Str::contains($column, $join)) {
+                            $query->groupBy($column);
+                        }
+                    },
+                    $joins
+                );
             }
         }
     }
@@ -213,8 +219,10 @@ trait SearchableTrait
     protected function addSelectsToQuery(Builder $query, array $selects)
     {
         if (!empty($selects)) {
-            $query->selectRaw('max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(),
-                $this->search_bindings);
+            $query->selectRaw(
+                'max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(),
+                $this->search_bindings
+            );
         }
     }
 

@@ -51,7 +51,8 @@ class SendReminders
             $reminder_date = $this->invoice->next_send_date;
             $settings = (array)$this->settings;
 
-            if ($settings["enable_reminder{$x}"] === false || $settings["num_days_reminder{$x}"] == 0 || $reminder_date !== Carbon::now()->format('Y-m-d')) {
+            if ($settings["enable_reminder{$x}"] === false || $settings["num_days_reminder{$x}"] == 0 || $reminder_date !== Carbon::now(
+                )->format('Y-m-d')) {
                 continue;
             }
 
@@ -92,7 +93,13 @@ class SendReminders
 
     public function run()
     {
-        if ($this->invoice->is_deleted || !in_array($this->invoice->status_id, [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL, Invoice::STATUS_DRAFT])) {
+        if ($this->invoice->is_deleted || !in_array($this->invoice->status_id,
+                                                    [
+                                                        Invoice::STATUS_SENT,
+                                                        Invoice::STATUS_PARTIAL,
+                                                        Invoice::STATUS_DRAFT
+                                                    ]
+            )) {
             $this->invoice->next_send_date = null;
             $this->invoice->save();
             return; //exit early

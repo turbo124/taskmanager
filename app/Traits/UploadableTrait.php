@@ -43,9 +43,7 @@ trait UploadableTrait
         $full_path = $path . '/' . $fileName;
 
         if (!File::isDirectory($path)) {
-
             File::makeDirectory(public_path($path), 0777, true, true);
-
         }
 
         $file->move($path, $fileName);

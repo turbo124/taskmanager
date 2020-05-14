@@ -80,10 +80,12 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
      */
     public function dissociateProducts()
     {
-        $this->model->products()->each(function (Product $product) {
-            $product->company_id = null;
-            $product->save();
-        });
+        $this->model->products()->each(
+            function (Product $product) {
+                $product->company_id = null;
+                $product->save();
+            }
+        );
     }
 
     public function getModel()
@@ -99,7 +101,6 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     public function syncUsers($user_id, array $params)
     {
         $this->model->users()->attach($user_id, $params);
-
     }
 
     /**
@@ -116,7 +117,6 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
         $company->save();
 
         return $company;
-
     }
 
 

@@ -15,7 +15,6 @@ class GroupSettings extends BaseSettings
     public function save(GroupSetting $group_setting, $settings): ?GroupSetting
     {
         try {
-
             if (empty($settings)) {
                 $settings = $this->getGroupDefaults();
             }
@@ -38,7 +37,9 @@ class GroupSettings extends BaseSettings
 
     public function getGroupDefaults()
     {
-        return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
+        return (object)array_filter(
+            array_combine(array_keys($this->settings), array_column($this->settings, 'default_value'))
+        );
     }
 
     /**

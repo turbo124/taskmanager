@@ -40,8 +40,10 @@ class CompanyController extends Controller
      * CompanyController constructor.
      * @param CompanyRepositoryInterface $company_repo
      */
-    public function __construct(CompanyRepositoryInterface $company_repo, CompanyContactRepository $company_contact_repo)
-    {
+    public function __construct(
+        CompanyRepositoryInterface $company_repo,
+        CompanyContactRepository $company_contact_repo
+    ) {
         $this->company_repo = $company_repo;
         $this->company_contact_repo = $company_contact_repo;
     }

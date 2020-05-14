@@ -18,8 +18,10 @@ class CompanyPresenter extends EntityPresenter
 
     public function logo()
     {
-        return iconv_strlen($this->entity->company_logo >
-            0) ? $this->entity->company_logo : '';
+        return iconv_strlen(
+            $this->entity->company_logo >
+            0
+        ) ? $this->entity->company_logo : '';
     }
 
     public function address()

@@ -47,7 +47,6 @@ class DownloadCurrencies extends Command
         $currency_converter = new CurrencyConverter;
 
         foreach ($currencies as $currency) {
-
             $exchange_rate = $currency_converter->getExchangeRate($currency->code);
 
             echo $exchange_rate . ' ' . $currency->code;
@@ -57,7 +56,6 @@ class DownloadCurrencies extends Command
             }
 
             $currency->update(['exchange_rate' => $exchange_rate]);
-
         }
     }
 }

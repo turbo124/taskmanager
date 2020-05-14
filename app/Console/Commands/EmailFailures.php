@@ -56,7 +56,12 @@ class EmailFailures extends Command
                 continue;
             }
 
-            $contact = $entity_string === 'App\\Lead' ? $entity : ClientContact::where('email', $failed_email->recipient_email)->first();
+            $contact = $entity_string === 'App\\Lead'
+                ? $entity
+                : ClientContact::where(
+                    'email',
+                    $failed_email->recipient_email
+                )->first();
             $contact = empty($contact) ? null : $contact;
 
             $entity->service()->sendEmail($contact, $failed_email->subject, $failed_email->body);

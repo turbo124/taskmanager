@@ -22,7 +22,6 @@ class GetPdf
 
     public function run()
     {
-
         $path = 'storage/' . $this->lead->account->id . '/' . $this->lead->id . '/leads/';
         $file_path = $path . $this->lead->id . '.pdf';
 

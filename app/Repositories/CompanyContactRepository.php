@@ -31,20 +31,27 @@ class CompanyContactRepository extends BaseRepository
         $old_ids = CompanyContact::whereCompanyId($company->id)->pluck('id')->toArray();
 
 
-        $updates = collect(array_filter($contacts, function ($item) {
+        $updates = collect(
+            array_filter(
+                $contacts,
+                function ($item) {
+                    if (isset($item['id'])) {
+                        return true;
+                    }
+                    return false;
+                }
+            )
+        )->keyBy('id')->toArray();
 
-            if (isset($item['id'])) {
-                return true;
+        $insert = array_filter(
+            $contacts,
+            function ($item) {
+                if (!isset($item['id'])) {
+                    return true;
+                }
+                return false;
             }
-            return false;
-        }))->keyBy('id')->toArray();
-
-        $insert = array_filter($contacts, function ($item) {
-            if (!isset($item['id'])) {
-                return true;
-            }
-            return false;
-        });
+        );
 
         $new_ids = array_keys($updates);
 
@@ -64,14 +71,15 @@ class CompanyContactRepository extends BaseRepository
             $contacts = CompanyContact::whereIn('id', $update)->get()->keyBy('id');
 
             foreach ($updates as $key => $update) {
-
                 if (!isset($contacts[$key])) {
                     continue;
                 }
 
                 $contact = $contacts[$key];
                 $contact->fill($update);
-                $contact->password = isset($update['password']) && strlen($update['password']) > 0 ? Hash::make($update['password']) : $contact->password;
+                $contact->password = isset($update['password']) && strlen($update['password']) > 0 ? Hash::make(
+                    $update['password']
+                ) : $contact->password;
                 $contact->save();
             }
         }
@@ -82,10 +90,11 @@ class CompanyContactRepository extends BaseRepository
                 $create_contact = CompanyContactFactory::create($company->account_id, $company->user_id);
                 $create_contact->company_id = $company->id;
                 $create_contact->fill($item);
-                $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make($item['password']) : '';
+                $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make(
+                    $item['password']
+                ) : '';
                 $create_contact->save();
             }
-
         }
 
         return true;

@@ -31,7 +31,6 @@ class RecurringQuoteService extends ServiceBase
     {
         parent::__construct($quote);
         $this->quote = $quote;
-
     }
 
     public function calculateInvoiceTotals(): RecurringQuote

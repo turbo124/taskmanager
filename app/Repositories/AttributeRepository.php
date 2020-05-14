@@ -55,7 +55,6 @@ class AttributeRepository extends BaseRepository
     public function updateAttribute(array $data): bool
     {
         return $this->model->update($data);
-
     }
 
     /**

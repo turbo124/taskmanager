@@ -71,7 +71,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      */
     public function getActiveUsers($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection
     {
-
         return User::where('is_active', 1)->orderBy($orderBy, $sortBy)->get();
     }
 
@@ -80,7 +79,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      */
     public function syncRoles(User $user, array $roleIds)
     {
-
         $mappedObjects = [];
 
         foreach ($roleIds[0] as $roleId) {
@@ -161,7 +159,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         }
 
         if (isset($data['company_user'])) {
-
             $account = Account::find(auth()->user()->account_user()->account_id);
 
             $cu = AccountUser::whereUserId($user->id)->whereAccountId($account->id)->withTrashed()->first();
@@ -174,8 +171,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                     $data['company_user']['notifications']
                 );
             } else {
-
-                $data['company_user']['notifications'] = !empty($data['company_user']['notifications']) ? $data['company_user']['notifications'] : $user->notificationDefaults();
+                $data['company_user']['notifications'] = !empty($data['company_user']['notifications']) ? $data['company_user']['notifications']
+                    : $user->notificationDefaults();
                 $cu->fill($data['company_user']);
                 $cu->restore();
                 $cu->save();
@@ -183,7 +180,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         }
 
         return $user->fresh();
-
     }
 
     /**

@@ -39,7 +39,9 @@ class GetPdf
         $design = Design::find($this->quote->getDesignId());
         $objPdf = new PdfData($this->quote);
         $designer =
-            new PdfColumns($objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote');
+            new PdfColumns(
+                $objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote'
+            );
 
         return CreatePdf::dispatchNow($objPdf, $this->quote, $file_path, $designer, $this->contact);
     }

@@ -77,8 +77,10 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        $task = $this->task_repo->save($request->all(),
-            (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account));
+        $task = $this->task_repo->save(
+            $request->all(),
+            (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account)
+        );
         //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($this->transformTask($task));
     }
@@ -105,9 +107,11 @@ class TaskController extends Controller
         $objProject = $this->project_repo->findProjectById($projectId);
         $list = $this->task_repo->getTasksForProject($objProject);
 
-        $tasks = $list->map(function (Task $task) {
-            return $this->transformTask($task);
-        })->all();
+        $tasks = $list->map(
+            function (Task $task) {
+                return $this->transformTask($task);
+            }
+        )->all();
 
         return response()->json($tasks);
     }
@@ -124,16 +128,17 @@ class TaskController extends Controller
         $task = $this->task_repo->save($request->all(), $task);
         //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($task);
-
     }
 
     public function getDeals()
     {
         $list = $this->task_repo->getDeals();
 
-        $tasks = $list->map(function (Task $task) {
-            return $this->transformTask($task);
-        })->all();
+        $tasks = $list->map(
+            function (Task $task) {
+                return $this->transformTask($task);
+            }
+        )->all();
 
         return response()->json($tasks);
     }
@@ -157,8 +162,11 @@ class TaskController extends Controller
      */
     public function filterTasks(Request $request, int $task_type)
     {
-        $tasks = (new TaskFilter($this->task_repo))->filterBySearchCriteria($request->all(), $task_type,
-            auth()->user()->account_user()->account_id);
+        $tasks = (new TaskFilter($this->task_repo))->filterBySearchCriteria(
+            $request->all(),
+            $task_type,
+            auth()->user()->account_user()->account_id
+        );
         return response()->json($tasks);
     }
 
@@ -175,12 +183,15 @@ class TaskController extends Controller
      */
     public function getProducts(int $task_id)
     {
-        $products = (new ProductRepository(new Product))->getAll(new SearchRequest, auth()->user()->account_user()->account);
+        $products = (new ProductRepository(new Product))->getAll(
+            new SearchRequest,
+            auth()->user()->account_user()->account
+        );
         $task = $this->task_repo->findTaskById($task_id);
         $product_tasks = (new OrderRepository(new Order))->getOrdersForTask($task);
 
         $arrData = [
-            'products'    => $products,
+            'products' => $products,
             'selectedIds' => $product_tasks->pluck('product_id')->all(),
         ];
 
@@ -201,9 +212,13 @@ class TaskController extends Controller
         $account = $token->account;
 
         $task = (new TaskFactory())->create($user, $account);
-        $task = $task->service()->createDeal($request,
+        $task = $task->service()->createDeal(
+            $request,
             (new CustomerRepository(new Customer)),
-            new OrderRepository(new Order), new TaskRepository(new Task, new ProjectRepository(new Project)), true);
+            new OrderRepository(new Order),
+            new TaskRepository(new Task, new ProjectRepository(new Project)),
+            true
+        );
 
         event(new DealWasCreated($task, $task->account));
 
@@ -220,9 +235,11 @@ class TaskController extends Controller
         $task = $this->task_repo->findTaskById($parent_id);
         $subtasks = $this->task_repo->getSubtasks($task);
 
-        $tasks = $subtasks->map(function (Task $task) {
-            return $this->transformTask($task);
-        })->all();
+        $tasks = $subtasks->map(
+            function (Task $task) {
+                return $this->transformTask($task);
+            }
+        )->all();
         return response()->json($tasks);
     }
 

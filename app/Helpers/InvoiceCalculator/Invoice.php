@@ -85,7 +85,6 @@ class Invoice extends BaseCalculator
 
     public function build()
     {
-
         $this->total = $this->sub_total;
 
         $this->calculateCustomValues();
@@ -110,7 +109,6 @@ class Invoice extends BaseCalculator
         $custom_surcharge_total = 0;
 
         if (!empty($this->entity->custom_surcharge1)) {
-
             $custom_surcharge_total += $this->entity->custom_surcharge1;
 
             if (!empty($this->entity->custom_surcharge_tax1)) {
@@ -121,7 +119,6 @@ class Invoice extends BaseCalculator
         }
 
         if (!empty($this->entity->custom_surcharge2)) {
-
             $custom_surcharge_total += $this->entity->custom_surcharge2;
 
             if (!empty($this->entity->custom_surcharge_tax2)) {
@@ -129,11 +126,9 @@ class Invoice extends BaseCalculator
                 $this->setTaxTotal($tax_total);
                 $this->setCustomTax($this->entity->custom_surcharge2);
             }
-
         }
 
         if (!empty($this->entity->custom_surcharge3)) {
-
             $custom_surcharge_total += $this->entity->custom_surcharge3;
 
             if (!empty($this->entity->custom_surcharge_tax3)) {
@@ -144,7 +139,6 @@ class Invoice extends BaseCalculator
         }
 
         if (!empty($this->entity->custom_surcharge4)) {
-
             $custom_surcharge_total += $this->entity->custom_surcharge4;
 
             if (!empty($this->entity->custom_surcharge_tax4)) {
@@ -176,7 +170,6 @@ class Invoice extends BaseCalculator
      */
     public function calculateTax(): self
     {
-
         $sub_total = $this->custom_tax > 0 ? $this->sub_total + $this->custom_tax : $this->sub_total;
         $this->tax_total += $this->applyTax($sub_total, $this->tax_rate, $this->is_amount_discount);
 
@@ -296,7 +289,6 @@ class Invoice extends BaseCalculator
     public function setTaxRate($tax_rate): self
     {
         if (empty($tax_rate)) {
-
             return $this;
         }
 

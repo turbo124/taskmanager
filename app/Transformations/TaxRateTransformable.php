@@ -20,7 +20,6 @@ trait TaxRateTransformable
      */
     protected function transformTaxRate(TaxRate $tax_rate)
     {
-
         return [
             'id'         => (int)$tax_rate->id,
             'name'       => (string)$tax_rate->name,

@@ -49,8 +49,10 @@ class RecurringInvoiceController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new RecurringInvoiceFilter($this->recurring_invoice_repo))->filter($request,
-            auth()->user()->account_user()->account_id);
+        $invoices = (new RecurringInvoiceFilter($this->recurring_invoice_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account_id
+        );
         return response()->json($invoices);
     }
 
@@ -63,23 +65,32 @@ class RecurringInvoiceController extends Controller
     {
         $invoice = (new InvoiceRepository(new Invoice()))->findInvoiceById($request->invoice_id);
 
-        $arrRecurring = array_merge(array(
-            'sub_total'      => $invoice->sub_total,
-            'tax_total'      => $invoice->tax_total,
-            'discount_total' => $invoice->discount_total,
-            'date'           => $invoice->date,
-            'due_date'       => $invoice->due_date,
-            'line_items'     => $invoice->line_items,
-            'footer'         => $invoice->footer,
-            'notes'          => $invoice->notes,
-            'terms'          => $invoice->terms,
-            'total'          => $invoice->total,
-            'partial'        => $invoice->partial
-        ), $request->all());
+        $arrRecurring = array_merge(
+            array(
+                'sub_total'      => $invoice->sub_total,
+                'tax_total'      => $invoice->tax_total,
+                'discount_total' => $invoice->discount_total,
+                'date'           => $invoice->date,
+                'due_date'       => $invoice->due_date,
+                'line_items'     => $invoice->line_items,
+                'footer'         => $invoice->footer,
+                'notes'          => $invoice->notes,
+                'terms'          => $invoice->terms,
+                'total'          => $invoice->total,
+                'partial'        => $invoice->partial
+            ),
+            $request->all()
+        );
 
-        $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save($arrRecurring,
-            RecurringInvoiceFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user()->account_user()->account, auth()->user(),
-                $invoice->total));
+        $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(
+            $arrRecurring,
+            RecurringInvoiceFactory::create(
+                Customer::where('id', $request->customer_id)->first(),
+                auth()->user()->account_user()->account,
+                auth()->user(),
+                $invoice->total
+            )
+        );
         return response()->json($this->transformInvoice($recurring_invoice));
     }
 

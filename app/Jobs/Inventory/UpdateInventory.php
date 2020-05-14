@@ -36,7 +36,6 @@ class UpdateInventory implements ShouldQueue
     public function handle()
     {
         foreach ($this->line_items as $item) {
-
             if (empty($item->product_id)) {
                 continue;
             }

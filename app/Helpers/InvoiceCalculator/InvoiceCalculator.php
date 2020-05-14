@@ -13,12 +13,10 @@ class InvoiceCalculator
 
     public function build()
     {
-
     }
 
 
     public function save()
     {
-
     }
 }

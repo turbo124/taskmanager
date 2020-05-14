@@ -64,15 +64,16 @@ class UploadFile implements ShouldQueue
         // create notification
         $notification = NotificationFactory::create($this->account->id, $this->user->id);
         $notification->type = 'App\Notifications\AttachmentCreated';
-        $notification->data = json_encode([
-            'id'       => $file->id,
-            'message'  => 'A new file has been uploaded',
-            'filename' => $file->name
-        ]);
+        $notification->data = json_encode(
+            [
+                'id'       => $file->id,
+                'message'  => 'A new file has been uploaded',
+                'filename' => $file->name
+            ]
+        );
         $notification->save();
 
         return $file;
-
     }
 
     private function makePreview($file)

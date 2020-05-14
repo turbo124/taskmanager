@@ -140,7 +140,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function filterProductsByCategory(Category $objCategory): Support
     {
-
         return $this->model->join('category_product', 'category_product.product_id', '=', 'products.id')
                            ->select('products.*')->where('category_product.category_id', $objCategory->id)
                            ->groupBy('products.id')->get();
@@ -187,11 +186,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues): \Illuminate\Support\Collection
-    {
-        return collect($attributeValues)->each(function (AttributeValue $value) use ($productAttribute) {
-            return $productAttribute->attributesValues()->save($value);
-        });
+    public function saveCombination(
+        ProductAttribute $productAttribute,
+        AttributeValue ...$attributeValues
+    ): \Illuminate\Support\Collection {
+        return collect($attributeValues)->each(
+            function (AttributeValue $value) use ($productAttribute) {
+                return $productAttribute->attributesValues()->save($value);
+            }
+        );
     }
 
     /**
@@ -199,9 +202,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function listCombinations(): Collection
     {
-        return $this->model->attributes()->map(function (ProductAttribute $productAttribute) {
-            return $productAttribute->attributesValues;
-        });
+        return $this->model->attributes()->map(
+            function (ProductAttribute $productAttribute) {
+                return $productAttribute->attributesValues;
+            }
+        );
     }
 
     /**
@@ -212,13 +217,19 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         $values = $productAttribute->attributesValues()->get();
 
-        return $values->map(function (AttributeValue $attributeValue) {
-            return $attributeValue;
-        })->keyBy(function (AttributeValue $item) {
-            return strtolower($item->attribute->name);
-        })->transform(function (AttributeValue $value) {
-            return $value->value;
-        });
+        return $values->map(
+            function (AttributeValue $attributeValue) {
+                return $attributeValue;
+            }
+        )->keyBy(
+            function (AttributeValue $item) {
+                return strtolower($item->attribute->name);
+            }
+        )->transform(
+            function (AttributeValue $value) {
+                return $value->value;
+            }
+        );
     }
 
     /**
@@ -231,7 +242,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $query = $this->model->leftJoin('product_attributes', 'product_attributes.product_id', '=', 'products.id')
                              ->join('category_product', 'category_product.product_id', '=', 'products.id')
                              ->select('products.*')
-                             ->where('products.status', '=', 1)->where('category_product.category_id', '=', $category->id);
+                             ->where('products.status', '=', 1)->where(
+                'category_product.category_id',
+                '=',
+                $category->id
+            );
 
         if (!empty($request->valued_at) && $request->valued_at > 0) {
             $query->where('product_attributes.range_from', '<', $request->valued_at)
@@ -284,14 +299,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function saveProductImages(Support $collection, Product $product): bool
     {
-        $collection->each(function (UploadedFile $file) use ($product) {
-            $filename = $this->storeFile($file);
-            $productImage = new ProductImage([
-                'product_id' => $this->model->id,
-                'src'        => $filename
-            ]);
-            $product->images()->save($productImage);
-        });
+        $collection->each(
+            function (UploadedFile $file) use ($product) {
+                $filename = $this->storeFile($file);
+                $productImage = new ProductImage(
+                    [
+                        'product_id' => $this->model->id,
+                        'src'        => $filename
+                    ]
+                );
+                $product->images()->save($productImage);
+            }
+        );
 
         return true;
     }

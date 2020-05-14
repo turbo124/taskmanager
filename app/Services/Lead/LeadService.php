@@ -51,7 +51,6 @@ class LeadService extends ServiceBase
      */
     public function sendEmail($subject = '', $body = '', $template = 'lead')
     {
-
         return (new LeadEmail($this->lead, $subject, $body))->run();
     }
 

@@ -39,7 +39,6 @@ class InvoiceMarkedSentActivity implements ShouldQueue
 
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
         $this->notification_repo->save($notification, $fields);
-
         //$this->notification_repo->create($fields);
     }
 }

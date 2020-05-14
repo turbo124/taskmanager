@@ -244,7 +244,6 @@ class LineItem extends BaseCalculator
      */
     public function setTaxRateId($tax_rate_id): self
     {
-
         $this->tax_rate_id = $tax_rate_id;
         return $this;
     }

@@ -23,17 +23,21 @@ class LoginController extends Controller
         //$credentials = $request->only('email', 'password');
         try {
             if (!$token = JWTAuth::attempt(['email' => $email, 'password' => $password])) {
-                return response()->json([
-                    'response' => 'error',
-                    'message'  => 'Password or email is invalid',
-                    'token'    => $token
-                ]);
+                return response()->json(
+                    [
+                        'response' => 'error',
+                        'message'  => 'Password or email is invalid',
+                        'token'    => $token
+                    ]
+                );
             }
         } catch (JWTAuthException $e) {
-            return response()->json([
-                'response' => 'error',
-                'message'  => 'Token creation failed',
-            ]);
+            return response()->json(
+                [
+                    'response' => 'error',
+                    'message'  => 'Token creation failed',
+                ]
+            );
         }
         return $token;
     }
@@ -61,13 +65,16 @@ class LoginController extends Controller
 
             $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
-            CompanyToken::updateOrCreate(['user_id' => $user->id], [
-                'is_web'     => true,
-                'token'      => $token,
-                'user_id'    => $user->id,
-                'account_id' => $default_account->id,
-                'domain_id'  => $user->accounts->first()->domains->id
-            ]);
+            CompanyToken::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'is_web'     => true,
+                    'token'      => $token,
+                    'user_id'    => $user->id,
+                    'account_id' => $default_account->id,
+                    'domain_id'  => $user->accounts->first()->domains->id
+                ]
+            );
 
             $response = [
                 'success' => true,
@@ -85,7 +92,6 @@ class LoginController extends Controller
         }
 
         return response()->json(['success' => false, 'data' => 'Record doesnt exists']);
-
     }
 
     public function showLogin()

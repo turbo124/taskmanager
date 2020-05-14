@@ -67,7 +67,6 @@ class CreatePdf implements ShouldQueue
         Storage::disk($this->disk)->put($this->file_path, $pdf);
 
         return $this->file_path;
-
     }
 
     private function makePdf($header, $footer, $html)

@@ -30,7 +30,6 @@ class RecurringInvoiceService extends ServiceBase
     {
         parent::__construct($invoice);
         $this->invoice = $invoice;
-
     }
 
     public function calculateInvoiceTotals(): RecurringInvoice

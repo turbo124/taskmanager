@@ -16,7 +16,6 @@ trait NotificationTransformable
      */
     protected function transformNotification(Notification $notification)
     {
-
         $user = $notification->user;
 
         $prop = new Notification;

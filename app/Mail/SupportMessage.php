@@ -32,6 +32,13 @@ class SupportMessage extends Mailable
     {
         return $this->from('tamtamcrm@support.com')
                     ->subject(trans('texts.support_ticket_subject'))
-                    ->markdown('email.admin.new', ['data' => ['title' => trans('texts.support_ticket_subject'), 'message' => $this->message]]);
+                    ->markdown('email.admin.new',
+                               [
+                                   'data' => [
+                                       'title'   => trans('texts.support_ticket_subject'),
+                                       'message' => $this->message
+                                   ]
+                               ]
+                    );
     }
 }

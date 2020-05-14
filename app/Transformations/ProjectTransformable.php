@@ -12,7 +12,6 @@ trait ProjectTransformable
      */
     protected function transformProject(Project $project)
     {
-
         return [
             'id'               => (int)$project->id,
             'customer_name'    => $project->customer->present()->name,
@@ -36,7 +35,6 @@ trait ProjectTransformable
             'custom_value3'    => $project->custom_value3 ?: '',
             'custom_value4'    => $project->custom_value4 ?: '',
         ];
-
     }
 
 }

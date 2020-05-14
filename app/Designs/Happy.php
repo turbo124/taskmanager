@@ -7,7 +7,6 @@ class Happy
 
     public function header()
     {
-
         return '<div class="">
 <div class="mt-4">
     <div class="inline-block col-6 ml-4" style="width: 40%">
@@ -24,12 +23,10 @@ class Happy
         </div>
     </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="mt-4 border-dashed border-top-4 border-bottom-4 border-info">
 <div class="inline-block" style="width: 50%">
     <div>
@@ -87,7 +84,6 @@ $table_here
 </div>
 </div>
 ';
-
     }
 
     public function table()
@@ -104,7 +100,6 @@ $table_here
 
     public function task_table()
     {
-
     }
 
     public function task()
@@ -128,7 +123,6 @@ $table_here
         </div>
 </body>
 </html>';
-
     }
 
 }

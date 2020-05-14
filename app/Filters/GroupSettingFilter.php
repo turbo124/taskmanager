@@ -82,9 +82,11 @@ class GroupSettingFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $groups = $list->map(function (GroupSetting $group) {
-            return $this->transformGroupSetting($group);
-        })->all();
+        $groups = $list->map(
+            function (GroupSetting $group) {
+                return $this->transformGroupSetting($group);
+            }
+        )->all();
 
         return $groups;
     }
@@ -98,7 +100,6 @@ class GroupSettingFilter extends QueryFilter
     {
         $this->query = $this->model->select('group_settings.*');
         foreach ($filters as $column => $value) {
-
             if (empty($value)) {
                 continue;
             }

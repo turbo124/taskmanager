@@ -23,6 +23,7 @@ use App\Factory\PaymentFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -62,15 +63,23 @@ class PaymentController extends Controller
     public function store(CreatePaymentRequest $request)
     {
         $payment =
-        $payment = $this->payment_repo->processPayment($request->all(),
-            PaymentFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user(),
-                auth()->user()->account_user()->account));
+        $payment = $this->payment_repo->processPayment(
+            $request->all(),
+            PaymentFactory::create(
+                Customer::where('id', $request->customer_id)->first(),
+                auth()->user(),
+                auth()->user()->account_user()->account
+            )
+        );
 
         $notification = NotificationFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
-        (new NotificationRepository(new \App\Notification))->save($notification, [
-            'data' => json_encode(['id' => $payment->id, 'message' => 'A new payment was created']),
-            'type' => 'App\Notifications\PaymentCreated'
-        ]);
+        (new NotificationRepository(new \App\Notification))->save(
+            $notification,
+            [
+                'data' => json_encode(['id' => $payment->id, 'message' => 'A new payment was created']),
+                'type' => 'App\Notifications\PaymentCreated'
+            ]
+        );
 
         return response()->json($this->transformPayment($payment));
     }
@@ -122,9 +131,11 @@ class PaymentController extends Controller
 
         $ids = request()->input('ids');
         $payments = Payment::withTrashed()->find($ids);
-        $payments->each(function ($payment, $key) use ($action) {
-            $this->payment_repo->{$action}($payment);
-        });
+        $payments->each(
+            function ($payment, $key) use ($action) {
+                $this->payment_repo->{$action}($payment);
+            }
+        );
         return response()->json(Payment::withTrashed()->whereIn('id', $ids));
     }
 

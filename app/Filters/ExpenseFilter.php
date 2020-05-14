@@ -88,9 +88,11 @@ class ExpenseFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $expenses = $list->map(function (Expense $expense) {
-            return $this->transformExpense($expense);
-        })->all();
+        $expenses = $list->map(
+            function (Expense $expense) {
+                return $this->transformExpense($expense);
+            }
+        )->all();
 
         return $expenses;
     }
@@ -109,16 +111,18 @@ class ExpenseFilter extends QueryFilter
             return false;
         }
 
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('expenses.name', 'like', '%' . $filter . '%')
-                  ->orWhere('expenses.number', 'like', '%' . $filter . '%')
-                //->orWhere('expense_contacts.first_name', 'like', '%'.$filter.'%')
-                //->orWhere('expense_contacts.last_name', 'like', '%'.$filter.'%')
-                //->orWhere('expense_contacts.email', 'like', '%'.$filter.'%')
-                  ->orWhere('expenses.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('expenses.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('expenses.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('expenses.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('expenses.name', 'like', '%' . $filter . '%')
+                      ->orWhere('expenses.number', 'like', '%' . $filter . '%')
+                    //->orWhere('expense_contacts.first_name', 'like', '%'.$filter.'%')
+                    //->orWhere('expense_contacts.last_name', 'like', '%'.$filter.'%')
+                    //->orWhere('expense_contacts.email', 'like', '%'.$filter.'%')
+                      ->orWhere('expenses.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('expenses.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('expenses.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('expenses.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 }

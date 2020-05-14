@@ -25,7 +25,6 @@ class GatewaySettings extends BaseSettings
     public function save(CompanyGateway $company_gateway, $settings)
     {
         try {
-
             $settings = $this->validate($settings, $this->settings);
 
             $company_gateway->fees_and_limits = $settings;
@@ -36,12 +35,10 @@ class GatewaySettings extends BaseSettings
             }
 
             return $company_gateway;
-
         } catch (\Exception $e) {
             echo $e->getMessage();
             die('here');
         }
-
     }
 
 }

@@ -69,9 +69,11 @@ class ProjectFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $projects = $list->map(function (Project $project) {
-            return $this->transformProject($project);
-        })->all();
+        $projects = $list->map(
+            function (Project $project) {
+                return $this->transformProject($project);
+            }
+        )->all();
 
         return $projects;
     }
@@ -82,8 +84,10 @@ class ProjectFilter extends QueryFilter
             return $this->query;
         }
 
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('projects.title', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('projects.title', 'like', '%' . $filter . '%');
+            }
+        );
     }
 }

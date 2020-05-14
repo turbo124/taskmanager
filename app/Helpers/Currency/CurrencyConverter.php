@@ -61,15 +61,18 @@ class CurrencyConverter
 
     public function calculate()
     {
-
         if (empty($this->amount) || empty($this->base_currency)) {
-
             return false;
         }
 
         $exchangeRates = new ExchangeRate();
 
-        $converted_amount = $exchangeRates->convert($this->amount, $this->base_currency->code, $this->exchange_currency->code, Carbon::now());
+        $converted_amount = $exchangeRates->convert(
+            $this->amount,
+            $this->base_currency->code,
+            $this->exchange_currency->code,
+            Carbon::now()
+        );
 
         return $converted_amount;
     }
@@ -94,7 +97,9 @@ class CurrencyConverter
     public function download()
     {
         $client = new Client();
-        $response = $client->get('https://openexchangerates.org/api/latest.json?app_id=' . config('taskmanager.currency_converter_key'));
+        $response = $client->get(
+            'https://openexchangerates.org/api/latest.json?app_id=' . config('taskmanager.currency_converter_key')
+        );
         $list = json_decode($response->getBody(), true);
         $this->exchange_rates = $list['rates'];
     }

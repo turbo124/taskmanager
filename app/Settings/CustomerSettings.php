@@ -17,7 +17,6 @@ class CustomerSettings extends BaseSettings
     public function save(Customer $customer, $settings): ?Customer
     {
         try {
-
             $settings = $this->validate($settings, $this->settings);
 
             if (!$settings) {
@@ -36,7 +35,9 @@ class CustomerSettings extends BaseSettings
 
     public function getCustomerDefaults()
     {
-        return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
+        return (object)array_filter(
+            array_combine(array_keys($this->settings), array_column($this->settings, 'default_value'))
+        );
     }
 
     /**

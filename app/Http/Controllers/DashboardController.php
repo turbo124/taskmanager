@@ -41,7 +41,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-
         $arrSources = $this->taskRepository->getSourceTypeCounts(3, auth()->user()->account_user()->account_id);
         $arrStatuses = $this->taskRepository->getStatusCounts(3, auth()->user()->account_user()->account_id);
         $leadsToday = $this->taskRepository->getRecentTasks(3, 3, auth()->user()->account_user()->account_id);
@@ -50,9 +49,11 @@ class DashboardController extends Controller
         $leads = $this->taskRepository->getLeads(10, null, auth()->user()->account_user()->account_id);
         $totalEarnt = $this->taskRepository->getTotalEarnt(3, auth()->user()->account_user()->account_id);
 
-        $tasks = $leads->map(function (Task $task) {
-            return $this->transformTask($task);
-        })->all();
+        $tasks = $leads->map(
+            function (Task $task) {
+                return $this->transformTask($task);
+            }
+        )->all();
 
         $arrOutput = [
             'sources'      => $arrSources->toArray(),

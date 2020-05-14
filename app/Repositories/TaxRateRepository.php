@@ -75,7 +75,6 @@ class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInter
 
     public function save($data, TaxRate $taxRate): ?TaxRate
     {
-
         $taxRate->fill($data);
         $taxRate->save();
 

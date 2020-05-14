@@ -47,14 +47,23 @@ class DepartmentController extends Controller
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->department_repo->searchDepartment(request()->input('search_term'))->where('account_id', auth()->user()->account_user()->account_id);
+            $list = $this->department_repo->searchDepartment(request()->input('search_term'))->where('account_id',
+                                                                                                     auth()->user(
+                                                                                                     )->account_user(
+                                                                                                     )->account_id
+            );
         } else {
-            $list = $this->department_repo->listDepartments($orderBy, $orderDir)->where('account_id', auth()->user()->account_user()->account_id);
+            $list = $this->department_repo->listDepartments($orderBy, $orderDir)->where('account_id',
+                                                                                        auth()->user()->account_user(
+                                                                                        )->account_id
+            );
         }
 
-        $departments = $list->map(function (Department $department) {
-            return $this->transformDepartment($department);
-        })->all();
+        $departments = $list->map(
+            function (Department $department) {
+                return $this->transformDepartment($department);
+            }
+        )->all();
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->department_repo->paginateArrayResults($departments, $recordsPerPage);
@@ -71,8 +80,10 @@ class DepartmentController extends Controller
      */
     public function store(CreateDepartmentRequest $request)
     {
-        $department = $this->department_repo->save($request->all(),
-            DepartmentFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id));
+        $department = $this->department_repo->save(
+            $request->all(),
+            DepartmentFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id)
+        );
         return response()->json($this->transformDepartment($department));
     }
 
@@ -106,7 +117,6 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-
         $department = $this->departmentRepo->findDepartmentById($id);
 
         $departmentRepo = new DepartmentRepository($department);

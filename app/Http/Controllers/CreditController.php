@@ -43,8 +43,11 @@ class CreditController extends BaseController
      * @param InvoiceRepository $invoice_repo
      * @param QuoteRepository $quote_repo
      */
-    public function __construct(CreditRepositoryInterface $credit_repo, InvoiceRepository $invoice_repo, QuoteRepository $quote_repo)
-    {
+    public function __construct(
+        CreditRepositoryInterface $credit_repo,
+        InvoiceRepository $invoice_repo,
+        QuoteRepository $quote_repo
+    ) {
         $this->credit_repo = $credit_repo;
         parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Credit');
     }
@@ -81,8 +84,10 @@ class CreditController extends BaseController
     public function store(CreateCreditRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $credit = $this->credit_repo->save($request->all(),
-            CreditFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
+        $credit = $this->credit_repo->save(
+            $request->all(),
+            CreditFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
+        );
         event(new CreditWasCreated($credit));
         return response()->json($this->transformCredit($credit));
     }

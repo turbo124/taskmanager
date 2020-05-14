@@ -13,7 +13,6 @@ trait PaymentTransformable
      */
     public function transformPayment(Payment $payment)
     {
-
         return [
             'id'                    => (int)$payment->id,
             'user_id'               => (int)$payment->user_id,
@@ -26,7 +25,9 @@ trait PaymentTransformable
             'transaction_reference' => $payment->transaction_reference ?: '',
             'invoices'              => $payment->invoices,
 
-            'paymentables'         => !empty($payment->paymentables) ? $this->transformPaymentables($payment->paymentables) : [],
+            'paymentables'         => !empty($payment->paymentables) ? $this->transformPaymentables(
+                $payment->paymentables
+            ) : [],
             'deleted_at'           => $payment->deleted_at,
             //$obj->archived_at = $payment->deleted_at;
             //$obj->is_deleted = (bool) $payment->is_deleted;
@@ -55,9 +56,11 @@ trait PaymentTransformable
             return [];
         }
 
-        return $paymentables->map(function (Paymentable $paymentable) {
-            return (new PaymentableTransformer())->transform($paymentable);
-        })->all();
+        return $paymentables->map(
+            function (Paymentable $paymentable) {
+                return (new PaymentableTransformer())->transform($paymentable);
+            }
+        )->all();
     }
 
 }

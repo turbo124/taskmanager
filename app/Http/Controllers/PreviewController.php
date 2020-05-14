@@ -30,7 +30,6 @@ class PreviewController extends Controller
             request()->has('entity_id') &&
             strlen(request()->input('entity')) > 1 &&
             strlen(request()->input('entity_id')) > 1 && request()->has('design')) {
-
             $design_object = json_decode(json_encode(request()->input('design')));
 
             if (!is_object($design_object)) {
@@ -53,40 +52,46 @@ class PreviewController extends Controller
             $file_path = $entity_obj->service()->getPdf();
 
             return response()->json(['data' => base64_encode(file_get_contents($file_path))]);
-
         }
 
         return $this->blankEntity();
-
     }
 
     private function blankEntity()
     {
         DB::beginTransaction();
 
-        $client = factory(Customer::class)->create([
-            'user_id'    => auth()->user()->id,
-            'account_id' => auth()->user()->account_user()->account_id,
-        ]);
+        $client = factory(Customer::class)->create(
+            [
+                'user_id'    => auth()->user()->id,
+                'account_id' => auth()->user()->account_user()->account_id,
+            ]
+        );
 
-        $contact = factory(ClientContact::class)->create([
-            'user_id'     => auth()->user()->id,
-            'account_id'  => auth()->user()->account_user()->account_id,
-            'customer_id' => $client->id,
-            'is_primary'  => 1,
-            'send_email'  => true,
-        ]);
+        $contact = factory(ClientContact::class)->create(
+            [
+                'user_id'     => auth()->user()->id,
+                'account_id'  => auth()->user()->account_user()->account_id,
+                'customer_id' => $client->id,
+                'is_primary'  => 1,
+                'send_email'  => true,
+            ]
+        );
 
-        $address = factory(Address::class)->create([
-            'customer_id'  => $client->id,
-            'address_type' => 1,
-        ]);
+        $address = factory(Address::class)->create(
+            [
+                'customer_id'  => $client->id,
+                'address_type' => 1,
+            ]
+        );
 
-        $invoice = factory(Invoice::class)->create([
-            'user_id'     => auth()->user()->id,
-            'account_id'  => auth()->user()->account_user()->account_id,
-            'customer_id' => $client->id,
-        ]);
+        $invoice = factory(Invoice::class)->create(
+            [
+                'user_id'     => auth()->user()->id,
+                'account_id'  => auth()->user()->account_user()->account_id,
+                'customer_id' => $client->id,
+            ]
+        );
 
         $file_path = $invoice->service()->getPdf();
 
@@ -97,6 +102,5 @@ class PreviewController extends Controller
         DB::rollBack();
 
         return response()->json(['data' => base64_encode(file_get_contents($file_path))]);
-
     }
 }

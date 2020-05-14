@@ -32,16 +32,17 @@ trait ProductTransformable
             'cover'            => $product->cover,
             'company_id'       => (int)$product->company_id,
             'brand'            => !empty($product->company) ? $product->company->name : null,
-            'is_featured'      => (bool) $product->is_featured,
+            'is_featured'      => (bool)$product->is_featured,
             'category_ids'     => $product->categories()->pluck('category_id')->all(),
             'images'           => $product->images()->get(['src']),
-            'attributes'       => $product->attributes->count() > 0 ? $this->transformProductAttributes($product->attributes) : [],
+            'attributes'       => $product->attributes->count() > 0 ? $this->transformProductAttributes(
+                $product->attributes
+            ) : [],
             'custom_value1'    => $product->custom_value1 ?: '',
             'custom_value2'    => $product->custom_value2 ?: '',
             'custom_value3'    => $product->custom_value3 ?: '',
             'custom_value4'    => $product->custom_value4 ?: ''
         ];
-
     }
 
     private function transformProductAttributes($productAttributes)
@@ -50,9 +51,11 @@ trait ProductTransformable
             return [];
         }
 
-        return $productAttributes->map(function (ProductAttribute $product_attribute) {
-            return (new ProductAttributeTransformable)->transformProductAttribute($product_attribute);
-        })->all();
+        return $productAttributes->map(
+            function (ProductAttribute $product_attribute) {
+                return (new ProductAttributeTransformable)->transformProductAttribute($product_attribute);
+            }
+        )->all();
     }
 
 }

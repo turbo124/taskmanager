@@ -23,7 +23,6 @@ trait TaskTransformable
      */
     protected function transformTask(Task $task)
     {
-
         return [
             'id'                     => (int)$task->id,
             'customer_name'          => $task->customer->present()->name,
@@ -64,14 +63,15 @@ trait TaskTransformable
      */
     private function transformTimers($timers)
     {
-
         if ($timers->count() === 0) {
             return [];
         }
 
-        return $timers->map(function (Timer $timer) {
-            return (new TimerTransformable)->transform($timer);
-        })->all();
+        return $timers->map(
+            function (Timer $timer) {
+                return (new TimerTransformable)->transform($timer);
+            }
+        )->all();
     }
 
 }

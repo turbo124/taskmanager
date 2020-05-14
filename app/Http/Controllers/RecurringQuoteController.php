@@ -52,9 +52,10 @@ class RecurringQuoteController extends Controller
      */
     public function index(SearchRequest $request)
     {
-
-        $invoices = (new RecurringQuoteFilter($this->recurring_quote_repo))->filter($request,
-            auth()->user()->account_user()->account_id);
+        $invoices = (new RecurringQuoteFilter($this->recurring_quote_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account_id
+        );
         return response()->json($invoices);
     }
 
@@ -65,26 +66,34 @@ class RecurringQuoteController extends Controller
      */
     public function store(StoreRecurringQuoteRequest $request)
     {
-
         $quote = (new QuoteRepository(new Quote()))->findQuoteById($request->quote_id);
 
-        $arrRecurring = array_merge(array(
-            'sub_total'      => $quote->sub_total,
-            'tax_total'      => $quote->tax_total,
-            'discount_total' => $quote->discount_total,
-            'date'           => $quote->date,
-            'due_date'       => $quote->due_date,
-            'line_items'     => $quote->line_items,
-            'footer'         => $quote->footer,
-            'notes'          => $quote->notes,
-            'terms'          => $quote->terms,
-            'total'          => $quote->total,
-            'partial'        => $quote->partial
-        ), $request->all());
+        $arrRecurring = array_merge(
+            array(
+                'sub_total'      => $quote->sub_total,
+                'tax_total'      => $quote->tax_total,
+                'discount_total' => $quote->discount_total,
+                'date'           => $quote->date,
+                'due_date'       => $quote->due_date,
+                'line_items'     => $quote->line_items,
+                'footer'         => $quote->footer,
+                'notes'          => $quote->notes,
+                'terms'          => $quote->terms,
+                'total'          => $quote->total,
+                'partial'        => $quote->partial
+            ),
+            $request->all()
+        );
 
-        $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote))->save($arrRecurring,
-            RecurringQuoteFactory::create(Customer::where('id', $request->customer_id)->first(), auth()->user()->account_user()->account,
-                auth()->user(), $quote->total));
+        $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote))->save(
+            $arrRecurring,
+            RecurringQuoteFactory::create(
+                Customer::where('id', $request->customer_id)->first(),
+                auth()->user()->account_user()->account,
+                auth()->user(),
+                $quote->total
+            )
+        );
         return response()->json($this->transformQuote($recurring_quote));
     }
 
@@ -110,7 +119,6 @@ class RecurringQuoteController extends Controller
         $recurring_quotes = RecurringQuote::withTrashed()->find($ids);
 
         return response()->json($recurring_quotes);
-
     }
 
     /**
