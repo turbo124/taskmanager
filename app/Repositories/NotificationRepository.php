@@ -39,7 +39,6 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     public function create(array $data): Notification
     {
         $test = $this->create($data);
-
     }
 
     /**

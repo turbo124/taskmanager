@@ -145,7 +145,6 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-
         /*Client Settings*/
         if (!empty($this->settings->{$setting})) {
             return $this->settings->{$setting};

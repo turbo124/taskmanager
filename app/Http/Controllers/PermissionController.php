@@ -40,7 +40,6 @@ class PermissionController extends Controller
      */
     public function index(SearchRequest $request)
     {
-
         $orderBy = !$request->column ? 'name' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
@@ -51,9 +50,11 @@ class PermissionController extends Controller
             $list = $this->permRepo->listPermissions(['*'], $orderBy, $orderDir);
         }
 
-        $permissions = $list->map(function (Permission $permission) {
-            return $this->transformPermission($permission);
-        })->all();
+        $permissions = $list->map(
+            function (Permission $permission) {
+                return $this->transformPermission($permission);
+            }
+        )->all();
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->permRepo->paginateArrayResults($permissions, $recordsPerPage);
@@ -98,7 +99,6 @@ class PermissionController extends Controller
      */
     public function destroy(int $id)
     {
-
         $permission = $this->permRepo->findPermissionById($id);
 
         $permissionRepo = new PermissionRepository($permission);

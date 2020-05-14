@@ -58,7 +58,6 @@ class CreateDeal
 
     public function run()
     {
-
         $customer = CustomerFactory::create($this->task->account, $this->task->user);
 
         $date = new DateTime(); // Y-m-d
@@ -78,16 +77,18 @@ class CreateDeal
             );
 
             $customer = $contact->customer;
-
         }
 
-        $customer = $this->customer_repo->save([
-            'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
-            'phone'                  => $this->request->phone,
-            'website'                => isset($this->request->website) ? $this->request->website : '',
-            'currency_id'            => 1,
-            'default_payment_method' => 1
-        ], $customer);
+        $customer = $this->customer_repo->save(
+            [
+                'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
+                'phone'                  => $this->request->phone,
+                'website'                => isset($this->request->website) ? $this->request->website : '',
+                'currency_id'            => 1,
+                'default_payment_method' => 1
+            ],
+            $customer
+        );
 
         if (empty($contact)) {
             $contacts [] = [
@@ -101,7 +102,6 @@ class CreateDeal
         }
 
         if (!empty($this->request->billing)) {
-
             Address::updateOrCreate(
                 ['customer_id' => $customer->id, 'address_type' => 1],
                 [
@@ -109,12 +109,12 @@ class CreateDeal
                     'address_2'    => $this->request->billing['address_2'],
                     'zip'          => $this->request->billing['zip'],
                     'country_id'   => isset($this->request->billing['country_id']) ? $this->request->billing['country_id'] : 225,
-                    'address_type' => 1]
+                    'address_type' => 1
+                ]
             );
         }
 
         if (!empty($this->request->shipping)) {
-
             $address = Address::updateOrCreate(
                 ['customer_id' => $customer->id, 'address_type' => 2],
                 [
@@ -122,21 +122,25 @@ class CreateDeal
                     'address_2'    => $this->request->shipping['address_2'],
                     'zip'          => $this->request->shipping['zip'],
                     'country_id'   => isset($this->request->shipping['country_id']) ? $this->request->shipping['country_id'] : 225,
-                    'address_type' => 2]
+                    'address_type' => 2
+                ]
             );
         }
 
-        $this->task = $this->task_repo->save([
-            'due_date'    => $due_date,
-            'created_by'  => $this->task->user_id,
-            'source_type' => $this->request->source_type,
-            'title'       => $this->request->title,
-            'description' => isset($this->request->description) ? $this->request->description : '',
-            'customer_id' => $customer->id,
-            'valued_at'   => $this->request->valued_at,
-            'task_type'   => $this->is_deal === true ? 3 : 2,
-            'task_status' => $this->request->task_status
-        ], $this->task);
+        $this->task = $this->task_repo->save(
+            [
+                'due_date'    => $due_date,
+                'created_by'  => $this->task->user_id,
+                'source_type' => $this->request->source_type,
+                'title'       => $this->request->title,
+                'description' => isset($this->request->description) ? $this->request->description : '',
+                'customer_id' => $customer->id,
+                'valued_at'   => $this->request->valued_at,
+                'task_type'   => $this->is_deal === true ? 3 : 2,
+                'task_status' => $this->request->task_status
+            ],
+            $this->task
+        );
 
         if (!empty($this->request->contributors)) {
             $this->task->users()->sync($this->request->input('contributors'));
@@ -151,7 +155,6 @@ class CreateDeal
 
     private function saveOrder(Customer $customer)
     {
-
         $contacts = $customer->contacts->toArray();
         $invitations = [];
 
@@ -172,11 +175,17 @@ class CreateDeal
                 'total'             => $this->request->total,
                 //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
                 'discount_total'    => isset($this->request->discount) ? $this->request->discount : 0,
-                'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace('%', '', $this->request->tax_rate) : 0,
+                'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
+                    '%',
+                    '',
+                    $this->request->tax_rate
+                ) : 0,
                 'line_items'        => $this->request->products,
                 'task_id'           => $this->task->id,
                 'date'              => date('Y-m-d')
-            ], $order);
+            ],
+            $order
+        );
 
 
         $subject = $order->customer->getSetting('email_subject_order');

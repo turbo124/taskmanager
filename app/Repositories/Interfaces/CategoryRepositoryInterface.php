@@ -17,7 +17,12 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
      * @param string $sort
      * @param type $except
      */
-    public function listCategories(string $order = 'id', string $sort = 'desc', Account $account, $except = []): Collection;
+    public function listCategories(
+        string $order = 'id',
+        string $sort = 'desc',
+        Account $account,
+        $except = []
+    ): Collection;
 
     /**
      * @param array $params

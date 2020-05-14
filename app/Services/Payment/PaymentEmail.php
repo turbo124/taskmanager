@@ -25,10 +25,12 @@ class PaymentEmail
         $subject = $this->payment->customer->getSetting('email_subject_payment');
         $body = $this->payment->customer->getSetting('email_template_payment');
 
-        $this->payment->customer->contacts->each(function ($contact) use ($subject, $body) {
-            if ($contact->send_email && $contact->email) {
-                SendEmail::dispatchNow($this->payment, $subject, $body, 'payment', $contact);
+        $this->payment->customer->contacts->each(
+            function ($contact) use ($subject, $body) {
+                if ($contact->send_email && $contact->email) {
+                    SendEmail::dispatchNow($this->payment, $subject, $body, 'payment', $contact);
+                }
             }
-        });
+        );
     }
 }

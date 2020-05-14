@@ -22,7 +22,6 @@ class EventCreated extends Notification
      */
     public function __construct(Event $event)
     {
-
         $this->event = $event;
     }
 

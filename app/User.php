@@ -186,12 +186,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function attachUserToAccount(Account $account, $is_admin, array $notifications = [])
     {
-        $this->accounts()->attach($account->id, [
-            'account_id'    => $account->id,
-            'is_owner'      => $is_admin,
-            'is_admin'      => $is_admin,
-            'notifications' => !empty($notifications) ? $notifications : $this->notificationDefaults()
-        ]);
+        $this->accounts()->attach(
+            $account->id,
+            [
+                'account_id'    => $account->id,
+                'is_owner'      => $is_admin,
+                'is_admin'      => $is_admin,
+                'notifications' => !empty($notifications) ? $notifications : $this->notificationDefaults()
+            ]
+        );
         return true;
     }
 }

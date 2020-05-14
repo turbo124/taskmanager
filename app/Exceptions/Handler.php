@@ -54,7 +54,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
 //        if (($request->is('api/*') || $request->wantsJson()) && ! $exception instanceof \Illuminate\Validation\ValidationException) {
 //            $json = $exception->getMessage();
 //

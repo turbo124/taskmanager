@@ -21,7 +21,6 @@ trait HasPermissionsTrait
 
     public function userHasRole(...$roles)
     {
-
         foreach ($roles as $role) {
             if ($this->roles->contains('name', $role)) {
                 return true;
@@ -38,9 +37,7 @@ trait HasPermissionsTrait
      */
     protected function checkIfRoleHasPermission($permission)
     {
-
         foreach ($this->roles as $role) {
-
             if ((bool)$role->permissions->where('name', $permission)->count()) {
                 return true;
             }
@@ -51,13 +48,11 @@ trait HasPermissionsTrait
 
     protected function userHasPermission($permission)
     {
-
         return (bool)$this->permissions->where('name', $permission)->count();
     }
 
     public function hasPermissionThroughRole($permission)
     {
-
         foreach ($permission->roles as $role) {
             if ($this->roles->contains($role)) {
                 return true;

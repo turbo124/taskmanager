@@ -21,7 +21,6 @@ class CreatePayment
 
     public function run()
     {
-
         if ($this->invoice->balance < 0 || $this->invoice->status_id == Invoice::STATUS_PAID || $this->invoice->is_deleted === true) {
             return false;
         }

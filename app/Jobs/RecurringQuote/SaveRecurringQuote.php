@@ -44,8 +44,10 @@ class SaveRecurringQuote
             $arrRecurring['end_date'] = $recurring['end_date'];
             $arrRecurring['frequency'] = $recurring['frequency'];
             $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
-            $recurringQuote = (new RecurringQuoteRepository(new RecurringQuote))->save($arrRecurring,
-                QuoteToRecurringQuoteFactory::create($this->quote));
+            $recurringQuote = (new RecurringQuoteRepository(new RecurringQuote))->save(
+                $arrRecurring,
+                QuoteToRecurringQuoteFactory::create($this->quote)
+            );
 
             return $recurringQuote;
         }

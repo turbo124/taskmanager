@@ -16,7 +16,6 @@ trait RecurringInvoiceTransformable
      */
     protected function transformInvoice(RecurringInvoice $invoice)
     {
-
         return [
             'id'             => (int)$invoice->id,
             'number'         => $invoice->number,

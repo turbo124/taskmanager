@@ -32,11 +32,15 @@ class NewUser extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(trans('texts.new_user_created_subject'))
-            ->markdown('email.admin.new',
-                ['data' => ['title'       => trans('texts.new_user_created_subject'),
-                            'message'     => trans('texts.new_user_created_body'),
-                            'button_text' => trans('texts.new_user_created_button'),
-                            'url'         => url("/user/confirm/{$this->user->confirmation_code}")]
+            ->markdown(
+                'email.admin.new',
+                [
+                    'data' => [
+                        'title'       => trans('texts.new_user_created_subject'),
+                        'message'     => trans('texts.new_user_created_body'),
+                        'button_text' => trans('texts.new_user_created_button'),
+                        'url'         => url("/user/confirm/{$this->user->confirmation_code}")
+                    ]
                 ]
             );
     }

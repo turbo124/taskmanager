@@ -22,7 +22,9 @@ class UpdateDesignRequest extends BaseFormRequest
 
     protected function prepareForValidation()
     {
-        if (!isset($input['design']['product']) || empty($input['design']['product']) || is_null($input['design']['product'])) {
+        if (!isset($input['design']['product']) || empty($input['design']['product']) || is_null(
+                $input['design']['product']
+            )) {
             $input['design']['product'] = '';
         }
 

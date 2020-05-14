@@ -61,8 +61,11 @@ class QuoteController extends BaseController
      * @param InvoiceRepositoryInterface $invoice_repo
      * @param QuoteRepositoryInterface $quote_repo
      */
-    public function __construct(InvoiceRepositoryInterface $invoice_repo, QuoteRepositoryInterface $quote_repo, CreditRepository $credit_repo)
-    {
+    public function __construct(
+        InvoiceRepositoryInterface $invoice_repo,
+        QuoteRepositoryInterface $quote_repo,
+        CreditRepository $credit_repo
+    ) {
         $this->invoice_repo = $invoice_repo;
         $this->quote_repo = $quote_repo;
         parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Quote');
@@ -95,8 +98,10 @@ class QuoteController extends BaseController
     public function store(CreateQuoteRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $quote = $this->quote_repo->save($request->all(),
-            QuoteFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
+        $quote = $this->quote_repo->save(
+            $request->all(),
+            QuoteFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
+        );
         SaveRecurringQuote::dispatchNow($request, $quote->account, $quote);
         QuoteOrders::dispatchNow($quote);
         event(new QuoteWasCreated($quote));

@@ -33,7 +33,6 @@ class StoreCustomerAddress
      */
     public function handle(CustomerRepository $client_repo): ?Customer
     {
-
         $this->customer->addresses()->forceDelete();
 
         if (isset($this->data['addresses'][0])) {

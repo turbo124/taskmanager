@@ -14,7 +14,6 @@ class CreateProductRequest extends BaseFormRequest
      */
     public function rules()
     {
-
         return [
             'company_id'  => 'required|numeric|min:1|not_in:0',
             'sku'         => 'required|string',

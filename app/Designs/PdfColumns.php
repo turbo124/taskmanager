@@ -151,7 +151,6 @@ class PdfColumns
         $this->input_variables = json_decode(json_encode($input_variables), true);
 
         $this->entity_string = $entity_string;
-
     }
 
     public function buildDesign(): bool
@@ -164,15 +163,22 @@ class PdfColumns
 
     public function getSection($section): string
     {
-        return str_replace(array_keys($this->exported_variables), array_values($this->exported_variables),
-            $this->design->{$section});
+        return str_replace(
+            array_keys($this->exported_variables),
+            array_values($this->exported_variables),
+            $this->design->{$section}
+        );
     }
 
     private function buildTables()
     {
         $this->objPdf->build();
 
-        $product_table = $this->objPdf->buildTable($this->input_variables['product_columns'], $this->design->product, 'product');
+        $product_table = $this->objPdf->buildTable(
+            $this->input_variables['product_columns'],
+            $this->design->product,
+            'product'
+        );
         $task_table = $this->objPdf->buildTable($this->input_variables['task_columns'], $this->design->task, 'task');
         $this->exported_variables['$task_table_header'] = '';
         $this->exported_variables['$product_table_header'] = '';
@@ -198,7 +204,6 @@ class PdfColumns
         $output = '';
 
         foreach ($values as $value) {
-
             if (isset($variables[$value])) {
                 $tmp = str_replace("</span>", "_label</span>", $variables[$value]);
                 $output .= $type === 'label' ? $tmp : $variables[$value] . $appends;
@@ -212,11 +217,22 @@ class PdfColumns
     private function process()
     {
         foreach ($this->default_columns as $key => $default) {
-            $this->exported_variables['$' . $key] = $this->formatVariables(array_values($this->input_variables[$key]), $default);
+            $this->exported_variables['$' . $key] = $this->formatVariables(
+                array_values($this->input_variables[$key]),
+                $default
+            );
         }
 
-        $this->exported_variables['$entity_details'] = $this->formatVariables(array_values($this->input_variables[$this->entity_string]), $this->entity_columns[$this->entity_string], '<br>');
-        $this->exported_variables['$entity_labels'] = $this->formatVariables(array_keys($this->input_variables[$this->entity_string]), $this->entity_columns[$this->entity_string], 'label');
+        $this->exported_variables['$entity_details'] = $this->formatVariables(
+            array_values($this->input_variables[$this->entity_string]),
+            $this->entity_columns[$this->entity_string],
+            '<br>'
+        );
+        $this->exported_variables['$entity_labels'] = $this->formatVariables(
+            array_keys($this->input_variables[$this->entity_string]),
+            $this->entity_columns[$this->entity_string],
+            'label'
+        );
 
         return true;
     }

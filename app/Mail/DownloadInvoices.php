@@ -30,10 +30,12 @@ class DownloadInvoices extends Mailable
      */
     public function build()
     {
-
-        return $this->subject(trans('texts.download'))->markdown('email.admin.download_files', [
-            'url'  => $this->file_path,
-            'logo' => $this->account->present()->logo,
-        ]);
+        return $this->subject(trans('texts.download'))->markdown(
+            'email.admin.download_files',
+            [
+                'url'  => $this->file_path,
+                'logo' => $this->account->present()->logo,
+            ]
+        );
     }
 }

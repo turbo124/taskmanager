@@ -38,7 +38,11 @@ class NewLeadNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
+        return !empty($this->message_type)
+            ? [$this->message_type]
+            : [
+                $notifiable->account_user()->default_notification_type
+            ];
     }
 
     /**
@@ -49,17 +53,32 @@ class NewLeadNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject(trans('texts.notification_lead_subject',
-            ['customer' => $this->lead->present()->name]))->markdown('email.admin.new', ['data' => [
-            'title'       => trans('texts.notification_lead_subject', ['customer' => $this->lead->present()->name()]),
-            'message'     => trans('texts.notification_lead', [
-                'customer' => $this->lead->present()->name()
-            ]),
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
-            'button_text' => trans('texts.view_deal'),
-            'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
-            'logo'        => $this->lead->account->present()->logo(),
-        ]]);
+        return (new MailMessage)->subject(
+            trans(
+                'texts.notification_lead_subject',
+                ['customer' => $this->lead->present()->name]
+            )
+        )->markdown(
+            'email.admin.new',
+            [
+                'data' => [
+                    'title'       => trans(
+                        'texts.notification_lead_subject',
+                        ['customer' => $this->lead->present()->name()]
+                    ),
+                    'message'     => trans(
+                        'texts.notification_lead',
+                        [
+                            'customer' => $this->lead->present()->name()
+                        ]
+                    ),
+                    'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
+                    'button_text' => trans('texts.view_deal'),
+                    'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
+                    'logo'        => $this->lead->account->present()->logo(),
+                ]
+            ]
+        );
     }
 
     /**
@@ -79,8 +98,12 @@ class NewLeadNotification extends Notification implements ShouldQueue
         $logo = $this->lead->account->present()->logo();
 
         return (new SlackMessage)->success()
-                                 ->from("System")->image($logo)->content(trans('texts.notification_deal',
-                ['customer' => $this->lead->present()->name()]));
+                                 ->from("System")->image($logo)->content(
+                trans(
+                    'texts.notification_deal',
+                    ['customer' => $this->lead->present()->name()]
+                )
+            );
     }
 
 }

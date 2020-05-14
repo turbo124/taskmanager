@@ -143,18 +143,24 @@ class Payment extends Model
 
     public function attachInvoice(Invoice $invoice): Payment
     {
-        $this->invoices()->attach($invoice->id, [
-            'amount' => $this->amount
-        ]);
+        $this->invoices()->attach(
+            $invoice->id,
+            [
+                'amount' => $this->amount
+            ]
+        );
 
         return $this;
     }
 
     public function attachCredit(Credit $credit): Payment
     {
-        $this->credits()->attach($credit->id, [
-            'amount' => $this->amount
-        ]);
+        $this->credits()->attach(
+            $credit->id,
+            [
+                'amount' => $this->amount
+            ]
+        );
 
         return $this;
     }

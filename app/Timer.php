@@ -13,7 +13,10 @@ class Timer extends Model
      * {@inheritDoc}
      */
     protected $fillable = [
-        'user_id', 'task_id', 'stopped_at', 'started_at'
+        'user_id',
+        'task_id',
+        'stopped_at',
+        'started_at'
     ];
 
     /**

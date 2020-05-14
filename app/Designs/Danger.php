@@ -10,7 +10,6 @@ class Danger
 
     public function header()
     {
-
         return '<div class="py-4 px-4 mt-2">
             <div style="width: 100%">
                 <div class="inline-block mt-4" style="width: 30%">
@@ -29,12 +28,10 @@ class Danger
     $account_logo
     </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="mt-4">
 <div class="inline-block" style="width: 60%">
     <h1 class="text-uppercase font-weight-bold">$entity_label</h1>
@@ -121,7 +118,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -132,7 +128,6 @@ $table_here
 </footer>
 </body>
 </html>';
-
     }
 
 }

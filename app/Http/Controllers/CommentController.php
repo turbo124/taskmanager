@@ -65,8 +65,10 @@ class CommentController extends Controller
             'user_id'     => $user->id
         ];
 
-        $comment = $this->comment_repo->save($data,
-            CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id));
+        $comment = $this->comment_repo->save(
+            $data,
+            CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id)
+        );
 
         if (!empty($validatedData['task_id'])) {
             $task = $this->task_repo->findTaskById($validatedData['task_id']);

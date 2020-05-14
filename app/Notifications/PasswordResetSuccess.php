@@ -19,7 +19,6 @@ class PasswordResetSuccess extends Notification
      */
     public function __construct()
     {
-
     }
 
     /**

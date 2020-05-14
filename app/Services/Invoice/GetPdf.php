@@ -41,7 +41,9 @@ class GetPdf
         $objPdf = new PdfData($this->invoice);
 
         $designer =
-            new PdfColumns($objPdf, $this->invoice, $design, $this->invoice->account->settings->pdf_variables, 'invoice');
+            new PdfColumns(
+                $objPdf, $this->invoice, $design, $this->invoice->account->settings->pdf_variables, 'invoice'
+            );
 
         return CreatePdf::dispatchNow($objPdf, $this->invoice, $file_path, $designer, $this->contact);
     }

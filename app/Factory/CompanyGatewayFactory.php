@@ -12,6 +12,5 @@ class CompanyGatewayFactory
         $company_gateway->account_id = $account_id;
         $company_gateway->user_id = $user_id;
         return $company_gateway;
-
     }
 }

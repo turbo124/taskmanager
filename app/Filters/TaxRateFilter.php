@@ -72,9 +72,11 @@ class TaxRateFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('name', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('name', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -84,9 +86,11 @@ class TaxRateFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $companies = $list->map(function (TaxRate $tax_rate) {
-            return $this->transformTaxRate($tax_rate);
-        })->all();
+        $companies = $list->map(
+            function (TaxRate $tax_rate) {
+                return $this->transformTaxRate($tax_rate);
+            }
+        )->all();
 
         return $companies;
     }

@@ -48,14 +48,19 @@ class CategoryController extends Controller
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->categoryRepo->searchCategory(request()->input('search_term'), auth()->user()->account_user()->account);
+            $list = $this->categoryRepo->searchCategory(
+                request()->input('search_term'),
+                auth()->user()->account_user()->account
+            );
         } else {
             $list = $this->categoryRepo->listCategories($orderBy, $orderDir, auth()->user()->account_user()->account);
         }
 
-        $categories = $list->map(function (Category $category) {
-            return $this->transformCategory($category);
-        })->all();
+        $categories = $list->map(
+            function (Category $category) {
+                return $this->transformCategory($category);
+            }
+        )->all();
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->categoryRepo->paginateArrayResults($categories, $recordsPerPage);
@@ -73,7 +78,10 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $categoryObj = $this->categoryRepo->createCategory($request->except('_token', '_method'), auth()->user()->account_user()->account);
+        $categoryObj = $this->categoryRepo->createCategory(
+            $request->except('_token', '_method'),
+            auth()->user()->account_user()->account
+        );
         $category = $this->transformCategory($categoryObj);
         return response()->json($category);
     }
@@ -116,7 +124,6 @@ class CategoryController extends Controller
 
     public function getRootCategories()
     {
-
         $categories = $this->categoryRepo->rootCategories();
         return response()->json($categories);
     }

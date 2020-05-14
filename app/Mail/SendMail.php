@@ -56,13 +56,18 @@ class SendMail extends Mailable
     {
         $design = "email.template.{$this->design}";
 
-        return $this->from($this->entity->user->email,
-            $this->entity->user->present()->name())
-                    ->text($design, [
-                        'body'      => $this->body,
-                        'view_link' => $this->view_link,
-                        'view_text' => $this->view_text
-                    ])
+        return $this->from(
+            $this->entity->user->email,
+            $this->entity->user->present()->name()
+        )
+                    ->text(
+                        $design,
+                        [
+                            'body'      => $this->body,
+                            'view_link' => $this->view_link,
+                            'view_text' => $this->view_text
+                        ]
+                    )
                     ->view($design, $this->data);
     }
 

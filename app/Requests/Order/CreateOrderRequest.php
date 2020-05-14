@@ -24,7 +24,6 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
             'date'           => 'required',

@@ -23,7 +23,6 @@ class TemplateController extends Controller
      */
     public function show()
     {
-
         // if no entity provided default to invoice
         $entity = request()->has('entity') ? request()->input('entity') : 'Invoice';
         $entity_id = request()->has('entity_id') ? request()->input('entity_id') : '';
@@ -34,7 +33,9 @@ class TemplateController extends Controller
 
         $entity_object = !$entity_id ? $class::first() : $class::whereId($entity_id)->first();
 
-        $data = (new TemplateEngine(new PdfData($entity_object), $body, $subject, $entity, $entity_id, $template))->build();
+        $data = (new TemplateEngine(
+            new PdfData($entity_object), $body, $subject, $entity, $entity_id, $template
+        ))->build();
 
         return response()->json($data, 200);
     }

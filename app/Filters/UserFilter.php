@@ -59,9 +59,12 @@ class UserFilter extends QueryFilter
 
         $this->orderBy($orderBy, $orderDir);
 
-        $this->query->whereHas('account_users', function ($query) use ($account_id) {
-            $query->where('account_id', '=', $account_id);
-        });
+        $this->query->whereHas(
+            'account_users',
+            function ($query) use ($account_id) {
+                $query->where('account_id', '=', $account_id);
+            }
+        );
 
         if ($request->filled('search_term')) {
             $this->query = $this->searchFilter($request->search_term);
@@ -84,11 +87,13 @@ class UserFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('users.first_name', 'like', '%' . $filter . '%')
-                  ->orWhere('users.last_name', 'like', '%' . $filter . '%')
-                  ->orWhere('users.email', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('users.first_name', 'like', '%' . $filter . '%')
+                      ->orWhere('users.last_name', 'like', '%' . $filter . '%')
+                      ->orWhere('users.email', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -97,9 +102,11 @@ class UserFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $users = $list->map(function (User $user) {
-            return $this->transformUser($user);
-        })->all();
+        $users = $list->map(
+            function (User $user) {
+                return $this->transformUser($user);
+            }
+        )->all();
 
         return $users;
     }

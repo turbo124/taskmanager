@@ -32,18 +32,15 @@ class ServiceBase
         }
 
         return true;
-
     }
 
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
-
         if ($this->entity->invitations->count() === 0) {
             return false;
         }
 
         foreach ($this->entity->invitations as $invitation) {
-
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
 
             if ($invitation->contact->send_email && $invitation->contact->email) {
@@ -56,16 +53,13 @@ class ServiceBase
 
     protected function calculateTotals($entity)
     {
-
         if (empty($entity->line_items)) {
-
             return $entity;
         }
 
         $objInvoice = new \App\Helpers\InvoiceCalculator\Invoice($entity);
 
         foreach ($entity->line_items as $line_item) {
-
             $objLine = (new LineItem($entity))
                 ->setQuantity($line_item->quantity)
                 ->setUnitPrice($line_item->unit_price)
@@ -92,6 +86,5 @@ class ServiceBase
             ->build();
 
         return $objInvoice->getEntity();
-
     }
 }

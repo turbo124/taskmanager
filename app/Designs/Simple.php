@@ -6,7 +6,6 @@ class Simple
 {
     public function header()
     {
-
         return '<div class="px-3 my-4">
 <div class="">
     <div class="inline-block mt-2">
@@ -25,7 +24,6 @@ class Simple
 
     public function body()
     {
-
         return '<h1 class="mt-4 text-uppercase text-primary ml-4">
     $entity_label
 </h1>
@@ -70,7 +68,6 @@ $table_here
         </div>
     </div>
 </div>';
-
     }
 
     public function table()
@@ -110,7 +107,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -122,7 +118,6 @@ $table_here
 </footer>
 </body>
 </html>';
-
     }
 
 }

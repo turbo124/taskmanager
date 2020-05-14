@@ -86,9 +86,11 @@ class SubscriptionFilters extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $subscriptions = $list->map(function (Subscription $subscription) {
-            return $this->transform($subscription);
-        })->all();
+        $subscriptions = $list->map(
+            function (Subscription $subscription) {
+                return $this->transform($subscription);
+            }
+        )->all();
 
         return $subscriptions;
     }

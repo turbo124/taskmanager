@@ -15,7 +15,6 @@ trait CustomerTransformable
      */
     protected function transformCustomer(Customer $customer)
     {
-
         $company = !empty($customer->company_id) ? $customer->company->toArray() : '';
         $credit = $customer->credits()->count() > 0 ? $customer->credits->first()->amount : 0;
 
@@ -25,7 +24,6 @@ trait CustomerTransformable
         $shipping = null;
 
         foreach ($addresses as $address) {
-
             if ($address->address_type === 1) {
                 $billing = $address;
             } elseif ($address->address_type === 2) {
@@ -78,9 +76,11 @@ trait CustomerTransformable
             return [];
         }
 
-        return $contacts->map(function (ClientContact $contact) {
-            return (new ContactTransformable())->transformClientContact($contact);
-        })->all();
+        return $contacts->map(
+            function (ClientContact $contact) {
+                return (new ContactTransformable())->transformClientContact($contact);
+            }
+        )->all();
     }
 
     /**
@@ -93,8 +93,10 @@ trait CustomerTransformable
             return [];
         }
 
-        return $addresses->map(function (Address $address) {
-            return (new AddressTransformable())->transformAddress($address);
-        })->all();
+        return $addresses->map(
+            function (Address $address) {
+                return (new AddressTransformable())->transformAddress($address);
+            }
+        )->all();
     }
 }

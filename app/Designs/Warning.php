@@ -7,7 +7,6 @@ class Warning
 
     public function header()
     {
-
         return '<div class="header_class bg-warning" style="page-break-inside: avoid;">
 <div class="inline-block ml-3" style="width: 50%">
 	<h1 class="text-white font-weight-bold">$account.name</h1>
@@ -21,12 +20,10 @@ class Warning
 	</div>
 </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<table class="container"><thead><tr><td><div class="header-space"></div></td></tr></thead>
 <tbody><tr><td>
 <div class="px-4 pt-4" style="width: 100%">
@@ -70,7 +67,6 @@ $table_here
 </div>
 </td></tr></tbody><tfoot><tr><td><div class="footer-space"></div></td></tr></tfoot></table>
 ';
-
     }
 
     public function table()
@@ -110,7 +106,6 @@ $table_here
 
     public function footer()
     {
-
         return '
 		<div class="text-center mb-2">
                $signature_here
@@ -134,7 +129,6 @@ $table_here
 		
 			</html>
 		';
-
     }
 
 }

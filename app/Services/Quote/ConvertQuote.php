@@ -30,8 +30,11 @@ class ConvertQuote
      */
     public function run()
     {
-        $invoice = CloneQuoteToInvoiceFactory::create($this->quote, $this->quote->user,
-            $this->quote->account);
+        $invoice = CloneQuoteToInvoiceFactory::create(
+            $this->quote,
+            $this->quote->user,
+            $this->quote->account
+        );
         $invoice = $this->invoice_repo->save(['status_id' => Invoice::STATUS_SENT], $invoice);
         $this->invoice_repo->markSent($invoice);
 

@@ -7,7 +7,6 @@ class Jazzy
 
     public function header()
     {
-
         return '<div class="px-4 py-4">
 <div class="mt-4 mb-4" style="width: 100%">
     <div class="inline-block border-left pl-2 border-dark mr-4 mt-4" style="width: 30%">
@@ -29,12 +28,10 @@ class Jazzy
         $account_logo
     </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="mx-4 mt-4">
 <h1 class="font-weight-bold text-uppercase">$entity_label</h1>
 <div class="mt-1">
@@ -76,7 +73,6 @@ $table_here
 </div>
 </div>
 ';
-
     }
 
     public function table()
@@ -115,7 +111,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -126,7 +121,6 @@ $table_here
       </div>
 </body>
 </html>';
-
     }
 
 }

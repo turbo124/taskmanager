@@ -74,17 +74,19 @@ class CompanyFilter extends QueryFilter
             return $this->query;
         }
 
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('companies.name', 'like', '%' . $filter . '%')
-                //->orWhere('companies.number', 'like', '%'.$filter.'%')
-                  ->orWhere('company_contacts.first_name', 'like', '%' . $filter . '%')
-                  ->orWhere('company_contacts.last_name', 'like', '%' . $filter . '%')
-                  ->orWhere('company_contacts.email', 'like', '%' . $filter . '%')
-                  ->orWhere('companies.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('companies.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('companies.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('companies.name', 'like', '%' . $filter . '%')
+                    //->orWhere('companies.number', 'like', '%'.$filter.'%')
+                      ->orWhere('company_contacts.first_name', 'like', '%' . $filter . '%')
+                      ->orWhere('company_contacts.last_name', 'like', '%' . $filter . '%')
+                      ->orWhere('company_contacts.email', 'like', '%' . $filter . '%')
+                      ->orWhere('companies.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('companies.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('companies.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -94,9 +96,11 @@ class CompanyFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $companies = $list->map(function (Company $company) {
-            return $this->transformCompany($company);
-        })->all();
+        $companies = $list->map(
+            function (Company $company) {
+                return $this->transformCompany($company);
+            }
+        )->all();
 
         return $companies;
     }

@@ -14,7 +14,6 @@ class BulkCompanyRequest extends BaseFormRequest
      */
     public function rules()
     {
-
         $rules = [];
 
         /** We don't require IDs on bulk storing. */

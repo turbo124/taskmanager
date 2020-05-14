@@ -15,7 +15,6 @@ class CompanyContactTransformable
      */
     public function transformCompanyContact(CompanyContact $contact)
     {
-
         return [
             'id'            => $contact->id,
             'first_name'    => $contact->first_name ?: '',

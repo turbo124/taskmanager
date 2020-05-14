@@ -93,7 +93,9 @@ class SendEmail implements ShouldQueue
             $message->setBcc($settings->bcc_email);
         }
 
-        if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Lead' && get_class($this->entity) !== 'App\Payment') {
+        if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Lead' && get_class(
+                $this->entity
+            ) !== 'App\Payment') {
             $message->setAttachments(public_path($this->entity->service()->getPdf($this->contact)));
         }
 
@@ -119,7 +121,6 @@ class SendEmail implements ShouldQueue
 
     private function buildMailMessageData($settings, $body, $design): array
     {
-
         $data = [
             'view_link' => !empty($this->footer) ? $this->footer['link'] : '',
             'view_text' => !empty($this->footer) ? $this->footer['text'] : '',
@@ -135,7 +136,6 @@ class SendEmail implements ShouldQueue
         ];
 
         return $data;
-
     }
 
     private function toDatabase($subject, $body, $sent_successfully)
@@ -156,6 +156,7 @@ class SendEmail implements ShouldQueue
                 'recipient_email' => $this->contact->present()->email,
                 'sent_at'         => $sent_successfully === true ? Carbon::now() : null
             ],
-            $email);
+            $email
+        );
     }
 }

@@ -7,7 +7,6 @@ class Dark
 
     public function header()
     {
-
         return '<div class="py-4 px-4">
 <div class="border-4 border-dark mb-4">
     <div class="inline-block mt-2" style="margin-bottom: 15px; width: 60%; margin-top: 20px;">
@@ -23,12 +22,10 @@ class Dark
     </div>
 </div>
 <div class="border-bottom border-dark mt-1"></div>';
-
     }
 
     public function body()
     {
-
         return '<div class="pt-4">
 <div class="inline-block border-right border-dashed border-dark pt-4" style="width: 40%; margin-left: 40px;">
     $customer_details
@@ -83,7 +80,6 @@ $table_here
 </div>
 
 ';
-
     }
 
     public function table()
@@ -100,7 +96,6 @@ $table_here
 
     public function task_table()
     {
-
     }
 
     public function task()
@@ -115,7 +110,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                 $signature_here
@@ -126,7 +120,6 @@ $table_here
 </footer>
 </body>
 </html>';
-
     }
 
 }

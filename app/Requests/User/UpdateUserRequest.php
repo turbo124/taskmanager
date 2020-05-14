@@ -16,7 +16,6 @@ class UpdateUserRequest extends BaseFormRequest
      */
     public function rules()
     {
-
         $rules = [
             'department'      => 'nullable|numeric',
             'gender'          => 'nullable|string',
@@ -28,7 +27,10 @@ class UpdateUserRequest extends BaseFormRequest
             'profile_photo'   => 'nullable|string',
             'first_name'      => 'required|string',
             'last_name'       => 'required|string',
-            'email'           => ['required', \Illuminate\Validation\Rule::unique('users')->ignore($this->route('user_id'))]
+            'email'           => [
+                'required',
+                \Illuminate\Validation\Rule::unique('users')->ignore($this->route('user_id'))
+            ]
         ];
 
         return $rules;

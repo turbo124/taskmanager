@@ -33,15 +33,17 @@ class NewAccount extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(trans('texts.new_account_created_subject'))
-            ->markdown('email.admin.new',
-                ['data' => [
-                    'title'       => trans('texts.new_account_created_subject'),
-                    'message'     => trans('texts.new_account_created_body'),
-                    'button_text' => trans('texts.new_account_created_button'),
-                    'url'         => url(config('taskmanager.site_url')),
-                    'signature'   => isset($this->account->settings->email_signature) ? $this->account->settings->email_signature : '',
-                    'logo'        => $this->account->present()->logo(),
-                ]
+            ->markdown(
+                'email.admin.new',
+                [
+                    'data' => [
+                        'title'       => trans('texts.new_account_created_subject'),
+                        'message'     => trans('texts.new_account_created_body'),
+                        'button_text' => trans('texts.new_account_created_button'),
+                        'url'         => url(config('taskmanager.site_url')),
+                        'signature'   => isset($this->account->settings->email_signature) ? $this->account->settings->email_signature : '',
+                        'logo'        => $this->account->present()->logo(),
+                    ]
                 ]
             );
     }

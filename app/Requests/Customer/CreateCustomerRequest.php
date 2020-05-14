@@ -46,7 +46,6 @@ class CreateCustomerRequest extends BaseFormRequest
             } else {
                 $input['currency_id'] = auth()->user()->account_user()->account->settings->currency_id;
             }
-
         } elseif (empty($input['currency_id'])) {
             $input['currency_id'] = (int)auth()->user()->account_user()->account->settings->currency_id;
         }

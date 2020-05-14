@@ -66,9 +66,11 @@ class LeadFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $leads = $list->map(function (Lead $lead) {
-            return $this->transformLead($lead);
-        })->all();
+        $leads = $list->map(
+            function (Lead $lead) {
+                return $this->transformLead($lead);
+            }
+        )->all();
 
         return $leads;
     }
@@ -79,10 +81,12 @@ class LeadFilter extends QueryFilter
             return $this->query;
         }
 
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('leads.title', 'like', '%' . $filter . '%')
-                  ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
-                  ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('leads.title', 'like', '%' . $filter . '%')
+                      ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
+                      ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
+            }
+        );
     }
 }

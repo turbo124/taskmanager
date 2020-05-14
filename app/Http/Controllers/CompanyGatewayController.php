@@ -31,7 +31,6 @@ class CompanyGatewayController extends Controller
      */
     public function __construct(AccountRepository $account_repo, CompanyGatewayRepository $company_gateway_repo)
     {
-
         $this->account_repo = $account_repo;
         $this->company_gateway_repo = $company_gateway_repo;
     }
@@ -40,9 +39,11 @@ class CompanyGatewayController extends Controller
     {
         $company_gateways =
             CompanyGateway::whereAccountId(auth()->user()->account_user()->account_id)->get()->keyBy('gateway_key');
-        $company_gateways = $company_gateways->map(function (CompanyGateway $company_gateway) {
-            return $this->transformCompanyGateway($company_gateway);
-        })->all();
+        $company_gateways = $company_gateways->map(
+            function (CompanyGateway $company_gateway) {
+                return $this->transformCompanyGateway($company_gateway);
+            }
+        )->all();
 
         return response()->json($company_gateways);
     }

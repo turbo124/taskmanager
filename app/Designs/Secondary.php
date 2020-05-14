@@ -7,7 +7,6 @@ class Secondary
 
     public function header()
     {
-
         return '<div class="my-4 mx-4">
 <div>
     <div class="inline-block" style="width: 10%">
@@ -22,12 +21,10 @@ class Secondary
         </div>
     </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="mt-4">
     <div class="inline-block" style="width: 40%">
         <span>$entity_label</span>
@@ -72,7 +69,6 @@ $table_here
 </div>
 </div>
 </div>';
-
     }
 
     public function table()
@@ -113,7 +109,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -124,7 +119,6 @@ $table_here
         </div>
 </body>
 </html>';
-
     }
 
 }

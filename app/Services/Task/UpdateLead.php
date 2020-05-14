@@ -44,31 +44,36 @@ class UpdateLead
     {
         $customer = $this->task->customer;
 
-        $this->customer_repo->save($this->request->only('first_name', 'last_name', 'email', 'phone', 'job_title'),
-            $customer);
+        $this->customer_repo->save(
+            $this->request->only('first_name', 'last_name', 'email', 'phone', 'job_title'),
+            $customer
+        );
 
         if ($this->request->has('address_1') && !empty($this->request->address_1)) {
-
             $address = $customer->addresses()->where('address_type', 1)->first();
 
             if ($address) {
-                $address->update([
-                    'address_1'  => $this->request->address_1,
-                    'address_2'  => $this->request->address_2,
-                    'zip'        => $this->request->zip,
-                    'city'       => $this->request->city,
-                    'country_id' => 225,
-                    'status'     => 1
-                ]);
+                $address->update(
+                    [
+                        'address_1'  => $this->request->address_1,
+                        'address_2'  => $this->request->address_2,
+                        'zip'        => $this->request->zip,
+                        'city'       => $this->request->city,
+                        'country_id' => 225,
+                        'status'     => 1
+                    ]
+                );
             } else {
-                $customer->addresses()->create([
-                    'address_1'  => $this->request->address_1,
-                    'address_2'  => $this->request->address_2,
-                    'zip'        => $this->request->zip,
-                    'city'       => $this->request->city,
-                    'country_id' => 225,
-                    'status'     => 1
-                ]);
+                $customer->addresses()->create(
+                    [
+                        'address_1'  => $this->request->address_1,
+                        'address_2'  => $this->request->address_2,
+                        'zip'        => $this->request->zip,
+                        'city'       => $this->request->city,
+                        'country_id' => 225,
+                        'status'     => 1
+                    ]
+                );
             }
         }
 

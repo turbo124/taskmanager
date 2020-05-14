@@ -27,7 +27,6 @@ trait MakesInvoiceHtml
      */
     public function generateEntityHtml(PdfData $objPdf, PdfColumns $designer, $entity, $contact = null): string
     {
-
         App::setLocale($entity->customer->preferredLocale());
 
         $objPdf->build($contact);
@@ -37,7 +36,9 @@ trait MakesInvoiceHtml
         $designer->buildDesign();
         $table = $designer->getSection('table');
         $settings = $entity->account->settings;
-        $signature = !empty($settings->email_signature) && $entity->customer->getSetting('show_signature_on_pdf') === true ? '<img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
+        $signature = !empty($settings->email_signature) && $entity->customer->getSetting(
+            'show_signature_on_pdf'
+        ) === true ? '<img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
         $data = [
             'entity'   => $entity,
@@ -59,7 +60,6 @@ trait MakesInvoiceHtml
 
     private function generateCustomCSS($settings, $html)
     {
-
         if ($settings->all_pages_header && $settings->all_pages_footer) {
             $html = str_replace('header_class', 'header', $html);
             $html = str_replace('footer_class', 'footer', $html);

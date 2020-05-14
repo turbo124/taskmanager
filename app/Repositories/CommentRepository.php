@@ -44,7 +44,6 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
      */
     public function createComment(array $data): Comment
     {
-
         try {
             return $this->create($data);
         } catch (QueryException $e) {

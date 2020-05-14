@@ -16,14 +16,18 @@ class SupportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $request->validate([
-            'message' => ['required'],
-        ]);
+        $request->validate(
+            [
+                'message' => ['required'],
+            ]
+        );
 
         Mail::to(config('taskmanager.support_email'))->send(new SupportMessage($request->message));
 
-        return response()->json([
-            'success' => true
-        ]);
+        return response()->json(
+            [
+                'success' => true
+            ]
+        );
     }
 }

@@ -90,15 +90,17 @@ class ProductFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('products.sku', 'like', '%' . $filter . '%')
-                  ->orWhere('products.name', 'like', '%' . $filter . '%')
-                  ->orWhere('products.notes', 'like', '%' . $filter . '%')
-                  ->orWhere('products.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('products.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('products.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('products.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('products.sku', 'like', '%' . $filter . '%')
+                      ->orWhere('products.name', 'like', '%' . $filter . '%')
+                      ->orWhere('products.notes', 'like', '%' . $filter . '%')
+                      ->orWhere('products.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('products.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('products.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('products.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**
@@ -108,9 +110,11 @@ class ProductFilter extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $products = $list->map(function (Product $product) {
-            return $this->transformProduct($product);
-        })->all();
+        $products = $list->map(
+            function (Product $product) {
+                return $this->transformProduct($product);
+            }
+        )->all();
 
         return $products;
     }

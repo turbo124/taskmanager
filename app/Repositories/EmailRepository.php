@@ -66,6 +66,5 @@ class EmailRepository extends BaseRepository
 
 
         return $email->fresh();
-
     }
 }

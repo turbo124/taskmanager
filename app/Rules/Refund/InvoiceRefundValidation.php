@@ -30,7 +30,6 @@ class InvoiceRefundValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-
         if (!isset($this->request['invoices'])) {
             return true;
         }
@@ -48,7 +47,6 @@ class InvoiceRefundValidation implements Rule
         $this->customer = null;
 
         foreach ($arrInvoices as $arrInvoice) {
-
             $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
 
             if (!$invoice) {
@@ -64,7 +62,6 @@ class InvoiceRefundValidation implements Rule
         }
 
         if ($invoice_total > $this->request['amount']) {
-
             return false;
         }
 
@@ -91,7 +88,10 @@ class InvoiceRefundValidation implements Rule
             return false;
         }
 
-        $paymentable = Paymentable::where('paymentable_id', $invoice_id)->where('payment_id', $this->request['id'])->first();
+        $paymentable = Paymentable::where('paymentable_id', $invoice_id)->where(
+            'payment_id',
+            $this->request['id']
+        )->first();
 
         $payment = Payment::whereId($this->request['id'])->first();
 
@@ -115,7 +115,6 @@ class InvoiceRefundValidation implements Rule
 
     private function validateCustomer(Invoice $invoice)
     {
-
         if ($this->customer === null) {
             $this->customer = $invoice->customer;
             return true;

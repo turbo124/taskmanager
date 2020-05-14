@@ -53,9 +53,7 @@ class Download implements ShouldQueue
         $path = public_path("storage/{$first_invoice->account_id}/$first_invoice->customer_id/{$class}/{$fileName}");
 
         if ($zip->open($path, ZipArchive::CREATE) === true) {
-
             foreach ($this->invoices as $invoice) {
-
                 $file = $invoice->service()->getPdf();
 
                 $relativeNameInZipFile = basename($file);
@@ -66,6 +64,8 @@ class Download implements ShouldQueue
             $zip->close();
         }
 
-        Mail::to($this->email)->send(new InvoiceWithAttachment('Please find your invoice attached', $path, $first_invoice));
+        Mail::to($this->email)->send(
+            new InvoiceWithAttachment('Please find your invoice attached', $path, $first_invoice)
+        );
     }
 }

@@ -9,7 +9,6 @@ class StoreCompanyGatewayRequest extends BaseFormRequest
 
     public function rules()
     {
-
         $rules = [
             'gateway_key' => 'required',
         ];

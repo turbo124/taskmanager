@@ -16,7 +16,6 @@ trait LeadTransformable
      */
     protected function transformLead(Lead $lead)
     {
-
         return [
             'id'               => (int)$lead->id,
             'website'          => $lead->website ?: '',
@@ -44,7 +43,6 @@ trait LeadTransformable
             'public_notes'     => $lead->public_notes ?: '',
             'emails'           => $this->transformLeadEmails($lead->emails()),
         ];
-
     }
 
     /**
@@ -53,13 +51,14 @@ trait LeadTransformable
      */
     private function transformLeadEmails($emails)
     {
-
         if ($emails->count() === 0) {
             return [];
         }
 
-        return $emails->map(function (Email $email) {
-            return (new EmailTransformable())->transformEmail($email);
-        })->all();
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
     }
 }

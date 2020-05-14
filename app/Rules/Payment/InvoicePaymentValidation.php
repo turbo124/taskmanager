@@ -46,7 +46,6 @@ class InvoicePaymentValidation implements Rule
         $this->customer = null;
 
         foreach ($arrInvoices as $arrInvoice) {
-
             $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
 
             if (!$invoice) {
@@ -92,7 +91,6 @@ class InvoicePaymentValidation implements Rule
         }
 
         return $invoice;
-
     }
 
     private function validateCustomer(Invoice $invoice)

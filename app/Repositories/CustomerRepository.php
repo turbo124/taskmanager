@@ -59,8 +59,10 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
      */
     public function create($customer): ?Customer
     {
-        return $this->save($customer,
-            CustomerFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id));
+        return $this->save(
+            $customer,
+            CustomerFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id)
+        );
     }
 
     /**
@@ -86,7 +88,6 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
      */
     public function getRecentCustomers(int $number_of_days, int $account_id)
     {
-
         $date = Carbon::today()->subDays($number_of_days);
         $result = $this->model->select(DB::raw('count(*) as total'))->where('created_at', '>=', $date)
                               ->where('account_id', '=', $account_id)->get();
@@ -122,7 +123,6 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
         $customer->save();
 
         return $customer->fresh();
-
     }
 
 }

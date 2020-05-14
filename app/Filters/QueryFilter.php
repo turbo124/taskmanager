@@ -57,9 +57,11 @@ class QueryFilter
         }
 
         if (in_array(self::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
+            $this->query->orWhere(
+                function ($query) use ($table) {
+                    $query->whereNotNull($table . '.deleted_at');
+                }
+            );
 
             $this->query->withTrashed();
         }

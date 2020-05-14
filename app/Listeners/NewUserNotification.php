@@ -33,8 +33,6 @@ class NewUserNotification implements ShouldQueue
      */
     public function handle($event)
     {
-
         $event->user->notify(new NewUser($event->user));
-
     }
 }

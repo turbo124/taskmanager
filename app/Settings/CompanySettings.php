@@ -16,7 +16,6 @@ class CompanySettings extends BaseSettings
     public function save(Company $company, $settings): ?Company
     {
         try {
-
             $settings = $this->validate($settings, $this->settings);
 
             if (!$settings) {
@@ -35,6 +34,8 @@ class CompanySettings extends BaseSettings
 
     public function getCompanyDefaults()
     {
-        return (object)array_filter(array_combine(array_keys($this->settings), array_column($this->settings, 'default_value')));
+        return (object)array_filter(
+            array_combine(array_keys($this->settings), array_column($this->settings, 'default_value'))
+        );
     }
 }

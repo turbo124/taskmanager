@@ -18,7 +18,6 @@ trait MessageUserTransformable
      */
     protected function transformUser(Customer $customer, User $currentUser)
     {
-
         $message = (new MessageRepository(new Message))->getMessagesForCustomer($customer, $currentUser, true);
 
         $prop = new Customer;

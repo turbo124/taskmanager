@@ -103,9 +103,11 @@ class TokenFilters extends QueryFilter
     private function transformList()
     {
         $list = $this->query->get();
-        $tokens = $list->map(function (CompanyToken $company_token) {
-            return $this->transform($company_token);
-        })->all();
+        $tokens = $list->map(
+            function (CompanyToken $company_token) {
+                return $this->transform($company_token);
+            }
+        )->all();
 
         return $tokens;
     }
@@ -131,9 +133,11 @@ class TokenFilters extends QueryFilter
         }
 
         if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(function ($query) use ($table) {
-                $query->whereNotNull($table . '.deleted_at');
-            });
+            $this->query->orWhere(
+                function ($query) use ($table) {
+                    $query->whereNotNull($table . '.deleted_at');
+                }
+            );
 
             $this->query->withTrashed();
         }

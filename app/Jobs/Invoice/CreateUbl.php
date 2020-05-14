@@ -90,22 +90,31 @@ class CreateUbl implements ShouldQueue
         $invoice = new \CleverIt\UBL\Invoice\Invoice();
         $invoice->setId($this->invoice->number);
         $invoice->setIssueDate(date_create($this->invoice->date));
-        $invoice->setInvoiceTypeCode($this->invoice->total < 0 ? self::INVOICE_TYPE_CREDIT : self::INVOICE_TYPE_STANDARD);
+        $invoice->setInvoiceTypeCode(
+            $this->invoice->total < 0 ? self::INVOICE_TYPE_CREDIT : self::INVOICE_TYPE_STANDARD
+        );
         $invoice->setAccountingSupplierParty($company);
         $invoice->setAccountingCustomerParty($client);
         $invoice->setInvoiceLines($invoiceLines);
 
-        $invoice->setLegalMonetaryTotal((new LegalMonetaryTotal())
-            //->setLineExtensionAmount()
-            ->setTaxExclusiveAmount($taxable)
-            ->setPayableAmount($this->invoice->balance));
+        $invoice->setLegalMonetaryTotal(
+            (new LegalMonetaryTotal())
+                //->setLineExtensionAmount()
+                ->setTaxExclusiveAmount($taxable)
+                ->setPayableAmount($this->invoice->balance)
+        );
 
 
         if (!empty($this->invoice->tax_rate_name)) {
             $taxtotal = new TaxTotal();
             $taxAmount1 = 0;
 
-            $taxAmount1 = $this->createTaxRate($taxtotal, $taxable, $this->invoice->tax_rate, $this->invoice->tax_rate_name);
+            $taxAmount1 = $this->createTaxRate(
+                $taxtotal,
+                $taxable,
+                $this->invoice->tax_rate,
+                $this->invoice->tax_rate_name
+            );
 
             $taxtotal->setTaxAmount($taxAmount1);
             $invoice->setTaxTotal($taxtotal);
@@ -153,7 +162,6 @@ class CreateUbl implements ShouldQueue
         $client->setName($customer->present()->name);
 
         if (!empty($customer_address)) {
-
             $caddress = new Address();
             $caddress->setStreetName($customer_address->address_1);
             $caddress->setCityName($customer_address->city);
@@ -188,7 +196,8 @@ class CreateUbl implements ShouldQueue
 
     private
     function createInvoiceLine(
-        $line_item, $taxable
+        $line_item,
+        $taxable
     ) {
         $product = Product::find($line_item->product_id);
 
@@ -219,20 +228,27 @@ class CreateUbl implements ShouldQueue
 
     private
     function createTaxRate(
-        &$taxtotal, $taxable, $taxRate, $taxName = 'test'
+        &$taxtotal,
+        $taxable,
+        $taxRate,
+        $taxName = 'test'
     ) {
         $invoice = $this->invoice;
         $taxAmount = $this->taxAmount($taxable, $taxRate);
         $taxScheme = ((new TaxScheme()))->setId($taxName);
 
-        $taxtotal->addTaxSubTotal((new TaxSubTotal())
-            ->setTaxAmount($taxAmount)
-            ->setTaxableAmount($taxable)
-            ->setTaxCategory((new TaxCategory())
-                ->setId(0)
-                ->setName($taxName)
-                ->setTaxScheme($taxScheme)
-                ->setPercent($taxRate)));
+        $taxtotal->addTaxSubTotal(
+            (new TaxSubTotal())
+                ->setTaxAmount($taxAmount)
+                ->setTaxableAmount($taxable)
+                ->setTaxCategory(
+                    (new TaxCategory())
+                        ->setId(0)
+                        ->setName($taxName)
+                        ->setTaxScheme($taxScheme)
+                        ->setPercent($taxRate)
+                )
+        );
 
         return $taxAmount;
     }
@@ -245,7 +261,8 @@ class CreateUbl implements ShouldQueue
      */
     private
     function getItemTaxable(
-        $item, $invoice_total
+        $item,
+        $invoice_total
     ) {
         $total = $item->quantity * $item->unit_price;
 
@@ -326,7 +343,8 @@ class CreateUbl implements ShouldQueue
 
     private
     function taxAmount(
-        $taxable, $rate
+        $taxable,
+        $rate
     ) {
         if ($this->invoice->uses_inclusive_taxes) {
             return round($taxable - ($taxable / (1 + ($rate / 100))), 2);

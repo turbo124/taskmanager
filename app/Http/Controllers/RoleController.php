@@ -52,20 +52,27 @@ class RoleController extends Controller
      */
     public function index(SearchRequest $request)
     {
-
         $orderBy = !$request->column ? 'name' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->role_repo->searchRole(request()->input('search_term'))->where('account_id', auth()->user()->account_user()->account_id);
+            $list = $this->role_repo->searchRole(request()->input('search_term'))->where(
+                'account_id',
+                auth()->user()->account_user()->account_id
+            );
         } else {
-            $list = $this->role_repo->listRoles($orderBy, $orderDir)->where('account_id', auth()->user()->account_user()->account_id);
+            $list = $this->role_repo->listRoles($orderBy, $orderDir)->where(
+                'account_id',
+                auth()->user()->account_user()->account_id
+            );
         }
 
-        $roles = $list->map(function (Role $role) {
-            return $this->transformRole($role);
-        })->all();
+        $roles = $list->map(
+            function (Role $role) {
+                return $this->transformRole($role);
+            }
+        )->all();
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->role_repo->paginateArrayResults($roles, $recordsPerPage);
@@ -82,8 +89,10 @@ class RoleController extends Controller
      */
     public function store(CreateRoleRequest $request)
     {
-        $role = $this->role_repo->save($request->all(),
-            RoleFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id));
+        $role = $this->role_repo->save(
+            $request->all(),
+            RoleFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id)
+        );
 
         if ($request->has('permissions')) {
             $roleRepo = new RoleRepository($role);
@@ -144,7 +153,6 @@ class RoleController extends Controller
      */
     public function destroy(int $id)
     {
-
         $role = $this->roleRepo->findRoleById($id);
 
         $roleRepo = new RoleRepository($role);

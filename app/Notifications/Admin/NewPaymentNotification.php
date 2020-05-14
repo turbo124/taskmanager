@@ -39,7 +39,11 @@ class NewPaymentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
+        return !empty($this->message_type)
+            ? [$this->message_type]
+            : [
+                $notifiable->account_user()->default_notification_type
+            ];
     }
 
     /**
@@ -50,16 +54,27 @@ class NewPaymentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject(trans('texts.notification_payment_paid_subject',
-            ['customer' => $this->payment->customer->present()->name(),]))->markdown('email.admin.new', ['data' => [
-            'title'       => trans('texts.notification_payment_paid_subject',
-                ['customer' => $this->payment->customer->present()->name()]),
-            'message'     => trans('texts.notification_payment_paid', $this->getDataArray()),
-            'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
-            'button_text' => trans('texts.view_payment'),
-            'logo'        => $this->payment->account->present()->logo(),
-        ]]);
+        return (new MailMessage)->subject(
+            trans(
+                'texts.notification_payment_paid_subject',
+                ['customer' => $this->payment->customer->present()->name(),]
+            )
+        )->markdown(
+            'email.admin.new',
+            [
+                'data' => [
+                    'title'       => trans(
+                        'texts.notification_payment_paid_subject',
+                        ['customer' => $this->payment->customer->present()->name()]
+                    ),
+                    'message'     => trans('texts.notification_payment_paid', $this->getDataArray()),
+                    'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
+                    'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
+                    'button_text' => trans('texts.view_payment'),
+                    'logo'        => $this->payment->account->present()->logo(),
+                ]
+            ]
+        );
     }
 
     private function getDataArray()
@@ -85,9 +100,10 @@ class NewPaymentNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-
         return (new SlackMessage)->success()
-                                 ->from("System")->image($this->account->present()->logo())->content(trans('texts.notification_payment_paid', $this->getDataArray()));
+                                 ->from("System")->image($this->account->present()->logo())->content(
+                trans('texts.notification_payment_paid', $this->getDataArray())
+            );
     }
 
 }

@@ -76,8 +76,10 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $product = $this->product_repo->save($request->all(),
-            ProductFactory::create(auth()->user(), auth()->user()->account_user()->account));
+        $product = $this->product_repo->save(
+            $request->all(),
+            ProductFactory::create(auth()->user(), auth()->user()->account_user()->account)
+        );
 
         return $this->transformProduct($product);
     }
@@ -95,13 +97,18 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
-
         $product = $this->product_repo->findProductById($id);
 
         $product = $this->product_repo->save($request->all(), $product);
 
-        $fields = $request->only('range_from', 'range_to', 'payable_months', 'number_of_years', 'minimum_downpayment',
-            'interest_rate');
+        $fields = $request->only(
+            'range_from',
+            'range_to',
+            'payable_months',
+            'number_of_years',
+            'minimum_downpayment',
+            'interest_rate'
+        );
 
         //(new SaveProductAttributes($product))->handle($this->product_repo, $fields);
 
@@ -139,8 +146,10 @@ class ProductController extends Controller
     {
         $orderRepository = new OrderRepository(new Order);
         $products =
-            (new OrderFilter($orderRepository))->getProductsForTask((new TaskRepository(new Task))->findTaskById($task_id),
-                $status);
+            (new OrderFilter($orderRepository))->getProductsForTask(
+                (new TaskRepository(new Task))->findTaskById($task_id),
+                $status
+            );
         return response()->json($products);
     }
 
@@ -175,14 +184,18 @@ class ProductController extends Controller
                        ->orderBy('price', 'asc')
                        ->get();
 
-        $products = $list->map(function (Product $product) {
-            return $this->transformProduct($product);
-        })->all();
+        $products = $list->map(
+            function (Product $product) {
+                return $this->transformProduct($product);
+            }
+        )->all();
 
-        return response()->json([
-            'products'        => $products,
-            'parent_category' => $parentCategory
-        ]);
+        return response()->json(
+            [
+                'products'        => $products,
+                'parent_category' => $parentCategory
+            ]
+        );
     }
 
     /**
@@ -209,7 +222,6 @@ class ProductController extends Controller
 
     public function bulk()
     {
-
     }
 
     /**

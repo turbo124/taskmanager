@@ -34,7 +34,6 @@ class AccountController extends Controller
      */
     public function __construct(AccountRepository $account_repo)
     {
-
         $this->account_repo = $account_repo;
     }
 
@@ -121,38 +120,31 @@ class AccountController extends Controller
         $company_count = $account->domains->companies->count();
 
         if ($company_count == 1) {
-
-            $account->account_users->each(function ($account_user) {
-
-                $account_user->user->forceDelete();
-
-            });
+            $account->account_users->each(
+                function ($account_user) {
+                    $account_user->user->forceDelete();
+                }
+            );
 
             $account->domain->delete();
-
         } else {
-
             $domain = $account->domains;
             $account_id = $account->id;
 
-            $account->account_users->each(function ($account_user) {
-
-                $account_user->delete();
-
-            });
+            $account->account_users->each(
+                function ($account_user) {
+                    $account_user->delete();
+                }
+            );
 
             $account->delete();
 
             //If we are deleting the default companies, we'll need to make a new company the default.
             if ($domain->default_company_id == $account_id) {
-
                 $new_default_company = Account::whereDomainId($domain->id)->first();
                 $domain->default_company_id = $new_default_company->id;
                 $domain->save();
-
             }
-
-
         }
 
         //@todo delete documents also!!
@@ -161,12 +153,10 @@ class AccountController extends Controller
         //account will trigger an account refund.
 
         return response()->json(['message' => 'success'], 200);
-
     }
 
     public function getCustomFields($entity)
     {
-
         $account = $this->account_repo->findAccountById(auth()->user()->account_user()->account_id);
 
         if (empty($account->custom_fields) || empty($account->custom_fields->{$entity})) {
@@ -199,7 +189,6 @@ class AccountController extends Controller
 
     public function changeAccount(Request $request)
     {
-
         $user = auth()->user();
         CompanyToken::where('token', $user->auth_token)->update(['account_id' => $request->account_id]);
     }

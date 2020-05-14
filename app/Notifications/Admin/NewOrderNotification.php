@@ -38,7 +38,11 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !empty($this->message_type) ? [$this->message_type] : [$notifiable->account_user()->default_notification_type];
+        return !empty($this->message_type)
+            ? [$this->message_type]
+            : [
+                $notifiable->account_user()->default_notification_type
+            ];
     }
 
     /**
@@ -51,14 +55,19 @@ class NewOrderNotification extends Notification implements ShouldQueue
     {
         $subject = trans('texts.notification_order_subject', $this->getDataArray());
 
-        return (new MailMessage)->subject($subject)->markdown('email.admin.new', ['data' => [
-            'title'       => $subject,
-            'message'     => trans('texts.notification_order', $this->getDataArray()),
-            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
-            'button_text' => trans('texts.view_invoice'),
-            'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
-            'logo'        => $this->order->account->present()->logo(),
-        ]]);
+        return (new MailMessage)->subject($subject)->markdown(
+            'email.admin.new',
+            [
+                'data' => [
+                    'title'       => $subject,
+                    'message'     => trans('texts.notification_order', $this->getDataArray()),
+                    'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
+                    'button_text' => trans('texts.view_invoice'),
+                    'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
+                    'logo'        => $this->order->account->present()->logo(),
+                ]
+            ]
+        );
     }
 
     private function getDataArray()
@@ -87,8 +96,12 @@ class NewOrderNotification extends Notification implements ShouldQueue
         $logo = $this->order->account->present()->logo();
 
         return (new SlackMessage)->success()
-                                 ->from("System")->image($logo)->content(trans('texts.notification_deal',
-                ['total' => $this->order->getFormattedTotal()]));
+                                 ->from("System")->image($logo)->content(
+                trans(
+                    'texts.notification_deal',
+                    ['total' => $this->order->getFormattedTotal()]
+                )
+            );
     }
 
 }

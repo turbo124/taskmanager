@@ -32,7 +32,6 @@ class RefundValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-
         if (!isset($this->request['id'])) {
             return false;
         }

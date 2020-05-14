@@ -26,16 +26,16 @@ class SendReminders implements ShouldQueue
     public function handle()
     {
         $this->processReminders();
-
     }
 
     private function processReminders()
     {
         $invoices = Invoice::where('next_send_date', Carbon::now()->format('Y-m-d'))->get();
 
-        $invoices->each(function ($invoice) {
-            $invoice->service()->sendReminders();
-        });
-
+        $invoices->each(
+            function ($invoice) {
+                $invoice->service()->sendReminders();
+            }
+        );
     }
 }

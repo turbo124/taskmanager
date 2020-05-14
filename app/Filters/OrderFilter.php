@@ -74,9 +74,11 @@ class OrderFilter extends QueryFilter
     {
         $list = $this->query->get();
 
-        $orders = $list->map(function (Order $order) {
-            return $this->transformOrder($order);
-        })->all();
+        $orders = $list->map(
+            function (Order $order) {
+                return $this->transformOrder($order);
+            }
+        )->all();
         return $orders;
     }
 
@@ -101,7 +103,6 @@ class OrderFilter extends QueryFilter
      */
     private function addStatusToQuery($filter)
     {
-
         if (strlen($filter) == 0) {
             return $this->query;
         }

@@ -68,9 +68,11 @@ trait OrderTransformable
             return [];
         }
 
-        return $invitations->map(function (OrderInvitation $invitation) {
-            return (new OrderInvitationTransformable)->transformOrderInvitation($invitation);
-        })->all();
+        return $invitations->map(
+            function (OrderInvitation $invitation) {
+                return (new OrderInvitationTransformable)->transformOrderInvitation($invitation);
+            }
+        )->all();
     }
 
     /**
@@ -79,13 +81,14 @@ trait OrderTransformable
      */
     private function transformOrderEmails($emails)
     {
-
         if ($emails->count() === 0) {
             return [];
         }
 
-        return $emails->map(function (Email $email) {
-            return (new EmailTransformable())->transformEmail($email);
-        })->all();
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
     }
 }

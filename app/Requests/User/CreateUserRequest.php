@@ -14,7 +14,6 @@ class CreateUserRequest extends BaseFormRequest
      */
     public function rules()
     {
-
         return [
             'department'      => 'nullable|numeric',
             'gender'          => 'nullable|string',

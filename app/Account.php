@@ -74,7 +74,11 @@ class Account extends Model
 
     public function getLocale()
     {
-        return isset($this->settings->language_id) && $this->language() ? $this->language()->locale : config('taskmanager.locale');
+        return isset($this->settings->language_id) && $this->language()
+            ? $this->language()->locale
+            : config(
+                'taskmanager.locale'
+            );
     }
 
     public function getSettings()
@@ -84,13 +88,11 @@ class Account extends Model
 
     public function getSetting($setting)
     {
-
         if (property_exists($this->settings, $setting) != false) {
             return $this->settings->{$setting};
         }
 
         return null;
-
     }
 
     public function users()
@@ -181,13 +183,11 @@ class Account extends Model
      */
     public function getCurrency()
     {
-
         if (!empty($this->settings->currency_id)) {
             return Currency::whereId($this->settings->currency_id)->first();
         }
 
         return false;
-
     }
 
     public function getLogo()
@@ -211,7 +211,6 @@ class Account extends Model
     public function routeNotificationForSlack($notification)
     {
         return $this->slack_webhook_url;
-
     }
 
     public function account_users()

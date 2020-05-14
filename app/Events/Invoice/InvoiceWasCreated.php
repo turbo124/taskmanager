@@ -35,6 +35,5 @@ class InvoiceWasCreated implements PerformsMetrics
     {
         $this->invoice = $invoice;
         $this->send($invoice, get_class($this));
-
     }
 }

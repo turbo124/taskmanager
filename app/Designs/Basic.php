@@ -6,7 +6,6 @@ class Basic
 {
     public function header()
     {
-
         return ' <div class="px-2 py-4">
 <div>
     $account_logo
@@ -22,12 +21,10 @@ class Basic
             </section>
         </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="inline-block">
     $customer_details
 </div>
@@ -55,7 +52,6 @@ $table_here
 </div>
 </div>
 ';
-
     }
 
     public function table()
@@ -95,7 +91,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -105,7 +100,6 @@ $table_here
         </div>
 </body>
 </html>';
-
     }
 
 }

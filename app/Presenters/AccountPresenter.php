@@ -44,7 +44,6 @@ class AccountPresenter extends EntityPresenter
         }
 
         foreach ($fields as $field) {
-
             if (empty($settings->{$field})) {
                 continue;
             }

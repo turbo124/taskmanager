@@ -73,9 +73,11 @@ class RecurringQuoteFilter extends QueryFilter
     {
         $list = $this->query->get();
 
-        $quotes = $list->map(function (RecurringQuote $quote) {
-            return $this->transformQuote($quote);
-        })->all();
+        $quotes = $list->map(
+            function (RecurringQuote $quote) {
+                return $this->transformQuote($quote);
+            }
+        )->all();
 
         return $quotes;
     }
@@ -85,12 +87,14 @@ class RecurringQuoteFilter extends QueryFilter
         if (strlen($filter) == 0) {
             return $this->query;
         }
-        return $this->query->where(function ($query) use ($filter) {
-            $query->where('recurring_quotes.custom_value1', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_quotes.custom_value2', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_quotes.custom_value3', 'like', '%' . $filter . '%')
-                  ->orWhere('recurring_quotes.custom_value4', 'like', '%' . $filter . '%');
-        });
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('recurring_quotes.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_quotes.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_quotes.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('recurring_quotes.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
 }

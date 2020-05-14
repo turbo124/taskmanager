@@ -70,8 +70,12 @@ class BaseController extends Controller
      * @param CreditRepository $credit_repo
      * @param string $entity_string
      */
-    public function __construct(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo, string $entity_string)
-    {
+    public function __construct(
+        InvoiceRepository $invoice_repo,
+        QuoteRepository $quote_repo,
+        CreditRepository $credit_repo,
+        string $entity_string
+    ) {
         $this->invoice_repo = $invoice_repo;
         $this->quote_repo = $quote_repo;
         $this->credit_repo = $credit_repo;
@@ -91,14 +95,20 @@ class BaseController extends Controller
         switch ($action) {
             //order
             case 'clone_order_to_invoice':
-                $invoice = CloneOrderToInvoiceFactory::create($entity, auth()->user(),
-                    auth()->user()->account_user()->account);
+                $invoice = CloneOrderToInvoiceFactory::create(
+                    $entity,
+                    auth()->user(),
+                    auth()->user()->account_user()->account
+                );
                 $this->invoice_repo->save($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_order_to_quote': // done
-                $quote = CloneOrderToQuoteFactory::create($entity, auth()->user(),
-                    auth()->user()->account_user()->account);
+                $quote = CloneOrderToQuoteFactory::create(
+                    $entity,
+                    auth()->user(),
+                    auth()->user()->account_user()->account
+                );
                 $this->quote_repo->save($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
@@ -109,20 +119,32 @@ class BaseController extends Controller
                     return response()->json(['message' => 'Unable to approve this order as it has expired.'], 400);
                 }
 
-                return response()->json($entity->service()->dispatch($this->invoice_repo, (new OrderRepository(new Order))));
+                return response()->json(
+                    $entity->service()->dispatch($this->invoice_repo, (new OrderRepository(new Order)))
+                );
                 break;
 
             //quote
             case 'clone_quote_to_invoice': // done
-                $invoice = $this->invoice_repo->save($request->all(),
-                    CloneQuoteToInvoiceFactory::create($this->quote_repo->findQuoteById($entity->id), auth()->user(),
-                        auth()->user()->account_user()->account));
+                $invoice = $this->invoice_repo->save(
+                    $request->all(),
+                    CloneQuoteToInvoiceFactory::create(
+                        $this->quote_repo->findQuoteById($entity->id),
+                        auth()->user(),
+                        auth()->user()->account_user()->account
+                    )
+                );
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_to_order':
-                $order = (new OrderRepository(new Order))->save($request->all(),
-                    CloneQuoteToOrderFactory::create($this->quote_repo->findQuoteById($entity->id), auth()->user(),
-                        auth()->user()->account_user()->account));
+                $order = (new OrderRepository(new Order))->save(
+                    $request->all(),
+                    CloneQuoteToOrderFactory::create(
+                        $this->quote_repo->findQuoteById($entity->id),
+                        auth()->user(),
+                        auth()->user()->account_user()->account
+                    )
+                );
                 return response()->json($order);
                 break;
             case 'clone_to_quote': // done
@@ -186,8 +208,11 @@ class BaseController extends Controller
                 return response()->json(['message' => 'email sent'], 200);
                 break;
             case 'clone_to_invoice': // done
-                $invoice = CloneInvoiceFactory::create($entity, auth()->user(),
-                    auth()->user()->account_user()->account);
+                $invoice = CloneInvoiceFactory::create(
+                    $entity,
+                    auth()->user(),
+                    auth()->user()->account_user()->account
+                );
                 $this->invoice_repo->save($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
@@ -208,7 +233,10 @@ class BaseController extends Controller
                 }
                 break;
             case 'reverse': // done
-                $invoice = $entity->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment));
+                $invoice = $entity->service()->reverseInvoicePayment(
+                    new CreditRepository(new Credit),
+                    new PaymentRepository(new Payment)
+                );
 
                 if (!$invoice) {
                     return response()->json('Unable to reverse invoice payment');
@@ -252,7 +280,6 @@ class BaseController extends Controller
         }
 
         if ($action == 'download' && $entities->count() >= 1) {
-
             Download::dispatch($entities, $entities->first()->account, auth()->user()->email);
 
             return response()->json(['message' => 'The email was sent successfully!'], 200);

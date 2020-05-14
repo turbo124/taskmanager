@@ -54,9 +54,11 @@ trait CompanyTransformable
             return [];
         }
 
-        return $contacts->map(function (CompanyContact $company_contact) {
-            return (new CompanyContactTransformable())->transformCompanyContact($company_contact);
-        })->all();
+        return $contacts->map(
+            function (CompanyContact $company_contact) {
+                return (new CompanyContactTransformable())->transformCompanyContact($company_contact);
+            }
+        )->all();
     }
 
 }

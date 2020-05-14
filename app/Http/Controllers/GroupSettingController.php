@@ -37,8 +37,10 @@ class GroupSettingController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $group_settings = (new GroupSettingFilter($this->group_setting_repo))->filter($request,
-            auth()->user()->account_user()->account_id);
+        $group_settings = (new GroupSettingFilter($this->group_setting_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account_id
+        );
 
         return response()->json($group_settings);
     }
@@ -111,8 +113,10 @@ class GroupSettingController extends Controller
      */
     public function filterGroups(Request $request)
     {
-        $quotes = (new GroupSettingFilter($this->group_setting_repo))->filterBySearchCriteria($request->all(),
-            auth()->user()->account_user()->account_id);
+        $quotes = (new GroupSettingFilter($this->group_setting_repo))->filterBySearchCriteria(
+            $request->all(),
+            auth()->user()->account_user()->account_id
+        );
         return response()->json($quotes);
     }
 

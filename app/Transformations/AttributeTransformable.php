@@ -13,7 +13,6 @@ class AttributeTransformable
      */
     public function transformAttribute(Attribute $attribute)
     {
-
         return [
             'id'          => (int)$attribute->id,
             'name'        => (string)$attribute->name,

@@ -72,7 +72,6 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
      */
     public function attachUsers(Event $objEvent, array $arrUsers)
     {
-
         $objEvent->users()->detach();
 
         foreach ($arrUsers as $userId) {
@@ -100,7 +99,6 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
      */
     public function getEventsForTask(Task $objTask): Collection
     {
-
         return $this->model->join('event_task', 'event_task.event_id', '=', 'events.id')->select('events.*')
                            ->where('event_task.task_id', $objTask->id)->groupBy('events.id')->get();
     }
@@ -147,6 +145,5 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
         }
 
         return $event->fresh();
-
     }
 }

@@ -61,7 +61,6 @@ class CreditPaymentValidation implements Rule
         }
 
         if ($credit_total > $this->request['amount']) {
-
             return false;
         }
 

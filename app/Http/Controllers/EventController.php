@@ -63,8 +63,10 @@ class EventController extends Controller
      */
     public function store(CreateEventRequest $request)
     {
-        $event = $this->event_repo->save($request->all(),
-            (new EventFactory())->create(auth()->user(), auth()->user()->account_user()->account));
+        $event = $this->event_repo->save(
+            $request->all(),
+            (new EventFactory())->create(auth()->user(), auth()->user()->account_user()->account)
+        );
         Notification::send(auth()->user(), new EventCreated($event));
         return $event->toJson();
     }
@@ -118,7 +120,6 @@ class EventController extends Controller
      */
     public function getEventsForTask(int $task_id)
     {
-
         $objTask = (new TaskRepository(new Task))->findTaskById($task_id);
         $events = $this->event_repo->getEventsForTask($objTask);
         return $events->toJson();
@@ -148,8 +149,10 @@ class EventController extends Controller
      */
     public function filterEvents(Request $request)
     {
-        $events = (new EventFilter($this->event_repo))->filterBySearchCriteria($request->all(),
-            auth()->user()->account_user()->account_id);
+        $events = (new EventFilter($this->event_repo))->filterBySearchCriteria(
+            $request->all(),
+            auth()->user()->account_user()->account_id
+        );
         return response()->json($events);
     }
 

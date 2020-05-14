@@ -38,7 +38,6 @@ class TaskStatusController extends Controller
      */
     public function search(SearchRequest $request)
     {
-
         $orderBy = !$request->column ? 'title' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
@@ -49,9 +48,11 @@ class TaskStatusController extends Controller
             $list = $this->taskStatusRepository->listTaskStatuses($orderBy, $orderDir);
         }
 
-        $statuses = $list->map(function (TaskStatus $taskStatus) {
-            return $this->transformTaskStatus($taskStatus);
-        })->all();
+        $statuses = $list->map(
+            function (TaskStatus $taskStatus) {
+                return $this->transformTaskStatus($taskStatus);
+            }
+        )->all();
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->taskStatusRepository->paginateArrayResults($statuses, $recordsPerPage);

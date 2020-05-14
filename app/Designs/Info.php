@@ -6,7 +6,6 @@ class Info
 {
     public function header()
     {
-
         return '<div class="bg-secondary p-4">
 <div class="col-6 inline-block mt-4">
     <div class="bg-white pt-4 px-4 pb-4 inline-block">
@@ -22,7 +21,6 @@ class Info
     </div>
 </div>
 </div>';
-
     }
 
     public function body()
@@ -100,7 +98,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -108,7 +105,6 @@ $table_here
         
         <div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
         </div>';
-
     }
 
 }

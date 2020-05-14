@@ -36,7 +36,6 @@ trait UserTransformable
             'deleted_at'      => $user->deleted_at,
             'created_at'      => $user->created_at,
         ];
-
         /*if ($user->departments->count() > 0) {
             $objDepartment = $user->departments->first();
             $prop->department = $objDepartment->id;
@@ -52,9 +51,11 @@ trait UserTransformable
             return [];
         }
 
-        return $account_users->map(function (AccountUser $account_user) {
-            return (new AccountUserTransformable())->transform($account_user);
-        })->all();
+        return $account_users->map(
+            function (AccountUser $account_user) {
+                return (new AccountUserTransformable())->transform($account_user);
+            }
+        )->all();
     }
 
 }

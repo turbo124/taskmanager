@@ -61,7 +61,6 @@ trait EntityDataBuilder
         }
 
         return $entity_data;
-
     }
 
     public function getErrors()

@@ -7,7 +7,6 @@ class Picture
 
     public function header()
     {
-
         return '<div class="px-4 py-4">
 <div class="mt-4">
     <div class="inline-block" ref="logo" style="width: 50%">
@@ -23,12 +22,10 @@ class Picture
     </div>
 </div>
 </div>';
-
     }
 
     public function body()
     {
-
         return '<div class="bg-secondary h-auto p-4 pt-4">
 <div>
     <div class="inline-block mr-4" style="width: 40%">
@@ -79,7 +76,6 @@ $table_here
 </div>
 </div>
 </div>';
-
     }
 
     public function table()
@@ -119,7 +115,6 @@ $table_here
 
     public function footer()
     {
-
         return '
         <div class="text-center mb-2">
                $signature_here
@@ -130,7 +125,6 @@ $table_here
 </footer>
 </body>
 </html>';
-
     }
 
 }

@@ -23,7 +23,6 @@ class SaveProductAttributes
      */
     public function __construct(Product $product)
     {
-
         $this->product = $product;
     }
 
@@ -40,8 +39,16 @@ class SaveProductAttributes
         $number_of_years = $fields['number_of_years'];
         $minimum_downpayment = $fields['minimum_downpayment'];
         $interest_rate = $fields['interest_rate'];
-        $productAttributes = new ProductAttribute(compact('range_from', 'range_to', 'payable_months', 'number_of_years',
-            'minimum_downpayment', 'interest_rate'));
+        $productAttributes = new ProductAttribute(
+            compact(
+                'range_from',
+                'range_to',
+                'payable_months',
+                'number_of_years',
+                'minimum_downpayment',
+                'interest_rate'
+            )
+        );
         $product_repo->removeProductAttribute($productAttributes, $this->product);
         $productAttribute = $product_repo->saveProductAttributes($productAttributes, $this->product);
 

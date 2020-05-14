@@ -42,8 +42,12 @@ class OrderController extends BaseController
      * @param QuoteRepository $quote_repo
      * @param CreditRepository $credit_repo
      */
-    public function __construct(OrderRepository $order_repo, InvoiceRepository $invoice_repo, QuoteRepository $quote_repo, CreditRepository $credit_repo)
-    {
+    public function __construct(
+        OrderRepository $order_repo,
+        InvoiceRepository $invoice_repo,
+        QuoteRepository $quote_repo,
+        CreditRepository $credit_repo
+    ) {
         parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Order');
         $this->order_repo = $order_repo;
         $this->invoice_repo = $invoice_repo;
@@ -63,8 +67,10 @@ class OrderController extends BaseController
     public function store(CreateOrderRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $order = $this->order_repo->save($request->all(),
-            OrderFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer));
+        $order = $this->order_repo->save(
+            $request->all(),
+            OrderFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
+        );
 
         event(new OrderWasCreated($order));
 

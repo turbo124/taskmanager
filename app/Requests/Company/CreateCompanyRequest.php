@@ -34,7 +34,6 @@ class CreateCompanyRequest extends BaseFormRequest
 
         if (is_array($contacts)) {
             for ($i = 0; $i < count($contacts); $i++) {
-
                 //$rules['contacts.' . $i . '.email'] = 'nullable|email|distinct';
             }
         }
