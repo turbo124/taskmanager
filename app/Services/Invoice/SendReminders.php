@@ -93,12 +93,13 @@ class SendReminders
 
     public function run()
     {
-        if ($this->invoice->is_deleted || !in_array($this->invoice->status_id,
-                                                    [
-                                                        Invoice::STATUS_SENT,
-                                                        Invoice::STATUS_PARTIAL,
-                                                        Invoice::STATUS_DRAFT
-                                                    ]
+        if ($this->invoice->is_deleted || !in_array(
+                $this->invoice->status_id,
+                [
+                    Invoice::STATUS_SENT,
+                    Invoice::STATUS_PARTIAL,
+                    Invoice::STATUS_DRAFT
+                ]
             )) {
             $this->invoice->next_send_date = null;
             $this->invoice->save();

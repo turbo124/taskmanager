@@ -41,12 +41,12 @@ trait MakesInvoiceHtml
         ) === true ? '<img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
         $data = [
-            'entity' => $entity,
-            'lang' => $entity->customer->preferredLocale(),
+            'entity'   => $entity,
+            'lang'     => $entity->customer->preferredLocale(),
             'settings' => $settings,
-            'header' => $designer->getSection('header'),
-            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer' => str_replace('$signature_here', $signature, $designer->getSection('footer'))
+            'header'   => $designer->getSection('header'),
+            'body'     => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer'   => str_replace('$signature_here', $signature, $designer->getSection('footer'))
         ];
 
         $html = view('pdf.stub', $data)->render();

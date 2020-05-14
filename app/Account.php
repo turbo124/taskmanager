@@ -51,12 +51,12 @@ class Account extends Model
     ];
 
     protected $casts = [
-        'country_id' => 'string',
+        'country_id'    => 'string',
         'custom_fields' => 'object',
-        'settings' => 'object',
-        'updated_at' => 'timestamp',
-        'created_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
+        'settings'      => 'object',
+        'updated_at'    => 'timestamp',
+        'created_at'    => 'timestamp',
+        'deleted_at'    => 'timestamp',
     ];
 
     public function locale()

@@ -47,15 +47,14 @@ class DepartmentController extends Controller
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
 
         if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->department_repo->searchDepartment(request()->input('search_term'))->where('account_id',
-                                                                                                     auth()->user(
-                                                                                                     )->account_user(
-                                                                                                     )->account_id
+            $list = $this->department_repo->searchDepartment(request()->input('search_term'))->where(
+                'account_id',
+                auth()->user()->account_user()->account_id
             );
         } else {
-            $list = $this->department_repo->listDepartments($orderBy, $orderDir)->where('account_id',
-                                                                                        auth()->user()->account_user(
-                                                                                        )->account_id
+            $list = $this->department_repo->listDepartments($orderBy, $orderDir)->where(
+                'account_id',
+                auth()->user()->account_user()->account_id
             );
         }
 

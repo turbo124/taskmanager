@@ -102,20 +102,23 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
                                  ->content(
-                                     trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray())
+                                     trans(
+                                         "texts.notification_{$this->entity_name}_sent_subject",
+                                         $this->getDataArray()
+                                     )
                                  )->attachment(
-        function ($attachment) {
-            $attachment->title(
-                trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
-                $this->invitation->getLink() . '?silent=true'
-            )->fields(
-                [
-                    trans('texts.customer') => $this->contact->present()->name(),
-                    trans('texts.total')    => $this->entity->getFormattedTotal(),
-                ]
+                function ($attachment) {
+                    $attachment->title(
+                        trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
+                        $this->invitation->getLink() . '?silent=true'
+                    )->fields(
+                        [
+                            trans('texts.customer') => $this->contact->present()->name(),
+                            trans('texts.total')    => $this->entity->getFormattedTotal(),
+                        ]
+                    );
+                }
             );
-        }
-    );
     }
 
 }

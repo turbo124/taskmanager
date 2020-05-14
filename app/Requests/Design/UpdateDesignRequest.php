@@ -15,7 +15,7 @@ class UpdateDesignRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name'   => 'required',
             'design' => 'required',
         ];
     }

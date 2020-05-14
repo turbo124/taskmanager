@@ -115,8 +115,8 @@ class RoleController extends Controller
         $permissions = $this->permission_repo->listPermissions(['id', 'name'], 'name', 'asc');
 
         $arrData = [
-            'permissions' => $permissions->toArray(),
-            'role' => $role->toArray(),
+            'permissions'         => $permissions->toArray(),
+            'role'                => $role->toArray(),
             'attachedPermissions' => $attachedPermissionsArrayIds
         ];
 

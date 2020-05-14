@@ -64,7 +64,7 @@ class SendSubscription
             'POST',
             $subscription->target_url,
             [
-                'headers' => [
+                'headers'     => [
                     //'Authorization' => 'Bearer ' . 'Mu9tNULggxB9QFRyDytg9RYdpG8GsQJ9LGBBTYWSzlKAkJgaK7hs0xrV9F4qKrM7',
                     'Accept' => 'application/json',
                 ],

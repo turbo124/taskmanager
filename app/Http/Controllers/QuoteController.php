@@ -151,7 +151,7 @@ class QuoteController extends BaseController
         }
 
         $arrTest = [
-            'lines' => $quote->line_items,
+            'lines'   => $quote->line_items,
             'invoice' => $quote
         ];
 

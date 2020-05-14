@@ -191,7 +191,7 @@ class TaskController extends Controller
         $product_tasks = (new OrderRepository(new Order))->getOrdersForTask($task);
 
         $arrData = [
-            'products' => $products,
+            'products'    => $products,
             'selectedIds' => $product_tasks->pluck('product_id')->all(),
         ];
 

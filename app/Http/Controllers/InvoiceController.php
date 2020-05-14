@@ -124,7 +124,7 @@ class InvoiceController extends BaseController
         }
 
         $arrTest = [
-            'lines' => $invoice->line_items,
+            'lines'   => $invoice->line_items,
             'invoice' => $invoice
         ];
 

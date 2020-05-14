@@ -31,9 +31,9 @@ class SubscriptionController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new SubscriptionFilters($this->subscription_repo))->filter($request,
-                                                                                auth()->user()->account_user(
-                                                                                )->account_id
+        $invoices = (new SubscriptionFilters($this->subscription_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account_id
         );
         return response()->json($invoices);
     }
