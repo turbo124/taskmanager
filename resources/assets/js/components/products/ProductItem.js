@@ -60,8 +60,9 @@ export default class ProductItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === product.id ? 'bg-warning text-dark' : ''
 
-                return <tr key={product.id}>
+                return <tr className={selectedRow} key={product.id}>
                     <td>
                         <Input className={checkboxClass} value={product.id} type="checkbox" onChange={this.props.onChangeBulk} />
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

@@ -33,7 +33,7 @@ class SubscriptionController extends Controller
     {
         $invoices = (new SubscriptionFilters($this->subscription_repo))->filter(
             $request,
-            auth()->user()->account_user()->account_id
+            auth()->user()->account_user()->account
         );
         return response()->json($invoices);
     }

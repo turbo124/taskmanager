@@ -63,9 +63,10 @@ export default class CreditItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === credit.id ? 'bg-warning text-dark' : ''
 
                 return (
-                    <tr key={credit.id}>
+                    <tr className={selectedRow} key={credit.id}>
                         <td>
                             <Input className={checkboxClass} value={credit.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                             <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

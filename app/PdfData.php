@@ -11,7 +11,6 @@ class PdfData
     private $data;
     private $entity;
     private $line_items;
-    private $design_html = '';
 
     /**
      * PdfData constructor.
@@ -220,7 +219,7 @@ class PdfData
         $this->data['$customer.email'] = [
             'value' => isset(
                 $customer->primary_contact()->first()->email
-            ) ? $customer->primary_contact()->first()->email : 'no contact email on record',
+            ) ? $customer->primary_contact()->first()->email : '',
             'label' => trans('texts.email_address')
         ];
         $this->data['$customer.name'] = [
@@ -305,9 +304,7 @@ class PdfData
         $this->data['$product.notes'] = ['value' => '', 'label' => trans('texts.notes')];
         $this->data['$product.cost'] = ['value' => '', 'label' => trans('texts.cost')];
         $this->data['$product.quantity'] = ['value' => '', 'label' => trans('texts.quantity')];
-        $this->data['$product.tax_name1'] = ['value' => '', 'label' => trans('texts.tax')];
-        $this->data['$product.tax_name2'] = ['value' => '', 'label' => trans('texts.tax')];
-        $this->data['$product.tax_name3'] = ['value' => '', 'label' => trans('texts.tax')];
+        $this->data['$product.tax'] = ['value' => '', 'label' => trans('texts.tax')];
         $this->data['$product.line_total'] = ['value' => '', 'label' => trans('texts.sub_total')];
         return $this;
     }
@@ -726,7 +723,7 @@ class PdfData
             }
 
             if (isset($item->unit_tax) && $item->unit_tax > 0) {
-                $this->line_items[$key][$table_type . '.tax_rate1'] = round($item->unit_tax, 2) . "%";
+                $this->line_items[$key][$table_type . '.tax'] = round($item->unit_tax, 2) . "%";
                 $this->line_items[$key][$table_type . '.tax1'] = &$this->line_items[$key][$table_type . '.tax_rate1'];
             }
         }

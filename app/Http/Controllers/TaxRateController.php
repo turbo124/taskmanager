@@ -36,7 +36,7 @@ class TaxRateController extends Controller
     public function index(SearchRequest $request)
     {
         $tax_rates =
-            (new TaxRateFilter($this->tax_rate_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new TaxRateFilter($this->tax_rate_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($tax_rates);
     }
 

@@ -52,7 +52,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new InvoiceFilter($this))->filter($search_request, $account->id);
+        return (new InvoiceFilter($this))->filter($search_request, $account);
     }
 
     public function getModel()

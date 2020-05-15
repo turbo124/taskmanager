@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
 use App\Invoice;
@@ -28,10 +29,10 @@ class InvoiceFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
-     * @return LengthAwarePaginator|static
+     * @param Account $account
+     * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'due_date' : $request->column;
@@ -55,7 +56,7 @@ class InvoiceFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

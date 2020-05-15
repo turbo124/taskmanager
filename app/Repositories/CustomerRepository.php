@@ -41,7 +41,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new CustomerFilter($this))->filter($search_request, $account->id);
+        return (new CustomerFilter($this))->filter($search_request, $account);
     }
 
     /**

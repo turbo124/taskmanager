@@ -36,7 +36,7 @@ class TokenController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new TokenFilters($this->token_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $invoices = (new TokenFilters($this->token_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

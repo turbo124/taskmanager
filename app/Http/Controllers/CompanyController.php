@@ -55,7 +55,7 @@ class CompanyController extends Controller
     public function index(SearchRequest $request)
     {
         $brands =
-            (new CompanyFilter($this->company_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new CompanyFilter($this->company_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($brands);
     }
 

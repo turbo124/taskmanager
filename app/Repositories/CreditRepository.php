@@ -74,6 +74,6 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new CreditFilter($this))->filter($search_request, $account->id);
+        return (new CreditFilter($this))->filter($search_request, $account);
     }
 }

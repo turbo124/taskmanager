@@ -50,7 +50,7 @@ class RecurringInvoiceRepository extends BaseRepository
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new RecurringInvoiceFilter($this))->filter($search_request, $account->id);
+        return (new RecurringInvoiceFilter($this))->filter($search_request, $account);
     }
 
     /**

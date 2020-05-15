@@ -54,6 +54,7 @@ export default class Subscriptions extends Component {
     userList (props) {
         const { subscriptions } = this.state
         return <SubscriptionItem showCheckboxes={props.showCheckboxes} subscriptions={subscriptions}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

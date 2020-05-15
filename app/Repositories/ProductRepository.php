@@ -44,7 +44,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new ProductFilter($this))->filter($search_request, $account->id);
+        return (new ProductFilter($this))->filter($search_request, $account);
     }
 
     /**

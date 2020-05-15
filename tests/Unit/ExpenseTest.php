@@ -48,7 +48,7 @@ class ExpenseTest extends TestCase
     public function it_can_show_all_the_expenses()
     {
         factory(Expense::class)->create();
-        $list = (new ExpenseFilter(new ExpenseRepository(new Expense)))->filter(new SearchRequest(), 1);
+        $list = (new ExpenseFilter(new ExpenseRepository(new Expense)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

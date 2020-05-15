@@ -59,7 +59,7 @@ class QuoteTest extends TestCase
     public function it_can_show_all_the_quotes()
     {
         factory(Quote::class)->create();
-        $list = (new QuoteFilter(new QuoteRepository(new Quote)))->filter(new SearchRequest(), 1);
+        $list = (new QuoteFilter(new QuoteRepository(new Quote)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

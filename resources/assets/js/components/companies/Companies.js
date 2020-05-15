@@ -83,6 +83,7 @@ export default class Companies extends Component {
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            viewId={props.viewId}
             onChangeBulk={props.onChangeBulk}/>
     }
 

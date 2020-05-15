@@ -43,7 +43,7 @@ class TaskTest extends TestCase
     {
         $insertedtask = factory(Task::class)->create();
         $list = (new TaskFilter(new TaskRepository(new Task,
-            new ProjectRepository(new Project))))->filter(new SearchRequest(), 1);
+            new ProjectRepository(new Project))))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         //$this->assertInstanceOf(Task::class, $list[0]);
         // $this->assertInstanceOf(Collection::class, $list);

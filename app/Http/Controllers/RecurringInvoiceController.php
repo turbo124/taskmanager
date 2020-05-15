@@ -51,7 +51,7 @@ class RecurringInvoiceController extends Controller
     {
         $invoices = (new RecurringInvoiceFilter($this->recurring_invoice_repo))->filter(
             $request,
-            auth()->user()->account_user()->account_id
+            auth()->user()->account_user()->account
         );
         return response()->json($invoices);
     }

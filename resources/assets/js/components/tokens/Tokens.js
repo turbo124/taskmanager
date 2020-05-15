@@ -54,6 +54,7 @@ export default class Tokens extends Component {
     userList (props) {
         const { tokens } = this.state
         return <TokenItem showCheckboxes={props.showCheckboxes} tokens={tokens}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

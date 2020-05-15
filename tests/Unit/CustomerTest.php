@@ -147,7 +147,7 @@ class CustomerTest extends TestCase
     {
         factory(Customer::class, 5)->create();
         $list = (new CustomerFilter(new CustomerRepository(new Customer,
-        )))->filter(new SearchRequest(), $this->account->id);
+        )))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

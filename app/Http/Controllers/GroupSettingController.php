@@ -39,7 +39,7 @@ class GroupSettingController extends Controller
     {
         $group_settings = (new GroupSettingFilter($this->group_setting_repo))->filter(
             $request,
-            auth()->user()->account_user()->account_id
+            auth()->user()->account_user()->account
         );
 
         return response()->json($group_settings);

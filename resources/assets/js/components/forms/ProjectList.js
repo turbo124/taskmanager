@@ -80,6 +80,7 @@ export default class ProjectList extends Component {
         const { projects, custom_fields, users } = this.state
         return <ProjectItem showCheckboxes={props.showCheckboxes} projects={projects} users={users}
             custom_fields={custom_fields}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

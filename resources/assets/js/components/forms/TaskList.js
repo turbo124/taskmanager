@@ -102,6 +102,7 @@ export default class TaskList extends Component {
 
         return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} tasks={tasks} users={users}
             custom_fields={custom_fields} customers={customers}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

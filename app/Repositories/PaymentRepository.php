@@ -48,7 +48,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new PaymentFilter($this))->filter($search_request, $account->id);
+        return (new PaymentFilter($this))->filter($search_request, $account);
     }
 
     /**

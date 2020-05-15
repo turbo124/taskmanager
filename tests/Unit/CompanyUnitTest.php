@@ -23,10 +23,11 @@ class CompanyUnitTest extends TestCase
     use WithFaker, DatabaseTransactions;
 
     /**
-     * @var int
+     * @var Account
      */
-    private $account;
-    private $user;
+    private Account $account;
+
+    private User $user;
 
     public function setUp(): void
     {
@@ -42,7 +43,7 @@ class CompanyUnitTest extends TestCase
     {
         $insertedbrand = factory(Company::class)->create();
         $list = (new CompanyFilter(new CompanyRepository(new Company,
-            new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account->id);
+            new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account);
         $myLastElement = end($list);
         $this->assertNotEmpty($list);
     }

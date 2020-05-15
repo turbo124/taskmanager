@@ -77,7 +77,7 @@ class QuoteController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new QuoteFilter($this->quote_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $invoices = (new QuoteFilter($this->quote_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

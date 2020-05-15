@@ -42,7 +42,7 @@ export default function QuotePresenter (props) {
                 amount={entity.balance}/>}</td>
         case 'date':
         case 'due_date': {
-            return <FormatDate field={field} date={entity[field]} />
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
 
         case 'status_id':

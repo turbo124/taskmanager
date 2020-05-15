@@ -61,6 +61,7 @@ export default class TaxRates extends Component {
     userList (props) {
         const { taxRates } = this.state
         return <TaxRateItem showCheckboxes={props.showCheckboxes} taxRates={taxRates}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Company;
 use App\Design;
 use App\GroupSetting;
@@ -32,10 +33,10 @@ class DesignFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'name' : $request->column;
@@ -55,7 +56,7 @@ class DesignFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

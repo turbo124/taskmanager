@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Company;
 use App\Credit;
 use App\Repositories\CompanyRepository;
@@ -30,10 +31,10 @@ class CreditFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'total' : $request->column;
@@ -57,7 +58,7 @@ class CreditFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

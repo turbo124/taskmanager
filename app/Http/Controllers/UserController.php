@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $users = (new UserFilter($this->user_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $users = (new UserFilter($this->user_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($users);
     }
 

@@ -54,8 +54,9 @@ export default class TokenItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === token.id ? 'bg-warning text-dark' : ''
 
-                return <tr key={token.id}>
+                return <tr className={selectedRow} key={token.id}>
                     <td>
                         <Input className={checkboxClass} value={token.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

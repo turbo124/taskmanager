@@ -64,8 +64,9 @@ export default class ProjectItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === project.id ? 'bg-warning text-dark' : ''
 
-                return <tr key={project.id}>
+                return <tr className={selectedRow} key={project.id}>
                     <td>
                         <Input className={checkboxClass} value={project.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

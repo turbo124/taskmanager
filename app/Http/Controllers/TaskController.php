@@ -66,7 +66,7 @@ class TaskController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $tasks = (new TaskFilter($this->task_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $tasks = (new TaskFilter($this->task_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($tasks);
     }
 

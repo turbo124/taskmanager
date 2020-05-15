@@ -63,7 +63,7 @@ class ProductController extends Controller
     public function index(SearchRequest $request)
     {
         $products =
-            (new ProductFilter($this->product_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new ProductFilter($this->product_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($products);
     }
 

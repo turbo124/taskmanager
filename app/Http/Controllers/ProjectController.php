@@ -33,7 +33,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $projects =
-            (new ProjectFilter($this->project_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new ProjectFilter($this->project_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($projects);
     }
 

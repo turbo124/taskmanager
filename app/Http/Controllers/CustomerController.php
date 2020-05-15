@@ -53,7 +53,7 @@ class CustomerController extends Controller
     public function index(SearchRequest $request)
     {
         $customers =
-            (new CustomerFilter($this->customer_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new CustomerFilter($this->customer_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($customers);
     }
 

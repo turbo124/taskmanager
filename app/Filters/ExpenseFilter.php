@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Company;
 use App\Expense;
 use App\Repositories\CompanyRepository;
@@ -35,10 +36,10 @@ class ExpenseFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'amount' : $request->column;
@@ -66,7 +67,7 @@ class ExpenseFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

@@ -119,7 +119,8 @@ export default class Customers extends Component {
 
     customerList (props) {
         const { customers, custom_fields } = this.state
-        return <CustomerItem showCheckboxes={props.showCheckboxes} customers={customers} custom_fields={custom_fields}
+        return <CustomerItem viewId={props.viewId} showCheckboxes={props.showCheckboxes} customers={customers}
+            custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
             deleteCustomer={this.deleteCustomer} toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

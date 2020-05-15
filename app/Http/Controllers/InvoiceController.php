@@ -71,7 +71,7 @@ class InvoiceController extends BaseController
     public function index(SearchRequest $request)
     {
         $invoices =
-            (new InvoiceFilter($this->invoice_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new InvoiceFilter($this->invoice_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

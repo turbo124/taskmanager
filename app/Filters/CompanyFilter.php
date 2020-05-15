@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Company;
 use App\Repositories\CompanyRepository;
 use App\Requests\SearchRequest;
@@ -28,10 +29,10 @@ class CompanyFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'name' : $request->column;
@@ -52,7 +53,7 @@ class CompanyFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id, 'companies');
+        $this->addAccount($account, 'companies');
 
         $this->orderBy($orderBy, $orderDir);
 

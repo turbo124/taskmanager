@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Payment;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
@@ -30,7 +31,7 @@ class PaymentFilter extends QueryFilter
      * @param SearchRequest $request
      * @return array|LengthAwarePaginator
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'amount' : $request->column;
@@ -54,7 +55,7 @@ class PaymentFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 
