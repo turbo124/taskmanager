@@ -9,14 +9,14 @@ export default class AttributeDropdown extends Component {
             departments: []
         }
 
-        this.getDepartments = this.getDepartments.bind(this)
+        this.getAttributes = this.getAttributes.bind(this)
     }
 
     componentDidMount () {
-        if (!this.props.departments || !this.props.departments.length) {
-            this.getDepartments()
+        if (!this.props.attributes || !this.props.attributes.length) {
+            this.getAttributes()
         } else {
-            this.setState({ departments: this.props.departments })
+            this.setState({ attributes: this.props.attributes })
         }
     }
 
@@ -35,10 +35,10 @@ export default class AttributeDropdown extends Component {
     }
 
     getDepartments () {
-        axios.get('/api/departments')
+        axios.get('/api/attributes')
             .then((r) => {
                 this.setState({
-                    departments: r.data
+                    attributes: r.data
                 })
             })
             .catch((e) => {
@@ -47,25 +47,25 @@ export default class AttributeDropdown extends Component {
     }
 
     render () {
-        let departmentList = null
-        if (!this.state.departments.length) {
-            departmentList = <option value="">Loading...</option>
+        let attributeList = null
+        if (!this.state.attributes.length) {
+            attributeList = <option value="">Loading...</option>
         } else {
-            departmentList = this.state.departments.map((department, index) => (
-                <option key={index} value={department.id}>{department.name}</option>
+            attributeList = this.state.attributes.map((attribute, index) => (
+                <option key={index} value={attribute.id}>{attribute.name}</option>
             ))
         }
 
-        const name = this.props.name && this.props.name ? this.props.name : 'department'
+        const name = this.props.name && this.props.name ? this.props.name : 'attribute_id'
 
         return (
             <FormGroup className="mr-2">
-                <Input value={this.props.department} onChange={this.props.handleInputChanges} type="select"
+                <Input value={this.props.attribute_id} onChange={this.props.handleInputChanges} type="select"
                     name={name} id={name}>
                     <option value="">Select Department</option>
-                    {departmentList}
+                    {attributeList}
                 </Input>
-                {this.renderErrorFor('department')}
+                {this.renderErrorFor('attribute_id')}
             </FormGroup>
         )
     }
