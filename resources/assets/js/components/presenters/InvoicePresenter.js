@@ -41,19 +41,22 @@ export default function InvoicePresenter (props) {
 
     switch (field) {
         case 'total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{<FormatMoney
-                customers={props.customers} customer_id={entity.customer_id}
-                amount={entity.total}/>}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
+                <FormatMoney
+                    customers={props.customers} customer_id={entity.customer_id}
+                    amount={entity.total}/>}</td>
         case 'balance':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Balance">{
                 <FormatMoney customers={props.customers} customer_id={entity.customer_id}
                     amount={entity.balance}/>}</td>
         case 'date':
         case 'due_date':
-            return <FormatDate field={field} date={entity[field]} />
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date">
+                <FormatDate field={field} date={entity[field]}/></td>
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+                data-label="Status">{status}</td>
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])

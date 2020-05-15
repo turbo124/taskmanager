@@ -61,7 +61,7 @@ class OrderTest extends TestCase
     public function it_can_show_all_the_orders()
     {
         factory(Order::class)->create();
-        $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), 1);
+        $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

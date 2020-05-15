@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Invoice;
 use App\RecurringQuote;
 use App\Repositories\RecurringQuoteRepository;
@@ -29,9 +30,10 @@ class RecurringQuoteFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
+     * @param Account $account
      * @return LengthAwarePaginator
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'due_date' : $request->column;
@@ -55,7 +57,7 @@ class RecurringQuoteFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

@@ -155,7 +155,7 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
         $attributes = $product->getFillable();
         $products =
-            (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account->id);
+            (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($products);
     }
 

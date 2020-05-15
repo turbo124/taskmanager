@@ -40,7 +40,7 @@ class EventController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $events = (new EventFilter($this->event_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $events = (new EventFilter($this->event_repo))->filter($request, auth()->user()->account_user()->account);
         return collect($events)->toJson();
     }
 

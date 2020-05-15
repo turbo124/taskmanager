@@ -74,6 +74,11 @@ class Refund extends React.Component {
             return el.amount !== 0 && el.invoice_id !== null
         })
 
+        if (invoices.length === 0 && parseFloat(this.state.amount) <= 0) {
+            alert('You must enter a valid refund amount')
+            return false
+        }
+
         axios.put(`/api/refund/${this.state.id}`, {
             amount: this.state.amount,
             invoices: invoices,

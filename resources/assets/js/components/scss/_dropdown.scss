@@ -1,7 +1,4 @@
 td {
-  &:first-child {
-    width: 1% !important;
-  }
 
   .dropdown {
     //position: static;
@@ -14,6 +11,9 @@ td {
     }
 
     .dropdown-menu .dropdown-item {
+      padding: 0px 24px !important;
+
+
       i {
         font-size: 18px !important;
       }

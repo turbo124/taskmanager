@@ -68,7 +68,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new TaskFilter($this))->filter($search_request, $account->id);
+        return (new TaskFilter($this))->filter($search_request, $account);
     }
 
     /**

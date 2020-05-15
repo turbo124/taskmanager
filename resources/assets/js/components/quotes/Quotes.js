@@ -63,6 +63,7 @@ export default class Quotes extends Component {
         const { quotes, custom_fields, customers } = this.state
         return <QuoteItem showCheckboxes={props.showCheckboxes} quotes={quotes} customers={customers}
             custom_fields={custom_fields}
+            viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
             toggleViewedEntity={props.toggleViewedEntity}
             onChangeBulk={props.onChangeBulk}/>

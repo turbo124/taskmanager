@@ -66,8 +66,9 @@ export default class TaskItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === task.id ? 'bg-warning text-dark' : ''
 
-                return <tr key={task.id}>
+                return <tr className={selectedRow} key={task.id}>
                     <td>
                         <Input className={checkboxClass} value={task.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

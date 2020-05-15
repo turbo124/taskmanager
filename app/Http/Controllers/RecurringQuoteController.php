@@ -54,7 +54,7 @@ class RecurringQuoteController extends Controller
     {
         $invoices = (new RecurringQuoteFilter($this->recurring_quote_repo))->filter(
             $request,
-            auth()->user()->account_user()->account_id
+            auth()->user()->account_user()->account
         );
         return response()->json($invoices);
     }

@@ -46,7 +46,7 @@ class ExpenseController extends Controller
     public function index(SearchRequest $request)
     {
         $expenses =
-            (new ExpenseFilter($this->expense_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new ExpenseFilter($this->expense_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($expenses);
     }
 

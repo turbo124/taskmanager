@@ -49,7 +49,7 @@ class LeadController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $leads = (new LeadFilter($this->lead_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $leads = (new LeadFilter($this->lead_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($leads);
     }
 

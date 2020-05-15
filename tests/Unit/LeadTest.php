@@ -38,7 +38,7 @@ class LeadTest extends TestCase
     public function it_can_show_all_the_leads()
     {
         factory(Lead::class)->create();
-        $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), 1);
+        $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
         //$this->assertEquals($insertedtask->title, $myLastElement['title']);

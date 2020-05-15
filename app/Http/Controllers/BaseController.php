@@ -331,7 +331,7 @@ class BaseController extends Controller
 
         if (request()->has('markRead') && request()->input('markRead') === 'true') {
             $invitation->markViewed();
-            event(new InvitationWasViewed('order', $invitation));
+            event(new InvitationWasViewed(strtolower($this->entity_string), $invitation));
         }
 
         return response()->json(['data' => base64_encode($content)]);

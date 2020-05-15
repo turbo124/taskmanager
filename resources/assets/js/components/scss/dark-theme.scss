@@ -147,6 +147,11 @@ mark {
     @extend %extend_1;
     color: $color_mystic_approx !important;
   }
+
+  .text-dark td {
+    color: #2f353a !important;
+  }
+
   .table {
     background-color: $color_outer_space_approx;
   }

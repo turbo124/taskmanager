@@ -51,7 +51,7 @@ class PaymentController extends Controller
     public function index(SearchRequest $request)
     {
         $payments =
-            (new PaymentFilter($this->payment_repo))->filter($request, auth()->user()->account_user()->account_id);
+            (new PaymentFilter($this->payment_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($payments);
     }
 

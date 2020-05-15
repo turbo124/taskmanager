@@ -66,7 +66,7 @@ class InvoiceTest extends TestCase
     public function it_can_show_all_the_invoices()
     {
         factory(Invoice::class)->create();
-        $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(new SearchRequest(), 1);
+        $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(new SearchRequest(), $this->main_account);
         $this->assertNotEmpty($list);
     }
 

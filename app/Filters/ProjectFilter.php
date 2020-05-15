@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Project;
 use App\Repositories\ProjectRepository;
 use App\Transformations\ProjectTransformable;
@@ -24,7 +25,12 @@ class ProjectFilter extends QueryFilter
         $this->model = $projectRepository->getModel();
     }
 
-    public function filter(Request $request, int $account_id)
+    /**
+     * @param Request $request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     */
+    public function filter(Request $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'title' : $request->column;
@@ -48,7 +54,7 @@ class ProjectFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

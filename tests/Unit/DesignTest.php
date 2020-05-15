@@ -54,7 +54,7 @@ class DesignTest extends TestCase
     public function it_can_show_all_the_designs()
     {
         factory(Design::class)->create();
-        $list = (new DesignFilter(new DesignRepository(new Design())))->filter(new SearchRequest(), 1);
+        $list = (new DesignFilter(new DesignRepository(new Design())))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

@@ -243,6 +243,7 @@ export default class DataTable extends Component {
                 {this.props.userList({
                     ignoredColumns: this.state.ignoredColumns,
                     toggleViewedEntity: this.toggleViewedEntity,
+                    viewId: this.state.view.viewedId ? this.state.view.viewedId.id : null,
                     showCheckboxes: this.state.showCheckboxes,
                     onChangeBulk: this.onChangeBulk
                 })}

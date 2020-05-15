@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\UserTransformable;
@@ -31,7 +32,7 @@ class UserFilter extends QueryFilter
      * @param int $account_id
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column || $request->column === 'name' ? 'first_name' : $request->column;
@@ -61,8 +62,8 @@ class UserFilter extends QueryFilter
 
         $this->query->whereHas(
             'account_users',
-            function ($query) use ($account_id) {
-                $query->where('account_id', '=', $account_id);
+            function ($query) use ($account) {
+                $query->where('account_id', '=', $account->id);
             }
         );
 

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Event;
 use App\Repositories\EventRepository;
 use App\Requests\SearchRequest;
@@ -28,10 +29,10 @@ class EventFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'title' : $request->column;
@@ -47,7 +48,7 @@ class EventFilter extends QueryFilter
             $this->status($request->status_id);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account->id);
 
         $this->orderBy($orderBy, $orderDir);
 

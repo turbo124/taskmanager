@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Lead;
 use App\Repositories\LeadRepository;
 use App\Transformations\LeadTransformable;
@@ -24,7 +25,12 @@ class LeadFilter extends QueryFilter
         $this->model = $lead_repo->getModel();
     }
 
-    public function filter(Request $request, int $account_id)
+    /**
+     * @param Request $request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     */
+    public function filter(Request $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'title' : $request->column;
@@ -44,7 +50,7 @@ class LeadFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

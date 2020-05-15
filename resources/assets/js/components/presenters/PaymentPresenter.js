@@ -31,7 +31,7 @@ export default function PaymentPresenter (props) {
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={entity.applied}/>}</td>
         case 'date': {
-            return <FormatDate field={field} date={entity[field]} />
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
 
         case 'status':

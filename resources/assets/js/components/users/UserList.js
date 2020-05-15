@@ -126,6 +126,7 @@ export default class UserList extends Component {
     userList (props) {
         const { users, departments, custom_fields, accounts } = this.state
         return <UserItem showCheckboxes={props.showCheckboxes} accounts={accounts} departments={departments}
+            viewId={props.viewId}
             users={users} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}

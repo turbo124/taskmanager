@@ -176,6 +176,11 @@ class Quote extends Model
         return Number::formatCurrency($this->balance, $this->customer);
     }
 
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
     public function getDesignId()
     {
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('quote_design_id');

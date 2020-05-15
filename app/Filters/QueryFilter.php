@@ -2,6 +2,8 @@
 
 namespace App\Filters;
 
+use App\Account;
+
 class QueryFilter
 {
 
@@ -30,10 +32,14 @@ class QueryFilter
         $this->query->orderBy($orderBy, $orderDir);
     }
 
-    protected function addAccount(int $account_id, $table = '')
+    /**
+     * @param Account $account
+     * @param string $table
+     */
+    protected function addAccount(Account $account, $table = '')
     {
         $field = !empty($table) ? $table . '.account_id' : 'account_id';
-        $this->query->where($field, '=', $account_id);
+        $this->query->where($field, '=', $account->id);
     }
 
     /**

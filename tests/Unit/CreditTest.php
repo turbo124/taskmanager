@@ -48,7 +48,7 @@ class CreditTest extends TestCase
     public function it_can_show_all_the_credits()
     {
         factory(Credit::class)->create();
-        $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), 1);
+        $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

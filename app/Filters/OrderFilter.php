@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Order;
 use App\Repositories\OrderRepository;
 use App\Repositories\Support;
@@ -29,10 +30,10 @@ class OrderFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
-     * @return LengthAwarePaginator|static
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'due_date' : $request->column;
@@ -56,7 +57,7 @@ class OrderFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

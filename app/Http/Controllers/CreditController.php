@@ -59,7 +59,7 @@ class CreditController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $credits = (new CreditFilter($this->credit_repo))->filter($request, auth()->user()->account_user()->account_id);
+        $credits = (new CreditFilter($this->credit_repo))->filter($request, auth()->user()->account_user()->account);
 
         return response()->json($credits);
     }

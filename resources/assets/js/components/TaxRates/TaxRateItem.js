@@ -58,8 +58,9 @@ export default class TaxRateItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === taxRate.id ? 'bg-warning text-dark' : ''
 
-                return <tr key={taxRate.id}>
+                return <tr className={selectedRow} key={taxRate.id}>
                     <td>
                         <Input className={checkboxClass} value={taxRate.id} type="checkbox" onChange={this.props.onChangeBulk} />
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}

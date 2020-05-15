@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Quote;
 use App\Repositories\QuoteRepository;
 use App\Requests\SearchRequest;
@@ -31,7 +32,7 @@ class QuoteFilter extends QueryFilter
      * @param int $account_id
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'due_date' : $request->column;
@@ -55,7 +56,7 @@ class QuoteFilter extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Account;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
 use App\Subscription;
@@ -33,10 +34,10 @@ class SubscriptionFilters extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
-     * @return mixed
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, int $account_id)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'name' : $request->column;
@@ -56,7 +57,7 @@ class SubscriptionFilters extends QueryFilter
             $this->filterDates($request);
         }
 
-        $this->addAccount($account_id);
+        $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 
