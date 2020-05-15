@@ -50,7 +50,7 @@ class AttributeController extends Controller
      */
     public function store(CreateAttributeRequest $request)
     {
-        $attribute = $this->attributeRepo->createAttribute($request->except('_token'));
+        $attribute = $this->attribute_repo->createAttribute($request->except('_token'));
         return response()->json($attribute);
     }
 
@@ -60,12 +60,12 @@ class AttributeController extends Controller
      */
     public function show($id)
     {
-            $attribute = $this->attributeRepo->findAttributeById($id);
+            $attribute = $this->attribute_repo->findAttributeById($id);
             $attributeRepo = new AttributeRepository($attribute);
 
             return response->json([
                 'attribute' => $attribute,
-                'values' => $attributeRepo->listAttributeValues()
+                'values' => $attribute_repo->listAttributeValues()
             ]);
       
     }
@@ -76,7 +76,7 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        $attribute = $this->attributeRepo->findAttributeById($id);
+        $attribute = $this->attribute_repo->findAttributeById($id);
 
         return response->json($attribute);
     }
@@ -89,10 +89,10 @@ class AttributeController extends Controller
     public function update(UpdateAttributeRequest $request, $id)
     {
         
-            $attribute = $this->attributeRepo->findAttributeById($id);
+            $attribute = $this->attribute_repo->findAttributeById($id);
 
-            $attributeRepo = new AttributeRepository($attribute);
-            $attributeRepo->updateAttribute($request->all());
+            $attribute_repo = new AttributeRepository($attribute);
+            $attribute_repo->updateAttribute($request->all());
             return response()->json($attribute);
 
     }
@@ -103,7 +103,7 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        $this->attributeRepo->findAttributeById($id)->delete();
+        $this->attribute_repo->findAttributeById($id)->delete();
 
         return response->json('Attribute deleted successfully!');
     }
