@@ -54,4 +54,68 @@ class SaveProductAttributes
 
         return $productAttribute;
     }
+
+    private function saveProductCombinations(Request $request, Product $product): bool
+    {
+
+        foreach($fields as $field) {
+            $fields = $request->only(
+                'productAttributeQuantity',
+                'productAttributePrice',
+                'sale_price',
+                'default'
+            );
+
+            if ($errors = $this->validateFields($fields)) {
+                return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1])
+                    ->withErrors($errors);
+            }
+
+            $quantity = $field['quantity'];
+            $price = $field['price'];
+
+            $sale_price = null;
+            if (isset($field['sale_price'])) {
+                $sale_price = $field['sale_price'];
+            }
+
+            $attributeValues = $field['attribute_value'];
+            $productRepo = new ProductRepository($product);
+
+            $hasDefault = $productRepo->listProductAttributes()->where('default', 1)->count();
+
+
+            if ($field['default'] == 1 && $hasDefault > 0) {
+                $default = 0;
+            } else {
+                $default = 1;
+            }
+
+            $productAttribute = $productRepo->saveProductAttributes(
+                new ProductAttribute(compact('quantity', 'price', 'sale_price', 'default'))
+            );
+
+            // save the combinations
+            return collect($attributeValues)->each(function ($attributeValueId) use ($productRepo, $productAttribute) {
+                $attribute = $this->attributeValueRepository->find($attributeValueId);
+                return $productRepo->saveCombination($productAttribute, $attribute);
+            })->count();
+        }
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return
+     */
+    private function validateFields(array $data)
+    {
+        $validator = Validator::make($data, [
+            'productAttributeQuantity' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $validator;
+        }
+    }
 }
