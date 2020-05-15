@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
-import InvoiceDropdown from '../common/InvoiceDropdown'
+import AttributeDropdown from '../common/AttributeDropdown'
+import AttributeValueDropdown from '../common/AttributeValueDropdown'
 
 const AttributeInputs = (props) => {
     return (
