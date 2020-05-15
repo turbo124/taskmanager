@@ -22,11 +22,12 @@ export default class Variations extends Component {
     handleChange (e) {
         const name = e.target.name
         const idx = e.target.dataset.id
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value 
 
         const variations = [...this.state.variations]
         let amount = 0
 
-        variations[e.target.dataset.id][e.target.name] = e.target.value
+        variations[e.target.dataset.id][e.target.name] = value
         this.setState({ variations }, () => {
             this.props.onChange(this.state.variations)
         }
