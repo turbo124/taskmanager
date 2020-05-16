@@ -52,7 +52,8 @@ class NewDealNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
+        $message_array = $this->buildMessage();
+        //$total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new MailMessage)->subject(
            $this->buildSubject()
