@@ -52,36 +52,46 @@ class NewDealNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
+        $this->build();
         //$total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new MailMessage)->subject(
-           $this->buildSubject()
+           $this->subject
         )->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
-    private function buildSubject()
+    private function build()
     {
-        return trans(
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setMessage()
+    {
+         $this->message = trans(
+                        'texts.notification_deal', $this->buildDataArray()
+                       
+                    );
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
                 'texts.notification_deal_subject', $this->buildDataArray()
             );
     }
 
     private function buildMessage()
     {
-        $subject = $this->buildSubject(); 
-        $message = trans(
-                        'texts.notification_deal', $this->buildDataArray()
-                       
-                    );
-        return [
-                    'title'       => $subject,
-                    'message'     => $message,
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
                     'button_text' => trans('texts.view_deal'),
                     'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
@@ -111,11 +121,12 @@ class NewDealNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->deal->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->buildSubject()
+               $this->subject 
             );
     }
 
