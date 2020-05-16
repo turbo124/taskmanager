@@ -55,32 +55,45 @@ class NewDealNotification extends Notification implements ShouldQueue
         $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new MailMessage)->subject(
-            trans(
-                'texts.notification_deal_subject',
-                ['customer' => $this->deal->customer->present()->name(),]
-            )
+           $this->buildSubject()
         )->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => trans(
-                        'texts.notification_deal_subject',
-                        ['customer' => $this->deal->customer->present()->name()]
-                    ),
-                    'message'     => trans(
-                        'texts.notification_deal',
-                        [
-                            'total'    => $total,
-                            'customer' => $this->deal->customer->present()->name()
-                        ]
-                    ),
+                'data' => $message_array
+            ]
+        );
+    }
+
+    private function buildSubject()
+    {
+        return trans(
+                'texts.notification_deal_subject', $this->buildDataArray()
+            );
+    }
+
+    private function buildMessage()
+    {
+        $subject = $this->buildSubject(); 
+        $message = trans(
+                        'texts.notification_deal', $this->buildDataArray()
+                       
+                    );
+        return [
+                    'title'       => $subject,
+                    'message'     => $message,
                     'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
                     'button_text' => trans('texts.view_deal'),
                     'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
                     'logo'        => $this->deal->account->present()->logo(),
-                ]
-            ]
-        );
+                ];
+    }
+
+    private function buildDataArray()
+    {
+         return [
+                            'total'    => $total,
+                            'customer' => $this->deal->customer->present()->name()
+                        ];
     }
 
     /**
@@ -98,14 +111,10 @@ class NewDealNotification extends Notification implements ShouldQueue
     public function toSlack($notifiable)
     {
         $logo = $this->deal->account->present()->logo();
-        $total = Number::formatCurrency($this->deal->valued_at, $this->deal->customer);
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                trans(
-                    'texts.notification_deal',
-                    ['total' => $total, 'customer' => $this->deal->customer->present()->name()]
-                )
+               $this->buildSubject()
             );
     }
 
