@@ -46,6 +46,47 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
                 $notifiable->account_user()->default_notification_type
             ];
     }
+ 
+    private function setMessage()
+    {
+        $this->message = trans('texts.notification_invoice_viewed', $this->buildDataArray());
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
+            'texts.notification_invoice_viewed_subject', $this->buildDataArray()
+        );
+    }
+
+    private function buildMessage()
+    {
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
+                    'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
+                    'button_text' => trans('texts.view_invoice'),
+                    'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
+                    'logo'        => $this->invoice->account->present()->logo(),
+                ];
+    }
+
+    private function buildDataArray()
+    {
+          return [
+                            'total'    => $this->invoice->getFormattedTotal(),
+                            'customer' => $this->contact->present()->name(),
+                            'invoice'  => $this->invoice->number,
+                        ];
+    }
+
 
     /**
      * Get the mail representation of the notification.
@@ -55,32 +96,12 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans(
-            'texts.notification_invoice_viewed_subject',
-            [
-                'customer' => $this->contact->present()->name(),
-                'invoice'  => $this->invoice->number,
-            ]
-        );
+        $this->build();
 
-        return (new MailMessage)->subject($subject)->markdown(
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => $subject,
-                    'message'     => trans(
-                        'texts.notification_invoice_viewed',
-                        [
-                            'total'    => $this->invoice->getFormattedTotal(),
-                            'customer' => $this->contact->present()->name(),
-                            'invoice'  => $this->invoice->number,
-                        ]
-                    ),
-                    'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
-                    'logo'        => $this->invoice->account->present()->logo(),
-                ]
+                'data' => $this->message_array
             ]
         );
     }
@@ -99,16 +120,11 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
+
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($logo)
                                  ->content(
-                                     trans(
-                                         'texts.notification_invoice_viewed',
-                                         [
-                                             'total'    => $this->invoice->getFormattedTotal(),
-                                             'customer' => $this->contact->present()->name(),
-                                             'invoice'  => $this->invoice->number,
-                                         ]
-                                     )
+                                    $this->subject
                                  );
     }
 

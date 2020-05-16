@@ -53,32 +53,57 @@ class NewLeadNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $this->build();
+
         return (new MailMessage)->subject(
-            trans(
-                'texts.notification_lead_subject',
-                ['customer' => $this->lead->present()->name]
-            )
+           $this->subject
         )->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => trans(
-                        'texts.notification_lead_subject',
-                        ['customer' => $this->lead->present()->name()]
-                    ),
-                    'message'     => trans(
-                        'texts.notification_lead',
-                        [
-                            'customer' => $this->lead->present()->name()
-                        ]
-                    ),
+                'data' => $this->message_array
+            ]
+        );
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans(
+                        'texts.notification_lead', $this->buildDataArray()
+                       
+                    );
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
+                'texts.notification_lead_subject', $this->buildSubject()
+            );
+    }
+
+    private function buildMessage()
+    {
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
                     'button_text' => trans('texts.view_deal'),
                     'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
                     'logo'        => $this->lead->account->present()->logo(),
-                ]
-            ]
-        );
+                ];
+    }
+
+    private function buildDataArray()
+    {
+        return [
+                            'customer' => $this->lead->present()->name()
+                        ];
     }
 
     /**
@@ -95,14 +120,12 @@ class NewLeadNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->lead->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                trans(
-                    'texts.notification_deal',
-                    ['customer' => $this->lead->present()->name()]
-                )
+               $this->subject
             );
     }
 

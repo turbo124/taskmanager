@@ -58,29 +58,12 @@ class EntityViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans(
-            "texts.notification_{$this->entity_name}_viewed_subject",
-            [
-                'customer'         => $this->contact->present()->name(),
-                $this->entity_name => $this->entity->number,
-            ]
-        );
-
-        return (new MailMessage)->subject($subject)->markdown(
+        $this->build();
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' =>
-                    [
-                        'title'       => $subject,
-                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()),
-                        'url'         => config(
-                                'taskmanager.site_url'
-                            ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
-                            "?silent=true",
-                        'button_text' => trans("texts.view_{$this->entity_name}"),
-                        'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
-                        'logo'        => $this->entity->account->present()->logo(),
-                    ]
+                'data' => $this->message_array
+                 
             ]
         );
     }
@@ -97,6 +80,46 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function setMessage()
+    {
+        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray())
+    }
+
+    private function setSubject()
+    {
+         $this->subject = trans(
+            "texts.notification_{$this->entity_name}_viewed_subject",
+            [
+                'customer'         => $this->contact->present()->name(),
+                $this->entity_name => $this->entity->number,
+            ]
+        );
+
+        return $subject;
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    public function buildMessage()
+    {
+           $this->message_array = [
+                        'title'       => $this->subject,
+                        'message'     => $this->message,
+                        'url'         => config(
+                                'taskmanager.site_url'
+                            ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
+                            "?silent=true",
+                        'button_text' => trans("texts.view_{$this->entity_name}"),
+                        'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
+                        'logo'        => $this->entity->account->present()->logo(),
+                    ];
+    }
+
     private function getDataArray()
     {
         return [
@@ -108,28 +131,10 @@ class EntityViewedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->content(
-                                     trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray())
-                                 )
-                                 ->attachment(
-                                     function ($attachment) use ($total) {
-                                         $attachment->title(
-                                             trans(
-                                                 'texts.entity_number_here',
-                                                 [
-                                                     'entity'        => ucfirst($this->entity_name),
-                                                     'entity_number' => $this->entity->number
-                                                 ]
-                                             ),
-                                             $this->invitation->getLink() . '?silent=true'
-                                         )->fields(
-                                             [
-                                                 trans('texts.customer')      => $this->contact->present()->name(),
-                                                 trans('texts.status_viewed') => $this->invitation->viewed_date,
-                                             ]
-                                         );
-                                     }
+                                    $this->subject
                                  );
     }
 }

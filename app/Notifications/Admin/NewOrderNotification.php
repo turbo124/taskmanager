@@ -53,21 +53,43 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans('texts.notification_order_subject', $this->getDataArray());
+        $this->build();
 
-        return (new MailMessage)->subject($subject)->markdown(
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => $subject,
-                    'message'     => trans('texts.notification_order', $this->getDataArray()),
+                'data' => $this->message_array
+            ]
+        );
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setSubject()
+    {
+         $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans('texts.notification_order', $this->getDataArray());
+    }
+
+    private function buildMessage()
+    {
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
                     'logo'        => $this->order->account->present()->logo(),
-                ]
-            ]
-        );
+                ];
     }
 
     private function getDataArray()
@@ -93,14 +115,12 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->order->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                trans(
-                    'texts.notification_deal',
-                    ['total' => $this->order->getFormattedTotal()]
-                )
+               $this->subject
             );
     }
 
