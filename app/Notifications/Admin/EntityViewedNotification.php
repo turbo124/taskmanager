@@ -58,29 +58,12 @@ class EntityViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans(
-            "texts.notification_{$this->entity_name}_viewed_subject",
-            [
-                'customer'         => $this->contact->present()->name(),
-                $this->entity_name => $this->entity->number,
-            ]
-        );
-
-        return (new MailMessage)->subject($subject)->markdown(
+        $message_array = $this->buildMessage();
+        return (new MailMessage)->subject($this->buildSubject())->markdown(
             'email.admin.new',
             [
-                'data' =>
-                    [
-                        'title'       => $subject,
-                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()),
-                        'url'         => config(
-                                'taskmanager.site_url'
-                            ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
-                            "?silent=true",
-                        'button_text' => trans("texts.view_{$this->entity_name}"),
-                        'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
-                        'logo'        => $this->entity->account->present()->logo(),
-                    ]
+                'data' => $message_array
+                 
             ]
         );
     }
@@ -97,6 +80,34 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function buildSubject()
+    {
+         $subject = trans(
+            "texts.notification_{$this->entity_name}_viewed_subject",
+            [
+                'customer'         => $this->contact->present()->name(),
+                $this->entity_name => $this->entity->number,
+            ]
+        );
+
+        return $subject;
+    }
+
+    public function buildMessage()
+    {
+           return [
+                        'title'       => $subject,
+                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()),
+                        'url'         => config(
+                                'taskmanager.site_url'
+                            ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
+                            "?silent=true",
+                        'button_text' => trans("texts.view_{$this->entity_name}"),
+                        'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
+                        'logo'        => $this->entity->account->present()->logo(),
+                    ];
+    }
+
     private function getDataArray()
     {
         return [
@@ -110,7 +121,7 @@ class EntityViewedNotification extends Notification implements ShouldQueue
     {
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->content(
-                                     trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray())
+                                    $this->buildSubject()
                                  )
                                  ->attachment(
                                      function ($attachment) use ($total) {
