@@ -47,6 +47,36 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
             ];
     }
 
+    private function buildSubject()
+    {
+        return trans(
+            'texts.notification_invoice_viewed_subject', $this->buildDataArray()
+        );
+    }
+
+    private function buildMessage()
+    {
+        return [
+                    'title'       => $subject,
+                    'message'     => trans(
+                        'texts.notification_invoice_viewed', $this->buildDataArray()),
+                    'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
+                    'button_text' => trans('texts.view_invoice'),
+                    'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
+                    'logo'        => $this->invoice->account->present()->logo(),
+                ];
+    }
+
+    private function buildDataArray()
+    {
+          return [
+                            'total'    => $this->invoice->getFormattedTotal(),
+                            'customer' => $this->contact->present()->name(),
+                            'invoice'  => $this->invoice->number,
+                        ];
+    }
+
+
     /**
      * Get the mail representation of the notification.
      *
@@ -55,32 +85,11 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans(
-            'texts.notification_invoice_viewed_subject',
-            [
-                'customer' => $this->contact->present()->name(),
-                'invoice'  => $this->invoice->number,
-            ]
-        );
-
-        return (new MailMessage)->subject($subject)->markdown(
+        $message_data = $this->buildMessage()
+        return (new MailMessage)->subject($this->buildSubject())->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => $subject,
-                    'message'     => trans(
-                        'texts.notification_invoice_viewed',
-                        [
-                            'total'    => $this->invoice->getFormattedTotal(),
-                            'customer' => $this->contact->present()->name(),
-                            'invoice'  => $this->invoice->number,
-                        ]
-                    ),
-                    'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
-                    'logo'        => $this->invoice->account->present()->logo(),
-                ]
+                'data' => $message_data
             ]
         );
     }
@@ -101,14 +110,7 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
     {
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($logo)
                                  ->content(
-                                     trans(
-                                         'texts.notification_invoice_viewed',
-                                         [
-                                             'total'    => $this->invoice->getFormattedTotal(),
-                                             'customer' => $this->contact->present()->name(),
-                                             'invoice'  => $this->invoice->number,
-                                         ]
-                                     )
+                                    $this->buildSubject()
                                  );
     }
 
