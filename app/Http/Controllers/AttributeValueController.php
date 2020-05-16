@@ -1,53 +1,63 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
+use App\AttributeValue;
 use App\Http\Controllers\Controller;
-use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
-use App\Shop\AttributeValues\AttributeValue;
-use App\Shop\AttributeValues\Repositories\AttributeValueRepository;
-use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
-use App\Shop\AttributeValues\Requests\CreateAttributeValueRequest;
+use App\Repositories\AttributeRepository;
+use App\Repositories\AttributeValueRepository;
 
 class AttributeValueController extends Controller
 {
     /**
-     * @var AttributeRepositoryInterface
+     * @var AttributeRepository
      */
-    private $attribute_repo;
+    private AttributeRepository $attribute_repo;
 
     /**
-     * @var AttributeValueRepositoryInterface
+     * @var AttributeValueRepository
      */
-    private $attribute_value_repo;
+    private AttributeValueRepository $attribute_value_repo;
 
     /**
      * AttributeValueController constructor.
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param AttributeValueRepositoryInterface $attributeValueRepository
+     * @param AttributeRepository $attributeRepository
+     * @param AttributeValueRepository $attributeValueRepository
      */
     public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        AttributeValueRepositoryInterface $attributeValueRepository
+        AttributeRepository $attributeRepository,
+        AttributeValueRepository $attributeValueRepository
     ) {
         $this->attribute_repo = $attributeRepository;
         $this->attribute_value_repo = $attributeValueRepository;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $attributes = $this->attribute_value_repo->listAttributeValues();
+        //$attributes = $this->attribute_repo->paginateArrayResults($results->all());
+
+        return response()->json($attributes);
+    }
+
     public function create($id)
     {
-        return response()->json([
-            'attribute' => $this->attribute_repo->findAttributeById($id)
-        ]);
+        return response()->json(
+            [
+                'attribute' => $this->attribute_repo->findAttributeById($id)
+            ]
+        );
     }
 
     /**
      * @param CreateAttributeValueRequest $request
      * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateAttributeValueRequest $request, $id)
+    function store(CreateAttributeValueRequest $request, $id)
     {
         $attribute = $this->attribute_repo->findAttributeById($id);
 
@@ -71,6 +81,6 @@ class AttributeValueController extends Controller
         $attribute_value_repo = new AttributeValueRepository($attribute_value);
         $attribute_value_repo->dissociateFromAttribute();
 
-       return response()->json($attribute_value);
+        return response()->json($attribute_value);
     }
 }

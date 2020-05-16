@@ -34,7 +34,7 @@ export default class AttributeValueDropdown extends Component {
         return this.props.errors && !!this.props.errors[field]
     }
 
-    getDepartments () {
+    getValues () {
         axios.get('/api/attributeValues')
             .then((r) => {
                 this.setState({
@@ -48,21 +48,25 @@ export default class AttributeValueDropdown extends Component {
 
     render () {
         let valueList = null
-        if (!this.state.values.length) {
+        if (!this.props.attribute_id || !this.state.values.length) {
             valueList = <option value="">Loading...</option>
         } else {
-            valueList = this.state.values.map((value, index) => (
-                <option key={index} value={value.id}>{value.name}</option>
-            ))
+            valueList = this.state.values.filter(value => {
+                return value.attribute_id === parseInt(this.props.attribute_id)
+            }).map(value => {
+                return <option key={value.id} value={value.id}>{value.value}</option>
+            })
         }
 
         const name = this.props.name && this.props.name ? this.props.name : 'attribute_value_id'
+        const data_id = this.props.data_id ? this.props.data_id : 0
 
         return (
             <FormGroup className="mr-2">
-                <Input value={this.props.attribute_value} onChange={this.props.handleInputChanges} type="select"
+                <Input value={this.props.attribute_value_id} onChange={this.props.handleInputChanges} type="select"
+                    data-id={data_id}
                     name={name} id={name}>
-                    <option value="">Select Department</option>
+                    <option value="">Select Value</option>
                     {valueList}
                 </Input>
                 {this.renderErrorFor('attribute_value_id')}

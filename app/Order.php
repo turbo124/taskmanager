@@ -36,8 +36,7 @@ class Order extends Model
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
-        'date'        => 'date',
-        'due_date'    => 'due_date',
+        'due_date'    => 'datetime',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',

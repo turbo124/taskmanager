@@ -77,9 +77,11 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $product = $this->product_repo->save(
-            $request->all(),
+            $request->except('variations'),
             ProductFactory::create(auth()->user(), auth()->user()->account_user()->account)
         );
+
+        (new SaveProductAttributes($product))->handle((new ProductRepository($product)), $request->input('variations'));
 
         return $this->transformProduct($product);
     }
@@ -97,20 +99,12 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
+
         $product = $this->product_repo->findProductById($id);
 
-        $product = $this->product_repo->save($request->all(), $product);
+        $product = $this->product_repo->save($request->except('variations'), $product);
 
-        $fields = $request->only(
-            'range_from',
-            'range_to',
-            'payable_months',
-            'number_of_years',
-            'minimum_downpayment',
-            'interest_rate'
-        );
-
-        //(new SaveProductAttributes($product))->handle($this->product_repo, $fields);
+        (new SaveProductAttributes($product))->handle(new ProductRepository($product), $request->input('variations'));
 
         return response()->json($this->transformProduct($product));
     }

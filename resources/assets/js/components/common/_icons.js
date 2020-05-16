@@ -153,5 +153,7 @@ export const translations = {
     new_design: 'New Design',
     edit_design: 'Edit Design',
     created_design: 'Successfully created design',
-    updated_design: 'Successfully updated design'
+    updated_design: 'Successfully updated design',
+    images: 'Images',
+    variations: 'Variations'
 }

@@ -74,14 +74,14 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
 
     private function buildMessage()
     {
-         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
-                    'logo'        => $this->invoice->account->present()->logo(),
-                ];
+        $this->message_array = [
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
+            'button_text' => trans('texts.view_invoice'),
+            'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
+            'logo'        => $this->invoice->account->present()->logo(),
+        ];
     }
 
     private function setMessage()
@@ -91,7 +91,7 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
 
     private function setSubject()
     {
-           $this->subject = trans(
+        $this->subject = trans(
             'texts.notification_invoice_sent_subject',
             [
                 'customer' => $this->contact->present()->name(),
@@ -99,7 +99,6 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
             ]
         );
 
-        return $subject;
     }
 
     private function getDataArray()

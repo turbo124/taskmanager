@@ -20,6 +20,17 @@ class AttributeValueRepository extends BaseRepository
     }
 
     /**
+     * @param array $columns
+     * @param string $orderBy
+     * @param string $sortBy
+     * @return Collection
+     */
+    public function listAttributeValues($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection
+    {
+        return $this->all($columns, $orderBy, $sortBy);
+    }
+
+    /**
      * @param Attribute $attribute
      * @param array $data
      * @return AttributeValue

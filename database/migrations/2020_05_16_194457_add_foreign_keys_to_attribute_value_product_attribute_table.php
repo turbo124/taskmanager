@@ -15,7 +15,7 @@ class AddForeignKeysToAttributeValueProductAttributeTable extends Migration {
 		Schema::table('attribute_value_product_attribute', function(Blueprint $table)
 		{
 			$table->foreign('attribute_value_id')->references('id')->on('attribute_values')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('product_attribute_id')->references('id')->on('product_attributes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('product_attribute_id')->references('id')->on('product_attributes')->onUpdate('RESTRICT')->onDelete('CASCADE');
 		});
 	}
 

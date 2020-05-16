@@ -1,16 +1,9 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Shop\Attributes\Exceptions\AttributeNotFoundException;
-use App\Shop\Attributes\Exceptions\CreateAttributeErrorException;
-use App\Shop\Attributes\Exceptions\UpdateAttributeErrorException;
-use App\Shop\Attributes\Repositories\AttributeRepository;
-use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
-use App\Shop\Attributes\Requests\CreateAttributeRequest;
-use App\Shop\Attributes\Requests\UpdateAttributeRequest;
+use App\Repositories\AttributeRepository;
 
 class AttributeController extends Controller
 {
@@ -18,7 +11,7 @@ class AttributeController extends Controller
 
     /**
      * AttributeController constructor.
-     * @param AttributeRepositoryInterface $attributeRepository
+     * @param AttributeRepository $attributeRepository
      */
     public function __construct(AttributeRepository $attributeRepository)
     {
@@ -60,13 +53,15 @@ class AttributeController extends Controller
      */
     public function show($id)
     {
-            $attribute = $this->attribute_repo->findAttributeById($id);
-            $attributeRepo = new AttributeRepository($attribute);
+        $attribute = $this->attribute_repo->findAttributeById($id);
+        $attribute_repo = new AttributeRepository($attribute);
 
-            return response->json([
-                'attribute' => $attribute,
-                'values' => $attribute_repo->listAttributeValues()
-            ]);
+        return response()->json(
+        [
+            'attribute' => $attribute,
+            'values'    => $attribute_repo->listAttributeValues()
+        ]
+    );
       
     }
 
@@ -78,7 +73,7 @@ class AttributeController extends Controller
     {
         $attribute = $this->attribute_repo->findAttributeById($id);
 
-        return response->json($attribute);
+        return response()->json($attribute);
     }
 
     /**
@@ -88,13 +83,11 @@ class AttributeController extends Controller
      */
     public function update(UpdateAttributeRequest $request, $id)
     {
-        
-            $attribute = $this->attribute_repo->findAttributeById($id);
+        $attribute = $this->attribute_repo->findAttributeById($id);
 
-            $attribute_repo = new AttributeRepository($attribute);
-            $attribute_repo->updateAttribute($request->all());
-            return response()->json($attribute);
-
+        $attribute_repo = new AttributeRepository($attribute);
+        $attribute_repo->updateAttribute($request->all());
+        return response()->json($attribute);
     }
 
     /**
@@ -105,6 +98,6 @@ class AttributeController extends Controller
     {
         $this->attribute_repo->findAttributeById($id)->delete();
 
-        return response->json('Attribute deleted successfully!');
+        return response()->json('Attribute deleted successfully!');
     }
 }

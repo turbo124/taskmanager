@@ -1,17 +1,22 @@
 import React, { Component } from 'react'
-import InvoiceLineInputs from './InvoiceLineInputs'
-import PaymentModel from '../models/PaymentModel'
+import VariationInputs from './VariationInputs'
+import {
+    Button
+} from 'reactstrap'
 
 export default class Variations extends Component {
     constructor (props) {
         super(props)
 
-        //this.paymentModel = new PaymentModel(this.props.invoices)
-
         this.state = {
-            variations: this.props.variations && this.props.variations.length ? this.props.variations : [{ price: null, sale_price: 0, quantity: 0, is_default: false }],
-            amount: 0,
-            customer_id: null
+            variations: this.props.variations && this.props.variations.length ? this.props.variations : [{
+                attribute_id: '',
+                attribute_value_id: '',
+                price: 0,
+                cost: 0,
+                quantity: 0,
+                is_default: false
+            }]
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -22,12 +27,13 @@ export default class Variations extends Component {
     handleChange (e) {
         const name = e.target.name
         const idx = e.target.dataset.id
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value 
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
 
         const variations = [...this.state.variations]
-        let amount = 0
 
-        variations[e.target.dataset.id][e.target.name] = value
+        console.log('variations 2', variations)
+
+        variations[idx][name] = value
         this.setState({ variations }, () => {
             this.props.onChange(this.state.variations)
         }
@@ -35,9 +41,8 @@ export default class Variations extends Component {
     }
 
     addLine (e) {
-
         this.setState((prevState) => ({
-            variations: [...prevState.variations, { price: 0, sales_price: 0, quantity: 0, is_default: false}]
+            variations: [...prevState.variations, { price: 0, cost: 0, quantity: 0, is_default: false }]
         }), () => this.props.onChange(this.state.variations))
     }
 
@@ -53,10 +58,10 @@ export default class Variations extends Component {
         const { variations } = this.state
         return (
             <form>
-                <VariationInputs errors={this.props.errors}
+                <VariationInputs variations={this.state.variations} errors={this.props.errors}
                     onChange={this.handleChange} variations={variations}
                     removeLine={this.removeLine}/>
-                 <Button color="primary" onClick={this.addLine}>Add</Button>
+                <Button color="primary" onClick={this.addLine}>Add</Button>
             </form>
         )
     }

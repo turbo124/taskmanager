@@ -3,13 +3,13 @@ import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
 import AttributeDropdown from '../common/AttributeDropdown'
 import AttributeValueDropdown from '../common/AttributeValueDropdown'
 
-const AttributeInputs = (props) => {
+const VariationInputs = (props) => {
     return (
-        props.attributes.map((val, idx) => {
+        props.variations.map((val, idx) => {
             return (
                 <div key={idx}>
                     <Row form>
-                        <Col md={2}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="exampleEmail">Attribute</Label>
                                 <AttributeDropdown
@@ -23,12 +23,13 @@ const AttributeInputs = (props) => {
                             </FormGroup>
                         </Col>
 
-                       <Col md={2}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="exampleEmail">Attribute Value</Label>
                                 <AttributeValueDropdown
                                     attribute_values={props.attribute_values}
                                     data_id={idx}
+                                    attribute_id={props.variations[idx].attribute_id}
                                     attribute_value_id={props.variations[idx].attribute_value_id}
                                     handleInputChanges={props.onChange}
                                     name="attribute_value_id"
@@ -48,19 +49,19 @@ const AttributeInputs = (props) => {
                             </FormGroup>
                         </Col>
 
-                         <Col md={2}>
+                        <Col md={2}>
                             <FormGroup>
-                                <Label for="examplePassword">Sales Price</Label>
+                                <Label for="examplePassword">Cost</Label>
                                 <Input type="text"
                                     data-id={idx}
                                     onChange={props.onChange}
-                                    value={props.variations[idx].sales_price}
-                                    name="sales_price"
+                                    value={props.variations[idx].cost}
+                                    name="cost"
                                 />
                             </FormGroup>
                         </Col>
 
-                         <Col md={2}>
+                        <Col md={1}>
                             <FormGroup>
                                 <Label for="examplePassword">Quantity</Label>
                                 <Input type="text"
@@ -69,6 +70,16 @@ const AttributeInputs = (props) => {
                                     value={props.variations[idx].quantity}
                                     name="quantity"
                                 />
+                            </FormGroup>
+                        </Col>
+
+                        <Col md={1}>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input name="is_default" value={props.variations[idx].is_default} onChange={props.onChange}
+                                        type="checkbox"/>
+                                    Is Default
+                                </Label>
                             </FormGroup>
                         </Col>
                     </Row>

@@ -166,6 +166,8 @@ class CreateDeal
 
         $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
 
+        Log::emergency($this->request->products);
+
         $order = $this->order_repo->save(
             [
                 'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,

@@ -100,6 +100,7 @@ class BaseController extends Controller
                     auth()->user(),
                     auth()->user()->account_user()->account
                 );
+
                 $this->invoice_repo->save($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;

@@ -72,7 +72,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
     private function setSubject()
     {
-         $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
+        $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
     }
 
     private function setMessage()
@@ -83,13 +83,13 @@ class NewOrderNotification extends Notification implements ShouldQueue
     private function buildMessage()
     {
         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
-                    'logo'        => $this->order->account->present()->logo(),
-                ];
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
+            'button_text' => trans('texts.view_invoice'),
+            'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
+            'logo'        => $this->order->account->present()->logo(),
+        ];
     }
 
     private function getDataArray()
@@ -120,7 +120,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->subject
+                $this->subject
             );
     }
 

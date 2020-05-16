@@ -4,15 +4,20 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import CostsForm from './CostsForm'
 import ImageForm from './ImageForm'
 import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_icons'
+import Variations from './Variations'
 
 class AddProduct extends React.Component {
     constructor (props) {
@@ -37,7 +42,9 @@ class AddProduct extends React.Component {
             loading: false,
             errors: [],
             categories: [],
-            selectedCategories: []
+            selectedCategories: [],
+            activeTab: '1',
+            variations: []
         }
 
         this.state = this.initialState
@@ -50,6 +57,7 @@ class AddProduct extends React.Component {
         this.handleFileChange = this.handleFileChange.bind(this)
         this.handleCheck = this.handleCheck.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.handleVariations = this.handleVariations.bind(this)
     }
 
     componentDidMount () {
@@ -73,6 +81,16 @@ class AddProduct extends React.Component {
         }
     }
 
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
+    }
+
+    handleVariations (variations) {
+        this.setState({ variations: variations }, () => console.log('variations', this.state.variations))
+    }
+
     handleClick () {
         const formData = new FormData()
         formData.append('cover', this.state.cover)
@@ -85,6 +103,7 @@ class AddProduct extends React.Component {
 
         formData.append('name', this.state.name)
         formData.append('description', this.state.description)
+        formData.append('variations', JSON.stringify(this.state.variations))
         formData.append('price', this.state.price)
         formData.append('is_featured', this.state.is_featured)
         formData.append('cost', this.state.cost)
@@ -162,28 +181,67 @@ class AddProduct extends React.Component {
         return (
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.add_product}
                     </ModalHeader>
                     <ModalBody>
-                        <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
-                            handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
-                            selectedCategories={this.state.selectedCategories}
-                            companies={this.state.companies}
-                            handleCheck={this. handleCheck}/>
+                        <Nav tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('1')
+                                    }}>
+                                    {translations.details}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('2')
+                                    }}>
+                                    {translations.images}
+                                </NavLink>
+                            </NavItem>
 
-                        <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                            custom_value2={this.state.custom_value2}
-                            custom_value3={this.state.custom_value3}
-                            custom_value4={this.state.custom_value4}
-                            custom_fields={this.props.custom_fields}/>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('3')
+                                    }}>
+                                    {translations.variations}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
 
-                        <CostsForm product={this.state} errors={this.state.errors} handleInput={this.handleInput}/>
+                        <TabContent activeTab={this.state.activeTab}>
+                            <TabPane tabId="1">
+                                <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
+                                    handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
+                                    selectedCategories={this.state.selectedCategories}
+                                    companies={this.state.companies}
+                                    handleCheck={this.handleCheck}/>
 
-                        <ImageForm errors={this.state.errors} images={this.state.images}
-                            deleteImage={null} handleFileChange={this.handleFileChange}
-                            onChangeHandler={this.onChangeHandler}/>
+                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                    custom_value2={this.state.custom_value2}
+                                    custom_value3={this.state.custom_value3}
+                                    custom_value4={this.state.custom_value4}
+                                    custom_fields={this.props.custom_fields}/>
+                            </TabPane>
+
+                            <TabPane tabId="2">
+                                <ImageForm errors={this.state.errors} images={this.state.images}
+                                    deleteImage={null} handleFileChange={this.handleFileChange}
+                                    onChangeHandler={this.onChangeHandler}/>
+                            </TabPane>
+
+                            <TabPane tabId="3">
+                                <Variations variations={this.state.variations} onChange={this.handleVariations} />
+                            </TabPane>
+                        </TabContent>
 
                     </ModalBody>
 

@@ -20,8 +20,7 @@ class Quote extends Model
     protected $presenter = 'App\Presenters\QuotePresenter';
 
     protected $casts = [
-        'date'        => 'date',
-        'due_date'    => 'due_date',
+        'due_date'    => 'datetime',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',

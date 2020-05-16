@@ -9,11 +9,14 @@ namespace App\Helpers\InvoiceCalculator;
 class LineItem extends BaseCalculator
 {
     /**
-     * @var int
+     * @var float
      */
-    private $sub_total = 0;
+    private $sub_total = 0.00;
 
-    private $total = 0;
+    /**
+     * @var float
+     */
+    private float $total = 0.00;
 
     /**
      * @var int
@@ -24,6 +27,11 @@ class LineItem extends BaseCalculator
      * @var int
      */
     private $quantity = 0;
+
+    /**
+     * @var int
+     */
+    private $attribute_id = 0;
 
     /**
      * @var int
@@ -307,6 +315,23 @@ class LineItem extends BaseCalculator
     }
 
     /**
+     * @return int
+     */
+    public function getAttributeId(): int
+    {
+        return $this->attribute_id;
+    }
+
+    /**
+     * @param int $attribute_id
+     */
+    public function setAttributeId(int $attribute_id): self
+    {
+        $this->attribute_id = $attribute_id;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getNotes(): string
@@ -377,6 +402,7 @@ class LineItem extends BaseCalculator
             'tax_total'          => $this->getLineTaxTotal(),
             'is_amount_discount' => $this->isAmountDiscount(),
             'product_id'         => $this->getProductId(),
+            'attribute_id'       => $this->getAttributeId(),
             'description'        => $this->getDescription()
         ];
     }

@@ -5,7 +5,7 @@ import {
     Label,
     Card,
     CardBody,
-    CardHeader
+    CardHeader, Row, Col
 } from 'reactstrap'
 import UserDropdown from '../common/UserDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
@@ -53,92 +53,142 @@ export default class DetailsForm extends React.Component {
             <CardHeader>Product</CardHeader>
             <CardBody>
 
-                <FormGroup>
-                    <Label for="name">Name(*):</Label>
-                    <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
-                        type="text"
-                        name="name"
-                        defaultValue={this.props.product.name}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('name')}
-                </FormGroup>
+                <Row form>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="name">Name(*):</Label>
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                type="text"
+                                name="name"
+                                defaultValue={this.props.product.name}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('name')}
+                        </FormGroup>
+                    </Col>
 
-                <FormGroup>
-                    <Label for="email">Quantity:</Label>
-                    <Input className={this.hasErrorFor('quantity') ? 'is-invalid' : ''}
-                        type="text"
-                        name="quantity"
-                        defaultValue={this.props.product.quantity}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('quantity')}
-                </FormGroup>
+                    <Col md={3}>
+                        <Label for="postcode">Brand:</Label>
+                        <CompanyDropdown
+                            name="company_id"
+                            company_id={this.props.product.company_id}
+                            errors={this.props.errors}
+                            handleInputChanges={this.props.handleInput}
+                            companies={this.props.companies}
+                        />
+                    </Col>
 
-                <FormGroup>
-                    <Label for="email">Description:</Label>
-                    <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
-                        type="textarea"
-                        name="description"
-                        defaultValue={this.props.product.description}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('description')}
-                </FormGroup>
+                    <Col md={4}>
+                        <FormGroup>
+                            <Label for="email">Description:</Label>
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
+                                type="textarea"
+                                name="description"
+                                defaultValue={this.props.product.description}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('description')}
+                        </FormGroup>
+                    </Col>
+                </Row>
 
-                <FormGroup>
-                    <Label for="sku">Sku(*):</Label>
-                    <Input className={this.hasErrorFor('sku') ? 'is-invalid' : ''}
-                        type="text"
-                        name="sku"
-                        defaultValue={this.props.product.sku}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('sku')}
-                </FormGroup>
+                <Row form>
+                    <Col md={3}>
+                        <Label for="postcode">Category:</Label>
+                        <CategoryDropdown
+                            multiple={true}
+                            name="category"
+                            category={this.props.selectedCategories}
+                            errors={this.props.errors}
+                            handleInputChanges={this.props.handleMultiSelect}
+                            categories={this.props.categories}
+                        />
+                    </Col>
 
-                <CompanyDropdown
-                    name="company_id"
-                    company_id={this.props.product.company_id}
-                    errors={this.props.errors}
-                    handleInputChanges={this.props.handleInput}
-                    companies={this.props.companies}
-                />
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="postcode">Users:</Label>
+                            <UserDropdown
+                                user_id={this.props.product.assigned_user_id}
+                                name="assigned_user_id"
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleInput}
+                            />
+                        </FormGroup>
+                    </Col>
 
-                <CategoryDropdown
-                    multiple={true}
-                    name="category"
-                    category={this.props.selectedCategories}
-                    errors={this.props.errors}
-                    handleInputChanges={this.props.handleMultiSelect}
-                    categories={this.props.categories}
-                />
+                    <Col md={4}>
+                        <FormGroup>
+                            <Label for="postcode">Notes:</Label>
+                            <Input
+                                value={this.props.product.notes}
+                                type='textarea'
+                                name="notes"
+                                errors={this.props.errors}
+                                onChange={this.props.handleInput}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
 
-                <FormGroup>
-                    <Label for="postcode">Users:</Label>
-                    <UserDropdown
-                        user_id={this.props.product.assigned_user_id}
-                        name="assigned_user_id"
-                        errors={this.props.errors}
-                        handleInputChanges={this.props.handleInput}
-                    />
-                </FormGroup>
+                <Row form>
+                    <Col md={2}>
+                        <FormGroup>
+                            <Label for="sku">Sku(*):</Label>
+                            <Input className={this.hasErrorFor('sku') ? 'is-invalid' : ''}
+                                type="text"
+                                name="sku"
+                                value={this.props.product.sku}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('sku')}
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={1}>
+                        <FormGroup>
+                            <Label for="email">Quantity:</Label>
+                            <Input className={this.hasErrorFor('quantity') ? 'is-invalid' : ''}
+                                type="text"
+                                name="quantity"
+                                value={this.props.product.quantity}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('quantity')}
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2}>
+                        <FormGroup>
+                            <Label for="price">Price(*):</Label>
+                            <Input className={this.hasErrorFor('price') ? 'is-invalid' : ''}
+                                type="text"
+                                name="price"
+                                defaultValue={this.props.product.price}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('price')}
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2}>
+                        <FormGroup>
+                            <Label for="price">Cost:</Label>
+                            <Input className={this.hasErrorFor('cost') ? 'is-invalid' : ''}
+                                type="text"
+                                name="cost"
+                                defaultValue={this.props.product.cost}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('cost')}
+                        </FormGroup>
+                    </Col>
+
+                    <FormGroup check>
+                        <Label check>
+                            <Input value={this.props.product.is_featured} onChange={this.props.handleCheck}
+                                type="checkbox"/>
+                            Is Featured
+                        </Label>
+                    </FormGroup>
+                </Row>
 
                 {customForm}
 
-                <FormGroup>
-                    <Label for="postcode">Notes:</Label>
-                    <Input
-                        value={this.props.product.notes}
-                        type='textarea'
-                        name="notes"
-                        errors={this.props.errors}
-                        onChange={this.props.handleInput}
-                    />
-                </FormGroup>
-
-                <FormGroup check>
-                    <Label check>
-                        <Input value={this.props.product.is_featured} onChange={this.props.handleCheck} type="checkbox"/>
-                            Is Featured
-                    </Label>
-                </FormGroup>
             </CardBody>
         </Card>
 
