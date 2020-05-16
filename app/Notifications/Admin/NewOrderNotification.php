@@ -53,21 +53,31 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans('texts.notification_order_subject', $this->getDataArray());
+        $message_array = $this->buildMessage();
 
-        return (new MailMessage)->subject($subject)->markdown(
+        return (new MailMessage)->subject($this->buildSubject())->markdown(
             'email.admin.new',
             [
-                'data' => [
+                'data' => $message_array
+            ]
+        );
+    }
+
+    private function buildSubject()
+    {
+         return trans('texts.notification_order_subject', $this->getDataArray());
+    }
+
+    private function buildMessage()
+    {
+        return [
                     'title'       => $subject,
                     'message'     => trans('texts.notification_order', $this->getDataArray()),
                     'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
                     'logo'        => $this->order->account->present()->logo(),
-                ]
-            ]
-        );
+                ];
     }
 
     private function getDataArray()
@@ -97,10 +107,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                trans(
-                    'texts.notification_deal',
-                    ['total' => $this->order->getFormattedTotal()]
-                )
+               $this->buildSubject()
             );
     }
 
