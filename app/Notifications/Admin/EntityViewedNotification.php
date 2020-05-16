@@ -58,11 +58,11 @@ class EntityViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
-        return (new MailMessage)->subject($this->buildSubject())->markdown(
+        $this->build();
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
                  
             ]
         );
@@ -80,9 +80,14 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function buildSubject()
+    private function setMessage()
     {
-         $subject = trans(
+        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray())
+    }
+
+    private function setSubject()
+    {
+         $this->subject = trans(
             "texts.notification_{$this->entity_name}_viewed_subject",
             [
                 'customer'         => $this->contact->present()->name(),
@@ -93,11 +98,18 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         return $subject;
     }
 
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
     public function buildMessage()
     {
-           return [
-                        'title'       => $subject,
-                        'message'     => trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray()),
+           $this->message_array = [
+                        'title'       => $this->subject,
+                        'message'     => $this->message,
                         'url'         => config(
                                 'taskmanager.site_url'
                             ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
@@ -119,28 +131,10 @@ class EntityViewedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->content(
-                                    $this->buildSubject()
-                                 )
-                                 ->attachment(
-                                     function ($attachment) use ($total) {
-                                         $attachment->title(
-                                             trans(
-                                                 'texts.entity_number_here',
-                                                 [
-                                                     'entity'        => ucfirst($this->entity_name),
-                                                     'entity_number' => $this->entity->number
-                                                 ]
-                                             ),
-                                             $this->invitation->getLink() . '?silent=true'
-                                         )->fields(
-                                             [
-                                                 trans('texts.customer')      => $this->contact->present()->name(),
-                                                 trans('texts.status_viewed') => $this->invitation->viewed_date,
-                                             ]
-                                         );
-                                     }
+                                    $this->subject
                                  );
     }
 }
