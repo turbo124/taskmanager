@@ -53,34 +53,45 @@ class NewLeadNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
+        $this->build();
 
         return (new MailMessage)->subject(
-           $this->buildSubject()
+           $this->subject
         )->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
-    private function buildSubject()
+    private function build()
     {
-        return trans(
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans(
+                        'texts.notification_lead', $this->buildDataArray()
+                       
+                    );
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
                 'texts.notification_lead_subject', $this->buildSubject()
             );
     }
 
     private function buildMessage()
     {
-        $subject = $this->buildSubject();
-        return [
-                    'title'       => $subject,
-                    'message'     => trans(
-                        'texts.notification_lead', $this->buildDataArray()
-                       
-                    ),
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
                     'button_text' => trans('texts.view_deal'),
                     'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
@@ -109,11 +120,12 @@ class NewLeadNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->lead->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->buildSubject()
+               $this->subject
             );
     }
 
