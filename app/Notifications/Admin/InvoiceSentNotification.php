@@ -55,12 +55,12 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-     
+        $message_array = $this->buildMessage();
 
         return (new MailMessage)->subject($this->buildSubject())->markdown(
             'email.admin.new',
             [
-                'data' => $this->buildMessage()
+                'data' => $message_array
             ]
         );
     }
