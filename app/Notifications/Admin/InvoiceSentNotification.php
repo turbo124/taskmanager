@@ -55,7 +55,31 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans(
+     
+
+        return (new MailMessage)->subject($this->buildSubject())->markdown(
+            'email.admin.new',
+            [
+                'data' => $this->buildMessage()
+            ]
+        );
+    }
+
+    private function buildMessage()
+    {
+         return [
+                    'title'       => $subject,
+                    'message'     => trans('texts.notification_invoice_sent', $this->getDataArray()),
+                    'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
+                    'button_text' => trans('texts.view_invoice'),
+                    'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
+                    'logo'        => $this->invoice->account->present()->logo(),
+                ];
+    }
+
+    private function buildSubject()
+    {
+           $subject = trans(
             'texts.notification_invoice_sent_subject',
             [
                 'customer' => $this->contact->present()->name(),
@@ -63,19 +87,7 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
             ]
         );
 
-        return (new MailMessage)->subject($subject)->markdown(
-            'email.admin.new',
-            [
-                'data' => [
-                    'title'       => $subject,
-                    'message'     => trans('texts.notification_invoice_sent', $this->getDataArray()),
-                    'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
-                    'logo'        => $this->invoice->account->present()->logo(),
-                ]
-            ]
-        );
+        return $subject;
     }
 
     private function getDataArray()
