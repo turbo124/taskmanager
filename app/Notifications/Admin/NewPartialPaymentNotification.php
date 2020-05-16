@@ -53,21 +53,33 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
+        $this->build();
 
         return (new MailMessage)->subject(
-           $this->buildSubject()
+           $this->subject
         )->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
-    private function buildSubject()
+    private function build()
     {
-        return trans(
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans('texts.notification_partial_payment_paid', $this->getDataArray());
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
                 'texts.notification_partial_payment_paid_subject',
                 ['customer' => $this->payment->customer->present()->name()]
             );
@@ -75,10 +87,9 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
 
     private function buildMessage()
     {
-        $subject = $this->buildSubject();
-        return [
-                    'title'       => $subject,
-                    'message'     => trans('texts.notification_partial_payment_paid', $this->getDataArray()),
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
                     'button_text' => trans('texts.view_payment'),
                     'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
@@ -108,12 +119,14 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     }
 
     public function toSlack($notifiable)
-    {
+    { 
+        $this->build();
+
         $logo = $this->payment->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->buildSubject()
+               $this->subject
             );
     }
 
