@@ -53,26 +53,38 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
+        $this->build();
 
-        return (new MailMessage)->subject($this->buildSubject())->markdown(
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
-    private function buildSubject()
+    private function build()
     {
-         return trans('texts.notification_order_subject', $this->getDataArray());
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setSubject()
+    {
+         $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans('texts.notification_order', $this->getDataArray());
     }
 
     private function buildMessage()
     {
-        return [
-                    'title'       => $subject,
-                    'message'     => trans('texts.notification_order', $this->getDataArray()),
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
@@ -107,7 +119,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->buildSubject()
+               $this->subject
             );
     }
 
