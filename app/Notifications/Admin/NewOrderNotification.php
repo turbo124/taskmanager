@@ -115,6 +115,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->order->account->present()->logo();
 
         return (new SlackMessage)->success()
