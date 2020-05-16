@@ -55,21 +55,28 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
+        $this->build();
 
-        return (new MailMessage)->subject($this->buildSubject())->markdown(
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
     private function buildMessage()
     {
-         return [
-                    'title'       => $subject,
-                    'message'     => trans('texts.notification_invoice_sent', $this->getDataArray()),
+         $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . '/portal/invoices/' . $this->invoice->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->invoice->account->settings->email_signature : '',
@@ -77,9 +84,14 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
                 ];
     }
 
-    private function buildSubject()
+    private function setMessage()
     {
-           $subject = trans(
+        $this->message = trans('texts.notification_invoice_sent', $this->getDataArray());
+    }
+
+    private function setSubject()
+    {
+           $this->subject = trans(
             'texts.notification_invoice_sent_subject',
             [
                 'customer' => $this->contact->present()->name(),
@@ -113,27 +125,12 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
         $logo = $this->invoice->account->present()->logo();
 
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($logo)
-                                 ->content($this->buildSubject())
-                                 ->attachment(
-                                     function ($attachment) {
-                                         $attachment->title(
-                                             trans(
-                                                 'texts.invoice_number_here',
-                                                 ['invoice' => $this->invoice->getNumber()]
-                                             ),
-                                             $this->invitation->getLink() . '?silent=true'
-                                         )->fields(
-                                             [
-                                                 trans('texts.customer') => $this->contact->present()->name(),
-                                                 trans('texts.total')    => $this->invoice->getFormattedTotal()
-                                             ]
-                                         );
-                                     }
-                                 );
+                                 ->content($this->subject);
     }
 
 }
