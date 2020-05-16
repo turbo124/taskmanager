@@ -117,7 +117,7 @@ class InvoiceSentNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($logo)
-                                 ->content(trans('texts.notification_invoice_sent_subject', $this->getDataArray()))
+                                 ->content($this->buildSubject())
                                  ->attachment(
                                      function ($attachment) {
                                          $attachment->title(
