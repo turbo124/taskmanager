@@ -60,30 +60,43 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_array = $this->buildMessage();
-        return (new MailMessage)->subject($this->buildSubject())->markdown(
+        $this->build();
+
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => $message_array
+                'data' => $this->message_array
             ]
         );
     }
 
-    private function buildSubject()
+    private function setSubject()
     {
-         return trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
+         $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray());
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
     }
 
     private function buildMessage()
     {
-         return [
-                    'title'       => $subject,
-                    'message'     => trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray()),
+         $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => $this->invitation->getLink() . '?silent=true',
                     'button_text' => trans("texts.view_{$this->entity_name}"),
                     'signature'   => $this->invitation->account->settings->email_signature,
                     'logo'        => $this->invitation->account->present()->logo(),
-                ]
+                ];
     }
 
     private function getDataArray()
@@ -108,23 +121,13 @@ class EntitySentNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
+
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
                                  ->content(
-                                     $this->buildSubject()
-                                 )->attachment(
-                function ($attachment) {
-                    $attachment->title(
-                        trans('texts.invoice_number_here', ['invoice' => $this->entity->number]),
-                        $this->invitation->getLink() . '?silent=true'
-                    )->fields(
-                        [
-                            trans('texts.customer') => $this->contact->present()->name(),
-                            trans('texts.total')    => $this->entity->getFormattedTotal(),
-                        ]
-                    );
-                }
-            );
+                                     $this->subject
+                                 );
     }
 
 }
