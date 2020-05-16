@@ -53,27 +53,37 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $message_array = $this->buildMessage();
+
         return (new MailMessage)->subject(
-            trans(
-                'texts.notification_partial_payment_paid_subject',
-                ['customer' => $this->payment->customer->present()->name()]
-            )
+           $this->buildSubject()
         )->markdown(
             'email.admin.new',
             [
-                'data' => [
-                    'title'       => trans(
-                        'texts.notification_partial_payment_paid_subject',
-                        ['customer' => $this->payment->customer->present()->name()]
-                    ),
+                'data' => $message_array
+            ]
+        );
+    }
+
+    private function buildSubject()
+    {
+        return trans(
+                'texts.notification_partial_payment_paid_subject',
+                ['customer' => $this->payment->customer->present()->name()]
+            );
+    }
+
+    private function buildMessage()
+    {
+        $subject = $this->buildSubject();
+        return [
+                    'title'       => $subject,
                     'message'     => trans('texts.notification_partial_payment_paid', $this->getDataArray()),
                     'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
                     'button_text' => trans('texts.view_payment'),
                     'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
                     'logo'        => $this->payment->account->present()->logo(),
-                ]
-            ]
-        );
+                ];
     }
 
     private function getDataArray()
@@ -103,7 +113,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                trans('texts.notification_payment_paid', $this->getDataArray())
+               $this->buildSubject()
             );
     }
 
