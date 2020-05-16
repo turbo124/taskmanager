@@ -60,12 +60,22 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
-
-        return (new MailMessage)->subject($subject)->markdown(
+        return (new MailMessage)->subject($this->buildSubject())->markdown(
             'email.admin.new',
             [
-                'data' => [
+                'data' => $this->buildMessage()
+            ]
+        );
+    }
+
+    private function buildSubject()
+    {
+         return trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
+    }
+
+    private function buildMessage()
+    {
+         return [
                     'title'       => $subject,
                     'message'     => trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray()),
                     'url'         => $this->invitation->getLink() . '?silent=true',
@@ -73,8 +83,6 @@ class EntitySentNotification extends Notification implements ShouldQueue
                     'signature'   => $this->invitation->account->settings->email_signature,
                     'logo'        => $this->invitation->account->present()->logo(),
                 ]
-            ]
-        );
     }
 
     private function getDataArray()
@@ -102,10 +110,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
                                  ->content(
-                                     trans(
-                                         "texts.notification_{$this->entity_name}_sent_subject",
-                                         $this->getDataArray()
-                                     )
+                                     $this->buildSubject()
                                  )->attachment(
                 function ($attachment) {
                     $attachment->title(
