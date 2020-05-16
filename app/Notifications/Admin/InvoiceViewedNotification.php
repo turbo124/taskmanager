@@ -46,20 +46,31 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
                 $notifiable->account_user()->default_notification_type
             ];
     }
-
-    private function buildSubject()
+ 
+    private function setMessage()
     {
-        return trans(
+        $this->message = trans('texts.notification_invoice_viewed', $this->buildDataArray());
+    }
+
+    private function build()
+    {
+        $this->setSubject();
+        $this->setMessage();
+        $this->buildMessage();
+    }
+
+    private function setSubject()
+    {
+        $this->subject = trans(
             'texts.notification_invoice_viewed_subject', $this->buildDataArray()
         );
     }
 
     private function buildMessage()
     {
-        return [
-                    'title'       => $subject,
-                    'message'     => trans(
-                        'texts.notification_invoice_viewed', $this->buildDataArray()),
+        $this->message_array = [
+                    'title'       => $this->subject,
+                    'message'     => $this->message,
                     'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
                     'button_text' => trans('texts.view_invoice'),
                     'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
@@ -85,11 +96,12 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message_data = $this->buildMessage()
-        return (new MailMessage)->subject($this->buildSubject())->markdown(
+        $this->build();
+
+        return (new MailMessage)->subject($this->subject)->markdown(
             'email.admin.new',
             [
-                'data' => $message_data
+                'data' => $this->message_array
             ]
         );
     }
@@ -108,9 +120,11 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
+        $this->build();
+
         return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($logo)
                                  ->content(
-                                    $this->buildSubject()
+                                    $this->subject
                                  );
     }
 
