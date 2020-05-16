@@ -8,32 +8,27 @@ import {
     Card,
     CardBody,
     CardHeader,
-    DropdownItem
+    DropdownItem,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import axios from 'axios'
 import PropTypes from 'prop-types'
-import ProductAttribute from './ProductAttribute'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import DetailsForm from './DetailsForm'
-import CostsForm from './CostsForm'
 import ImageForm from './ImageForm'
 import ProductListDropdown from './ProductListDropdown'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { icons, translations } from '../common/_icons'
+import Variations from './Variations'
 
 class EditProduct extends React.Component {
     constructor (props) {
         super(props)
-
-        this.productAttributes = {
-            range_from: this.props.product.range_from ? this.props.product.range_from : 0,
-            range_to: this.props.product.range_to ? this.props.product.range_to : 0,
-            payable_months: this.props.product.payable_months ? this.props.product.payable_months : 12,
-            minimum_downpayment: this.props.product.minimum_downpayment ? this.props.product.minimum_downpayment : 0,
-            number_of_years: this.props.product.number_of_years ? this.props.product.number_of_years : 0,
-            interest_rate: this.props.product.interest_rate ? this.props.product.interest_rate : 0
-        }
 
         this.state = {
             modal: false,
@@ -60,7 +55,9 @@ class EditProduct extends React.Component {
             custom_value1: this.props.product.custom_value1,
             custom_value2: this.props.product.custom_value2,
             custom_value3: this.props.product.custom_value3,
-            custom_value4: this.props.product.custom_value4
+            custom_value4: this.props.product.custom_value4,
+            activeTab: '1',
+            variations: this.props.product.attributes ? this.props.product.attributes : []
         }
 
         this.initialState = this.state
@@ -75,6 +72,7 @@ class EditProduct extends React.Component {
         this.deleteImage = this.deleteImage.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.handleVariations = this.handleVariations.bind(this)
     }
 
     getFormData () {
@@ -89,6 +87,7 @@ class EditProduct extends React.Component {
 
         formData.append('name', this.state.name)
         formData.append('assigned_user_id', this.state.assigned_user_id)
+        formData.append('variations', JSON.stringify(this.state.variations))
         formData.append('notes', this.state.notes)
         formData.append('is_featured', this.state.is_featured)
         formData.append('description', this.state.description)
@@ -113,6 +112,16 @@ class EditProduct extends React.Component {
         return formData
     }
 
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
+    }
+
+    handleVariations (variations) {
+        this.setState({ variations: variations }, () => console.log('variations', this.state.variations))
+    }
+
     handleClick () {
         const formData = this.getFormData()
 
@@ -131,7 +140,7 @@ class EditProduct extends React.Component {
             })
     }
 
-     handleCheck () {
+    handleCheck () {
         this.setState({ is_featured: !this.state.is_featured })
     }
 
@@ -220,7 +229,7 @@ class EditProduct extends React.Component {
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_product}</DropdownItem>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_product}
                     </ModalHeader>
@@ -230,33 +239,70 @@ class EditProduct extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
-                            handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
-                            selectedCategories={this.state.selectedCategories}
-                            companies={this.state.companies}
-                            handleCheck={this. handleCheck}/>
+                        <Nav tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('1')
+                                    }}>
+                                    {translations.details}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('2')
+                                    }}>
+                                    {translations.images}
+                                </NavLink>
+                            </NavItem>
 
-                        <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                            custom_value2={this.state.custom_value2}
-                            custom_value3={this.state.custom_value3}
-                            custom_value4={this.state.custom_value4}
-                            custom_fields={this.props.custom_fields}/>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('3')
+                                    }}>
+                                    {translations.variations}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
 
-                        <CostsForm product={this.state} errors={this.state.errors} handleInput={this.handleInput}
-                        />
+                        <TabContent activeTab={this.state.activeTab}>
+                            <TabPane tabId="1">
+                                <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
+                                    handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
+                                    selectedCategories={this.state.selectedCategories}
+                                    companies={this.state.companies}
+                                    handleCheck={this.handleCheck}/>
 
-                        <ImageForm errors={this.state.errors} product={this.props.product} images={this.state.images}
-                            deleteImage={this.deleteImage} handleFileChange={this.handleFileChange}
-                            onChangeHandler={this.onChangeHandler}/>
+                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                    custom_value2={this.state.custom_value2}
+                                    custom_value3={this.state.custom_value3}
+                                    custom_value4={this.state.custom_value4}
+                                    custom_fields={this.props.custom_fields}/>
+                                    />
+                            </TabPane>
 
-                        <Card>
-                            <CardHeader>Attributes</CardHeader>
-                            <CardBody>
+                            <TabPane tabId="2">
+                                <ImageForm errors={this.state.errors} product={this.props.product} images={this.state.images}
+                                    deleteImage={this.deleteImage} handleFileChange={this.handleFileChange}
+                                    onChangeHandler={this.onChangeHandler}/>
+                            </TabPane>
 
-                                <ProductAttribute values={this.productAttributes} product={this.props.product}
-                                    onChange={this.handleInput}/>
-                            </CardBody>
-                        </Card>
+                            <TabPane tabId="3">
+                                <Card>
+                                    <CardHeader>Attributes</CardHeader>
+                                    <CardBody>
+
+                                        <Variations variations={this.state.variations} onChange={this.handleVariations} />
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+                        </TabContent>
+
                     </ModalBody>
 
                     <ModalFooter>

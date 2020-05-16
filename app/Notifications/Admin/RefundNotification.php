@@ -57,7 +57,7 @@ class RefundNotification extends Notification implements ShouldQueue
         $this->build();
 
         return (new MailMessage)->subject(
-           $this->subject
+            $this->subject
         )->markdown(
             'email.admin.new',
             [
@@ -76,9 +76,9 @@ class RefundNotification extends Notification implements ShouldQueue
     private function setSubject()
     {
         $this->subject = trans(
-                'texts.notification_refund_subject',
-                ['customer' => $this->payment->customer->present()->name(),]
-            );
+            'texts.notification_refund_subject',
+            ['customer' => $this->payment->customer->present()->name(),]
+        );
     }
 
     private function setMessage()
@@ -88,15 +88,14 @@ class RefundNotification extends Notification implements ShouldQueue
 
     private function buildMessage()
     {
-
         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-                    'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
-                    'button_text' => trans('texts.view_payment'),
-                    'logo'        => $this->payment->account->present()->logo(),
-                ];
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
+            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
+            'button_text' => trans('texts.view_payment'),
+            'logo'        => $this->payment->account->present()->logo(),
+        ];
     }
 
     private function getDataArray()
@@ -127,7 +126,7 @@ class RefundNotification extends Notification implements ShouldQueue
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($this->account->present()->logo())->content(
-               $this->subject
+                $this->subject
             );
     }
 

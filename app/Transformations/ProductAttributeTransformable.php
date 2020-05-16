@@ -15,15 +15,21 @@ class ProductAttributeTransformable
      */
     public function transformProductAttribute(ProductAttribute $product_attribute)
     {
+        $attributeValue = $product_attribute->attributesValues->first();
+
         return [
-            'id'          => (int)$product_attribute->id,
-            'product_id'  => (int)$product_attribute->product_id,
-            'quantity'    => (int)$product_attribute->quantity,
-            'price'       => (float)$product_attribute->price,
-            'values'      => $this->transformAttributeValues($product_attribute->attributesValues),
-            'created_at'  => $product_attribute->created_at,
-            'updated_at'  => $product_attribute->updated_at,
-            'archived_at' => $product_attribute->deleted_at,
+            'id'                 => (int)$product_attribute->id,
+            'attribute_id'       => $attributeValue->attribute_id,
+            'attribute_value_id' => $attributeValue->id,
+            'product_id'         => (int)$product_attribute->product_id,
+            'quantity'           => (int)$product_attribute->quantity,
+            'is_default'         => (bool)$product_attribute->is_default,
+            'price'              => (float)$product_attribute->price,
+            'cost'               => (float)$product_attribute->price,
+            'values'             => $this->transformAttributeValues($product_attribute->attributesValues),
+            'created_at'         => $product_attribute->created_at,
+            'updated_at'         => $product_attribute->updated_at,
+            'archived_at'        => $product_attribute->deleted_at,
         ];
     }
 

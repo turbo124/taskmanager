@@ -62,6 +62,7 @@ class ServiceBase
         foreach ($entity->line_items as $line_item) {
             $objLine = (new LineItem($entity))
                 ->setQuantity($line_item->quantity)
+                ->setAttributeId(isset($line_item->attribute_id) ? $line_item->attribute_id : 0)
                 ->setUnitPrice($line_item->unit_price)
                 ->setProductId($line_item->product_id)
                 ->setSubTotal(isset($line_item->sub_total) ? $line_item->sub_total : 0)

@@ -12,8 +12,8 @@ class ProductAttribute extends Model
     protected $fillable = [
         'quantity',
         'price',
-        'sale_price',
-        'default'
+        'cost',
+        'is_default'
     ];
 
     /**
@@ -30,6 +30,12 @@ class ProductAttribute extends Model
     public function attributesValues()
     {
         return $this->belongsToMany(AttributeValue::class);
+    }
+
+    public function reduceQuantityAvailiable($quantity)
+    {
+        $this->quantity -= $quantity;
+        $this->save();
     }
 
 }

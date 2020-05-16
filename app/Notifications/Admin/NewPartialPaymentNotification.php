@@ -56,7 +56,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
         $this->build();
 
         return (new MailMessage)->subject(
-           $this->subject
+            $this->subject
         )->markdown(
             'email.admin.new',
             [
@@ -80,21 +80,21 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     private function setSubject()
     {
         $this->subject = trans(
-                'texts.notification_partial_payment_paid_subject',
-                ['customer' => $this->payment->customer->present()->name()]
-            );
+            'texts.notification_partial_payment_paid_subject',
+            ['customer' => $this->payment->customer->present()->name()]
+        );
     }
 
     private function buildMessage()
     {
         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
-                    'button_text' => trans('texts.view_payment'),
-                    'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-                    'logo'        => $this->payment->account->present()->logo(),
-                ];
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
+            'button_text' => trans('texts.view_payment'),
+            'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
+            'logo'        => $this->payment->account->present()->logo(),
+        ];
     }
 
     private function getDataArray()
@@ -119,14 +119,14 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     }
 
     public function toSlack($notifiable)
-    { 
+    {
         $this->build();
 
         $logo = $this->payment->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-               $this->subject
+                $this->subject
             );
     }
 

@@ -3,6 +3,7 @@
 namespace App\Jobs\Inventory;
 
 use App\Product;
+use App\ProductAttribute;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;
@@ -35,8 +36,15 @@ class UpdateInventory implements ShouldQueue
      */
     public function handle()
     {
+
         foreach ($this->line_items as $item) {
             if (empty($item->product_id)) {
+                continue;
+            }
+
+            if(!empty($item->attribute_id)) {
+                $product_attribute = ProductAttribute::find($item->attribute_id);
+                $product_attribute->reduceQuantityAvailiable($item->quantity);
                 continue;
             }
 

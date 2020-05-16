@@ -2,7 +2,9 @@
 
 namespace App\Jobs\Product;
 
+use App\AttributeValue;
 use App\Product;
+use App\Repositories\AttributeValueRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Request;
@@ -27,31 +29,51 @@ class SaveProductAttributes
     }
 
     /**
-     * Execute the job.
-     *
-     * @return void
+     * @param ProductRepository $product_repo
+     * @param $fields
+     * @return bool
      */
-    public function handle(ProductRepository $product_repo, $fields): ?ProductAttribute
+    public function handle(ProductRepository $product_repo, $fields): bool
     {
-        $range_from = $fields['range_from'];
-        $range_to = $fields['range_to'];
-        $payable_months = $fields['payable_months'];
-        $number_of_years = $fields['number_of_years'];
-        $minimum_downpayment = $fields['minimum_downpayment'];
-        $interest_rate = $fields['interest_rate'];
-        $productAttributes = new ProductAttribute(
-            compact(
-                'range_from',
-                'range_to',
-                'payable_months',
-                'number_of_years',
-                'minimum_downpayment',
-                'interest_rate'
-            )
-        );
-        $product_repo->removeProductAttribute($productAttributes, $this->product);
-        $productAttribute = $product_repo->saveProductAttributes($productAttributes, $this->product);
+        $variations = json_decode($fields, true);
 
-        return $productAttribute;
+        $this->product->attributes()->forceDelete();
+
+        foreach ($variations as $variation) {
+            $hasDefault = $product_repo->listProductAttributes()->where('default', 1)->count();
+            $variation['is_default'] = $variation['is_default'] == 1 && $hasDefault > 0 ? 0 : 1;
+
+            $objProductAttribute = new ProductAttribute();
+            $objProductAttribute->fill($variation);
+
+            $productAttribute = $product_repo->saveProductAttributes(
+                $objProductAttribute,
+                $this->product
+            );
+
+            $attribute = (new AttributeValueRepository(new AttributeValue))->find($variation['attribute_value_id']);
+            $product_repo->saveCombination($productAttribute, $attribute);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return
+     */
+    private function validateFields(array $data)
+    {
+        $validator = Validator::make(
+            $data,
+            [
+                'productAttributeQuantity' => 'required'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $validator;
+        }
     }
 }

@@ -28,7 +28,6 @@ class AttributeRepository extends BaseRepository
     /**
      * @param array $data
      * @return Attribute
-     * @throws CreateAttributeErrorException
      */
     public function createAttribute(array $data): Attribute
     {
@@ -40,7 +39,6 @@ class AttributeRepository extends BaseRepository
     /**
      * @param int $id
      * @return Attribute
-     * @throws AttributeNotFoundException
      */
     public function findAttributeById(int $id): Attribute
     {
@@ -50,7 +48,6 @@ class AttributeRepository extends BaseRepository
     /**
      * @param array $data
      * @return bool
-     * @throws UpdateAttributeErrorException
      */
     public function updateAttribute(array $data): bool
     {

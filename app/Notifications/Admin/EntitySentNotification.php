@@ -72,7 +72,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
 
     private function setSubject()
     {
-         $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
+        $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
     }
 
     private function setMessage()
@@ -89,14 +89,14 @@ class EntitySentNotification extends Notification implements ShouldQueue
 
     private function buildMessage()
     {
-         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'url'         => $this->invitation->getLink() . '?silent=true',
-                    'button_text' => trans("texts.view_{$this->entity_name}"),
-                    'signature'   => $this->invitation->account->settings->email_signature,
-                    'logo'        => $this->invitation->account->present()->logo(),
-                ];
+        $this->message_array = [
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => $this->invitation->getLink() . '?silent=true',
+            'button_text' => trans("texts.view_{$this->entity_name}"),
+            'signature'   => $this->invitation->account->settings->email_signature,
+            'logo'        => $this->invitation->account->present()->logo(),
+        ];
     }
 
     private function getDataArray()

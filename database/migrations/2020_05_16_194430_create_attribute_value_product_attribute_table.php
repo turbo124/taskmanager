@@ -16,6 +16,7 @@ class CreateAttributeValueProductAttributeTable extends Migration {
 		{
 			$table->integer('attribute_value_id')->unsigned()->index('attribute_value_product_attribute_attribute_value_id_foreign');
 			$table->integer('product_attribute_id')->unsigned()->index('attribute_value_product_attribute_product_attribute_id_foreign');
+			$table->integer('id', true);
 		});
 	}
 

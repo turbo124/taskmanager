@@ -46,7 +46,7 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
                 $notifiable->account_user()->default_notification_type
             ];
     }
- 
+
     private function setMessage()
     {
         $this->message = trans('texts.notification_invoice_viewed', $this->buildDataArray());
@@ -62,29 +62,30 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
     private function setSubject()
     {
         $this->subject = trans(
-            'texts.notification_invoice_viewed_subject', $this->buildDataArray()
+            'texts.notification_invoice_viewed_subject',
+            $this->buildDataArray()
         );
     }
 
     private function buildMessage()
     {
         $this->message_array = [
-                    'title'       => $this->subject,
-                    'message'     => $this->message,
-                    'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
-                    'button_text' => trans('texts.view_invoice'),
-                    'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
-                    'logo'        => $this->invoice->account->present()->logo(),
-                ];
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => config('taskmanager.site_url') . 'portal/invoices/' . $this->invoice->id,
+            'button_text' => trans('texts.view_invoice'),
+            'signature'   => !empty($this->invoice->account->settings) ? $this->invoice->account->settings->email_signature : '',
+            'logo'        => $this->invoice->account->present()->logo(),
+        ];
     }
 
     private function buildDataArray()
     {
-          return [
-                            'total'    => $this->invoice->getFormattedTotal(),
-                            'customer' => $this->contact->present()->name(),
-                            'invoice'  => $this->invoice->number,
-                        ];
+        return [
+            'total'    => $this->invoice->getFormattedTotal(),
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->invoice->number,
+        ];
     }
 
 
@@ -122,9 +123,9 @@ class InvoiceViewedNotification extends Notification implements ShouldQueue
     {
         $this->build();
 
-        return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($logo)
+        return (new SlackMessage)->success()->from(trans('texts.from_slack'))->image($this->invoice->account->present()->logo())
                                  ->content(
-                                    $this->subject
+                                     $this->subject
                                  );
     }
 

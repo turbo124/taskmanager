@@ -19,6 +19,8 @@ class CreateProductAttributesTable extends Migration {
 			$table->decimal('price')->nullable();
 			$table->integer('product_id')->unsigned()->index('product_attributes_product_id_foreign');
 			$table->timestamps();
+			$table->boolean('is_default')->default(0);
+			$table->decimal('cost')->default(0.00);
 		});
 	}
 
