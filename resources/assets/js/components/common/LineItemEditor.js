@@ -12,6 +12,7 @@ class LineItemEditor extends Component {
             products: [],
             taxRates: [],
             expenses: [],
+            attributes: [],
             line_type: 1,
             total: this.props.invoice.total
         }
@@ -140,6 +141,7 @@ class LineItemEditor extends Component {
                 tax_rates={this.state.taxRates}
                 expenses={this.state.expenses}
                 products={this.state.products}
+                attributes={this.state.attributes}
                 new={true}
                 onChange={this.handleRowChange}
                 handleTaskChange={this.updateTasks}
