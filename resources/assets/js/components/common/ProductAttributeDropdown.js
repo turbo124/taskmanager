@@ -57,12 +57,12 @@ export default class ProductAttributeDropdown extends Component {
         }
 
         const name = this.props.name && this.props.name ? this.props.name : 'attribute_id'
-        const data_id = this.props.data_id ? this.props.data_id : 0
+        const dataId = this.props.dataId ? this.props.dataId : 0
 
         return (
             <FormGroup className="mr-2">
                 <Input value={this.props.attribute_value_id} onChange={this.props.handleInputChanges} type="select"
-                    data-id={data_id}
+                    data-line={dataId}
                     name={name} id={name}>
                     <option value="">Select Value</option>
                     {valueList}
