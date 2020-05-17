@@ -52,8 +52,8 @@ export default class ProductAttributeDropdown extends Component {
             valueList = <option value="">Loading...</option>
         } else {
             valueList = this.state.values.map(value => {
-                //Array.prototype.map.call(value, function(item) { return item.name; }).join(",");
-                return <option key={value.id} value={value.id}>{value.value}</option>
+                //Array.prototype.map.call(value.values, function(item) { return item.name; }).join(",");
+                return <option data-price={value.price} key={value.id} value={value.id}>{value.value}</option>
             })
         }
 
