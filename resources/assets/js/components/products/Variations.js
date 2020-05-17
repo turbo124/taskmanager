@@ -32,12 +32,8 @@ export default class Variations extends Component {
 
         console.log('variations 2', variations)
 
-       if(name === 'attribute_values') {
-           return true
-       }
+        variations[idx][name] = name === 'attribute_values' ? Array.from(e.target.selectedOptions, (item) => item.value) : value
 
-
-        variations[idx][name] = value
         this.setState({ variations }, () => {
             this.props.onChange(this.state.variations)
         }
