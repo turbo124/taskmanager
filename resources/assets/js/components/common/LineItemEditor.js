@@ -27,6 +27,7 @@ class LineItemEditor extends Component {
 
     componentDidMount () {
         this.loadProducts()
+        this.loadAttributes()
         this.loadTaxRates()
         this.loadExpenses()
     }
@@ -34,6 +35,12 @@ class LineItemEditor extends Component {
     loadProducts () {
         axios.get('/api/products').then(data => {
             this.setState({ products: data.data })
+        })
+    }
+
+    loadAttributes () {
+        axios.get('/api/attributeValues').then(data => {
+            this.setState({ attributes: data.data })
         })
     }
 
@@ -85,6 +92,16 @@ class LineItemEditor extends Component {
             const product = this.state.products[index]
             rows[row].unit_price = product.price
             rows[row].product_id = e.target.value
+            this.props.update(rows, row)
+
+            return
+        }
+
+        if (e.target.name === 'attribute_id') {
+            const index = this.state.attributes.findIndex(attribute => attribute.id === parseInt(e.target.value))
+            const attribute = this.state.attributes[index]
+            rows[row].unit_price = attribute.price
+            rows[row].attribute_id = e.target.value
             this.props.update(rows, row)
 
             return
