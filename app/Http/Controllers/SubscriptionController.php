@@ -31,11 +31,11 @@ class SubscriptionController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new SubscriptionFilters($this->subscription_repo))->filter(
+        $subscriptions = (new SubscriptionFilters($this->subscription_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );
-        return response()->json($invoices);
+        return response()->json($subscriptions);
     }
 
     /**

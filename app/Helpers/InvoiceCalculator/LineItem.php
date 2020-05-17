@@ -327,6 +327,10 @@ class LineItem extends BaseCalculator
      */
     public function setAttributeId(int $attribute_id): self
     {
+        if (empty($attribute_id) || $attribute_id === 'null') {
+            return $this;
+        }
+
         $this->attribute_id = $attribute_id;
         return $this;
     }

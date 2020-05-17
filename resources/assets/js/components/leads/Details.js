@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label, CardHeader, Card, CardBody } from 'reactstrap'
 import UserDropdown from '../common/UserDropdown'
+import { translations } from '../common/_icons'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -54,34 +55,34 @@ export default class Details extends React.Component {
         return (
             <React.Fragment>
                 <Card>
-                    <CardHeader>Details</CardHeader>
+                    <CardHeader>{translations.details}</CardHeader>
                     <CardBody>
                         <FormGroup>
-                            <Label for="title"> Title </Label>
+                            <Label for="title"> {translations.title} </Label>
                             <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''} type="text"
                                 id="title" onChange={this.props.handleInputChanges}
                                 name="title"
                                 value={this.props.lead.title}
-                                placeholder="Enter title"/>
+                                placeholder={translations.title}/>
                             {this.renderErrorFor('first_name')}
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description"> Description </Label>
+                            <Label for="description"> {translations.description} </Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
                                 id="first_name" onChange={this.props.handleInputChanges} name="description"
                                 value={this.props.lead.description}
-                                placeholder="Description"/>
+                                placeholder={translations.description}/>
                             {this.renderErrorFor('description')}
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="valued_at"> Value </Label>
+                            <Label for="valued_at"> {translations.amount} </Label>
                             <Input className={this.hasErrorFor('valued_at') ? 'is-invalid' : ''} type="text"
                                 id="valued_at"
                                 value={this.props.lead.valued_at}
                                 onChange={this.props.handleInputChanges.bind(this)} name="valued_at"
-                                placeholder="Value"/>
+                                placeholder={translations.amount}/>
                             {this.renderErrorFor('valued_at')}
                         </FormGroup>
 

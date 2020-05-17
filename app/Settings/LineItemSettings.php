@@ -11,6 +11,7 @@ class LineItemSettings extends BaseSettings
         'quantity'           => ['required' => true, 'default_value' => 1, 'type' => 'float'],
         'unit_price'         => ['required' => true, 'default_value' => 1, 'type' => 'float'],
         'product_id'         => ['required' => true, 'default_value' => 1, 'type' => 'int'],
+        'attribute_id'       => ['required' => true, 'default_value' => 0, 'type' => 'int'],
         'unit_discount'      => ['required' => false, 'default_value' => 1, 'type' => 'float'],
         'is_amount_discount' => ['required' => false, 'default_value' => 1, 'type' => 'bool'],
         'unit_tax'           => ['required' => false, 'default_value' => 1, 'type' => 'float'],
@@ -39,6 +40,7 @@ class LineItemSettings extends BaseSettings
                     ->setTaxRateId(isset($line_item->tax_rate_id) ? $line_item->tax_rate_id : null)
                     ->setQuantity($line_item->quantity)
                     ->setUnitPrice($line_item->unit_price)
+                    ->setAttributeId(!empty($line_item->attribute_id) ? $line_item->attribute_id : 0)
                     ->setUnitDiscount($line_item->unit_discount)
                     ->setUnitTax($line_item->unit_tax)
                     ->setProductId($line_item->product_id)

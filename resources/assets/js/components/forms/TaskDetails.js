@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import CustomerDropdown from '../common/CustomerDropdown'
+import { translations } from '../common/_icons'
 
 export default class TaskDetails extends React.Component {
     constructor (props) {
@@ -36,7 +37,7 @@ export default class TaskDetails extends React.Component {
 
         return (
             <FormGroup>
-                <Label for="contributors">Assign to:</Label>
+                <Label for="contributors">{translations.assigned_user}:</Label>
                 <Input className={this.hasErrorFor('contributors') ? 'is-invalid' : ''} multiple
                     type="select"
                     value={this.props.task.selectedUsers}
@@ -53,7 +54,7 @@ export default class TaskDetails extends React.Component {
         return (
             <React.Fragment>
                 <FormGroup>
-                    <Label for="title">Task Title(*):</Label>
+                    <Label for="title">{translations.title}(*):</Label>
                     <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''} type="text" name="title"
                         value={this.props.task.title}
                         id="taskTitle" onChange={this.props.handleInput.bind(this)}/>
@@ -61,7 +62,7 @@ export default class TaskDetails extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Customer</Label>
+                    <Label>{translations.customer}</Label>
                     <CustomerDropdown
                         customer={this.props.task.customer_id}
                         renderErrorFor={this.renderErrorFor}
@@ -72,7 +73,7 @@ export default class TaskDetails extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="content">Task Details:</Label>
+                    <Label for="content">{translations.description}:</Label>
                     <Input className={this.hasErrorFor('content') ? 'is-invalid' : ''} type="textarea"
                         name="content" value={this.props.task.content} id="content"
                         onChange={this.props.handleInput.bind(this)}/>

@@ -9,6 +9,7 @@ import {
     CardBody,
     CardHeader
 } from 'reactstrap'
+import { translations } from '../common/_icons'
 
 export default class ImageForm extends React.Component {
     constructor (props) {
@@ -69,14 +70,14 @@ export default class ImageForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Cover Image</Label>
+                    <Label>{translations.cover}</Label>
                     <CustomInput onChange={this.props.handleFileChange} type="file" id="cover"
                         name="cover"
                         label="Cover!"/>
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Thumbnails</Label>
+                    <Label>{translations.thumbnails}</Label>
                     <Input onChange={this.props.onChangeHandler} multiple type="file" id="image"
                         name="image"
                         label="Thumbnail!"/>

@@ -10,6 +10,7 @@ import {
 import CompanyDropdown from '../common/CompanyDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
+import { translations } from '../common/_icons'
 
 export default class DetailsForm extends React.Component {
     hasErrorFor (field) {
@@ -28,10 +29,10 @@ export default class DetailsForm extends React.Component {
 
     render () {
         return (<Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
                 <FormGroup className="mb-3">
-                    <Label>Amount</Label>
+                    <Label>{translations.amount}</Label>
                     <Input value={this.props.expense.amount}
                         className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
                         type="text" name="amount"
@@ -40,14 +41,14 @@ export default class DetailsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mr-2">
-                    <Label for="expense_date">Date(*):</Label>
+                    <Label for="expense_date">{translations.date}(*):</Label>
                     <Datepicker className="form-control" name="expense_date" date={this.props.expense.expense_date}
                         handleInput={this.props.handleInput}/>
                     {this.renderErrorFor('expense_date')}
                 </FormGroup>
 
                 <FormGroup className="mr-2">
-                    <Label for="date">Category(*):</Label>
+                    <Label for="date">{translations.category}(*):</Label>
                     <Input className={this.hasErrorFor('category_id') ? 'is-invalid' : ''}
                         value={this.props.expense.category_id} type="select" id="category_id"
                         name="category_id"
@@ -59,7 +60,7 @@ export default class DetailsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Customer</Label>
+                    <Label>{translations.customer}</Label>
                     <CustomerDropdown
                         customer={this.props.expense.customer_id}
                         renderErrorFor={this.renderErrorFor}
@@ -70,7 +71,7 @@ export default class DetailsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Company</Label>
+                    <Label>{translations.company}</Label>
                     <CompanyDropdown
                         companies={this.props.companies}
                         company_id={this.props.expense.company_id}

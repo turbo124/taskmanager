@@ -14,6 +14,7 @@ import {
 
 import axios from 'axios'
 import Select from 'react-select'
+import { translations } from '../common/_icons'
 
 class AddRole extends React.Component {
     constructor (props) {
@@ -133,10 +134,10 @@ class AddRole extends React.Component {
 
         return (
             <React.Fragment>
-                <Button className="pull-right" color="success" onClick={this.toggle}>Add Role</Button>
+                <Button className="pull-right" color="success" onClick={this.toggle}>{translations.add_role}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add Role
+                        {translations.add_role}
                     </ModalHeader>
                     <ModalBody>
 
@@ -144,7 +145,7 @@ class AddRole extends React.Component {
                             {message}
                         </div>}
 
-                        <Label>Name</Label>
+                        <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
@@ -157,7 +158,7 @@ class AddRole extends React.Component {
                             {this.renderErrorFor('name')}
                         </InputGroup>
 
-                        <Label>Description</Label>
+                        <Label>{translations.description}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
@@ -198,8 +199,8 @@ class AddRole extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

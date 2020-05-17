@@ -13,6 +13,7 @@ import {
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
+import { translations } from "../common/_icons";
 
 class EditTaskTimes extends Component {
     constructor (props, context) {
@@ -129,26 +130,26 @@ class EditTaskTimes extends Component {
 
         const form = currentData && Object.keys(currentData).length ? <React.Fragment>
             <FormGroup>
-                <Label>Date</Label>
+                <Label>{translations.date}</Label>
                 <Input data-id={currentIndex} value={moment(currentData.date).format('YYYY-MM-DD')} name="date"
                     type="date"
                     onChange={this.handleChange}/>
             </FormGroup>
 
             <FormGroup>
-                <Label>Start Time</Label>
+                <Label>{translations.start_time}</Label>
                 <Input data-id={currentIndex} value={currentData.start_time} type="text" name="start_time"
                     onChange={this.handleChange}/>
             </FormGroup>
 
             <FormGroup>
-                <Label>End Time</Label>
+                <Label>{translations.end_time}</Label>
                 <Input data-id={currentIndex} value={currentData.end_time} type="text" name="end_time"
                     onChange={this.handleChange}/>
             </FormGroup>
 
             <FormGroup>
-                <Label>Duration</Label>
+                <Label>{translations.duration}</Label>
                 <Input data-id={currentIndex}
                     value={model.calculateDuration(currentData.start_time, currentData.end_time)}
                     type="text" name="duration" onChange={this.handleChange}/>

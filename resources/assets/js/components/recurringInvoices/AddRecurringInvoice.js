@@ -134,28 +134,28 @@ class AddRecurringInvoice extends Component {
         const form = (
             <div className={inlineClass}>
                 <FormGroup>
-                    <Label for="start_date">Start Date(*):</Label>
+                    <Label for="start_date">{translations.start_date}(*):</Label>
                     <Datepicker name="start_date" date={this.state.start_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('start_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="end_date">End Date(*):</Label>
+                    <Label for="end_date">{translations.end_date}(*):</Label>
                     <Datepicker name="end_date" date={this.state.end_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('end_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="recurring_due_date">Recurring Due Date(*):</Label>
+                    <Label for="recurring_due_date">{translations.due_date}(*):</Label>
                     <Datepicker name="recurring_due_date" date={this.state.recurring_due_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('recurring_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('recurring_due_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Frequency(in days)</Label>
+                    <Label>{translations.frequency}</Label>
                     <Input
                         value={this.state.frequency}
                         type='text'
@@ -183,7 +183,7 @@ class AddRecurringInvoice extends Component {
                     <ModalBody>
                         {form}
                         <FormGroup>
-                            <Label>Invoice</Label>
+                            <Label>{translations.invoice}</Label>
                             <InvoiceDropdown
                                 invoices={this.props.allInvoices}
                                 handleInputChanges={this.handleInput}
@@ -193,7 +193,7 @@ class AddRecurringInvoice extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>Customer</Label>
+                            <Label>{translations.customer}</Label>
                             <CustomerDropdown
                                 disabled={true}
                                 handleInputChanges={this.handleInput}

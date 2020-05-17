@@ -26,12 +26,13 @@ class AttributeRepository extends BaseRepository
     }
 
     /**
+     * @param Attribute $attribute
      * @param array $data
      * @return Attribute
      */
-    public function createAttribute(array $data): Attribute
+    public function save(Attribute $attribute, array $data): Attribute
     {
-        $attribute = new Attribute($data);
+        $attribute->fill($data);
         $attribute->save();
         return $attribute;
     }
@@ -43,15 +44,6 @@ class AttributeRepository extends BaseRepository
     public function findAttributeById(int $id): Attribute
     {
         return $this->findOneOrFail($id);
-    }
-
-    /**
-     * @param array $data
-     * @return bool
-     */
-    public function updateAttribute(array $data): bool
-    {
-        return $this->model->update($data);
     }
 
     /**
@@ -83,10 +75,20 @@ class AttributeRepository extends BaseRepository
 
     /**
      * @param AttributeValue $attributeValue
-     * @return AttributeValue
+     * @return bool|false|\Illuminate\Database\Eloquent\Model
      */
-    public function associateAttributeValue(AttributeValue $attributeValue): AttributeValue
+    public function associateAttributeValue(AttributeValue $attributeValue)
     {
         return $this->model->values()->save($attributeValue);
+    }
+
+    /**
+     * Gets the class name.
+     *
+     * @return     string The class name.
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 }

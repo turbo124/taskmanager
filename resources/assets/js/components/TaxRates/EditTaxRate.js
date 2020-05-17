@@ -104,7 +104,7 @@ class EditTaxRate extends React.Component {
                             {message}
                         </div>}
 
-                        <Label>Name</Label>
+                        <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
@@ -114,7 +114,7 @@ class EditTaxRate extends React.Component {
                             {this.renderErrorFor('name')}
                         </InputGroup>
 
-                        <Label>Description</Label>
+                        <Label>{translations.amount}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>

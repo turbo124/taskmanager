@@ -86,7 +86,7 @@ export default class EditToken extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name">Name <span className="text-danger">*</span></Label>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                                 value={this.state.name}
                                 type="text"

@@ -9,6 +9,7 @@ import {
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import IndustryDropdown from '../common/IndustryDropdown'
 import UserDropdown from '../common/UserDropdown'
+import { translations } from '../common/_icons'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {
@@ -33,7 +34,7 @@ export default class SettingsForm extends React.Component {
 
     render () {
         return (<Card>
-            <CardHeader>Settings</CardHeader>
+            <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
                 <FormGroup>
                     <Label for="postcode">Currency(*):</Label>
@@ -54,7 +55,7 @@ export default class SettingsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="postcode">Users:</Label>
+                    <Label for="postcode">{translations.assigned_user}:</Label>
                     <UserDropdown
                         user_id={this.props.company.assigned_user_id}
                         name="assigned_user_id"

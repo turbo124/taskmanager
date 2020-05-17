@@ -10,6 +10,7 @@ import {
 import Datepicker from '../common/Datepicker'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Address from '../invoice/Address'
+import { translations } from '../common/_icons'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -35,26 +36,26 @@ export default class Details extends React.Component {
 
     render () {
         return (<Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.details}</CardHeader>
             <CardBody>
                 <h2>{this.props.customerName}</h2>
                 <Address address={this.props.address}/>
 
                 <FormGroup className="mr-2">
-                    <Label for="date">Credit Date(*):</Label>
+                    <Label for="date">{translations.date}(*):</Label>
                     <Datepicker name="date" date={this.props.credit.date} handleInput={this.props.handleInput}
                         className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="po_number">PO Number(*):</Label>
+                    <Label for="po_number">{translations.po_number}(*):</Label>
                     <Input value={this.props.credit.po_number} type="text" id="po_number" name="po_number"
                         onChange={this.props.handleInput}/>
                     {this.renderErrorFor('po_number')}
                 </FormGroup>
                 <FormGroup>
-                    <Label>Partial</Label>
+                    <Label>{translations.partial}</Label>
                     <Input
                         value={this.props.credit.partial}
                         type='text'
@@ -65,7 +66,7 @@ export default class Details extends React.Component {
                 </FormGroup>
 
                 <FormGroup className={this.props.credit.has_partial === true ? '' : 'd-none'}>
-                    <Label>Partial Due Date</Label>
+                    <Label>{translations.partial_due_date}</Label>
                     <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date} handleInput={this.props.handleInput}
                         className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                 </FormGroup>

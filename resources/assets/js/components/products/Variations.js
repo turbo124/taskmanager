@@ -10,8 +10,7 @@ export default class Variations extends Component {
 
         this.state = {
             variations: this.props.variations && this.props.variations.length ? this.props.variations : [{
-                attribute_id: '',
-                attribute_value_id: '',
+                attribute_values: [],
                 price: 0,
                 cost: 0,
                 quantity: 0,
@@ -33,7 +32,8 @@ export default class Variations extends Component {
 
         console.log('variations 2', variations)
 
-        variations[idx][name] = value
+        variations[idx][name] = name === 'attribute_values' ? Array.from(e.target.selectedOptions, (item) => item.value) : value
+
         this.setState({ variations }, () => {
             this.props.onChange(this.state.variations)
         }
@@ -42,7 +42,7 @@ export default class Variations extends Component {
 
     addLine (e) {
         this.setState((prevState) => ({
-            variations: [...prevState.variations, { price: 0, cost: 0, quantity: 0, is_default: false }]
+            variations: [...prevState.variations, { attribute_values: [], price: 0, cost: 0, quantity: 0, is_default: false }]
         }), () => this.props.onChange(this.state.variations))
     }
 

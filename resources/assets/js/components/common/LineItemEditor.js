@@ -12,6 +12,7 @@ class LineItemEditor extends Component {
             products: [],
             taxRates: [],
             expenses: [],
+            attributes: [],
             line_type: 1,
             total: this.props.invoice.total
         }
@@ -27,6 +28,7 @@ class LineItemEditor extends Component {
 
     componentDidMount () {
         this.loadProducts()
+        // this.loadAttributes()
         this.loadTaxRates()
         this.loadExpenses()
     }
@@ -34,6 +36,12 @@ class LineItemEditor extends Component {
     loadProducts () {
         axios.get('/api/products').then(data => {
             this.setState({ products: data.data })
+        })
+    }
+
+    loadAttributes () {
+        axios.get('/api/attributeValues').then(data => {
+            this.setState({ attributes: data.data })
         })
     }
 
@@ -90,6 +98,15 @@ class LineItemEditor extends Component {
             return
         }
 
+        if (e.target.name === 'attribute_id') {
+            const price = e.target.options[e.target.selectedIndex].dataset.price
+            rows[row].unit_price = price
+            rows[row].attribute_id = e.target.value
+            this.props.update(rows, row)
+
+            return
+        }
+
         if (e.target.name === 'expense_id') {
             const index = this.state.expenses.findIndex(expense => expense.id === parseInt(e.target.value))
             const expense = this.state.expenses[index]
@@ -123,6 +140,7 @@ class LineItemEditor extends Component {
                 tax_rates={this.state.taxRates}
                 expenses={this.state.expenses}
                 products={this.state.products}
+                attributes={this.state.attributes}
                 new={true}
                 onChange={this.handleRowChange}
                 handleTaskChange={this.updateTasks}

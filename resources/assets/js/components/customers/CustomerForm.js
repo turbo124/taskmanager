@@ -3,6 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap'
 import {
     Card, CardBody, CardHeader
 } from 'reactstrap'
+import { translations } from '../common/_icons'
 
 export default function CustomerForm (props) {
     const hasErrorFor = (field) => {
@@ -21,44 +22,44 @@ export default function CustomerForm (props) {
 
     return (
         <Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.details}</CardHeader>
             <CardBody>
                 <FormGroup>
-                    <Label for="name"> Name </Label>
+                    <Label for="name"> {translations.name} </Label>
                     <Input className={hasErrorFor('name') ? 'is-invalid' : ''} type="text"
                         id="name" defaultValue={props.customer.name}
                         onChange={props.onChange} name="name"
-                        placeholder="Name"/>
+                        placeholder={translations.name}/>
                     {renderErrorFor('name')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="phone"> Phone </Label>
+                    <Label for="phone"> {translations.phone_number} </Label>
                     <Input className={hasErrorFor('phone') ? 'is-invalid' : ''} type="text" id="phone"
                         defaultValue={props.customer.phone}
                         onChange={props.onChange} name="phone"
-                        placeholder="Phone Number"/>
+                        placeholder={translations.phone_number}/>
                     {renderErrorFor('phone')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label htmlFor="website"> Website </Label>
+                    <Label htmlFor="website"> {translations.website} </Label>
                     <Input className={hasErrorFor('website') ? 'is-invalid' : ''}
                         type="text"
                         id="website"
                         defaultValue={props.customer.website}
                         onChange={props.onChange}
                         name="website"
-                        placeholder="Website"/>
+                        placeholder={translations.website}/>
                     {renderErrorFor('website')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="name"> Vat Number </Label>
+                    <Label for="name"> {translations.vat_number} </Label>
                     <Input className={hasErrorFor('vat_number') ? 'is-invalid' : ''} type="text"
                         id="name" defaultValue={props.customer.vat_number}
                         onChange={props.onChange} name="vat_number"
-                        placeholder="VAT Number"/>
+                        placeholder={translations.vat_number}/>
                     {renderErrorFor('vat_number')}
                 </FormGroup>
             </CardBody>

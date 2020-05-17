@@ -8,6 +8,7 @@ import {
     CardHeader
 } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
+import { translations } from '../common/_icons'
 
 export default class AddressForm extends React.Component {
     constructor (props) {
@@ -36,9 +37,9 @@ export default class AddressForm extends React.Component {
             <CardHeader>Address</CardHeader>
             <CardBody>
                 <FormGroup>
-                    <Label for="address_1">Address(*):</Label>
+                    <Label for="address_1">{translations.address_1}(*):</Label>
                     <Input className={this.hasErrorFor('address_1') ? 'is-invalid' : ''}
-                        placeholder="Address"
+                        placeholder={translations.address_1}
                         type="text"
                         name="address_1"
                         value={this.props.company.address_1}
@@ -47,9 +48,9 @@ export default class AddressForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="address_2">Address 2:</Label>
+                    <Label for="address_2">{translations.address_2}:</Label>
                     <Input className={this.hasErrorFor('address_2') ? 'is-invalid' : ''}
-                        placeholder="Address"
+                        placeholder={translations.address_2}
                         type="text"
                         name="address_2"
                         value={this.props.company.address_2}
@@ -58,9 +59,9 @@ export default class AddressForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="town">Town(*):</Label>
+                    <Label for="town">{translations.town}(*):</Label>
                     <Input className={this.hasErrorFor('town') ? 'is-invalid' : ''}
-                        placeholder="Town"
+                        placeholder={translations.town}
                         type="text"
                         name="town"
                         value={this.props.company.town}
@@ -69,9 +70,9 @@ export default class AddressForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="city">City(*):</Label>
+                    <Label for="city">{translations.city}(*):</Label>
                     <Input className={this.hasErrorFor('city') ? 'is-invalid' : ''}
-                        placeholder="City"
+                        placeholder={translations.city}
                         type="text"
                         name="city"
                         value={this.props.company.city}
@@ -80,9 +81,9 @@ export default class AddressForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="postcode">Postcode(*):</Label>
+                    <Label for="postcode">{translations.postcode}(*):</Label>
                     <Input className={this.hasErrorFor('postcode') ? 'is-invalid' : ''}
-                        placeholder="Postcode"
+                        placeholder={translations.postcode}
                         type="text"
                         name="postcode"
                         value={this.props.company.postcode}
@@ -91,7 +92,7 @@ export default class AddressForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="postcode">Country(*):</Label>
+                    <Label for="postcode">{translations.country}(*):</Label>
                     <CountryDropdown
                         country={this.props.company.country_id}
                         errors={this.props.errors}

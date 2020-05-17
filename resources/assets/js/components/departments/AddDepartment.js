@@ -12,6 +12,7 @@ import {
     InputGroupText
 } from 'reactstrap'
 import axios from 'axios'
+import { translations } from '../common/_icons'
 
 class AddDepartment extends React.Component {
     constructor (props) {
@@ -156,10 +157,10 @@ class AddDepartment extends React.Component {
 
         return (
             <React.Fragment>
-                <Button className="pull-right" color="success" onClick={this.toggle}>Add Department</Button>
+                <Button className="pull-right" color="success" onClick={this.toggle}>{translations.add_department}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add Department
+                        {translations.add_department}
                     </ModalHeader>
                     <ModalBody>
 
@@ -167,7 +168,7 @@ class AddDepartment extends React.Component {
                             {message}
                         </div>}
 
-                        <Label>Name</Label>
+                        <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
@@ -185,8 +186,8 @@ class AddDepartment extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

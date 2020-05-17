@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
+import { translations } from './_icons'
 
 export default function Notes (props) {
     return (
@@ -8,7 +9,7 @@ export default function Notes (props) {
             <CardBody>
                 {Object.prototype.hasOwnProperty.call(props, 'private_notes') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    <Label>Private Notes</Label>
+                    <Label>{translations.private_notes}</Label>
                     <Input
                         value={props.private_notes}
                         type='textarea'
@@ -21,7 +22,7 @@ export default function Notes (props) {
 
                 {Object.prototype.hasOwnProperty.call(props, 'public_notes') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    <Label>Public Notes</Label>
+                    <Label>{translations.public_notes}</Label>
                     <Input
                         value={props.public_notes}
                         type='textarea'
@@ -34,7 +35,7 @@ export default function Notes (props) {
 
                 {Object.prototype.hasOwnProperty.call(props, 'terms') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    <Label>Terms</Label>
+                    <Label>{translations.terms}</Label>
                     <Input
                         value={props.terms}
                         type='textarea'
@@ -47,7 +48,7 @@ export default function Notes (props) {
 
                 {Object.prototype.hasOwnProperty.call(props, 'footer') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    <Label>Footer</Label>
+                    <Label>{translations.footer}</Label>
                     <Input
                         value={props.footer}
                         type='textarea'

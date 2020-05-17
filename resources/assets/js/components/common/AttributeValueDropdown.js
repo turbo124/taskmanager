@@ -48,12 +48,10 @@ export default class AttributeValueDropdown extends Component {
 
     render () {
         let valueList = null
-        if (!this.props.attribute_id || !this.state.values.length) {
+        if (!this.state.values.length) {
             valueList = <option value="">Loading...</option>
         } else {
-            valueList = this.state.values.filter(value => {
-                return value.attribute_id === parseInt(this.props.attribute_id)
-            }).map(value => {
+            valueList = this.state.values.map(value => {
                 return <option key={value.id} value={value.id}>{value.value}</option>
             })
         }
@@ -63,7 +61,7 @@ export default class AttributeValueDropdown extends Component {
 
         return (
             <FormGroup className="mr-2">
-                <Input value={this.props.attribute_value_id} onChange={this.props.handleInputChanges} type="select"
+                <Input multiple value={this.props.attribute_value_id} onChange={this.props.handleInputChanges} type="select"
                     data-id={data_id}
                     name={name} id={name}>
                     <option value="">Select Value</option>

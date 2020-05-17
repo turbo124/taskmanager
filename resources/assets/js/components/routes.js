@@ -29,6 +29,7 @@ import Quotes from './quotes/Quotes'
 import Accounts from './accounts/Settings'
 import Tokens from './tokens/Tokens'
 import Subscriptions from './subscriptions/Subscriptions'
+import Attributes from './attributes/Attributes'
 import TemplateSettings from './accounts/TemplateSettings'
 import CustomFieldSettings from './accounts/CustomFieldSettings'
 import EmailSettings from './accounts/EmailSettings'
@@ -203,6 +204,11 @@ const routes = [
         path: '/subscriptions',
         name: 'Subscriptions',
         component: Subscriptions
+    },
+    {
+        path: '/attributes',
+        name: 'Attributes',
+        component: Attributes
     },
     {
         path: '/tokens',
