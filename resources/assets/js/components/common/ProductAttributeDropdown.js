@@ -38,7 +38,7 @@ export default class ProductAttributeDropdown extends Component {
         axios.get(/api/products/${this.props.product_id}')
             .then((r) => {
                 this.setState({
-                    values: r.data
+                    values: r.data.attributes
                 })
             })
             .catch((e) => {
