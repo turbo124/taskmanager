@@ -17,9 +17,9 @@ const VariationInputs = (props) => {
                                     attribute_values={props.attribute_values}
                                     data_id={idx}
                                     attribute_id={props.variations[idx].attribute_id}
-                                    attribute_value_id={props.variations[idx].attribute_value_id}
+                                    attribute_value_id={props.variations[idx].attribute_values}
                                     handleInputChanges={props.onChange}
-                                    name="attribute_value_id"
+                                    name="attribute_values"
                                     errors={props.errors}
                                 />
                             </FormGroup>

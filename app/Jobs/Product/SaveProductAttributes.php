@@ -16,7 +16,7 @@ class SaveProductAttributes
     use Dispatchable;
 
     protected $data;
-    protected $product;
+    protected Product $product;
 
     /**
      * Create a new job instance.

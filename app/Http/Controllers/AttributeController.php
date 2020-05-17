@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Attribute;
+use App\Filters\AttributeFilter;
 use App\Http\Controllers\Controller;
+use App\Jobs\Attribute\SaveAttributeValues;
 use App\Repositories\AttributeRepository;
+use App\Requests\Attribute\CreateAttributeRequest;
+use App\Requests\Attribute\UpdateAttributeRequest;
+use App\Requests\SearchRequest;
+use App\Transformations\AttributeTransformable;
 
 class AttributeController extends Controller
 {
@@ -19,13 +26,14 @@ class AttributeController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $attributes = $this->attribute_repo->listAttributes();
-        //$attributes = $this->attribute_repo->paginateArrayResults($results->all());
-
+        $attributes = (new AttributeFilter($this->attribute_repo))->filter(
+            $request
+        );
         return response()->json($attributes);
     }
 
@@ -39,12 +47,13 @@ class AttributeController extends Controller
 
     /**
      * @param CreateAttributeRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateAttributeRequest $request)
     {
-        $attribute = $this->attribute_repo->createAttribute($request->except('_token'));
-        return response()->json($attribute);
+        $attribute = $this->attribute_repo->save(new Attribute(), $request->except('values'));
+        SaveAttributeValues::dispatchNow($attribute, $request->input('values'));
+        return response()->json((new AttributeTransformable)->transformAttribute($attribute));
     }
 
     /**
@@ -57,17 +66,16 @@ class AttributeController extends Controller
         $attribute_repo = new AttributeRepository($attribute);
 
         return response()->json(
-        [
-            'attribute' => $attribute,
-            'values'    => $attribute_repo->listAttributeValues()
-        ]
-    );
-      
+            [
+                'attribute' => $attribute,
+                'values'    => $attribute_repo->listAttributeValues()
+            ]
+        );
     }
 
     /**
-     * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id)
     {
@@ -79,15 +87,16 @@ class AttributeController extends Controller
     /**
      * @param UpdateAttributeRequest $request
      * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateAttributeRequest $request, $id)
     {
         $attribute = $this->attribute_repo->findAttributeById($id);
 
         $attribute_repo = new AttributeRepository($attribute);
-        $attribute_repo->updateAttribute($request->all());
-        return response()->json($attribute);
+        $attribute_repo->save($attribute, $request->all());
+        SaveAttributeValues::dispatchNow($attribute, $request->input('values'));
+        return response()->json((new AttributeTransformable)->transformAttribute($attribute));
     }
 
     /**

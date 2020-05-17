@@ -9,6 +9,7 @@ import {
     CardHeader
 } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
+import { translations } from '../common/_icons'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {
@@ -52,7 +53,7 @@ export default class DetailsForm extends React.Component {
             <CardHeader>Details</CardHeader>
             <CardBody>
                 <FormGroup>
-                    <Label for="name">Name(*):</Label>
+                    <Label for="name">{translations.name}(*):</Label>
                     <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                         type="text"
                         placeholder="Name"

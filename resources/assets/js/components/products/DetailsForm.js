@@ -11,6 +11,7 @@ import UserDropdown from '../common/UserDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import CategoryDropdown from '../common/CategoryDropdown'
 import FormBuilder from '../accounts/FormBuilder'
+import { translations } from '../common/_icons'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {
@@ -56,7 +57,7 @@ export default class DetailsForm extends React.Component {
                 <Row form>
                     <Col md={3}>
                         <FormGroup>
-                            <Label for="name">Name(*):</Label>
+                            <Label for="name">{translations.name}(*):</Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                                 type="text"
                                 name="name"
@@ -67,7 +68,7 @@ export default class DetailsForm extends React.Component {
                     </Col>
 
                     <Col md={3}>
-                        <Label for="postcode">Brand:</Label>
+                        <Label for="postcode">{translations.brand}:</Label>
                         <CompanyDropdown
                             name="company_id"
                             company_id={this.props.product.company_id}
@@ -79,7 +80,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={4}>
                         <FormGroup>
-                            <Label for="email">Description:</Label>
+                            <Label for="email">{translations.description}:</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 type="textarea"
                                 name="description"
@@ -92,7 +93,7 @@ export default class DetailsForm extends React.Component {
 
                 <Row form>
                     <Col md={3}>
-                        <Label for="postcode">Category:</Label>
+                        <Label for="postcode">{translations.category}:</Label>
                         <CategoryDropdown
                             multiple={true}
                             name="category"
@@ -105,7 +106,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={3}>
                         <FormGroup>
-                            <Label for="postcode">Users:</Label>
+                            <Label for="postcode">{translations.assigned_user}:</Label>
                             <UserDropdown
                                 user_id={this.props.product.assigned_user_id}
                                 name="assigned_user_id"
@@ -117,7 +118,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={4}>
                         <FormGroup>
-                            <Label for="postcode">Notes:</Label>
+                            <Label for="postcode">{translations.notes}:</Label>
                             <Input
                                 value={this.props.product.notes}
                                 type='textarea'
@@ -144,7 +145,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={1}>
                         <FormGroup>
-                            <Label for="email">Quantity:</Label>
+                            <Label for="email">{translations.quantity}:</Label>
                             <Input className={this.hasErrorFor('quantity') ? 'is-invalid' : ''}
                                 type="text"
                                 name="quantity"
@@ -156,7 +157,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={2}>
                         <FormGroup>
-                            <Label for="price">Price(*):</Label>
+                            <Label for="price">{translations.price}(*):</Label>
                             <Input className={this.hasErrorFor('price') ? 'is-invalid' : ''}
                                 type="text"
                                 name="price"
@@ -168,7 +169,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={2}>
                         <FormGroup>
-                            <Label for="price">Cost:</Label>
+                            <Label for="price">{translations.cost}:</Label>
                             <Input className={this.hasErrorFor('cost') ? 'is-invalid' : ''}
                                 type="text"
                                 name="cost"
@@ -182,7 +183,7 @@ export default class DetailsForm extends React.Component {
                         <Label check>
                             <Input value={this.props.product.is_featured} onChange={this.props.handleCheck}
                                 type="checkbox"/>
-                            Is Featured
+                            {translations.is_featured}
                         </Label>
                     </FormGroup>
                 </Row>

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Card, CardHeader, CardBody } from 'reactstrap'
 import FileUploads from '../attachments/FileUploads'
+import { translations } from '../common/_icons'
 
 export default function Documents (props) {
     return (
         <Card>
-            <CardHeader>Documents</CardHeader>
+            <CardHeader>{translations.documents}</CardHeader>
             <CardBody>
                 <FileUploads entity_type="Credit" entity={props.credit}
                     user_id={props.credit.user_id}/>

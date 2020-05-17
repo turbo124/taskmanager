@@ -10,6 +10,7 @@ import {
 import Datepicker from '../common/Datepicker'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
+import { translations } from '../common/_icons'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -35,10 +36,10 @@ export default class Details extends React.Component {
 
     render () {
         return (<Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.details}</CardHeader>
             <CardBody>
                 <FormGroup className="mb-3">
-                    <Label>Amount</Label>
+                    <Label>{translations.amount}(*):</Label>
                     <Input value={this.props.payment.amount} className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
                         type="text" name="amount"
                         onChange={this.props.handleInput}/>
@@ -46,14 +47,14 @@ export default class Details extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mr-2">
-                    <Label for="date">Date(*):</Label>
+                    <Label for="date">{translations.date}(*):</Label>
                     <Datepicker name="date" date={this.props.payment.date} handleInput={this.props.handleInput}
                         className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('date')}
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Transaction Reference</Label>
+                    <Label>{translations.transaction_reference}</Label>
                     <Input className={this.hasErrorFor('transaction_reference') ? 'is-invalid' : ''} type="text"
                         value={this.props.payment.transaction_reference}
                         name="transaction_reference"
@@ -62,7 +63,7 @@ export default class Details extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Payment Type</Label>
+                    <Label>{translations.payment_type}</Label>
                     <PaymentTypeDropdown
                         errors={this.props.errors}
                         name="type_id"
@@ -74,7 +75,7 @@ export default class Details extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mb-3">
-                    <Label>Customer</Label>
+                    <Label>{translations.customer}</Label>
                     <CustomerDropdown
                         disabled={true}
                         customer={this.props.payment.customer_id}
@@ -89,7 +90,7 @@ export default class Details extends React.Component {
                 <FormGroup check>
                     <Label check>
                         <Input value={this.props.payment.send_email} onChange={this.props.handleCheck} type="checkbox"/>
-                            Send Email
+                        {translations.send_email}
                     </Label>
                 </FormGroup>
             </CardBody>

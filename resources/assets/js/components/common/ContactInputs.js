@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
+import { translations } from './_icons'
 
 const ContactInputs = (props) => {
     return (
@@ -23,7 +24,7 @@ const ContactInputs = (props) => {
 
                         <Col md={5}>
                             <FormGroup>
-                                <Label for="exampleEmail">First Name</Label>
+                                <Label for="exampleEmail">{translations.first_name}</Label>
                                 <Input type="text"
                                     onChange={props.handleChange}
                                     data-id={idx}
@@ -34,7 +35,7 @@ const ContactInputs = (props) => {
                         </Col>
                         <Col md={5}>
                             <FormGroup>
-                                <Label for="examplePassword">Last Name</Label>
+                                <Label for="examplePassword">{translations.last_name}</Label>
                                 <Input type="text"
                                     onChange={props.handleChange}
                                     data-id={idx}
@@ -48,7 +49,7 @@ const ContactInputs = (props) => {
                     <Row form>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="exampleEmail">Email</Label>
+                                <Label for="exampleEmail">{translations.email}</Label>
                                 <Input type="text"
                                     onChange={props.handleChange}
                                     data-id={idx}
@@ -59,7 +60,7 @@ const ContactInputs = (props) => {
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="examplePassword">Phone</Label>
+                                <Label for="examplePassword">{translations.phone_number}</Label>
                                 <Input type="text"
                                     onChange={props.handleChange}
                                     data-id={idx}
@@ -71,7 +72,7 @@ const ContactInputs = (props) => {
 
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="examplePassword">Password</Label>
+                                <Label for="examplePassword">{translations.password}</Label>
                                 <Input type="password"
                                     onChange={props.handleChange}
                                     data-id={idx}
@@ -83,7 +84,7 @@ const ContactInputs = (props) => {
                     </Row>
 
                     <Button color="danger" size="lg" block onClick={() => props.removeContact(idx)}>
-                        Remove Contact
+                        {translations.remove}
                     </Button>
                 </div>
             )

@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
 import DropdownDate from '../common/DropdownDate'
+import { translations } from '../common/_icons'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {
@@ -76,14 +77,14 @@ export default class DetailsForm extends React.Component {
             formFieldsRows={customFields}
         /> : null
         return (<Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.name}</CardHeader>
             <CardBody>
                 <Row form>
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="username">Username(*):</Label>
+                            <Label for="username">{translations.username}(*):</Label>
                             <Input className={this.hasErrorFor('username') ? 'is-invalid' : ''}
-                                placeholder="Username"
+                                placeholder={translations.username}
                                 type="text"
                                 name="username"
                                 value={this.props.user.username}
@@ -99,9 +100,9 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="email">Email(*):</Label>
+                            <Label for="email">{translations.email}(*):</Label>
                             <Input className={this.hasErrorFor('email') ? 'is-invalid' : ''}
-                                placeholder="Email"
+                                placeholder={translations.email}
                                 type="email"
                                 name="email"
                                 value={this.props.user.email}
@@ -114,12 +115,12 @@ export default class DetailsForm extends React.Component {
                 <Row form>
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="first_name">First Name(*):</Label>
+                            <Label for="first_name">{translations.first_name}(*):</Label>
                             <Input className={this.hasErrorFor('first_name') ? 'is-invalid' : ''}
                                 type="text"
                                 name="first_name"
                                 value={this.props.user.first_name}
-                                placeholder="First Name"
+                                placeholder={translations.first_name}
                                 onChange={this.props.handleInput.bind(this)}/>
                             {this.renderErrorFor('first_name')}
                         </FormGroup>
@@ -127,11 +128,11 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="last_name">Last Name(*):</Label>
+                            <Label for="last_name">{translations.last_name}(*):</Label>
                             <Input className={this.hasErrorFor('last_name') ? 'is-invalid' : ''}
                                 type="text"
                                 value={this.props.user.last_name}
-                                placeholder="Last Name"
+                                placeholder={translations.last_name}
                                 name="last_name"
                                 onChange={this.props.handleInput.bind(this)}/>
                             {this.renderErrorFor('last_name')}
@@ -153,7 +154,7 @@ export default class DetailsForm extends React.Component {
                 <Row form>
                     <Col md={4}>
                         <FormGroup>
-                            <Label for="phone_number">Phone Number:</Label>
+                            <Label for="phone_number">{translations.phone_number}:</Label>
                             <Input className={this.hasErrorFor('phone_number') ? 'is-invalid' : ''}
                                 value={this.props.user.phone_number}
                                 type="tel"
@@ -165,10 +166,10 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={4}>
                         <FormGroup>
-                            <Label for="job_description">Job Description:</Label>
+                            <Label for="job_description">{translations.job_description}:</Label>
                             <Input className={this.hasErrorFor('job_description') ? 'is-invalid' : ''}
                                 type="text"
-                                placeholder="Job Description"
+                                placeholder={translations.job_description}
                                 value={this.props.user.job_description}
                                 name="job_description"
                                 onChange={this.props.handleInput.bind(this)}/>
@@ -178,7 +179,7 @@ export default class DetailsForm extends React.Component {
 
                     <Col md={4}>
                         <FormGroup>
-                            <Label for="password">Password:</Label>
+                            <Label for="password">{translations.password}:</Label>
                             <Input className={this.hasErrorFor('password') ? 'is-invalid' : ''}
                                 value={this.props.user.password}
                                 type="password"

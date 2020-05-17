@@ -118,47 +118,47 @@ class UpdateRecurringQuote extends Component {
         const form = (
             <div className={inlineClass}>
                 <FormGroup>
-                    <Label for="start_date">Start Date(*):</Label>
+                    <Label for="start_date">{translations.start_date}(*):</Label>
                     <Datepicker name="start_date" date={this.state.start_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('start_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="end_date">End Date(*):</Label>
+                    <Label for="end_date">{translations.end_date}(*):</Label>
                     <Datepicker name="end_date" date={this.state.end_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('end_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="recurring_due_date">Recurring Due Date(*):</Label>
+                    <Label for="recurring_due_date">{translations.due_date}(*):</Label>
                     <Datepicker name="recurring_due_date" date={this.state.recurring_due_date} handleInput={this.handleInput}
                         className={this.hasErrorFor('recurring_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('recurring_due_date')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Frequency(in days)</Label>
+                    <Label>{translations.frequency}</Label>
                     <Input
                         value={this.state.frequency}
                         type='select'
                         name='frequency'
                         id='frequency'
-                        placeholder="Days"
+                        placeholder={translations.frequency}
                         onChange={this.handleInput}
                     />
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="public_notes">Public Notes(*):</Label>
+                    <Label for="public_notes">{translations.public_notes}:</Label>
                     <Input value={this.state.public_notes} type="text" id="public_notes" name="public_notes"
                         onChange={this.handleInput}/>
                     {this.renderErrorFor('public_notes')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="private_notes">Private Notes(*):</Label>
+                    <Label for="private_notes">{translations.private_notes}(*):</Label>
                     <Input value={this.state.private_notes} type="text" id="private_notes" name="private_notes"
                         onChange={this.handleInput}/>
                     {this.renderErrorFor('private_notes')}

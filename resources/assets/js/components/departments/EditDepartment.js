@@ -14,6 +14,7 @@ import {
     InputGroup
 } from 'reactstrap'
 import axios from 'axios'
+import { translations } from '../common/_icons'
 
 class EditDepartment extends React.Component {
     constructor (props) {
@@ -159,13 +160,13 @@ class EditDepartment extends React.Component {
 
         return (
             <React.Fragment>
-                <Button className="ml-2" color="success" onClick={this.toggle}>Update</Button>
+                <Button className="ml-2" color="success" onClick={this.toggle}>{translations.edit_department}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Edit Department
+                        {translations.edit_department}
                     </ModalHeader>
                     <ModalBody>
-                        <Label>Name</Label>
+                        <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
@@ -185,8 +186,8 @@ class EditDepartment extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Update</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

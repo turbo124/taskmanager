@@ -12,6 +12,7 @@ import axios from 'axios'
 import DesignDropdown from '../common/DesignDropdown'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { translations } from '../common/_icons'
 
 class Designs extends React.Component {
     constructor (props) {
@@ -240,7 +241,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('1') }}>
-                            Settings
+                            {translations.settings}
                         </NavLink>
                     </NavItem>
 
@@ -248,7 +249,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('2') }}>
-                            Preview
+                            {translations.preview}
                         </NavLink>
                     </NavItem>
 
@@ -256,7 +257,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('3') }}>
-                            Header
+                            {translations.header}
                         </NavLink>
                     </NavItem>
 
@@ -264,7 +265,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('4') }}>
-                            Body
+                            {translations.body}
                         </NavLink>
                     </NavItem>
 
@@ -272,7 +273,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '5' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('5') }}>
-                            Footer
+                            {translations.footer}
                         </NavLink>
                     </NavItem>
 
@@ -280,7 +281,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('6') }}>
-                            Product
+                            {translations.product}
                         </NavLink>
                     </NavItem>
 
@@ -288,7 +289,7 @@ class Designs extends React.Component {
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
                             onClick={() => { this.toggleTabs('6') }}>
-                            Task
+                            {translations.task}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -310,7 +311,7 @@ class Designs extends React.Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Preview</CardHeader>
+                            <CardHeader>{translations.preview}</CardHeader>
                             <CardBody>
                                 <div className="embed-responsive embed-responsive-21by9">
                                     <iframe className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
@@ -321,11 +322,11 @@ class Designs extends React.Component {
 
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>Header</CardHeader>
+                            <CardHeader>{translations.header}</CardHeader>
                             <CardBody>
 
                                 <FormGroup>
-                                    <Label for="name">Header <span className="text-danger">*</span></Label>
+                                    <Label for="name">{translations.header} <span className="text-danger">*</span></Label>
                                     <CKEditor
                                         data={this.state.design.header}
                                         editor={ClassicEditor}
@@ -354,10 +355,10 @@ class Designs extends React.Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>Body</CardHeader>
+                            <CardHeader>{translations.body}</CardHeader>
                             <CardBody>
                                 <FormGroup>
-                                    <Label for="name">Body <span className="text-danger">*</span></Label>
+                                    <Label for="name">{translations.body} <span className="text-danger">*</span></Label>
                                     <CKEditor
                                         data={this.state.design.body}
                                         editor={ClassicEditor}
@@ -386,10 +387,10 @@ class Designs extends React.Component {
 
                     <TabPane tabId="5">
                         <Card>
-                            <CardHeader>Footer</CardHeader>
+                            <CardHeader>{translations.footer}</CardHeader>
                             <CardBody>
                                 <FormGroup>
-                                    <Label for="name">Footer <span className="text-danger">*</span></Label>
+                                    <Label for="name">{translations.footer} <span className="text-danger">*</span></Label>
                                     <CKEditor
                                         data={this.state.design.footer}
                                         editor={ClassicEditor}
@@ -418,14 +419,14 @@ class Designs extends React.Component {
 
                     <TabPane tabId="6">
                         <Card>
-                            <CardHeader>Product</CardHeader>
+                            <CardHeader>{translations.product}</CardHeader>
                             <CardBody />
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="7">
                         <Card>
-                            <CardHeader>Task</CardHeader>
+                            <CardHeader>{translations.task}</CardHeader>
                             <CardBody />
                         </Card>
                     </TabPane>

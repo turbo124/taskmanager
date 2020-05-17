@@ -6,17 +6,20 @@ export default class ProductAttributeDropdown extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            values: []
+            values: [],
+            product_id: 0
         }
 
         this.getValues = this.getValues.bind(this)
     }
 
-    componentDidMount () {
-        if (!this.props.values || !this.props.values.length) {
-            this.getValues()
-        } else {
-            this.setState({ values: this.props.values })
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.product_id !== this.state.product_id) {
+            this.setState({ product_id: nextProps.product_id, values: [] }, () => {
+                this.getValues()
+            })
+
+            this.setState({ product_id: nextProps.product_id })
         }
     }
 
@@ -35,7 +38,7 @@ export default class ProductAttributeDropdown extends Component {
     }
 
     getValues () {
-        axios.get(/api/products/${this.props.product_id}')
+        axios.get(`/api/products/${this.state.product_id}`)
             .then((r) => {
                 this.setState({
                     values: r.data.attributes
@@ -52,8 +55,9 @@ export default class ProductAttributeDropdown extends Component {
             valueList = <option value="">Loading...</option>
         } else {
             valueList = this.state.values.map(value => {
-                //Array.prototype.map.call(value.values, function(item) { return item.name; }).join(",");
-                return <option data-price={value.price} key={value.id} value={value.id}>{value.value}</option>
+                console.log('values', value.values)
+                const attribute_values = Array.prototype.map.call(value.values, function (item) { return item.value }).join(',')
+                return <option data-price={value.price} key={value.id} value={value.id}>{attribute_values} {value.price}</option>
             })
         }
 

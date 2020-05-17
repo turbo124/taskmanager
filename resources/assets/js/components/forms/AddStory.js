@@ -130,14 +130,14 @@ class AddStory extends React.Component {
 
                     <ModalBody>
                         <FormGroup>
-                            <Label for="title">Project Title(*):</Label>
+                            <Label for="title">{translations.title}(*):</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
                                 name="title" onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('title')}
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Description(*):</Label>
+                            <Label for="description">{translations.description}(*):</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
                                 value={this.state.description} name="description"
                                 onChange={this.handleInput.bind(this)}/>
@@ -145,7 +145,7 @@ class AddStory extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Customer(*):</Label>
+                            <Label for="description">{translations.customer}(*):</Label>
                             <CustomerDropdown
                                 customer={this.state.customer_id}
                                 errors={this.state.errors}
@@ -156,7 +156,7 @@ class AddStory extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="postcode">Assigned User:</Label>
+                            <Label for="postcode">{translations.assigned_user}:</Label>
                             <UserDropdown
                                 user_id={this.state.assigned_user_id}
                                 name="assigned_user_id"

@@ -28,7 +28,7 @@ class LineItemEditor extends Component {
 
     componentDidMount () {
         this.loadProducts()
-        //this.loadAttributes()
+        // this.loadAttributes()
         this.loadTaxRates()
         this.loadExpenses()
     }
@@ -99,9 +99,8 @@ class LineItemEditor extends Component {
         }
 
         if (e.target.name === 'attribute_id') {
-            //const index = this.state.attributes.findIndex(attribute => attribute.id === parseInt(e.target.value))
-            //const attribute = this.state.attributes[index]
-            rows[row].unit_price = e.target.dataset.price
+            const price = e.target.options[e.target.selectedIndex].dataset.price
+            rows[row].unit_price = price
             rows[row].attribute_id = e.target.value
             this.props.update(rows, row)
 

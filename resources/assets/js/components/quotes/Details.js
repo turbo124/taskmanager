@@ -6,6 +6,7 @@ import CompanyDropdown from '../common/CompanyDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import AddRecurringQuote from '../recurringQuotes/AddRecurringQuote'
 import Datepicker from '../common/Datepicker'
+import { translations } from '../common/_icons'
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -73,32 +74,32 @@ export default class Details extends Component {
                 </Card>
 
                 <Card>
-                    <CardHeader>Details</CardHeader>
+                    <CardHeader>{translations.details}</CardHeader>
                     <CardBody>
 
                         <h2>{this.props.customerName}</h2>
                         <Address address={this.props.address}/>
 
                         <FormGroup>
-                            <Label for="date">Quote Date(*):</Label>
+                            <Label for="date">{translations.date}(*):</Label>
                             <Datepicker name="date" date={this.props.quote.date} handleInput={this.props.handleInput}
                                 className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
                             {this.renderErrorFor('due_date')}
                         </FormGroup>
                         <FormGroup>
-                            <Label for="due_date">Expiry Date(*):</Label>
+                            <Label for="due_date">{translations.expiry_date}(*):</Label>
                             <Datepicker name="due_date" date={this.props.quote.due_date} handleInput={this.props.handleInput}
                                 className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                             {this.renderErrorFor('due_date')}
                         </FormGroup>
                         <FormGroup>
-                            <Label for="po_number">PO Number(*):</Label>
+                            <Label for="po_number">{translations.po_number}(*):</Label>
                             <Input value={this.props.quote.po_number} type="text" id="po_number" name="po_number"
                                 onChange={this.props.handleInput}/>
                             {this.renderErrorFor('po_number')}
                         </FormGroup>
                         <FormGroup>
-                            <Label>Partial</Label>
+                            <Label>{translations.partial}</Label>
                             <Input
                                 value={this.props.quote.partial}
                                 type='text'
@@ -109,7 +110,7 @@ export default class Details extends Component {
                         </FormGroup>
 
                         <FormGroup className={this.props.quote.has_partial === true ? '' : 'd-none'}>
-                            <Label>Partial Due Date</Label>
+                            <Label>{translations.partial_due_date}</Label>
                             <Datepicker name="partial_due_date" date={this.props.quote.partial_due_date} handleInput={this.props.handleInput}
                                 className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         </FormGroup>

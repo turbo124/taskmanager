@@ -212,7 +212,7 @@ class EditProject extends React.Component {
                         {errorMessage}
 
                         <FormGroup>
-                            <Label for="title">Story Title(*):</Label>
+                            <Label for="title">{translations.title}(*):</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 type="text"
                                 value={this.state.title}
@@ -223,7 +223,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Description(*):</Label>
+                            <Label for="description">{translations.description}(*):</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 type="textarea"
                                 value={this.state.description}
@@ -234,7 +234,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Customer(*):</Label>
+                            <Label for="description">{translations.customer}(*):</Label>
                             <CustomerDropdown
                                 customer={this.state.customer_id}
                                 errors={this.state.errors}
@@ -245,7 +245,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="postcode">Assigned User:</Label>
+                            <Label for="postcode">{translations.assigned_user}:</Label>
                             <UserDropdown
                                 user_id={this.state.assigned_user_id}
                                 name="assigned_user_id"
@@ -255,7 +255,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="postcode">Notes:</Label>
+                            <Label for="postcode">{translations.notes}:</Label>
                             <Input
                                 value={this.state.notes}
                                 type='textarea'

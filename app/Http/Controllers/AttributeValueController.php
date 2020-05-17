@@ -61,7 +61,8 @@ class AttributeValueController extends Controller
     {
         $attribute = $this->attribute_repo->findAttributeById($id);
 
-        $attribute_value = new AttributeValue($request->all());
+        $attribute_value = new AttributeValue();
+        $attribute_value->fill($request->all());
         $attribute_value_repo = new AttributeValueRepository($attribute_value);
 
         $attribute_value_repo->associateToAttribute($attribute);

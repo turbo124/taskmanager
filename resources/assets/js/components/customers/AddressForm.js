@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
+import { translations } from '../common/_icons'
 
 export default function AddressForm (props) {
     const hasErrorFor = (field) => {
@@ -23,38 +24,38 @@ export default function AddressForm (props) {
     return (
         <div>
             <FormGroup>
-                <Label for="address"> Address 1 </Label>
+                <Label for="address"> {translations.address_1} </Label>
                 <Input className={hasErrorFor('address_1') ? 'is-invalid' : ''} type="text"
                     id="address_1" value={props.customer.address_1}
                     onChange={props.onChange} name="address_1"
-                    placeholder="Enter customer's address"/>
+                    placeholder={translations.address_1}/>
                 {renderErrorFor('address_1')}
             </FormGroup>
 
             <FormGroup>
-                <Label for="address"> Address 2 </Label>
+                <Label for="address"> {translations.address_2} </Label>
                 <Input className={hasErrorFor('address_2') ? 'is-invalid' : ''} type="text"
                     id="address_2" value={props.customer.address_2}
                     onChange={props.onChange} name="address_2"
-                    placeholder="Enter customer's address"/>
+                    placeholder={translations.address_2}/>
                 {renderErrorFor('address_2')}
             </FormGroup>
 
             <FormGroup>
-                <Label for="postcode"> Postcode </Label>
+                <Label for="postcode"> {translations.postcode} </Label>
                 <Input className={hasErrorFor('zip') ? 'is-invalid' : ''} type="text" id="zip"
                     value={props.customer.zip}
                     onChange={props.onChange} name="zip"
-                    placeholder="Enter customer's postcode"/>
+                    placeholder={translations.postcode}/>
                 {renderErrorFor('zip')}
             </FormGroup>
 
             <FormGroup>
-                <Label htmlFor="city"> City </Label>
+                <Label htmlFor="city"> {translations.city} </Label>
                 <Input className={hasErrorFor('city') ? 'is-invalid' : ''} type="text" id="city"
                     value={props.customer.city}
                     onChange={props.onChange} name="city"
-                    placeholder="Enter customer's city"/>
+                    placeholder={translations.city}/>
                 {renderErrorFor('city')}
             </FormGroup>
 

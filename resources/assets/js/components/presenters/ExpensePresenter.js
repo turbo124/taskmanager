@@ -28,7 +28,7 @@ export default function ExpensePresenter (props) {
                 amount={entity.amount}/>}</td>
         case 'expense_date':
         case 'payment_date': {
-            return  <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
 
         case 'status':

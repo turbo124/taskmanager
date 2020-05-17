@@ -162,17 +162,17 @@ class LineItem extends Component {
                         </FormGroup>
                     </Col>
 
-                     {this.props.line_type === 1 &&
+                    {this.props.line_type === 1 &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
-                            <Label>Product</Label>
+                            <Label>Product Variation</Label>
                             <ProductAttributeDropdown
                                 dataId={index}
                                 renderErrorFor={this.renderErrorFor}
                                 name="attribute_id"
                                 handleInputChanges={this.props.onChange}
-                                product={lineItem.attribute_id}
-                                products={this.props.attributes}
+                                attribute_value_id={lineItem.attribute_id}
+                                product_id={lineItem.product_id}
                             />
                         </FormGroup>
                     </Col>

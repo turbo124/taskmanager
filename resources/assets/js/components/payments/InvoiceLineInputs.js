@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
 import InvoiceDropdown from '../common/InvoiceDropdown'
+import { translations } from '../common/_icons'
 
 const InvoiceLineInputs = (props) => {
     return (
@@ -10,7 +11,7 @@ const InvoiceLineInputs = (props) => {
                     <Row form>
                         <Col md={6}>
                             <FormGroup>
-                                <Label for="exampleEmail">Invoice</Label>
+                                <Label for="exampleEmail">{translations.invoice}</Label>
                                 <InvoiceDropdown
                                     invoices={props.invoices}
                                     data_id={idx}
@@ -24,7 +25,7 @@ const InvoiceLineInputs = (props) => {
                         </Col>
                         <Col md={6}>
                             <FormGroup>
-                                <Label for="examplePassword">Amount</Label>
+                                <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
                                     data-id={idx}
                                     onChange={props.onChange}
@@ -36,7 +37,7 @@ const InvoiceLineInputs = (props) => {
                     </Row>
 
                     <Button color="danger" onClick={() => props.removeLine(idx)}>
-                        Remove
+                        {translations.remove}
                     </Button>
                 </div>
             )

@@ -286,6 +286,11 @@ const products = {
             name: 'Categories',
             url: '/categories',
             icon: 'fa fa-building'
+        },
+        {
+            name: 'Attributes',
+            url: '/attributes',
+            icon: 'fa fa-building'
         }
     ]
 }

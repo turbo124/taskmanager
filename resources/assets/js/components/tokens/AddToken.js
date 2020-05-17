@@ -91,7 +91,7 @@ export default class AddToken extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name">Name <span className="text-danger">*</span></Label>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
                                 id="name" value={this.state.name} placeholder="Name"
                                 onChange={this.handleInput.bind(this)}/>

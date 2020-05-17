@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
+import { translations } from '../common/_icons'
 
 export default class AddSubscription extends React.Component {
     constructor (props) {
@@ -10,6 +11,7 @@ export default class AddSubscription extends React.Component {
             modal: false,
             name: '',
             target_url: '',
+            event_id: '',
             loading: false,
             errors: []
         }
@@ -50,7 +52,7 @@ export default class AddSubscription extends React.Component {
         axios.post('/api/subscriptions', {
             name: this.state.name,
             target_url: this.state.target_url,
-            event_id: 1
+            event_id: this.state.event_id
         })
             .then((response) => {
                 const newUser = response.data
@@ -90,7 +92,7 @@ export default class AddSubscription extends React.Component {
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add Subscription
+                        {translations.add_subscription}
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -135,8 +137,8 @@ export default class AddSubscription extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

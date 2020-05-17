@@ -13,6 +13,7 @@ import {
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import Datepicker from '../common/Datepicker'
+import { translations } from '../common/_icons'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {
@@ -90,7 +91,7 @@ export default class SettingsForm extends React.Component {
                     <Row form>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="exampleEmail">Payment Type</Label>
+                                <Label for="exampleEmail">{translations.payment_type}</Label>
                                 <PaymentTypeDropdown payment_type={this.props.expense.payment_type_id}
                                     handleInputChanges={this.props.handleInput}
                                     name="payment_type_id"/>
@@ -98,14 +99,14 @@ export default class SettingsForm extends React.Component {
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="examplePassword">Date</Label>
+                                <Label for="examplePassword">{translations.date}</Label>
                                 <Datepicker className="form-control" name="payment_date" date={this.props.expense.payment_date}
                                     handleInput={this.props.handleInput}/>
                             </FormGroup>
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="examplePassword">Transaction Reference</Label>
+                                <Label for="examplePassword">{translations.transaction_reference}</Label>
                                 <Input value={this.props.expense.transaction_reference} type="text"
                                     name="transaction_reference"
                                     onChange={this.props.handleInput} id="transaction_reference"

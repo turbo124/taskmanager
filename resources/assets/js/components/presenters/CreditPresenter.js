@@ -1,7 +1,7 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
-import FormatDate from "../common/FormatDate";
+import FormatDate from '../common/FormatDate'
 
 export default function CreditPresenter (props) {
     const colors = {
