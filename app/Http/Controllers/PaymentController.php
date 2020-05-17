@@ -207,6 +207,11 @@ class PaymentController extends Controller
      */
     public function completePayment(Request $request)
     {
+        $ids = $request->ids;
+        if($request->is_order === true) {
+            // order to invoice
+        }
+
         $customer = Customer::find($request->customer_id);
         $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
         $payment->customer_id = $customer->id;
@@ -218,7 +223,7 @@ class PaymentController extends Controller
         $payment->transaction_reference = $request->payment_method;
         $payment->save();
 
-        $this->attachInvoices($customer, $payment, $request->ids);
+        $this->attachInvoices($customer, $payment, $ids);
 
         event(new PaymentWasCreated($payment, $payment->account));
 
