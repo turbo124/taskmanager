@@ -208,8 +208,10 @@ class PaymentController extends Controller
     public function completePayment(Request $request)
     {
         $ids = $request->ids;
-        if($request->is_order === true) {
+        if(!empty($request->order_id) && $request->order_id !== 'null') {
             // order to invoice
+            $order = Order::where('order_id', '=', $request->order_id);
+            $order->service()->dispatch();
         }
 
         $customer = Customer::find($request->customer_id);
