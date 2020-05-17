@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Input, Col, Row, FormGroup, Label } from 'reactstrap'
+import ProductAttributeDropdown from '../common/ProductAttributeDropdown'
 import ProductDropdown from '../common/ProductDropdown'
 import TaskDropdown from '../common/TaskDropdown'
 import ExpenseDropdown from '../common/ExpenseDropdown'
@@ -160,6 +161,22 @@ class LineItem extends Component {
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
+
+                     {this.props.line_type === 1 &&
+                    <Col md={3} data-id={index}>
+                        <FormGroup>
+                            <Label>Product</Label>
+                            <ProductAttributeDropdown
+                                dataId={index}
+                                renderErrorFor={this.renderErrorFor}
+                                name="attribute_id"
+                                handleInputChanges={this.props.onChange}
+                                product={lineItem.attribute_id}
+                                products={this.props.attributes}
+                            />
+                        </FormGroup>
+                    </Col>
+                    }
 
                     <Col md={2} data-id={index}>
                         <Button color="danger" onClick={(event) => {
