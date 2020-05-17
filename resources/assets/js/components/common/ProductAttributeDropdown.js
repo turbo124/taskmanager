@@ -56,7 +56,7 @@ export default class ProductAttributeDropdown extends Component {
             })
         }
 
-        const name = this.props.name && this.props.name ? this.props.name : 'attribute_value_id'
+        const name = this.props.name && this.props.name ? this.props.name : 'attribute_id'
         const data_id = this.props.data_id ? this.props.data_id : 0
 
         return (
