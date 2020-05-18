@@ -8,6 +8,35 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vouchers
 {
+    public function create(int $amount = 1)
+    {
+        if ($amount < 1) {
+            return [];
+        }
+
+        $options = [
+            'metadata'   => $this->config->getMetadata(),
+            'starts_at'  => $this->config->getStartTime(),
+            'expires_at' => $this->config->getExpireTime(),
+        ];
+        $entities = $this->config->getEntities();
+        $vouchers = [];
+        // Ensure nothing is committed to the database if anything fails.
+        DB::transaction(function () use ($amount, $options, $entities, &$vouchers) {
+            foreach ($this->batch($amount) as $code) {
+                $voucher = $this->vouchers()->create(compact('code') + $options);
+                if (!empty($entities)) {
+                    $voucher->addEntities(...$entities);
+                }
+
+                $vouchers[] = $voucher;
+            }
+        });
+
+        $this->reset();
+
+        return $amount === 1 ? reset($vouchers) : $vouchers;
+    }
 
     /**
      * Whether voucher has prefix, optionally specifying a separator different from config.
