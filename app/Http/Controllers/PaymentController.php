@@ -211,6 +211,13 @@ class PaymentController extends Controller
      */
     public function completePayment(Request $request)
     {
+        $ids = $request->ids;
+        if(!empty($request->order_id) && $request->order_id !== 'null') {
+            // order to invoice
+            $order = Order::where('order_id', '=', $request->order_id);
+            $order->service()->dispatch();
+        }
+
         $customer = Customer::find($request->customer_id);
         $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
         $payment->customer_id = $customer->id;
@@ -233,7 +240,7 @@ class PaymentController extends Controller
             Log::emergency('invoice255 ' . $invoice->total);
             $ids = $invoice->id;
         }
-
+      
         $this->attachInvoices($customer, $payment, $ids);
 
         event(new PaymentWasCreated($payment, $payment->account));
