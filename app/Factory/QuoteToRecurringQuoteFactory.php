@@ -5,14 +5,23 @@ namespace App\Factory;
 use App\Quote;
 use App\RecurringQuote;
 
+/**
+ * Class QuoteToRecurringQuoteFactory
+ * @package App\Factory
+ */
 class QuoteToRecurringQuoteFactory
 {
+    /**
+     * @param Quote $quote
+     * @return RecurringQuote
+     */
     public static function create(Quote $quote): RecurringQuote
     {
         $recurring_invoice = new RecurringQuote;
         $recurring_invoice->status_id = RecurringQuote::STATUS_DRAFT;
         $recurring_invoice->discount_total = $quote->discount_total;
         $recurring_invoice->tax_total = $quote->tax_total;
+        $recurring_invoice->tax_rate = $quote->tax_rate;
         $recurring_invoice->number = '';
         $recurring_invoice->is_amount_discount = $quote->is_amount_discount;
         $recurring_invoice->po_number = $quote->po_number;

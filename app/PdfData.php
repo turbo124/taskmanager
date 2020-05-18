@@ -4,6 +4,10 @@ namespace App;
 
 use App\Utils\Number;
 
+/**
+ * Class PdfData
+ * @package App
+ */
 class PdfData
 {
     private $labels;
@@ -129,19 +133,6 @@ class PdfData
         }
 
         return $new_array[0]->type;
-    }
-
-    private function makeCustomFieldKeyValuePair($entity, $field, $value)
-    {
-        if ($this->findCustomType($entity, $field) == 'date') {
-            $value = date('d-m-Y', strtotime($value));
-        }
-
-        if (!$value) {
-            $value = '';
-        }
-
-        return ['value' => $value, 'field' => $this->makeCustomField($entity, $field)];
     }
 
     private function makeCustomField($entity, $field): string
@@ -664,7 +655,6 @@ class PdfData
 
         $table_row .= '</tr>';
 
-
         foreach ($this->line_items as $key => $item) {
             $tmp = strtr($table_row, $item);
             $tmp = strtr($tmp, $values);
@@ -699,9 +689,19 @@ class PdfData
         foreach ($entity->line_items as $key => $item) {
             $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
 
-            if (is_numeric($item->product_id)) {
+            if (is_numeric($item->product_id) && $item->type_id === 1) {
                 $product = Product::find($item->product_id);
                 $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+
+                if (!empty($item->attribute_id)) {
+                    $product_attribute = ProductAttribute::find($item->attribute_id);
+
+                    $product_attribute_values = array_column($product_attribute->attributesValues->toArray(), 'value');
+                    $this->line_items[$key][$table_type . '.product_key'] .= ' (' . implode(
+                            ',',
+                            $product_attribute_values
+                        ) . ')';
+                }
             }
 
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
@@ -781,10 +781,6 @@ class PdfData
     function getLabels()
     {
         return $this->labels;
-    }
-
-    public function setDesignHtml()
-    {
     }
 
     /**

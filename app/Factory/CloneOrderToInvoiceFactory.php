@@ -29,6 +29,7 @@ class CloneOrderToInvoiceFactory
         $invoice->order_id = $order->id;
         $invoice->task_id = $order->task_id;
         $invoice->discount_total = $order->discount_total;
+        $invoice->tax_rate = $order->tax_rate;
         $invoice->tax_total = $order->tax_total;
         $invoice->is_amount_discount = $order->is_amount_discount;
         $invoice->footer = $order->footer;
@@ -48,6 +49,7 @@ class CloneOrderToInvoiceFactory
         $invoice->partial_due_date = null;
         $invoice->balance = $order->total;
         $invoice->line_items = $order->line_items;
+        $invoice->custom_surcharge1 = $order->custom_surcharge1;
         $invoice->is_amount_discount = $order->is_amount_discount ?: false;
 
         return $invoice;

@@ -7,9 +7,12 @@ use App\Customer;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\NotificationFactory;
 use App\Invoice;
+use App\Order;
 use App\Refund;
 use App\Repositories\CreditRepository;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\NotificationRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\Payment\CreatePaymentRequest;
@@ -195,6 +198,7 @@ class PaymentController extends Controller
             $payment->customer->increaseBalance($invoice->balance * -1);
             $payment->customer->increasePaidToDateAmount($invoice->balance);
             $payment->customer->save();
+
             $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
         }
 
@@ -218,7 +222,19 @@ class PaymentController extends Controller
         $payment->transaction_reference = $request->payment_method;
         $payment->save();
 
-        $this->attachInvoices($customer, $payment, $request->ids);
+        $ids = $request->ids;
+
+        if(!empty($request->order_id) && $request->order_id !== 'null') {
+            // order to invoice
+            $order = Order::where('id', '=', $request->order_id)->first();
+            $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
+            $invoice = Invoice::where('id', '=', $order->invoice_id)->first();
+
+            Log::emergency('invoice255 ' . $invoice->total);
+            $ids = $invoice->id;
+        }
+
+        $this->attachInvoices($customer, $payment, $ids);
 
         event(new PaymentWasCreated($payment, $payment->account));
 

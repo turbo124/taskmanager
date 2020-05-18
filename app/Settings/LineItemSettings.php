@@ -11,7 +11,7 @@ class LineItemSettings extends BaseSettings
         'quantity'           => ['required' => true, 'default_value' => 1, 'type' => 'float'],
         'unit_price'         => ['required' => true, 'default_value' => 1, 'type' => 'float'],
         'product_id'         => ['required' => true, 'default_value' => 1, 'type' => 'int'],
-        'attribute_id'       => ['required' => true, 'default_value' => 0, 'type' => 'int'],
+        'attribute_id'       => ['required' => false, 'default_value' => 0, 'type' => 'int'],
         'unit_discount'      => ['required' => false, 'default_value' => 1, 'type' => 'float'],
         'is_amount_discount' => ['required' => false, 'default_value' => 1, 'type' => 'bool'],
         'unit_tax'           => ['required' => false, 'default_value' => 1, 'type' => 'float'],
@@ -33,7 +33,7 @@ class LineItemSettings extends BaseSettings
                 $line_item = $this->validate((object)$line_item, $this->settings);
 
                 if (!$line_item) {
-                    die('here');
+                    die('here 22');
                 }
 
                 $item = (new LineItem)
