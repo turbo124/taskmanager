@@ -84,7 +84,7 @@ class CreateDeal
                 'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
                 'phone'                  => $this->request->phone,
                 'website'                => isset($this->request->website) ? $this->request->website : '',
-                'currency_id'            => 1,
+                'currency_id'            => 2,
                 'default_payment_method' => 1
             ],
             $customer

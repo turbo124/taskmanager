@@ -6,8 +6,17 @@ use App\Customer;
 use App\Invoice;
 use App\RecurringInvoice;
 
+/**
+ * Class RecurringInvoiceToInvoiceFactory
+ * @package App\Factory
+ */
 class RecurringInvoiceToInvoiceFactory
 {
+    /**
+     * @param RecurringInvoice $recurring_invoice
+     * @param Customer $customer
+     * @return Invoice
+     */
     public static function create(RecurringInvoice $recurring_invoice, Customer $customer): Invoice
     {
         $invoice = new Invoice();
@@ -16,6 +25,7 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->sub_total = $recurring_invoice->sub_total;
         $invoice->tax_total = $recurring_invoice->tax_total;
         $invoice->discount_total = $recurring_invoice->discount_total;
+        $invoice->tax_rate = $recurring_invoice->tax_rate;
         $invoice->is_amount_discount = $recurring_invoice->is_amount_discount;
         $invoice->po_number = $recurring_invoice->po_number;
         $invoice->footer = $recurring_invoice->footer;

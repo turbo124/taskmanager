@@ -32,6 +32,7 @@ class CloneOrderToQuoteFactory
         $quote->tax_total = $order->tax_total;
         $quote->is_amount_discount = $order->is_amount_discount;
         $quote->footer = $order->footer;
+        $quote->tax_rate = $order->tax_rate;
         $quote->public_notes = $order->public_notes;
         $quote->private_notes = $order->private_notes;
         $quote->terms = $order->terms;

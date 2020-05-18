@@ -32,6 +32,7 @@ class CloneQuoteToInvoiceFactory
         $invoice->footer = $quote->footer;
         $invoice->public_notes = $quote->public_notes;
         $invoice->private_notes = $quote->private_notes;
+        $invoice->tax_rate = $quote->tax_rate;
         $invoice->terms = $quote->terms;
         $invoice->sub_total = $quote->sub_total ?: 0;
         $invoice->total = $quote->total;
