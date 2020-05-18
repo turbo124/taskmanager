@@ -105,6 +105,31 @@ class TaskService extends ServiceBase
         return $this;
     }
 
+    public function approve(InvoiceRepository $invoice_repo, TaskRepository $task_repo): ?Task
+    {
+        if ($this->deal->status_id != Deal::STATUS_SENT) {
+            return null;
+        }
+
+        $this->task->setStatus(Task::STATUS_APPROVED);
+        $this->task->save();
+
+        if ($this->task->customer->getSetting('should_convert_deal')) {
+            //$invoice = (new ConvertDeal($this->quote, $invoice_repo))->run();
+            //$this->quote->setInvoiceId($invoice->id);
+            //$this->quote->save();
+        }
+
+        event(new DealWasApproved($this->task));
+
+        // trigger
+        $subject = trans('texts.deal_approved_subject');
+        $body = trans('texts.deal_approved_body');
+        $this->trigger($subject, $body, $task_repo);
+
+        return $this->quote;
+    }
+
     /**
      * @return Task|null
      */
