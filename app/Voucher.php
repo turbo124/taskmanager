@@ -1,4 +1,13 @@
+<?php
 
+namespace App;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+
+class Vouchers
+{
 
     /**
      * Whether voucher has prefix, optionally specifying a separator different from config.
