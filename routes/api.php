@@ -25,6 +25,8 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         // tokens
         Route::resource('tokens', 'TokenController');// name = (tokens. index / create / show / update / destroy / edi
 
+        Route::resource('promocodes', 'PromocodeController');
+
         // subscription
           /*Subscription and Webhook routes */
         Route::post('hooks', 'SubscriptionController@subscribe');
@@ -393,6 +395,12 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('quote/bulk', 'QuoteController@bulk');
     Route::post('order/bulk', 'OrderController@bulk');
     Route::get('products/{product_id}', 'ProductController@show');
+
+    //vouchers
+    Route::get('promocode/{code}', 'PromocodeController@show');
+    Route::post('promocode/apply', 'PromocodeController@apply');
+    Route::post('promocode/validate', 'PromocodeController@validateCode');
+
 
     Route::post('preview', 'PreviewController@show');
 });

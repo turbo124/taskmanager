@@ -149,7 +149,7 @@ class CreditFilter extends QueryFilter
         }
 
         if (in_array('partial', $status_parameters)) {
-            $this->query->where('status_id', Credit::STAUTS_PARTIAL);
+            $this->query->where('status_id', Credit::STATUS_PARTIAL);
         }
 
         if (in_array('applied', $status_parameters)) {

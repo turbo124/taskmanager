@@ -103,7 +103,7 @@ export default class AddAttribute extends React.Component {
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                id="name" value={this.state.name} placeholder="Name"
+                                id="name" value={this.state.name} placeholder={translations.name}
                                 onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>

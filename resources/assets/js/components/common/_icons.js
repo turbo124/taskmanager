@@ -25,6 +25,11 @@ export const icons = {
 }
 
 export const translations = {
+    edit_promocode: 'Edit Promocode',
+    scope: 'Scope Type',
+    redeemable: 'Redeemable Amount',
+    amount_to_create: 'Amount To Create',
+    scope_value: 'Scope Value',
     edit_company: ' Edit Brand',
     add_company: 'Add Company',
     address: 'Address',
