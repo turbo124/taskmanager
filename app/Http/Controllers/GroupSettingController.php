@@ -17,13 +17,17 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * Class GroupSettingController
+ * @package App\Http\Controllers
+ */
 class GroupSettingController extends Controller
 {
     use DispatchesJobs;
     use UploadableTrait;
     use GroupSettingTransformable;
 
-    protected $group_setting_repo;
+    protected GroupSettingRepository $group_setting_repo;
 
     /**
      * GroupSettingController constructor.
@@ -34,7 +38,10 @@ class GroupSettingController extends Controller
         $this->group_setting_repo = $group_setting_repo;
     }
 
-
+    /**
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(SearchRequest $request)
     {
         $group_settings = (new GroupSettingFilter($this->group_setting_repo))->filter(

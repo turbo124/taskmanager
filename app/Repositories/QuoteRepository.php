@@ -17,6 +17,10 @@ use App\QuoteInvitation;
 use App\Customer;
 use App\NumberGenerator;
 
+/**
+ * Class QuoteRepository
+ * @package App\Repositories
+ */
 class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 {
 

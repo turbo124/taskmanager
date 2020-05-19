@@ -1,7 +1,6 @@
-
 <?php
 
-namespace Gabievi\Promocodes\Models;
+namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -34,8 +33,8 @@ class Promocode extends Model
      */
     protected $casts = [
         'is_disposable' => 'boolean',
-        'data' => 'array',
-        'quantity' => 'integer'
+        'data'          => 'array',
+        'quantity'      => 'integer'
     ];
 
     /**
@@ -62,11 +61,23 @@ class Promocode extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+    public function customers()
+    {
+        return $this->belongsToMany(
+            config('promocodes.customer_model'),
+            config('promocodes.relation_table'),
+            config('promocodes.foreign_pivot_key', 'customer_id'),
+            config('promocodes.related_pivot_key', 'customer_id')
+        )
+                    ->withPivot('used_at');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function users()
     {
-        return $this->belongsToMany(config('promocodes.user_model'), config('promocodes.relation_table'),
-            config('promocodes.foreign_pivot_key', 'user_id'), config('promocodes.related_pivot_key', 'user_id'))
-            ->withPivot('used_at');
+        return $this->hasMany(PromocodeUser::class);
     }
 
     /**

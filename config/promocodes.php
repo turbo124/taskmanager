@@ -60,7 +60,7 @@ return [
     /**
      * User model
      */
-    'user_model' => \App\User::class,
+    'customer_model' => \App\Customer::class,
     
     /**
      * Foreign pivot key for many to many relationship 
@@ -72,5 +72,5 @@ return [
      * Related pivot key for many to many relationship 
      * of promocode and user model
      */
-    'related_pivot_key' => 'user_id',
+    'related_pivot_key' => 'customer_id',
 ];

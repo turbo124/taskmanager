@@ -166,8 +166,6 @@ class CreateDeal
 
         $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
 
-        Log::emergency($this->request->products);
-
         $order = $this->order_repo->save(
             [
                 'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
@@ -176,7 +174,7 @@ class CreateDeal
                 'sub_total'         => $this->request->sub_total,
                 'total'             => $this->request->total,
                 //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
-                'discount_total'    => isset($this->request->discount) ? $this->request->discount : 0,
+                'discount_total'    => isset($this->request->discount_total) ? $this->request->discount_total : 0,
                 'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
                     '%',
                     '',

@@ -111,6 +111,11 @@ const financial = {
             name: 'Orders',
             url: '/orders',
             icon: 'fa fa-shopping-basket'
+        },
+        {
+            name: 'Promocodes',
+            url: '/promocodes',
+            icon: 'fa fa-shopping-basket'
         }
     ]
 }

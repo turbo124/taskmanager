@@ -7,6 +7,7 @@ use App\Customer;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\NotificationFactory;
 use App\Invoice;
+use App\Jobs\Payment\CreatePayment;
 use App\Order;
 use App\Refund;
 use App\Repositories\CreditRepository;
@@ -186,64 +187,13 @@ class PaymentController extends Controller
         return response()->json([], 200);
     }
 
-    private function attachInvoices(Customer $customer, Payment $payment, $ids): Payment
-    {
-        $invoices = Invoice::whereIn('id', explode(",", $ids))
-                           ->whereCustomerId($customer->id)
-                           ->get();
-
-        foreach ($invoices as $invoice) {
-            $payment->attachInvoice($invoice);
-            $payment->ledger()->updateBalance($invoice->balance * -1);
-            $payment->customer->increaseBalance($invoice->balance * -1);
-            $payment->customer->increasePaidToDateAmount($invoice->balance);
-            $payment->customer->save();
-
-            $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
-        }
-
-        return $payment;
-    }
-
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function completePayment(Request $request)
     {
-        $ids = $request->ids;
-        if(!empty($request->order_id) && $request->order_id !== 'null') {
-            // order to invoice
-            $order = Order::where('order_id', '=', $request->order_id);
-            $order->service()->dispatch();
-        }
-
-        $customer = Customer::find($request->customer_id);
-        $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
-        $payment->customer_id = $customer->id;
-        $payment->company_gateway_id = $request->company_gateway_id;
-        $payment->status_id = Payment::STATUS_COMPLETED;
-        $payment->date = Carbon::now();
-        $payment->amount = $request->amount;
-        $payment->type_id = $request->payment_type;
-        $payment->transaction_reference = $request->payment_method;
-        $payment->save();
-
-        $ids = $request->ids;
-
-        if(!empty($request->order_id) && $request->order_id !== 'null') {
-            // order to invoice
-            $order = Order::where('id', '=', $request->order_id)->first();
-            $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
-            $invoice = Invoice::where('id', '=', $order->invoice_id)->first();
-
-            Log::emergency('invoice255 ' . $invoice->total);
-            $ids = $invoice->id;
-        }
-      
-        $this->attachInvoices($customer, $payment, $ids);
-
-        event(new PaymentWasCreated($payment, $payment->account));
+        $payment = CreatePayment::dispatchNow($request);
 
         return response()->json(['code' => 200, 'payment_id' => $payment->id]);
     }

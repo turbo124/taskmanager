@@ -24,6 +24,7 @@ import Payments from './payments/Payments'
 import TaxRates from './TaxRates/TaxRates'
 import Credits from './credits/Credits'
 import RecurringQuotes from './recurringQuotes/RecurringQuotes'
+import Promocodes from './promocodes/Promocodes'
 import RecurringInvoices from './recurringInvoices/RecurringInvoices'
 import Quotes from './quotes/Quotes'
 import Accounts from './accounts/Settings'
@@ -63,6 +64,12 @@ const routes = [
         exact: true,
         name: 'Users',
         component: UserList
+    },
+    {
+        path: '/promocodes',
+        exact: true,
+        name: 'Promocodes',
+        component: Promocodes
     },
     {
         path: '/products',

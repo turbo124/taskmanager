@@ -83,6 +83,7 @@ class ServiceBase
             ->setBalance($entity->balance)
             ->setInclusiveTaxes($entity->account->settings->inclusive_taxes)
             ->setTaxRate($entity->tax_rate)
+            ->setDiscountTotal(isset($entity->discount_total) ? $entity->discount_total : 0)
             ->setPartial($entity->partial)
             ->build();
 
