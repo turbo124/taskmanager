@@ -91,9 +91,9 @@ class AttributeUnitTest extends TestCase
         ];
 
         $attributeRepo = new AttributeRepository($attribute);
-        $update = $attributeRepo->updateAttribute($data);
+        $attribute = $attributeRepo->save($attribute, $data);
 
-        $this->assertTrue($update);
+        $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($data['name'], $attribute->name);
     }
 
@@ -104,8 +104,9 @@ class AttributeUnitTest extends TestCase
             'name' => $this->faker->word
         ];
 
-        $attributeRepo = new AttributeRepository(new Attribute);
-        $attribute = $attributeRepo->createAttribute($data);
+        $objAttribute = new Attribute;
+        $attributeRepo = new AttributeRepository($objAttribute);
+        $attribute = $attributeRepo->save($objAttribute, $data);
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($data['name'], $attribute->name);

@@ -79,13 +79,14 @@ class PromocodeController extends Controller
             $data,
             $request->input('expiry_date'),
             $request->input('quantity'),
-            $request->input('description')
+            false,
+            $request->input('description'),
+            $request->input('amount_type'),
         );
 
         $created = [];
 
         foreach ($promocodes as $promocode) {
-
             $promocode = (new Promocode)->fill($promocode);
 
             $created[] = $this->transformPromocodes($promocode);
@@ -94,11 +95,31 @@ class PromocodeController extends Controller
         return response()->json($created);
     }
 
-    public function update(UpdatePromocode $request)
+    /**
+     * @param UpdatePromocode $request
+     * @param int $id
+     */
+    public function update(UpdatePromocode $request, int $id)
     {
-        echo '<pre>';
-        print_r($request->all());
-        die;
+        $promocode = $this->promocode_repo->findPromocodeById($id);
+
+        $data = [
+            'scope'       => $request->input('scope'),
+            'scope_value' => $request->input('scope_value')
+        ];
+
+        $promocode->update(
+            [
+                'amount_type' => $request->input('amount_type'),
+                'reward'      => $request->input('reward'),
+                'data'        => $data,
+                'expiry_date' => $request->input('expiry_date'),
+                'quantity'    => $request->input('quantity'),
+                'description' => $request->input('description')
+            ]
+        );
+
+        return response()->json($this->transformPromocodes($promocode->fresh()));
     }
 
     public function validateCode(Request $request)
@@ -114,6 +135,10 @@ class PromocodeController extends Controller
         return (new Promocodes)->check($account, $request->voucher_code, $order, $customer);
     }
 
+    /**
+     * @param Request $request
+     * @return Promocode|bool
+     */
     public function apply(Request $request)
     {
         $order = Order::find($request->order_id);
@@ -122,5 +147,14 @@ class PromocodeController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
         return (new Promocodes)->apply($order, $account, $request->code, $customer);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id)
+    {
+        $promocode = $this->promocode_repo->findPromocodeById($id);
+        (new Promocodes)->disable($promocode->code);
     }
 }

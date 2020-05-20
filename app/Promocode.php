@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static byCode(string $code)
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Promocode extends Model
 {
+    use SoftDeletes;
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -24,7 +27,15 @@ class Promocode extends Model
      *
      * @var array
      */
-    protected $fillable = ['code', 'reward', 'is_disposable', 'expires_at', 'quantity'];
+    protected $fillable = [
+        'code',
+        'description',
+        'amount_type',
+        'reward',
+        'is_disposable',
+        'expires_at',
+        'quantity'
+    ];
 
     /**
      * The attributes that should be cast to native types.

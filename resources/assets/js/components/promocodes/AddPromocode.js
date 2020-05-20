@@ -16,6 +16,7 @@ export default class AddPromocode extends React.Component {
             reward: '',
             quantity: 0,
             amount: 1,
+            amount_type: 'amt',
             expiry_date: '',
             loading: false,
             errors: [],
@@ -61,6 +62,7 @@ export default class AddPromocode extends React.Component {
     handleClick () {
         axios.post('/api/promocodes', {
             scope: this.state.scope,
+            amount_type: this.state.amount_type,
             scope_value: this.state.scope_value,
             description: this.state.description,
             reward: this.state.reward,
@@ -70,13 +72,15 @@ export default class AddPromocode extends React.Component {
         })
             .then((response) => {
                 console.log('response', response)
+                const promocodes = [...this.props.promocodes, ...response.data]
                 // this.props.promocodes.push(response)
-                // this.props.action(this.props.promocodes)
+                this.props.action(promocodes)
                 localStorage.removeItem('promocodeForm')
                 this.setState({
                     scope: 'order',
                     scope_value: 0,
                     description: '',
+                    amount_type: 'amt',
                     reward: 0,
                     quantity: 1,
                     amount: 0,
@@ -155,6 +159,17 @@ export default class AddPromocode extends React.Component {
                                 id="scope_value" value={this.state.amount} placeholder={translations.amount_to_create}
                                 onChange={this.handleInput.bind(this)} />
                             {this.renderErrorFor('amount')}
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="name">{translations.amount_type} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('amount_type') ? 'is-invalid' : ''} type="select" name="amount_type"
+                                id="amount_type" value={this.state.amount_type}
+                                onChange={this.handleInput.bind(this)}>
+                                <option value="amt">Amount</option>
+                                <option value="pct">Percent</option>
+                            </Input>
+                            {this.renderErrorFor('amount_type')}
                         </FormGroup>
 
                         <FormGroup>

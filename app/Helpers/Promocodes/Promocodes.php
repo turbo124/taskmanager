@@ -82,7 +82,8 @@ class Promocodes
         $expires_in = null,
         $quantity = null,
         $is_disposable = false,
-        $description = ''
+        $description = '',
+        $amount_type = 'amt'
     ) {
         $records = [];
 
@@ -96,6 +97,7 @@ class Promocodes
                 'expires_at'    => $expires_in,
                 'is_disposable' => $is_disposable,
                 'quantity'      => $quantity,
+                'amount_type'   => $amount_type
             ];
         }
 
@@ -259,7 +261,8 @@ class Promocodes
         $promocode->expires_at = Carbon::now();
         $promocode->quantity = 0;
 
-        return $promocode->save();
+        $promocode->save();
+        $promocode->delete();
     }
 
     /**

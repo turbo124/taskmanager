@@ -19,6 +19,7 @@ trait PromocodeTransformable
             'id'            => (int)$promocode->id,
             'code'          => (string)$promocode->code,
             'description'   => (string)$promocode->description,
+            'amount_type'   => (string)$promocode->amount_type,
             'reward'        => (float)$promocode->reward,
             'quantity'      => (int)$promocode->quantity,
             'data'          => $promocode->data ?: '',
