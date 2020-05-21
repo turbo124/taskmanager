@@ -83,7 +83,6 @@ export default class Attributes extends Component {
 
         return (
             <div className="data-table">
-
                 <Card>
                     <CardBody>
                         <AttributeFilters attributes={attributes}
@@ -95,7 +94,11 @@ export default class Attributes extends Component {
                             attributes={attributes}
                             action={this.addUserToState}
                         />
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Attribute"

@@ -40,6 +40,8 @@ export default function QuotePresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Balance">{<FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={entity.balance}/>}</td>
+        case 'status_field':
+            return status
         case 'date':
         case 'due_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>

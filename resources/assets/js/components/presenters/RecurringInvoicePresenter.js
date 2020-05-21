@@ -37,7 +37,8 @@ export default function RecurringInvoicePresenter (props) {
         case 'start_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
-
+        case 'status_field':
+            return status
         case 'status_id':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
 

@@ -24,29 +24,29 @@ trait PaymentTransformable
             'amount'                => (float)$payment->amount,
             'transaction_reference' => $payment->transaction_reference ?: '',
             'invoices'              => $payment->invoices,
-
-            'paymentables'         => !empty($payment->paymentables) ? $this->transformPaymentables(
+            'paymentables'          => !empty($payment->paymentables) ? $this->transformPaymentables(
                 $payment->paymentables
             ) : [],
-            'deleted_at'           => $payment->deleted_at,
+            'deleted_at'            => $payment->deleted_at,
             //$obj->archived_at = $payment->deleted_at;
             //$obj->is_deleted = (bool) $payment->is_deleted;
-            'type_id'              => (string)$payment->type_id,
-            'invitation_id'        => (string)$payment->invitation_id ?: '',
-            'invoice_id'           => $payment->invoices->pluck('id')->toArray(),
-            'refunded'             => (float)$payment->refunded,
-            'is_manual'            => (bool)$payment->is_manual,
-            'task_id'              => (int)$payment->task_id,
-            'company_id'           => (int)$payment->company_id,
-            'applied'              => (float)$payment->applied,
-            'private_notes'        => $payment->private_notes ?: '',
-            'currency_id'          => (int)$payment->currency_id ?: null,
-            'exchange_rate'        => (float)$payment->exchange_rate ?: 1,
-            'exchange_currency_id' => (float)$payment->exchange_currency_id ?: '',
-            'custom_value1'        => $payment->custom_value1 ?: '',
-            'custom_value2'        => $payment->custom_value2 ?: '',
-            'custom_value3'        => $payment->custom_value3 ?: '',
-            'custom_value4'        => $payment->custom_value4 ?: '',
+            'type_id'               => (string)$payment->type_id,
+            'invitation_id'         => (string)$payment->invitation_id ?: '',
+            'invoice_id'            => $payment->invoices->pluck('id')->toArray(),
+            'refunded'              => (float)$payment->refunded,
+            'is_manual'             => (bool)$payment->is_manual,
+            'task_id'               => (int)$payment->task_id,
+            'company_id'            => (int)$payment->company_id,
+            'applied'               => (float)$payment->applied,
+            'private_notes'         => $payment->private_notes ?: '',
+            'currency_id'           => (int)$payment->currency_id ?: null,
+            'exchange_rate'         => (float)$payment->exchange_rate ?: 1,
+            'exchange_currency_id'  => (float)$payment->exchange_currency_id ?: '',
+            'status_id'             => (int)$payment->status_id,
+            'custom_value1'         => $payment->custom_value1 ?: '',
+            'custom_value2'         => $payment->custom_value2 ?: '',
+            'custom_value3'         => $payment->custom_value3 ?: '',
+            'custom_value4'         => $payment->custom_value4 ?: '',
         ];
     }
 

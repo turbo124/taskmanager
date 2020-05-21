@@ -33,6 +33,8 @@ export default function CreditPresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Balance">{<FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={entity.balance}/>}</td>
+        case 'status_field':
+            return status
         case 'status_id':
             return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Status">{status}</td>
         case 'customer_id': {
