@@ -76,4 +76,12 @@ class QuoteService extends ServiceBase
     {
         return $this->calculateTotals($this->quote);
     }
+
+    /**
+     * @param InvoiceRepository $invoice_repository
+     */
+    public function convertQuoteToInvoice(InvoiceRepository $invoice_repository)
+    {
+        return (new ConvertQuote($this->quote, $invoice_repository))->run();
+    }
 }

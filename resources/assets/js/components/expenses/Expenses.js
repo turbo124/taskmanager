@@ -168,7 +168,11 @@ export default class Expenses extends Component {
                             filters={this.state.filters} filter={this.filterExpenses}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         {addButton}
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Expense"

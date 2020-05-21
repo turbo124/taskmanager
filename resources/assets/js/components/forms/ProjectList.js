@@ -135,7 +135,11 @@ export default class ProjectList extends Component {
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         <AddProject users={users} projects={projects} action={this.addUserToState}
                             custom_fields={custom_fields}/>
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Project"

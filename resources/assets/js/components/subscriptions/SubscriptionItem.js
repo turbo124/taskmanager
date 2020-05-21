@@ -54,7 +54,7 @@ export default class SubscriptionItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === subscription.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === subscription.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={subscription.id}>
                     <td>

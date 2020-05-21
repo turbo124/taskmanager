@@ -26,7 +26,6 @@ export default class FilterTile extends Component {
                         className={`fa fa-fw ${icons.right} pull-left`}/>
                     <i style={{ display: (!this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }}
                         className={`fa fa-fw ${icons.down} pull-left`}/>
-                  Filters
                 </span>
 
                 <Collapse

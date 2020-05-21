@@ -55,10 +55,10 @@ export default class Promocodes extends Component {
         const { promocodes } = this.state
         console.log('promocodes', promocodes)
         return <PromocodeItem showCheckboxes={props.showCheckboxes} promocodes={promocodes}
-                              viewId={props.viewId}
-                              ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-                              toggleViewedEntity={props.toggleViewedEntity}
-                              onChangeBulk={props.onChangeBulk}/>
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+            toggleViewedEntity={props.toggleViewedEntity}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     getUsers () {
@@ -87,15 +87,19 @@ export default class Promocodes extends Component {
                 <Card>
                     <CardBody>
                         <PromocodeFilters promocodes={promocodes}
-                                          updateIgnoredColumns={this.updateIgnoredColumns}
-                                          filters={this.state.filters} filter={this.filterPromocodes}
-                                          saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            updateIgnoredColumns={this.updateIgnoredColumns}
+                            filters={this.state.filters} filter={this.filterPromocodes}
+                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
                         <AddPromocode
                             promocodes={promocodes}
                             action={this.addUserToState}
                         />
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Promocode"

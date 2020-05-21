@@ -159,6 +159,11 @@ export default class ProductList extends Component {
                             filters={filters} filter={this.filterProducts}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         {addButton}
+                    </CardBody>
+                </Card>
+
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Product"

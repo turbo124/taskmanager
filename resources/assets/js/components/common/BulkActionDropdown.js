@@ -30,9 +30,16 @@ export default class BulkActionDropdown extends Component {
                     <DropdownToggle caret color="primary">
                         <i id="bulkActionTooltip" className={`fa ${icons.ellipsis}`} aria-hidden="true" type="ellipsis"/> Bulk Action
                     </DropdownToggle>
-                    <DropdownMenu>
+                    <DropdownMenu className="bulk-options-menu">
                         {this.props.dropdownButtonActions.map(e => {
-                            return <DropdownItem id={e} key={e} onClick={this.props.saveBulk}>{e}</DropdownItem>
+                            let column_name = e.replace(/_/g, ' ')
+                            column_name = column_name.replace(
+                                /\w\S*/g,
+                                function (txt) {
+                                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                                }
+                            )
+                            return <DropdownItem id={e} key={e} onClick={this.props.saveBulk}>{column_name}</DropdownItem>
                         })}
                     </DropdownMenu>
                 </ButtonDropdown>

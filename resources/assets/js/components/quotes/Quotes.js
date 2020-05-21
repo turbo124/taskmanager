@@ -24,7 +24,7 @@ export default class Quotes extends Component {
             customers: [],
             custom_fields: [],
             bulk: [],
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['download', 'clone_quote_to_invoice'],
             filters: {
                 status_id: 'active',
                 customer_id: '',
@@ -120,7 +120,11 @@ export default class Quotes extends Component {
                             filters={filters} filter={this.filterInvoices}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         {addButton}
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Quote"

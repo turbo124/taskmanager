@@ -39,8 +39,12 @@
 
 td {
   &:first-child {
-    padding: 0px !important;
+    padding: 0 !important;
     line-height: 42px;
+  }
+
+  &:last-child {
+    text-align: center;
   }
 }
 
@@ -186,4 +190,13 @@ table.mobile td::before {
 table.mobile td:last-child {
   border-bottom: 0;
   padding-bottom: 30px;
+}
+
+.table .badge {
+  padding: 0.45em 0.8em !important;
+}
+
+.table-row-selected {
+  background-color: #0069d9 !important;
+  color: $white;
 }

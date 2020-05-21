@@ -94,7 +94,11 @@ export default class Subscriptions extends Component {
                             subscriptions={subscriptions}
                             action={this.addUserToState}
                         />
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Subscription"

@@ -286,6 +286,17 @@ class BaseController extends Controller
             return response()->json(['message' => 'The email was sent successfully!'], 200);
         }
 
+        if ($action === 'clone_quote_to_invoice') {
+            $invoices = [];
+
+            foreach ($entities as $entity) {
+                $invoice = $entity->service()->convertQuoteToInvoice($this->invoice_repo);
+                $invoices[] = $this->transformInvoice($invoice);
+            }
+
+            return response()->json($invoices);
+        }
+
         foreach ($entities as $entity) {
             $this->performAction($request, $entity, $action, true);
         }

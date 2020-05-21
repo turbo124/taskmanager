@@ -94,7 +94,11 @@ export default class Tokens extends Component {
                             tokens={tokens}
                             action={this.addUserToState}
                         />
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Token"

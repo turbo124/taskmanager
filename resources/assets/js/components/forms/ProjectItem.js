@@ -64,7 +64,7 @@ export default class ProjectItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === project.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === project.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={project.id}>
                     <td>

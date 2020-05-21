@@ -139,6 +139,11 @@ export default class RecurringInvoices extends Component {
                             filters={filters} filter={this.filterInvoices}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         {addButton}
+                    </CardBody>
+                </Card>
+
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Recurring Invoice"

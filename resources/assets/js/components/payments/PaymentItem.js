@@ -91,7 +91,7 @@ export default class PaymentItem extends Component {
                         action={this.props.updateCustomers}/> : null
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === payment.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === payment.id ? 'table-row-selected' : ''
 
                 return (
                     <tr className={selectedRow} key={payment.id}>

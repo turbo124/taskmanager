@@ -58,7 +58,7 @@ export default class TaxRateItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === taxRate.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === taxRate.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={taxRate.id}>
                     <td>
