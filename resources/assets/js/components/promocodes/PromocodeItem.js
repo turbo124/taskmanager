@@ -54,7 +54,7 @@ export default class PromocodeItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === promocode.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === promocode.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={promocode.id}>
                     <td>

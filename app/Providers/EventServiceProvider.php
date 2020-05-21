@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
-use App\Events\Account\AccountWasDeleted;
 use App\Events\Invoice\InvoiceWasDeleted;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Events\Invoice\InvoiceWasReversed;
+use App\Events\Order\OrderWasCreated;
+use App\Events\Order\OrderWasMarkedSent;
+use App\Events\Payment\PaymentWasRefunded;
+use App\Events\Payment\PaymentWasVoided;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Deal\DealWasCreated;
@@ -26,7 +29,6 @@ use App\Events\Quote\QuoteWasUpdated;
 
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasArchived;
-use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasDeleted;
 use App\Events\Order\OrderWasRestored;
 use App\Events\Order\OrderWasUpdated;
@@ -43,8 +45,6 @@ use App\Listeners\Lead\LeadArchivedActivity;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Payment\PaymentWasCreated;
 use App\Events\Payment\PaymentWasDeleted;
-use App\Events\PaymentWasRefunded;
-use App\Events\PaymentWasVoided;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
@@ -53,7 +53,6 @@ use App\Listeners\Payment\PaymentDeletedActivity;
 use App\Listeners\Payment\PaymentRefundedActivity;
 use App\Listeners\Payment\PaymentVoidedActivity;
 use App\Listeners\Deal\DealNotification;
-use App\Listeners\Document\DeleteAccountDocuments;
 use App\Listeners\Quote\QuoteApprovedActivity;
 use App\Listeners\Quote\QuoteCreatedActivity;
 use App\Listeners\Quote\QuoteArchivedActivity;
@@ -73,10 +72,9 @@ use App\Listeners\Invoice\InvoiceCreatedActivity;
 use App\Listeners\Invoice\InvoiceMarkedSentActivity;
 use App\Listeners\Invoice\InvoiceEmailActivity;
 use App\Listeners\Invoice\InvoiceEmailedNotification;
-use App\Listeners\Invoice\InvoiceEmailFailedActivity;
 use App\Listeners\Invoice\InvoiceUpdatedActivity;
 use App\Listeners\Lead\LeadNotification;
-use App\Listeners\Misc\InvitationViewedListener;
+use App\Listeners\Entity\EntityViewedListener;
 use App\Listeners\Order\OrderNotification;
 use App\Listeners\Payment\PaymentNotification;
 use App\Listeners\NewUserNotification;
@@ -141,7 +139,7 @@ class EventServiceProvider extends ServiceProvider
         InvoiceWasCancelled::class  => [
         ],
         InvitationWasViewed::class  => [
-            InvitationViewedListener::class
+            EntityViewedListener::class
         ],
         // quotes
         QuoteWasApproved::class     => [
@@ -162,9 +160,6 @@ class EventServiceProvider extends ServiceProvider
         //orders
         OrderWasDispatched::class   => [
             OrderDispatchedActivity::class
-        ],
-        OrderWasCreated::class      => [
-            OrderCreatedActivity::class
         ],
         OrderWasDeleted::class      => [
             OrderDeletedActivity::class
@@ -195,14 +190,12 @@ class EventServiceProvider extends ServiceProvider
             LeadArchivedActivity::class
         ],
         OrderWasCreated::class      => [
+            OrderCreatedActivity::class,
             OrderNotification::class
         ],
         DealWasCreated::class       => [
             DealNotification::class
-        ],
-        AccountWasDeleted::class    => [
-            DeleteAccountDocuments::class,
-        ],
+        ]
     ];
 
     /**

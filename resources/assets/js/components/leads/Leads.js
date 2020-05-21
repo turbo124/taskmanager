@@ -146,7 +146,11 @@ export default class Leads extends Component {
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         <AddLead users={users} leads={leads} action={this.addUserToState}
                             custom_fields={custom_fields}/>
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Lead"

@@ -66,7 +66,10 @@ class InvoiceTest extends TestCase
     public function it_can_show_all_the_invoices()
     {
         factory(Invoice::class)->create();
-        $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(new SearchRequest(), $this->main_account);
+        $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(
+            new SearchRequest(),
+            $this->main_account
+        );
         $this->assertNotEmpty($list);
     }
 
@@ -129,7 +132,6 @@ class InvoiceTest extends TestCase
     /** @test */
     public function it_can_create_a_invoice()
     {
-
         $customerId = $this->customer->id;
 
         $total = $this->faker->randomFloat();
@@ -177,6 +179,12 @@ class InvoiceTest extends TestCase
     public function it_can_delete_the_invoice()
     {
         $invoice = factory(Invoice::class)->create();
+        $deleted = $invoice->deleteInvoice();
+        // balance is more than 0
+        $this->assertFalse($deleted);
+
+        $invoice->balance = 0;
+        $invoice->save();
         $deleted = $invoice->deleteInvoice();
         $this->assertTrue($deleted);
     }
@@ -234,7 +242,10 @@ class InvoiceTest extends TestCase
         $account->settings = $settings;
         $account->save();
 
-        $invoice->service()->createPayment(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment))->save();
+        $invoice->service()->createPayment(
+            new InvoiceRepository(new Invoice),
+            new PaymentRepository(new Payment)
+        )->save();
 
         $first_payment = $invoice->payments->first();
 
@@ -253,16 +264,16 @@ class InvoiceTest extends TestCase
                                    ->wherePaymentableId($invoice->id)
                                    ->get();
 
-        $paymentables->each(function ($paymentable) use ($total_paid) {
+        $paymentables->each(
+            function ($paymentable) use ($total_paid) {
+                $reversable_amount = $paymentable->amount - $paymentable->refunded;
 
-            $reversable_amount = $paymentable->amount - $paymentable->refunded;
+                $total_paid -= $reversable_amount;
 
-            $total_paid -= $reversable_amount;
-
-            $paymentable->amount = $paymentable->refunded;
-            $paymentable->save();
-
-        });
+                $paymentable->amount = $paymentable->refunded;
+                $paymentable->save();
+            }
+        );
 
         /* Generate a credit for the $total_paid amount */
         $credit = CreditFactory::create($invoice->account, $invoice->user, $invoice->customer);
@@ -295,7 +306,6 @@ class InvoiceTest extends TestCase
         $invoice->customer->balance -= $balance_remaining;
 
         $invoice->customer->save();
-
         //create a ledger row for this with the resulting Credit ( also include an explanation in the notes section )
     }
 
@@ -319,14 +329,20 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $invoice = $invoice->service()->createPayment(new InvoiceRepository(new Invoice), new PaymentRepository(new Payment));
+        $invoice = $invoice->service()->createPayment(
+            new InvoiceRepository(new Invoice),
+            new PaymentRepository(new Payment)
+        );
 
         $this->assertEquals($invoice->customer->balance, ($invoice->balance * -1));
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date + $invoice_balance));
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->status_id);
 
-        $invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment));
+        $invoice = $invoice->service()->reverseInvoicePayment(
+            new CreditRepository(new Credit),
+            new PaymentRepository(new Payment)
+        );
 
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
@@ -347,7 +363,10 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $this->invoice = $invoice->service()->reverseInvoicePayment(new CreditRepository(new Credit), new PaymentRepository(new Payment))->save();
+        $this->invoice = $invoice->service()->reverseInvoicePayment(
+            new CreditRepository(new Credit),
+            new PaymentRepository(new Payment)
+        )->save();
 
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
@@ -372,6 +391,5 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice->customer->balance, ($client_balance + $invoice_balance));
         $this->assertNotEquals((float)$client_balance, (float)$invoice->customer->balance);
         $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
-
     }
 }

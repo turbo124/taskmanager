@@ -24,13 +24,12 @@ td {
       }
     }
   }
-
-  .dropdown-menu {
-    //margin-top: -52px;
-    // position: relative !important;
-  }
 }
 
 .dropdown-item i {
-  color: #fff !important;
+  color: #ffffff !important;
+}
+
+.bulk-options-menu .dropdown-item {
+  padding: 5px 10px;
 }

@@ -191,19 +191,19 @@ export default class TaskList extends Component {
 
                 <Card>
                     <CardBody>
-
-                        <div>
-                            <TaskFilters users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterTasks}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        </div>
-
+                        <TaskFilters users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                            filters={this.state.filters} filter={this.filterTasks}
+                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         <Button color="primary" onClick={() => {
                             location.href = '/#/kanban/projects'
                         }}>Kanban view </Button>
 
                         {addButton}
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         {table}
                     </CardBody>
                 </Card>

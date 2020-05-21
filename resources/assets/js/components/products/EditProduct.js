@@ -45,6 +45,7 @@ class EditProduct extends React.Component {
             quantity: this.props.product.quantity,
             sku: this.props.product.sku,
             images: this.props.product.images,
+            cover: '',
             id: this.props.product.id,
             categories: [],
             is_featured: false,

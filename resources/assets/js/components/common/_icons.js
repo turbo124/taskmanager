@@ -25,6 +25,7 @@ export const icons = {
 }
 
 export const translations = {
+    amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',
     redeemable: 'Redeemable Amount',

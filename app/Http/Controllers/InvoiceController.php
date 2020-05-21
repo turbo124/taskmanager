@@ -164,9 +164,15 @@ class InvoiceController extends BaseController
         return response()->json([], 200);
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws Exception
+     */
     public function destroy(int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
+        $invoice->service()->cancelInvoice();
         $invoice->deleteInvoice();
         return response()->json([], 200);
     }

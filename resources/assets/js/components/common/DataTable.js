@@ -78,6 +78,12 @@ export default class DataTable extends Component {
     saveBulk (e) {
         const action = e.target.id
         const self = this
+
+        if (!this.state.bulk.length) {
+            alert('You must select at least one item')
+            return false
+        }
+
         axios.post(this.props.bulk_save_url, { ids: this.state.bulk, action: action }).then(function (response) {
             // const arrQuotes = [...self.state.invoices]
             // const index = arrQuotes.findIndex(payment => payment.id === id)

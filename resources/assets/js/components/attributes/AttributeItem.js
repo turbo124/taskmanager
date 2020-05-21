@@ -58,7 +58,7 @@ export default class AttributeItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === attribute.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === attribute.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={attribute.id}>
                     <td>

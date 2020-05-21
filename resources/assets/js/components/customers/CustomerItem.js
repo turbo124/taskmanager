@@ -53,7 +53,7 @@ export default class CustomerItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === customer.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === customer.id ? 'table-row-selected' : ''
 
                 return (
                     <tr className={selectedRow} key={customer.id}>

@@ -71,11 +71,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * Get the product via slug
-     *
      * @param array $slug
-     *
      * @return Product
-     * @throws ProductNotFoundException
      */
     public function findProductBySlug(array $slug): Product
     {
@@ -319,7 +316,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         $this->data['slug'] = Str::slug($data['name']);
 
-        if (isset($data['cover']) && $data['cover'] instanceof UploadedFile) {
+        if (!empty($data['cover']) && $data['cover'] instanceof UploadedFile) {
             $data['cover'] = $this->saveCoverImage($data['cover']);
         }
 
@@ -328,7 +325,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $product->fill($data);
         $product->save();
 
-        if (isset($data['image'])) {
+        if (isset($data['image']) && !empty($data['image'])) {
             $this->saveProductImages(collect($data['image']), $product);
         }
 

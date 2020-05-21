@@ -31,6 +31,7 @@ class AddProduct extends React.Component {
             is_featured: false,
             quantity: 0,
             cost: 0,
+            cover: '',
             assigned_user_id: null,
             custom_value1: '',
             custom_value2: '',

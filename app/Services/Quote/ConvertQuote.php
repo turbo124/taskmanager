@@ -8,10 +8,21 @@ use App\Quote;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 
+/**
+ * Class ConvertQuote
+ * @package App\Services\Quote
+ */
 class ConvertQuote
 {
-    private $quote;
-    private $invoice_repo;
+    /**
+     * @var Quote
+     */
+    private Quote $quote;
+
+    /**
+     * @var InvoiceRepository
+     */
+    private InvoiceRepository $invoice_repo;
 
     /**
      * ConvertQuote constructor.
@@ -35,7 +46,14 @@ class ConvertQuote
             $this->quote->user,
             $this->quote->account
         );
-        $invoice = $this->invoice_repo->save(['status_id' => Invoice::STATUS_SENT], $invoice);
+
+        $invoice = $this->invoice_repo->save(
+            [
+                'status_id' => Invoice::STATUS_SENT
+            ],
+            $invoice
+        );
+
         $this->invoice_repo->markSent($invoice);
 
         return $invoice;

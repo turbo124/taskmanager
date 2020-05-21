@@ -64,7 +64,7 @@ export default class LeadItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === lead.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === lead.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={lead.id}>
                     <td>

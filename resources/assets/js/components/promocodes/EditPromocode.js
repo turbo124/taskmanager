@@ -15,6 +15,7 @@ export default class EditPromocode extends React.Component {
             description: this.props.promocode.description,
             reward: this.props.promocode.reward,
             quantity: this.props.promocode.quantity,
+            amount_type: this.props.promocode.amount_type,
             amount: 1,
             expiry_date: this.props.promocode.expires_at,
             loading: false,
@@ -57,6 +58,7 @@ export default class EditPromocode extends React.Component {
     handleClick () {
         axios.put(`/api/promocodes/${this.state.id}`, {
             scope: this.state.scope,
+            amount_type: this.state.amount_type,
             scope_value: this.state.scope_value,
             description: this.state.description,
             reward: this.state.reward,
@@ -144,6 +146,17 @@ export default class EditPromocode extends React.Component {
                                 id="scope_value" value={this.state.amount} placeholder={translations.amount_to_create}
                                 onChange={this.handleInput.bind(this)} />
                             {this.renderErrorFor('amount')}
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="name">{translations.amount_type} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('amount_type') ? 'is-invalid' : ''} type="select" name="amount_type"
+                                id="amount_type" value={this.state.amount_type}
+                                onChange={this.handleInput.bind(this)}>
+                                <option value="amt">Amount</option>
+                                <option value="pct">Percent</option>
+                            </Input>
+                            {this.renderErrorFor('amount_type')}
                         </FormGroup>
 
                         <FormGroup>

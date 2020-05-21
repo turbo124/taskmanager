@@ -23,6 +23,15 @@ class PromocodeRepository extends BaseRepository
         $this->model = $promocode;
     }
 
+    /**
+     * @param int $id
+     * @return Promocode
+     */
+    public function findPromocodeById(int $id): Promocode
+    {
+        return $this->findOneOrFail($id);
+    }
+
     public function getModel()
     {
         return $this->model;

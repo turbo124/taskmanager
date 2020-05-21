@@ -138,7 +138,11 @@ export default class Companies extends Component {
                             filters={this.state.filters} filter={this.filterCompanies}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                         {addButton}
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Company"

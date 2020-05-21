@@ -3,11 +3,8 @@
 namespace App\Filters;
 
 use App\Account;
-use App\Company;
 use App\Credit;
 use App\Promocode;
-use App\Repositories\CompanyRepository;
-use App\Repositories\CreditRepository;
 use App\Repositories\PromocodeRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\PromocodeTransformable;
@@ -44,9 +41,9 @@ class PromocodeFilter extends QueryFilter
             $this->query = $this->searchFilter($request->search_term);
         }
 
-//        if ($request->has('status')) {
-//            $this->filterStatus($request->status);
-//        }
+        if ($request->has('status')) {
+            $this->status($request->status);
+        }
 
 //        if ($request->filled('customer_id')) {
 //            $this->query->whereCustomerId($request->customer_id);
@@ -93,55 +90,6 @@ class PromocodeFilter extends QueryFilter
         )->all();
 
         return $promocodes;
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function filterStatus($filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        $table = 'credits';
-        $status_parameters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-
-        if (in_array(parent::STATUS_ACTIVE, $status_parameters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $status_parameters)) {
-            $this->query->orWhere(
-                function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-                }
-            );
-
-            $this->query->withTrashed();
-        }
-
-        if (in_array(parent::STATUS_DELETED, $status_parameters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-
-        if (in_array('draft', $status_parameters)) {
-            $this->query->where('status_id', Credit::STATUS_DRAFT);
-        }
-
-        if (in_array('partial', $status_parameters)) {
-            $this->query->where('status_id', Credit::STAUTS_PARTIAL);
-        }
-
-        if (in_array('applied', $status_parameters)) {
-            $this->query->where('status_id', Credit::STATUS_APPLIED);
-        }
     }
 
 }

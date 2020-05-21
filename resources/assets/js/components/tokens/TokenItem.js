@@ -54,7 +54,7 @@ export default class TokenItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === token.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === token.id ? 'table-row-selected' : ''
 
                 return <tr className={selectedRow} key={token.id}>
                     <td>

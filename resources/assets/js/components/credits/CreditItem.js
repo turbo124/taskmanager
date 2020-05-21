@@ -63,7 +63,7 @@ export default class CreditItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const selectedRow = this.props.viewId === credit.id ? 'bg-warning text-dark' : ''
+                const selectedRow = this.props.viewId === credit.id ? 'table-row-selected' : ''
 
                 return (
                     <tr className={selectedRow} key={credit.id}>
