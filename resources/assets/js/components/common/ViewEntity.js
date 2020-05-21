@@ -89,6 +89,19 @@ export default class ViewEntity extends Component {
                         </ul>
                         }
 
+                        const items = this.props.entity && this.props.entity.line_items ? this.props.entity.line_items.map((line_item) =>
+                            <ListGroupItem>
+                                <ListGroupItemHeading className="d-flex justify-content-between align-items-center">
+                                    Product name
+                                    <span>Subtotal</span>
+                                </ListGroupItemHeading>
+                            <ListGroupItemText>
+                                Quantity x price - discount <br>
+                                Description 
+                            </ListGroupItemText>
+                        </ListGroupItem>
+                    ) : null
+
                         {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
                         <React.Fragment>
                              <ListGroup className="mt-4">
@@ -128,24 +141,17 @@ export default class ViewEntity extends Component {
                                 </ListGroupItem>
                             </ul>
 
-                             <ListGroup>
-      <ListGroupItem>
-        <ListGroupItemHeading className="d-flex justify-content-between align-items-center">
-            Product name
-            <span>Subtotal</span>
-            </ListGroupItemHeading>
-        <ListGroupItemText>
-        Quantity x price - discount <br>
-        Description 
-        </ListGroupItemText>
-      </ListGroupItem>
-    </ListGroup>
+                            <ListGroup>
+                                {items}
+                            </ListGroup>
+
+                          
 
      <ListGroup>
-      <ListGroupItem className="justify-content-between">Tax <Badge pill>14</Badge></ListGroupItem>
-      <ListGroupItem className="justify-content-between">Discount <Badge pill>2</Badge></ListGroupItem>
-      <ListGroupItem className="justify-content-between">Subtotal <Badge pill>1</Badge></ListGroupItem>
-       <ListGroupItem className="justify-content-between">Total <Badge pill>1</Badge></ListGroupItem>
+      <ListGroupItem className="justify-content-between">Tax <Badge pill>{this.props.entity.tax_total}</Badge></ListGroupItem>
+      <ListGroupItem className="justify-content-between">Discount <Badge pill> {this.props.entity.discount_total}</Badge></ListGroupItem>
+      <ListGroupItem className="justify-content-between">Subtotal <Badge pill> {this.props.entity.sub_total} </Badge></ListGroupItem>
+       <ListGroupItem className="justify-content-between">Total <Badge pill> {this.props.entity.total} </Badge></ListGroupItem>
     </ListGroup>
                           </React.Fragment>
 
