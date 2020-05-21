@@ -97,20 +97,6 @@ export default class ViewEntity extends Component {
                                          className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
                                      </ListGroupItemHeading>
                                  </ListGroupItem>
-                                 <ListGroupItem className="list-group-item-dark">
-                                     <ListGroupItemHeading><i
-                                         className="fa fa-credit-card-alt mr-2"/> {this.props.entity.number}
-                                     </ListGroupItemHeading>
-                                     <ListGroupItemText>
-                                         {this.props.entity.balance} - <FormatDate date={this.props.entity.due_date}/>
-                                     </ListGroupItemText>
-                                 </ListGroupItem>
-                                 <ListGroupItem className="list-group-item-dark">
-                                     <ListGroupItemHeading>{this.props.entity_type} Date</ListGroupItemHeading>
-                                     <ListGroupItemText>
-                                         {this.props.entity.date}
-                                     </ListGroupItemText>
-                                 </ListGroupItem>
                               </ListGroup>
                         <ul className="mt-4">
                             <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
@@ -143,27 +129,23 @@ export default class ViewEntity extends Component {
                             </ul>
 
                              <ListGroup>
-      <ListGroupItem active>
-        <ListGroupItemHeading className="d-flex justify-content-between align-items-center ">
-            List group item heading
-            <span>5</span>
+      <ListGroupItem>
+        <ListGroupItemHeading className="d-flex justify-content-between align-items-center">
+            Product name
+            <span>Subtotal</span>
             </ListGroupItemHeading>
         <ListGroupItemText>
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+        Quantity x price - discount <br>
+        Description 
         </ListGroupItemText>
       </ListGroupItem>
-      <ListGroupItem>
-        <ListGroupItemHeading>List group item heading</ListGroupItemHeading>
-        <ListGroupItemText>
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-        </ListGroupItemText>
-      </ListGroupItem>
-      <ListGroupItem>
-        <ListGroupItemHeading>List group item heading</ListGroupItemHeading>
-        <ListGroupItemText>
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-        </ListGroupItemText>
-      </ListGroupItem>
+    </ListGroup>
+
+     <ListGroup>
+      <ListGroupItem className="justify-content-between">Tax <Badge pill>14</Badge></ListGroupItem>
+      <ListGroupItem className="justify-content-between">Discount <Badge pill>2</Badge></ListGroupItem>
+      <ListGroupItem className="justify-content-between">Subtotal <Badge pill>1</Badge></ListGroupItem>
+       <ListGroupItem className="justify-content-between">Total <Badge pill>1</Badge></ListGroupItem>
     </ListGroup>
                           </React.Fragment>
 
