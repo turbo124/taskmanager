@@ -92,12 +92,12 @@ export default class ViewEntity extends Component {
                         const items = this.props.entity && this.props.entity.line_items ? this.props.entity.line_items.map((line_item) =>
                             <ListGroupItem>
                                 <ListGroupItemHeading className="d-flex justify-content-between align-items-center">
-                                    Product name
+                                    {line_item.product_id}
                                     <span>Subtotal</span>
                                 </ListGroupItemHeading>
                             <ListGroupItemText>
-                                Quantity x price - discount <br>
-                                Description 
+                                {line_item.quantity} x {line_item.unit_cost} - {line_item.unit_discount} <br>
+                                {line_item.description}
                             </ListGroupItemText>
                         </ListGroupItem>
                     ) : null
