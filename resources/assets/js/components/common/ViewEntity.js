@@ -142,6 +142,31 @@ export default class ViewEntity extends Component {
                                 </ListGroupItem>
                             </ul>
 
+                             <ListGroup>
+      <ListGroupItem active>
+        <ListGroupItemHeading className="d-flex justify-content-between align-items-center ">
+            List group item heading
+            <span>5</span>
+            </ListGroupItemHeading>
+        <ListGroupItemText>
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+        </ListGroupItemText>
+      </ListGroupItem>
+      <ListGroupItem>
+        <ListGroupItemHeading>List group item heading</ListGroupItemHeading>
+        <ListGroupItemText>
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+        </ListGroupItemText>
+      </ListGroupItem>
+      <ListGroupItem>
+        <ListGroupItemHeading>List group item heading</ListGroupItemHeading>
+        <ListGroupItemText>
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+        </ListGroupItemText>
+      </ListGroupItem>
+    </ListGroup>
+                          </React.Fragment>
+
                        
                         }
 
