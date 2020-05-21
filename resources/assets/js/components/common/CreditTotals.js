@@ -4,38 +4,33 @@ import {
     CardText
 } from 'reactstrap'
 import FormatMoney from './FormatMoney'
-import ExpenseModel from '../models/ExpenseModel'
-import PaymentPresenter from '../presenters/PaymentPresenter'
-import ExpensePresenter from '../presenters/ExpensePresenter'
+import CreditPresenter from '../presenters/CreditPresenter'
 
-export default class ExpenseTotals extends Component {
+export default class CreditTotals extends Component {
     render () {
-        const expenseModel = new ExpenseModel(this.props.entity)
-        const convertedAmount = expenseModel.convertedAmount
-
         return (
             <React.Fragment>
-                <Card body outline color="success">
+                <Card body outline color="primary">
                     <CardText className="text-white">
                         <div className="d-flex">
                             <div
                                 className="p-2 flex-fill">
-                                <h4>Amount</h4>
+                                <h4>Total</h4>
                                 {<FormatMoney
-                                    amount={this.props.entity.amount}/>}
+                                    amount={this.props.entity.total}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4>Converted</h4>
+                                <h4>Balance</h4>
                                 {<FormatMoney
-                                    amount={convertedAmount}/>}
+                                    amount={this.props.entity.balance} />}
                             </div>
                         </div>
                     </CardText>
                 </Card>
 
-                <ExpensePresenter entity={this.props.entity} field="status_field" />
+                <CreditPresenter entity={this.props.entity} field="status_field" />
             </React.Fragment>
 
         )

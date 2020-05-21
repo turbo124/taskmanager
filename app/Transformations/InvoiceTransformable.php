@@ -20,7 +20,7 @@ trait InvoiceTransformable
         return [
             'id'                    => (int)$invoice->id,
             'created_at'            => $invoice->created_at,
-            //'customer' => $invoice->customer,
+            'customer_name'         => $invoice->customer->present()->name(),
             'user_id'               => (int)$invoice->user_id,
             'company_id'            => (int)$invoice->company_id ?: null,
             'public_notes'          => $invoice->public_notes ?: '',

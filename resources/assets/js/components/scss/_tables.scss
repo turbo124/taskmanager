@@ -192,11 +192,15 @@ table.mobile td:last-child {
   padding-bottom: 30px;
 }
 
-.table .badge {
+.badge {
   padding: 0.45em 0.8em !important;
 }
 
 .table-row-selected {
   background-color: #0069d9 !important;
   color: $white;
+}
+
+.data-table {
+  padding-top: 12px;
 }

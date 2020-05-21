@@ -13,10 +13,19 @@ export default function PaymentPresenter (props) {
         Refunded: 'danger'
     }
 
+    const statuses = {
+        1: 'Pending',
+        2: 'Voided',
+        3: 'Failed',
+        4: 'Completed',
+        5: 'Partially Refunded',
+        6: 'Refunded'
+    }
+
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status]}>{entity.status}</Badge>
+        ? <Badge color={colors[entity.status]}>{statuses[entity.status_id]}</Badge>
         : <Badge color="warning">Archived</Badge>
 
     const paymentInvoices = props.paymentables && Object.keys(props.paymentables).length > 0 ? Array.prototype.map.call(props.paymentables, s => s.number).toString() : null
@@ -33,6 +42,9 @@ export default function PaymentPresenter (props) {
         case 'date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
+
+        case 'status_field':
+            return status
 
         case 'status':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
