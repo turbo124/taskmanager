@@ -90,8 +90,29 @@ export default class ViewEntity extends Component {
                         }
 
                         {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
-                        
-                        <ul>
+                        <React.Fragment>
+                             <ListGroup className="mt-4">
+                                 <ListGroupItem className="list-group-item-dark">
+                                     <ListGroupItemHeading><i
+                                         className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
+                                     </ListGroupItemHeading>
+                                 </ListGroupItem>
+                                 <ListGroupItem className="list-group-item-dark">
+                                     <ListGroupItemHeading><i
+                                         className="fa fa-credit-card-alt mr-2"/> {this.props.entity.number}
+                                     </ListGroupItemHeading>
+                                     <ListGroupItemText>
+                                         {this.props.entity.balance} - <FormatDate date={this.props.entity.due_date}/>
+                                     </ListGroupItemText>
+                                 </ListGroupItem>
+                                 <ListGroupItem className="list-group-item-dark">
+                                     <ListGroupItemHeading>{this.props.entity_type} Date</ListGroupItemHeading>
+                                     <ListGroupItemText>
+                                         {this.props.entity.date}
+                                     </ListGroupItemText>
+                                 </ListGroupItem>
+                              </ListGroup>
+                        <ul className="mt-4">
                             <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
                                 <ListGroupItemHeading>Invoice Date</ListGroupItemHeading>
                                 <ListGroupItemText>
