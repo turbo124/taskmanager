@@ -29,6 +29,7 @@ export default class Customer extends Component {
 
                     <Row>
                           <ListGroup>
+          {this.props.entity.contacts.map((contact, index) => (
       <ListGroupItem>
         <ListGroupItemHeading> 
             {this.props.entity.first_name} {this.props.entity.last_name} <br />
@@ -47,6 +48,7 @@ export default class Customer extends Component {
          Phone
         </ListGroupItemText>
       </ListGroupItem>
+     ))}
 
        <ListGroupItem>
         <ListGroupItemHeading> {this.props.entity.website}</ListGroupItemHeading>
