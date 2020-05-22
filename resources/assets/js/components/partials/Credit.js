@@ -151,7 +151,7 @@ export default class Credit extends Component {
               <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
                 <CardText>
-                      <FileUploads entity_type="Invoice" entity={this.props.entity}
+                      <FileUploads entity_type="Credit" entity={this.props.entity}
                     user_id={this.props.entity.user_id}/>
                 </CardText>
               </Card>
