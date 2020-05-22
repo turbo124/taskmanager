@@ -24,11 +24,11 @@ use Illuminate\Http\Request;
  */
 class CreateDeal
 {
-    private $task;
+    private Task $task;
     private $request;
-    private $customer_repo;
-    private $order_repo;
-    private $task_repo;
+    private CustomerRepository $customer_repo;
+    private OrderRepository $order_repo;
+    private TaskRepository $task_repo;
     private $is_deal;
 
     /**
@@ -41,7 +41,7 @@ class CreateDeal
      * @param $is_deal
      */
     public function __construct(
-        $task,
+        Task $task,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
@@ -76,7 +76,11 @@ class CreateDeal
             }
             
            if (!empty($this->request->products)) {
-                $this->saveOrder($customer);
+                $order = $this->saveOrder($customer);
+
+               if(!$order) {
+                   return null;
+               }
             }
 
             DB::commit();
@@ -86,7 +90,7 @@ class CreateDeal
         }
     }
 
-    private function saveTask()
+    private function saveTask(): ?Task
     {
         try {
             $date = new DateTime(); // Y-m-d
@@ -119,7 +123,7 @@ class CreateDeal
         }
     }
 
-    private function saveCustomer()
+    private function saveCustomer(): ?Customer
     {
         $customer = CustomerFactory::create($this->task->account, $this->task->user);
         
@@ -205,7 +209,7 @@ class CreateDeal
     }
 
 
-    private function saveOrder(Customer $customer)
+    private function saveOrder(Customer $customer): ?Order
     {
 
         try {
@@ -241,7 +245,6 @@ class CreateDeal
             $order
         );
 
-
         $subject = $order->customer->getSetting('email_subject_order');
         $body = $order->customer->getSetting('email_template_order');
 
@@ -251,7 +254,7 @@ class CreateDeal
         return $order;
         } catch (Exception $e) {
             DB::rollback();
-            return false;
+            return null;
         }
        
     }
