@@ -32,6 +32,41 @@ export default class Expense extends Component {
                                     amount={convertedAmount}/>}
                             </div>
                         </div>
+
+                        <Row>
+                             <ListGroup className="mt-4">
+                                <ListGroupItem className="list-group-item-dark">
+                                    <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/> Client
+                                        here</ListGroupItemHeading>
+                                </ListGroupItem>
+                                <ListGroupItem className="list-group-item-dark">
+                                    <ListGroupItemHeading><i
+                                        className="fa fa-credit-card-alt mr-2"/> {this.props.entity.number}
+                                    </ListGroupItemHeading>
+                                    <ListGroupItemText>
+                                        {this.props.entity.amount}
+                                    </ListGroupItemText>
+                                </ListGroupItem>
+                            </ListGroup>
+
+                            <ul>
+                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                    <ListGroupItemHeading>Payment Date</ListGroupItemHeading>
+                                    <ListGroupItemText>
+                                        <FormatDate date={this.props.entity.date}/>
+                                    </ListGroupItemText>
+                                </ListGroupItem>
+
+                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                    <ListGroupItemHeading>
+                                        Transaction Reference
+                                    </ListGroupItemHeading>
+                                    <ListGroupItemText>
+                                        {this.props.entity.transaction_reference}
+                                    </ListGroupItemText>
+                                </ListGroupItem>
+                            </ul>
+                       </Row>
                     </CardText>
                 </Card>
 
