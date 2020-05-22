@@ -61,12 +61,69 @@ class CreateDeal
         DB::beginTransaction();
 
         try {
-            $customer = CustomerFactory::create($this->task->account, $this->task->user);
+            if(!$this->saveCustomer()) {
+                return null;
+            }
+            
+            if(!$this->saveAddresses()) {
+                return null;
+            }
 
+            $this->task = $this->saveTask();
+            
+            if(!$this->task) {
+                return null;
+            }
+            
+           if (!empty($this->request->products)) {
+                $this->saveOrder($customer);
+            }
+
+            DB::commit();
+            return $this->task;
+        } catch(Exception $e) {
+            DB::rollback();
+        }
+    }
+
+    private function saveTask()
+    {
+        try {
             $date = new DateTime(); // Y-m-d
             $date->add(new DateInterval('P30D'));
             $due_date = $date->format('Y-m-d');
 
+            $this->task = $this->task_repo->save(
+                [
+                    'due_date'    => $due_date,
+                    'created_by'  => $this->task->user_id,
+                    'source_type' => $this->request->source_type,
+                    'title'       => $this->request->title,
+                    'description' => isset($this->request->description) ? $this->request->description : '',
+                    'customer_id' => $customer->id,
+                    'valued_at'   => $this->request->valued_at,
+                    'task_type'   => $this->is_deal === true ? 3 : 2,
+                    'task_status' => $this->request->task_status
+                ],
+                $this->task
+            );
+
+            if (!empty($this->request->contributors)) {
+                $this->task->users()->sync($this->request->input('contributors'));
+            }
+
+            return $this->task;
+        } catch (Exception $e) {
+            DB::rollback();
+            return null;
+        }
+    }
+
+    private function saveCustomer()
+    {
+        $customer = CustomerFactory::create($this->task->account, $this->task->user);
+        
+        try {
             $contact = ClientContact::where('email', '=', $this->request->email)->first();
 
             if (!empty($contact)) {
@@ -104,6 +161,16 @@ class CreateDeal
                 (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
             }
 
+            return $customer;
+        } catch (Exception $e) {
+            DB::rollback();
+            return null;
+        }
+    }
+
+    private function saveAddresses(): bool
+    {
+        try {
             if (!empty($this->request->billing)) {
                 Address::updateOrCreate(
                     ['customer_id' => $customer->id, 'address_type' => 1],
@@ -130,39 +197,19 @@ class CreateDeal
                 );
             }
 
-            $this->task = $this->task_repo->save(
-                [
-                    'due_date'    => $due_date,
-                    'created_by'  => $this->task->user_id,
-                    'source_type' => $this->request->source_type,
-                    'title'       => $this->request->title,
-                    'description' => isset($this->request->description) ? $this->request->description : '',
-                    'customer_id' => $customer->id,
-                    'valued_at'   => $this->request->valued_at,
-                    'task_type'   => $this->is_deal === true ? 3 : 2,
-                    'task_status' => $this->request->task_status
-                ],
-                $this->task
-            );
-
-            if (!empty($this->request->contributors)) {
-                $this->task->users()->sync($this->request->input('contributors'));
-            }
-
-            if (!empty($this->request->products)) {
-                $this->saveOrder($customer);
-            }
-
-            DB::commit();
-            return $this->task;
-        } catch(Exception $e) {
+           return true;
+        } catch (Exception $e) {
             DB::rollback();
+            return false;
         }
     }
 
+
     private function saveOrder(Customer $customer)
     {
-        $contacts = $customer->contacts->toArray();
+
+        try {
+             $contacts = $customer->contacts->toArray();
         $invitations = [];
 
         foreach ($contacts as $contact) {
@@ -200,5 +247,12 @@ class CreateDeal
 
         event(new OrderWasCreated($order));
         $order->service()->sendEmail(null, $subject, $body);
+
+        return $order;
+        } catch (Exception $e) {
+            DB::rollback();
+            return false;
+        }
+       
     }
 }
