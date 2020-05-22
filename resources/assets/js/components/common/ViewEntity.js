@@ -23,10 +23,12 @@ export default class ViewEntity extends Component {
         super(props)
         this.state = {
             roles: [],
-            modal: true
-        }
+            modal: true,
+            activeTab: '1'
+        } 
 
         this.toggle = this.toggle.bind(this)
+        this.toggleTab = this.toggleTab.bind(this);
     }
 
     toggle () {
@@ -34,6 +36,12 @@ export default class ViewEntity extends Component {
             modal: false,
             errors: []
         }, () => this.props.toggle())
+    }
+
+    toggleTab(tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab });
+        }
     }
 
     render () {
@@ -91,7 +99,27 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
                         <React.Fragment>
-                            <div className="row">
+                              <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === '1' })}
+            onClick={() => { this.toggleTab('1'); }}
+          >
+            Details
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === '2' })}
+            onClick={() => { this.toggleTab('2'); }}
+          >
+            Documents
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={this.state.activeTab}>
+        <TabPane tabId="1">
+             <Row>
                                 <ListGroup className="mt-4">
                                     <ListGroupItem className="list-group-item-dark">
                                         <ListGroupItemHeading><i
@@ -128,9 +156,9 @@ export default class ViewEntity extends Component {
                                         </ListGroupItemText>
                                     </ListGroupItem>
                                 </ul>
-                            </div>
+                            </Row>
 
-                            <div className="row">
+                            <Row>
                                 <ListGroup className="col-12 mt-4">
                                     {this.props.entity.line_items.map((line_item, index) => (
                                         <ListGroupItem className="list-group-item-dark">
@@ -147,9 +175,9 @@ export default class ViewEntity extends Component {
                                         </ListGroupItem>
                                     ))}
                                 </ListGroup>
-                            </div>
+                            </Row>
 
-                            <div className="row justify-content-end">
+                            <Row className="justify-content-end">
                                 <ListGroup className="col-6 mt-4">
                                     <ListGroupItem
                                         className="list-group-item-dark d-flex justify-content-between align-items-center">
@@ -172,9 +200,32 @@ export default class ViewEntity extends Component {
                                         <span> {this.props.entity.total} </span>
                                     </ListGroupItem>
                                 </ListGroup>
-                            </div>
+                            </Row>
+        </TabPane>
+        <TabPane tabId="2">
+          <Row>
+            <Col sm="6">
+              <Card body>
+                <CardTitle>Special Title Treatment</CardTitle>
+                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                <Button>Go somewhere</Button>
+              </Card>
+            </Col>
+            <Col sm="6">
+              <Card body>
+                <CardTitle>Special Title Treatment</CardTitle>
+                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                <Button>Go somewhere</Button>
+              </Card>
+            </Col>
+          </Row>
+        </TabPane>
+      </TabContent>
 
-                            <div class="fixed-bottom">...</div>
+      <div class="navbar">
+          <a href="#home" class="active">Home</a>
+          <a href="#news">News</a>
+      </div>
 
                         </React.Fragment>
 
