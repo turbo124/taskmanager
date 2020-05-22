@@ -47,6 +47,41 @@ export default class Customer extends Component {
          Phone
         </ListGroupItemText>
       </ListGroupItem>
+
+       <ListGroupItem>
+        <ListGroupItemHeading> {this.props.entity.website}</ListGroupItemHeading>
+        <ListGroupItemText>
+         Website
+        </ListGroupItemText>
+      </ListGroupItem>
+
+       <ListGroupItem>
+        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemText>
+         Vat Number
+        </ListGroupItemText>
+      </ListGroupItem>
+
+       <ListGroupItem>
+        <ListGroupItemHeading> {this.props.entity.number}</ListGroupItemHeading>
+        <ListGroupItemText>
+         Number
+        </ListGroupItemText>
+      </ListGroupItem>
+
+      <ListGroupItem>
+        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemText>
+         Billing Address 
+        </ListGroupItemText>
+      </ListGroupItem>
+
+       <ListGroupItem>
+        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemText>
+         Shipping Address
+        </ListGroupItemText>
+      </ListGroupItem>
     </ListGroup>
                     </Row>
                 </CardText>
