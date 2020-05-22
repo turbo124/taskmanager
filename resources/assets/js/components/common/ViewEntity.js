@@ -89,73 +89,93 @@ export default class ViewEntity extends Component {
                         </ul>
                         }
 
-                        const items = this.props.entity && this.props.entity.line_items ? this.props.entity.line_items.map((line_item) =>
-                            <ListGroupItem>
-                                <ListGroupItemHeading className="d-flex justify-content-between align-items-center">
-                                    {line_item.product_id}
-                                    <span>Subtotal</span>
-                                </ListGroupItemHeading>
-                            <ListGroupItemText>
-                                {line_item.quantity} x {line_item.unit_cost} - {line_item.unit_discount} <br>
-                                {line_item.description}
-                            </ListGroupItemText>
-                        </ListGroupItem>
-                    ) : null
-
                         {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
                         <React.Fragment>
-                             <ListGroup className="mt-4">
-                                 <ListGroupItem className="list-group-item-dark">
-                                     <ListGroupItemHeading><i
-                                         className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
-                                     </ListGroupItemHeading>
-                                 </ListGroupItem>
-                              </ListGroup>
-                        <ul className="mt-4">
-                            <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                <ListGroupItemHeading>Invoice Date</ListGroupItemHeading>
-                                <ListGroupItemText>
-                                    <FormatDate date={this.props.entity.date}/>
-                                </ListGroupItemText>
-                            </ListGroupItem>
+                            <div className="row">
+                                <ListGroup className="mt-4">
+                                    <ListGroupItem className="list-group-item-dark">
+                                        <ListGroupItemHeading><i
+                                            className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
+                                        </ListGroupItemHeading>
+                                    </ListGroupItem>
+                                </ListGroup>
+                                <ul className="mt-4">
+                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                        <ListGroupItemHeading>Invoice Date</ListGroupItemHeading>
+                                        <ListGroupItemText>
+                                            <FormatDate date={this.props.entity.date}/>
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
 
-                            <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                <ListGroupItemHeading>Due Date</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.due_date}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                        <ListGroupItemHeading>Due Date</ListGroupItemHeading>
+                                        <ListGroupItemText>
+                                            {this.props.entity.due_date}
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
 
-                            <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                <ListGroupItemHeading>PO Number</ListGroupItemHeading>
-                                <ListGroupItemText>
-                                    <FormatDate date={this.props.entity.po_number}/>
-                                </ListGroupItemText>
-                            </ListGroupItem>
+                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                        <ListGroupItemHeading>PO Number</ListGroupItemHeading>
+                                        <ListGroupItemText>
+                                            <FormatDate date={this.props.entity.po_number}/>
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
 
-                            <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                <ListGroupItemHeading>Discount</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.discount_total}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </ul>
+                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
+                                        <ListGroupItemHeading>Discount</ListGroupItemHeading>
+                                        <ListGroupItemText>
+                                            {this.props.entity.discount_total}
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
+                                </ul>
+                            </div>
 
-                            <ListGroup>
-                                {items}
-                            </ListGroup>
+                            <div className="row">
+                                <ListGroup className="col-12 mt-4">
+                                    {this.props.entity.line_items.map((line_item, index) => (
+                                        <ListGroupItem className="list-group-item-dark">
+                                            <ListGroupItemHeading
+                                                className="d-flex justify-content-between align-items-center">
+                                                {line_item.product_id}
+                                                <span>{line_item.sub_total}</span>
+                                            </ListGroupItemHeading>
+                                            <ListGroupItemText>
+                                                {line_item.quantity} x {line_item.unit_price} Discount: {line_item.unit_discount} Tax: {line_item.unit_tax}
+                                                <br/>
+                                                {line_item.description}
+                                            </ListGroupItemText>
+                                        </ListGroupItem>
+                                    ))}
+                                </ListGroup>
+                            </div>
 
-                          
+                            <div className="row justify-content-end">
+                                <ListGroup className="col-6 mt-4">
+                                    <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
+                                        Tax
+                                        <span>{this.props.entity.tax_total}</span>
+                                    </ListGroupItem>
+                                    <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
+                                        Discount
+                                        <span> {this.props.entity.discount_total}</span>
+                                    </ListGroupItem>
+                                    <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
+                                        Subtotal
+                                        <span> {this.props.entity.sub_total} </span>
+                                    </ListGroupItem>
+                                    <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
+                                        Total
+                                        <span> {this.props.entity.total} </span>
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </div>
 
-     <ListGroup>
-      <ListGroupItem className="justify-content-between">Tax <Badge pill>{this.props.entity.tax_total}</Badge></ListGroupItem>
-      <ListGroupItem className="justify-content-between">Discount <Badge pill> {this.props.entity.discount_total}</Badge></ListGroupItem>
-      <ListGroupItem className="justify-content-between">Subtotal <Badge pill> {this.props.entity.sub_total} </Badge></ListGroupItem>
-       <ListGroupItem className="justify-content-between">Total <Badge pill> {this.props.entity.total} </Badge></ListGroupItem>
-    </ListGroup>
-                          </React.Fragment>
+                        </React.Fragment>
 
-                       
                         }
 
                         {this.props.entity && ['Payment'].includes(this.props.entity_type) &&

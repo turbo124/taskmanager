@@ -47,12 +47,8 @@ trait QuoteTransformable
             'custom_value4'         => (string)$quote->custom_value4 ?: '',
             'custom_surcharge1'     => (float)$quote->custom_surcharge1,
             'custom_surcharge2'     => (float)$quote->custom_surcharge2,
-            'custom_surcharge3'     => (float)$quote->custom_surcharge3,
-            'custom_surcharge4'     => (float)$quote->custom_surcharge4,
             'custom_surcharge_tax1' => (bool)$quote->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$quote->custom_surcharge_tax2,
-            'custom_surcharge_tax3' => (bool)$quote->custom_surcharge_tax3,
-            'custom_surcharge_tax4' => (bool)$quote->custom_surcharge_tax4,
             'emails'                => $this->transformQuoteEmails($quote->emails()),
         ];
     }

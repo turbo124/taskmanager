@@ -48,12 +48,8 @@ trait OrderTransformable
             'custom_value4'         => (string)$order->custom_value4 ?: '',
             'custom_surcharge1'     => (float)$order->custom_surcharge1,
             'custom_surcharge2'     => (float)$order->custom_surcharge2,
-            'custom_surcharge3'     => (float)$order->custom_surcharge3,
-            'custom_surcharge4'     => (float)$order->custom_surcharge4,
             'custom_surcharge_tax1' => (bool)$order->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$order->custom_surcharge_tax2,
-            'custom_surcharge_tax3' => (bool)$order->custom_surcharge_tax3,
-            'custom_surcharge_tax4' => (bool)$order->custom_surcharge_tax4,
             'emails'                => $this->transformOrderEmails($order->emails()),
         ];
     }

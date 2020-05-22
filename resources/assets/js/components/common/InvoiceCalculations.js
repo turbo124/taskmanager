@@ -83,22 +83,6 @@ export const CalculateSurcharges = (props) => {
         tax_total += surcharges.custom_surcharge2 * (tax / 100)
     }
 
-    if (surcharges.custom_surcharge3 && surcharges.custom_surcharge3 > 0) {
-        total += surcharges.custom_surcharge3
-    }
-
-    if (surcharges.custom_surcharge3 && surcharges.custom_surcharge3 > 0 && surcharges.custom_surcharge_tax3 === true && tax > 0) {
-        tax_total += surcharges.custom_surcharge3 * (tax / 100)
-    }
-
-    if (surcharges.custom_surcharge4 && surcharges.custom_surcharge4 > 0) {
-        total += surcharges.custom_surcharge4
-    }
-
-    if (surcharges.custom_surcharge4 && surcharges.custom_surcharge4 > 0 && surcharges.custom_surcharge_tax4 === true && tax > 0) {
-        tax_total += surcharges.custom_surcharge4 * (tax / 100)
-    }
-
     return { total_custom_values: total, total_custom_tax: tax_total }
 }
 

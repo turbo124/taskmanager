@@ -48,12 +48,8 @@ trait InvoiceTransformable
             'custom_value4'         => (string)$invoice->custom_value4 ?: '',
             'custom_surcharge1'     => (float)$invoice->custom_surcharge1,
             'custom_surcharge2'     => (float)$invoice->custom_surcharge2,
-            'custom_surcharge3'     => (float)$invoice->custom_surcharge3,
-            'custom_surcharge4'     => (float)$invoice->custom_surcharge4,
             'custom_surcharge_tax1' => (bool)$invoice->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$invoice->custom_surcharge_tax2,
-            'custom_surcharge_tax3' => (bool)$invoice->custom_surcharge_tax3,
-            'custom_surcharge_tax4' => (bool)$invoice->custom_surcharge_tax4,
             'last_sent_date'        => $invoice->last_sent_date ?: '',
             'emails'                => $this->transformEmails($invoice->emails()),
         ];
