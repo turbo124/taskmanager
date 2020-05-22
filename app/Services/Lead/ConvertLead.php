@@ -32,16 +32,31 @@ class ConvertLead
         if ($this->lead->task_status === Lead::STATUS_COMPLETED) {
             return false;
         }
-
-        $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user, $this->lead->account);
-        $customer->save();
+      
+        try {
+            DB::beginTransaction();
+            $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user, $this->lead->account);
+        
+           if(!$customer->save()) {
+               DB::rollback();
+               return null;
+           }
 
         $address = CloneLeadToAddressFactory::create($this->lead, $customer);
-        $address->save();
+        
+        if(!$address->save()) {
+            DB::rollback();
+            return null;
+        }
 
         $client_contact =
             CloneLeadToContactFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
-        $client_contact->save();
+        
+
+        if(!$client_contact->save()) {
+            DB::rollback();
+            return null;
+        }
 
         $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
@@ -50,12 +65,26 @@ class ConvertLead
         $due_date = $date->format('Y-m-d');
 
         $task->due_date = $due_date;
-        $task->save();
+
+        if(!$task->save()) {
+            DB::rollback();
+            return null;
+        }
 
         $this->lead->task_status = Lead::STATUS_COMPLETED;
         $this->lead->status_id = Lead::STATUS_COMPLETED;
-        $this->lead->save();
+
+        if(!$this->lead->save()) {
+            DB::rollback();
+            return null;
+        }
+
+        DB::commit();
 
         return $this->lead;
+        } catch (Exception $e) {
+            DB::rollback(); 
+            return null;
+        }
     }
 }
