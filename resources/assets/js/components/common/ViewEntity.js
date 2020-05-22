@@ -10,12 +10,12 @@ import {
     ListGroupItemHeading,
     ListGroupItemText
 } from 'reactstrap'
-import InvoiceTotals from './InvoiceTotals'
-import PaymentTotals from './PaymentTotals'
-import CustomerTotals from './CustomerTotals'
-import ExpenseTotals from './ExpenseTotals'
-import QuoteTotals from './QuoteTotals'
-import CreditTotals from './CreditTotals'
+import Invoice from '../partials/Invoice'
+import Payment from '../partials/Payment'
+import Customer from '../partials/Customer'
+import Expense from '../partials/Expense'
+import Quote from '../partials/Quote'
+import Credit from '../partials/Credit'
 import FormatDate from './FormatDate'
 
 export default class ViewEntity extends Component {
@@ -74,70 +74,27 @@ export default class ViewEntity extends Component {
                     <ModalHeader toggle={this.toggle}>{this.props.title ? this.props.title : 'Details'}</ModalHeader>
                     <ModalBody>
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
-                        <InvoiceTotals entity={this.props.entity}/>}
+                        <Invoice entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
-                        <CreditTotals entity={this.props.entity}/>}
+                        <Credit entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
-                        <QuoteTotals entity={this.props.entity}/>}
+                        <Quote entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Customer'].includes(this.props.entity_type) &&
-                        <CustomerTotals entity={this.props.entity}/>}
+                        <Customer entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && (this.props.entity_type === 'Payment') &&
-                        <PaymentTotals entity={this.props.entity}/>}
+                        <Payment entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
-                        <ExpenseTotals entity={this.props.entity}/>}
+                        <Expense entity={this.props.entity}/>}
 
-                        {!['Payment', 'Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
+                        {!['Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>
-                        }
-
-                        {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
-                     
-
-                        }
-
-                        {this.props.entity && ['Payment'].includes(this.props.entity_type) &&
-                        <React.Fragment>
-                            <ListGroup className="mt-4">
-                                <ListGroupItem className="list-group-item-dark">
-                                    <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/> Client
-                                        here</ListGroupItemHeading>
-                                </ListGroupItem>
-                                <ListGroupItem className="list-group-item-dark">
-                                    <ListGroupItemHeading><i
-                                        className="fa fa-credit-card-alt mr-2"/> {this.props.entity.number}
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.amount}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </ListGroup>
-
-                            <ul>
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>Payment Date</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>
-                                        Transaction Reference
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.transaction_reference}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </ul>
-                        </React.Fragment>
-
                         }
 
                     </ModalBody>
