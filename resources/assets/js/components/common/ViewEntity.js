@@ -174,6 +174,8 @@ export default class ViewEntity extends Component {
                                 </ListGroup>
                             </div>
 
+                            <div class="fixed-bottom">...</div>
+
                         </React.Fragment>
 
                         }
