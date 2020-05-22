@@ -150,8 +150,10 @@ export default class Credit extends Component {
             <Col sm="6">
               <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
-                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                <Button>Go somewhere</Button>
+                <CardText>
+                      <FileUploads entity_type="Invoice" entity={this.props.entity}
+                    user_id={this.props.entity.user_id}/>
+                </CardText>
               </Card>
             </Col>
             <Col sm="6">
