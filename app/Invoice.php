@@ -73,12 +73,8 @@ class Invoice extends Model
         'custom_value4',
         'custom_surcharge1',
         'custom_surcharge2',
-        'custom_surcharge3',
-        'custom_surcharge4',
         'custom_surcharge_tax1',
         'custom_surcharge_tax2',
-        'custom_surcharge_tax3',
-        'custom_surcharge_tax4',
         'design_id'
     ];
 

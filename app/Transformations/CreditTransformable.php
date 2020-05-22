@@ -52,12 +52,8 @@ trait CreditTransformable
             'custom_value4'         => (string)$credit->custom_value4 ?: '',
             'custom_surcharge1'     => (float)$credit->custom_surcharge1,
             'custom_surcharge2'     => (float)$credit->custom_surcharge2,
-            'custom_surcharge3'     => (float)$credit->custom_surcharge3,
-            'custom_surcharge4'     => (float)$credit->custom_surcharge4,
             'custom_surcharge_tax1' => (bool)$credit->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$credit->custom_surcharge_tax2,
-            'custom_surcharge_tax3' => (bool)$credit->custom_surcharge_tax3,
-            'custom_surcharge_tax4' => (bool)$credit->custom_surcharge_tax4,
             'emails'                => $this->transformCreditEmails($credit->emails()),
         ];
     }

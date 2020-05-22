@@ -327,17 +327,6 @@ class CreateUbl implements ShouldQueue
             $total += $this->invoice->custom_surcharge2;
         }
 
-
-        if ($this->invoice->custom_surcharge3 && $this->invoice->custom_surcharge_tax3) {
-            $total += $this->invoice->custom_surcharge3;
-        }
-
-
-        if ($this->invoice->custom_surcharge4 && $this->invoice->custom_surcharge_tax4) {
-            $total += $this->invoice->custom_surcharge4;
-        }
-
-
         return $total;
     }
 

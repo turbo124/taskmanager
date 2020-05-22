@@ -332,10 +332,6 @@ class EditInvoice extends Component {
             custom_surcharge_tax1: this.state.custom_surcharge_tax1,
             custom_surcharge2: this.state.custom_surcharge2,
             custom_surcharge_tax2: this.state.custom_surcharge_tax2,
-            custom_surcharge3: this.state.custom_surcharge3,
-            custom_surcharge_tax3: this.state.custom_surcharge_tax3,
-            custom_surcharge4: this.state.custom_surcharge4,
-            custom_surcharge_tax4: this.state.custom_surcharge_tax4,
             invitations: this.state.invitations
         }
     }

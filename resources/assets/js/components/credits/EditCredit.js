@@ -210,11 +210,8 @@ export default class EditCredit extends Component {
                     private_notes: '',
                     custom_surcharge1: null,
                     custom_surcharge2: null,
-                    custom_surcharge3: null,
                     custom_surcharge_tax1: null,
                     custom_surcharge_tax2: null,
-                    custom_surcharge_tax3: null,
-                    custom_surcharge_tax4: null,
                     custom_value1: '',
                     custom_value2: '',
                     custom_value3: '',
@@ -324,10 +321,6 @@ export default class EditCredit extends Component {
             custom_surcharge_tax1: this.state.custom_surcharge_tax1,
             custom_surcharge2: this.state.custom_surcharge2,
             custom_surcharge_tax2: this.state.custom_surcharge_tax2,
-            custom_surcharge3: this.state.custom_surcharge3,
-            custom_surcharge_tax3: this.state.custom_surcharge_tax3,
-            custom_surcharge4: this.state.custom_surcharge4,
-            custom_surcharge_tax4: this.state.custom_surcharge_tax4,
             invitations: this.state.invitations
         }
     }

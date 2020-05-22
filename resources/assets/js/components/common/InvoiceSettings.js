@@ -43,39 +43,6 @@ export default function InvoiceSettings (props) {
                     </Col>
                 </Row>
 
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="exampleEmail">Custom Surcharge 3</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="custom_surcharge3" id="custom_surcharge3" placeholder="with a placeholder" value={props.settings.custom_surcharge3} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup check>
-                            <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="custom_surcharge_tax3" id="custom_surcharge_tax3" checked={props.settings.custom_surcharge_tax3} />
-                                Custom Surcharge Tax 3
-                            </Label>
-                        </FormGroup>
-                    </Col>
-                </Row>
-
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="exampleEmail">Custom Surcharge 4</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="custom_surcharge4" id="custom_surcharge4" value={props.settings.custom_surcharge4} placeholder="with a placeholder" />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup check>
-                            <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="custom_surcharge_tax4" id="custom_surcharge_tax4" checked={props.settings.custom_surcharge_tax4} />
-                                Custom Surcharge Tax 4
-                            </Label>
-                        </FormGroup>
-                    </Col>
-                </Row>
                 <FormGroup>
                     <Label>Tax</Label>
                     <TaxRateDropdown
