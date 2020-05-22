@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import {
+    TabContent, 
+    TabPane,
+    Nav,
+    NavItem, 
+    NavLink,
+    Row,
     Card,
     CardText
 } from 'reactstrap'
 import FormatMoney from './FormatMoney'
 import QuotePresenter from '../presenters/QuotePresenter'
 
-export default class QuoteTotals extends Component {
+export default class Quote extends Component {
     render () {
         return (
             <React.Fragment>
