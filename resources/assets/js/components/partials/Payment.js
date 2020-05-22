@@ -6,7 +6,7 @@ import {
 import FormatMoney from './FormatMoney'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 
-export default class PaymentTotals extends Component {
+export default class Payment extends Component {
     render () {
         return (
             <React.Fragment>
