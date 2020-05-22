@@ -8,7 +8,7 @@ import ExpenseModel from '../models/ExpenseModel'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import ExpensePresenter from '../presenters/ExpensePresenter'
 
-export default class ExpenseTotals extends Component {
+export default class Expense extends Component {
     render () {
         const expenseModel = new ExpenseModel(this.props.entity)
         const convertedAmount = expenseModel.convertedAmount
