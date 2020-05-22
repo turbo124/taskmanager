@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import {
+    TabContent, 
+    TabPane,
+    Nav,
+    NavItem, 
+    NavLink,
+    Row,
     Card,
     CardText
 } from 'reactstrap'
