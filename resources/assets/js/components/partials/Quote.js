@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FileUploads from '../attachments/FileUploads'
 import {
     TabContent, 
     TabPane,
