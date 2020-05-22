@@ -5,7 +5,7 @@ import {
 } from 'reactstrap'
 import FormatMoney from './FormatMoney'
 
-export default class CustomerTotals extends Component {
+export default class Customer extends Component {
     render () {
         return (
             <Card body outline color="danger">
