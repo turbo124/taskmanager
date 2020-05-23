@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
+import { translations } from '../common/_icons'
 
 export default class Customer extends Component {
     render () {
