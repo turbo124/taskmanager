@@ -3,15 +3,17 @@
 namespace App\Factory;
 
 use App\GroupSetting;
+use App\Account;
+use App\User;
 
 class GroupSettingFactory
 {
-    public static function create(int $account_id, int $user_id): GroupSetting
+    public static function create(Account $account, User $user): GroupSetting
     {
         $gs = new GroupSetting;
         $gs->name = '';
-        $gs->account_id = $account_id;
-        $gs->user_id = $user_id;
+        $gs->account_id = $account->id;
+        $gs->user_id = $user->id;
         $gs->settings = '{}';
 
         return $gs;
