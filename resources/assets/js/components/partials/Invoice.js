@@ -20,6 +20,7 @@ import InvoicePresenter from '../presenters/InvoicePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
+import { translations } from '../common/_icons'
 
 export default class Invoice extends Component {
     constructor (props) {
