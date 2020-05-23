@@ -9,7 +9,8 @@ class UpdateGroupSettingRequest extends BaseFormRequest
 
     public function rules()
     {
-        $rules['name'] = 'required';
-        return $rules;
+        return [
+            'name' => 'required'
+        ];
     }
 }
