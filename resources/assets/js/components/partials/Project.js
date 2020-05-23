@@ -14,14 +14,14 @@ export default class Project extends Component {
                         <div className="d-flex">
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Total</h4>
+                                <h4 className="text-muted"> {translations.total} </h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={0}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Budgeted</h4>
+                                <h4 className="text-muted"> {translations.budgeted} </h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.budgeted_hours}/>}
                             </div>
