@@ -105,22 +105,18 @@ class FormBuilder extends React.Component {
                case 'payment_terms':
                    returnedField = <React.Fragment>
                         <PaymentTermsDropdown
-                        name="payment_terms"
-                        data-namespace="settings"
-                        payment_term={props.settings.payment_terms}
-                        errors={props.errors}
-                        handleInputChanges={props.onChange}
+                        name={field.name}
+                        payment_term={field.value}
+                        handleInputChanges={this.props.handleChange}
                     />
                    </React.Fragment>
                break
 
                case 'payment_type':
                 returnedField = <React.Fragment> <PaymentTypeDropdown
-                    name="default_payment_method"
-                    data-namespace="customer"
-                    payment_type={props.customer.default_payment_method}
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
+                    name={field.name}
+                    payment_type={field.value}
+                    handleInputChanges={this.props.handleChange}
                 />
                    </React.Fragment>
                break
@@ -139,7 +135,7 @@ class FormBuilder extends React.Component {
                 break
             case 'checkbox':
                 returnedField = <Switch
-                    ley={field.id}
+                    key={field.id}
                     label={field.label}
                     name={field.name}
                     isOn={field.value}
