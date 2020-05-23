@@ -30,7 +30,9 @@ export const icons = {
     envelope: 'fa-envelope'
 }
 
-export const translations = {
+export const translations = { 
+    billing_address: 'Billing Address',
+    shipping_address: 'Shipping Address',
     number: 'Number',
     amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
