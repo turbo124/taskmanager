@@ -19,7 +19,8 @@ import {
 import QuotePresenter from '../presenters/QuotePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import axios from "axios";
+import axios from 'axios'
+import { translations } from '../common/_icons'
 
 export default class Quote extends Component {
     constructor (props) {
@@ -87,7 +88,7 @@ export default class Quote extends Component {
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => { this.toggleTab('1') }}
                         >
-            Details
+            {translations.details}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -95,7 +96,7 @@ export default class Quote extends Component {
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => { this.toggleTab('2') }}
                         >
-            Documents
+            {translations.documents}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -106,14 +107,14 @@ export default class Quote extends Component {
                                 <div className="d-flex">
                                     <div
                                         className="p-2 flex-fill">
-                                        <h4 className="text-muted">Total</h4>
+                                        <h4 className="text-muted"> {translations.total} </h4>
                                         {<FormatMoney className="text-value-lg"
                                             amount={this.props.entity.total}/>}
                                     </div>
 
                                     <div
                                         className="p-2 flex-fill">
-                                        <h4 className="text-muted">Balance</h4>
+                                        <h4 className="text-muted"> {translations.balance} </h4>
                                         {<FormatMoney className="text-value-lg"
                                             amount={this.props.entity.balance} />}
                                     </div>
@@ -133,14 +134,14 @@ export default class Quote extends Component {
                             </ListGroup>
                             <ul className="mt-4">
                                 <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>Invoice Date</ListGroupItemHeading>
+                                    <ListGroupItemHeading> {translations.date} </ListGroupItemHeading>
                                     <ListGroupItemText>
                                         <FormatDate date={this.props.entity.date}/>
                                     </ListGroupItemText>
                                 </ListGroupItem>
 
                                 <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>Expiry Date</ListGroupItemHeading>
+                                    <ListGroupItemHeading> {translations.expiry_date} </ListGroupItemHeading>
                                     <ListGroupItemText>
                                         <FormatDate date={this.props.entity.due_date}/>
                                     </ListGroupItemText>
@@ -148,7 +149,7 @@ export default class Quote extends Component {
 
                                 {this.props.entity.po_number && this.props.entity.po_number.length &&
                                 <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>PO Number</ListGroupItemHeading>
+                                    <ListGroupItemHeading> {translations.po_number} </ListGroupItemHeading>
                                     <ListGroupItemText>
                                         {this.props.entity.po_number}
                                     </ListGroupItemText>
@@ -156,7 +157,7 @@ export default class Quote extends Component {
                                 }
 
                                 <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>Discount</ListGroupItemHeading>
+                                    <ListGroupItemHeading> {translations.discount} </ListGroupItemHeading>
                                     <ListGroupItemText>
                                         {this.props.entity.discount_total}
                                     </ListGroupItemText>
@@ -174,7 +175,7 @@ export default class Quote extends Component {
                                             <span>{line_item.sub_total}</span>
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            {line_item.quantity} x {line_item.unit_price} Discount: {line_item.unit_discount} Tax: {line_item.unit_tax}
+                                            {line_item.quantity} x {line_item.unit_price} {translations.discount}: {line_item.unit_discount} {translations.tax}: {line_item.unit_tax}
                                             <br/>
                                             {line_item.description}
                                         </ListGroupItemText>
@@ -187,22 +188,22 @@ export default class Quote extends Component {
                             <ListGroup className="col-6 mt-4">
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Tax
+                                        {translations.tax}
                                     <span>{this.props.entity.tax_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Discount
+                                        {translations.discount}
                                     <span> {this.props.entity.discount_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Subtotal
+                                        {translations.subtotal}
                                     <span> {this.props.entity.sub_total} </span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Total
+                                        {translations.total}
                                     <span> {this.props.entity.total} </span>
                                 </ListGroupItem>
                             </ListGroup>
@@ -212,7 +213,7 @@ export default class Quote extends Component {
                         <Row>
                             <Col>
                                 <Card body>
-                                    <CardTitle>Documents</CardTitle>
+                                    <CardTitle> {translations.documents} </CardTitle>
                                     <CardText>
                                         <FileUploads entity_type="Quote" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
@@ -225,7 +226,7 @@ export default class Quote extends Component {
                         <Row>
                             <Col>
                                 <Card body>
-                                    <CardTitle>PDF</CardTitle>
+                                    <CardTitle> {translations.pdf} </CardTitle>
                                     <CardText>
                                         <iframe style={{ width: '400px', height: '400px' }} className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardText>
@@ -240,7 +241,7 @@ export default class Quote extends Component {
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
-                        PDF
+                        {translations.pdf}
                     </NavLink>
                     <NavLink className="flex-fill border border-secondary"
                         onClick={() => {

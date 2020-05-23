@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
+import { translations } from '../common/_icons'
 
 export default class Company extends Component {
     render () {
@@ -21,14 +22,14 @@ export default class Company extends Component {
                         <div className="d-flex">
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Paid to Date</h4>
+                                <h4 className="text-muted">{translations.paid_to_date}</h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.paid_to_date}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Balance</h4>
+                                <h4 className="text-muted">{translations.balance}</h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.balance} />}
                             </div>
@@ -51,7 +52,7 @@ export default class Company extends Component {
                                             {contact.email}
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            Email
+                                            {translations.email}
                                         </ListGroupItemText>
                                     </Col>
 
@@ -68,7 +69,7 @@ export default class Company extends Component {
                                             {contact.phone}
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            Phone
+                                            {translations.phone_number}
                                         </ListGroupItemText>
                                     </Col>
                                 </ListGroupItem>
@@ -85,7 +86,7 @@ export default class Company extends Component {
                                 <ListGroupItemHeading>
                                     {this.props.entity.website}</ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Website
+                                    {translations.website}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
@@ -100,7 +101,7 @@ export default class Company extends Component {
                                     {this.props.entity.vat_number}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Vat Number
+                                    {translations.vat_number}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
@@ -108,7 +109,7 @@ export default class Company extends Component {
                         <ListGroupItem className="list-group-item-dark">
                             <ListGroupItemHeading> <i className={`fa ${icons.list} mr-4`} /> {this.props.entity.number}</ListGroupItemHeading>
                             <ListGroupItemText>
-                                Number
+                                {translations.number}
                             </ListGroupItemText>
                         </ListGroupItem>
 
@@ -126,7 +127,7 @@ export default class Company extends Component {
 
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Billing Address
+                                    {translations.billing_address}
                                 </ListGroupItemText>
                             </Col>
 
