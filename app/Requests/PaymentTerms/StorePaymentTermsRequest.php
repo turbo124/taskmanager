@@ -10,8 +10,9 @@ class StorePaymentTermsRequest extends BaseFormRequest
 
     public function rules()
     {
-        $rules['name'] = 'required';
-        $rules['number_of_days'] = 'required';
-        return $rules;
+       return [
+            'name' => 'required',
+            'number_of_days' => 'required',
+        ];
     }
 }
