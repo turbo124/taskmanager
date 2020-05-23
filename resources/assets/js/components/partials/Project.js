@@ -4,6 +4,7 @@ import {
     CardText
 } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
+import { translations } from '../common/_icons'
 
 export default class Project extends Component {
     render () {
