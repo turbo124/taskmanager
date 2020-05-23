@@ -37,61 +37,71 @@ class GroupSettingsTest extends TestCase
         $this->customer = factory(Customer::class)->create();
     }
 
+    
     /** @test */
-    public function it_can_show_all_the_projects()
+    public function it_can_show_all_the_groups()
     {
-        $insertedproject = factory(GroupSetting::class)->create();
-        $group_settings_repo = new GroupSettingRepository(new GroupSetting);
-        $list =  $group_settings_repo->listProjects()->toArray();
-        $myLastElement = end($list);
-        // $this->assertInstanceOf(Collection::class, $list);
-        $this->assertEquals($insertedproject->toArray(), $myLastElement);
+        factory(GroupSetting::class)->create();
+        $list = (new GroupSettingFilter(new GroupSettingRepository(new GroupSetting)))->filter(new SearchRequest(), $this->account);
+        $this->assertNotEmpty($list);
     }
 
     /** @test */
-    public function it_can_delete_the_project()
+    public function it_can_delete_the_group()
     {
-        $project = factory(Project::class)->create();
-        $group_settings_repo = new ProjectRepository($project);
-        $deleted = $group_settings_repo->newDelete($project);
+        $group_setting = factory(GroupSetting::class)->create();
+        $group_setting_repo = new GroupSettingRepository($group_setting);
+        $deleted = $group_setting_repo->newDelete($group_setting);
+        $this->assertTrue($deleted);
+    }
+
+    public function it_can_archive_the_group()
+    {
+        $group_setting = factory(GroupSetting::class)->create();
+        $group_setting_repo = new GroupSettingRepository($group_setting);
+        $deleted = $group_setting_repo->archive($group_setting);
         $this->assertTrue($deleted);
     }
 
     /** @test */
-    public function it_can_update_the_project()
+    public function it_can_update_the_group()
     {
-        $project = factory(Project::class)->create();
-        $title = $this->faker->word;
-        $data = ['title' => $title];
-        $group_settings_repo = new ProjectRepository($project);
-        $updated = $group_settings_repo->save($data, $project);
-        $found = $group_settings_repo->findProjectById($project->id);
-        $this->assertInstanceOf(Project::class, $updated);
-        $this->assertEquals($data['title'], $found->title);
+        $group_setting = factory(GroupSetting::class)->create();
+        $data = ['name' => $this->faker->word()];
+        $group_setting_repo = new GroupSettingRepository($group_setting);
+        $updated = $group_setting_repo->save($data, $group_setting);
+        $found = $group_setting_repo->findGroupSettingById($group_setting->id);
+        $this->assertInstanceOf(GroupSetting::class, $updated);
+        $this->assertEquals($data['name'], $found->name);
     }
 
     /** @test */
-    public function it_can_show_the_project()
+    public function it_can_show_the_group()
     {
-        $project = factory(Project::class)->create();
-        $group_settings_repo = new ProjectRepository(new Project);
-        $found = $group_settings_repo->findProjectById($project->id);
-        $this->assertInstanceOf(Project::class, $found);
-        $this->assertEquals($project->name, $found->name);
+        $group_setting = factory(GroupSetting::class)->create();
+        $group_setting_repo = new GroupSettingRepository(new GroupSetting);
+        $found = $group_setting_repo->findGroupSettingById($group_setting->id);
+        $this->assertInstanceOf(GroupSetting::class, $found);
+        $this->assertEquals($group_setting->name, $found->name);
     }
 
     /** @test */
-    public function it_can_create_a_project()
+    public function it_can_create_a_group()
     {
+        $user = factory(User::class)->create();
+        $factory = (new GroupSettingFactory)->create($this->account, $user);
+
+
         $data = [
-            'name'        => $this->faker->word,
+            'account_id'  => $this->account->id,
+            'user_id'     => $user->id,
+            'name'        => $this->faker->word()
         ];
 
-        $group_settings_repo = new ProjectRepository(new Project);
-        $factory = (new GroupSettingFactory())->create($this->user, $this->customer, $this->account);
-        $project = $group_settings_repo->save($data, $factory);
-        $this->assertInstanceOf(Project::class, $project);
-        $this->assertEquals($data['title'], $project->title);
+        $group_setting_repo = new GroupSettingRepository(new GroupSetting);
+        $group_setting = $group_setting_repo->save($data, $factory);
+        $this->assertInstanceOf(GroupSetting::class, $group_setting);
+        $this->assertEquals($data['name'], $group_setting->name);
     }
 
     public function tearDown(): void
