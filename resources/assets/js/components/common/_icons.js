@@ -27,7 +27,8 @@ export const icons = {
     building: 'fa-building',
     list: 'fa-list-ol',
     map_marker: 'fa-map-marker',
-    envelope: 'fa-envelope'
+    envelope: 'fa-envelope',
+    user: 'fa-user'
 }
 
 export const translations = { 
