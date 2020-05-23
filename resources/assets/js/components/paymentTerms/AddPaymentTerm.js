@@ -20,7 +20,7 @@ class AddPaymentTerm extends React.Component {
 
     componentDidMount () {
         if (Object.prototype.hasOwnProperty.call(localStorage, 'groupForm')) {
-            const storedValues = JSON.parse(localStorage.getItem('groupForm'))
+            const storedValues = JSON.parse(localStorage.getItem('paymentTermsForm'))
             this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
     }
@@ -28,7 +28,7 @@ class AddPaymentTerm extends React.Component {
     handleInput (e) {
         this.setState({
             [e.target.name]: e.target.value
-        }, () => localStorage.setItem('groupForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('paymentTermsForm', JSON.stringify(this.state)))
     }
 
     hasErrorFor (field) {
@@ -46,14 +46,14 @@ class AddPaymentTerm extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/groups', {
+        axios.post('/api/payment_settings', {
             name: this.state.name
         })
             .then((response) => {
                 const newUser = response.data
-                this.props.groups.push(newUser)
-                this.props.action(this.props.groups)
-                localStorage.removeItem('groupForm')
+                this.props.payment_terms.push(newUser)
+                this.props.action(this.props.payment_terms)
+                localStorage.removeItem('paymentTermsForm')
                 this.setState({
                     name: null
                 })
@@ -75,7 +75,7 @@ class AddPaymentTerm extends React.Component {
                 this.setState({
                     name: null,
                     icon: null
-                }, () => localStorage.removeItem('groupForm'))
+                }, () => localStorage.removeItem('paymentTermsForm'))
             }
         })
     }
@@ -86,16 +86,16 @@ class AddPaymentTerm extends React.Component {
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add PaymentTerm
+                        Add Payment Term
                     </ModalHeader>
                     <ModalBody>
-                        <FormPaymentTerm>
+                        <FormGroup>
                             <Label for="name">Name <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
                                 id="name" value={this.state.name} placeholder="Name"
                                 onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
-                        </FormPaymentTerm>
+                        </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
@@ -108,4 +108,4 @@ class AddPaymentTerm extends React.Component {
     }
 }
 
-export default AddPaymentTermSetting
+export default AddPaymentTerm
