@@ -21,14 +21,14 @@ export default class Customer extends Component {
                         <div className="d-flex">
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Paid to Date</h4>
+                                <h4 className="text-muted">{translations.paid_to_date}</h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.paid_to_date}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Balance</h4>
+                                <h4 className="text-muted">{translations.balance}</h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.balance}/>}
                             </div>
@@ -52,7 +52,7 @@ export default class Customer extends Component {
                                             {contact.email}
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            Email
+                                            {translations.email}
                                         </ListGroupItemText>
                                     </Col>
                                 </ListGroupItem>
@@ -68,7 +68,7 @@ export default class Customer extends Component {
                                             {contact.phone}
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            Phone
+                                            {translations.phone_number}
                                         </ListGroupItemText>
                                     </Col>
                                 </ListGroupItem>
@@ -85,7 +85,7 @@ export default class Customer extends Component {
                                 <ListGroupItemHeading> {this.props.entity.website}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Website
+                                    {translations.website}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
@@ -99,7 +99,7 @@ export default class Customer extends Component {
                                 <ListGroupItemHeading>{this.props.entity.vat_number}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Vat Number
+                                    {translations.vat_number}
                                 </ListGroupItemText>
                             </Col>
 
@@ -114,7 +114,7 @@ export default class Customer extends Component {
                                 <ListGroupItemHeading> {this.props.entity.number}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Number
+                                    {translations.number}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
@@ -132,7 +132,7 @@ export default class Customer extends Component {
                                     {this.props.entity.billing.city} {this.props.entity.billing.zip}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Billing Address
+                                    {translations.billing_address}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
@@ -151,7 +151,7 @@ export default class Customer extends Component {
                                     {this.props.entity.shipping.city} {this.props.entity.shipping.zip}
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>
-                                    Shipping Address
+                                    {translations.shipping_address}
                                 </ListGroupItemText>
                             </Col>
                         </ListGroupItem>
