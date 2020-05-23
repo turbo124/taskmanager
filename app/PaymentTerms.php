@@ -12,5 +12,5 @@ class PaymentTerm extends BaseModel
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'num_days'];
+    protected $fillable = ['name', 'number_of_days'];
 }
