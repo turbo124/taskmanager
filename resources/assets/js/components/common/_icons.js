@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = { 
+    total: 'Total',
     paid_to_date: 'Paid To Date',
     balance: 'Balance',
     billing_address: 'Billing Address',
