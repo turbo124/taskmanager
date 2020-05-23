@@ -17,7 +17,8 @@ import Quote from '../partials/Quote'
 import Credit from '../partials/Credit'
 import Project from '../partials/Project'
 import Company from '../partials/Company'
-import Order from "../partials/Order";
+import Order from '../partials/Order'
+import Lead from '../partials/Lead'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -95,6 +96,9 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company entity={this.props.entity}/>}
+
+                       {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
+                        <Lead entity={this.props.entity}/>}
 
                         {!['Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
