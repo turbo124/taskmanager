@@ -279,6 +279,22 @@ class Settings extends Component {
         const formFields = [
             [
                 {
+                    name: 'payment_terms',
+                    label: 'Payment Terms',
+                    type: 'payment_terms',
+                    placeholder: 'Payment Terms',
+                    value: settings.payment_terms,
+                    group: 1
+                },
+                {
+                    name: 'payment_type',
+                    label: 'Payment Type',
+                    type: 'payment_type',
+                    placeholder: 'Payment Type',
+                    value: settings.payment_type,
+                    group: 1
+                },
+                {
                     name: 'invoice_terms',
                     label: 'Invoice Terms',
                     type: 'textarea',
