@@ -31,7 +31,9 @@ export const icons = {
 }
 
 export const translations = { 
-    discount_total: 'Discount Total',
+    discount: 'Discount',
+    subtotal: 'Subtotal',
+    tax: 'Tax',
     total: 'Total',
     paid_to_date: 'Paid To Date',
     balance: 'Balance',
