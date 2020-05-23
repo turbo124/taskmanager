@@ -3,6 +3,9 @@ import { Input, FormGroup, Label, CustomInput } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import Switch from '../common/Switch'
+import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
+import PaymentTermsDropdown from "../common/PaymentTermsDropdown";
+
 
 /**
  * A component which renders a form based on a given list of fields.
