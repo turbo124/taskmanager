@@ -19,7 +19,8 @@ import {
 import QuotePresenter from '../presenters/QuotePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import axios from "axios";
+import axios from 'axios'
+import { translations } from '../common/_icons'
 
 export default class Quote extends Component {
     constructor (props) {
