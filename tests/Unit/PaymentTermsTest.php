@@ -37,83 +37,70 @@ class PaymentTermsTest extends TestCase
         $this->customer = factory(Customer::class)->create();
     }
 
+     
     /** @test */
-    public function it_can_show_all_the_projects()
+    public function it_can_show_all_the_groups()
     {
-        $insertedproject = factory(Project::class)->create();
-        $projectRepo = new ProjectRepository(new Project);
-        $list = $projectRepo->listProjects()->toArray();
-        $myLastElement = end($list);
-        // $this->assertInstanceOf(Collection::class, $list);
-        $this->assertEquals($insertedproject->toArray(), $myLastElement);
+        factory(PaymentTerm::class)->create();
+        $list = (new PaymentTermsFilter(new PaymentTermsRepository(new PaymentTerms)))->filter(new SearchRequest(), $this->account);
+        $this->assertNotEmpty($list);
     }
 
     /** @test */
-    public function it_can_delete_the_project()
+    public function it_can_delete_the_group()
     {
-        $project = factory(Project::class)->create();
-        $projectRepo = new ProjectRepository($project);
-        $deleted = $projectRepo->newDelete($project);
+        $payment_term = factory(PaymentTerm::class)->create();
+        $payment_terms_repo = new PaymentTermsRepository($payment_term);
+        $deleted = $payment_terms_repo->newDelete($payment_term);
+        $this->assertTrue($deleted);
+    }
+
+    public function it_can_archive_the_group()
+    {
+        $payment_term = factory(GroupSetting::class)->create();
+        $payment_terms_repo = new PaymentTermsRepository($payment_term);
+        $deleted = $payment_terms_repo->archive($payment_term);
         $this->assertTrue($deleted);
     }
 
     /** @test */
-    public function it_can_update_the_project()
+    public function it_can_update_the_group()
     {
-        $project = factory(Project::class)->create();
-        $title = $this->faker->word;
-        $data = ['title' => $title];
-        $projectRepo = new ProjectRepository($project);
-        $updated = $projectRepo->save($data, $project);
-        $found = $projectRepo->findProjectById($project->id);
-        $this->assertInstanceOf(Project::class, $updated);
-        $this->assertEquals($data['title'], $found->title);
+        $payment_term = factory(PaymentTerm::class)->create();
+        $data = ['name' => $this->faker->word()];
+        $payment_terms_repo = new PaymentTermsRepository($payment_term);
+        $updated = $payment_terms_repo->save($data, $payment_term);
+        $found = $payment_terms_repo->findPaymentTermsById($payment_term->id);
+        $this->assertInstanceOf(PaymentTerms::class, $updated);
+        $this->assertEquals($data['name'], $found->name);
     }
 
     /** @test */
-    public function it_can_show_the_project()
+    public function it_can_show_the_group()
     {
-        $project = factory(Project::class)->create();
-        $projectRepo = new ProjectRepository(new Project);
-        $found = $projectRepo->findProjectById($project->id);
-        $this->assertInstanceOf(Project::class, $found);
-        $this->assertEquals($project->name, $found->name);
+        $payment_term = factory(PaymentTerms::class)->create();
+        $payment_terms_repo = PaymentTermsRepository(new PaymentTerms);
+        $found = $payment_terms_repo->findPaymentTermsById($payment_term->id);
+        $this->assertInstanceOf(PaymentTerms::class, $found);
+        $this->assertEquals($payment_term->name, $found->name);
     }
 
     /** @test */
-    public function it_can_create_a_project()
+    public function it_can_create_a_group()
     {
+        $user = factory(User::class)->create();
+        $factory = (new PaymentTermsFactory)->create($this->account, $user);
+
         $data = [
-            'account_id'   => $this->account->id,
-            'user_id'      => $this->user->id,
-            'title'        => $this->faker->word,
-            'description'  => $this->faker->sentence,
-            'is_completed' => 0,
+            'account_id'  => $this->account->id,
+            'user_id'     => $user->id,
+            'name'        => $this->faker->word()
         ];
 
-        $projectRepo = new ProjectRepository(new Project);
-        $factory = (new ProjectFactory())->create($this->user, $this->customer, $this->account);
-        $project = $projectRepo->save($data, $factory);
-        $this->assertInstanceOf(Project::class, $project);
-        $this->assertEquals($data['title'], $project->title);
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function it_errors_creating_the_project_when_required_fields_are_not_passed()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-        $product = new ProjectRepository(new Project);
-        $product->createProject([]);
-    }
-
-    /** @test */
-    public function it_errors_finding_a_project()
-    {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $category = new ProjectRepository(new Project);
-        $category->findProjectById(999);
+        $payment_terms_repo = new PaymentTermsRepository(new PaymentTerms);
+        $payment_term = $payment_terms_repo->save($data, $factory);
+        $this->assertInstanceOf(PaymentTerms::class, $payment_term);
+        $this->assertEquals($data['name'], $payment_term->name);
     }
 
     public function tearDown(): void
