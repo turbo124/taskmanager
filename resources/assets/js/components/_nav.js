@@ -130,6 +130,16 @@ if (modules.invoices) {
     )
 }
 
+if (modules.orders) {
+    financial.children.push(
+        {
+            name: 'Orders',
+            url: '/orders',
+            icon: 'fa fa-area-chart'
+        }
+    )
+}
+
 if (modules.quotes) {
     financial.children.push(
         {

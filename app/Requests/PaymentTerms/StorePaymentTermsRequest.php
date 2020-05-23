@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Requests\PaymentTerms;
@@ -10,8 +9,8 @@ class StorePaymentTermsRequest extends BaseFormRequest
 
     public function rules()
     {
-       return [
-            'name' => 'required',
+        return [
+            'name'           => 'required',
             'number_of_days' => 'required',
         ];
     }

@@ -5,7 +5,6 @@ import {
     ModalBody,
     ModalFooter,
     Button,
-    ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
     ListGroupItemText
@@ -16,19 +15,19 @@ import Customer from '../partials/Customer'
 import Expense from '../partials/Expense'
 import Quote from '../partials/Quote'
 import Credit from '../partials/Credit'
-import FormatDate from './FormatDate'
+import Project from '../partials/Project'
+import Company from '../partials/Company'
+import Order from "../partials/Order";
 
 export default class ViewEntity extends Component {
     constructor (props) {
         super(props)
         this.state = {
             roles: [],
-            modal: true,
-            activeTab: '1'
-        } 
+            modal: true
+        }
 
         this.toggle = this.toggle.bind(this)
-        this.toggleTab = this.toggleTab.bind(this);
     }
 
     toggle () {
@@ -36,12 +35,6 @@ export default class ViewEntity extends Component {
             modal: false,
             errors: []
         }, () => this.props.toggle())
-    }
-
-    toggleTab(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab });
-        }
     }
 
     render () {
@@ -79,6 +72,9 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
                         <Credit entity={this.props.entity}/>}
 
+                        {this.props.entity && this.props.entity_type && ['Order'].includes(this.props.entity_type) &&
+                        <Order entity={this.props.entity}/>}
+
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
                         <Quote entity={this.props.entity}/>}
 
@@ -91,7 +87,16 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
                         <Expense entity={this.props.entity}/>}
 
-                        {!['Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
+                        {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
+                        <Quote entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
+                        <Project entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
+                        <Company entity={this.props.entity}/>}
+
+                        {!['Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>

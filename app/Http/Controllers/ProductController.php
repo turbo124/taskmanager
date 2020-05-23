@@ -99,7 +99,6 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
-
         $product = $this->product_repo->findProductById($id);
 
         $product = $this->product_repo->save($request->except('variations'), $product);

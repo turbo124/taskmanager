@@ -4,6 +4,9 @@ namespace App\Services\Task;
 
 use App\Address;
 use App\ClientContact;
+use App\Order;
+use App\Task;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Customer;
 use App\Factory\ClientContactFactory;
@@ -24,12 +27,31 @@ use Illuminate\Http\Request;
  */
 class CreateDeal
 {
-    private Task $task;
+    /**
+     * @var Task
+     */
+    private $task;
     private $request;
+
+    /**
+     * @var CustomerRepository
+     */
     private CustomerRepository $customer_repo;
+
+    /**
+     * @var OrderRepository
+     */
     private OrderRepository $order_repo;
+
+    /**
+     * @var TaskRepository
+     */
     private TaskRepository $task_repo;
-    private $is_deal;
+
+    /**
+     * @var bool
+     */
+    private bool $is_deal;
 
     /**
      * CreateDeal constructor.
@@ -61,36 +83,38 @@ class CreateDeal
         DB::beginTransaction();
 
         try {
-            if(!$this->saveCustomer()) {
-                return null;
-            }
-            
-            if(!$this->saveAddresses()) {
+            $customer = $this->saveCustomer();
+
+            if (!$customer) {
                 return null;
             }
 
-            $this->task = $this->saveTask();
-            
-            if(!$this->task) {
+            if (!$this->saveAddresses($customer)) {
                 return null;
             }
-            
-           if (!empty($this->request->products)) {
+
+            $this->task = $this->saveTask($customer);
+
+            if (!$this->task) {
+                return null;
+            }
+
+            if (!empty($this->request->products)) {
                 $order = $this->saveOrder($customer);
 
-               if(!$order) {
-                   return null;
-               }
+                if (!$order) {
+                    return null;
+                }
             }
 
             DB::commit();
             return $this->task;
-        } catch(Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
 
-    private function saveTask(): ?Task
+    private function saveTask(Customer $customer): ?Task
     {
         try {
             $date = new DateTime(); // Y-m-d
@@ -117,7 +141,7 @@ class CreateDeal
             }
 
             return $this->task;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return null;
         }
@@ -126,7 +150,7 @@ class CreateDeal
     private function saveCustomer(): ?Customer
     {
         $customer = CustomerFactory::create($this->task->account, $this->task->user);
-        
+
         try {
             $contact = ClientContact::where('email', '=', $this->request->email)->first();
 
@@ -166,13 +190,17 @@ class CreateDeal
             }
 
             return $customer;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return null;
         }
     }
 
-    private function saveAddresses(): bool
+    /**
+     * @param Customer $customer
+     * @return bool
+     */
+    private function saveAddresses(Customer $customer): bool
     {
         try {
             if (!empty($this->request->billing)) {
@@ -201,8 +229,8 @@ class CreateDeal
                 );
             }
 
-           return true;
-        } catch (Exception $e) {
+            return true;
+        } catch (\Exception $e) {
             DB::rollback();
             return false;
         }
@@ -211,51 +239,49 @@ class CreateDeal
 
     private function saveOrder(Customer $customer): ?Order
     {
-
         try {
-             $contacts = $customer->contacts->toArray();
-        $invitations = [];
+            $contacts = $customer->contacts->toArray();
+            $invitations = [];
 
-        foreach ($contacts as $contact) {
-            $invitations[] = [
-                'client_contact_id' => $contact['id']
-            ];
-        }
+            foreach ($contacts as $contact) {
+                $invitations[] = [
+                    'client_contact_id' => $contact['id']
+                ];
+            }
 
-        $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
+            $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
 
-        $order = $this->order_repo->save(
-            [
-                'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
-                'invitations'       => $invitations,
-                'balance'           => $this->request->total,
-                'sub_total'         => $this->request->sub_total,
-                'total'             => $this->request->total,
-                //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
-                'discount_total'    => isset($this->request->discount_total) ? $this->request->discount_total : 0,
-                'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
-                    '%',
-                    '',
-                    $this->request->tax_rate
-                ) : 0,
-                'line_items'        => $this->request->products,
-                'task_id'           => $this->task->id,
-                'date'              => date('Y-m-d')
-            ],
-            $order
-        );
+            $order = $this->order_repo->save(
+                [
+                    'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
+                    'invitations'       => $invitations,
+                    'balance'           => $this->request->total,
+                    'sub_total'         => $this->request->sub_total,
+                    'total'             => $this->request->total,
+                    //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
+                    'discount_total'    => isset($this->request->discount_total) ? $this->request->discount_total : 0,
+                    'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
+                        '%',
+                        '',
+                        $this->request->tax_rate
+                    ) : 0,
+                    'line_items'        => $this->request->products,
+                    'task_id'           => $this->task->id,
+                    'date'              => date('Y-m-d')
+                ],
+                $order
+            );
 
-        $subject = $order->customer->getSetting('email_subject_order');
-        $body = $order->customer->getSetting('email_template_order');
+            $subject = $order->customer->getSetting('email_subject_order');
+            $body = $order->customer->getSetting('email_template_order');
 
-        event(new OrderWasCreated($order));
-        $order->service()->sendEmail(null, $subject, $body);
+            event(new OrderWasCreated($order));
+            $order->service()->sendEmail(null, $subject, $body);
 
-        return $order;
-        } catch (Exception $e) {
+            return $order;
+        } catch (\Exception $e) {
             DB::rollback();
             return null;
         }
-       
     }
 }

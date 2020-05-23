@@ -42,11 +42,7 @@ class TaskService extends ServiceBase
     }
 
     /**
-     * @param Request $request
-     * @param CustomerRepository $customer_repo
-     * @param TaskRepository $task_repo
-     * @param bool $is_deal
-     * @return Invoice|InvoiceSum|Task|null
+     * @return array
      */
     public function sendEmail()
     {
@@ -58,12 +54,12 @@ class TaskService extends ServiceBase
     }
 
     /**
-     * @param Request $request
+     * @param $request
      * @param CustomerRepository $customer_repo
      * @param OrderRepository $order_repo
      * @param TaskRepository $task_repo
      * @param bool $is_deal
-     * @return Invoice|InvoiceSum|Task|null
+     * @return Task|null
      */
     public function createDeal(
         $request,

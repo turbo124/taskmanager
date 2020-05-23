@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Requests\PaymentTerms;
@@ -11,7 +10,7 @@ class UpdatePaymentTermsRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name'           => 'required',
             'number_of_days' => 'required',
         ];
     }

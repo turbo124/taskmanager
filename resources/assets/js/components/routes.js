@@ -7,6 +7,7 @@ import Kanban from './Kanban'
 import Calendar from './calendar/Calendars'
 import Roles from './roles/Roles'
 import Invoice from './invoice/Invoice'
+import Order from './orders/Order'
 import Companies from './companies/Companies'
 import Categories from './categories/Categories'
 import ProjectList from './forms/ProjectList'
@@ -106,6 +107,11 @@ const routes = [
         path: '/invoice',
         name: 'Invoice',
         component: Invoice
+    },
+    {
+        path: '/orders',
+        name: 'Orders',
+        component: Order
     },
     {
         path: '/companies',

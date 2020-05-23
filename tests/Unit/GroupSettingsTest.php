@@ -3,7 +3,12 @@
 namespace Tests\Unit;
 
 use App\Customer;
+use App\Factory\GroupSettingFactory;
 use App\Factory\ProjectFactory;
+use App\Filters\GroupSettingFilter;
+use App\GroupSetting;
+use App\Repositories\GroupSettingRepository;
+use App\Requests\SearchRequest;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,11 +25,14 @@ class GroupSettingsTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var int
+     * @var Account
      */
-    private $account;
+    private Account $account;
 
-    private $user;
+    /**
+     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    private User $user;
 
     private $customer;
 
@@ -42,7 +50,7 @@ class GroupSettingsTest extends TestCase
     public function it_can_show_all_the_groups()
     {
         factory(GroupSetting::class)->create();
-        $list = (new GroupSettingFilter(new GroupSettingRepository(new GroupSetting)))->filter(new SearchRequest(), $this->account);
+        $list = (new GroupSettingFilter(new GroupSettingRepository(new GroupSetting)))->filter(new SearchRequest, $this->account);
         $this->assertNotEmpty($list);
     }
 
@@ -89,7 +97,7 @@ class GroupSettingsTest extends TestCase
     public function it_can_create_a_group()
     {
         $user = factory(User::class)->create();
-        $factory = (new GroupSettingFactory)->create($this->account, $user);
+        $factory = (new GroupSettingFactory())->create($this->account, $user);
 
 
         $data = [

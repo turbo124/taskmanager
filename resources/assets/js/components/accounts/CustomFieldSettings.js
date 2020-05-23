@@ -95,7 +95,7 @@ class CustomFieldSettings extends Component {
                         product: r.data.Product,
                         customers: r.data.Customer,
                         payments: r.data.Payment,
-                        invoices: r.data.Invoice,
+                        invoices: r.data.Order,
                         companies: r.data.Company,
                         quotes: r.data.Quote,
                         credits: r.data.Credit,

@@ -64,7 +64,7 @@ export default class FormatMoney extends Component {
             const j = (i.length > 3) ? i.length % 3 : 0
 
             const formattedTotal = negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(total - i).toFixed(decimalCount).slice(2) : '')
-            return <span>{`${symbol}${formattedTotal}`}</span>
+            return <span className={this.props.className ? this.props.className : ''}>{`${symbol}${formattedTotal}`}</span>
         } catch (e) {
             console.log(e)
         }

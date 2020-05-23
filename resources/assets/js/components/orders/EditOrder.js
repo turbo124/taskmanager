@@ -43,6 +43,7 @@ export default class EditOrder extends Component {
         this.updatePriceData = this.updatePriceData.bind(this)
         this.calculateTotals = this.calculateTotals.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
+        this.toggle = this.toggle.bind(this)
         this.handleContactChange = this.handleContactChange.bind(this)
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
@@ -503,6 +504,40 @@ export default class EditOrder extends Component {
         )
     }
 
+    toggle () {
+        this.setState({
+            modalOpen: !this.state.modalOpen,
+            errors: []
+        }, () => {
+            if (!this.state.modalOpen) {
+                this.setState({
+                    public_notes: '',
+                    tax: null,
+                    tax_rate_name: '',
+                    private_notes: '',
+                    custom_surcharge1: null,
+                    custom_surcharge2: null,
+                    custom_surcharge_tax1: null,
+                    custom_surcharge_tax2: null,
+                    custom_value1: '',
+                    custom_value2: '',
+                    custom_value3: '',
+                    custom_value4: '',
+                    terms: '',
+                    footer: '',
+                    partial: 0,
+                    partial_due_date: null,
+                    invoice_id: null,
+                    customer_id: null,
+                    company_id: null,
+                    status_id: null,
+                    line_items: [],
+                    invitations: []
+                }, () => localStorage.removeItem('orderForm'))
+            }
+        })
+    }
+
     render () {
         const form = this.buildForm()
         const { success } = this.state
@@ -516,7 +551,7 @@ export default class EditOrder extends Component {
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
                         <ModalHeader toggle={this.toggle}>
-                            Credit
+                            Order
                         </ModalHeader>
 
                         <ModalBody>

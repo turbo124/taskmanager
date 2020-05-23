@@ -100,6 +100,7 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         Route::post('projects/restore/{id}', 'ProjectController@restore');
 
         //order
+        Route::get('order', 'OrderController@index')->middleware('role:null,invoicecontroller.index');
         Route::put('order/{order_id}', 'OrderController@update');
         Route::post('order', 'OrderController@store');
         Route::post('order/{order}/{action}', 'OrderController@action')->name('invoices.action');

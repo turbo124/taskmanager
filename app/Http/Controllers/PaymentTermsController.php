@@ -1,17 +1,14 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
 use App\Factory\PaymentTermsFactory;
 use App\Filters\PaymentTermsFilter;
-use App\Http\Requests\SignupRequest;
 use App\Requests\GroupSetting\StoreGroupSettingRequest;
 use App\Requests\GroupSetting\UpdateGroupSettingRequest;
 use App\GroupSetting;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\SearchRequest;
-use App\Settings\PaymentTerms;
 use App\Transformations\PaymentTermsTransformable;
 use App\Traits\UploadableTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,10 +16,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * Class GroupSettingController
+ * Class PaymentTermsControllerController
  * @package App\Http\Controllers
  */
-class PaymentTermsControllerController extends Controller
+class PaymentTermsController extends Controller
 {
     use DispatchesJobs;
     use UploadableTrait;
@@ -61,7 +58,7 @@ class PaymentTermsControllerController extends Controller
     {
         $payment_terms = PaymentTermsFactory::create(auth()->user()->account_user()->account, auth()->user());
         $payment_terms = $this->payment_terms_repo->save($request->all(), $payment_terms);
-     
+
         return response()->json($this->transformPaymentTerms($payment_terms));
     }
 

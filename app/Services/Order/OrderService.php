@@ -27,7 +27,11 @@ class OrderService extends ServiceBase
         $this->order = $order;
     }
 
-    public function getPdf($contact)
+    /**
+     * @param null $contact
+     * @return mixed|string
+     */
+    public function getPdf($contact = null)
     {
         return (new GetPdf($this->order, $contact))->run();
     }

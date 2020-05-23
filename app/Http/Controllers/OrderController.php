@@ -8,6 +8,8 @@ use App\Events\Order\OrderWasCreated;
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\OrderFactory;
+use App\Filters\InvoiceFilter;
+use App\Filters\OrderFilter;
 use App\Invoice;
 use App\Order;
 use App\Quote;
@@ -17,6 +19,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\Order\CreateOrderRequest;
+use App\Requests\SearchRequest;
 use Illuminate\Http\Request;
 use App\Transformations\OrderTransformable;
 use Illuminate\Support\Facades\Storage;
@@ -51,6 +54,17 @@ class OrderController extends BaseController
         parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Order');
         $this->order_repo = $order_repo;
         $this->invoice_repo = $invoice_repo;
+    }
+
+    /**
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(SearchRequest $request)
+    {
+        $invoices =
+            (new OrderFilter($this->order_repo))->filter($request, auth()->user()->account_user()->account);
+        return response()->json($invoices);
     }
 
     public function update(int $id, Request $request)
