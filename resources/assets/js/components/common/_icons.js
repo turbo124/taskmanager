@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = {
+    number: 'Number',
     amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',
