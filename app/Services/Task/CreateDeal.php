@@ -4,6 +4,9 @@ namespace App\Services\Task;
 
 use App\Address;
 use App\ClientContact;
+use App\Order;
+use App\Task;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Customer;
 use App\Factory\ClientContactFactory;
@@ -24,12 +27,31 @@ use Illuminate\Http\Request;
  */
 class CreateDeal
 {
+    /**
+     * @var Task
+     */
     private $task;
     private $request;
-    private $customer_repo;
-    private $order_repo;
-    private $task_repo;
-    private $is_deal;
+
+    /**
+     * @var CustomerRepository
+     */
+    private CustomerRepository $customer_repo;
+
+    /**
+     * @var OrderRepository
+     */
+    private OrderRepository $order_repo;
+
+    /**
+     * @var TaskRepository
+     */
+    private TaskRepository $task_repo;
+
+    /**
+     * @var bool
+     */
+    private bool $is_deal;
 
     /**
      * CreateDeal constructor.
@@ -41,7 +63,7 @@ class CreateDeal
      * @param $is_deal
      */
     public function __construct(
-        $task,
+        Task $task,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
@@ -58,140 +80,208 @@ class CreateDeal
 
     public function run()
     {
+        DB::beginTransaction();
+
+        try {
+            $customer = $this->saveCustomer();
+
+            if (!$customer) {
+                return null;
+            }
+
+            if (!$this->saveAddresses($customer)) {
+                return null;
+            }
+
+            $this->task = $this->saveTask($customer);
+
+            if (!$this->task) {
+                return null;
+            }
+
+            if (!empty($this->request->products)) {
+                $order = $this->saveOrder($customer);
+
+                if (!$order) {
+                    return null;
+                }
+            }
+
+            DB::commit();
+            return $this->task;
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
+    }
+
+    private function saveTask(Customer $customer): ?Task
+    {
+        try {
+            $date = new DateTime(); // Y-m-d
+            $date->add(new DateInterval('P30D'));
+            $due_date = $date->format('Y-m-d');
+
+            $this->task = $this->task_repo->save(
+                [
+                    'due_date'    => $due_date,
+                    'created_by'  => $this->task->user_id,
+                    'source_type' => $this->request->source_type,
+                    'title'       => $this->request->title,
+                    'description' => isset($this->request->description) ? $this->request->description : '',
+                    'customer_id' => $customer->id,
+                    'valued_at'   => $this->request->valued_at,
+                    'task_type'   => $this->is_deal === true ? 3 : 2,
+                    'task_status' => $this->request->task_status
+                ],
+                $this->task
+            );
+
+            if (!empty($this->request->contributors)) {
+                $this->task->users()->sync($this->request->input('contributors'));
+            }
+
+            return $this->task;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
+        }
+    }
+
+    private function saveCustomer(): ?Customer
+    {
         $customer = CustomerFactory::create($this->task->account, $this->task->user);
 
-        $date = new DateTime(); // Y-m-d
-        $date->add(new DateInterval('P30D'));
-        $due_date = $date->format('Y-m-d');
+        try {
+            $contact = ClientContact::where('email', '=', $this->request->email)->first();
 
-        $contact = ClientContact::where('email', '=', $this->request->email)->first();
+            if (!empty($contact)) {
+                $contact->update(
+                    [
+                        'first_name' => $this->request->first_name,
+                        'last_name'  => $this->request->last_name,
+                        'email'      => $this->request->email,
+                        'phone'      => $this->request->phone,
+                    ]
+                );
 
-        if (!empty($contact)) {
-            $contact->update(
+                $customer = $contact->customer;
+            }
+
+            $customer = $this->customer_repo->save(
                 [
+                    'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
+                    'phone'                  => $this->request->phone,
+                    'website'                => isset($this->request->website) ? $this->request->website : '',
+                    'currency_id'            => 2,
+                    'default_payment_method' => 1
+                ],
+                $customer
+            );
+
+            if (empty($contact)) {
+                $contacts [] = [
                     'first_name' => $this->request->first_name,
                     'last_name'  => $this->request->last_name,
                     'email'      => $this->request->email,
                     'phone'      => $this->request->phone,
-                ]
-            );
+                ];
 
-            $customer = $contact->customer;
+                (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
+            }
+
+            return $customer;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
         }
-
-        $customer = $this->customer_repo->save(
-            [
-                'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
-                'phone'                  => $this->request->phone,
-                'website'                => isset($this->request->website) ? $this->request->website : '',
-                'currency_id'            => 2,
-                'default_payment_method' => 1
-            ],
-            $customer
-        );
-
-        if (empty($contact)) {
-            $contacts [] = [
-                'first_name' => $this->request->first_name,
-                'last_name'  => $this->request->last_name,
-                'email'      => $this->request->email,
-                'phone'      => $this->request->phone,
-            ];
-
-            (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
-        }
-
-        if (!empty($this->request->billing)) {
-            Address::updateOrCreate(
-                ['customer_id' => $customer->id, 'address_type' => 1],
-                [
-                    'address_1'    => $this->request->billing['address_1'],
-                    'address_2'    => $this->request->billing['address_2'],
-                    'zip'          => $this->request->billing['zip'],
-                    'country_id'   => isset($this->request->billing['country_id']) ? $this->request->billing['country_id'] : 225,
-                    'address_type' => 1
-                ]
-            );
-        }
-
-        if (!empty($this->request->shipping)) {
-            $address = Address::updateOrCreate(
-                ['customer_id' => $customer->id, 'address_type' => 2],
-                [
-                    'address_1'    => $this->request->shipping['address_1'],
-                    'address_2'    => $this->request->shipping['address_2'],
-                    'zip'          => $this->request->shipping['zip'],
-                    'country_id'   => isset($this->request->shipping['country_id']) ? $this->request->shipping['country_id'] : 225,
-                    'address_type' => 2
-                ]
-            );
-        }
-
-        $this->task = $this->task_repo->save(
-            [
-                'due_date'    => $due_date,
-                'created_by'  => $this->task->user_id,
-                'source_type' => $this->request->source_type,
-                'title'       => $this->request->title,
-                'description' => isset($this->request->description) ? $this->request->description : '',
-                'customer_id' => $customer->id,
-                'valued_at'   => $this->request->valued_at,
-                'task_type'   => $this->is_deal === true ? 3 : 2,
-                'task_status' => $this->request->task_status
-            ],
-            $this->task
-        );
-
-        if (!empty($this->request->contributors)) {
-            $this->task->users()->sync($this->request->input('contributors'));
-        }
-
-        if (!empty($this->request->products)) {
-            $this->saveOrder($customer);
-        }
-
-        return $this->task;
     }
 
-    private function saveOrder(Customer $customer)
+    /**
+     * @param Customer $customer
+     * @return bool
+     */
+    private function saveAddresses(Customer $customer): bool
     {
-        $contacts = $customer->contacts->toArray();
-        $invitations = [];
+        try {
+            if (!empty($this->request->billing)) {
+                Address::updateOrCreate(
+                    ['customer_id' => $customer->id, 'address_type' => 1],
+                    [
+                        'address_1'    => $this->request->billing['address_1'],
+                        'address_2'    => $this->request->billing['address_2'],
+                        'zip'          => $this->request->billing['zip'],
+                        'country_id'   => isset($this->request->billing['country_id']) ? $this->request->billing['country_id'] : 225,
+                        'address_type' => 1
+                    ]
+                );
+            }
 
-        foreach ($contacts as $contact) {
-            $invitations[] = [
-                'client_contact_id' => $contact['id']
-            ];
+            if (!empty($this->request->shipping)) {
+                $address = Address::updateOrCreate(
+                    ['customer_id' => $customer->id, 'address_type' => 2],
+                    [
+                        'address_1'    => $this->request->shipping['address_1'],
+                        'address_2'    => $this->request->shipping['address_2'],
+                        'zip'          => $this->request->shipping['zip'],
+                        'country_id'   => isset($this->request->shipping['country_id']) ? $this->request->shipping['country_id'] : 225,
+                        'address_type' => 2
+                    ]
+                );
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return false;
         }
-
-        $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
-
-        $order = $this->order_repo->save(
-            [
-                'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
-                'invitations'       => $invitations,
-                'balance'           => $this->request->total,
-                'sub_total'         => $this->request->sub_total,
-                'total'             => $this->request->total,
-                //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
-                'discount_total'    => isset($this->request->discount_total) ? $this->request->discount_total : 0,
-                'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
-                    '%',
-                    '',
-                    $this->request->tax_rate
-                ) : 0,
-                'line_items'        => $this->request->products,
-                'task_id'           => $this->task->id,
-                'date'              => date('Y-m-d')
-            ],
-            $order
-        );
+    }
 
 
-        $subject = $order->customer->getSetting('email_subject_order');
-        $body = $order->customer->getSetting('email_template_order');
+    private function saveOrder(Customer $customer): ?Order
+    {
+        try {
+            $contacts = $customer->contacts->toArray();
+            $invitations = [];
 
-        event(new OrderWasCreated($order));
-        $order->service()->sendEmail(null, $subject, $body);
+            foreach ($contacts as $contact) {
+                $invitations[] = [
+                    'client_contact_id' => $contact['id']
+                ];
+            }
+
+            $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
+
+            $order = $this->order_repo->save(
+                [
+                    'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
+                    'invitations'       => $invitations,
+                    'balance'           => $this->request->total,
+                    'sub_total'         => $this->request->sub_total,
+                    'total'             => $this->request->total,
+                    //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
+                    'discount_total'    => isset($this->request->discount_total) ? $this->request->discount_total : 0,
+                    'tax_rate'          => isset($this->request->tax_rate) ? (float)str_replace(
+                        '%',
+                        '',
+                        $this->request->tax_rate
+                    ) : 0,
+                    'line_items'        => $this->request->products,
+                    'task_id'           => $this->task->id,
+                    'date'              => date('Y-m-d')
+                ],
+                $order
+            );
+
+            $subject = $order->customer->getSetting('email_subject_order');
+            $body = $order->customer->getSetting('email_template_order');
+
+            event(new OrderWasCreated($order));
+            $order->service()->sendEmail(null, $subject, $body);
+
+            return $order;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
+        }
     }
 }

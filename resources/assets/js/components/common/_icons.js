@@ -21,7 +21,13 @@ export const icons = {
     restore: 'fa-window-restore',
     clear: 'fa-times',
     edit: 'fa-edit',
-    refund: 'fa-credit-card'
+    refund: 'fa-credit-card',
+    phone: 'fa-phone',
+    link: 'fa-link',
+    building: 'fa-building',
+    list: 'fa-list-ol',
+    map_marker: 'fa-map-marker',
+    envelope: 'fa-envelope'
 }
 
 export const translations = {

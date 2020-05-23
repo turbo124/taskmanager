@@ -33,6 +33,7 @@ trait CustomerTransformable
 
         return [
             'id'                     => (int)$customer->id,
+            'number'                 => $customer->number,
             'created_at'             => $customer->created_at,
             'name'                   => $customer->name,
             'phone'                  => $customer->phone,

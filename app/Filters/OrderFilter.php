@@ -46,7 +46,7 @@ class OrderFilter extends QueryFilter
         }
 
         if ($request->has('status')) {
-            $this->filterStatus($request->status);
+            $this->status('product_task', $request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -96,6 +96,34 @@ class OrderFilter extends QueryFilter
     {
         $this->baseQuery();
         $this->query->where('product_task.task_id', $objTask->id);
+    }
+
+    /**
+     * Filter based on search text
+     *
+     * @param string query filter
+     * @return Illuminate\Database\Query\Builder
+     * @deprecated
+     *
+     */
+    public function searchFilter(string $filter = '')
+    {
+        if (strlen($filter) == 0) {
+            return $this->query;
+        }
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('invoices.number', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.po_number', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.date', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.total', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.balance', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('product_task.custom_value4', 'like', '%' . $filter . '%');
+            }
+        );
     }
 
     /**

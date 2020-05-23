@@ -28,9 +28,6 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         Route::resource('promocodes', 'PromocodeController');
 
         // subscription
-          /*Subscription and Webhook routes */
-        Route::post('hooks', 'SubscriptionController@subscribe');
-        Route::delete('hooks/{subscription_id}', 'SubscriptionController@unsubscribe');
         Route::resource('subscriptions', 'SubscriptionController');
 
         //design
@@ -103,6 +100,7 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         Route::post('projects/restore/{id}', 'ProjectController@restore');
 
         //order
+        Route::get('order', 'OrderController@index')->middleware('role:null,invoicecontroller.index');
         Route::put('order/{order_id}', 'OrderController@update');
         Route::post('order', 'OrderController@store');
         Route::post('order/{order}/{action}', 'OrderController@action')->name('invoices.action');
@@ -256,6 +254,8 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
     Route::put('payments/{payment_id}', 'PaymentController@update');
     Route::post('payments/{payment}/{action}', 'PaymentController@action')->name('payments.action');
     Route::post('payments/restore/{id}', 'PaymentController@restore');
+
+    Route::resource('payment_terms', 'PaymentTermsController');
 
     //payment method
     Route::get('paymentType', 'PaymentTypeController@index');

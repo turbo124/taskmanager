@@ -5,6 +5,7 @@ import CompanyDropdown from '../common/CompanyDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import UserDropdown from '../common/UserDropdown'
 import GroupSettingsDropdown from '../common/GroupSettingsDropdown'
+import PaymentTermsDropdown from "../common/PaymentTermsDropdown";
 
 export default function SettingsForm (props) {
     const hasErrorFor = (field) => {
@@ -28,12 +29,13 @@ export default function SettingsForm (props) {
 
                 <FormGroup>
                     <Label htmlFor="payment_terms"> Payment Terms </Label>
-                    <Input className={hasErrorFor('payment_terms') ? 'is-invalid' : ''} type="text"
-                        id="payment_terms"
+                    <PaymentTermsDropdown
+                        name="payment_terms"
                         data-namespace="settings"
-                        value={props.settings.payment_terms}
-                        onChange={props.onChange} name="payment_terms"
-                        placeholder="Enter days"/>
+                        payment_term={props.settings.payment_terms}
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
                     {renderErrorFor('payment_terms')}
                 </FormGroup>
 

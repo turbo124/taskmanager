@@ -46,7 +46,7 @@ export default function PaymentPresenter (props) {
         case 'status_field':
             return status
 
-        case 'status':
+        case 'status_id':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
 
         case 'customer_id': {

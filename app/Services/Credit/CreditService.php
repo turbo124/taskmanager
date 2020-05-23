@@ -17,7 +17,11 @@ class CreditService extends ServiceBase
         $this->credit = $credit;
     }
 
-    public function getPdf($contact)
+    /**
+     * @param null $contact
+     * @return mixed|string
+     */
+    public function getPdf($contact = null)
     {
         $get_credit_pdf = new GetPdf($this->credit, $contact);
 

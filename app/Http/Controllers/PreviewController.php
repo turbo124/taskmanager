@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ClientContact;
 use App\Customer;
 use App\Address;
+use App\Design;
 use App\Invoice;
 use App\Traits\MakesInvoiceHtml;
 use Illuminate\Support\Facades\DB;
@@ -26,18 +27,14 @@ class PreviewController extends Controller
      */
     public function show()
     {
-        if (request()->has('entity') &&
-            request()->has('entity_id') &&
-            strlen(request()->input('entity')) > 1 &&
-            strlen(request()->input('entity_id')) > 1 && request()->has('design')) {
-            $design_object = json_decode(json_encode(request()->input('design')));
+        if (!empty(request()->input('entity')) && !empty(request()->input('entity_id'))) {
+            $design_object = !empty(request()->input('design')) ? json_decode(
+                json_encode(request()->input('design'))
+            ) : Design::first()->design;
 
             if (!is_object($design_object)) {
                 return response()->json(['message' => 'Invalid custom design object'], 400);
             }
-
-            $design_object->design->product = '';
-            $design_object->design->task = '';
 
             $entity = ucfirst(request()->input('entity'));
 

@@ -9,6 +9,7 @@ use App\Factory\Lead\CloneLeadToTaskFactory;
 use App\Repositories\LeadRepository;
 use App\Lead;
 use App\Task;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ConvertLead
@@ -33,29 +34,58 @@ class ConvertLead
             return false;
         }
 
-        $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user, $this->lead->account);
-        $customer->save();
+        try {
+            DB::beginTransaction();
+            $customer = CloneLeadToCustomerFactory::create($this->lead, $this->lead->user, $this->lead->account);
 
-        $address = CloneLeadToAddressFactory::create($this->lead, $customer);
-        $address->save();
+            if (!$customer->save()) {
+                DB::rollback();
+                return null;
+            }
 
-        $client_contact =
-            CloneLeadToContactFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
-        $client_contact->save();
+            $address = CloneLeadToAddressFactory::create($this->lead, $customer);
 
-        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+            if (!$address->save()) {
+                DB::rollback();
+                return null;
+            }
 
-        $date = new \DateTime(); // Y-m-d
-        $date->add(new \DateInterval('P30D'));
-        $due_date = $date->format('Y-m-d');
+            $client_contact =
+                CloneLeadToContactFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
-        $task->due_date = $due_date;
-        $task->save();
 
-        $this->lead->task_status = Lead::STATUS_COMPLETED;
-        $this->lead->status_id = Lead::STATUS_COMPLETED;
-        $this->lead->save();
+            if (!$client_contact->save()) {
+                DB::rollback();
+                return null;
+            }
 
-        return $this->lead;
+            $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+
+            $date = new \DateTime(); // Y-m-d
+            $date->add(new \DateInterval('P30D'));
+            $due_date = $date->format('Y-m-d');
+
+            $task->due_date = $due_date;
+
+            if (!$task->save()) {
+                DB::rollback();
+                return null;
+            }
+
+            $this->lead->task_status = Lead::STATUS_COMPLETED;
+            $this->lead->status_id = Lead::STATUS_COMPLETED;
+
+            if (!$this->lead->save()) {
+                DB::rollback();
+                return null;
+            }
+
+            DB::commit();
+
+            return $this->lead;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
+        }
     }
 }

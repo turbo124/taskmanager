@@ -172,9 +172,7 @@ class Designs extends React.Component {
             }
         }
         axios.post('/api/preview', {
-            design: design,
-            entity_id: 1529,
-            entity: 'invoice'
+            design: design
         })
             .then((response) => {
                 console.log('respons', response.data.data)

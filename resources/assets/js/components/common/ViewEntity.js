@@ -5,18 +5,19 @@ import {
     ModalBody,
     ModalFooter,
     Button,
-    ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
     ListGroupItemText
 } from 'reactstrap'
-import InvoiceTotals from './InvoiceTotals'
-import PaymentTotals from './PaymentTotals'
-import CustomerTotals from './CustomerTotals'
-import ExpenseTotals from './ExpenseTotals'
-import QuoteTotals from './QuoteTotals'
-import CreditTotals from './CreditTotals'
-import FormatDate from './FormatDate'
+import Invoice from '../partials/Invoice'
+import Payment from '../partials/Payment'
+import Customer from '../partials/Customer'
+import Expense from '../partials/Expense'
+import Quote from '../partials/Quote'
+import Credit from '../partials/Credit'
+import Project from '../partials/Project'
+import Company from '../partials/Company'
+import Order from "../partials/Order";
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -66,154 +67,39 @@ export default class ViewEntity extends Component {
                     <ModalHeader toggle={this.toggle}>{this.props.title ? this.props.title : 'Details'}</ModalHeader>
                     <ModalBody>
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
-                        <InvoiceTotals entity={this.props.entity}/>}
+                        <Invoice entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
-                        <CreditTotals entity={this.props.entity}/>}
+                        <Credit entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Order'].includes(this.props.entity_type) &&
+                        <Order entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
-                        <QuoteTotals entity={this.props.entity}/>}
+                        <Quote entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Customer'].includes(this.props.entity_type) &&
-                        <CustomerTotals entity={this.props.entity}/>}
+                        <Customer entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && (this.props.entity_type === 'Payment') &&
-                        <PaymentTotals entity={this.props.entity}/>}
+                        <Payment entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
-                        <ExpenseTotals entity={this.props.entity}/>}
+                        <Expense entity={this.props.entity}/>}
 
-                        {!['Payment', 'Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
+                        {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
+                        <Quote entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
+                        <Project entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
+                        <Company entity={this.props.entity}/>}
+
+                        {!['Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>
-                        }
-
-                        {this.props.entity && ['Invoice', 'Quote', 'Credit', 'Order'].includes(this.props.entity_type) &&
-                        <React.Fragment>
-                            <div className="row">
-                                <ListGroup className="mt-4">
-                                    <ListGroupItem className="list-group-item-dark">
-                                        <ListGroupItemHeading><i
-                                            className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
-                                        </ListGroupItemHeading>
-                                    </ListGroupItem>
-                                </ListGroup>
-                                <ul className="mt-4">
-                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                        <ListGroupItemHeading>Invoice Date</ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            <FormatDate date={this.props.entity.date}/>
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
-
-                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                        <ListGroupItemHeading>Due Date</ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {this.props.entity.due_date}
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
-
-                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                        <ListGroupItemHeading>PO Number</ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            <FormatDate date={this.props.entity.po_number}/>
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
-
-                                    <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                        <ListGroupItemHeading>Discount</ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {this.props.entity.discount_total}
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
-                                </ul>
-                            </div>
-
-                            <div className="row">
-                                <ListGroup className="col-12 mt-4">
-                                    {this.props.entity.line_items.map((line_item, index) => (
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <ListGroupItemHeading
-                                                className="d-flex justify-content-between align-items-center">
-                                                {line_item.product_id}
-                                                <span>{line_item.sub_total}</span>
-                                            </ListGroupItemHeading>
-                                            <ListGroupItemText>
-                                                {line_item.quantity} x {line_item.unit_price} Discount: {line_item.unit_discount} Tax: {line_item.unit_tax}
-                                                <br/>
-                                                {line_item.description}
-                                            </ListGroupItemText>
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            </div>
-
-                            <div className="row justify-content-end">
-                                <ListGroup className="col-6 mt-4">
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Tax
-                                        <span>{this.props.entity.tax_total}</span>
-                                    </ListGroupItem>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Discount
-                                        <span> {this.props.entity.discount_total}</span>
-                                    </ListGroupItem>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Subtotal
-                                        <span> {this.props.entity.sub_total} </span>
-                                    </ListGroupItem>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        Total
-                                        <span> {this.props.entity.total} </span>
-                                    </ListGroupItem>
-                                </ListGroup>
-                            </div>
-
-                        </React.Fragment>
-
-                        }
-
-                        {this.props.entity && ['Payment'].includes(this.props.entity_type) &&
-                        <React.Fragment>
-                            <ListGroup className="mt-4">
-                                <ListGroupItem className="list-group-item-dark">
-                                    <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/> Client
-                                        here</ListGroupItemHeading>
-                                </ListGroupItem>
-                                <ListGroupItem className="list-group-item-dark">
-                                    <ListGroupItemHeading><i
-                                        className="fa fa-credit-card-alt mr-2"/> {this.props.entity.number}
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.amount}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </ListGroup>
-
-                            <ul>
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>Payment Date</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>
-                                        Transaction Reference
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.transaction_reference}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </ul>
-                        </React.Fragment>
-
                         }
 
                     </ModalBody>

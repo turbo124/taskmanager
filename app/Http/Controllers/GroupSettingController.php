@@ -58,7 +58,7 @@ class GroupSettingController extends Controller
      */
     public function store(StoreGroupSettingRequest $request)
     {
-        $group_setting = GroupSettingFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
+        $group_setting = GroupSettingFactory::create(auth()->user()->account_user()->account, auth()->user());
         $group_setting = $this->group_setting_repo->save($request->except('settings'), $group_setting);
         $group_setting = (new GroupSettings)->save($group_setting, $request->settings);
 

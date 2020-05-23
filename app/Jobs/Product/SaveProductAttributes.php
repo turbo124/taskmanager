@@ -51,7 +51,7 @@ class SaveProductAttributes
                 $this->product
             );
 
-            foreach($variation['attribute_values'] as $value) {
+            foreach ($variation['attribute_values'] as $value) {
                 $attribute = (new AttributeValueRepository(new AttributeValue))->find($value);
                 $product_repo->saveCombination($productAttribute, $attribute);
             }
