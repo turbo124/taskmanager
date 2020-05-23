@@ -174,7 +174,7 @@ export default class Credit extends Component {
                                             <span>{line_item.sub_total}</span>
                                         </ListGroupItemHeading>
                                         <ListGroupItemText>
-                                            {line_item.quantity} x {line_item.unit_price} Discount: {line_item.unit_discount} Tax: {line_item.unit_tax}
+                                            {line_item.quantity} x {line_item.unit_price} {translations.discount}: {line_item.unit_discount} {translations.tax}: {line_item.unit_tax}
                                             <br/>
                                             {line_item.description}
                                         </ListGroupItemText>
