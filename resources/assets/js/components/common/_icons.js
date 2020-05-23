@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = { 
+    budgeted: 'Budgeted',
     applied: 'Applied',
     refunded: 'Refunded',
     payment_date: 'Payment Date',
