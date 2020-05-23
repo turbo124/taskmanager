@@ -31,6 +31,8 @@ export const icons = {
 }
 
 export const translations = { 
+    applied: 'Applied',
+    refunded: 'Refunded',
     payment_date: 'Payment Date',
     currency: 'Currency',
     exchange_rate: 'Exchange Rate',
@@ -243,5 +245,6 @@ export const translations = {
     terms: 'Terms',
     start_time: 'Start Time',
     end_time: 'End Time',
-    duration: 'Duration'
+    duration: 'Duration',
+    expiry_date: 'Expiry Date',
 }
