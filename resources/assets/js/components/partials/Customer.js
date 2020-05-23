@@ -58,28 +58,28 @@ export default class Customer extends Component {
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-building" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Vat Number
         </ListGroupItemText>
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-list-ol" /> {this.props.entity.number}</ListGroupItemHeading>
         <ListGroupItemText>
          Number
         </ListGroupItemText>
       </ListGroupItem>
 
       <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-map-marker-alt" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Billing Address 
         </ListGroupItemText>
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-map-marker-alt" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Shipping Address
         </ListGroupItemText>
