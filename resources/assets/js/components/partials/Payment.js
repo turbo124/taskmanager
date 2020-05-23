@@ -11,6 +11,7 @@ import {
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { translations } from '../common/_icons'
 
 export default class Payment extends Component {
     render () {
