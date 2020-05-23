@@ -33,7 +33,7 @@ export default class Customer extends Component {
       <ListGroupItem>
         <ListGroupItemHeading> 
             {this.props.entity.first_name} {this.props.entity.last_name} <br />
-            {this.props.entity.email}
+            <i class="fa fa-envelope" />{this.props.entity.email}
         </ListGroupItemHeading>
         <ListGroupItemText>
          Email
@@ -42,7 +42,7 @@ export default class Customer extends Component {
        <ListGroupItem>
         <ListGroupItemHeading> 
             {this.props.entity.first_name} {this.props.entity.last_name} <br />
-            {this.props.entity.phone}
+            <i class="fa fa-phone" />{this.props.entity.phone}
         </ListGroupItemHeading>
         <ListGroupItemText>
          Phone
@@ -51,7 +51,7 @@ export default class Customer extends Component {
      ))}
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.website}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-link" /> {this.props.entity.website}</ListGroupItemHeading>
         <ListGroupItemText>
          Website
         </ListGroupItemText>
