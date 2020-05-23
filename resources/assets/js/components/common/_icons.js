@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = { 
+    payment_date: 'Payment Date',
     currency: 'Currency',
     exchange_rate: 'Exchange Rate',
     converted: 'Converted',
