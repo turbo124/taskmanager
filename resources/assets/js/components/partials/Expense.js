@@ -12,6 +12,7 @@ import ExpenseModel from '../models/ExpenseModel'
 import ExpensePresenter from '../presenters/ExpensePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { translations } from '../common/_icons'
 
 export default class Expense extends Component {
     render () {
