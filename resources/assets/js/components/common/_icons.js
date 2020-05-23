@@ -27,10 +27,28 @@ export const icons = {
     building: 'fa-building',
     list: 'fa-list-ol',
     map_marker: 'fa-map-marker',
-    envelope: 'fa-envelope'
+    envelope: 'fa-envelope',
+    user: 'fa-user'
 }
 
-export const translations = {
+export const translations = { 
+    budgeted: 'Budgeted',
+    applied: 'Applied',
+    refunded: 'Refunded',
+    payment_date: 'Payment Date',
+    currency: 'Currency',
+    exchange_rate: 'Exchange Rate',
+    converted: 'Converted',
+    pdf: 'PDF',
+    discount: 'Discount',
+    subtotal: 'Subtotal',
+    tax: 'Tax',
+    total: 'Total',
+    paid_to_date: 'Paid To Date',
+    balance: 'Balance',
+    billing_address: 'Billing Address',
+    shipping_address: 'Shipping Address',
+    number: 'Number',
     amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',
@@ -229,5 +247,6 @@ export const translations = {
     terms: 'Terms',
     start_time: 'Start Time',
     end_time: 'End Time',
-    duration: 'Duration'
+    duration: 'Duration',
+    expiry_date: 'Expiry Date',
 }

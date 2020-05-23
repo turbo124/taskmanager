@@ -67,7 +67,7 @@ export default class SettingsForm extends React.Component {
     render () {
         return (<Card>
             <CardHeader>
-                    Settings
+                    {translations.settings}
             </CardHeader>
 
             <CardBody>
@@ -128,7 +128,7 @@ export default class SettingsForm extends React.Component {
                     <Row form>
                         <Col md={6}>
                             <FormGroup>
-                                <Label for="exampleEmail">Currency</Label>
+                                <Label for="exampleEmail">{translations.currency}</Label>
                                 <CurrencyDropdown currency_id={this.props.expense.expense_currency_id}
                                     handleInputChanges={this.props.handleInput}
                                     name="expense_currency_id"/>
@@ -136,11 +136,11 @@ export default class SettingsForm extends React.Component {
                         </Col>
                         <Col md={6}>
                             <FormGroup>
-                                <Label for="examplePassword">Exchange Rate</Label>
+                                <Label for="examplePassword">{translations.exchange_rate}</Label>
                                 <Input type="text" name="exchange_rate" id="exchange_rate"
                                     onChange={this.props.handleInput}
                                     value={this.props.expense.exchange_rate}
-                                    placeholder="Exchange Rate"/>
+                                    placeholder={translations.exchange_rate}/>
                             </FormGroup>
                         </Col>
                     </Row>
