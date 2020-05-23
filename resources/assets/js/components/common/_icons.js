@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = { 
+    balance: 'Balance',
     billing_address: 'Billing Address',
     shipping_address: 'Shipping Address',
     number: 'Number',
