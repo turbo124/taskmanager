@@ -33,7 +33,7 @@ export default class Company extends Component {
       <ListGroupItem>
         <ListGroupItemHeading> 
             {this.props.entity.first_name} {this.props.entity.last_name} <br />
-            {this.props.entity.email}
+            <i class="fa fa-envelope" />{this.props.entity.email}
         </ListGroupItemHeading>
         <ListGroupItemText>
          Email
@@ -42,7 +42,7 @@ export default class Company extends Component {
        <ListGroupItem>
         <ListGroupItemHeading> 
             {this.props.entity.first_name} {this.props.entity.last_name} <br />
-            {this.props.entity.phone}
+            <i class="fa fa-phone" />{this.props.entity.phone}
         </ListGroupItemHeading>
         <ListGroupItemText>
          Phone
@@ -51,35 +51,35 @@ export default class Company extends Component {
      ))}
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.website}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-link" /> {this.props.entity.website}</ListGroupItemHeading>
         <ListGroupItemText>
          Website
         </ListGroupItemText>
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-building" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Vat Number
         </ListGroupItemText>
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-list-ol" /> {this.props.entity.number}</ListGroupItemHeading>
         <ListGroupItemText>
          Number
         </ListGroupItemText>
       </ListGroupItem>
 
       <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-map-market-alt" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Billing Address 
         </ListGroupItemText>
       </ListGroupItem>
 
        <ListGroupItem>
-        <ListGroupItemHeading> {this.props.entity.vat_number}</ListGroupItemHeading>
+        <ListGroupItemHeading> <i class="fa fa-map-marker-alt" /> {this.props.entity.vat_number}</ListGroupItemHeading>
         <ListGroupItemText>
          Shipping Address
         </ListGroupItemText>
