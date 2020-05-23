@@ -19,7 +19,7 @@ export default class PaymentTermItem extends Component {
         axios.delete(url)
             .then(function (response) {
                 const arrPaymentTerms = [...self.props.paymentTerms ]
-                const index = arrPaymentTerms.findIndex(group => group.id === id)
+                const index = arrPaymentTerms.findIndex(payment_term => payment_term.id === id)
                 arrPaymentTerms.splice(index, 1)
                 self.props.addUserToState(arrPaymentTerms)
             })
@@ -31,33 +31,33 @@ export default class PaymentTermItem extends Component {
     render () {
         const { paymentTerms , ignoredColumns } = this.props
         if (paymentTerms  && paymentTerms .length) {
-            return paymentTerms .map(group => {
-                const restoreButton = group.deleted_at
-                    ? <RestoreModal id={group.id} entities={paymentTerms } updateState={this.props.addUserToState}
-                        url={`/api/paymentTerms/restore/${group.id}`}/> : null
-                const deleteButton = !group.deleted_at
-                    ? <DeleteModal archive={false} deleteFunction={this.deletePaymentTerm} id={group.id}/> : null
+            return paymentTerms.map(payment_term => {
+                const restoreButton = payment_term.deleted_at
+                    ? <RestoreModal id={payment_term.id} entities={paymentTerms} updateState={this.props.addUserToState}
+                        url={`/api/payment_terms/restore/${payment_term.id}`}/> : null
+                const deleteButton = !payment_term.deleted_at
+                    ? <DeleteModal archive={false} deleteFunction={this.deletePaymentTerm} id={payment_term.id}/> : null
                 const archiveButton = !group.deleted_at
-                    ? <DeleteModal archive={true} deleteFunction={this.deletePaymentTerm} id={group.id}/> : null
+                    ? <DeleteModal archive={true} deleteFunction={this.deletePaymentTerm} id={payment_term.id}/> : null
 
                 const editButton = !group.deleted_at ? <EditPaymentTerm
-                    paymentTerms ={paymentTerms }
-                    group={group}
+                    payment_terms={paymentTerms}
+                    payment_term ={payment_term}
                     action={this.props.addUserToState}
                 /> : null
 
-                const columnList = Object.keys(group).filter(key => {
+                const columnList = Object.keys(payment_term).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(group, group.name)} data-label={key}
-                        key={key}>{group[key]}</td>
+                    return <td onClick={() => this.props.toggleViewedEntity(payment_term, payment_term.name)} data-label={key}
+                        key={key}>{payment_term[key]}</td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
 
-                return <tr key={group.id}>
+                return <tr key={payment_term.id}>
                     <td>
-                        <Input className={checkboxClass} value={group.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input className={checkboxClass} value={payment_term.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                             restore={restoreButton}/>
                     </td>
