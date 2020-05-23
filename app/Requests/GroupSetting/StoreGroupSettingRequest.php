@@ -13,14 +13,6 @@ class StoreGroupSettingRequest extends BaseFormRequest
         return $rules;
     }
 
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-
-
-        $this->replace($input);
-    }
-
     public function messages()
     {
         return [
