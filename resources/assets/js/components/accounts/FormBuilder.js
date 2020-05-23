@@ -99,6 +99,29 @@ class FormBuilder extends React.Component {
                 </React.Fragment>
                 break
 
+               case 'payment_terms':
+                   returnedField = <React.Fragment>
+                        <PaymentTermsDropdown
+                        name="payment_terms"
+                        data-namespace="settings"
+                        payment_term={props.settings.payment_terms}
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                   </React.Fragment>
+               break
+
+               case 'payment_type':
+                returnedField = <React.Fragment> <PaymentTypeDropdown
+                    name="default_payment_method"
+                    data-namespace="customer"
+                    payment_type={props.customer.default_payment_method}
+                    errors={props.errors}
+                    handleInputChanges={props.onChange}
+                />
+                   </React.Fragment>
+               break
+
             case 'country':
                 returnedField = <React.Fragment>
                     <FormGroup>
