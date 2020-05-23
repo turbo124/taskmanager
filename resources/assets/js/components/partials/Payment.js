@@ -21,21 +21,21 @@ export default class Payment extends Component {
                         <div className="d-flex">
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Amount</h4>
+                                <h4 className="text-muted"> {translations.amount} </h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.amount}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Applied</h4>
+                                <h4 className="text-muted"> {translations.applied} </h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.applied}/>}
                             </div>
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">Refunded</h4>
+                                <h4 className="text-muted"> {translations.refunded} </h4>
                                 {<FormatMoney className="text-value-lg"
                                     amount={this.props.entity.refunded}/>}
                             </div>
@@ -58,7 +58,7 @@ export default class Payment extends Component {
                 <Row>
                     <ul className="col-12">
                         <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                            <ListGroupItemHeading>Payment Date</ListGroupItemHeading>
+                            <ListGroupItemHeading> {translations.date} </ListGroupItemHeading>
                             <ListGroupItemText>
                                 <FormatDate date={this.props.entity.date}/>
                             </ListGroupItemText>
@@ -66,7 +66,7 @@ export default class Payment extends Component {
 
                         <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
                             <ListGroupItemHeading>
-                                Transaction Reference
+                                {translations.transaction_reference}
                             </ListGroupItemHeading>
                             <ListGroupItemText>
                                 {this.props.entity.transaction_reference}
