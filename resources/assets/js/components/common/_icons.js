@@ -31,6 +31,7 @@ export const icons = {
 }
 
 export const translations = { 
+    pdf: 'PDF',
     discount: 'Discount',
     subtotal: 'Subtotal',
     tax: 'Tax',
