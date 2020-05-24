@@ -31,6 +31,7 @@ class PaymentRefundedActivity implements ShouldQueue
         $fields = [];
         $fields['data']['id'] = $event->payment->id;
         $fields['data']['message'] = 'A payment was refunded';
+        $fields['data']['amount'] = $event->data['amount'];
         $fields['notifiable_id'] = $event->payment->user_id;
         $fields['account_id'] = $event->payment->account_id;
         $fields['notifiable_type'] = get_class($event->payment);
