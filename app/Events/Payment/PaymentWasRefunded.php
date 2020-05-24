@@ -25,9 +25,9 @@ class PaymentWasRefunded
      * @param Payment $payment
      * @param $refund_amount
      */
-    public function __construct(Payment $payment, $refund_amount)
+    public function __construct(Payment $payment, $data)
     {
         $this->payment = $payment;
-        $this->refund_amount = $refund_amount;
+        $this->data = $data;
     }
 }
