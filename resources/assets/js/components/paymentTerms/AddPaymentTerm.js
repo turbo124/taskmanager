@@ -1,32 +1,34 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormPaymentTerm, Label } from 'reactstrap'
 import axios from 'axios'
-import { icons, translations } from '../common/_icons'
+import AddButtons from '../common/AddButtons'
 
-class EditGroupSetting extends React.Component {
+class AddPaymentTerm extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             modal: false,
-            id: this.props.group.id,
-            name: this.props.group.name,
-            settings: this.props.group.settings,
+            name: '',
             loading: false,
-            changesMade: false,
             errors: []
         }
 
-        this.initialState = this.state
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
+    componentDidMount () {
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'groupForm')) {
+            const storedValues = JSON.parse(localStorage.getItem('paymentTermsForm'))
+            this.setState({ ...storedValues }, () => console.log('new state', this.state))
+        }
+    }
+
     handleInput (e) {
         this.setState({
-            [e.target.name]: e.target.value,
-            changesMade: true
-        })
+            [e.target.name]: e.target.value
+        }, () => localStorage.setItem('paymentTermsForm', JSON.stringify(this.state)))
     }
 
     hasErrorFor (field) {
@@ -44,15 +46,17 @@ class EditGroupSetting extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/groups/${this.state.id}`, {
-            name: this.state.name,
-            settings: this.state.settings
+        axios.post('/api/payment_settings', {
+            name: this.state.name
         })
             .then((response) => {
-                const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index].name = this.state.name
-                this.props.action(this.props.groups)
-                this.setState({ changesMade: false })
+                const newUser = response.data
+                this.props.payment_terms.push(newUser)
+                this.props.action(this.props.payment_terms)
+                localStorage.removeItem('paymentTermsForm')
+                this.setState({
+                    name: null
+                })
                 this.toggle()
             })
             .catch((error) => {
@@ -63,37 +67,33 @@ class EditGroupSetting extends React.Component {
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
-            }
-
-            return
-        }
-
         this.setState({
             modal: !this.state.modal,
             errors: []
+        }, () => {
+            if (!this.state.modal) {
+                this.setState({
+                    name: null,
+                    icon: null
+                }, () => localStorage.removeItem('paymentTermsForm'))
+            }
         })
     }
 
     render () {
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
+                <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        {translations.edit_group}
+                        Add Payment Term
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name"> {translations.name} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
-                                value={this.state.name}
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
+                                id="name" value={this.state.name} placeholder={translations.name}
+                                onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
                     </ModalBody>
@@ -108,4 +108,4 @@ class EditGroupSetting extends React.Component {
     }
 }
 
-export default EditGroupSetting
+export default AddPaymentTerm

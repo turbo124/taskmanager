@@ -3,14 +3,13 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, L
 import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 
-class EditGroupSetting extends React.Component {
+class EditPaymentTerm extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             modal: false,
-            id: this.props.group.id,
-            name: this.props.group.name,
-            settings: this.props.group.settings,
+            id: this.props.payment_term.id,
+            name: this.props.payment_term.name,
             loading: false,
             changesMade: false,
             errors: []
@@ -44,14 +43,14 @@ class EditGroupSetting extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/groups/${this.state.id}`, {
+        axios.put(`/api/payment_terms/${this.state.id}`, {
             name: this.state.name,
-            settings: this.state.settings
+            
         })
             .then((response) => {
-                const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index].name = this.state.name
-                this.props.action(this.props.groups)
+                const index = this.props.payment_terms.findIndex(payment_term => payment_term.id === this.state.id)
+                this.props.payment_terms[index] = response.data
+                this.props.action(this.props.payment_terms)
                 this.setState({ changesMade: false })
                 this.toggle()
             })
@@ -87,7 +86,7 @@ class EditGroupSetting extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name"> {translations.name} <span className="text-danger">*</span></Label>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                                 value={this.state.name}
                                 type="text"
@@ -108,4 +107,4 @@ class EditGroupSetting extends React.Component {
     }
 }
 
-export default EditGroupSetting
+export default EditPaymentTerm
