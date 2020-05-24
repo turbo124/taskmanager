@@ -70,7 +70,7 @@ class Refund
         event(new CreditWasCreated($credit_note));
 
         $this->payment->save();
-        event(new PaymentWasRefunded($this->payment, $this->data['amount']));
+        event(new PaymentWasRefunded($this->payment, $this->data));
 
         return $this->payment;
     }
