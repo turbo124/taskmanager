@@ -56,6 +56,7 @@ export default class GroupSettings extends Component {
         return <GroupSettingItem showCheckboxes={props.showCheckboxes} groups={groups}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            viewId={props.viewId}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -93,7 +94,11 @@ export default class GroupSettings extends Component {
                             groups={groups}
                             action={this.addUserToState}
                         />
+                    </CardBody>
+                </Card>
 
+                <Card>
+                    <CardBody>
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Group"
