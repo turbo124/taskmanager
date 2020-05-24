@@ -56,6 +56,7 @@ export default class PaymentTerms extends Component {
         return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms ={ paymentTerms }
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            viewId={props.viewId}
             onChangeBulk={props.onChangeBulk}/>
     }
 
