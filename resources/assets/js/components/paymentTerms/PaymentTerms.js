@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddGroupSetting from './AddGroupSetting'
+import AddPaymentTerm from './AddPaymentTerm'
 import { CardBody, Card } from 'reactstrap'
 import DataTable from '../common/DataTable'
-import GroupSettingFilters from './GroupSettingFilters'
-import GroupSettingItem from './GroupSettingItem'
+import PaymentTermFilters from './PaymentTermFilters'
+import PaymentTermItem from './PaymentTermItem'
 
-export default class GroupSettings extends Component {
+export default class PaymentTerms extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
             dropdownButtonActions: ['download'],
-            groups: [],
+            paymentTerms: [],
             cachedData: [],
             view: {
                 ignore: [],
@@ -32,18 +32,18 @@ export default class GroupSettings extends Component {
 
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
-        this.filterGroups = this.filterGroups.bind(this)
+        this.filterPaymentTerms = this.filterPaymentTerms.bind(this)
     }
 
-    addUserToState (groups) {
-        const cachedData = !this.state.cachedData.length ? groups : this.state.cachedData
+    addUserToState (paymentTerms) {
+        const cachedData = !this.state.cachedData.length ? paymentTerms : this.state.cachedData
         this.setState({
-            groups: groups,
+            paymentTerms: paymentTerms,
             cachedData: cachedData
         })
     }
 
-    filterGroups (filters) {
+    filterPaymentTerms (filters) {
         this.setState({ filters: filters })
     }
 
@@ -52,8 +52,8 @@ export default class GroupSettings extends Component {
     }
 
     userList (props) {
-        const { groups } = this.state
-        return <GroupSettingItem showCheckboxes={props.showCheckboxes} groups={groups}
+        const { paymentTerms } = this.state
+        return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms ={paymentTerms}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
@@ -77,21 +77,21 @@ export default class GroupSettings extends Component {
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, groups } = this.state
-        const fetchUrl = `/api/groups?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
+        const { view, paymentTerms } = this.state
+        const fetchUrl = `/api/payment_terms?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
             <div className="data-table">
 
                 <Card>
                     <CardBody>
-                        <GroupSettingFilters groups={groups}
+                        <PaymentTermFilters paymentTerms = {paymentTerms}
                             updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterGroups}
+                            filters={this.state.filters} filter={this.filterPaymentTerms}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                        <AddGroupSetting
-                            groups={groups}
+                        <AddPaymentTerm
+                            payment_terms ={paymentTerms}
                             action={this.addUserToState}
                         />
                     </CardBody>
@@ -102,7 +102,7 @@ export default class GroupSettings extends Component {
                         <DataTable
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Group"
-                            bulk_save_url="/api/group/bulk"
+                            bulk_save_url="/api/payment_terms/bulk"
                             view={view}
                             ignore={this.state.ignoredColumns}
                             userList={this.userList}

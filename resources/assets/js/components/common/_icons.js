@@ -31,10 +31,12 @@ export const icons = {
     user: 'fa-user'
 }
 
-export const translations = { 
+export const translations = {
+    add_payment_term: 'Add Payment Term',
+    edit_payment_term: 'Edit Payment Term',
+    number_of_days: 'Number of days',
     budgeted: 'Budgeted',
     applied: 'Applied',
-    refunded: 'Refunded',
     payment_date: 'Payment Date',
     currency: 'Currency',
     exchange_rate: 'Exchange Rate',
@@ -55,6 +57,7 @@ export const translations = {
     redeemable: 'Redeemable Amount',
     amount_to_create: 'Amount To Create',
     scope_value: 'Scope Value',
+    valued_at: 'Valued At',
     edit_company: ' Edit Brand',
     add_company: 'Add Company',
     address: 'Address',
@@ -197,7 +200,6 @@ export const translations = {
     is_featured: 'Is Featured',
     thumbnails: 'Thumbnails',
     cover: 'Cover Image',
-    expiry_date: 'Expiry Date',
     add_role: 'Add Role',
     edit_role: 'Edit Role',
     first_name: 'First Name',
@@ -248,5 +250,5 @@ export const translations = {
     start_time: 'Start Time',
     end_time: 'End Time',
     duration: 'Duration',
-    expiry_date: 'Expiry Date',
+    expiry_date: 'Expiry Date'
 }

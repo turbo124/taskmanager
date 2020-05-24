@@ -8,6 +8,8 @@ use App\Requests\GroupSetting\StoreGroupSettingRequest;
 use App\Requests\GroupSetting\UpdateGroupSettingRequest;
 use App\GroupSetting;
 use App\Repositories\PaymentTermsRepository;
+use App\Requests\PaymentTerms\StorePaymentTermsRequest;
+use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\PaymentTermsTransformable;
 use App\Traits\UploadableTrait;
@@ -51,7 +53,7 @@ class PaymentTermsController extends Controller
     }
 
     /**
-     * @param StoreGroupSettingRequest $request
+     * @param StorePaymentTermsRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StorePaymentTermsRequest $request)
@@ -73,7 +75,7 @@ class PaymentTermsController extends Controller
 
     /**
      * @param int $id
-     * @param UpdateGroupSettingRequest $request
+     * @param UpdatePaymentTermsRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(int $id, UpdatePaymentTermsRequest $request)

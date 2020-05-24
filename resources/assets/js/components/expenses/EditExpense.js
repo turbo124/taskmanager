@@ -21,6 +21,7 @@ import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import { icons, translations } from '../common/_icons'
+import FileUploads from '../attachments/FileUploads'
 
 class EditExpense extends React.Component {
     constructor (props) {
@@ -182,7 +183,17 @@ class EditExpense extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('3')
                                     }}>
-                                    Notes
+                                    {translations.notes}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.documents}
                                 </NavLink>
                             </NavItem>
                         </Nav>
@@ -212,6 +223,11 @@ class EditExpense extends React.Component {
                             <TabPane tabId="3">
                                 <Notes errors={this.state.errors} public_notes={this.state.public_notes}
                                     private_notes={this.state.private_notes} handleInput={this.handleInput}/>
+                            </TabPane>
+
+                            <TabPane tabId="4">
+                                <FileUploads entity_type="Expense" entity={this.state}
+                                    user_id={this.state.user_id}/>
                             </TabPane>
                         </TabContent>
 

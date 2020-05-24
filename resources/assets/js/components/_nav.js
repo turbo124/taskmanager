@@ -20,6 +20,11 @@ const items = [
                 icon: 'fa fa-building'
             },
             {
+                name: 'Payment Terms',
+                url: '/payment_terms',
+                icon: 'fa fa-building'
+            },
+            {
                 name: 'Templates and Reminders',
                 url: '/template-settings',
                 icon: 'fa fa-exclamation-triangle'

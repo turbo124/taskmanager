@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormPaymentTerm, Label } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
+import { translations } from '../common/_icons'
 
 class AddPaymentTerm extends React.Component {
     constructor (props) {
@@ -9,6 +10,7 @@ class AddPaymentTerm extends React.Component {
         this.state = {
             modal: false,
             name: '',
+            number_of_days: 1,
             loading: false,
             errors: []
         }
@@ -46,8 +48,9 @@ class AddPaymentTerm extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/payment_settings', {
-            name: this.state.name
+        axios.post('/api/payment_terms', {
+            name: this.state.name,
+            number_of_days: this.state.number_of_days
         })
             .then((response) => {
                 const newUser = response.data
@@ -55,7 +58,8 @@ class AddPaymentTerm extends React.Component {
                 this.props.action(this.props.payment_terms)
                 localStorage.removeItem('paymentTermsForm')
                 this.setState({
-                    name: null
+                    name: null,
+                    number_of_days: 1
                 })
                 this.toggle()
             })
@@ -74,7 +78,7 @@ class AddPaymentTerm extends React.Component {
             if (!this.state.modal) {
                 this.setState({
                     name: null,
-                    icon: null
+                    number_of_days: 1
                 }, () => localStorage.removeItem('paymentTermsForm'))
             }
         })
@@ -86,7 +90,7 @@ class AddPaymentTerm extends React.Component {
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add Payment Term
+                        {translations.add_payment_term}
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -96,11 +100,19 @@ class AddPaymentTerm extends React.Component {
                                 onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
+
+                        <FormGroup>
+                            <Label for="name">{translations.number_of_days} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="number_of_days"
+                                id="number_of_days" value={this.state.number_of_days} placeholder={translations.number_of_days}
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('number_of_days')}
+                        </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

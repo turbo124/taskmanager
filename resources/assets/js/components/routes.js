@@ -22,6 +22,7 @@ import UserProfile from './users/UserProfile'
 import TaskStatus from './taskStatus/statusList'
 import Permissions from './permissions/Permissions'
 import Payments from './payments/Payments'
+import PaymentTerms from './paymentTerms/PaymentTerms'
 import TaxRates from './TaxRates/TaxRates'
 import Credits from './credits/Credits'
 import RecurringQuotes from './recurringQuotes/RecurringQuotes'
@@ -59,6 +60,11 @@ const routes = [
         path: '/payments',
         name: 'Payments',
         component: Payments
+    },
+    {
+        path: '/payment_terms',
+        name: 'Payment Terms',
+        component: PaymentTerms
     },
     {
         path: '/users',

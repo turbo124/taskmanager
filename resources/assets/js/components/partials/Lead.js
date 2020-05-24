@@ -20,18 +20,18 @@ export default class Lead extends Component {
                 <Card body outline color="primary">
                     <CardText className="text-white">
                         <div className="d-flex">
-                            <div
-                                className="p-2 flex-fill">
-                                <h4 className="text-muted">{translations.paid_to_date}</h4>
-                                {<FormatMoney className="text-value-lg"
-                                    amount={this.props.entity.paid_to_date}/>}
-                            </div>
+                            {/* <div */}
+                            {/*    className="p-2 flex-fill"> */}
+                            {/*    <h4 className="text-muted">{translations.paid_to_date}</h4> */}
+                            {/*    {<FormatMoney className="text-value-lg" */}
+                            {/*        amount={this.props.entity.paid_to_date}/>} */}
+                            {/* </div> */}
 
                             <div
                                 className="p-2 flex-fill">
-                                <h4 className="text-muted">{translations.balance}</h4>
+                                <h4 className="text-muted">{translations.valued_at}</h4>
                                 {<FormatMoney className="text-value-lg"
-                                    amount={this.props.entity.balance} />}
+                                    amount={this.props.entity.valued_at} />}
                             </div>
                         </div>
                     </CardText>
@@ -39,55 +39,52 @@ export default class Lead extends Component {
 
                 <Row>
                     <ListGroup className="col-12">
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i className={`fa ${icons.user} mr-4`} /></ListGroupItemHeading>
-                                    </Col>
+                        <ListGroupItem className="list-group-item-dark">
+                            <Col className="p-0" sm={1}>
+                                <ListGroupItemHeading><i className={`fa ${icons.user} mr-4`} /></ListGroupItemHeading>
+                            </Col>
 
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {contact.first_name} {contact.last_name} <br />
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.full_name}
-                                        </ListGroupItemText>
-                                    </Col>
+                            <Col sm={11}>
+                                <ListGroupItemHeading>
+                                    {this.props.entity.first_name} {this.props.entity.last_name} <br />
+                                </ListGroupItemHeading>
+                                <ListGroupItemText>
+                                    {translations.full_name}
+                                </ListGroupItemText>
+                            </Col>
 
-                                </ListGroupItem>
+                        </ListGroupItem>
 
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i className={`fa ${icons.envelope} mr-4`} /></ListGroupItemHeading>
-                                    </Col>
+                        <ListGroupItem className="list-group-item-dark">
+                            <Col className="p-0" sm={1}>
+                                <ListGroupItemHeading><i className={`fa ${icons.envelope} mr-4`} /></ListGroupItemHeading>
+                            </Col>
 
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {contact.email}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.email}
-                                        </ListGroupItemText>
-                                    </Col>
+                            <Col sm={11}>
+                                <ListGroupItemHeading>
+                                    {this.props.entity.email}
+                                </ListGroupItemHeading>
+                                <ListGroupItemText>
+                                    {translations.email}
+                                </ListGroupItemText>
+                            </Col>
 
-                                </ListGroupItem>
+                        </ListGroupItem>
 
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i className={`fa ${icons.phone} mr-4`} /></ListGroupItemHeading>
-                                    </Col>
+                        <ListGroupItem className="list-group-item-dark">
+                            <Col className="p-0" sm={1}>
+                                <ListGroupItemHeading><i className={`fa ${icons.phone} mr-4`} /></ListGroupItemHeading>
+                            </Col>
 
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {contact.phone}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.phone_number}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-                            </React.Fragment>
-
-                        ))}
+                            <Col sm={11}>
+                                <ListGroupItemHeading>
+                                    {this.props.entity.phone}
+                                </ListGroupItemHeading>
+                                <ListGroupItemText>
+                                    {translations.phone_number}
+                                </ListGroupItemText>
+                            </Col>
+                        </ListGroupItem>
 
                         <ListGroupItem className="list-group-item-dark">
                             <Col className="p-0" sm={1}>
@@ -134,8 +131,7 @@ export default class Lead extends Component {
                                 <ListGroupItemHeading>
                                     {this.props.entity.address_1} <br />
                                     {this.props.entity.address_2} <br />
-                                    {this.props.entity.town} <br />
-                                    {this.props.entity.city} {this.props.entity.postcode}
+                                    {this.props.entity.city} {this.props.entity.zip}
 
                                 </ListGroupItemHeading>
                                 <ListGroupItemText>

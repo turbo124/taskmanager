@@ -3,6 +3,9 @@ import { Input, FormGroup, Label, CustomInput } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import Switch from '../common/Switch'
+import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
+import PaymentTermsDropdown from "../common/PaymentTermsDropdown";
+
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -99,6 +102,25 @@ class FormBuilder extends React.Component {
                 </React.Fragment>
                 break
 
+               case 'payment_terms':
+                   returnedField = <React.Fragment>
+                        <PaymentTermsDropdown
+                        name={field.name}
+                        payment_term={field.value}
+                        handleInputChanges={this.props.handleChange}
+                    />
+                   </React.Fragment>
+               break
+
+               case 'payment_type':
+                returnedField = <React.Fragment> <PaymentTypeDropdown
+                    name={field.name}
+                    payment_type={field.value}
+                    handleInputChanges={this.props.handleChange}
+                />
+                   </React.Fragment>
+               break
+
             case 'country':
                 returnedField = <React.Fragment>
                     <FormGroup>
@@ -113,7 +135,7 @@ class FormBuilder extends React.Component {
                 break
             case 'checkbox':
                 returnedField = <Switch
-                    ley={field.id}
+                    key={field.id}
                     label={field.label}
                     name={field.name}
                     isOn={field.value}
