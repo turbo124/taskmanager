@@ -17,7 +17,7 @@ class PaymentWasRefunded
      */
     public $payment;
 
-    public $refund_amount;
+    public $data;
 
     /**
      * Create a new event instance.

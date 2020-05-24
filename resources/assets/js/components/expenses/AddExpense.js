@@ -18,6 +18,7 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
 import { translations } from '../common/_icons'
+import FileUploads from '../attachments/FileUploads'
 
 class AddExpense extends React.Component {
     constructor (props) {
@@ -185,10 +186,12 @@ class AddExpense extends React.Component {
                                     handleInput={this.handleInput}/>
                             </TabPane>
 
+                            {this.state.user_id && this.state.user_id.length &&
                             <TabPane tabId="3">
                                 <Notes errors={this.state.errors} public_notes={this.state.public_notes}
                                     private_notes={this.state.private_notes} handleInput={this.handleInput}/>
                             </TabPane>
+                            }
                         </TabContent>
                     </ModalBody>
 

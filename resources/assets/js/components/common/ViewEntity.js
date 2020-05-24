@@ -97,10 +97,10 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company entity={this.props.entity}/>}
 
-                       {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
+                        {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
                         <Lead entity={this.props.entity}/>}
 
-                        {!['Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
+                        {!['Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>

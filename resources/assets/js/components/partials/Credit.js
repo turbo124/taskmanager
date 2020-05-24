@@ -87,7 +87,7 @@ export default class Credit extends Component {
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => { this.toggleTab('1') }}
                         >
-            {translations.details}
+                            {translations.details}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -95,7 +95,7 @@ export default class Credit extends Component {
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => { this.toggleTab('2') }}
                         >
-            {translations.documents}
+                            {translations.documents}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -187,22 +187,22 @@ export default class Credit extends Component {
                             <ListGroup className="col-6 mt-4">
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.tax}
+                                    {translations.tax}
                                     <span>{this.props.entity.tax_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.discount}
+                                    {translations.discount}
                                     <span> {this.props.entity.discount_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.subtotal}
+                                    {translations.subtotal}
                                     <span> {this.props.entity.sub_total} </span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.total}
+                                    {translations.total}
                                     <span> {this.props.entity.total} </span>
                                 </ListGroupItem>
                             </ListGroup>

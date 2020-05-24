@@ -33,6 +33,7 @@ export default class ExpenseModel extends BaseModel {
             expense_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             company_id: '',
             category_id: '',
+            user_id: null,
             notes: '',
             loading: false,
             errors: [],

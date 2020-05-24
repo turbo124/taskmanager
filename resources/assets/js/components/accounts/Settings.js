@@ -287,11 +287,11 @@ class Settings extends Component {
                     group: 1
                 },
                 {
-                    name: 'payment_type',
+                    name: 'payment_type_id',
                     label: 'Payment Type',
                     type: 'payment_type',
                     placeholder: 'Payment Type',
-                    value: settings.payment_type,
+                    value: settings.payment_type_id,
                     group: 1
                 },
                 {

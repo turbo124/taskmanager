@@ -114,7 +114,7 @@ class Refund
 
         $this->payment->save();
 
-        event(new PaymentWasRefunded($this->payment, $adjustment_amount));
+        event(new PaymentWasRefunded($this->payment, $this->data));
 
         $this->updateCustomer();
 
