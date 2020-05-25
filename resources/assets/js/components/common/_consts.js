@@ -40,5 +40,11 @@ export const consts = {
     payment_status_failed_text: 'Failed',
     payment_status_completed_text: 'Completed',
     payment_status_partial_refund_text: 'Partially Refunded',
-    payment_status_refunded_text: 'Refunded'
+    payment_status_refunded_text: 'Refunded',
+    expense_status_logged: 1,
+    expense_status_pending: 2,
+    expense_status_invoiced: = 3,
+    expense_status_logged_text: 'Logged',
+    expense_status_pending_text: 'Pending',
+    expense_status_invoiced_text: = 'Invoiced'
 }
