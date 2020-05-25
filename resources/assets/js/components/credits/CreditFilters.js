@@ -7,6 +7,8 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import { translations } from "../common/_icons";
+import { consts } from "../common/_consts";
 
 export default class CreditFilters extends Component {
     constructor (props) {
@@ -80,14 +82,14 @@ export default class CreditFilters extends Component {
                             id="status_id"
                             name="status_id"
                         >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                            <option value='1'>Draft</option>
-                            <option value='2'>Sent</option>
-                            <option value='3'>Partial</option>
-                            <option value='4'>Applied</option>
+                            <option value="">{translations.select_status}</option>
+                            <option value='active'>{translations.active}</option>
+                            <option value='archived'>{translations.archived}</option>
+                            <option value='deleted'>{translations.deleted}</option>
+                            <option value={consts.credit_status_draft}>{translations.draft}</option>
+                            <option value={consts.credit_status_sent}>{translations.sent}</option>
+                            <option value='3'>{translations.partial}</option>
+                            <option value='4'>{translations.applied}</option>
                         </Input>
                     </FormGroup>
                 </Col>

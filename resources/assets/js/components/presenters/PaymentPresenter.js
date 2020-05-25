@@ -2,30 +2,32 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { consts } from '../common/_consts'
+import { translations } from "../common/_icons";
 
 export default function PaymentPresenter (props) {
     const colors = {
-        Pending: 'secondary',
-        Voided: 'danger',
-        Failed: 'danger',
-        Completed: 'success',
-        'Partially Refunded': 'dark',
-        Refunded: 'danger'
+        [consts.payment_status_pending]: 'secondary',
+        [consts.payment_status_voided]: 'danger',
+        [consts.payment_status_failed]: 'danger',
+        [consts.payment_status_completed]: 'success',
+        [consts.payment_status_partial_refund]: 'dark',
+        [consts.payment_status_refunded]: 'danger'
     }
 
     const statuses = {
-        1: 'Pending',
-        2: 'Voided',
-        3: 'Failed',
-        4: 'Completed',
-        5: 'Partially Refunded',
-        6: 'Refunded'
+        [consts.payment_status_pending]: translations.pending,
+        [consts.payment_status_voided]: translations.voided,
+        [consts.payment_status_failed]: translations.failed,
+        [consts.payment_status_completed]: translations.complete,
+        [consts.payment_status_partial_refund]: translations.partial_refund,
+        [consts.payment_status_refunded]: translations.refunded
     }
 
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status]}>{statuses[entity.status_id]}</Badge>
+        ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
         : <Badge color="warning">Archived</Badge>
 
     const paymentInvoices = props.paymentables && Object.keys(props.paymentables).length > 0 ? Array.prototype.map.call(props.paymentables, s => s.number).toString() : null

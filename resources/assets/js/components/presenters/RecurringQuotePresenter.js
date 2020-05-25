@@ -2,23 +2,24 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { consts } from '../common/_consts'
+import { translations } from '../common/_icons'
 
 export default function RecurringQuotePresenter (props) {
     const colors = {
-        2: 'primary',
-        3: 'primary',
-        '-3': 'danger',
-        '-1': 'primary',
-        Partial: 'dark',
-        '-2': 'success'
+        [consts.recurring_quote_status_draft]: 'primary',
+        [consts.recurring_quote_status_active]: 'primary',
+        [consts.recurring_quote_status_cancelled]: 'danger',
+        [consts.recurring_quote_status_pending]: 'primary',
+        [consts.recurring_quote_status_completed]: 'success'
     }
 
     const statuses = {
-        2: 'Draft',
-        3: 'Active',
-        '-3': 'Cancelled',
-        '-1': 'Pending',
-        '-2': 'Completed'
+        [consts.recurring_invoice_status_draft]: translations.draft,
+        [consts.recurring_invoice_status_active]: translations.active,
+        [consts.recurring_invoice_status_cancelled]: translations.cancelled,
+        [consts.recurring_invoice_status_pending]: translations.pending,
+        [consts.recurring_invoice_status_completed]: translations.complete
     }
 
     const { field, entity } = props

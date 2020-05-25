@@ -7,6 +7,8 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import { translations } from "../common/_icons";
+import { consts } from "../common/_consts";
 
 export default class QuoteFilters extends Component {
     constructor (props) {
@@ -83,15 +85,15 @@ export default class QuoteFilters extends Component {
                             name="status_id"
                             id="status_id"
                         >
-                            <option value="">Select Status</option>
-                            <option value="active">Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                            <option value='1'>Draft</option>
-                            <option value='2'>Sent</option>
-                            <option value='active'>Viewed</option>
-                            <option value='4'>Approved</option>
-                            <option value='archived'>Expired</option>
+                            <option value="">{translations.select_status}</option>
+                            <option value="active">{translations.active}</option>
+                            <option value='archived'>{translations.archived}</option>
+                            <option value='deleted'>{translations.deleted}</option>
+                            <option value={consts.quote_status_draft}>{translations.draft}</option>
+                            <option value={consts.quote_status_sent}>{translations.sent}</option>
+                            <option value='active'>{translations.viewed}</option>
+                            <option value={consts.quote_status_approved}>{translations.approved}</option>
+                            <option value='overdue'>{translations.expired}</option>
                         </Input>
                     </FormGroup>
                 </Col>

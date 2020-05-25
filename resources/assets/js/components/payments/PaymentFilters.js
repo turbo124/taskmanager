@@ -7,6 +7,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
+import { translations } from "../common/_icons";
 
 export default class PaymentFilters extends Component {
     constructor (props) {
@@ -81,10 +82,10 @@ export default class PaymentFilters extends Component {
                             id="status_id"
                             name="status_id"
                         >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
+                            <option value="">{translations.select_status}</option>
+                            <option value='active'>{translations.active}</option>
+                            <option value='archived'>{translations.archived}</option>
+                            <option value='deleted'>{translations.deleted}</option>
                         </Input>
                     </FormGroup>
                 </Col>

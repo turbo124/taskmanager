@@ -7,6 +7,8 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
+import { consts } from "../common/_consts";
+import { translations } from "../common/_icons";
 
 export default class InvoiceFilters extends Component {
     constructor (props) {
@@ -83,15 +85,16 @@ export default class InvoiceFilters extends Component {
                             name="status_id"
                         >
                             <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value="archived">Archived</option>
-                            <option value='deleted'>Deleted</option>
-                            <option value='1'>Draft</option>
-                            <option value='2'>Sent</option>
-                            <option value='Viewed'>Viewed</option>
-                            <option value='4'>Partial</option>
-                            <option value='3'>Paid</option>
-                            <option value='invoice_overdue'>Past Due</option>
+                            <option value='active'>{translations.active}</option>
+                            <option value="archived">{translations.archived}</option>
+                            <option value='deleted'>{translations.deleted}</option>
+                            <option value={consts.invoice_status_draft}>{translations.draft}</option>
+                            <option value={consts.invoice_status_sent}>{translations.sent}</option>
+                            <option value='Viewed'>{translations.viewed}</option>
+                            <option value={consts.invoice_status_partial}>{translations.partial}</option>
+                            <option value={consts.invoice_status_paid}>{translations.paid}</option>
+                            <option value={consts.invoice_status_cancelled}>{translations.cancelled}</option>
+                            <option value={consts.invoice_status_reversed}>{translations.reversed}</option>
                         </Input>
                     </FormGroup>
                 </Col>

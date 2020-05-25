@@ -7,6 +7,8 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
+import { translations } from "../common/_icons";
+import { consts } from "../common/_consts";
 
 export default class OrderFilters extends Component {
     constructor (props) {
@@ -82,14 +84,14 @@ export default class OrderFilters extends Component {
                             id="status_id"
                             name="status_id"
                         >
-                            <option value="">Select Status</option>
-                            <option value="active">Active</option>
-                            <option value="archived">Archived</option>
-                            <option value='deleted'>Deleted</option>
-                            <option value='1'>Draft</option>
-                            <option value='2'>Sent</option>
-                            <option value='4'>Approved</option>
-                            <option value='3'>Complete</option>
+                            <option value="">{translations.select_status}</option>
+                            <option value="active">{translations.active}</option>
+                            <option value="archived">{translations.archived}</option>
+                            <option value='deleted'>{translations.deleted}</option>
+                            <option value={consts.order_status_draft}>{translations.pending}</option>
+                            <option value={consts.order_status_sent}>{translations.sent}</option>
+                            <option value={consts.order_status_approved}>{translations.dispatched}</option>
+                            <option value={consts.order_status_complete}>{translations.complete}</option>
                         </Input>
                     </FormGroup>
                 </Col>
