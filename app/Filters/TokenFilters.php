@@ -46,7 +46,7 @@ class TokenFilters extends QueryFilter
         $this->query = $this->model->select('company_tokens.*');
 
         if ($request->has('status')) {
-            $this->status($request->status);
+            $this->status('company_tokens', $request->status);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
@@ -71,13 +71,6 @@ class TokenFilters extends QueryFilter
         return $tokens;
     }
 
-    private function filterDates($request)
-    {
-        $start = date("Y-m-d", strtotime($request->input('start_date')));
-        $end = date("Y-m-d", strtotime($request->input('end_date')));
-        $this->query->whereBetween('company_tokens.created_at', [$start, $end]);
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -85,16 +78,6 @@ class TokenFilters extends QueryFilter
         }
 
         return $this->query->where('company_tokens.name', 'like', '%' . $filter . '%');
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('company_tokens.account_id', '=', $account_id);
     }
 
     /**
@@ -111,51 +94,5 @@ class TokenFilters extends QueryFilter
         )->all();
 
         return $tokens;
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $table = 'company_tokens';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(
-                function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-                }
-            );
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-    }
-
-    /**
-     * Sorts the list based on $sort
-     *
-     * @param string sort formatted as column|asc
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function sort(string $sort): Builder
-    {
-        $sort_col = explode("|", $sort);
-        return $this->builder->orderBy($sort_col[0], $sort_col[1]);
     }
 }

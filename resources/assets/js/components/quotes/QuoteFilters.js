@@ -84,12 +84,13 @@ export default class QuoteFilters extends Component {
                             id="status_id"
                         >
                             <option value="">Select Status</option>
+                            <option value="active">Active</option>
                             <option value='archived'>Archived</option>
                             <option value='deleted'>Deleted</option>
-                            <option value='active'>Draft</option>
-                            <option value='active'>Sent</option>
+                            <option value='1'>Draft</option>
+                            <option value='2'>Sent</option>
                             <option value='active'>Viewed</option>
-                            <option value='approved'>Approved</option>
+                            <option value='4'>Approved</option>
                             <option value='archived'>Expired</option>
                         </Input>
                     </FormGroup>

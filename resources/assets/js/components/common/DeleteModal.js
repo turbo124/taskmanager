@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem } from 'reactstrap'
-import { icons } from './_icons'
+import { icons, translations } from './_icons'
 
 export default class DeleteModal extends Component {
     constructor (props) {
@@ -27,7 +27,8 @@ export default class DeleteModal extends Component {
     }
 
     render () {
-        const text = this.props.archive === true ? 'Archive' : 'Delete'
+        const text = this.props.archive === true ? translations.archive : translations.delete
+        const message = this.props.archive === true ? translations.archive_message : translations.delete_message
         const icon = this.props.archive === true ? `${icons.archive}` : `${icons.delete}`
         return (
             <React.Fragment>
@@ -35,9 +36,9 @@ export default class DeleteModal extends Component {
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>DELETE</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{text.toUpperCase()}</ModalHeader>
                     <ModalBody>
-                        Do you want to delete this?
+                        {message}
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.delete}

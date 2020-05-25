@@ -48,9 +48,7 @@ class Refund
 
         $this->payment->status_id = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
-        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
-
-        $line_items[] = (new LineItem($credit_note))
+        $line_items[] = (new LineItem())
             ->setQuantity(1)
             ->setUnitPrice($this->data['amount'])
             ->setProductId('CREDIT')
@@ -58,16 +56,7 @@ class Refund
             ->setSubTotal($this->data['amount'])
             ->toObject();
 
-        $credit_note = $this->credit_repo->save(
-            [
-                'line_items' => $line_items,
-                'total'      => $this->data['amount'],
-                'balance'    => $this->data['amount']
-            ],
-            $credit_note
-        );
-
-        event(new CreditWasCreated($credit_note));
+        $this->createCreditNote($line_items, $this->data['amount']);
 
         $this->payment->save();
         event(new PaymentWasRefunded($this->payment, $this->data));
@@ -77,9 +66,6 @@ class Refund
 
     private function refundPaymentWithInvoices()
     {
-        $total_refund = 0;
-        $total_refund = 0;
-
         $line_items = [];
         $adjustment_amount = 0;
 
@@ -117,7 +103,6 @@ class Refund
         event(new PaymentWasRefunded($this->payment, $this->data));
 
         $this->updateCustomer();
-
 
         return $this->payment;
     }
@@ -157,7 +142,7 @@ class Refund
 
     private function updateCustomer()
     {
-        $this->payment->customer->paid_to_date -= $this->data['amount'];
+        $this->payment->customer->reducePaidToDateAmount($this->data['amount']);
         $this->payment->customer->save();
         return $this->payment->customer;
     }
@@ -183,6 +168,7 @@ class Refund
         event(new CreditWasCreated($credit_note));
 
         $credit_note->ledger()->updateBalance($adjustment_amount);
+
 
         return $credit_note;
     }

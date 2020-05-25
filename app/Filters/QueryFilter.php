@@ -3,22 +3,11 @@
 namespace App\Filters;
 
 use App\Account;
+use App\Invoice;
+use Carbon\Carbon;
 
 class QueryFilter
 {
-
-    /**
-     * active status
-     */
-    const STATUS_ACTIVE = 'active';
-    /**
-     * archived status
-     */
-    const STATUS_ARCHIVED = 'archived';
-    /**
-     * deleted status
-     */
-    const STATUS_DELETED = 'deleted';
 
     protected function filterDates($request)
     {
@@ -45,9 +34,9 @@ class QueryFilter
     /**
      * Filters the list based on the status
      * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
+     * @param string $table
+     * @param string $filter
+     * @return mixed
      */
     protected function status(string $table, string $filter = '')
     {
@@ -55,24 +44,30 @@ class QueryFilter
             return $this->query;
         }
 
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(self::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
+        if (is_numeric($filter)) {
+            $this->query->where($table . '.status_id', '=', (int)$filter);
         }
 
-        if (in_array(self::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(
-                function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-                }
-            );
-
-            $this->query->withTrashed();
+        if ($filter === 'invoice_overdue') {
+            $this->query->whereIn(
+                'status_id',
+                [
+                    Invoice::STATUS_SENT,
+                    Invoice::STATUS_PARTIAL
+                ]
+            )->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
         }
-        if (in_array(self::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
+
+        if ($filter === 'active') {
+            $this->query->whereNull($table . '.deleted_at');
+        }
+
+        if ($filter === 'archived') {
+            $this->query->whereNotNull($table . '.deleted_at')->withTrashed();
+        }
+
+        if ($filter === 'deleted') {
+            $this->query->where($table . '.is_deleted', '=', 1)->withTrashed();
         }
     }
 }

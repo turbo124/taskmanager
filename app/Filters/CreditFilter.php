@@ -47,7 +47,7 @@ class CreditFilter extends QueryFilter
         }
 
         if ($request->has('status')) {
-            $this->filterStatus($request->status);
+            $this->status('credits', $request->status);
         }
 
         if ($request->filled('customer_id')) {
@@ -107,54 +107,4 @@ class CreditFilter extends QueryFilter
 
         return $credits;
     }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function filterStatus($filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        $table = 'credits';
-        $status_parameters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-
-        if (in_array(parent::STATUS_ACTIVE, $status_parameters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $status_parameters)) {
-            $this->query->orWhere(
-                function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-                }
-            );
-
-            $this->query->withTrashed();
-        }
-
-        if (in_array(parent::STATUS_DELETED, $status_parameters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
-
-        if (in_array('draft', $status_parameters)) {
-            $this->query->where('status_id', Credit::STATUS_DRAFT);
-        }
-
-        if (in_array('partial', $status_parameters)) {
-            $this->query->where('status_id', Credit::STATUS_PARTIAL);
-        }
-
-        if (in_array('applied', $status_parameters)) {
-            $this->query->where('status_id', Credit::STATUS_APPLIED);
-        }
-    }
-
 }

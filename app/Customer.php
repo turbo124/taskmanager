@@ -174,6 +174,9 @@ class Customer extends Model implements HasLocalePreference
         return null;
     }
 
+    /**
+     * @param float $amount
+     */
     public function increaseBalance(float $amount)
     {
         $this->balance += $amount;
@@ -182,5 +185,13 @@ class Customer extends Model implements HasLocalePreference
     public function increasePaidToDateAmount(float $amount)
     {
         $this->paid_to_date += $amount;
+    }
+
+    /**
+     * @param float $amount
+     */
+    public function reducePaidToDateAmount(float $amount)
+    {
+        $this->paid_to_date -= $amount;
     }
 }

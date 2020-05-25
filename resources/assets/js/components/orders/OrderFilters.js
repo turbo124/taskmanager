@@ -83,14 +83,13 @@ export default class OrderFilters extends Component {
                             name="status_id"
                         >
                             <option value="">Select Status</option>
-                            <option value='Draft'>Draft</option>
+                            <option value="active">Active</option>
                             <option value="archived">Archived</option>
                             <option value='deleted'>Deleted</option>
-                            <option value='unpaid'>Sent</option>
-                            <option value='Viewed'>Viewed</option>
-                            <option value='unpaid'>Partial</option>
-                            <option value='paid'>Paid</option>
-                            <option value='overdue'>Past Due</option>
+                            <option value='1'>Draft</option>
+                            <option value='2'>Sent</option>
+                            <option value='4'>Approved</option>
+                            <option value='3'>Complete</option>
                         </Input>
                     </FormGroup>
                 </Col>
