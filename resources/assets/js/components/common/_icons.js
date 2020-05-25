@@ -153,6 +153,8 @@ export const translations = {
       'Warning: This will permanently erase your data, there is no undo.',
     invoice_balance: 'Invoice Balance',
     delete: 'Delete',
+    delete_message: 'Do you want to delete this?',
+    archive_message: 'Do you want to archive this?',
     refresh: 'Refresh',
     saved_design: 'Successfully saved design',
     client_details: 'Client Details',

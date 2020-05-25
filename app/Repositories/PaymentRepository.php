@@ -222,16 +222,14 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
                                    ->wherePaymentableId($invoice->id)
                                    ->get();
 
-        $paymentables->each(
-            function ($paymentable) use ($total_paid) {
-                $reversable_amount = $paymentable->amount - $paymentable->refunded;
+        foreach ($paymentables as $paymentable) {
+            $reversable_amount = $paymentable->amount - $paymentable->refunded;
 
-                $total_paid -= $reversable_amount;
+            $total_paid -= $reversable_amount;
 
-                $paymentable->amount = $paymentable->refunded;
-                $paymentable->save();
-            }
-        );
+            $paymentable->amount = $paymentable->refunded;
+            $paymentable->save();
+        }
 
         return $total_paid;
     }

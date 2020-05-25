@@ -13,7 +13,10 @@ class CustomerFilter extends QueryFilter
 {
     use CustomerTransformable;
 
-    private $customerRepository;
+    /**
+     * @var CustomerRepository
+     */
+    private CustomerRepository $customerRepository;
 
     private $model;
 

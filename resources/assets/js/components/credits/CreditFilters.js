@@ -81,13 +81,13 @@ export default class CreditFilters extends Component {
                             name="status_id"
                         >
                             <option value="">Select Status</option>
-                            <option value='draft'>Draft</option>
-                            <option value='sent'>Sent</option>
-                            <option value='partial'>Partial</option>
-                            <option value='applied'>Applied</option>
                             <option value='active'>Active</option>
                             <option value='archived'>Archived</option>
                             <option value='deleted'>Deleted</option>
+                            <option value='1'>Draft</option>
+                            <option value='2'>Sent</option>
+                            <option value='3'>Partial</option>
+                            <option value='4'>Applied</option>
                         </Input>
                     </FormGroup>
                 </Col>

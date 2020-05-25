@@ -45,7 +45,7 @@ class EventFilter extends QueryFilter
         }
 
         if ($request->has('status_id')) {
-            $this->status($request->status_id);
+            $this->status('events', $request->status_id);
         }
 
         $this->addAccount($account->id);
@@ -73,16 +73,6 @@ class EventFilter extends QueryFilter
                       ->orWhere('description', 'like', '%' . $filter . '%');
             }
         );
-    }
-
-    private function orderBy($orderBy, $orderDir)
-    {
-        $this->query->orderBy($orderBy, $orderDir);
-    }
-
-    private function addAccount(int $account_id)
-    {
-        $this->query->where('account_id', '=', $account_id);
     }
 
     /**
@@ -124,43 +114,6 @@ class EventFilter extends QueryFilter
         $this->addAccount($account_id);
 
         return $this->transformList();
-    }
-
-    /**
-     * Filters the list based on the status
-     * archived, active, deleted
-     *
-     * @param string filter
-     * @return Illuminate\Database\Query\Builder
-     */
-    public function status(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-        $table = 'events';
-        $filters = explode(',', $filter);
-
-        $this->query->whereNull($table . '.id');
-        if (in_array(parent::STATUS_ACTIVE, $filters)) {
-            $this->query->orWhereNull($table . '.deleted_at');
-        }
-
-        if (in_array(parent::STATUS_ARCHIVED, $filters)) {
-            $this->query->orWhere(
-                function ($query) use ($table) {
-                    $query->whereNotNull($table . '.deleted_at');
-                    //if (!in_array($table, ['users'])) {
-                    //$query->where($table . '.is_deleted', '=', 0);
-                    //}
-                }
-            );
-
-            $this->query->withTrashed();
-        }
-        if (in_array(parent::STATUS_DELETED, $filters)) {
-            $this->query->orWhere($table . '.is_deleted', '=', 1)->withTrashed();
-        }
     }
 
 }

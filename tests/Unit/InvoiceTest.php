@@ -320,6 +320,7 @@ class InvoiceTest extends TestCase
         $client_paid_to_date = $invoice->customer->paid_to_date;
         $client_balance = $invoice->customer->balance;
         $invoice_balance = $invoice->balance;
+        $invoice_total = $invoice->total;
 
         $account = $invoice->account;
         $settings = $account->settings;
@@ -346,7 +347,10 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
-        $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date));
+
+        $new_customer_balance = $client_balance - ($invoice_total - $invoice_balance);
+
+        $this->assertEquals($invoice->customer->paid_to_date, $new_customer_balance);
     }
 
     public function testReversalNoPayment()

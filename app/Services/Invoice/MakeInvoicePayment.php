@@ -37,11 +37,7 @@ class MakeInvoicePayment
             return $this->invoice;
         }
 
-        $this->invoice->resetPartialInvoice(
-            $this->payment_amount * -1,
-            0,
-            $this->payment_amount == $this->invoice->balance
-        );
+        $this->invoice->increaseBalance($this->payment_amount * -1);
         return $this->invoice;
     }
 

@@ -223,12 +223,32 @@ class Invoice extends Model
         return true;
     }
 
-    public function resetPartialInvoice(float $amount, float $partial_amount = 0, $is_paid = false)
+    /**
+     * @param $amount
+     */
+    public function increaseBalance($amount)
+    {
+        $this->balance += floatval($amount);
+
+        if($amount == $this->balance) {
+            $this->setStatus(self::STATUS_PAID);
+        }
+
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     * @param float|int $partial_amount
+     * @return $this
+     */
+    public function resetPartialInvoice(float $amount, float $partial_amount = 0)
     {
         $this->balance += floatval($amount);
         $this->partial = $partial_amount > 0 ? $this->partial -= $partial_amount : null;
         $this->partial_due_date = $partial_amount > 0 ? $this->partial_due_date : null;
-        $this->status_id = $is_paid === false ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID;
+        $this->status_id = Invoice::STATUS_PARTIAL;
         $this->due_date = Carbon::now()->addDays($this->customer->getSetting('payment_terms'));
         $this->save();
         return $this;
