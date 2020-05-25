@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
+import { consts } from "../common/_consts";
 
 export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$quote.quote_date', '$quote.valid_until', '$quote.balance_due',
     '$quote.quote_total', '$quote.partial_due', '$quote.quote1', '$quote.quote2', '$quote.quote3', '$quote.quote4', '$quote.surcharge1',
@@ -177,6 +178,13 @@ export default class CreditModel extends BaseModel {
         const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
         const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
+    }
+
+    isLate () {
+        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD')
+        const pending_statuses = [consts.quote_status_draft, consts.quote_status_sent]
+
+        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }
 
     async update (data) {

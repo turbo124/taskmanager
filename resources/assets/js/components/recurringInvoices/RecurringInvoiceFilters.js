@@ -7,6 +7,8 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import { translations } from "../common/_icons";
+import { consts } from "../common/_consts";
 
 export default class RecurringInvoiceFilters extends Component {
     constructor (props) {
@@ -85,15 +87,15 @@ export default class RecurringInvoiceFilters extends Component {
                             id="status_id"
                             name="status_id"
                         >
-                            <option value="">Select Status</option>
-                            <option value='Draft'>Draft</option>
-                            <option value="archived">Archived</option>
-                            <option value="deleted">Deleted</option>
-                            <option value='unpaid'>Sent</option>
-                            <option value='Viewed'>Viewed</option>
-                            <option value='unpaid'>Partial</option>
-                            <option value='paid'>Paid</option>
-                            <option value='overdue'>Past Due</option>
+                            <option value="">{translations.select_status}</option>
+                            <option value={consts.recurring_invoice_status_draft}>{translations.draft}</option>
+                            <option value="active">{translations.active}</option>
+                            <option value="archived">{translations.archived}</option>
+                            <option value="deleted">{translations.deleted}</option>
+                            <option value={consts.recurring_invoice_status_pending}>{translations.pending}</option>
+                            <option value='Viewed'>{translations.viewed}</option>
+                            <option value={consts.recurring_invoice_status_cancelled}>{translations.cancelled}</option>
+                            <option value={consts.recurring_invoice_status_completed}>{translations.complete}</option>
                         </Input>
                     </FormGroup>
                 </Col>

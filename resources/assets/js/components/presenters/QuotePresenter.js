@@ -3,28 +3,29 @@ import React from 'react'
 import moment from 'moment'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { consts } from '../common/_consts'
+import QuoteModel from '../models/QuoteModel'
+import { translations } from "../common/_icons";
 
 export default function QuotePresenter (props) {
     const colors = {
-        1: 'secondary',
-        2: 'primary',
-        4: 'success',
+        [consts.quote_status_draft]: 'secondary',
+        [consts.quote_status_sent]: 'primary',
+        [consts.quote_status_approved]: 'success',
         '-1': 'danger'
     }
 
     const statuses = {
-        1: 'Draft',
-        2: 'Sent',
-        4: 'Approved',
-        '-1': 'Expired'
+        [consts.quote_status_draft]: translations.draft,
+        [consts.quote_status_sent]: translations.sent,
+        [consts.quote_status_approved]: translations.approved,
+        '-1': translations.expired
     }
 
     const { field, entity } = props
 
-    const dueDate = moment(entity.due_date).format('YYYY-MM-DD')
-    const pending_statuses = [1, 2]
-
-    const is_late = moment().isAfter(dueDate) && pending_statuses.includes(entity.status_id)
+    const objQuoteModel = new QuoteModel(entity, props.customers)
+    const is_late = objQuoteModel.isLate()
     const entity_status = is_late === true ? '-1' : entity.status_id
 
     const status = !entity.deleted_at

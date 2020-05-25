@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
+import { consts } from "../common/_consts";
 
 export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_number', '$invoice.invoice_date', '$invoice.due_date',
     '$invoice.balance_due', '$invoice.invoice_total', '$invoice.partial_due', '$invoice.invoice1', '$invoice.invoice2', '$invoice.invoice3',
@@ -206,6 +207,13 @@ export default class InvoiceModel extends BaseModel {
             this.handleError(e)
             return false
         }
+    }
+
+    isLate () {
+        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
+        const pending_statuses = [consts.invoice_status_draft, consts.invoice_status_sent, consts.invoice_status_partial]
+
+        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }
 
     get url () {

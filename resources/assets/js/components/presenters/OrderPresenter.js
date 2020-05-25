@@ -3,30 +3,31 @@ import React from 'react'
 import moment from 'moment'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { consts } from '../common/_consts'
+import OrderModel from '../models/OrderModel'
+import { translations } from "../common/_icons";
 
 export default function OrderPresenter (props) {
     const colors = {
-        1: 'secondary',
-        2: 'primary',
-        3: 'success',
-        4: 'success',
+        [consts.order_status_draft]: 'secondary',
+        [consts.order_status_sent]: 'primary',
+        [consts.order_status_complete]: 'success',
+        [consts.order_status_approved]: 'success',
         '-1': 'danger'
     }
 
     const statuses = {
-        1: 'Draft',
-        2: 'Sent',
-        3: 'Complete',
-        4: 'Approved',
+        [consts.order_status_draft]: translations.pending,
+        [consts.order_status_sent]: translations.sent,
+        [consts.order_status_complete]: translations.complete,
+        [consts.order_status_approved]: translations.dispatched,
         '-1': 'Expired'
     }
 
     const { field, entity } = props
 
-    const dueDate = moment(entity.due_date).format('YYYY-MM-DD HH::MM:SS')
-    const pending_statuses = [1, 2, 4]
-
-    const is_late = moment().isAfter(dueDate) && pending_statuses.includes(entity.status_id)
+    const objOrderModel = new OrderModel(entity, props.customers)
+    const is_late = objOrderModel.isLate()
     const entity_status = is_late === true ? '-1' : entity.status_id
 
     const status = !entity.deleted_at

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
+import { consts } from '../common/_consts'
 
 export default class OrderModel extends BaseModel {
     constructor (data = null, customers) {
@@ -215,6 +216,13 @@ export default class OrderModel extends BaseModel {
 
     set customer_id (customer_id) {
         this._fields.customer_id = customer_id
+    }
+
+    isLate () {
+        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
+        const pending_statuses = [consts.order_status_draft, consts.order_status_sent, consts.order_status_approved]
+
+        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }
 
     customerChange (customer_id) {
