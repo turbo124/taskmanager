@@ -34,5 +34,11 @@ export const consts = {
     payment_status_failed: 3,
     payment_status_completed: 4,
     payment_status_partial_refund: 5,
-    payment_status_refunded: 6
+    payment_status_refunded: 6,
+    payment_status_pending_text: 'Pending',
+    payment_status_voided_text: 'Voided',
+    payment_status_failed_text: 'Failed',
+    payment_status_completed_text: 'Completed',
+    payment_status_partial_refund_text: 'Partially Refunded',
+    payment_status_refunded_text: 'Refunded'
 }
