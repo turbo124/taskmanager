@@ -33,10 +33,9 @@ class UserWasDeleted
      *
      * @return void
      */
-    public function __construct($user, $company)
+    public function __construct($user)
     {
         $this->user = $user;
-        $this->company = $company;
     }
 
     /**

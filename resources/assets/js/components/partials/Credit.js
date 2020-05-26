@@ -3,6 +3,7 @@ import FileUploads from '../attachments/FileUploads'
 import {
     TabContent,
     TabPane,
+    Alert,
     Nav,
     NavItem,
     NavLink,
@@ -21,17 +22,35 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
 import { translations } from '../common/_icons'
+import CreditModel from '../models/CreditModel'
 
 export default class Credit extends Component {
     constructor (props) {
         super(props)
         this.state = {
             activeTab: '1',
-            obj_url: null
+            obj_url: null,
+            show_success: false
         }
 
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const creditModel = new CreditModel(this.props.entity)
+        creditModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
     }
 
     loadPdf () {
@@ -235,16 +254,22 @@ export default class Credit extends Component {
                     </TabPane>
                 </TabContent>
 
-                <div className="navbar d-flex p-0">
-                    <NavLink className="flex-fill border border-secondary"
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
                         {translations.pdf}
                     </NavLink>
-                    <NavLink className="flex-fill border border-secondary"
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
-                            this.toggleTab('4')
+                            this.triggerAction('4')
                         }}>
                         Link 4
                     </NavLink>

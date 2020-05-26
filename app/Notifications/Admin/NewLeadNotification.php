@@ -2,6 +2,8 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\LeadCreated;
+use App\Mail\SupportMessage;
 use App\Utils\Number;
 use App\Lead;
 use Illuminate\Bus\Queueable;
@@ -9,21 +11,28 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Support\Facades\Mail;
 
 class NewLeadNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
 
+    /**
+     * @var Lead
+     */
     private Lead $lead;
 
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * NewLeadNotification constructor.
+     * @param Lead $lead
+     * @param string $message_type
+     */
     public function __construct(Lead $lead, string $message_type = '')
     {
         $this->lead = $lead;
@@ -46,66 +55,12 @@ class NewLeadNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return LeadCreated
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject(
-            $this->subject
-        )->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans(
-            'texts.notification_lead',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_lead_subject',
-            $this->buildSubject()
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
-            'button_text' => trans('texts.view_deal'),
-            'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
-            'logo'        => $this->lead->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'customer' => $this->lead->present()->name()
-        ];
+        return new LeadCreated($this->lead, $notifiable);
     }
 
     /**
@@ -120,14 +75,23 @@ class NewLeadNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_lead_subject',
+            [
+                'customer' => $this->lead->present()->name()
+            ]
+        );
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
         $logo = $this->lead->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                $this->subject
+                $this->getMessage()
             );
     }
 

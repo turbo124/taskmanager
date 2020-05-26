@@ -4,6 +4,7 @@ import {
     TabContent,
     TabPane,
     Nav,
+    Alert,
     NavItem,
     NavLink,
     Row,
@@ -21,17 +22,35 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
 import { translations } from '../common/_icons'
+import QuoteModel from '../models/QuoteModel'
 
 export default class Quote extends Component {
     constructor (props) {
         super(props)
         this.state = {
             activeTab: '1',
-            obj_url: null
+            obj_url: null,
+            show_success: false
         }
 
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const quoteModel = new QuoteModel(this.props.entity)
+        quoteModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
     }
 
     loadPdf () {
@@ -88,7 +107,7 @@ export default class Quote extends Component {
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => { this.toggleTab('1') }}
                         >
-            {translations.details}
+                            {translations.details}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -96,7 +115,7 @@ export default class Quote extends Component {
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => { this.toggleTab('2') }}
                         >
-            {translations.documents}
+                            {translations.documents}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -188,22 +207,22 @@ export default class Quote extends Component {
                             <ListGroup className="col-6 mt-4">
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.tax}
+                                    {translations.tax}
                                     <span>{this.props.entity.tax_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.discount}
+                                    {translations.discount}
                                     <span> {this.props.entity.discount_total}</span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.subtotal}
+                                    {translations.subtotal}
                                     <span> {this.props.entity.sub_total} </span>
                                 </ListGroupItem>
                                 <ListGroupItem
                                     className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        {translations.total}
+                                    {translations.total}
                                     <span> {this.props.entity.total} </span>
                                 </ListGroupItem>
                             </ListGroup>
@@ -236,18 +255,24 @@ export default class Quote extends Component {
                     </TabPane>
                 </TabContent>
 
-                <div className="navbar d-flex p-0">
-                    <NavLink className="flex-fill border border-secondary"
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
                         {translations.pdf}
                     </NavLink>
-                    <NavLink className="flex-fill border border-secondary"
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
-                            this.toggleTab('4')
+                            this.triggerAction('clone_quote_to_invoice')
                         }}>
-                        Link 4
+                        {translations.clone_quote_to_invoice}
                     </NavLink>
                 </div>
 

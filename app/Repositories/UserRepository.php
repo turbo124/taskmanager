@@ -134,20 +134,21 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * Saves the user and its contacts
-     *
-     * @param array $data The data
-     * @param \App\Models\user $user The user
-     *
-     * @return     user|\App\Models\user|null  user Object
+     * @param array $data
+     * @param User $user
+     * @return User|null
      */
     public function save(array $data, User $user): ?User
     {
-        $data['password'] = isset($data['password']) && !empty($data['password']) ? Hash::make($data['password']) : '';
         $data['username'] = !isset($data['username']) || empty($data['username']) && !empty($data['email']) ? $data['email'] : $data['username'];
 
         /*************** save new user ***************************/
         $user->fill($data);
+
+        if (isset($data['password']) && !empty($data['password'])) {
+            $user->password = Hash::make($data['password']);
+        }
+
         $user->save();
 
         if (isset($data['role']) && !empty($data['role'])) {
@@ -196,7 +197,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         $user->delete();
 
-        event(new UserWasDeleted($user, $company));
+        event(new UserWasDeleted($user));
         return $user->fresh();
     }
 
@@ -207,5 +208,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return true;
     }
-
 }

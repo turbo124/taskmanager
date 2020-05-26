@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\TaskCreated;
 use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,6 +23,11 @@ class NewDealNotification extends Notification implements ShouldQueue
     private $deal;
     private string $message_type;
 
+    /**
+     * NewDealNotification constructor.
+     * @param $deal
+     * @param string $message_type
+     */
     public function __construct($deal, string $message_type = '')
     {
         $this->deal = $deal;
@@ -45,67 +51,12 @@ class NewDealNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return TaskCreated
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject(
-            $this->subject
-        )->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans(
-            'texts.notification_deal',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_deal_subject',
-            $this->buildDataArray()
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
-            'button_text' => trans('texts.view_deal'),
-            'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
-            'logo'        => $this->deal->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'total'    => Number::formatCurrency($this->deal->valued_at, $this->deal->customer),
-            'customer' => $this->deal->customer->present()->name()
-        ];
+        return new TaskCreated($this->deal, $notifiable);
     }
 
     /**
@@ -120,14 +71,24 @@ class NewDealNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_deal_subject',
+            [
+                'total'    => Number::formatCurrency($this->deal->valued_at, $this->deal->customer),
+                'customer' => $this->deal->customer->present()->name()
+            ]
+        );
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
         $logo = $this->deal->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                $this->subject
+                $this->getMessage()
             );
     }
 

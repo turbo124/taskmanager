@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\PaymentMade;
 use App\Utils\Number;
 use App\Payment;
 use Illuminate\Bus\Queueable;
@@ -14,16 +15,22 @@ class NewPaymentNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
 
+    /**
+     * @var Payment
+     */
     private Payment $payment;
 
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * NewPaymentNotification constructor.
+     * @param Payment $payment
+     * @param string $message_type
+     */
     public function __construct(Payment $payment, $message_type = '')
     {
         $this->payment = $payment;
@@ -47,64 +54,12 @@ class NewPaymentNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return PaymentMade
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject(
-            $this->subject
-        )->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_payment_paid_subject',
-            ['customer' => $this->payment->customer->present()->name(),]
-        );
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans('texts.notification_payment_paid', $this->getDataArray());
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
-            'button_text' => trans('texts.view_payment'),
-            'logo'        => $this->payment->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->payment->getFormattedAmount(),
-            'customer' => $this->payment->customer->present()->name(),
-            'invoice'  => $this->payment->getFormattedInvoices(),
-        ];
+        return new PaymentMade($this->payment, $notifiable);
     }
 
     /**
@@ -119,13 +74,19 @@ class NewPaymentNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_payment_paid_subject',
+            ['customer' => $this->payment->customer->present()->name()]
+        );
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
-
         return (new SlackMessage)->success()
-                                 ->from("System")->image($this->account->present()->logo())->content(
-                $this->subject
+                                 ->from("System")->image($this->payment->account->present()->logo())->content(
+                $this->getMessage()
             );
     }
 

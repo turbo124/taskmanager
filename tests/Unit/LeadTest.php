@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
 use App\Filters\LeadFilter;
 use App\Lead;
@@ -104,6 +105,9 @@ class LeadTest extends TestCase
         $leadRepo = new LeadRepository(new Lead);
         $factory = (new LeadFactory)->create($this->account, $this->user);
         $lead = $leadRepo->save($factory, $data);
+
+        event(new LeadWasCreated($lead));
+
         $this->assertInstanceOf(Lead::class, $lead);
         $this->assertEquals($data['first_name'], $lead->first_name);
     }

@@ -226,11 +226,11 @@ class Invoice extends Model
     /**
      * @param $amount
      */
-    public function increaseBalance($amount)
+    public function reduceBalance($amount)
     {
-        $this->balance += floatval($amount);
+        $this->balance -= floatval($amount);
 
-        if($amount == $this->balance) {
+        if ($this->balance === 0.0) {
             $this->setStatus(self::STATUS_PAID);
         }
 

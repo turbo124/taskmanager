@@ -76,9 +76,6 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Order'].includes(this.props.entity_type) &&
                         <Order entity={this.props.entity}/>}
 
-                        {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
-                        <Quote entity={this.props.entity}/>}
-
                         {this.props.entity && this.props.entity_type && ['Customer'].includes(this.props.entity_type) &&
                         <Customer entity={this.props.entity}/>}
 

@@ -54,7 +54,7 @@ class EntityViewedListener implements ShouldQueue
         $entity_viewed = "{$entity_name}_viewed";
 
         foreach ($invitation->account->account_users as $account_user) {
-            $notification->method = $this->findUserNotificationTypes(
+            $notification->method = $this->findUserNotificationTypesByInvitation(
                 $invitation,
                 $account_user,
                 $entity_name,

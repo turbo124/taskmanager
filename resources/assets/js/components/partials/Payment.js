@@ -1,19 +1,46 @@
 import React, { Component } from 'react'
 import {
+    Alert,
     Row,
     Card,
     CardText,
     ListGroupItemText,
     ListGroupItemHeading,
     ListGroupItem,
-    ListGroup
+    ListGroup, NavLink
 } from 'reactstrap'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
+import PaymentModel from '../models/PaymentModel'
 
 export default class Payment extends Component {
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            show_success: false
+        }
+
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const paymentModel = new PaymentModel(this.props.entity)
+        paymentModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
+    }
+
     render () {
         return (
             <React.Fragment>
@@ -47,9 +74,26 @@ export default class Payment extends Component {
                 <PaymentPresenter entity={this.props.entity} field="status_field" />
 
                 <Row>
-                    <ListGroup className="mt-4">
+                    <ListGroup className="col-12 mt-4">
+                        {this.props.entity.paymentables.map((line_item, index) => (
+                            <ListGroupItem className="list-group-item-dark">
+                                <ListGroupItemHeading>
+                                    <i className={`fa ${icons.document} mr-4`}/> {line_item.number}
+
+                                </ListGroupItemHeading>
+
+                                <ListGroupItemText>
+                                    <FormatMoney amount={line_item.amount}/> - <FormatDate date={line_item.date} />
+                                </ListGroupItemText>
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                </Row>
+
+                <Row>
+                    <ListGroup className="mt-4 mb-4 col-12">
                         <ListGroupItem className="list-group-item-dark">
-                            <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/>
+                            <ListGroupItemHeading><i className={`fa ${icons.customer} mr-4`}/>
                                 {this.props.entity.customer_name}
                             </ListGroupItemHeading>
                         </ListGroupItem>
@@ -75,6 +119,27 @@ export default class Payment extends Component {
                         </ListGroupItem>
                     </ul>
                 </Row>
+
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.toggleTab('3')
+                        }}>
+                        {translations.refund}
+                    </NavLink>
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.triggerAction('archive')
+                        }}>
+                        {translations.archive}
+                    </NavLink>
+                </div>
             </React.Fragment>
         )
     }

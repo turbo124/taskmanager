@@ -3,12 +3,15 @@
 namespace App\Listeners\Payment;
 
 use App\Notifications\Admin\NewPaymentNotification;
+use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 
 class PaymentNotification implements ShouldQueue
 {
+    use UserNotifies;
+
     /**
      * Create the event listener.
      *
@@ -33,7 +36,14 @@ class PaymentNotification implements ShouldQueue
         if (!empty($payment->account->account_users)) {
             foreach ($payment->account->account_users as $account_user) {
                 if ($account_user->user) {
-                    $account_user->user->notify(new NewPaymentNotification($payment));
+                    $notification_types = $this->getNotificationTypesForAccountUser(
+                        $account_user,
+                        ['payment_success']
+                    );
+
+                    if (!empty($notification_types) && in_array('mail', $notification_types)) {
+                        $account_user->user->notify(new NewPaymentNotification($payment, 'mail'));
+                    }
                 }
             }
         }

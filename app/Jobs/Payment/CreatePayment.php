@@ -89,7 +89,7 @@ class CreatePayment implements ShouldQueue
             $payment->customer->increasePaidToDateAmount($invoice->balance);
             $payment->customer->save();
 
-            $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
+            $invoice->reduceBalance($invoice->balance);
         }
 
         return $payment;

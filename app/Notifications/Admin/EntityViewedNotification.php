@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\ObjectViewed;
 use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,11 +22,25 @@ class EntityViewedNotification extends Notification implements ShouldQueue
      */
 
     private $invitation;
+
+    /**
+     * @var string
+     */
     private string $entity_name;
     private $entity;
     private $contact;
+
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * EntityViewedNotification constructor.
+     * @param $invitation
+     * @param $entity_name
+     * @param string $message_type
+     */
     public function __construct($invitation, $entity_name, string $message_type = '')
     {
         $this->entity_name = $entity_name;
@@ -51,21 +66,12 @@ class EntityViewedNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return ObjectViewed
      */
     public function toMail($notifiable)
     {
-        $this->build();
-        return (new MailMessage)->subject($this->subject)->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-
-            ]
-        );
+        return new ObjectViewed($this->invitation, $this->entity_name, $notifiable);
     }
 
     /**
@@ -80,14 +86,9 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function setMessage()
+    private function getMessage()
     {
-        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray());
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
+       return trans(
             "texts.notification_{$this->entity_name}_viewed_subject",
             [
                 'customer'         => $this->contact->present()->name(),
@@ -96,43 +97,11 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         );
     }
 
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    public function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config(
-                    'taskmanager.site_url'
-                ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
-                "?silent=true",
-            'button_text' => trans("texts.view_{$this->entity_name}"),
-            'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
-            'logo'        => $this->entity->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'            => $this->entity->getFormattedTotal(),
-            'customer'         => $this->contact->present()->name(),
-            $this->entity_name => $this->entity->getNumber()
-        ];
-    }
-
     public function toSlack($notifiable)
     {
-        $this->build();
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->content(
-                                     $this->subject
+                                     $this->getMessage()
                                  );
     }
 }

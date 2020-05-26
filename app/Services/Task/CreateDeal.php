@@ -4,6 +4,7 @@ namespace App\Services\Task;
 
 use App\Address;
 use App\ClientContact;
+use App\Events\Deal\DealWasCreated;
 use App\Order;
 use App\Task;
 use Illuminate\Support\Facades\DB;
@@ -139,6 +140,8 @@ class CreateDeal
             if (!empty($this->request->contributors)) {
                 $this->task->users()->sync($this->request->input('contributors'));
             }
+
+            event(new DealWasCreated($this->task, $this->task->account));
 
             return $this->task;
         } catch (\Exception $e) {

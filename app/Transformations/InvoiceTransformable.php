@@ -5,11 +5,14 @@ namespace App\Transformations;
 use App\Email;
 use App\Invoice;
 use App\InvoiceInvitation;
+use App\Payment;
+use App\Paymentable;
 use App\Repositories\CustomerRepository;
 use App\Customer;
 
 trait InvoiceTransformable
 {
+    use PaymentTransformable;
 
     /**
      * @param Invoice $invoice
@@ -52,6 +55,7 @@ trait InvoiceTransformable
             'custom_surcharge_tax2' => (bool)$invoice->custom_surcharge_tax2,
             'last_sent_date'        => $invoice->last_sent_date ?: '',
             'emails'                => $this->transformEmails($invoice->emails()),
+            'paymentables'          => $this->transformInvoicePayments($invoice->payments)
         ];
     }
 
@@ -85,6 +89,19 @@ trait InvoiceTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformInvoicePayments($paymentables)
+    {
+        if (empty($paymentables)) {
+            return [];
+        }
+
+        return $paymentables->map(
+            function (Payment $payment) {
+                return $this->transformPayment($payment);
             }
         )->all();
     }

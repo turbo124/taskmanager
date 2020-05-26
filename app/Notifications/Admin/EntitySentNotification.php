@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\ObjectSent;
 use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,10 +25,24 @@ class EntitySentNotification extends Notification implements ShouldQueue
 
     private $invitation;
     private $entity;
+
+    /**
+     * @var string
+     */
     private string $entity_name;
     private $contact;
+
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * EntitySentNotification constructor.
+     * @param $invitation
+     * @param $entity_name
+     * @param string $message_type
+     */
     public function __construct($invitation, $entity_name, string $message_type = '')
     {
         $this->invitation = $invitation;
@@ -53,59 +68,12 @@ class EntitySentNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return ObjectSent
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject($this->subject)->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray());
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => $this->invitation->getLink() . '?silent=true',
-            'button_text' => trans("texts.view_{$this->entity_name}"),
-            'signature'   => $this->invitation->account->settings->email_signature,
-            'logo'        => $this->invitation->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->entity->getFormattedTotal(),
-            'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->getNumber(),
-        ];
+        return new ObjectSent($this->invitation, $this->entity_name, $notifiable);
     }
 
     /**
@@ -119,14 +87,21 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return [];
     }
 
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->entity->getFormattedTotal(),
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->entity->getNumber(),
+        ];
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
-
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
                                  ->content(
-                                     $this->subject
+                                     trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray())
                                  );
     }
 

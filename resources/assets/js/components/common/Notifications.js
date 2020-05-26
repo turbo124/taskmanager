@@ -73,6 +73,12 @@ export default class Notifications extends Component {
                     value: 'quote_approved',
                     label: 'Quote Approved',
                     isChecked: false
+                },
+                {
+                    id: 4,
+                    value: 'order_created',
+                    label: 'Order Created',
+                    isChecked: false
                 }
             ]
         }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$quote.quote_date', '$quote.valid_until', '$quote.balance_due',
     '$quote.quote_total', '$quote.partial_due', '$quote.quote1', '$quote.quote2', '$quote.quote3', '$quote.quote4', '$quote.surcharge1',
@@ -9,7 +9,7 @@ export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$qu
 ]
 
 export default class CreditModel extends BaseModel {
-    constructor (data = null, customers) {
+    constructor (data = null, customers = null) {
         super()
         this.customers = customers
         this._url = '/api/quote'
@@ -185,6 +185,29 @@ export default class CreditModel extends BaseModel {
         const pending_statuses = [consts.quote_status_draft, consts.quote_status_sent]
 
         return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
+    }
+
+    async completeAction (data, action) {
+        if (!this.fields.id) {
+            return false
+        }
+
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
     }
 
     async update (data) {

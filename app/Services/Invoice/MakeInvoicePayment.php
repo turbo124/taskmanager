@@ -37,7 +37,7 @@ class MakeInvoicePayment
             return $this->invoice;
         }
 
-        $this->invoice->increaseBalance($this->payment_amount * -1);
+        $this->invoice->reduceBalance($this->payment_amount);
         return $this->invoice;
     }
 

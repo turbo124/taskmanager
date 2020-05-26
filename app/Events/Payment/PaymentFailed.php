@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Models\Payment;
+use App\Payment;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -15,7 +15,7 @@ class PaymentFailed
     /**
      * @var Payment
      */
-    public $payment;
+    public Payment $payment;
 
     /**
      * Create a new event instance.

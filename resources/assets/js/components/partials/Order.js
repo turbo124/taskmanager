@@ -14,24 +14,42 @@ import {
     ListGroupItem,
     ListGroup,
     Col,
-    CardTitle
+    CardTitle, Alert
 } from 'reactstrap'
 import InvoicePresenter from '../presenters/InvoicePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
 import { translations } from '../common/_icons'
+import OrderModel from '../models/OrderModel'
 
 export default class Order extends Component {
     constructor (props) {
         super(props)
         this.state = {
             activeTab: '1',
-            obj_url: null
+            obj_url: null,
+            show_success: false
         }
 
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const orderModel = new OrderModel(this.props.entity)
+        orderModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
     }
 
     loadPdf () {
@@ -239,16 +257,22 @@ export default class Order extends Component {
                     </TabPane>
                 </TabContent>
 
-                <div className="navbar d-flex p-0">
-                    <NavLink className="flex-fill border border-secondary"
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
                         {translations.pdf}
                     </NavLink>
-                    <NavLink className="flex-fill border border-secondary"
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
-                            this.toggleTab('4')
+                            this.triggerAction('4')
                         }}>
                         Link 4
                     </NavLink>

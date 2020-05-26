@@ -5,8 +5,19 @@ namespace App\Traits\Notifications;
 
 trait UserNotifies
 {
+    public function findUserNotificationTypesByInvitation($invitation, $account_user, $entity_name, $required_permissions)
+    {
+        if ($invitation->{$entity_name}->user_id == $account_user->_user_id ||
+            $invitation->{$entity_name}->assigned_user_id == $account_user->user_id) {
+            array_push($required_permissions, "all_user_notifications");
+        }
 
-    public function findUserNotificationTypes($invitation, $account_user, $entity_name, $required_permissions): array
+        $notifiable_methods = $this->getNotificationTypesForAccountUser($account_user, $required_permissions);
+
+        return $notifiable_methods;
+    }
+
+    public function getNotificationTypesForAccountUser($account_user, $required_permissions): array
     {
         $notifiable_methods = [];
 
@@ -25,11 +36,6 @@ trait UserNotifies
         );
 
         $keys = array_column($found, 'value');
-
-        if ($invitation->{$entity_name}->user_id == $account_user->_user_id ||
-            $invitation->{$entity_name}->assigned_user_id == $account_user->user_id) {
-            array_push($required_permissions, "all_user_notifications");
-        }
 
         if (count(array_intersect($required_permissions, $keys)) >= 1) {
             array_push($notifiable_methods, 'mail');

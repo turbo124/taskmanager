@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\PartialPaymentMade;
 use App\Utils\Number;
 use App\Payment;
 use Illuminate\Bus\Queueable;
@@ -15,15 +16,20 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * Create a new notification instance.
-     *
-     * @return void
+     * @var Payment
      */
-
     private Payment $payment;
 
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * NewPartialPaymentNotification constructor.
+     * @param Payment $payment
+     * @param string $message_type
+     */
     public function __construct(Payment $payment, $message_type = '')
     {
         $this->payment = $payment;
@@ -46,64 +52,12 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return PartialPaymentMade
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject(
-            $this->subject
-        )->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans('texts.notification_partial_payment_paid', $this->getDataArray());
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_partial_payment_paid_subject',
-            ['customer' => $this->payment->customer->present()->name()]
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
-            'button_text' => trans('texts.view_payment'),
-            'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-            'logo'        => $this->payment->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->payment->getFormattedAmount(),
-            'customer' => $this->payment->customer->present()->name(),
-            'invoice'  => $this->payment->getFormattedInvoices(),
-        ];
+        return new PartialPaymentMade($this->payment, $notifiable);
     }
 
     /**
@@ -118,15 +72,21 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_partial_payment_paid_subject',
+            ['customer' => $this->payment->customer->present()->name()]
+        );
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
-
         $logo = $this->payment->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                $this->subject
+                $this->getMessage()
             );
     }
 

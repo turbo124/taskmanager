@@ -3,12 +3,15 @@
 namespace App\Listeners\Order;
 
 use App\Notifications\Admin\NewOrderNotification;
+use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 
 class OrderNotification implements ShouldQueue
 {
+    use UserNotifies;
+
     /**
      * Create the event listener.
      *
@@ -30,7 +33,15 @@ class OrderNotification implements ShouldQueue
 
         if (!empty($order->account->account_users)) {
             foreach ($order->account->account_users as $account_user) {
-                $account_user->user->notify(new NewOrderNotification($order));
+
+                $notification_types = $this->getNotificationTypesForAccountUser(
+                    $account_user,
+                    ['order_created']
+                );
+
+                if(!empty($notification_types) && in_array('mail', $notification_types)) {
+                    $account_user->user->notify(new NewOrderNotification($order, 'mail'));
+                }
             }
         }
 
