@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_number', '$invoice.invoice_date', '$invoice.due_date',
     '$invoice.balance_due', '$invoice.invoice_total', '$invoice.partial_due', '$invoice.invoice1', '$invoice.invoice2', '$invoice.invoice3',
@@ -9,7 +9,7 @@ export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_numbe
 ]
 
 export default class InvoiceModel extends BaseModel {
-    constructor (data = null, customers) {
+    constructor (data = null, customers = null) {
         super()
         this.customers = customers
         this._url = '/api/invoice'
@@ -184,6 +184,29 @@ export default class InvoiceModel extends BaseModel {
         const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
         const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
+    }
+
+    async completeAction (data, action) {
+        if (!this.fields.id) {
+            return false
+        }
+
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
     }
 
     async update (data) {

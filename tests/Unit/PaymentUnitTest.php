@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Events\Payment\PaymentFailed;
 use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\CreditFactory;

@@ -160,6 +160,10 @@ class PaymentController extends Controller
             $payment->service()->sendEmail();
             return response()->json(['email sent']);
         }
+
+        if ($action === 'archive') {
+            return $this->archive($payment->id);
+        }
     }
 
     /**

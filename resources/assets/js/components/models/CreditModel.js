@@ -8,7 +8,7 @@ export const credit_pdf_fields = ['$credit.credit_number', '$credit.po_number', 
 ]
 
 export default class CreditModel extends BaseModel {
-    constructor (data = null, customers) {
+    constructor (data = null, customers = null) {
         super()
         this.customers = customers
         this._url = '/api/credit'
@@ -172,6 +172,29 @@ export default class CreditModel extends BaseModel {
 
         try {
             const res = await axios.put(`${this.url}/${this.fields.id}`, data)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async completeAction (data, action) {
+        if (!this.fields.id) {
+            return false
+        }
+
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
 
             if (res.status === 200) {
                 // test for status you want, etc

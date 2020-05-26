@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
     TabContent,
+    Alert,
     TabPane,
     Nav,
     NavItem,
@@ -19,16 +20,34 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_icons'
 import FileUploads from '../attachments/FileUploads'
+import CreditModel from '../models/CreditModel'
 
 export default class Expense extends Component {
     constructor (props) {
         super(props)
         this.state = {
             activeTab: '1',
-            obj_url: null
+            obj_url: null,
+            show_success: false
         }
 
         this.toggleTab = this.toggleTab.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const expenseModel = new ExpenseModel(this.props.entity)
+        expenseModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
     }
 
     toggleTab (tab) {
@@ -148,6 +167,27 @@ export default class Expense extends Component {
                         </Row>
                     </TabPane>
                 </TabContent>
+
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.triggerAction('3')
+                        }}>
+                        {translations.pdf}
+                    </NavLink>
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.triggerAction('4')
+                        }}>
+                        Link 4
+                    </NavLink>
+                </div>
             </React.Fragment>
 
         )

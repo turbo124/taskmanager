@@ -3,7 +3,7 @@ import moment from 'moment'
 import BaseModel from './BaseModel'
 
 export default class ExpenseModel extends BaseModel {
-    constructor (data = null, customers) {
+    constructor (data = null, customers = null) {
         super()
         this.customers = customers
         this.errors = []
@@ -82,6 +82,29 @@ export default class ExpenseModel extends BaseModel {
 
     get convertedAmountWithTax () {
         return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
+    }
+
+    async completeAction (data, action) {
+        if (!this.fields.id) {
+            return false
+        }
+
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
     }
 
     async update (data) {

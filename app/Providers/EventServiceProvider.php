@@ -9,6 +9,7 @@ use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasMarkedSent;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
+use App\Events\Payment\PaymentFailed;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Deal\DealWasCreated;
@@ -50,6 +51,8 @@ use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
 use App\Listeners\Payment\PaymentCreatedActivity;
 use App\Listeners\Payment\PaymentDeletedActivity;
+use App\Listeners\Payment\PaymentFailedActivity;
+use App\Listeners\Payment\PaymentFailedNotification;
 use App\Listeners\Payment\PaymentRefundedActivity;
 use App\Listeners\Payment\PaymentVoidedActivity;
 use App\Listeners\Deal\DealNotification;
@@ -78,6 +81,7 @@ use App\Listeners\Entity\EntityViewedListener;
 use App\Listeners\Order\OrderNotification;
 use App\Listeners\Payment\PaymentNotification;
 use App\Listeners\NewUserNotification;
+use App\Listeners\Quote\SendQuoteApprovedNotification;
 use App\Listeners\User\DeletedUserActivity;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -114,6 +118,10 @@ class EventServiceProvider extends ServiceProvider
         PaymentWasVoided::class     => [
             PaymentVoidedActivity::class,
         ],
+        PaymentFailed::class        => [
+            PaymentFailedActivity::class,
+            PaymentFailedNotification::class
+        ],
         //Invoices
         InvoiceWasMarkedSent::class => [
             InvoiceMarkedSentActivity::class,
@@ -143,7 +151,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         // quotes
         QuoteWasApproved::class     => [
-            QuoteApprovedActivity::class
+            QuoteApprovedActivity::class,
+            SendQuoteApprovedNotification::class
         ],
         QuoteWasCreated::class      => [
             QuoteCreatedActivity::class

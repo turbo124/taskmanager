@@ -39,82 +39,81 @@ export default class DropdownMenuBuilder extends Component {
         }
 
         const data = this.props.formData
-        axios.post(`${this.props.model.url}/${this.props.model.fields.id}/${action}`, data)
-            .then((response) => {
-                let message = `${action} completed successfully`
+        this.props.model.completeAction(data, action).then(response => {
+            if (!response) {
+                alert('error')
+            }
 
-                if (action === 'download') {
-                    this.downloadPdf(response, this.props.model.fields.id)
-                    message = translations.downloaded
-                }
+            let message = `${action} completed successfully`
 
-                if (action === 'clone_to_invoice') {
-                    // this.props.invoices.push(response.data)
-                    // this.props.action(this.props.invoices)
-                    message = `Invoice was cloned successfully. Invoice ${response.data.number} has been created`
-                }
+            if (action === 'download') {
+                this.downloadPdf(response, this.props.model.fields.id)
+                message = translations.downloaded
+            }
 
-                if (action === 'clone_to_quote') {
-                    // this.props.invoices.push(response.data)
-                    // this.props.action(this.props.invoices)
-                    message = `Quote was created successfully. Quote ${response.data.number} has been created`
-                }
+            if (action === 'clone_to_invoice') {
+                // this.props.invoices.push(response.data)
+                // this.props.action(this.props.invoices)
+                message = `Invoice was cloned successfully. Invoice ${response.data.number} has been created`
+            }
 
-                if (action === 'clone_to_credit') {
-                    // this.props.invoices.push(response.data)
-                    // this.props.action(this.props.invoices)
-                    message = `Credit was created successfully. Credit ${response.data.number} has been created`
-                }
+            if (action === 'clone_to_quote') {
+                // this.props.invoices.push(response.data)
+                // this.props.action(this.props.invoices)
+                message = `Quote was created successfully. Quote ${response.data.number} has been created`
+            }
 
-                if (action === 'clone_to_order') {
-                    // this.props.invoices.push(response.data)
-                    // this.props.action(this.props.invoices)
-                    message = `Order was created successfully. Order ${response.data.number} has been created`
-                }
+            if (action === 'clone_to_credit') {
+                // this.props.invoices.push(response.data)
+                // this.props.action(this.props.invoices)
+                message = `Credit was created successfully. Credit ${response.data.number} has been created`
+            }
 
-                if (action === 'clone_to_expense') {
-                    // this.props.invoices.push(response.data)
-                    // this.props.action(this.props.invoices)
-                    message = `Expense was created successfully. Expense ${response.data.number} has been created`
-                }
+            if (action === 'clone_to_order') {
+                // this.props.invoices.push(response.data)
+                // this.props.action(this.props.invoices)
+                message = `Order was created successfully. Order ${response.data.number} has been created`
+            }
 
-                if (action === 'approve') {
-                    message = `The ${this.props.model.entity} ${translations.approved}`
-                }
+            if (action === 'clone_to_expense') {
+                // this.props.invoices.push(response.data)
+                // this.props.action(this.props.invoices)
+                message = `Expense was created successfully. Expense ${response.data.number} has been created`
+            }
 
-                if (action === 'mark_sent') {
-                    message = `The ${this.props.model.entity} ${translations.sent}`
-                }
+            if (action === 'approve') {
+                message = `The ${this.props.model.entity} ${translations.approved}`
+            }
 
-                if (action === 'create_payment') {
-                    message = `The ${this.props.model.entity} ${translations.paid}.`
-                }
+            if (action === 'mark_sent') {
+                message = `The ${this.props.model.entity} ${translations.sent}`
+            }
 
-                if (action === 'cancel') {
-                    message = `The ${this.props.model.entity} ${translations.cancelled_invoice}`
-                }
+            if (action === 'create_payment') {
+                message = `The ${this.props.model.entity} ${translations.paid}.`
+            }
 
-                if (action === 'reverse') {
-                    message = `The ${this.props.model.entity} ${translations.reversed_invoice}`
-                }
+            if (action === 'cancel') {
+                message = `The ${this.props.model.entity} ${translations.cancelled_invoice}`
+            }
 
-                if (action === 'refund') {
-                    message = `The ${this.props.model.entity} ${translations.refunded}`
-                }
+            if (action === 'reverse') {
+                message = `The ${this.props.model.entity} ${translations.reversed_invoice}`
+            }
 
-                if (action === 'email') {
-                    message = translations.emailed
-                }
+            if (action === 'refund') {
+                message = `The ${this.props.model.entity} ${translations.refunded}`
+            }
 
-                this.setState({
-                    showSuccessMessage: message,
-                    showErrorMessage: false
-                })
+            if (action === 'email') {
+                message = translations.emailed
+            }
+
+            this.setState({
+                showSuccessMessage: message,
+                showErrorMessage: false
             })
-            .catch((error) => {
-                this.setState({ showErrorMessage: true })
-                console.warn(error)
-            })
+        })
     }
 
     toggleMenu (event) {

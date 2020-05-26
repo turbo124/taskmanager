@@ -12,8 +12,20 @@ import {
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_icons'
+import PaymentModel from '../models/PaymentModel'
 
 export default class Customer extends Component {
+    constructor (props) {
+        super(props)
+
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const paymentModel = new PaymentModel(null, this.props.entity)
+        paymentModel.completeAction(this.props.entity, action)
+    }
+
     render () {
         return (
             <React.Fragment>

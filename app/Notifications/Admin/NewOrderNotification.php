@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\OrderCreated;
 use App\Order;
 use App\Utils\Number;
 use Illuminate\Bus\Queueable;
@@ -15,15 +16,20 @@ class NewOrderNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * Create a new notification instance.
-     *
-     * @return void
+     * @var Order
      */
-
     private Order $order;
 
+    /**
+     * @var string
+     */
     private string $message_type;
 
+    /**
+     * NewOrderNotification constructor.
+     * @param Order $order
+     * @param string $message_type
+     */
     public function __construct(Order $order, string $message_type = '')
     {
         $this->order = $order;
@@ -46,59 +52,12 @@ class NewOrderNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param $notifiable
+     * @return OrderCreated
      */
     public function toMail($notifiable)
     {
-        $this->build();
-
-        return (new MailMessage)->subject($this->subject)->markdown(
-            'email.admin.new',
-            [
-                'data' => $this->message_array
-            ]
-        );
-    }
-
-    private function build()
-    {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans('texts.notification_order', $this->getDataArray());
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
-            'button_text' => trans('texts.view_invoice'),
-            'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
-            'logo'        => $this->order->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->order->getFormattedTotal(),
-            'customer' => $this->order->customer->present()->name(),
-            'order'    => $this->order->getNumber(),
-        ];
+        return new OrderCreated($this->order, $notifiable);
     }
 
     /**
@@ -113,14 +72,25 @@ class NewOrderNotification extends Notification implements ShouldQueue
         ];
     }
 
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_order_subject',
+            [
+                'total'    => $this->order->getFormattedTotal(),
+                'customer' => $this->order->customer->present()->name(),
+                'order'    => $this->order->getNumber(),
+            ]
+        );
+    }
+
     public function toSlack($notifiable)
     {
-        $this->build();
         $logo = $this->order->account->present()->logo();
 
         return (new SlackMessage)->success()
                                  ->from("System")->image($logo)->content(
-                $this->subject
+                $this->getMessage()
             );
     }
 

@@ -4,6 +4,7 @@ import {
     TabContent,
     TabPane,
     Nav,
+    Alert,
     NavItem,
     NavLink,
     Row,
@@ -20,18 +21,36 @@ import InvoicePresenter from '../presenters/InvoicePresenter'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
+import InvoiceModel from '../models/InvoiceModel'
 
 export default class Invoice extends Component {
     constructor (props) {
         super(props)
         this.state = {
             activeTab: '1',
-            obj_url: null
+            obj_url: null,
+            show_success: false
         }
 
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        const invoiceModel = new InvoiceModel(this.props.entity)
+        invoiceModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
     }
 
     loadPdf () {
@@ -81,6 +100,7 @@ export default class Invoice extends Component {
     render () {
         return (
             <React.Fragment>
+
                 <Nav tabs>
                     <NavItem>
                         <NavLink
@@ -127,11 +147,30 @@ export default class Invoice extends Component {
 
                         <InvoicePresenter entity={this.props.entity} field="status_field"/>
 
+                        {this.props.entity.paymentables.length &&
                         <Row>
-                            <ListGroup className="mt-4">
+                            <ListGroup className="col-12 mt-4">
+                                {this.props.entity.paymentables.map((line_item, index) => (
+                                    <ListGroupItem className="list-group-item-dark">
+                                        <ListGroupItemHeading
+                                            className="">
+                                            <i className={`fa ${icons.credit_card} mr-4`} />{line_item.number}
+                                        </ListGroupItemHeading>
+
+                                        <ListGroupItemText>
+                                            <FormatMoney amount={line_item.amount}/> - {line_item.date}
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
+                                ))}
+                            </ListGroup>
+                        </Row>
+                        }
+
+                        <Row>
+                            <ListGroup className="mt-4 col-12">
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading><i
-                                        className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
+                                        className={`fa ${icons.customer} mr-4`}/>{this.props.entity.customer_name}
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
@@ -239,18 +278,24 @@ export default class Invoice extends Component {
                     </TabPane>
                 </TabContent>
 
-                <div className="navbar d-flex p-0">
-                    <NavLink className="flex-fill border border-secondary"
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
                         {translations.pdf}
                     </NavLink>
-                    <NavLink className="flex-fill border border-secondary"
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {
-                            this.toggleTab('4')
+                            this.triggerAction('clone_to_invoice')
                         }}>
-                        Link 4
+                        {translations.clone_to_invoice}
                     </NavLink>
                 </div>
             </React.Fragment>
