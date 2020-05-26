@@ -3,7 +3,6 @@
 namespace App\Jobs\Payment;
 
 use App\Customer;
-use App\Events\Payment\PaymentFailed;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\PaymentFactory;
 use App\Invoice;
@@ -52,10 +51,6 @@ class CreatePayment implements ShouldQueue
         $payment->transaction_reference = $this->request->payment_method;
         $payment->save();
 
-        if(!$payment) {
-            event(new PaymentFailed($payment));
-        }
-
         $ids = $this->request->ids;
 
         if (!empty($this->request->order_id) && $this->request->order_id !== 'null') {
@@ -63,6 +58,8 @@ class CreatePayment implements ShouldQueue
             $order = Order::where('id', '=', $this->request->order_id)->first();
             $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
             $invoice = Invoice::where('id', '=', $order->invoice_id)->first();
+
+            Log::emergency('invoice255 ' . $invoice->total);
             $ids = $invoice->id;
         }
 
@@ -92,7 +89,7 @@ class CreatePayment implements ShouldQueue
             $payment->customer->increasePaidToDateAmount($invoice->balance);
             $payment->customer->save();
 
-            $invoice->resetPartialInvoice($invoice->balance * -1, 0, true);
+            $invoice->reduceBalance($invoice->balance);
         }
 
         return $payment;
