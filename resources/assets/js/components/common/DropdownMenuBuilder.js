@@ -40,6 +40,9 @@ export default class DropdownMenuBuilder extends Component {
 
         const data = this.props.formData
         this.props.model.completeAction(data, action).then(response => {
+            console.log('response', response)
+
+
             if (!response) {
                 alert('error')
             }

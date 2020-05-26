@@ -163,7 +163,7 @@ class BaseController extends Controller
                 }
 
                 if (!$bulk) {
-                    //return response()->json($this->transformInvoice($invoice));
+                    return response()->json($this->transformInvoice($invoice));
                 }
                 break;
             case 'clone_to_credit': // done
