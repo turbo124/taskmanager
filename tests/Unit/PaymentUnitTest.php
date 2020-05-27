@@ -92,7 +92,7 @@ class PaymentUnitTest extends TestCase
 
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
-        $deleted = $payment->deletePayment();
+        $deleted = $payment->services()->reverseInvoicePayment();
         $this->assertTrue($deleted);
     }
 
