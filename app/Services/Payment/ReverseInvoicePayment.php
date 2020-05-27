@@ -17,6 +17,7 @@ class ReverseInvoicePayment()
     {
         $this->reversePayment(); 
         $this->updateCustomer();
+        $this->ledger()->updateBalance($this->payment->amount);
         $this->deletePayment();
 
         return $this->payment;
