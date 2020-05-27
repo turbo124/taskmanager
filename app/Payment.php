@@ -197,13 +197,16 @@ class Payment extends Model
             $invoice->save();
         }
 
+        $this->updateCustomer();
         $this->ledger()->updateBalance($this->amount);
+        return true;
+    }
 
+    private function updateCustomer()
+    {
         $customer->increaseBalance($this->amount);
         $customer->increasePaidToDateAmount($this->amount * -1);
         $customer->save();
-
-        return true;
     }
 
     public function getFormattedAmount()
