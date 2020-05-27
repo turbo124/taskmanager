@@ -7,6 +7,7 @@ import {
 } from 'reactstrap'
 import ProjectFilters from './ProjectFilters'
 import ProjectItem from './ProjectItem'
+import queryString from 'query-string'
 
 export default class ProjectList extends Component {
     constructor (props) {
@@ -27,7 +28,7 @@ export default class ProjectList extends Component {
             },
             filters: {
                 status_id: 'active',
-                customer_id: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

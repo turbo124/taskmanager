@@ -163,16 +163,22 @@ table.mobile thead {
 }
 
 table.mobile tr {
-  border-bottom: 3px solid #dddddd;
+  //border-bottom: 3px solid #dddddd;
   display: block;
   margin-bottom: 0.625em;
 }
 
 table.mobile td {
-  border-bottom: 1px solid #dddddd;
+  border: none !important;
+  padding: 25px;
+  //border-bottom: 1px solid #dddddd;
   display: block;
   font-size: 0.8em;
   text-align: right;
+
+  &:hover {
+    background-color: #2f353a;
+  }
 }
 
 table.mobile td::before {

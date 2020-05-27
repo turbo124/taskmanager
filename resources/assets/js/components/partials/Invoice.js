@@ -151,16 +151,18 @@ export default class Invoice extends Component {
                         <Row>
                             <ListGroup className="col-12 mt-4">
                                 {this.props.entity.paymentables.map((line_item, index) => (
-                                    <ListGroupItem className="list-group-item-dark">
-                                        <ListGroupItemHeading
-                                            className="">
-                                            <i className={`fa ${icons.credit_card} mr-4`} />{line_item.number}
-                                        </ListGroupItemHeading>
+                                    <a href={`/#/payments?number=${line_item.number}`}>
+                                        <ListGroupItem className="list-group-item-dark">
+                                            <ListGroupItemHeading
+                                                className="">
+                                                <i className={`fa ${icons.credit_card} mr-4`} />{line_item.number}
+                                            </ListGroupItemHeading>
 
-                                        <ListGroupItemText>
-                                            <FormatMoney amount={line_item.amount}/> - {line_item.date}
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
+                                            <ListGroupItemText>
+                                                <FormatMoney amount={line_item.amount}/> - {line_item.date}
+                                            </ListGroupItemText>
+                                        </ListGroupItem>
+                                    </a>
                                 ))}
                             </ListGroup>
                         </Row>

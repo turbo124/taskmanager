@@ -1,3 +1,5 @@
+import { icons } from "./common/_icons";
+
 const modules = JSON.parse(localStorage.getItem('modules'))
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
 const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
@@ -180,7 +182,7 @@ if (modules.payments) {
         {
             name: 'Payments',
             url: '/payments',
-            icon: 'fa fa-credit-card-alt'
+            icon: `fa ${icons.credit_card}`
         }
     )
 }
@@ -190,7 +192,7 @@ if (modules.expenses) {
         {
             name: 'Expenses',
             url: '/expenses',
-            icon: 'fa fa-bar-chart-o'
+            icon: `fa ${icons.expense}`
         }
     )
 }
@@ -199,7 +201,7 @@ items.push(financial)
 
 const tasks = {
     name: 'Tasks',
-    icon: 'fa fa-chain-broken',
+    icon: `fa ${icons.task}`,
     children: [
     ]
 }
@@ -216,7 +218,7 @@ if (modules.projects) {
     tasks.children.push({
         name: 'Projects',
         url: 'projects',
-        icon: 'fa fa-suitcase'
+        icon: `fa ${icons.project}`
     })
 }
 
@@ -224,7 +226,7 @@ if (modules.tasks) {
     tasks.children.push({
         name: 'Tasks',
         url: 'tasks',
-        icon: 'fa fa-clock-o'
+        icon: `fa ${icons.task}`
     })
 
     tasks.children.push(
@@ -249,13 +251,13 @@ if (modules.deals) {
 items.push(tasks)
 
 const users = {
-    name: 'User Management',
+    name: 'Users',
     icon: 'fa fa-dashboard',
     children: [
         {
             name: 'Employees',
             url: '/users',
-            icon: 'fa fa-user'
+            icon: `fa ${icons.user}`
         },
 
         {
@@ -287,7 +289,7 @@ if (modules.companies) {
         {
             name: 'Companies',
             url: '/companies',
-            icon: 'fa fa-building'
+            icon: `fa ${icons.building}`
         }
     )
 }
@@ -299,7 +301,7 @@ const products = {
         {
             name: 'Products',
             url: '/products',
-            icon: 'fa fa-barcode'
+            icon: `fa ${icons.product}`
         },
 
         {
@@ -323,7 +325,7 @@ if (modules.events) {
     items.push({
         name: 'Calendar',
         url: '/calendar',
-        icon: 'fa fa-chain-broken'
+        icon: 'fa fa-calendar'
     })
 }
 

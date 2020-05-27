@@ -1,7 +1,41 @@
 .sidebar .nav-link.active {
   border-left: 4px solid $color_science_blue_approx_hover;
+}
+
+.nav-link {
+  font-size: 16px !important;
 
   .nav-icon {
-    color: $color_slate_gray_approx;
+    color: $white !important;
+    font-size: 20px !important;
+    margin-right: 20px !important;
+  }
+}
+
+.float {
+  z-index: 9999 !important;
+}
+
+@media (min-width: 992px) {
+  .sidebar-lg-show {
+    .sidebar {
+      width: 230px;
+
+      .sidebar-nav {
+        width: 225px;
+
+        .nav {
+          width: 226px !important;
+        }
+      }
+    }
+
+    .main {
+      margin-left: 225px !important;
+    }
+
+    .sidebar-fixed .sidebar {
+      width: 230px !important;
+    }
   }
 }

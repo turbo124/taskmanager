@@ -31,7 +31,12 @@ export const icons = {
     list: 'fa-list-ol',
     map_marker: 'fa-map-marker',
     envelope: 'fa-envelope',
-    user: 'fa-user'
+    user: 'fa-user',
+    project: 'fa-briefcase',
+    task: 'fa-clock-o',
+    expense: 'fa-bar-chart-o',
+    company: 'fa-building',
+    product: 'fa-barcode'
 }
 
 export const translations = {
@@ -275,5 +280,11 @@ export const translations = {
     viewed: 'Viewed',
     clone_to_invoice: 'Clone To Invoice',
     clone_quote_to_invoice: 'Clone Quote To Invoice',
-    action_completed: 'Action Completed successfully!'
+    action_completed: 'Action Completed successfully!',
+    expenses: 'Expenses',
+    tasks: 'Tasks',
+    projects: 'Projects',
+    payments: 'Payments',
+    invoices: 'Invoices',
+    overview: 'Overview'
 }
