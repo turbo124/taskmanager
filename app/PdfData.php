@@ -580,11 +580,11 @@ class PdfData
     public function setTaxes(Customer $customer): self
     {
         $this->data['$tax'] = [
-            'value' => $this->makeLineTaxes($customer),
+            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
             'label' => trans('texts.taxes')
         ];
         $this->data['$line_tax'] = [
-            'value' => $this->makeLineTaxes($customer),
+            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
             'label' => trans('texts.taxes')
         ];
 
