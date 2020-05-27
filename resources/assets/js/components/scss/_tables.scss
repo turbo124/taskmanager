@@ -162,6 +162,12 @@ table.mobile thead {
   width: 1px;
 }
 
+@media screen and(min-width: 767px) {
+  table.mobile {
+    width: 35% !important;
+  }
+}
+
 table.mobile tr {
   //border-bottom: 3px solid #dddddd;
   display: block;

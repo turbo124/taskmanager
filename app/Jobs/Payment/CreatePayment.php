@@ -10,6 +10,7 @@ use App\Order;
 use App\Payment;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,26 +31,35 @@ class CreatePayment implements ShouldQueue
     private $request;
 
     /**
+     * @var PaymentRepository
+     */
+    private PaymentRepository $payment_repo;
+
+    /**
      * CreatePayment constructor.
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, PaymentRepository $payment_repo)
     {
         $this->request = $request;
+        $this->payment_repo = $payment_repo;
     }
 
     public function handle(): Payment
     {
         $customer = Customer::find($this->request->customer_id);
         $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
-        $payment->customer_id = $customer->id;
-        $payment->company_gateway_id = $this->request->company_gateway_id;
-        $payment->status_id = Payment::STATUS_COMPLETED;
-        $payment->date = Carbon::now();
-        $payment->amount = $this->request->amount;
-        $payment->type_id = $this->request->payment_type;
-        $payment->transaction_reference = $this->request->payment_method;
-        $payment->save();
+        $data = [
+            'company_gateway_id' => $this->request->company_gateway_id,
+            'status_id' => Payment::STATUS_COMPLETED,
+            'date' => Carbon::now(),
+            'amount' => $this->request->amount,
+            'type_id' => $this->request->payment_type,
+            'transaction_reference' => $this->request->payment_method
+
+        ];
+
+        $payment = $this->payment_repo->save($data, $payment);
 
         $ids = $this->request->ids;
 
@@ -64,8 +74,6 @@ class CreatePayment implements ShouldQueue
         }
 
         $this->attachInvoices($customer, $payment, $ids);
-
-        event(new PaymentWasCreated($payment, $payment->account));
 
         return $payment;
     }

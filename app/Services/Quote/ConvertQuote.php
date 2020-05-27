@@ -36,11 +36,14 @@ class ConvertQuote
     }
 
     /**
-     * @param $quote
-     * @return mixed
+     * @return Invoice|null
      */
-    public function run()
+    public function run(): ?Invoice
     {
+        if (!empty($this->quote->invoice_id) || $this->quote->status_id === Quote::STATUS_EXPIRED) {
+            return null;
+        }
+
         $invoice = CloneQuoteToInvoiceFactory::create(
             $this->quote,
             $this->quote->user,
@@ -55,6 +58,9 @@ class ConvertQuote
         );
 
         $this->invoice_repo->markSent($invoice);
+
+        $this->quote->setInvoiceId($invoice->id);
+        $this->quote->save();
 
         return $invoice;
     }
