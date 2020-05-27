@@ -206,6 +206,16 @@ class Payment extends Model
         return true;
     }
 
+    public function setNumber()
+    {
+        if (!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
+
     public function getFormattedAmount()
     {
         return Number::formatCurrency($this->amount, $this->customer);
