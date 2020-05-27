@@ -206,6 +206,13 @@ class Payment extends Model
         return true;
     }
 
+    /********************** Getters and setters ************************************/
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
     public function setNumber()
     {
         if (!empty($this->number)) {
