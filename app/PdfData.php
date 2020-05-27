@@ -24,6 +24,7 @@ class PdfData
     public function __construct($entity)
     {
         $this->entity = $entity;
+        $this->class_name = strtolower((new \ReflectionClass($entity))->getShortName());
     }
 
     public function build($contact = null)
@@ -97,8 +98,7 @@ class PdfData
 
     private function setDefaults(Customer $customer): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $class)];
+        $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $this->class_name)];
         $this->data['$invoice.partial_due'] = [
             'value' => Number::formatCurrency(
                 $this->entity->partial,
@@ -465,8 +465,8 @@ class PdfData
 
     public function setTerms($terms): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$terms'] = ['value' => $terms ?: '&nbsp;', 'label' => trans('texts.' . $class . '_terms')];
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$terms'] = ['value' => $terms ?: '&nbsp;', 'label' => trans('texts.' . $this->class_name . '_terms')];
         return $this;
     }
 
@@ -476,18 +476,18 @@ class PdfData
             'value' => '',
             'label' => (new \ReflectionClass($this->entity))->getShortName()
         ];
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.total'] = [
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$' . $this->class_name . '.total'] = [
             'value' => $this->entity->getFormattedTotal() ?: '&nbsp;',
-            'label' => trans('texts.' . $class . '_amount')
+            'label' => trans('texts.' . $this->class_name . '_amount')
         ];
         return $this;
     }
 
     public function setBalance(Customer $customer, $balance): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.balance_due'] = [
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$' . $this->class_name . '.balance_due'] = [
             'value' => $this->entity->getFormattedBalance() ?: '&nbsp;',
             'label' => trans('texts.balance_due')
         ];
@@ -505,35 +505,35 @@ class PdfData
             'value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;',
             'label' => trans('texts.sub_total')
         ];
-        //$this->data['$invoice.subtotal'] = &$this->data['$subtotal'];
+        
         return $this;
     }
 
     public function setDate($date): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
         $this->data['$date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
-        $this->data['$' . $class . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
+        $this->data['$' . $this->class_name . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
         return $this;
     }
 
     public function setInvoiceCustomValues(): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
 
-        $this->data['$' . $class . '.custom1'] = [
+        $this->data['$' . $this->class_name . '.custom1'] = [
             'value' => $this->entity->custom_value1 ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value1')
         ];
-        $this->data['$' . $class . '.custom2'] = [
+        $this->data['$' . $this->class_name . '.custom2'] = [
             'value' => $this->entity->custom_value2 ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value2')
         ];
-        $this->data['$' . $class . '.custom3'] = [
+        $this->data['$' . $this->class_name . '.custom3'] = [
             'value' => $this->entity->custom_value3 ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value3')
         ];
-        $this->data['$' . $class . '.custom4'] = [
+        $this->data['$' . $this->class_name . '.custom4'] = [
             'value' => $this->entity->custom_value4 ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value4')
         ];
@@ -542,8 +542,8 @@ class PdfData
 
     public function setPoNumber($po_number): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.po_number'] = [
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$' . $this->class_name . '.po_number'] = [
             'value' => $po_number ?: '&nbsp;',
             'label' => trans('texts.po_number')
         ];
@@ -561,13 +561,13 @@ class PdfData
 
     public function setNumber($number): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $class . '_number')];
-        $this->data['$' . $class . '.number'] = [
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$number'] = ['value' => $number ?: '&nbsp;', 'label' => trans('texts.' . $this->class_name . '_number')];
+        $this->data['$' . $this->class_name . '.number'] = [
             'value' => $number ?: '&nbsp;',
-            'label' => trans('texts.' . $class . '_number')
+            'label' => trans('texts.' . $this->class_name . '_number')
         ];
-        $this->data['$' . $class . '.' . $class . '_no'] = $number;
+        $this->data['$' . $this->class_name . '.' . $this->class_name . '_no'] = $number;
         return $this;
     }
 
@@ -580,11 +580,11 @@ class PdfData
     public function setTaxes(Customer $customer): self
     {
         $this->data['$tax'] = [
-            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
+            'value' => $this->makeLineTaxes($customer),
             'label' => trans('texts.taxes')
         ];
         $this->data['$line_tax'] = [
-            'value' => $this->makeLineTaxes($customer, 'line_taxes', false, true),
+            'value' => $this->makeLineTaxes($customer),
             'label' => trans('texts.taxes')
         ];
 
@@ -600,7 +600,6 @@ class PdfData
         if (empty($tax_map)) {
             return $data;
         }
-
 
         foreach ($tax_map as $tax) {
             if ($line === true) {
@@ -623,12 +622,12 @@ class PdfData
 
     public function setDueDate($due_date): self
     {
-        $class = strtolower((new \ReflectionClass($this->entity))->getShortName());
-        $this->data['$' . $class . '.due_date'] = [
+        //$class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->data['$' . $this->class_name . '.due_date'] = [
             'value' => $due_date ?: '&nbsp;',
             'label' => trans('texts.due_date')
         ];
-        $this->data['$due_date'] = &$this->data['$' . $class . '.due_date'];
+        $this->data['$due_date'] = &$this->data['$' . $this->class_name . '.due_date'];
         $this->data['$quote.valid_until'] = ['value' => $due_date, 'label' => trans('texts.valid_until')];
         return $this;
     }
