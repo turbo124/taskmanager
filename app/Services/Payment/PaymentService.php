@@ -22,9 +22,8 @@ class PaymentService extends ServiceBase
         return (new PaymentEmail($this->payment))->run();
     }
 
-    public function reverseInvoicePayment()
+    public function reverseInvoicePayment(): Payment
     {
-          $this->updateCustomer();
-        $this->ledger()->updateBalance($this->amount);
+        return (new ReversePayment($this->payment))->run();
     }
 }
