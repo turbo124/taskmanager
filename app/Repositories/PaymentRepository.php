@@ -110,13 +110,8 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         }
 
         $payment->status_id = Payment::STATUS_COMPLETED;
-
+        $payment->setNumber()(
         $payment->save();
-
-        if (!$payment->number || strlen($payment->number) == 0) {
-            $payment->number = (new NumberGenerator)->getNextNumberForEntity($payment->customer, $payment);
-            $payment->save();
-        }
 
         $payment->ledger()->updateBalance($payment->amount * -1);
 
