@@ -36,9 +36,7 @@ class QuoteService extends ServiceBase
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('should_convert_quote')) {
-            $invoice = (new ConvertQuote($this->quote, $invoice_repo))->run();
-            $this->quote->setInvoiceId($invoice->id);
-            $this->quote->save();
+           (new ConvertQuote($this->quote, $invoice_repo))->run();
         }
 
         event(new QuoteWasApproved($this->quote));
@@ -80,7 +78,7 @@ class QuoteService extends ServiceBase
     /**
      * @param InvoiceRepository $invoice_repository
      */
-    public function convertQuoteToInvoice(InvoiceRepository $invoice_repository)
+    public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {
         return (new ConvertQuote($this->quote, $invoice_repository))->run();
     }

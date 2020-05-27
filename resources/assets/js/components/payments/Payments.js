@@ -7,6 +7,7 @@ import {
 import axios from 'axios'
 import PaymentItem from './PaymentItem'
 import PaymentFilters from './PaymentFilters'
+import queryString from 'query-string'
 
 export default class Payments extends Component {
     constructor (props) {
@@ -27,8 +28,8 @@ export default class Payments extends Component {
             ignoredColumns: ['customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_user_id', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
             filters: {
                 status_id: 'active',
-                customer_id: '',
-                searchText: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
                 end_date: ''
             },

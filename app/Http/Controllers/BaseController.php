@@ -127,14 +127,12 @@ class BaseController extends Controller
 
             //quote
             case 'clone_quote_to_invoice': // done
-                $invoice = $this->invoice_repo->save(
-                    $request->except('next_send_date', 'created_at'),
-                    CloneQuoteToInvoiceFactory::create(
-                        $this->quote_repo->findQuoteById($entity->id),
-                        auth()->user(),
-                        auth()->user()->account_user()->account
-                    )
-                );
+                $invoice = $entity->service()->convertQuoteToInvoice($this->invoice_repo);
+
+                if(!$invoice) {
+                    return response()->json('Error');
+                }
+
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_to_order':

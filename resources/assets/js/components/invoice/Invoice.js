@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import queryString from 'query-string'
 import EditInvoice from './EditInvoice'
 import {
     Card, CardBody
@@ -11,6 +12,7 @@ import InvoiceFilters from './InvoiceFilters'
 export default class Invoice extends Component {
     constructor (props) {
         super(props)
+
         this.state = {
             per_page: 5,
             view: {
@@ -28,8 +30,8 @@ export default class Invoice extends Component {
             ignoredColumns: ['paymentables', 'customer_name', 'emails', 'custom_surcharge1', 'custom_surcharge_tax1', 'custom_surcharge2', 'custom_surcharge_tax2', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'Draft',
-                customer_id: '',
-                searchText: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
                 end_date: ''
             },

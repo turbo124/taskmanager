@@ -38,6 +38,7 @@ class Payment extends Model
         'amount',
         'customer_id',
         'status_id',
+        'company_gateway_id',
         'refunded',
         'transaction_reference',
         'is_manual',

@@ -7,6 +7,7 @@ import {
 } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'
+import queryString from "query-string";
 
 export default class Expenses extends Component {
     constructor (props) {
@@ -26,9 +27,9 @@ export default class Expenses extends Component {
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
-                searchText: '',
-                customer_id: '',
-                company_id: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                searchText: queryString.parse(this.props.location.search).number || '',
+                company_id: queryString.parse(this.props.location.search).company_id || '',
                 start_date: '',
                 end_date: ''
             },

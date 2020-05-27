@@ -5,6 +5,7 @@ import { Card, CardBody, Button } from 'reactstrap'
 import TaskFilters from './TaskFilters'
 import TaskItem from './TaskItem'
 import AddModal from './AddTask'
+import queryString from 'query-string'
 
 export default class TaskList extends Component {
     constructor (props) {
@@ -25,11 +26,11 @@ export default class TaskList extends Component {
             },
             error: '',
             filters: {
-                project_id: '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
                 task_status: '',
                 user_id: '',
-                customer_id: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 task_type: '',
                 searchText: '',
                 start_date: '',

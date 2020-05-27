@@ -197,7 +197,7 @@ class PaymentController extends Controller
      */
     public function completePayment(Request $request)
     {
-        $payment = CreatePayment::dispatchNow($request);
+        $payment = CreatePayment::dispatchNow($request, $this->payment_repo);
 
         return response()->json(['code' => 200, 'payment_id' => $payment->id]);
     }
