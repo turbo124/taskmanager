@@ -168,9 +168,6 @@ class Payment extends Model
 
     public function deletePayment(): bool
     {
-        if ($this->invoices->count() > 0 && !$this->reversePayment()) {
-            return false;
-        }
 
         $this->is_deleted = true;
         $this->save();
@@ -180,33 +177,6 @@ class Payment extends Model
         event(new PaymentWasDeleted($this));
 
         return true;
-    }
-
-    private function reversePayment(): bool
-    {
-        $invoices = $this->invoices;
-        $customer = $this->customer;
-
-        foreach ($invoices as $invoice) {
-            if ($invoice->pivot->amount <= 0) {
-                continue;
-            }
-
-            $invoice->setStatus(Invoice::STATUS_SENT);
-            $invoice->setBalance($invoice->pivot->amount);
-            $invoice->save();
-        }
-
-        $this->updateCustomer();
-        $this->ledger()->updateBalance($this->amount);
-        return true;
-    }
-
-    private function updateCustomer()
-    {
-        $customer->increaseBalance($this->amount);
-        $customer->increasePaidToDateAmount($this->amount * -1);
-        $customer->save();
     }
 
     public function getFormattedAmount()
