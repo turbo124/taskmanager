@@ -162,6 +162,21 @@ class Credit extends Model
         $this->balance = $balance;
     }
 
+    public function setUser(User $user)
+    {
+        $this->user_id = (int) $user->id;
+    }
+
+    public function setAccount(Account $account)
+    {
+        $this->account_id = (int) $account->id;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer_id = (int) $customer->id;
+    }
+
     public function setNumber()
     {
         if (!empty($this->number)) {
