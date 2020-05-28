@@ -278,6 +278,11 @@ class Invoice extends Model
     {
         $this->balance = $balance;
     }
+  
+    public function setTotal(float $total)
+    {
+        $this->total = (float) $total;
+    }
 
     public function setNumber()
     {
