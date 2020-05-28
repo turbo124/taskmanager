@@ -139,6 +139,13 @@ class Quote extends Model
         $this->user_id = (int) $user->id;
     }
 
+    public function setDueDate()
+    {
+        $this->due_date = !empty($credit->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $credit->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null
+    }
+
     public function setAccount(Account $account)
     {
         $this->account_id = (int) $account->id;
