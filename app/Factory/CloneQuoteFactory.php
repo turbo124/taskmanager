@@ -22,12 +22,10 @@ class CloneQuoteFactory
     {
         $clone_quote = $quote->replicate();
         $clone_quote->setStatus(Quote::STATUS_DRAFT);
-        $clone_quote->number = null;
+        $clone_quote->setNumber();
         $clone_quote->setUser($user);
         $clone_quote->setBalance($quote->total);
-        $clone_quote->due_date = !empty($quote->account->settings->payment_terms) ? Carbon::now()->addDays(
-            $quote->account->settings->payment_terms
-        )->format('Y-m-d H:i:s') : $quote->due_date;
+        $clone_quote->setDueDate();
 
         return $clone_quote;
     }
