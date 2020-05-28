@@ -21,6 +21,8 @@ class Quote extends Model
 
     protected $casts = [
         'customer_id' => 'integer',
+        'account_id'  => 'integer',
+        'user_id'     => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
