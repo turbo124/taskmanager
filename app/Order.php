@@ -144,6 +144,11 @@ class Order extends Model
     {
         $this->customer_id = (int) $customer->id;
     }
+  
+    public function setTotal(float $total)
+    {
+        $this->total = (float) $total;
+    }
 
     public function setBalance(float $balance)
     {
@@ -152,12 +157,12 @@ class Order extends Model
 
     public function setStatus(int $status)
     {
-        $this->status_id = $status;
+        $this->status_id = (int)$status;
     }
 
     public function setInvoiceId($invoice_id)
     {
-        $this->invoice_id = $invoice_id;
+        $this->invoice_id = (int) $invoice_id;
     }
 
     public function setNumber()
