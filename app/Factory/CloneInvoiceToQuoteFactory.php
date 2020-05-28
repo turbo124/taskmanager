@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Invoice;
 use App\Quote;
 use App\User;
+use Carbon\Carbon;
 
 /**
  * Class CloneInvoiceToQuoteFactory
@@ -48,7 +49,9 @@ class CloneInvoiceToQuoteFactory
         $quote->status_id = Quote::STATUS_DRAFT;
         $quote->number = '';
         $quote->date = $invoice->date;
-        $quote->due_date = $invoice->due_date;
+        $quote->due_date = !empty($invoice->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $invoice->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : $invoice->due_date;
         $quote->balance = $invoice->total;
         $quote->line_items = $invoice->line_items;
         return $quote;

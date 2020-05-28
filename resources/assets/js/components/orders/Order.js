@@ -126,6 +126,7 @@ export default class Order extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
+                                customers={customers}
                                 dropdownButtonActions={this.state.dropdownButtonActions}
                                 entity_type="Order"
                                 bulk_save_url="/api/order/bulk"

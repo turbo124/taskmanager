@@ -7,6 +7,7 @@ use App\Order;
 use App\Quote;
 use App\User;
 use App\Account;
+use Carbon\Carbon;
 
 /**
  * Class CloneOrderToInvoiceFactory
@@ -45,7 +46,9 @@ class CloneOrderToInvoiceFactory
         $invoice->status_id = Invoice::STATUS_DRAFT;
         $invoice->number = '';
         $invoice->date = $order->date;
-        $invoice->due_date = $order->due_date;
+        $invoice->due_date = !empty($order->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $order->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : $order->due_date;
         $invoice->partial_due_date = null;
         $invoice->balance = $order->total;
         $invoice->line_items = $order->line_items;

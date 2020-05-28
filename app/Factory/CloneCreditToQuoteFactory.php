@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Credit;
 use App\Quote;
 use App\User;
+use Carbon\Carbon;
 
 /**
  * Class CloneCreditToQuoteFactory
@@ -44,7 +45,9 @@ class CloneCreditToQuoteFactory
         $quote->status_id = Quote::STATUS_DRAFT;
         $quote->number = '';
         $quote->date = null;
-        $quote->due_date = null;
+        $quote->due_date = !empty($credit->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $credit->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : $credit->due_date;
         $quote->partial_due_date = null;
         $quote->line_items = $credit->line_items;
 

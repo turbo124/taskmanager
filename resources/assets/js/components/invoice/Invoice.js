@@ -127,6 +127,7 @@ export default class Invoice extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
+                                customers={customers}
                                 dropdownButtonActions={this.state.dropdownButtonActions}
                                 entity_type="Invoice"
                                 bulk_save_url="/api/invoice/bulk"

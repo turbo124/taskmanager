@@ -3,22 +3,17 @@ import {
     TabContent,
     TabPane,
     Nav,
-    Alert,
     NavItem,
     NavLink,
     Row,
-    Card,
-    CardText,
-    ListGroupItemText,
-    ListGroupItemHeading,
-    ListGroupItem,
-    ListGroup,
-    Col
+    ListGroup
 } from 'reactstrap'
-import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_icons'
 import PaymentModel from '../models/PaymentModel'
+import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
+import SectionItem from '../common/entityContainers/SectionItem'
+import InfoItem from '../common/entityContainers/InfoItem'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -49,6 +44,22 @@ export default class Customer extends Component {
     }
 
     render () {
+        const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
+            ? <React.Fragment>
+                {this.props.entity.billing.address_1} <br/>
+                {this.props.entity.billing.address_2} <br/>
+                {this.props.entity.billing.city} {this.props.entity.billing.zip}
+
+            </React.Fragment> : null
+
+        const shipping = this.props.entity.shipping && Object.keys(this.props.entity.shipping).length
+            ? <React.Fragment>
+                {this.props.entity.shipping.address_1} <br/>
+                {this.props.entity.shipping.address_2} <br/>
+                {this.props.entity.shipping.city} {this.props.entity.shipping.zip}
+
+            </React.Fragment> : null
+
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -76,81 +87,23 @@ export default class Customer extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Card body outline color="primary">
-                            <CardText className="text-white">
-                                <div className="d-flex">
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.paid_to_date}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.paid_to_date}/>}
-                                    </div>
-
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.balance}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.balance}/>}
-                                    </div>
-                                </div>
-                            </CardText>
-                        </Card>
+                        <ViewEntityHeader heading_1={translations.paid_to_date} value_1={this.props.entity.paid_to_date}
+                            heading_2={translations.balance} value_2={this.props.entity.balance}/>
 
                         <Row>
                             <ListGroup className="col-12">
-                                <a href={`/#/invoice?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.document} mr-4`}/> {translations.invoices}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
-
-                                <a href={`/#/payments?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.credit_card} mr-4`}/>{translations.payments}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
-
-                                <a href={`/#/projects?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.project} mr-4`}/>{translations.projects}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
-
-                                <a href={`/#/tasks?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.task} mr-4`}/>{translations.tasks}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
-
-                                <a href={`/#/expenses?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.expense} mr-4`}/>{translations.expenses}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
-
-                                <a href={`/#/orders?customer_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
-                                            className={`fa ${icons.order} mr-4`}/>{translations.orders}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
+                                <SectionItem link={`/#/invoice?customer_id=${this.props.entity.id}`}
+                                    icon={icons.document} title={translations.invoices}/>
+                                <SectionItem link={`/#/payments?customer_id=${this.props.entity.id}`}
+                                    icon={icons.credit_card} title={translations.payments}/>
+                                <SectionItem link={`/#/projects?customer_id=${this.props.entity.id}`}
+                                    icon={icons.project} title={translations.projects}/>
+                                <SectionItem link={`/#/tasks?customer_id=${this.props.entity.id}`} icon={icons.task}
+                                    title={translations.tasks}/>
+                                <SectionItem link={`/#/expenses?customer_id=${this.props.entity.id}`}
+                                    icon={icons.expense} title={translations.expenses}/>
+                                <SectionItem link={`/#/orders?customer_id=${this.props.entity.id}`} icon={icons.order}
+                                    title={translations.orders}/>
                             </ListGroup>
                         </Row>
                     </TabPane>
@@ -160,127 +113,24 @@ export default class Customer extends Component {
                             <ListGroup className="col-12">
                                 {this.props.entity.contacts.map((contact, index) => (
                                     <React.Fragment>
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <Col className="p-0" sm={1}>
-                                                <ListGroupItemHeading><i
-                                                    className={`fa ${icons.envelope} mr-4`}/></ListGroupItemHeading>
-                                            </Col>
-
-                                            <Col sm={11}>
-                                                <ListGroupItemHeading>
-                                                    {contact.first_name} {contact.last_name}
-                                                    <br/>
-                                                    {contact.email}
-                                                </ListGroupItemHeading>
-                                                <ListGroupItemText>
-                                                    {translations.email}
-                                                </ListGroupItemText>
-                                            </Col>
-                                        </ListGroupItem>
-
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <Col className="p-0" sm={1}>
-                                                <ListGroupItemHeading><i
-                                                    className={`fa ${icons.phone} mr-4`}/></ListGroupItemHeading>
-                                            </Col>
-
-                                            <Col sm={11}>
-                                                <ListGroupItemHeading>
-                                                    {contact.first_name} {contact.last_name} <br/>
-                                                    {contact.phone}
-                                                </ListGroupItemHeading>
-                                                <ListGroupItemText>
-                                                    {translations.phone_number}
-                                                </ListGroupItemText>
-                                            </Col>
-                                        </ListGroupItem>
+                                        <InfoItem icon={icons.envelope}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.email}`} title={translations.email}/>
+                                        <InfoItem icon={icons.phone}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.phone}`} title={translations.phone_number}/>
                                     </React.Fragment>
-
                                 ))}
 
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i className={`fa ${icons.link} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading> {this.props.entity.website}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.website}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.building} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>{this.props.entity.vat_number}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.vat_number}
-                                        </ListGroupItemText>
-                                    </Col>
-
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i className={`fa ${icons.list} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading> {this.props.entity.number}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.number}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-
-                                {this.props.entity.billing && Object.keys(this.props.entity.billing).length &&
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.map_marker} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {this.props.entity.billing.address_1} <br/>
-                                            {this.props.entity.billing.address_2} <br/>
-                                            {this.props.entity.billing.city} {this.props.entity.billing.zip}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.billing_address}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-                                }
-
-                                {this.props.entity.shipping && Object.keys(this.props.entity.shipping).length &&
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.map_marker}} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {this.props.entity.shipping.address_1} <br/>
-                                            {this.props.entity.shipping.address_2} <br/>
-                                            {this.props.entity.shipping.city} {this.props.entity.shipping.zip}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.shipping_address}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-                                }
+                                <InfoItem icon={icons.link} value={this.props.entity.website}
+                                    title={translations.website}/>
+                                <InfoItem icon={icons.building} value={this.props.entity.vat_number}
+                                    title={translations.vat_number}/>
+                                <InfoItem icon={icons.list} value={this.props.entity.number}
+                                    title={translations.number}/>
+                                <InfoItem icon={icons.map_marker} value={billing} title={translations.billing_address}/>
+                                <InfoItem icon={icons.map_marker} value={shipping}
+                                    title={translations.shipping_address}/>
                             </ListGroup>
                         </Row>
                     </TabPane>

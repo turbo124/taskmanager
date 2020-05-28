@@ -125,7 +125,7 @@ export default class DropdownMenuBuilder extends Component {
             if (action === 'email') {
                 message = translations.emailed
             }
-            
+
             this.setState({
                 showSuccessMessage: message,
                 showErrorMessage: false

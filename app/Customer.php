@@ -135,13 +135,8 @@ class Customer extends Model implements HasLocalePreference
     }
 
     /**
-     *
-     * Returns a single setting
-     * which cascades from
-     * Client > Group > Company
-     *
-     * @param string $setting The Setting parameter
-     * @return mixed          The setting requested
+     * @param $setting
+     * @return bool
      */
     public function getSetting($setting)
     {
@@ -160,7 +155,7 @@ class Customer extends Model implements HasLocalePreference
             return $this->account->settings->{$setting};
         }
 
-        throw new \Exception("Settings corrupted", 1);
+        return false;
     }
 
     public function getCountryId(): ?Country

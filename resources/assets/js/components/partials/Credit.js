@@ -13,16 +13,19 @@ import {
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    ListGroupItemText,
     CardTitle,
     Col
 } from 'reactstrap'
 import CreditPresenter from '../presenters/CreditPresenter'
-import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
 import { translations } from '../common/_icons'
 import CreditModel from '../models/CreditModel'
+import LineItem from '../common/entityContainers/LineItem'
+import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
+import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
+import TotalsBox from '../common/entityContainers/TotalsBox'
+import FormatMoney from '../common/FormatMoney'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -98,13 +101,16 @@ export default class Credit extends Component {
     }
 
     render () {
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         return (
             <React.Fragment>
                 <Nav tabs>
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('1') }}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
                         >
                             {translations.details}
                         </NavLink>
@@ -112,7 +118,9 @@ export default class Credit extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('2') }}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
                         >
                             {translations.documents}
                         </NavLink>
@@ -120,111 +128,49 @@ export default class Credit extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Card body outline color="primary">
-                            <CardText className="text-white">
-                                <div className="d-flex">
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.total}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.total}/>}
-                                    </div>
+                        <ViewEntityHeader heading_1={translations.total} value_1={this.props.entity.total}
+                            heading_2={translations.balance} value_2={this.props.entity.balance}/>
 
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.balance}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.balance} />}
-                                    </div>
-                                </div>
-                            </CardText>
-                        </Card>
-
-                        <CreditPresenter entity={this.props.entity} field="status_field" />
+                        <CreditPresenter entity={this.props.entity} field="status_field"/>
 
                         <Row>
-                            <ListGroup className="mt-4">
+                            <ListGroup className="mt-4 col-12">
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading><i
-                                        className="fa fa-user-circle-o mr-2"/>{this.props.entity.customer_name}
+                                        className="fa fa-user-circle-o mr-2"/>{customer[0].name}
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
-                            <ul className="mt-4">
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.date}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                        </Row>
 
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.due_date}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.due_date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                        <Row>
+                            <ul className="mt-4 col-12">
+                                <SimpleSectionItem heading={translations.date}
+                                    value={<FormatDate date={this.props.entity.date}/>}/>
+                                <SimpleSectionItem heading={translations.due_date}
+                                    value={<FormatDate date={this.props.entity.due_date}/>}/>
 
                                 {this.props.entity.po_number && this.props.entity.po_number.length &&
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.po_number}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.po_number}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                <SimpleSectionItem heading={translations.po_number}
+                                    value={this.props.entity.po_number}/>
                                 }
 
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.discount}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.discount_total}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                <SimpleSectionItem heading={translations.discount}
+                                    value={<FormatMoney customers={this.props.customers}
+                                        amount={this.props.entity.discount_total}/>}/>
                             </ul>
                         </Row>
 
                         <Row>
                             <ListGroup className="col-12 mt-4">
                                 {this.props.entity.line_items.map((line_item, index) => (
-                                    <ListGroupItem className="list-group-item-dark">
-                                        <ListGroupItemHeading
-                                            className="d-flex justify-content-between align-items-center">
-                                            {line_item.product_id}
-                                            <span>{line_item.sub_total}</span>
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {line_item.quantity} x {line_item.unit_price} {translations.discount}: {line_item.unit_discount} {translations.tax}: {line_item.unit_tax}
-                                            <br/>
-                                            {line_item.description}
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
+                                    <LineItem customers={this.props.customers} key={index} line_item={line_item}/>
                                 ))}
                             </ListGroup>
                         </Row>
 
                         <Row className="justify-content-end">
-                            <ListGroup className="col-6 mt-4">
-                                <ListGroupItem
-                                    className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                    {translations.tax}
-                                    <span>{this.props.entity.tax_total}</span>
-                                </ListGroupItem>
-                                <ListGroupItem
-                                    className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                    {translations.discount}
-                                    <span> {this.props.entity.discount_total}</span>
-                                </ListGroupItem>
-                                <ListGroupItem
-                                    className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                    {translations.subtotal}
-                                    <span> {this.props.entity.sub_total} </span>
-                                </ListGroupItem>
-                                <ListGroupItem
-                                    className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                    {translations.total}
-                                    <span> {this.props.entity.total} </span>
-                                </ListGroupItem>
-                            </ListGroup>
+                            <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
@@ -246,7 +192,8 @@ export default class Credit extends Component {
                                 <Card body>
                                     <CardTitle>{translations.pdf}</CardTitle>
                                     <CardText>
-                                        <iframe style={{ width: '400px', height: '400px' }} className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                                        <iframe style={{ width: '400px', height: '400px' }}
+                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardText>
                                 </Card>
                             </Col>

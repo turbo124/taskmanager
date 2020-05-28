@@ -532,7 +532,7 @@ class AccountSettings extends BaseSettings
         'payment_terms'                   => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => -1,
+            'default_value'    => 30,
             'type'             => 'integer'
         ],
         'payment_type_id'                 => [

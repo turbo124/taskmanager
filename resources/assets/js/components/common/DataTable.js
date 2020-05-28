@@ -286,7 +286,7 @@ export default class DataTable extends Component {
                 <div style={{ lineHeight: '32px' }} className="row justify-content-end">
                     {this.props.dropdownButtonActions && <BulkActionDropdown
                         dropdownButtonActions={this.props.dropdownButtonActions}
-                        saveBulk={this.saveBulk}/> }
+                        saveBulk={this.saveBulk}/>}
                     <i onClick={this.fetchEntities} id="refresh" className={`fa ${icons.refresh}`}
                         style={{ fontSize: '28px', color: '#fff', cursor: 'pointer', marginRight: '6px' }}/>
                     <i onClick={this.handleTableActions} id="toggle-checkbox" className={`fa ${icons.checkbox} mr-2`}
@@ -304,6 +304,7 @@ export default class DataTable extends Component {
                     toggle={this.toggleViewedEntity}
                     title={this.state.view.title}
                     viewed={this.state.view.viewMode}
+                    customers={this.props.customers && this.props.customers.length ? this.props.customers : []}
                     entity={this.state.view.viewedId}
                     entity_type={this.props.entity_type}
                 />}

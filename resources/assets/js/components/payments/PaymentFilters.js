@@ -71,6 +71,7 @@ export default class PaymentFilters extends Component {
                     <CustomerDropdown
                         handleInputChanges={this.filterPayments}
                         customer={this.state.filters.customer_id}
+                        customers={this.props.customers}
                         name="customer_id"
                     />
                 </Col>

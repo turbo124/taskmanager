@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import {
     Alert,
     Row,
-    Card,
-    CardText,
     ListGroupItemText,
     ListGroupItemHeading,
     ListGroupItem,
@@ -14,6 +12,8 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { icons, translations } from '../common/_icons'
 import PaymentModel from '../models/PaymentModel'
+import ViewEntityHeader from "../common/entityContainers/ViewEntityHeader";
+import SimpleSectionItem from "../common/entityContainers/SimpleSectionItem";
 
 export default class Payment extends Component {
     constructor (props) {
@@ -42,34 +42,12 @@ export default class Payment extends Component {
     }
 
     render () {
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+
         return (
             <React.Fragment>
-                <Card body outline color="primary">
-                    <CardText className="text-white">
-                        <div className="d-flex">
-                            <div
-                                className="p-2 flex-fill">
-                                <h4 className="text-muted"> {translations.amount} </h4>
-                                {<FormatMoney className="text-value-lg"
-                                    amount={this.props.entity.amount}/>}
-                            </div>
-
-                            <div
-                                className="p-2 flex-fill">
-                                <h4 className="text-muted"> {translations.applied} </h4>
-                                {<FormatMoney className="text-value-lg"
-                                    amount={this.props.entity.applied}/>}
-                            </div>
-
-                            <div
-                                className="p-2 flex-fill">
-                                <h4 className="text-muted"> {translations.refunded} </h4>
-                                {<FormatMoney className="text-value-lg"
-                                    amount={this.props.entity.refunded}/>}
-                            </div>
-                        </div>
-                    </CardText>
-                </Card>
+                <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.amount}
+                    heading_2={translations.applied} value_2={this.props.entity.applied}/>
 
                 <PaymentPresenter entity={this.props.entity} field="status_field" />
 
@@ -96,7 +74,7 @@ export default class Payment extends Component {
                     <ListGroup className="mt-4 mb-4 col-12">
                         <ListGroupItem className="list-group-item-dark">
                             <ListGroupItemHeading><i className={`fa ${icons.customer} mr-4`}/>
-                                {this.props.entity.customer_name}
+                                {customer[0].name}
                             </ListGroupItemHeading>
                         </ListGroupItem>
                     </ListGroup>
@@ -104,21 +82,8 @@ export default class Payment extends Component {
 
                 <Row>
                     <ul className="col-12">
-                        <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                            <ListGroupItemHeading> {translations.date} </ListGroupItemHeading>
-                            <ListGroupItemText>
-                                <FormatDate date={this.props.entity.date}/>
-                            </ListGroupItemText>
-                        </ListGroupItem>
-
-                        <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                            <ListGroupItemHeading>
-                                {translations.transaction_reference}
-                            </ListGroupItemHeading>
-                            <ListGroupItemText>
-                                {this.props.entity.transaction_reference}
-                            </ListGroupItemText>
-                        </ListGroupItem>
+                        <SimpleSectionItem heading={translations.date} value={<FormatDate date={this.props.entity.date}/>} />
+                        <SimpleSectionItem heading={translations.transaction_reference} value={this.props.entity.transaction_reference} />
                     </ul>
                 </Row>
 

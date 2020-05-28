@@ -70,6 +70,7 @@ export default class ExpenseFilters extends Component {
 
                 <Col md={3}>
                     <CustomerDropdown
+                        customers={this.props.customers}
                         customer={this.props.filters.customer_id}
                         handleInputChanges={this.filterExpenses}
                         name="customer_id"

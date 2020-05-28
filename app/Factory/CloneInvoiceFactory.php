@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Invoice;
 use App\User;
 use App\Account;
+use Carbon\Carbon;
 
 class CloneInvoiceFactory
 {
@@ -23,6 +24,9 @@ class CloneInvoiceFactory
         $clone_invoice->partial_due_date = null;
         $clone_invoice->user_id = $user->id;
         $clone_invoice->balance = $invoice->total;
+        $clone_invoice->due_date = !empty($invoice->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $invoice->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : $invoice->due_date;
 
         return $clone_invoice;
     }
