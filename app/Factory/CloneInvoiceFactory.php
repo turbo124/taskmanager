@@ -20,13 +20,10 @@ class CloneInvoiceFactory
         $clone_invoice = $invoice->replicate();
         $clone_invoice->setAccount($account);
         $clone_invoice->setStatus(Invoice::STATUS_DRAFT);
-        $clone_invoice->number = null;
-        $clone_invoice->partial_due_date = null;
+        $clone_invoice->setNumber();
         $clone_invoice->setUser($user);
         $clone_invoice->setBalance($invoice->total);
-        $clone_invoice->due_date = !empty($invoice->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
-            $invoice->customer->getSetting('payment_terms')
-        )->format('Y-m-d H:i:s') : $invoice->due_date;
+        $clone_invoice->setDueDate();
 
         return $clone_invoice;
     }
