@@ -254,6 +254,20 @@ class Invoice extends Model
     }
 
     /********************** Getters and setters ************************************/
+    public function setUser(User $user)
+    {
+        $this->user_id = (int) $user->id;
+    }
+
+    public function setAccount(Account $account)
+    {
+        $this->account_id = (int) $account->id;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer_id = (int) $customer->id;
+    }
 
     public function setStatus(int $status)
     {
