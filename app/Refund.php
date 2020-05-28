@@ -61,7 +61,8 @@ class Refund
         //adjust payment refunded column amount
         $this->payment->refunded += $this->data['amount'];
 
-        $this->payment->status_id = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $this->payment->setStatus($status);
 
         $line_items[] = (new LineItem())
             ->setQuantity(1)
@@ -112,7 +113,8 @@ class Refund
             $this->payment->refunded += $invoice['amount'];
         }
 
-        $this->payment->status_id = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $this->payment->setStatus($status);
 
         $this->createCreditNote($line_items, $adjustment_amount);
 
