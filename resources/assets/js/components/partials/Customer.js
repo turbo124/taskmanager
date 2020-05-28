@@ -142,6 +142,15 @@ export default class Customer extends Component {
                                         </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
                                     </ListGroupItem>
                                 </a>
+
+                                <a href={`/#/orders?customer_id=${this.props.entity.id}`}>
+                                    <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
+                                        <ListGroupItemHeading><i style={{ fontSize: '20px' }}
+                                            className={`fa ${icons.order} mr-4`}/>{translations.orders}
+                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
+                                    </ListGroupItem>
+                                </a>
                             </ListGroup>
                         </Row>
                     </TabPane>

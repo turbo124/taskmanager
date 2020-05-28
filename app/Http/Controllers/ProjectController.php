@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\Factory\ProjectFactory;
 use App\Filters\ProjectFilter;
 use Exception;

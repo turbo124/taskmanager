@@ -21,7 +21,6 @@ class Invoice extends Model
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
     protected $casts = [
-        'due_date'    => 'datetime',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',

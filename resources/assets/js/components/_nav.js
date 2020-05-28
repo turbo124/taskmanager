@@ -115,11 +115,6 @@ const financial = {
     icon: 'fa fa-bar-chart',
     children: [
         {
-            name: 'Orders',
-            url: '/orders',
-            icon: 'fa fa-shopping-basket'
-        },
-        {
             name: 'Promocodes',
             url: '/promocodes',
             icon: 'fa fa-shopping-basket'
@@ -142,7 +137,7 @@ if (modules.orders) {
         {
             name: 'Orders',
             url: '/orders',
-            icon: 'fa fa-area-chart'
+            icon: `fa ${icons.order}`
         }
     )
 }

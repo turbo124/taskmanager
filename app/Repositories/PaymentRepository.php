@@ -101,12 +101,15 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
      */
     public function save(array $data, Payment $payment): ?Payment
     {
+        $send_event = false;
+
         if (!empty($data)) {
             $payment->fill($data);
         }
 
         if (!$payment->id) {
             $payment = $this->convertCurrencies($payment);
+            $send_event = true;
         }
 
         $payment->setNumber();
@@ -115,11 +118,17 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
 
         $payment->ledger()->updateBalance($payment->amount * -1);
 
-        event(new PaymentWasCreated($payment, $payment->account));
+        if ($send_event) {
+            event(new PaymentWasCreated($payment, $payment->account));
+        }
 
         return $payment->fresh();
     }
 
+    /**
+     * @param Payment $payment
+     * @return Payment
+     */
     private function convertCurrencies(Payment $payment)
     {
         $converted_amount = $objCurrencyConverter = (new CurrencyConverter())
@@ -132,7 +141,6 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         if ($converted_amount) {
             $payment->exchange_rate = $converted_amount;
             $payment->currency_id = $payment->account->getCurrency()->id;
-            $currency = $payment->customer->currency;
             $payment->exchange_currency_id = $payment->customer->currency;
         }
 

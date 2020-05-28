@@ -24,13 +24,22 @@ export default class DropdownMenuBuilder extends Component {
     }
 
     downloadPdf (response, id) {
-        const linkSource = `data:application/pdf;base64,${response.data.data}`
+        const linkSource = `data:application/pdf;base64,${response.data}`
         const downloadLink = document.createElement('a')
-        const fileName = `invoice_${id}.pdf`
+        const fileName = `${this.props.model.entity}_${id}.pdf`
 
         downloadLink.href = linkSource
         downloadLink.download = fileName
         downloadLink.click()
+    }
+
+    removeByKey (myObj, deleteKeys) {
+        return Object.keys(myObj)
+            .filter(key => !deleteKeys.includes(key))
+            .reduce((result, current) => {
+                result[current] = myObj[current]
+                return result
+            }, {})
     }
 
     changeStatus (action) {
@@ -38,14 +47,19 @@ export default class DropdownMenuBuilder extends Component {
             return false
         }
 
-        const data = this.props.formData
+        const data = this.removeByKey(this.props.formData, ['invitations', 'next_send_date', 'created_at'])
+
         this.props.model.completeAction(data, action).then(response => {
-            console.log('response', response)
-
-
             if (!response) {
-                alert('error')
+                this.setState({
+                    showSuccessMessage: false,
+                    showErrorMessage: true
+                })
+
+                return
             }
+
+            action = action.trim()
 
             let message = `${action} completed successfully`
 
@@ -57,31 +71,31 @@ export default class DropdownMenuBuilder extends Component {
             if (action === 'clone_to_invoice') {
                 // this.props.invoices.push(response.data)
                 // this.props.action(this.props.invoices)
-                message = `Invoice was cloned successfully. Invoice ${response.data.number} has been created`
+                message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
             }
 
             if (action === 'clone_to_quote') {
                 // this.props.invoices.push(response.data)
                 // this.props.action(this.props.invoices)
-                message = `Quote was created successfully. Quote ${response.data.number} has been created`
+                message = `Quote was created successfully. Quote ${response.number} has been created`
             }
 
             if (action === 'clone_to_credit') {
                 // this.props.invoices.push(response.data)
                 // this.props.action(this.props.invoices)
-                message = `Credit was created successfully. Credit ${response.data.number} has been created`
+                message = `Credit was created successfully. Credit ${response.number} has been created`
             }
 
             if (action === 'clone_to_order') {
                 // this.props.invoices.push(response.data)
                 // this.props.action(this.props.invoices)
-                message = `Order was created successfully. Order ${response.data.number} has been created`
+                message = `Order was created successfully. Order ${response.number} has been created`
             }
 
             if (action === 'clone_to_expense') {
                 // this.props.invoices.push(response.data)
                 // this.props.action(this.props.invoices)
-                message = `Expense was created successfully. Expense ${response.data.number} has been created`
+                message = `Expense was created successfully. Expense ${response.number} has been created`
             }
 
             if (action === 'approve') {
@@ -111,7 +125,7 @@ export default class DropdownMenuBuilder extends Component {
             if (action === 'email') {
                 message = translations.emailed
             }
-
+            
             this.setState({
                 showSuccessMessage: message,
                 showErrorMessage: false

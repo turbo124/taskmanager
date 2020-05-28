@@ -194,8 +194,8 @@ class Payment extends Model
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
     }
-  
-    public function getFormattedAmount()
+
+    public function getFormattedTotal()
     {
         return Number::formatCurrency($this->amount, $this->customer);
     }

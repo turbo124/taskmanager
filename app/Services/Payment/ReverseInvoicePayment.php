@@ -1,28 +1,36 @@
 <?php
-namespace App\Services\Payment;  
 
+namespace App\Services\Payment;
+
+use App\Invoice;
 use App\Payment;
 use App\Customer;
 
-class ReverseInvoicePayment()
+class ReverseInvoicePayment
 {
     private Payment $payment;
 
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
-    } 
+    }
 
+    /**
+     * @return Payment|null
+     */
     public function run(): ?Payment
     {
-        $this->reversePayment(); 
+        $this->reversePayment();
         $this->updateCustomer();
-        $this->ledger()->updateBalance($this->payment->amount);
-        $this->deletePayment();
+        $this->payment->ledger()->updateBalance($this->payment->amount);
+        $this->payment->deletePayment();
 
         return $this->payment;
     }
 
+    /**
+     * @return bool
+     */
     private function reversePayment(): bool
     {
         $invoices = $this->payment->invoices;
@@ -40,6 +48,9 @@ class ReverseInvoicePayment()
         return true;
     }
 
+    /**
+     * @return Customer
+     */
     private function updateCustomer(): Customer
     {
         $customer = $this->payment->customer;

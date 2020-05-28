@@ -80,11 +80,12 @@ class PaymentUnitTest extends TestCase
     {
         $invoice = factory(Invoice::class)->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
+        $original_amount = $invoice->total;
 
         $data = [
             'customer_id' => $this->customer->id,
             'type_id'     => 1,
-            'amount'      => $this->faker->randomFloat()
+            'amount'      => $invoice->total
         ];
 
         $data['invoices'][0]['invoice_id'] = $invoice->id;
@@ -92,8 +93,12 @@ class PaymentUnitTest extends TestCase
 
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
-        $deleted = $payment->services()->reverseInvoicePayment();
-        $this->assertTrue($deleted);
+        $customer_balance = $payment->customer->balance;
+        $customer_paid_to_date = $payment->customer->paid_to_date;
+        $payment = $payment->service()->reverseInvoicePayment();
+        $this->assertEquals($payment->customer->paid_to_date, ($customer_paid_to_date - $original_amount));
+        $this->assertEquals($payment->customer->balance, ($customer_balance + $original_amount));
+        $this->assertEquals($invoice->balance, $original_amount);
     }
 
     public function it_can_archive_the_payment()

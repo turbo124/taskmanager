@@ -13,12 +13,24 @@ use Omnipay\Omnipay;
 class Refund
 {
 
-    private $payment;
+    /**
+     * @var Payment
+     */
+    private Payment $payment;
 
-    private $credit_repo;
+    /**
+     * @var CreditRepository
+     */
+    private CreditRepository $credit_repo;
 
     private $data;
 
+    /**
+     * Refund constructor.
+     * @param Payment $payment
+     * @param CreditRepository $credit_repo
+     * @param array $data
+     */
     public function __construct(Payment $payment, CreditRepository $credit_repo, array $data)
     {
         $this->payment = $payment;
@@ -41,6 +53,9 @@ class Refund
         return $this->refundPaymentWithNoInvoices();
     }
 
+    /**
+     * @return Payment
+     */
     private function refundPaymentWithNoInvoices()
     {
         //adjust payment refunded column amount
@@ -64,6 +79,9 @@ class Refund
         return $this->payment;
     }
 
+    /**
+     * @return Payment
+     */
     private function refundPaymentWithInvoices()
     {
         $line_items = [];
@@ -107,6 +125,9 @@ class Refund
         return $this->payment;
     }
 
+    /**
+     * @return bool
+     */
     private function gatewayRefund()
     {
         if (empty($this->payment->company_gateway_id)) {
