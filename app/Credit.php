@@ -156,6 +156,13 @@ class Credit extends Model
         $this->total = (float) $total;
     }
 
+    public function setDueDate()
+    {
+        $this->due_date = !empty($credit->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $credit->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null
+    }
+
     public function setStatus(int $status)
     {
         $this->status_id = $status;
