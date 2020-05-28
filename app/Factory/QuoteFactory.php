@@ -23,10 +23,10 @@ class QuoteFactory
         Customer $customer
     ): Quote {
         $quote = new Quote();
-        $quote->account_id = $account->id;
-        $quote->status_id = Quote::STATUS_DRAFT;
-        $quote->user_id = $user->id;
-        $quote->customer_id = $customer->id;
+        $quote->setAccount($account);
+        $quote->setStatus(Quote::STATUS_DRAFT);
+        $quote->setUser($user);
+        $quote->setCustomer($customer);
 
         return $quote;
     }
