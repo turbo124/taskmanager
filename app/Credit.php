@@ -151,6 +151,10 @@ class Credit extends Model
     }
 
     /********************** Getters and setters ************************************/
+    public function setTotal(float $total)
+    {
+        $this->total = (float) $total;
+    }
 
     public function setStatus(int $status)
     {
