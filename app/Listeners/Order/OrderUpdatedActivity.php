@@ -43,6 +43,6 @@ class OrderUpdatedActivity implements ShouldQueue
         $this->notification_repo->save($notification, $fields);
 
         // regenerate pdf
-        $event->order->service()->getPdf(null, true);
+        $event->order->service()->generatePdf(null, true);
     }
 }

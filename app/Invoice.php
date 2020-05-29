@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\NumberGenerator;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Ledger\LedgerService;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\NumberGenerator;
 use App\Utils\Number;
 
 class Invoice extends Model
@@ -258,7 +258,7 @@ class Invoice extends Model
     /********************** Getters and setters ************************************/
     public function setUser(User $user)
     {
-        $this->user_id = (int) $user->id;
+        $this->user_id = (int)$user->id;
     }
 
     public function setDueDate()
@@ -270,12 +270,12 @@ class Invoice extends Model
 
     public function setAccount(Account $account)
     {
-        $this->account_id = (int) $account->id;
+        $this->account_id = (int)$account->id;
     }
 
     public function setCustomer(Customer $customer)
     {
-        $this->customer_id = (int) $customer->id;
+        $this->customer_id = (int)$customer->id;
     }
 
     public function setStatus(int $status)
@@ -287,19 +287,19 @@ class Invoice extends Model
     {
         $this->balance = $balance;
     }
-  
+
     public function setTotal(float $total)
     {
-        $this->total = (float) $total;
+        $this->total = (float)$total;
     }
 
     public function setNumber()
     {
-        if (!empty($this->number)) {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
             return true;
         }
 
-        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
     }
 

@@ -54,7 +54,7 @@ class LeadService extends ServiceBase
         return (new LeadEmail($this->lead, $subject, $body))->execute();
     }
 
-    public function getPdf()
+    public function generatePdf()
     {
         return '';
     }

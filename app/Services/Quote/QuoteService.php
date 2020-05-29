@@ -54,9 +54,9 @@ class QuoteService extends ServiceBase
      * @param bool $update
      * @return mixed|string
      */
-    public function getPdf($contact = null, $update = false)
+    public function generatePdf($contact = null, $update = false)
     {
-        return (new GetPdf($this->quote, $contact, $update))->execute();
+        return (new GeneratePdf($this->quote, $contact, $update))->execute();
     }
 
     /**

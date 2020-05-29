@@ -32,9 +32,9 @@ class OrderService extends ServiceBase
      * @param bool $update
      * @return mixed|string
      */
-    public function getPdf($contact = null, $update = false)
+    public function generatePdf($contact = null, $update = false)
     {
-        return (new GetPdf($this->order, $contact, $update))->execute();
+        return (new GeneratePdf($this->order, $contact, $update))->execute();
     }
 
     /**

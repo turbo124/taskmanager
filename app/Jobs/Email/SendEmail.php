@@ -96,7 +96,7 @@ class SendEmail implements ShouldQueue
         if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Lead' && get_class(
                 $this->entity
             ) !== 'App\Payment') {
-            $message->setAttachments(public_path($this->entity->service()->getPdf($this->contact)));
+            $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }
 
         foreach ($this->entity->documents as $document) {

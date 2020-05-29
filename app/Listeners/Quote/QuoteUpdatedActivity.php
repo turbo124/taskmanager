@@ -43,6 +43,6 @@ class QuoteUpdatedActivity implements ShouldQueue
         $this->notification_repo->save($notification, $fields);
 
         // regenerate pdf
-        $event->quote->service()->getPdf(null, true);
+        $event->quote->service()->generatePdf(null, true);
     }
 }

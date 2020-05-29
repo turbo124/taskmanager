@@ -43,4 +43,18 @@ interface InvoiceRepositoryInterface
      */
     public function save(array $data, Invoice $invoice): ?Invoice;
 
+    /**
+     * @param array $data
+     * @param Invoice $invoice
+     * @return Invoice|null
+     */
+    public function createInvoice(array $data, Invoice $invoice): ?Invoice;
+
+    /**
+     * @param array $data
+     * @param Invoice $invoice
+     * @return Invoice|null
+     */
+    public function updateInvoice(array $data, Invoice $invoice): ?Invoice;
+
 }

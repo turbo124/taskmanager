@@ -21,6 +21,7 @@ import AddButtons from '../common/AddButtons'
 import Contacts from '../credits/Contacts'
 import Emails from '../emails/Emails'
 import { icons, translations } from '../common/_icons'
+import NoteTabs from '../common/NoteTabs'
 
 export default class EditOrder extends Component {
     constructor (props) {
@@ -366,6 +367,8 @@ export default class EditOrder extends Component {
             </NavItem>
         </Nav>
 
+        const isMobile = this.state.width <= 500
+
         const details = <Details handleInput={this.handleInput}
             customers={this.props.customers}
             errors={this.state.errors} order={this.state}
@@ -388,9 +391,13 @@ export default class EditOrder extends Component {
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
 
-        const notes = <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-            terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
-            handleInput={this.handleInput}/>
+        const notes = !isMobile
+            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
+            : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
 
         const email_editor = this.state.id
             ? <Emails emails={this.state.emails} template="email_template_order" show_editor={true} entity="order"
@@ -403,7 +410,6 @@ export default class EditOrder extends Component {
                 model={this.orderModel}
                 task_id={this.props.task_id}/> : null
 
-        const isMobile = this.state.width <= 500
         const form = isMobile
             ? <React.Fragment>
 

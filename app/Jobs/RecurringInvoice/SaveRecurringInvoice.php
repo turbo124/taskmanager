@@ -17,16 +17,28 @@ class SaveRecurringInvoice
 {
     use Dispatchable;
 
-    private $request;
-    private $account;
-    private $invoice;
+    /**
+     * @var array
+     */
+    private array $request;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @var Account
      */
-    public function __construct(Request $request, Account $account, Invoice $invoice)
+    private Account $account;
+
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
+
+    /**
+     * SaveRecurringInvoice constructor.
+     * @param array $request
+     * @param Account $account
+     * @param Invoice $invoice
+     */
+    public function __construct(array $request, Account $account, Invoice $invoice)
     {
         $this->request = $request;
         $this->account = $account;
@@ -38,8 +50,8 @@ class SaveRecurringInvoice
      */
     public function handle(): ?RecurringInvoice
     {
-        if ($this->request->has('recurring') && !empty($this->request->recurring)) {
-            $recurring = json_decode($this->request->recurring, true);
+        if (!empty($this->request['recurring'])) {
+            $recurring = json_decode($this->request['recurring'], true);
             $arrRecurring['start_date'] = $recurring['start_date'];
             $arrRecurring['end_date'] = $recurring['end_date'];
             $arrRecurring['frequency'] = $recurring['frequency'];

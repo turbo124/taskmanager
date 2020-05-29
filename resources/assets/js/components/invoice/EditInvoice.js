@@ -32,6 +32,7 @@ import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../com
 import InvoiceModel from '../models/InvoiceModel'
 import Emails from '../emails/Emails'
 import { icons, translations } from '../common/_icons'
+import NoteTabs from '../common/NoteTabs'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -280,7 +281,11 @@ class EditInvoice extends Component {
 
     updatePriceData (index) {
         const line_items = this.state.line_items.slice()
-        line_items[index] = CalculateLineTotals({ currentRow: line_items[index], settings: this.settings, invoice: this.state })
+        line_items[index] = CalculateLineTotals({
+            currentRow: line_items[index],
+            settings: this.settings,
+            invoice: this.state
+        })
 
         this.setState({ line_items: line_items }, () => localStorage.setItem('invoiceForm', JSON.stringify(this.state)))
     }
@@ -470,6 +475,8 @@ class EditInvoice extends Component {
             </NavItem>
         </Nav>
 
+        const isMobile = this.state.width <= 500
+
         const details = <Details handleInput={this.handleInput}
             customers={this.props.customers}
             errors={this.state.errors} invoice={this.state}
@@ -486,15 +493,21 @@ class EditInvoice extends Component {
 
         const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
-            discount={this.state.discount} is_amount_discount={this.state.is_amount_discount} design_id={this.state.design_id}/>
+            discount={this.state.discount}
+            is_amount_discount={this.state.is_amount_discount}
+            design_id={this.state.design_id}/>
 
         const items = <Items invoice={this.state} errors={this.state.errors} handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
 
-        const notes = <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-            terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
-            handleInput={this.handleInput}/>
+        const notes = !isMobile
+            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
+            : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
 
         const email_editor = this.state.id
             ? <Emails emails={this.state.emails} template="email_template_invoice" show_editor={true} entity="invoice"
@@ -509,7 +522,6 @@ class EditInvoice extends Component {
                 action={this.props.action} model={this.invoiceModel}
             /> : null
 
-        const isMobile = this.state.width <= 500
         const form = isMobile
             ? <React.Fragment>
 
@@ -613,7 +625,8 @@ class EditInvoice extends Component {
         const form = this.buildForm()
         const { success } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
-            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_invoice}</DropdownItem>
+            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_invoice}
+            </DropdownItem>
 
         if (this.props.modal) {
             return (
