@@ -475,6 +475,7 @@ class PdfData
             'value' => '',
             'label' => $this->class
         ];
+
         $this->data['$' . $this->class . '.total'] = [
             'value' => $this->entity->getFormattedTotal() ?: '&nbsp;',
             'label' => trans('texts.' . $this->class . '_amount')
@@ -510,7 +511,7 @@ class PdfData
             'value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;',
             'label' => trans('texts.sub_total')
         ];
-        //$this->data['$invoice.subtotal'] = &$this->data['$subtotal'];
+        
         return $this;
     }
 
