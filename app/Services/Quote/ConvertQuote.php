@@ -38,7 +38,7 @@ class ConvertQuote
     /**
      * @return Invoice|null
      */
-    public function run(): ?Invoice
+    public function execute(): ?Invoice
     {
         if (!empty($this->quote->invoice_id) || $this->quote->status_id === Quote::STATUS_EXPIRED) {
             return null;

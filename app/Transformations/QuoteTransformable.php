@@ -26,7 +26,6 @@ trait QuoteTransformable
             'private_notes'         => $quote->private_notes ?: '',
             'number'                => $quote->number ?: '',
             'customer_id'           => (int)$quote->customer_id,
-            'customer_name'         => (string)$quote->customer->present()->name(),
             'date'                  => $quote->date ?: '',
             'due_date'              => $quote->due_date ?: '',
             'design_id'             => (int)$quote->design_id,

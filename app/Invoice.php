@@ -21,8 +21,9 @@ class Invoice extends Model
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
     protected $casts = [
-        'due_date'    => 'datetime',
         'customer_id' => 'integer',
+        'account_id'  => 'integer',
+        'user_id'     => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
@@ -255,6 +256,27 @@ class Invoice extends Model
     }
 
     /********************** Getters and setters ************************************/
+    public function setUser(User $user)
+    {
+        $this->user_id = (int) $user->id;
+    }
+
+    public function setDueDate()
+    {
+        $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $this->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null;
+    }
+
+    public function setAccount(Account $account)
+    {
+        $this->account_id = (int) $account->id;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer_id = (int) $customer->id;
+    }
 
     public function setStatus(int $status)
     {
@@ -264,6 +286,11 @@ class Invoice extends Model
     public function setBalance($balance)
     {
         $this->balance = $balance;
+    }
+  
+    public function setTotal(float $total)
+    {
+        $this->total = (float) $total;
     }
 
     public function setNumber()

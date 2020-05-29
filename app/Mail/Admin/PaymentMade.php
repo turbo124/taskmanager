@@ -93,7 +93,7 @@ class PaymentMade extends Mailable
     private function getDataArray()
     {
         return [
-            'total'    => $this->payment->getFormattedAmount(),
+            'total'    => $this->payment->getFormattedTotal(),
             'customer' => $this->payment->customer->present()->name(),
             'invoice'  => $this->payment->getFormattedInvoices(),
         ];

@@ -7,6 +7,7 @@ import {
 import DataTable from '../common/DataTable'
 import OrderItem from './OrderItem'
 import OrderFilters from './OrderFilters'
+import queryString from 'query-string'
 
 export default class Order extends Component {
     constructor (props) {
@@ -28,8 +29,8 @@ export default class Order extends Component {
             ignoredColumns: ['customer_name', 'emails', 'custom_surcharge1', 'custom_surcharge_tax1', 'custom_surcharge2', 'custom_surcharge_tax2', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
-                customer_id: '',
-                searchText: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
                 end_date: ''
             },
@@ -125,6 +126,7 @@ export default class Order extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
+                                customers={customers}
                                 dropdownButtonActions={this.state.dropdownButtonActions}
                                 entity_type="Order"
                                 bulk_save_url="/api/order/bulk"

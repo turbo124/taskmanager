@@ -19,7 +19,7 @@ class CreatePayment
         $this->payment_repo = $payment_repo;
     }
 
-    public function run()
+    public function execute()
     {
         if ($this->invoice->balance < 0 || $this->invoice->status_id == Invoice::STATUS_PAID || $this->invoice->is_deleted === true) {
             return false;

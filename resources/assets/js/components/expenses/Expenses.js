@@ -7,7 +7,7 @@ import {
 } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'
-import queryString from "query-string";
+import queryString from 'query-string'
 
 export default class Expenses extends Component {
     constructor (props) {
@@ -160,12 +160,12 @@ export default class Expenses extends Component {
             expenses={expenses}
         /> : null
 
-        return this.state.customers.length ? (
+        return customers.length ? (
             <div className="data-table">
 
                 <Card>
                     <CardBody>
-                        <ExpenseFilters expenses={expenses} companies={companies}
+                        <ExpenseFilters customers={customers} expenses={expenses} companies={companies}
                             updateIgnoredColumns={this.updateIgnoredColumns}
                             filters={this.state.filters} filter={this.filterExpenses}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -176,6 +176,7 @@ export default class Expenses extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
+                            customers={customers}
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Expense"
                             bulk_save_url="/api/expense/bulk"

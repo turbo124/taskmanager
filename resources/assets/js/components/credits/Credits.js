@@ -107,11 +107,10 @@ export default class Credits extends Component {
             modal={true}
         /> : null
 
-        return this.state.customers.length ? (
+        return customers.length ? (
             <div className="data-table">
                 <Card>
                     <CardBody>
-
                         <CreditFilters credits={credits} customers={customers}
                             updateIgnoredColumns={this.updateIgnoredColumns}
                             filters={filters} filter={this.filterCredits}
@@ -123,6 +122,7 @@ export default class Credits extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
+                            customers={customers}
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Credit"
                             bulk_save_url="/api/credit/bulk"

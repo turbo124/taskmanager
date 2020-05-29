@@ -68,34 +68,34 @@ export default class ViewEntity extends Component {
                     <ModalHeader toggle={this.toggle}>{this.props.title ? this.props.title : 'Details'}</ModalHeader>
                     <ModalBody>
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
-                        <Invoice entity={this.props.entity}/>}
+                        <Invoice customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
-                        <Credit entity={this.props.entity}/>}
+                        <Credit customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Order'].includes(this.props.entity_type) &&
-                        <Order entity={this.props.entity}/>}
+                        <Order customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Customer'].includes(this.props.entity_type) &&
                         <Customer entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && (this.props.entity_type === 'Payment') &&
-                        <Payment entity={this.props.entity}/>}
+                        <Payment customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
-                        <Expense entity={this.props.entity}/>}
+                        <Expense customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
-                        <Quote entity={this.props.entity}/>}
+                        <Quote customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
-                        <Project entity={this.props.entity}/>}
+                        <Project customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
-                        <Company entity={this.props.entity}/>}
+                        <Company customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
-                        <Lead entity={this.props.entity}/>}
+                        <Lead customers={this.props.customers} entity={this.props.entity}/>}
 
                         {!['Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">

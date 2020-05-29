@@ -28,10 +28,10 @@ class OrderFactory
         Customer $customer
     ): Order {
         $order = new Order;
-        $order->account_id = $account->id;
-        $order->status_id = Order::STATUS_DRAFT;
-        $order->customer_id = $customer->id;
-        $order->user_id = $user->id;
+        $order->setAccount($account);
+        $order->setStatus(Order::STATUS_DRAFT);
+        $order->setCustomer($customer);
+        $order->setUser($user);
 
         return $order;
     }

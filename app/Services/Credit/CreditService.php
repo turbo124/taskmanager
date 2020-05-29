@@ -19,13 +19,14 @@ class CreditService extends ServiceBase
 
     /**
      * @param null $contact
+     * @param bool $update
      * @return mixed|string
      */
-    public function getPdf($contact = null)
+    public function getPdf($contact = null, $update = false)
     {
-        $get_credit_pdf = new GetPdf($this->credit, $contact);
+        $get_credit_pdf = new GetPdf($this->credit, $contact, $update);
 
-        return $get_credit_pdf->run();
+        return $get_credit_pdf->execute();
     }
 
     /**

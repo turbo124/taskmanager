@@ -111,9 +111,15 @@ $table_here
     public function footer()
     {
         return '
-        <div class="text-center mb-2">
-                $signature_here
-            </div>
+        <div style="width: 100%; margin-left: 20px">
+             <div style="width: 45%" class="inline-block mb-2">
+               $signature_here
+           </div>
+           
+            <div style="width: 45%" class="inline-block mb-2">
+               $client_signature_here
+           </div>
+</div>
 
         <div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
         </div>

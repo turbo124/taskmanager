@@ -112,7 +112,7 @@ export default class Payments extends Component {
     }
 
     render () {
-        const { payments, custom_fields, invoices, view, filters } = this.state
+        const { payments, custom_fields, invoices, view, filters, customers } = this.state
         const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
@@ -126,7 +126,7 @@ export default class Payments extends Component {
 
             <Card>
                 <CardBody>
-                    <PaymentFilters payments={payments} invoices={invoices}
+                    <PaymentFilters customers={customers} payments={payments} invoices={invoices}
                         updateIgnoredColumns={this.updateIgnoredColumns}
                         filters={filters} filter={this.filterPayments}
                         saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -137,6 +137,7 @@ export default class Payments extends Component {
             <Card>
                 <CardBody>
                     <DataTable
+                        customers={customers}
                         dropdownButtonActions={this.state.dropdownButtonActions}
                         entity_type="Payment"
                         bulk_save_url="/api/payment/bulk"

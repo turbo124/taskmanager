@@ -9,7 +9,7 @@ $factory->define(Invoice::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();
     $user = factory(User::class)->create();
 
-    $total = $faker->randomFloat(2);
+    $total = 800;
 
     for ($x = 0; $x < 5; $x++) {
         $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)

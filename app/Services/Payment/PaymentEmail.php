@@ -20,7 +20,7 @@ class PaymentEmail
      * @param string $reminder_template The template name ie reminder1
      * @return array
      */
-    public function run()
+    public function execute()
     {
         $subject = $this->payment->customer->getSetting('email_subject_payment');
         $body = $this->payment->customer->getSetting('email_template_payment');

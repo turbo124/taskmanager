@@ -36,7 +36,8 @@ class Order extends Model
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
-        'due_date'    => 'datetime',
+        'account_id'  => 'integer',
+        'user_id'     => 'integer',
         'customer_id' => 'integer',
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
@@ -130,15 +131,46 @@ class Order extends Model
     }
 
     /********************** Getters and setters ************************************/
+    public function setDueDate()
+    {
+        $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $this->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user_id = (int)$user->id;
+    }
+
+    public function setAccount(Account $account)
+    {
+        $this->account_id = (int)$account->id;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer_id = (int)$customer->id;
+    }
+
+    public function setTotal(float $total)
+    {
+        $this->total = (float)$total;
+    }
+
+    public function setBalance(float $balance)
+    {
+        $this->balance = (float)$balance;
+    }
 
     public function setStatus(int $status)
     {
-        $this->status_id = $status;
+        $this->status_id = (int)$status;
     }
 
     public function setInvoiceId($invoice_id)
     {
-        $this->invoice_id = $invoice_id;
+        $this->invoice_id = (int)$invoice_id;
     }
 
     public function setNumber()

@@ -41,5 +41,8 @@ class InvoiceUpdatedActivity implements ShouldQueue
 
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
         $this->notification_repo->save($notification, $fields);
+
+        // regenerate pdf
+        $event->invoice->service()->getPdf(null, true);
     }
 }

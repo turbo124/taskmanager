@@ -36,7 +36,8 @@ export const icons = {
     task: 'fa-clock-o',
     expense: 'fa-bar-chart-o',
     company: 'fa-building',
-    product: 'fa-barcode'
+    product: 'fa-barcode',
+    order: 'fa-shopping-cart'
 }
 
 export const translations = {
@@ -286,5 +287,6 @@ export const translations = {
     projects: 'Projects',
     payments: 'Payments',
     invoices: 'Invoices',
+    orders: 'Orders',
     overview: 'Overview'
 }

@@ -115,7 +115,7 @@ export default class Quotes extends Component {
 
                 <Card>
                     <CardBody>
-                        <QuoteFilters quotes={quotes}
+                        <QuoteFilters quotes={quotes} customers={customers}
                             updateIgnoredColumns={this.updateIgnoredColumns}
                             filters={filters} filter={this.filterInvoices}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -126,6 +126,7 @@ export default class Quotes extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
+                            customers={customers}
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Quote"
                             bulk_save_url="/api/quote/bulk"

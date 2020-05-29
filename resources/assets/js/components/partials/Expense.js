@@ -12,15 +12,15 @@ import {
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    ListGroupItemText, Col, CardTitle
+    Col, CardTitle
 } from 'reactstrap'
 import ExpenseModel from '../models/ExpenseModel'
 import ExpensePresenter from '../presenters/ExpensePresenter'
-import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_icons'
 import FileUploads from '../attachments/FileUploads'
-import CreditModel from '../models/CreditModel'
+import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
+import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -63,6 +63,7 @@ export default class Expense extends Component {
     render () {
         const expenseModel = new ExpenseModel(this.props.entity)
         const convertedAmount = expenseModel.convertedAmount
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
 
         return (
             <React.Fragment>
@@ -86,69 +87,32 @@ export default class Expense extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Card body outline color="success">
-                            <CardText className="text-white">
-                                <div className="d-flex">
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.amount}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.amount}/>}
-                                    </div>
-
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.converted}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={convertedAmount}/>}
-                                    </div>
-                                </div>
-                            </CardText>
-                        </Card>
+                        <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.amount}
+                            heading_2={translations.converted} value_2={convertedAmount}/>
 
                         <ExpensePresenter entity={this.props.entity} field="status_field" />
 
                         <Row>
-                            <ListGroup className="mt-4">
+                            <ListGroup className="mt-4 col-12">
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/>
-                                        {this.props.entity.customer_name}
+                                        {customer[0].name}
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
 
-                            <ul className="col-12">
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.date}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.expense_date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                            <ul className="col-12 mt-4">
+                                <SimpleSectionItem heading={translations.date}
+                                    value={<FormatDate date={this.props.entity.expense_date}/>}/>
 
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>
-                                        {translations.transaction_reference}
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.transaction_reference}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                <SimpleSectionItem heading={translations.transaction_reference}
+                                    value={this.props.entity.transaction_reference}/>
 
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>
-                                        {translations.exchange_rate}
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {this.props.entity.exchange_rate}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                <SimpleSectionItem heading={translations.exchange_rate}
+                                    value={this.props.entity.exchange_rate}/>
 
-                                <ListGroupItem className="list-group-item-dark col-12 col-md-6 pull-left">
-                                    <ListGroupItemHeading>{translations.payment_date}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <FormatDate date={this.props.entity.payment_date}/>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
+                                <SimpleSectionItem heading={translations.payment_date}
+                                    value={this.props.entity.payment_date}/>
                             </ul>
                         </Row>
                     </TabPane>

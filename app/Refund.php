@@ -13,12 +13,24 @@ use Omnipay\Omnipay;
 class Refund
 {
 
-    private $payment;
+    /**
+     * @var Payment
+     */
+    private Payment $payment;
 
-    private $credit_repo;
+    /**
+     * @var CreditRepository
+     */
+    private CreditRepository $credit_repo;
 
     private $data;
 
+    /**
+     * Refund constructor.
+     * @param Payment $payment
+     * @param CreditRepository $credit_repo
+     * @param array $data
+     */
     public function __construct(Payment $payment, CreditRepository $credit_repo, array $data)
     {
         $this->payment = $payment;
@@ -41,12 +53,16 @@ class Refund
         return $this->refundPaymentWithNoInvoices();
     }
 
+    /**
+     * @return Payment
+     */
     private function refundPaymentWithNoInvoices()
     {
         //adjust payment refunded column amount
         $this->payment->refunded += $this->data['amount'];
 
-        $this->payment->status_id = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = $this->data['amount'] == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $this->payment->setStatus($status);
 
         $line_items[] = (new LineItem())
             ->setQuantity(1)
@@ -64,6 +80,9 @@ class Refund
         return $this->payment;
     }
 
+    /**
+     * @return Payment
+     */
     private function refundPaymentWithInvoices()
     {
         $line_items = [];
@@ -94,7 +113,8 @@ class Refund
             $this->payment->refunded += $invoice['amount'];
         }
 
-        $this->payment->status_id = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = $this->payment->refunded == $this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $this->payment->setStatus($status);
 
         $this->createCreditNote($line_items, $adjustment_amount);
 
@@ -107,6 +127,9 @@ class Refund
         return $this->payment;
     }
 
+    /**
+     * @return bool
+     */
     private function gatewayRefund()
     {
         if (empty($this->payment->company_gateway_id)) {

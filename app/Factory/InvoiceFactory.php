@@ -25,10 +25,10 @@ class InvoiceFactory
         Customer $customer
     ): Invoice {
         $invoice = new Invoice();
-        $invoice->account_id = $account->id;
-        $invoice->status_id = Invoice::STATUS_DRAFT;
-        $invoice->user_id = $user->id;
-        $invoice->customer_id = $customer->id;
+        $invoice->setAccount($account);
+        $invoice->setStatus(Invoice::STATUS_DRAFT);
+        $invoice->setUser($user);
+        $invoice->setCustomer($customer);
 
         return $invoice;
     }

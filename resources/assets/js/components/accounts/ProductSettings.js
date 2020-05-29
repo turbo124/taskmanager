@@ -82,11 +82,18 @@ class ProductSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'update_products',
+                    name: 'should_update_products',
                     label: 'Update Products',
                     type: 'switch',
                     placeholder: 'Update Products',
-                    value: settings.update_products
+                    value: settings.should_update_products
+                },
+                {
+                    name: 'should_update_inventory',
+                    label: 'Update Inventory',
+                    type: 'switch',
+                    placeholder: 'Update Inventory',
+                    value: settings.should_update_inventory
                 },
                 {
                     name: 'show_cost',

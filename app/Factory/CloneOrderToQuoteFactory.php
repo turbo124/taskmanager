@@ -7,6 +7,7 @@ use App\Order;
 use App\Quote;
 use App\User;
 use App\Account;
+use Carbon\Carbon;
 
 /**
  * Class CloneOrderToQuoteFactory
@@ -45,7 +46,9 @@ class CloneOrderToQuoteFactory
         $quote->status_id = Quote::STATUS_DRAFT;
         $quote->number = '';
         $quote->date = $order->date;
-        $quote->due_date = $order->due_date;
+        $quote->due_date = !empty($order->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $order->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : $order->due_date;
         $quote->partial_due_date = null;
         $quote->balance = $order->total;
         $quote->line_items = $order->line_items;

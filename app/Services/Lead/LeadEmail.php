@@ -41,7 +41,7 @@ class LeadEmail
      * @param string $reminder_template The template name ie reminder1
      * @return array
      */
-    public function run()
+    public function execute()
     {
         $subject = strlen($this->subject) > 0 ? $this->subject : $this->lead->account->getSetting('email_subject_lead');
         $body = strlen($this->body) > 0 ? $this->body : $this->lead->account->getSetting('email_template_lead');

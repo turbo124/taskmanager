@@ -41,15 +41,30 @@ class InvoiceTest extends TestCase
 
     use DatabaseTransactions, WithFaker;
 
-    private $customer;
+    /**
+     * @var Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    private Customer $customer;
 
-    private $account;
+    /**
+     * @var Account
+     */
+    private Account $account;
 
-    private $main_account;
+    /**
+     * @var Account
+     */
+    private Account $main_account;
 
-    private $user;
+    /**
+     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    private User $user;
 
-    private $objNumberGenerator;
+    /**
+     * @var NumberGenerator
+     */
+    private NumberGenerator $objNumberGenerator;
 
     public function setUp(): void
     {
@@ -233,9 +248,6 @@ class InvoiceTest extends TestCase
     {
         $invoice = factory(Invoice::class)->create();
 
-        $amount = $invoice->total;
-        $balance = $invoice->balance;
-
         $account = $invoice->account;
         $settings = $account->settings;
         $settings->should_archive_invoice = false;
@@ -266,10 +278,6 @@ class InvoiceTest extends TestCase
 
         $paymentables->each(
             function ($paymentable) use ($total_paid) {
-                $reversable_amount = $paymentable->amount - $paymentable->refunded;
-
-                $total_paid -= $reversable_amount;
-
                 $paymentable->amount = $paymentable->refunded;
                 $paymentable->save();
             }

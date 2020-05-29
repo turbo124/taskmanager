@@ -38,7 +38,7 @@ class CancelInvoice
     /**
      * @return Invoice
      */
-    public function run(): Invoice
+    public function execute(): Invoice
     {
         if (!$this->invoice->isCancellable()) {
             return $this->invoice;

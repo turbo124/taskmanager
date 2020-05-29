@@ -15,7 +15,6 @@ class AddForeignKeysToPaymentsTable extends Migration {
 		Schema::table('payments', function(Blueprint $table)
 		{
 			$table->foreign('account_id')->references('id')->on('accounts')->onUpdate('RESTRICT')->onDelete('CASCADE');
-			$table->foreign('client_contact_id')->references('id')->on('client_contacts')->onUpdate('CASCADE')->onDelete('CASCADE');
 			$table->foreign('company_gateway_id')->references('id')->on('company_gateways')->onUpdate('CASCADE')->onDelete('CASCADE');
 			$table->foreign('customer_id')->references('id')->on('customers')->onUpdate('RESTRICT')->onDelete('CASCADE');
 			$table->foreign('type_id', 'payments_payment_type_id_foreign')->references('id')->on('payment_methods')->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -34,7 +33,6 @@ class AddForeignKeysToPaymentsTable extends Migration {
 		Schema::table('payments', function(Blueprint $table)
 		{
 			$table->dropForeign('payments_account_id_foreign');
-			$table->dropForeign('payments_client_contact_id_foreign');
 			$table->dropForeign('payments_company_gateway_id_foreign');
 			$table->dropForeign('payments_customer_id_foreign');
 			$table->dropForeign('payments_payment_type_id_foreign');

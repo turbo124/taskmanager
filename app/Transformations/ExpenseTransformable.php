@@ -21,7 +21,6 @@ trait ExpenseTransformable
             'company_id'            => $expense->company_id,
             'invoice_id'            => $expense->invoice_id,
             'customer_id'           => $expense->customer_id,
-            'customer_name'         => $expense->customer->present()->name(),
             'bank_id'               => (string)$expense->bank_id ?: '',
             'invoice_currency_id'   => (int)$expense->invoice_currency_id ?: '',
             'expense_currency_id'   => (int)$expense->expense_currency_id ?: '',

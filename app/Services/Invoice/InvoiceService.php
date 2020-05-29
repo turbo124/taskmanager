@@ -39,14 +39,14 @@ class InvoiceService extends ServiceBase
      */
     public function cancelInvoice(): Invoice
     {
-        $this->invoice = (new CancelInvoice($this->invoice))->run();
+        $this->invoice = (new CancelInvoice($this->invoice))->execute();
 
         return $this->invoice;
     }
 
     public function sendReminders()
     {
-        (new SendReminders($this->invoice->account->getSettings(), $this->invoice))->run();
+        (new SendReminders($this->invoice->account->getSettings(), $this->invoice))->execute();
 
         return $this;
     }
@@ -58,12 +58,17 @@ class InvoiceService extends ServiceBase
      */
     public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
-        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->run();
+        return (new ReverseInvoicePayment($this->invoice, $credit_repo, $payment_repo))->execute();
     }
 
-    public function getPdf($contact = null)
+    /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function getPdf($contact = null, $update = false)
     {
-        return (new GetPdf($this->invoice, $contact))->run();
+        return (new GetPdf($this->invoice, $contact, $update))->execute();
     }
 
     /**
@@ -73,7 +78,7 @@ class InvoiceService extends ServiceBase
      */
     public function createPayment(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo): ?Invoice
     {
-        $invoice = (new CreatePayment($this->invoice, $payment_repo))->run();
+        $invoice = (new CreatePayment($this->invoice, $payment_repo))->execute();
 
         if (!$invoice) {
             return null;
@@ -96,7 +101,7 @@ class InvoiceService extends ServiceBase
      */
     public function makeInvoicePayment(Payment $payment, float $payment_amount): Invoice
     {
-        $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->run();
+        $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->execute();
 
         event(new InvoiceWasPaid($invoice));
 

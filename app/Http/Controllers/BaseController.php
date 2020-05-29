@@ -129,7 +129,7 @@ class BaseController extends Controller
             case 'clone_quote_to_invoice': // done
                 $invoice = $entity->service()->convertQuoteToInvoice($this->invoice_repo);
 
-                if(!$invoice) {
+                if (!$invoice) {
                     return response()->json('Error');
                 }
 
@@ -158,10 +158,18 @@ class BaseController extends Controller
                     $invoice->customer->increaseBalance($invoice->balance);
                     $invoice->customer->save();
                     $invoice->ledger()->updateBalance($invoice->balance);
+
+                    if (!$bulk) {
+                        return response()->json($this->transformInvoice($invoice));
+                    }
                 }
 
                 if (!$bulk) {
-                    return response()->json($this->transformInvoice($invoice));
+                    if ($this->entity_string === 'Quote') {
+                        return response()->json($this->transformQuote($invoice));
+                    }
+
+                    return response()->json($this->transformCredit($invoice));
                 }
                 break;
             case 'clone_to_credit': // done
@@ -212,7 +220,7 @@ class BaseController extends Controller
                     auth()->user(),
                     auth()->user()->account_user()->account
                 );
-                $this->invoice_repo->save($request->except(['next_send_date', 'created_at']), $invoice);
+                $this->invoice_repo->save($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_invoice_to_quote': // done

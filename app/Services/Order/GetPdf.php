@@ -13,15 +13,31 @@ use Illuminate\Support\Facades\Storage;
 class GetPdf
 {
     private $contact;
-    private $order;
 
-    public function __construct(Order $order, ClientContact $contact = null)
+    /**
+     * @var Order
+     */
+    private Order $order;
+
+    /**
+     * @var bool
+     */
+    private bool $update;
+
+    /**
+     * GetPdf constructor.
+     * @param Order $order
+     * @param ClientContact|null $contact
+     * @param bool $update
+     */
+    public function __construct(Order $order, ClientContact $contact = null, $update = false)
     {
         $this->contact = $contact;
         $this->order = $order;
+        $this->update = $update;
     }
 
-    public function run()
+    public function execute()
     {
         if (!$this->contact) {
             $this->contact = $this->order->customer->primary_contact()->first();
@@ -29,19 +45,23 @@ class GetPdf
 
         $file_path = $this->order->getPdfFilename();
 
-        $design = Design::find($this->order->getDesignId());
-        $objPdf = new PdfData($this->order);
-        $designer =
-            new PdfColumns($objPdf, $this->order, $design, $this->order->account->settings->pdf_variables, 'order');
-
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
 
-        if (!$file) {
-            $file_path = CreatePdf::dispatchNow($objPdf, $this->order, $file_path, $designer, $this->contact);
+        if ($file && $this->update === false) {
+            return $file_path;
         }
 
-        return $file_path;
+        $design = Design::find($this->order->getDesignId());
+
+        $objPdf = new PdfData($this->order);
+
+        $designer =
+            new PdfColumns(
+                $objPdf, $this->order, $design, $this->order->account->settings->pdf_variables, 'order'
+            );
+
+        return CreatePdf::dispatchNow($objPdf, $this->order, $file_path, $designer, $this->contact);
     }
 
 }

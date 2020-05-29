@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Account;
 use App\ClientContact;
 use App\Filters\QuoteFilter;
+use App\Jobs\Product\UpdateProductPrices;
 use App\Repositories\Base\BaseRepository;
 use App\Quote;
 use App\Requests\SearchRequest;
@@ -64,6 +65,10 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
         $quote->save();
 
         $this->saveInvitations($quote, 'quote', $data);
+
+        if ($quote->customer->getSetting('should_update_products') === true) {
+            UpdateProductPrices::dispatchNow($quote->line_items);
+        }
 
         return $quote->fresh();
     }

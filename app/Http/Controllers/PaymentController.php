@@ -124,7 +124,7 @@ class PaymentController extends Controller
     public function destroy(int $id)
     {
         $payment = $this->payment_repo->findPaymentById($id);
-        $payment->deletePayment();
+        $payment->service()->reverseInvoicePayment();
 
         return response()->json('deleted');
     }

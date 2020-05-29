@@ -168,7 +168,6 @@ class Payment extends Model
 
     public function deletePayment(): bool
     {
-
         $this->is_deleted = true;
         $this->save();
 
@@ -179,7 +178,24 @@ class Payment extends Model
         return true;
     }
 
-    public function getFormattedAmount()
+    /********************** Getters and setters ************************************/
+
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
+    public function setNumber()
+    {
+        if (!empty($this->number)) {
+            return true;
+        }
+
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        return true;
+    }
+
+    public function getFormattedTotal()
     {
         return Number::formatCurrency($this->amount, $this->customer);
     }

@@ -13,6 +13,12 @@ class AccountSettings extends BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'portal_dashboard_message'        => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
         'late_fee_endless_percent'        => [
             'required'         => false,
             'translated_value' => '',
@@ -532,7 +538,7 @@ class AccountSettings extends BaseSettings
         'payment_terms'                   => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => -1,
+            'default_value'    => 30,
             'type'             => 'integer'
         ],
         'payment_type_id'                 => [
@@ -731,6 +737,12 @@ class AccountSettings extends BaseSettings
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'should_update_products'          => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
             'type'             => 'bool'
         ],
         'shared_invoice_quote_counter'    => [

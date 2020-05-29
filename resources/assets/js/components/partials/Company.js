@@ -3,22 +3,17 @@ import {
     TabContent,
     TabPane,
     Nav,
-    Alert,
     NavItem,
     NavLink,
     Row,
-    Card,
-    CardText,
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
-    ListGroupItemText,
-    Col
+    ListGroup
 } from 'reactstrap'
-import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_icons'
 import PaymentModel from '../models/PaymentModel'
+import ViewEntityHeader from "../common/entityContainers/ViewEntityHeader";
+import SectionItem from "../common/entityContainers/SectionItem";
+import InfoItem from "../common/entityContainers/InfoItem";
 
 export default class Company extends Component {
     constructor (props) {
@@ -49,6 +44,13 @@ export default class Company extends Component {
     }
 
     render () {
+        const address = <React.Fragment>
+            {this.props.entity.address_1} <br/>
+            {this.props.entity.address_2} <br/>
+            {this.props.entity.town} <br/>
+            {this.props.entity.city} {this.props.entity.postcode}
+        </React.Fragment>
+
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -76,36 +78,13 @@ export default class Company extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Card body outline color="primary">
-                            <CardText className="text-white">
-                                <div className="d-flex">
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.paid_to_date}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.paid_to_date}/>}
-                                    </div>
-
-                                    <div
-                                        className="p-2 flex-fill">
-                                        <h4 className="text-muted">{translations.balance}</h4>
-                                        {<FormatMoney className="text-value-lg"
-                                            amount={this.props.entity.balance}/>}
-                                    </div>
-                                </div>
-                            </CardText>
-                        </Card>
+                        <ViewEntityHeader heading_1={translations.paid_to_date} value_1={this.props.entity.paid_to_date}
+                            heading_2={translations.balance} value_2={this.props.entity.balance}/>
 
                         <Row>
                             <ListGroup className="col-12">
-                                <a href={`/#/expenses?company_id=${this.props.entity.id}`}>
-                                    <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">
-                                        <ListGroupItemHeading><i style={{ fontSize: '24px' }}
-                                            className={`fa ${icons.expense} mr-4`}/>{translations.expenses}
-                                        </ListGroupItemHeading> <i className={`fa ${icons.right}`}/>
-                                    </ListGroupItem>
-                                </a>
+                                <SectionItem link={`/#/expenses?company_id=${this.props.entity.id}`}
+                                    icon={icons.expense} title={translations.expenses}/>
                             </ListGroup>
                         </Row>
                     </TabPane>
@@ -115,104 +94,23 @@ export default class Company extends Component {
                             <ListGroup className="col-12">
                                 {this.props.entity.contacts.map((contact, index) => (
                                     <React.Fragment>
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <Col className="p-0" sm={1}>
-                                                <ListGroupItemHeading><i
-                                                    className={`fa ${icons.envelope} mr-4`}/></ListGroupItemHeading>
-                                            </Col>
-
-                                            <Col sm={11}>
-                                                <ListGroupItemHeading>
-                                                    {contact.first_name} {contact.last_name} <br/>
-                                                    {contact.email}
-                                                </ListGroupItemHeading>
-                                                <ListGroupItemText>
-                                                    {translations.email}
-                                                </ListGroupItemText>
-                                            </Col>
-
-                                        </ListGroupItem>
-
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <Col className="p-0" sm={1}>
-                                                <ListGroupItemHeading><i
-                                                    className={`fa ${icons.phone} mr-4`}/></ListGroupItemHeading>
-                                            </Col>
-
-                                            <Col sm={11}>
-                                                <ListGroupItemHeading>
-                                                    {contact.first_name} {contact.last_name} <br/>
-                                                    {contact.phone}
-                                                </ListGroupItemHeading>
-                                                <ListGroupItemText>
-                                                    {translations.phone_number}
-                                                </ListGroupItemText>
-                                            </Col>
-                                        </ListGroupItem>
+                                        <InfoItem icon={icons.envelope}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.email}`} title={translations.email}/>
+                                        <InfoItem icon={icons.phone}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.phone}`} title={translations.phone_number}/>
                                     </React.Fragment>
 
                                 ))}
 
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.link} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {this.props.entity.website}</ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.website}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.building} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {this.props.entity.vat_number}
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.vat_number}
-                                        </ListGroupItemText>
-                                    </Col>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark">
-                                    <ListGroupItemHeading> <i
-                                        className={`fa ${icons.list} mr-4`}/> {this.props.entity.number}
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        {translations.number}
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-
-                                <ListGroupItem className="list-group-item-dark">
-                                    <Col className="p-0" sm={1}>
-                                        <ListGroupItemHeading><i
-                                            className={`fa ${icons.map_marker}} mr-4`}/></ListGroupItemHeading>
-                                    </Col>
-
-                                    <Col sm={11}>
-                                        <ListGroupItemHeading>
-                                            {this.props.entity.address_1} <br/>
-                                            {this.props.entity.address_2} <br/>
-                                            {this.props.entity.town} <br/>
-                                            {this.props.entity.city} {this.props.entity.postcode}
-
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText>
-                                            {translations.billing_address}
-                                        </ListGroupItemText>
-                                    </Col>
-
-                                </ListGroupItem>
+                                <InfoItem icon={icons.link} value={this.props.entity.website}
+                                    title={translations.website}/>
+                                <InfoItem icon={icons.building} value={this.props.entity.vat_number}
+                                    title={translations.vat_number}/>
+                                <InfoItem icon={icons.list} value={this.props.entity.number}
+                                    title={translations.number}/>
+                                <InfoItem icon={icons.map_marker} value={address} title={translations.billing_address}/>
                             </ListGroup>
                         </Row>
                     </TabPane>
