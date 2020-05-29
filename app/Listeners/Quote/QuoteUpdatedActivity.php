@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Invoice;
+namespace App\Listeners\Quote;
 
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class InvoiceUpdatedActivity implements ShouldQueue
+class QuoteUpdatedActivity implements ShouldQueue
 {
     protected $notification_repo;
 
@@ -31,18 +31,18 @@ class InvoiceUpdatedActivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->invoice->id;
-        $fields['data']['message'] = 'An invoice was updated';
-        $fields['notifiable_id'] = $event->invoice->user_id;
-        $fields['account_id'] = $event->invoice->account_id;
-        $fields['notifiable_type'] = get_class($event->invoice);
+        $fields['data']['id'] = $event->quote->id;
+        $fields['data']['message'] = 'A quote was updated';
+        $fields['notifiable_id'] = $event->quote->user_id;
+        $fields['account_id'] = $event->quote->account_id;
+        $fields['notifiable_type'] = get_class($event->quote);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
+        $notification = NotificationFactory::create($event->quote->account_id, $event->quote->user_id);
         $this->notification_repo->save($notification, $fields);
 
         // regenerate pdf
-        $event->invoice->service()->getPdf(null, true);
+        $event->quote->service()->getPdf(null, true);
     }
 }

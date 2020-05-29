@@ -20,7 +20,7 @@ class SendEmail
      * @param string $reminder_template The template name ie reminder1
      * @return array
      */
-    public function run()
+    public function execute()
     {
         $customer = $this->task->customer;
         $email_builder = (new OrderEmail())->build($this->task, $customer);

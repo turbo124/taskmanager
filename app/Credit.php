@@ -159,9 +159,9 @@ class Credit extends Model
 
     public function setDueDate()
     {
-        $this->due_date = !empty($credit->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
-            $credit->customer->getSetting('payment_terms')
-        )->format('Y-m-d H:i:s') : null
+        $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $this->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null;
     }
 
     public function setStatus(int $status)

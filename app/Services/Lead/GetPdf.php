@@ -20,7 +20,7 @@ class GetPdf
         $this->lead = $lead;
     }
 
-    public function run()
+    public function execute()
     {
         $path = 'storage/' . $this->lead->account->id . '/' . $this->lead->id . '/leads/';
         $file_path = $path . $this->lead->id . '.pdf';

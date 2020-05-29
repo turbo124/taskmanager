@@ -12,13 +12,17 @@ class CreditWasUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $credit;
+    /**
+     * @var Credit
+     */
+    public Credit $credit;
 
-    public $account;
-
-    public function __construct(Credit $credit, Account $account)
+    /**
+     * CreditWasUpdated constructor.
+     * @param Credit $credit
+     */
+    public function __construct(Credit $credit)
     {
-        $this->invoice = $credit;
-        $this->account = $account;
+        $this->credit = $credit;
     }
 }

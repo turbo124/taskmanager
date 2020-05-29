@@ -13,15 +13,31 @@ use Illuminate\Support\Facades\Storage;
 class GetPdf
 {
     private $contact;
-    private $invoice;
 
-    public function __construct(Invoice $invoice, ClientContact $contact = null)
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
+
+    /**
+     * @var bool
+     */
+    private bool $update;
+
+    /**
+     * GetPdf constructor.
+     * @param Invoice $invoice
+     * @param ClientContact|null $contact
+     * @param bool $update
+     */
+    public function __construct(Invoice $invoice, ClientContact $contact = null, $update = false)
     {
         $this->contact = $contact;
         $this->invoice = $invoice;
+        $this->update = $update;
     }
 
-    public function run()
+    public function execute()
     {
         if (!$this->contact) {
             $this->contact = $this->invoice->customer->primary_contact()->first();
@@ -32,7 +48,7 @@ class GetPdf
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
 
-        if ($file) {
+        if ($file && $this->update === false) {
             return $file_path;
         }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Order\OrderWasCreated;
+use App\Events\Order\OrderWasUpdated;
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\OrderFactory;
@@ -67,10 +68,17 @@ class OrderController extends BaseController
         return response()->json($invoices);
     }
 
+    /**
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function update(int $id, Request $request)
     {
         $order = $this->order_repo->findOrderById($id);
         $this->order_repo->save($request->all(), $order);
+        event(new OrderWasUpdated($order));
         return response()->json($this->transformOrder($order));
     }
 

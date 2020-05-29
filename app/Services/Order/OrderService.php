@@ -29,11 +29,12 @@ class OrderService extends ServiceBase
 
     /**
      * @param null $contact
+     * @param bool $update
      * @return mixed|string
      */
-    public function getPdf($contact = null)
+    public function getPdf($contact = null, $update = false)
     {
-        return (new GetPdf($this->order, $contact))->run();
+        return (new GetPdf($this->order, $contact, $update))->execute();
     }
 
     /**
@@ -63,7 +64,7 @@ class OrderService extends ServiceBase
         $this->order->save();
 
         if ($this->order->customer->getSetting('should_convert_order')) {
-            $invoice = (new ConvertOrder($invoice_repo, $this->order))->run();
+            $invoice = (new ConvertOrder($invoice_repo, $this->order))->execute();
             $this->order->setInvoiceId($invoice->id);
             $this->order->save();
         }

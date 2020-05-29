@@ -144,8 +144,7 @@ class InvoiceController extends BaseController
         //SaveRecurringInvoice::dispatchNow($request, $invoice->account);
         InvoiceOrders::dispatchNow($invoice);
         event(new InvoiceWasUpdated($invoice, $invoice->account));
-        $invoiceTransformed = $this->transformInvoice($invoice);
-        return $invoiceTransformed->toJson();
+        return response()->json($this->transformInvoice($invoice));
     }
 
     public function action(Request $request, Invoice $invoice, $action)

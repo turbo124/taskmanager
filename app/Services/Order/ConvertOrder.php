@@ -22,7 +22,7 @@ class ConvertOrder
      * @param $quote
      * @return mixed
      */
-    public function run()
+    public function execute()
     {
         $invoice = CloneOrderToInvoiceFactory::create($this->order, $this->order->user, $this->order->account);
         $invoice->status_id = Invoice::STATUS_SENT;

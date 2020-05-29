@@ -28,7 +28,7 @@ class ConvertLead
         $this->lead = $lead;
     }
 
-    public function run()
+    public function execute()
     {
         if ($this->lead->task_status === Lead::STATUS_COMPLETED) {
             return false;

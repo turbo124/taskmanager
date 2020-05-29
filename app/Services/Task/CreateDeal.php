@@ -79,7 +79,7 @@ class CreateDeal
         $this->is_deal = $is_deal;
     }
 
-    public function run()
+    public function execute()
     {
         DB::beginTransaction();
 

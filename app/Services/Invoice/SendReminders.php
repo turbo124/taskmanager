@@ -91,7 +91,7 @@ class SendReminders
         $this->invoice->line_items = $line_items;
     }
 
-    public function run()
+    public function execute()
     {
         if ($this->invoice->is_deleted || !in_array(
                 $this->invoice->status_id,

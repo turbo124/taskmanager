@@ -34,7 +34,7 @@ class LeadService extends ServiceBase
      */
     public function convertLead(): Lead
     {
-        $lead = (new ConvertLead($this->lead))->run();
+        $lead = (new ConvertLead($this->lead))->execute();
 
         // trigger
         $subject = trans('texts.lead_converted_subject');
@@ -51,7 +51,7 @@ class LeadService extends ServiceBase
      */
     public function sendEmail($subject = '', $body = '', $template = 'lead')
     {
-        return (new LeadEmail($this->lead, $subject, $body))->run();
+        return (new LeadEmail($this->lead, $subject, $body))->execute();
     }
 
     public function getPdf()

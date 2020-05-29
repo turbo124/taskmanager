@@ -20,7 +20,7 @@ class MakeInvoicePayment
         $this->payment_amount = $payment_amount;
     }
 
-    public function run()
+    public function execute()
     {
         $this->payment->ledger()->updateBalance($this->payment_amount * -1);
 

@@ -19,7 +19,7 @@ class PaymentService extends ServiceBase
 
     public function sendEmail()
     {
-        return (new PaymentEmail($this->payment))->run();
+        return (new PaymentEmail($this->payment))->execute();
     }
 
     /**
@@ -27,6 +27,6 @@ class PaymentService extends ServiceBase
      */
     public function reverseInvoicePayment(): Payment
     {
-        return (new ReverseInvoicePayment($this->payment))->run();
+        return (new ReverseInvoicePayment($this->payment))->execute();
     }
 }

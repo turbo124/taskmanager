@@ -52,7 +52,7 @@ class ReverseInvoicePayment
         $this->note = "Credit for reversal of " . $this->invoice->getNumber();
     }
 
-    public function run()
+    public function execute()
     {
         if (!$this->invoice->isReversable()) {
             return $this->invoice;

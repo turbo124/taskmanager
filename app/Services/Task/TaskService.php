@@ -48,7 +48,7 @@ class TaskService extends ServiceBase
     {
         $send_email = new SendEmail($this->task);
 
-        $this->task = $send_email->run();
+        $this->task = $send_email->execute();
 
         return $this->task;
     }
@@ -70,7 +70,7 @@ class TaskService extends ServiceBase
     ) {
         $create_deal = new CreateDeal($this->task, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
 
-        $this->task = $create_deal->run();
+        $this->task = $create_deal->execute();
 
         return $this->task;
     }
@@ -90,7 +90,7 @@ class TaskService extends ServiceBase
     ) {
         $update_lead = new UpdateLead($this->task, $request, $customer_repo, $task_repo, $is_lead);
 
-        $this->task = $update_lead->run();
+        $this->task = $update_lead->execute();
         return $this->task;
     }
 
@@ -111,7 +111,7 @@ class TaskService extends ServiceBase
         $this->task->save();
 
         if ($this->task->customer->getSetting('should_convert_deal')) {
-            //$invoice = (new ConvertDeal($this->quote, $invoice_repo))->run();
+            //$invoice = (new ConvertDeal($this->quote, $invoice_repo))->execute();
             //$this->quote->setInvoiceId($invoice->id);
             //$this->quote->save();
         }

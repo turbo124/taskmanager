@@ -36,7 +36,7 @@ class QuoteService extends ServiceBase
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('should_convert_quote')) {
-           (new ConvertQuote($this->quote, $invoice_repo))->run();
+           (new ConvertQuote($this->quote, $invoice_repo))->execute();
         }
 
         event(new QuoteWasApproved($this->quote));
@@ -49,9 +49,14 @@ class QuoteService extends ServiceBase
         return $this->quote;
     }
 
-    public function getPdf($contact = null)
+    /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function getPdf($contact = null, $update = false)
     {
-        return (new GetPdf($this->quote, $contact))->run();
+        return (new GetPdf($this->quote, $contact, $update))->execute();
     }
 
     /**
@@ -80,6 +85,6 @@ class QuoteService extends ServiceBase
      */
     public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {
-        return (new ConvertQuote($this->quote, $invoice_repository))->run();
+        return (new ConvertQuote($this->quote, $invoice_repository))->execute();
     }
 }

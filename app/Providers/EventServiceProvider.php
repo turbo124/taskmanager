@@ -10,6 +10,7 @@ use App\Events\Order\OrderWasMarkedSent;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
 use App\Events\Payment\PaymentFailed;
+use App\Listeners\Credit\CreditUpdatedActivity;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Deal\DealWasCreated;
@@ -49,6 +50,7 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
+use App\Listeners\Order\OrderUpdatedActivity;
 use App\Listeners\Payment\PaymentCreatedActivity;
 use App\Listeners\Payment\PaymentDeletedActivity;
 use App\Listeners\Payment\PaymentFailedActivity;
@@ -81,6 +83,7 @@ use App\Listeners\Entity\EntityViewedListener;
 use App\Listeners\Order\OrderNotification;
 use App\Listeners\Payment\PaymentNotification;
 use App\Listeners\NewUserNotification;
+use App\Listeners\Quote\QuoteUpdatedActivity;
 use App\Listeners\Quote\SendQuoteApprovedNotification;
 use App\Listeners\User\DeletedUserActivity;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -157,6 +160,9 @@ class EventServiceProvider extends ServiceProvider
         QuoteWasCreated::class      => [
             QuoteCreatedActivity::class
         ],
+        QuoteWasUpdated::class      => [
+            QuoteUpdatedActivity::class
+        ],
         QuoteWasDeleted::class      => [
             QuoteDeletedActivity::class
         ],
@@ -176,6 +182,9 @@ class EventServiceProvider extends ServiceProvider
         OrderWasArchived::class     => [
             OrderArchivedActivity::class
         ],
+        OrderWasUpdated::class      => [
+            OrderUpdatedActivity::class
+        ],
         OrderWasMarkedSent::class   => [
             OrderMarkedSentActivity::class
         ],
@@ -188,6 +197,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CreditWasArchived::class    => [
             CreditArchivedActivity::class
+        ],
+        CreditWasUpdated::class     => [
+            CreditUpdatedActivity::class
         ],
         CreditWasMarkedSent::class  => [
             CreditMarkedSentActivity::class

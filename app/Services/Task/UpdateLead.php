@@ -40,7 +40,7 @@ class UpdateLead
         $this->is_lead = $is_lead;
     }
 
-    public function run()
+    public function execute()
     {
         $customer = $this->task->customer;
 

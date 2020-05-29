@@ -18,7 +18,7 @@ class ReverseInvoicePayment
     /**
      * @return Payment|null
      */
-    public function run(): ?Payment
+    public function execute(): ?Payment
     {
         $this->reversePayment();
         $this->updateCustomer();
