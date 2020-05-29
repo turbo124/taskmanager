@@ -26,6 +26,20 @@ interface QuoteRepositoryInterface extends BaseRepositoryInterface
     public function getAll(SearchRequest $search_request, Account $account);
 
     /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function createQuote(array $data, Quote $quote): ?Quote;
+
+    /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function updateQuote(array $data, Quote $quote): ?Quote;
+
+    /**
      * @param $data
      * @param Quote $quote
      * @return Quote|null

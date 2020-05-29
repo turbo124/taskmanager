@@ -4,8 +4,12 @@ namespace App\Repositories;
 
 use App\Account;
 use App\ClientContact;
+use App\Events\Quote\QuoteWasCreated;
+use App\Events\Quote\QuoteWasUpdated;
 use App\Filters\QuoteFilter;
+use App\Jobs\Order\QuoteOrders;
 use App\Jobs\Product\UpdateProductPrices;
+use App\Jobs\RecurringQuote\SaveRecurringQuote;
 use App\Repositories\Base\BaseRepository;
 use App\Quote;
 use App\Requests\SearchRequest;
@@ -51,6 +55,35 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     }
 
     /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote
+     */
+    public function createQuote(array $data, Quote $quote): ?Quote
+    {
+        $quote = $this->save($data, $quote);
+        SaveRecurringQuote::dispatchNow($data, $quote);
+        QuoteOrders::dispatchNow($quote);
+        event(new QuoteWasCreated($quote));
+
+        return $quote;
+    }
+
+    /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function updateQuote(array $data, Quote $quote): ?Quote
+    {
+        $quote = $this->save($data, $quote);
+        QuoteOrders::dispatchNow($quote);
+        event(new QuoteWasUpdated($quote));
+
+        return $quote;
+    }
+
+    /**
      * @param $data
      * @param Quote $quote
      * @return Quote|null
@@ -66,9 +99,9 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 
         $this->saveInvitations($quote, 'quote', $data);
 
-        if ($quote->customer->getSetting('should_update_products') === true) {
+        //if ($quote->customer->getSetting('should_update_products') === true) {
             UpdateProductPrices::dispatchNow($quote->line_items);
-        }
+        //}
 
         return $quote->fresh();
     }

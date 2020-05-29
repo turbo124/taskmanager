@@ -88,13 +88,10 @@ class InvoiceController extends BaseController
     public function store(CreateInvoiceRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $invoice = $this->invoice_repo->save(
+        $invoice = $this->invoice_repo->createInvoice(
             $request->all(),
             InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
-        InvoiceOrders::dispatchNow($invoice);
-        event(new InvoiceWasCreated($invoice));
-        SaveRecurringInvoice::dispatchNow($request, $invoice->account, $invoice);
 
         return response()->json($this->transformInvoice($invoice));
     }
@@ -139,11 +136,7 @@ class InvoiceController extends BaseController
     public function update(UpdateInvoiceRequest $request, int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
-
-        $invoice = $this->invoice_repo->save($request->all(), $invoice);
-        //SaveRecurringInvoice::dispatchNow($request, $invoice->account);
-        InvoiceOrders::dispatchNow($invoice);
-        event(new InvoiceWasUpdated($invoice, $invoice->account));
+        $invoice = $this->invoice_repo->updateInvoice($request->all(), $invoice);
         return response()->json($this->transformInvoice($invoice));
     }
 

@@ -196,7 +196,7 @@ class BaseController extends Controller
                 break;
             case 'download': //done
                 $disk = config('filesystems.default');
-                $content = Storage::disk($disk)->get($entity->service()->getPdf(null));
+                $content = Storage::disk($disk)->get($entity->service()->generatePdf(null));
                 return response()->json(['data' => base64_encode($content)]);
                 break;
             case 'archive': //done
@@ -326,7 +326,7 @@ class BaseController extends Controller
         $pdfs = [];
 
         foreach ($entities as $entity) {
-            $content = Storage::disk($disk)->get($entity->service()->getPdf(null));
+            $content = Storage::disk($disk)->get($entity->service()->generatePdf(null));
             $pdfs[$entity->number] = base64_encode($content);
         }
 
@@ -345,7 +345,7 @@ class BaseController extends Controller
         $entity = $invitation->{strtolower($this->entity_string)};
 
         $disk = config('filesystems.default');
-        $content = Storage::disk($disk)->get($entity->service()->getPdf($contact));
+        $content = Storage::disk($disk)->get($entity->service()->generatePdf($contact));
 
         if (request()->has('markRead') && request()->input('markRead') === 'true') {
             $invitation->markViewed();

@@ -43,6 +43,6 @@ class CreditUpdatedActivity implements ShouldQueue
         $this->notification_repo->save($notification, $fields);
 
         // regenerate pdf
-        $event->credit->service()->getPdf(null, true);
+        $event->credit->service()->generatePdf(null, true);
     }
 }

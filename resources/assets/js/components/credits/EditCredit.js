@@ -31,6 +31,7 @@ import CreditModel from '../models/CreditModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import Emails from '../emails/Emails'
 import { icons, translations } from '../common/_icons'
+import NoteTabs from '../common/NoteTabs'
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -422,6 +423,8 @@ export default class EditCredit extends Component {
             </NavItem>
         </Nav>
 
+        const isMobile = this.state.width <= 500
+
         const details = <Details handleInput={this.handleInput}
             customers={this.props.customers}
             errors={this.state.errors} credit={this.state}
@@ -444,9 +447,13 @@ export default class EditCredit extends Component {
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
 
-        const notes = <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-            terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
-            handleInput={this.handleInput}/>
+        const notes = !isMobile
+            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
+            : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
 
         const email_editor = this.state.id
             ? <Emails emails={this.state.emails} template="email_template_credit" show_editor={true} entity="credit"
@@ -461,7 +468,6 @@ export default class EditCredit extends Component {
                 handleTaskChange={this.handleTaskChange}
                 action={this.props.action}/> : null
 
-        const isMobile = this.state.width <= 500
         const form = isMobile
             ? <React.Fragment>
 

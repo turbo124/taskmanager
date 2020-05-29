@@ -98,13 +98,11 @@ class QuoteController extends BaseController
     public function store(CreateQuoteRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $quote = $this->quote_repo->save(
+        $quote = $this->quote_repo->createQuote(
             $request->all(),
             QuoteFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
-        SaveRecurringQuote::dispatchNow($request, $quote->account, $quote);
-        QuoteOrders::dispatchNow($quote);
-        event(new QuoteWasCreated($quote));
+
         return response()->json($this->transformQuote($quote));
     }
 
@@ -117,10 +115,8 @@ class QuoteController extends BaseController
     {
         $quote = $this->quote_repo->findQuoteById($id);
 
-        $quote = $this->quote_repo->save($request->all(), $quote);
-        //SaveRecurringQuote::dispatchNow($request, $quote->account);
-        QuoteOrders::dispatchNow($quote);
-        event(new QuoteWasUpdated($quote));
+        $quote = $this->quote_repo->updateQuote($request->all(), $quote);
+
         return response()->json($this->transformQuote($quote));
     }
 

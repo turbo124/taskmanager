@@ -24,7 +24,7 @@ export default class Emails extends Component {
             settings: [],
             id: localStorage.getItem('account_id'),
             loaded: false,
-            activeTab: '1',
+            active_email_tab: '1',
             preview: null,
             subject: '',
             body: '',
@@ -36,7 +36,7 @@ export default class Emails extends Component {
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
         this.handleChange = this.handleChange.bind(this)
-        this.toggle = this.toggle.bind(this)
+        this.toggleEmailTab = this.toggleEmailTab.bind(this)
         this.getAccount = this.getAccount.bind(this)
         this.getPreview = this.getPreview.bind(this)
         this.buildPreviewData = this.buildPreviewData.bind(this)
@@ -123,9 +123,9 @@ export default class Emails extends Component {
             })
     }
 
-    toggle (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
+    toggleEmailTab (tab) {
+        if (this.state.active_email_tab !== tab) {
+            this.setState({ active_email_tab: tab }, () => {
                 if (tab === '1') {
                     this.getPreview()
                 }
@@ -160,9 +160,9 @@ export default class Emails extends Component {
                 <Nav tabs>
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            className={this.state.active_email_tab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggle('1')
+                                this.toggleEmailTab('1')
                             }}>
                             Preview
                         </NavLink>
@@ -170,9 +170,9 @@ export default class Emails extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            className={this.state.active_email_tab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggle('2')
+                                this.toggleEmailTab('2')
                             }}>
                             Customise
                         </NavLink>
@@ -180,16 +180,16 @@ export default class Emails extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            className={this.state.active_email_tab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggle('3')
+                                this.toggleEmailTab('3')
                             }}>
                             History
                         </NavLink>
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.active_email_tab}>
 
                     <TabPane tabId="1">
                         <Card>

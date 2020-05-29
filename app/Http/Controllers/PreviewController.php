@@ -46,7 +46,7 @@ class PreviewController extends Controller
                 return $this->blankEntity();
             }
 
-            $file_path = $entity_obj->service()->getPdf();
+            $file_path = $entity_obj->service()->generatePdf();
 
             return response()->json(['data' => base64_encode(file_get_contents($file_path))]);
         }
@@ -90,7 +90,7 @@ class PreviewController extends Controller
             ]
         );
 
-        $file_path = $invoice->service()->getPdf();
+        $file_path = $invoice->service()->generatePdf();
 
         $invoice->forceDelete();
         $contact->forceDelete();

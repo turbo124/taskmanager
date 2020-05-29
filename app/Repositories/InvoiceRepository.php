@@ -4,7 +4,11 @@ namespace App\Repositories;
 
 use App\Account;
 use App\Customer;
+use App\Events\Invoice\InvoiceWasCreated;
+use App\Events\Invoice\InvoiceWasUpdated;
 use App\Filters\InvoiceFilter;
+use App\Jobs\Order\InvoiceOrders;
+use App\Jobs\RecurringInvoice\SaveRecurringInvoice;
 use App\NumberGenerator;
 use App\Factory\InvoiceInvitationFactory;
 use App\Invoice;
@@ -76,6 +80,40 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function updateInvoice(array $data, Invoice $invoice): ?Invoice
+    {
+        $invoice = $this->save($data, $invoice);
+        InvoiceOrders::dispatchNow($invoice);
+        event(new InvoiceWasUpdated($invoice));
+
+        return $invoice;
+    }
+
+    /**
+     * @param array $data
+     * @param Invoice $invoice
+     */
+    public function createInvoice(array $data, Invoice $invoice): ?Invoice
+    {
+        $invoice = $this->save($data, $invoice);
+
+        if (!empty($invoice->line_items) && $invoice->customer->getSetting('should_update_inventory')) {
+            UpdateInventory::dispatch($invoice->line_items);
+        }
+
+        InvoiceOrders::dispatchNow($invoice);
+        SaveRecurringInvoice::dispatchNow($data, $invoice->account, $invoice);
+
+        event(new InvoiceWasCreated($invoice));
+
+        return $invoice;
+    }
+
+    /**
+     * @param array $data
      * @param Invoice $invoice
      * @return Invoice|null
      */
@@ -95,9 +133,6 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
             $invoice->ledger()->updateBalance(($invoice->total - $original_amount));
         }
 
-        if (!empty($invoice->line_items) && $invoice->customer->getSetting('should_update_inventory')) {
-            UpdateInventory::dispatch($invoice->line_items);
-        }
 
         return $invoice->fresh();
     }

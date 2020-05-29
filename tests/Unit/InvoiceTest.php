@@ -95,7 +95,7 @@ class InvoiceTest extends TestCase
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $invoiceRepo = new InvoiceRepository($invoice);
-        $updated = $invoiceRepo->save($data, $invoice);
+        $updated = $invoiceRepo->updateInvoice($data, $invoice);
         $found = $invoiceRepo->findInvoiceById($invoice->id);
         $this->assertInstanceOf(Invoice::class, $updated);
         $this->assertEquals($data['customer_id'], $found->customer_id);
@@ -167,7 +167,7 @@ class InvoiceTest extends TestCase
         ];
 
         $invoiceRepo = new InvoiceRepository(new Invoice);
-        $invoice = $invoiceRepo->save($data, $factory);
+        $invoice = $invoiceRepo->createInvoice($data, $factory);
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals($data['customer_id'], $invoice->customer_id);
     }

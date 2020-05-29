@@ -54,7 +54,7 @@ class Download implements ShouldQueue
 
         if ($zip->open($path, ZipArchive::CREATE) === true) {
             foreach ($this->invoices as $invoice) {
-                $file = $invoice->service()->getPdf();
+                $file = $invoice->service()->generatePdf();
 
                 $relativeNameInZipFile = basename($file);
 

@@ -180,11 +180,11 @@ class Quote extends Model
 
     public function setNumber()
     {
-        if (!empty($this->number)) {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
             return true;
         }
 
-        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
         return true;
     }
 

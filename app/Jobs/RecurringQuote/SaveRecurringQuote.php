@@ -17,19 +17,24 @@ class SaveRecurringQuote
 {
     use Dispatchable;
 
-    private $request;
-    private $account;
-    private $quote;
+    /**
+     * @var array
+     */
+    private array $request;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @var Quote
      */
-    public function __construct(Request $request, Account $account, Quote $quote)
+    private Quote $quote;
+
+    /**
+     * SaveRecurringQuote constructor.
+     * @param array $request
+     * @param Quote $quote
+     */
+    public function __construct(array $request, Quote $quote)
     {
         $this->request = $request;
-        $this->account = $account;
         $this->quote = $quote;
     }
 
@@ -38,8 +43,8 @@ class SaveRecurringQuote
      */
     public function handle(): ?RecurringQuote
     {
-        if ($this->request->has('recurring') && !empty($this->request->recurring)) {
-            $recurring = json_decode($this->request->recurring, true);
+        if (!empty($this->request['recurring'])) {
+            $recurring = json_decode($this->request['recurring'], true);
             $arrRecurring['start_date'] = $recurring['start_date'];
             $arrRecurring['end_date'] = $recurring['end_date'];
             $arrRecurring['frequency'] = $recurring['frequency'];

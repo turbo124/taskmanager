@@ -5,7 +5,7 @@ import { translations } from './_icons'
 export default function Notes (props) {
     return (
         <Card>
-            <CardHeader>Notes</CardHeader>
+            <CardHeader>{translations.notes}</CardHeader>
             <CardBody>
                 {Object.prototype.hasOwnProperty.call(props, 'private_notes') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">

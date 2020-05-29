@@ -37,10 +37,13 @@ export const icons = {
     expense: 'fa-bar-chart-o',
     company: 'fa-building',
     product: 'fa-barcode',
-    order: 'fa-shopping-cart'
+    order: 'fa-shopping-cart',
+    calendar: 'fa-calendar',
+    percent: 'fa-percent'
 }
 
 export const translations = {
+    code: 'Code',
     add_payment_term: 'Add Payment Term',
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',

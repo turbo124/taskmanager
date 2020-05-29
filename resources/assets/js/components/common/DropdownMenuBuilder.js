@@ -142,124 +142,124 @@ export default class DropdownMenuBuilder extends Component {
     getOption (option) {
         switch (option) {
             case 'pdf':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={1} className="primary"
                     onClick={() => this.changeStatus('download')}><i
                         className={`fa ${icons.download} mr-2`}/>{translations.download}</DropdownItem>
 
             case 'email':
-                return <DropdownItem className="primary" onClick={() => this.changeStatus('email')}>
+                return <DropdownItem key={2} className="primary" onClick={() => this.changeStatus('email')}>
                     <i className={`fa ${icons.email} mr-2`}/>{translations.send_email}
                 </DropdownItem>
 
             case 'approve':
-                return <DropdownItem className="primary" onClick={() => this.changeStatus('approve')}>
+                return <DropdownItem key={3} className="primary" onClick={() => this.changeStatus('approve')}>
                     <i className={`fa ${icons.approve} mr-2`}/>{translations.approve}
                 </DropdownItem>
 
             case 'markSent':
-                return <DropdownItem onClick={() => this.changeStatus('mark_sent')}>
+                return <DropdownItem key={4} onClick={() => this.changeStatus('mark_sent')}>
                     <i className={`fa ${icons.mark_sent} mr-2`}/>{translations.mark_sent}
                 </DropdownItem>
 
             case 'cloneToInvoice':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={5} className="primary"
                     onClick={() => this.changeStatus('clone_to_invoice')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Invoice
                 </DropdownItem>
 
             case 'cloneToQuote':
-                return <DropdownItem className="primary" onClick={() => this.changeStatus('clone_to_quote')}>
+                return <DropdownItem key={6} className="primary" onClick={() => this.changeStatus('clone_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone To Quote
                 </DropdownItem>
 
             case 'cloneCreditToQuote':
-                return <DropdownItem className="primary" onClick={() => this.changeStatus('clone_credit_to_quote')}>
+                return <DropdownItem key={7} className="primary" onClick={() => this.changeStatus('clone_credit_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Credit To Quote
                 </DropdownItem>
 
             case 'cloneInvoiceToQuote':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={8} className="primary"
                     onClick={() => this.changeStatus('clone_invoice_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone To Quote
                 </DropdownItem>
 
             case 'dispatch':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={9} className="primary"
                     onClick={() => this.changeStatus('dispatch')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Dispatch
                 </DropdownItem>
 
             case 'cloneOrderToInvoice':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={10} className="primary"
                     onClick={() => this.changeStatus('clone_order_to_invoice')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Invoice
                 </DropdownItem>
 
             case 'cloneOrderToQuote':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={11} className="primary"
                     onClick={() => this.changeStatus('clone_order_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Quote
                 </DropdownItem>
 
             case 'cloneQuoteToInvoice':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={12} className="primary"
                     onClick={() => this.changeStatus('clone_quote_to_invoice')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone To Invoice
                 </DropdownItem>
 
             case 'cloneToCredit':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={13} className="primary"
                     onClick={() => this.changeStatus('clone_to_credit')}>
                     <i className={`fa ${icons.clone} mr-2`}/>Clone Credit
                 </DropdownItem>
 
             case 'clone_to_order':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={14} className="primary"
                     onClick={() => this.changeStatus('clone_to_order')}>
                     <i className={`fa ${icons.clone} mr-2`}/>Clone Order
                 </DropdownItem>
 
             case 'markPaid':
-                return <DropdownItem color="primary" onClick={() => this.changeStatus('create_payment')}>
+                return <DropdownItem key={15} color="primary" onClick={() => this.changeStatus('create_payment')}>
                     <i className={`fa ${icons.mark_paid} mr-2`}/>{translations.mark_paid}
                 </DropdownItem>
 
             case 'cloneExpense':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={16} className="primary"
                     onClick={() => this.changeStatus('clone_to_expense')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Expense
                 </DropdownItem>
 
             case 'delete':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={17} className="primary"
                     onClick={() => this.changeStatus('delete')}>
                     <i className={`fa ${icons.delete} mr-2`}/>{translations.delete}</DropdownItem>
 
             case 'cancel':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={18} className="primary"
                     onClick={() => this.changeStatus('cancel')}>
                     <i className={`fa ${icons.cancel} mr-2`}/> {translations.cancel}
                 </DropdownItem>
 
             case 'reverse':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={19} className="primary"
                     onClick={() => this.changeStatus('reverse')}>
                     <i className={`fa ${icons.reverse} mr-2`}/>{translations.reverse}
                 </DropdownItem>
 
             case 'archive':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={20} className="primary"
                     onClick={() => this.changeStatus('archive')}>
                     <i className={`fa ${icons.archive} mr-2`}/>{translations.archive}
                 </DropdownItem>
 
             case 'getProducts':
-                return <DropdownItem className="primary" onClick={this.props.handleTaskChange}>
+                return <DropdownItem key={21} className="primary" onClick={this.props.handleTaskChange}>
                     <i className={`fa ${icons.products} mr-2`}/>Get Products
                 </DropdownItem>
 
             case 'refund':
-                return <DropdownItem className="primary"
+                return <DropdownItem key={22} className="primary"
                     onClick={() => this.changeStatus('refund')}>{translations.refund}</DropdownItem>
         }
     }

@@ -131,7 +131,7 @@ class DesignTest extends TestCase
         $this->customer->settings = $settings;
         $this->customer->save();
 
-        $this->quote->service()->getPdf();
+        $this->quote->service()->generatePdf();
     }
 
     public function testInvoiceDesignExists()
@@ -160,6 +160,6 @@ class DesignTest extends TestCase
         $this->customer->settings = $settings;
         $this->customer->save();
 
-        $this->invoice->service()->getPdf();
+        $this->invoice->service()->generatePdf();
     }
 }
