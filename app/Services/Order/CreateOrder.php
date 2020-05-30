@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Task;
+namespace App\Services\Order;
 
 use App\Address;
 use App\ClientContact;
@@ -31,7 +31,7 @@ class CreateDeal
     /**
      * @var Task
      */
-    private $task;
+    private Order $order;
     private $request;
 
     /**
@@ -64,14 +64,14 @@ class CreateDeal
      * @param $is_deal
      */
     public function __construct(
-        Task $task,
+        Order $order,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
         $is_deal
     ) {
-        $this->task = $task;
+        $this->order = $order;
         $this->request = $request;
         $this->customer_repo = $customer_repo;
         $this->order_repo = $order_repo;
@@ -118,14 +118,15 @@ class CreateDeal
     private function saveTask(Customer $customer): ?Task
     {
         try {
+            $task = TaskFactory::create($this->order->account, $this->order->user);
             $date = new DateTime(); // Y-m-d
             $date->add(new DateInterval('P30D'));
             $due_date = $date->format('Y-m-d');
 
-            $this->task = $this->task_repo->save(
+            $task = $this->task_repo->save(
                 [
                     'due_date'    => $due_date,
-                    'created_by'  => $this->task->user_id,
+                    'created_by'  => $this->order->user_id,
                     'source_type' => $this->request->source_type,
                     'title'       => $this->request->title,
                     'description' => isset($this->request->description) ? $this->request->description : '',
@@ -134,11 +135,11 @@ class CreateDeal
                     'task_type'   => $this->is_deal === true ? 3 : 2,
                     'task_status' => $this->request->task_status
                 ],
-                $this->task
+                $task
             );
 
             if (!empty($this->request->contributors)) {
-                $this->task->users()->sync($this->request->input('contributors'));
+                $task->users()->sync($this->request->input('contributors'));
             }
 
             event(new DealWasCreated($this->task, $this->task->account));
@@ -255,8 +256,6 @@ class CreateDeal
                 ];
             }
 
-            $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
-
             $order = $this->order_repo->createOrder(
                 [
                     'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
@@ -272,10 +271,10 @@ class CreateDeal
                         $this->request->tax_rate
                     ) : 0,
                     'line_items'        => $this->request->products,
-                    'task_id'           => $this->task->id,
+                    'task_id'           => isset($this->task) ? $this->task->id : null,
                     'date'              => date('Y-m-d')
                 ],
-                $order
+                $this->order
             );
 
             $subject = $order->customer->getSetting('email_subject_order_received');
