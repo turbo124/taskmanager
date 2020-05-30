@@ -212,16 +212,13 @@ class TaskController extends Controller
         $user = $token->user;
         $account = $token->account;
 
-        $order = (new OrderFactory)->create($user, $account);
-        $task = $task->service()->createDeal(
+        $task = (new Order)->service()->createOrder(
             $request,
             (new CustomerRepository(new Customer)),
             new OrderRepository(new Order),
             new TaskRepository(new Task, new ProjectRepository(new Project)),
             true
         );
-
-        event(new DealWasCreated($task, $task->account));
 
         return response()->json($task);
     }
