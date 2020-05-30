@@ -151,7 +151,8 @@ class SendEmail implements ShouldQueue
             ->whereEntity($entity)
             ->whereEntityId($this->entity->id)
             ->whereRecipientEmail($this->contact->present()->email)
-            ->whereFailedToSend(1);
+            ->whereFailedToSend(1)
+            ->first();
 
 
         if(!empty($email) && !$sent_successfully) {
