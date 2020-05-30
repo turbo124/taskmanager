@@ -4,6 +4,8 @@ namespace App\Services\Order;
 
 use App\Events\Order\OrderWasHeld;
 use App\Invoice;
+use App\Account;
+use App\User;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasEmailed;
 use App\Order;
@@ -63,13 +65,15 @@ class OrderService extends ServiceBase
      * @return Task|null
      */
     public function createOrder(
+        Account $account,
+        User $user,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
         $is_deal = true
     ) {
-        $create_order = new CreateOrder($this->task, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
+        $create_order = new CreateOrder($account, $user, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
 
         $this->order = $create_order->execute();
 
