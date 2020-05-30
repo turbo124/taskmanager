@@ -211,7 +211,7 @@ class TaskController extends Controller
         $user = $token->user;
         $account = $token->account;
 
-        $task = (new TaskFactory())->create($user, $account);
+        $order = (new OrderFactory)->create($user, $account);
         $task = $task->service()->createDeal(
             $request,
             (new CustomerRepository(new Customer)),
