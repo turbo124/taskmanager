@@ -109,7 +109,7 @@ class CreateDeal
             }
 
             DB::commit();
-            return $this->task;
+            return $order;
         } catch (\Exception $e) {
             DB::rollback();
         }
@@ -256,7 +256,7 @@ class CreateDeal
                 ];
             }
 
-            $order = $this->order_repo->createOrder(
+            $this->order = $this->order_repo->createOrder(
                 [
                     'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
                     'invitations'       => $invitations,
@@ -277,12 +277,12 @@ class CreateDeal
                 $this->order
             );
 
-            $subject = $order->customer->getSetting('email_subject_order_received');
-            $body = $order->customer->getSetting('email_template_order_received');
+            $subject = $this->order->customer->getSetting('email_subject_order_received');
+            $body = $this->order->customer->getSetting('email_template_order_received');
 
-            $order->service()->sendEmail(null, $subject, $body);
+            $this->order->service()->sendEmail(null, $subject, $body);
 
-            return $order;
+            return $this->order;
         } catch (\Exception $e) {
             DB::rollback();
             return null;
