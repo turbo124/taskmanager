@@ -17,16 +17,16 @@ use App\Services\Order\ConvertOrder;
 
 class OrderService extends ServiceBase
 {
-    protected $order;
+    protected Order $order;
+
+    protected array $config = [
+        'email'   => $order->customer->getSetting('should_email_order'),
+        'archive' => $order->customer->getSetting('should_archive_order')
+    ];
 
     public function __construct(Order $order)
     {
-        $config = [
-            'email'   => $order->customer->getSetting('should_email_order'),
-            'archive' => $order->customer->getSetting('should_archive_order')
-        ];
-
-        parent::__construct($order);
+        parent::__construct($order, $this->config);
         $this->order = $order;
     }
 
@@ -95,6 +95,11 @@ class OrderService extends ServiceBase
             $this->order->setInvoiceId($invoice->id);
             $this->order->save();
         }
+
+        $this->config = [
+            'email'   => false,
+            'archive' => $order->customer->getSetting('should_archive_order')
+        ];
 
         return $this->order;
     }
