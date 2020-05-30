@@ -161,6 +161,12 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->setStatus($entity_class::STATUS_SENT);
         $entity->save();
 
+        $service = $entity->service();
+
+        if(method_exists($service, 'send') {
+            $service()->send();
+        }
+
         $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 
         if (class_exists($event_class)) {
