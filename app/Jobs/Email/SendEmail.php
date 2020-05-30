@@ -144,17 +144,32 @@ class SendEmail implements ShouldQueue
             return false;
         }
 
+        $entity = get_class($this->entity);
+
+        // check if already sent
+        $email = Email::whereSubject($subject)
+            ->whereEntity($entity)
+            ->whereEntityId($this->entity->id)
+            ->whereRecipientEmail($this->contact->present()->email)
+            ->whereFailedToSend(0);
+
+        if(!empty($email) && !$sent_successfully) {
+            $email->increment('number_of_tries', 1, ['failed_to_send' => 1]);
+            return false;
+        }
+
         $email = EmailFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id);
 
         (new EmailRepository(new Email))->save(
             [
                 'subject'         => $subject,
                 'body'            => $body,
-                'entity'          => get_class($this->entity),
+                'entity'          => $entity,
                 'entity_id'       => $this->entity->id,
                 'recipient'       => $this->contact->present()->name,
                 'recipient_email' => $this->contact->present()->email,
-                'sent_at'         => $sent_successfully === true ? Carbon::now() : null
+                'sent_at'         => Carbon::now(),
+                'failed_to_send'  => $sent_successfully,
             ],
             $email
         );
