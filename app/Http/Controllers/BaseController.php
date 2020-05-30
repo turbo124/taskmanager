@@ -103,7 +103,7 @@ class BaseController extends Controller
                     auth()->user()->account_user()->account
                 );
 
-                $this->invoice_repo->save($request->all(), $invoice);
+                $this->invoice_repo->createInvoice($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_order_to_quote': // done
@@ -112,7 +112,7 @@ class BaseController extends Controller
                     auth()->user(),
                     auth()->user()->account_user()->account
                 );
-                $this->quote_repo->save($request->all(), $quote);
+                $this->quote_repo->createQuote($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
 
@@ -161,7 +161,7 @@ class BaseController extends Controller
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_to_order':
-                $order = (new OrderRepository(new Order))->save(
+                $order = (new OrderRepository(new Order))->createOrder(
                     $request->all(),
                     CloneQuoteToOrderFactory::create(
                         $this->quote_repo->findQuoteById($entity->id),
@@ -173,7 +173,7 @@ class BaseController extends Controller
                 break;
             case 'clone_to_quote': // done
                 $quote = CloneQuoteFactory::create($entity, auth()->user());
-                $this->quote_repo->save($request->all(), $quote);
+                $this->quote_repo->createQuote($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
             case 'mark_sent': //done
@@ -195,12 +195,12 @@ class BaseController extends Controller
                 break;
             case 'clone_to_credit': // done
                 $credit = CloneCreditFactory::create($entity, auth()->user());
-                $this->credit_repo->save($request->all(), $credit);
+                $this->credit_repo->createCreditNote($request->all(), $credit);
                 return response()->json($this->transformCredit($credit));
                 break;
             case 'clone_credit_to_quote': //done
                 $quote = CloneCreditToQuoteFactory::create($entity, auth()->user());
-                (new QuoteRepository(new Quote))->save($request->all(), $quote);
+                (new QuoteRepository(new Quote))->createQuote($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
 
@@ -241,12 +241,12 @@ class BaseController extends Controller
                     auth()->user(),
                     auth()->user()->account_user()->account
                 );
-                $this->invoice_repo->save($request->all(), $invoice);
+                $this->invoice_repo->createInvoice($request->all(), $invoice);
                 return response()->json($this->transformInvoice($invoice));
                 break;
             case 'clone_invoice_to_quote': // done
                 $quote = CloneInvoiceToQuoteFactory::create($entity, auth()->user());
-                (new QuoteRepository(new Quote))->save($request->all(), $quote);
+                (new QuoteRepository(new Quote))->createQuote($request->all(), $quote);
                 return response()->json($this->transformQuote($quote));
                 break;
             case 'create_payment': // done

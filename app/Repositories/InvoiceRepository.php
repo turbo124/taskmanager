@@ -102,8 +102,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
         if ($invoice->customer->getSetting(
                 'inventory_enabled'
-            ) === true && !empty($invoice->line_items) && $invoice->customer->getSetting('should_update_inventory')) {
-            UpdateInventory::dispatch($invoice->line_items);
+            ) === true || $invoice->customer->getSetting('should_update_inventory') === true) {
+            UpdateInventory::dispatch($invoice);
         }
 
         InvoiceOrders::dispatchNow($invoice);

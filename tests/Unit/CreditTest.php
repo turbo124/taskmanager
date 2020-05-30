@@ -76,7 +76,7 @@ class CreditTest extends TestCase
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $creditRepo = new CreditRepository($credit);
-        $updated = $creditRepo->save($data, $credit);
+        $updated = $creditRepo->updateCreditNote($data, $credit);
         $found = $creditRepo->findCreditById($credit->id);
         $this->assertInstanceOf(Credit::class, $updated);
         $this->assertEquals($data['customer_id'], $found->customer_id);
@@ -110,7 +110,7 @@ class CreditTest extends TestCase
         ];
 
         $creditRepo = new CreditRepository(new Credit);
-        $credit = $creditRepo->save($data, $factory);
+        $credit = $creditRepo->createCreditNote($data, $factory);
         $this->assertInstanceOf(Credit::class, $credit);
         $this->assertEquals($data['customer_id'], $credit->customer_id);
     }

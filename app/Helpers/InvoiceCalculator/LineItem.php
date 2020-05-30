@@ -394,7 +394,7 @@ class LineItem extends BaseCalculator
             'custom_value4'      => '',
             'tax_rate_name'      => $this->getTaxRateName(),
             'tax_rate_id'        => $this->getTaxRateId(),
-            'type_id'            => $this->getTypeId(),
+            'type_id'            => $this->getTypeId() ?: 1,
             'quantity'           => $this->getQuantity(),
             'notes'              => $this->getNotes(),
             'unit_price'         => $this->getUnitPrice(),

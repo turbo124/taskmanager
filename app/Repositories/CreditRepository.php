@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\ClientContact;
+use App\Events\Credit\CreditWasCreated;
+use App\Events\Credit\CreditWasUpdated;
 use App\Filters\CreditFilter;
+use App\Jobs\Inventory\ReverseInventory;
 use App\NumberGenerator;
 use App\Factory\CreditInvitationFactory;
 use App\CreditInvitation;
@@ -32,6 +35,37 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * @param array $data
+     * @param Credit $credit
+     * @return Credit|null
+     */
+    public function createCreditNote(array $data, Credit $credit): ?Credit
+    {
+        if ($credit->customer->getSetting('should_update_inventory') === true) {
+            ReverseInventory::dispatchNow($credit);
+        }
+
+        $credit = $this->save($data, $credit);
+        event(new CreditWasCreated($credit));
+
+        return $credit;
+    }
+
+    /**
+     * @param array $data
+     * @param Credit $credit
+     * @return Credit|null
+     */
+    public function updateCreditNote(array $data, Credit $credit): ?Credit
+    {
+        $credit = $this->save($data, $credit);
+
+        event(new CreditWasUpdated($credit));
+
+        return $credit;
     }
 
     /**

@@ -19,6 +19,7 @@ use App\NumberGenerator;
 use App\Order;
 use App\OrderInvitation;
 use App\Product;
+use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Requests\SearchRequest;
 use App\Task;
 use App\Repositories\Base\BaseRepository;
@@ -26,7 +27,11 @@ use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class OrderRepository extends BaseRepository
+/**
+ * Class OrderRepository
+ * @package App\Repositories
+ */
+class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
     /**
      * OrderRepository constructor.

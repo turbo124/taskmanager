@@ -132,15 +132,15 @@ export default class OrderModel extends BaseModel {
             actions.push('email')
         }
 
-        if (!this.isSent) {
+        if (!this.isHeld && !this.isSent) {
             actions.push('markSent')
         }
 
-        if (!this.isApproved && !this.isCompleted) {
+        if (!this.isHeld && !this.isApproved && !this.isCompleted) {
             actions.push('dispatch')
         }
 
-        if (this.isBackorder) {
+        if (!this.isHeld && this.isBackorder) {
             actions.push('fulfill')
         }
 
@@ -152,15 +152,15 @@ export default class OrderModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (this.isModuleEnabled('invoices')) {
+        if (!this.isHeld && this.isModuleEnabled('invoices')) {
             actions.push('cloneOrderToInvoice')
         }
 
-        if (this.isModuleEnabled('invoices') && !this.isApproved) {
+        if (!this.isHeld && this.isModuleEnabled('invoices') && !this.isApproved) {
             actions.push('convert')
         }
 
-        if (this.isModuleEnabled('quotes')) {
+        if (!this.isHeld && this.isModuleEnabled('quotes')) {
             actions.push('cloneOrderToQuote')
         }
 

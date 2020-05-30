@@ -43,7 +43,9 @@ class HoldStock
         }
 
         foreach ($this->order->line_items as $item) {
-            if (empty($item->product_id) || $item->type_id !== 1) {
+            $type_id = isset($item->type_id) ? $item->type_id : 1;
+
+            if (empty($item->product_id) || $type_id !== 1) {
                 continue;
             }
 

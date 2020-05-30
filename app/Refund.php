@@ -179,7 +179,7 @@ class Refund
     {
         $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
 
-        $credit_note = $this->credit_repo->save(
+        $credit_note = $this->credit_repo->createCreditNote(
             [
                 'line_items' => $line_items,
                 'total'      => $this->payment->refunded,
@@ -187,8 +187,6 @@ class Refund
             ],
             $credit_note
         );
-
-        event(new CreditWasCreated($credit_note));
 
         $credit_note->ledger()->updateBalance($adjustment_amount);
 

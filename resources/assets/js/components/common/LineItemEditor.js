@@ -93,6 +93,7 @@ class LineItemEditor extends Component {
             const product = this.state.products[index]
             rows[row].unit_price = product.price
             rows[row].product_id = e.target.value
+            rows[row].type_id = 1
             this.props.update(rows, row)
 
             return
@@ -102,6 +103,7 @@ class LineItemEditor extends Component {
             const price = e.target.options[e.target.selectedIndex].dataset.price
             rows[row].unit_price = price
             rows[row].attribute_id = e.target.value
+            rows[row].type_id = 1
             this.props.update(rows, row)
 
             return
