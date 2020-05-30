@@ -9,7 +9,7 @@ class ServiceBase
 {
     private $entity;
 
-    private array $config = [];
+    protected array $config = [];
 
     public function __construct($entity, array $config = [])
     {
