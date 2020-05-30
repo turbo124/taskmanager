@@ -79,6 +79,18 @@ export default class Notifications extends Component {
                     value: 'order_created',
                     label: 'Order Created',
                     isChecked: false
+                },
+                {
+                    id: 4,
+                    value: 'order_backordered',
+                    label: 'Order Backorder',
+                    isChecked: false
+                },
+                {
+                    id: 4,
+                    value: 'order_held',
+                    label: 'Order Held',
+                    isChecked: false
                 }
             ]
         }
