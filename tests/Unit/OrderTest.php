@@ -200,9 +200,10 @@ class OrderTest extends TestCase
             'phone'         => '01425 629322'
         ];
 
-        $task = TaskFactory::create($this->user, $this->account);
-
-        $task = (new TaskService($task))->createDeal((object)$data,
+        $task = (new TaskService($task))->createDeal(
+            $this->account,
+            $this->user,
+            (object)$data,
             (new CustomerRepository(new Customer)),
             (new OrderRepository(new Order)),
             (new TaskRepository(new Task, new ProjectRepository(new Project))),
@@ -228,6 +229,16 @@ class OrderTest extends TestCase
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
+    }
+
+    public function testSendOrder()
+    {
+        $order = factory(Order::class)->create();
+        $orderRepo = new OrderRepository($order);
+        $order = $orderRepo->markSent($order);
+
+        $this->assertInstanceOf(Order::class, $order);
+        $this->assertEquals($order->status_id, Order::STATUS_SENT);
     }
 
     public function tearDown(): void
