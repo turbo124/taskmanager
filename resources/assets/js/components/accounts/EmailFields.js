@@ -179,28 +179,54 @@ class EmailFields extends Component {
                     }
                 ]
             },
-            email_template_order: {
-                name: 'Order',
+            email_template_order_received: {
+                name: 'Order Received',
                 is_reminder: false,
                 is_custom: false,
                 fields: [
                     {
                         id: 'subject',
-                        name: 'email_subject_order',
+                        name: 'email_subject_order_received',
                         label: 'Subject',
                         type: 'text',
                         placeholder: 'Subject',
-                        value: settings.email_subject_order,
+                        value: settings.email_subject_order_received,
                         group: 1
                     },
                     {
                         id: 'body',
-                        name: 'email_template_order',
+                        name: 'email_template_order_received',
                         label: 'Body',
                         type: 'textarea',
                         inputClass: 'textarea-lg',
                         placeholder: 'Body',
-                        value: settings.email_template_order,
+                        value: settings.email_template_order_received,
+                        group: 1
+                    }
+                ]
+            },
+            email_template_order_sent: {
+                name: 'Order Sent',
+                is_reminder: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_order_sent',
+                        label: 'Subject',
+                        type: 'text',
+                        placeholder: 'Subject',
+                        value: settings.email_subject_order_sent,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_order_sent',
+                        label: 'Body',
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: 'Body',
+                        value: settings.email_template_order_sent,
                         group: 1
                     }
                 ]
@@ -613,8 +639,14 @@ class EmailFields extends Component {
 
     _buildTemplate () {
         const allFields = this.getFormFields(this.props.template_type)
-        const sectionFields = allFields.fields
         const test = []
+
+        if (!allFields) {
+            return test
+        }
+
+        const sectionFields = allFields.fields
+
         test.push(sectionFields)
         return test
     }

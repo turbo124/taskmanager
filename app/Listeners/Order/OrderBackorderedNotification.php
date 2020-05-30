@@ -36,7 +36,7 @@ class OrderBackorderedNotification implements ShouldQueue
 
                 $notification_types = $this->getNotificationTypesForAccountUser(
                     $account_user,
-                    ['order_created']
+                    ['order_backordered']
                 );
 
                 if(!empty($notification_types) && in_array('mail', $notification_types)) {

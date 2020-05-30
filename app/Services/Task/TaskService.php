@@ -54,28 +54,6 @@ class TaskService extends ServiceBase
     }
 
     /**
-     * @param $request
-     * @param CustomerRepository $customer_repo
-     * @param OrderRepository $order_repo
-     * @param TaskRepository $task_repo
-     * @param bool $is_deal
-     * @return Task|null
-     */
-    public function createDeal(
-        $request,
-        CustomerRepository $customer_repo,
-        OrderRepository $order_repo,
-        TaskRepository $task_repo,
-        $is_deal = true
-    ) {
-        $create_deal = new CreateDeal($this->task, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
-
-        $this->task = $create_deal->execute();
-
-        return $this->task;
-    }
-
-    /**
      * @param Request $request
      * @param CustomerRepository $customer_repo
      * @param TaskRepository $task_repo

@@ -2,7 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Factory\CloneOrderToInvoiceFactory;
 use App\Invoice;
+use App\Jobs\Order\CreateOrder;
+use App\Services\Order\OrderService;
 use App\User;
 use App\Settings\AccountSettings;
 use App\Repositories\InvoiceRepository;
@@ -92,7 +95,6 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_create_a_invoice()
     {
-
         $customerId = $this->customer->id;
 
         $total = $this->faker->randomFloat();
@@ -200,17 +202,22 @@ class OrderTest extends TestCase
             'phone'         => '01425 629322'
         ];
 
-        $task = TaskFactory::create($this->user, $this->account);
+        $order = new Order();
+        $order->customer_id = $this->customer->id;
 
-        $task = (new TaskService($task))->createDeal((object)$data,
+        $order = CreateOrder::dispatchNow(
+            $this->account,
+            $this->user,
+            (object)$data,
             (new CustomerRepository(new Customer)),
             (new OrderRepository(new Order)),
             (new TaskRepository(new Task, new ProjectRepository(new Project))),
-            true);
+            true
+        );
 
-        $this->assertInstanceOf(Task::class, $task);
-        $this->assertEquals($task->orders->count(), 1);
-        $this->assertEquals((float)$task->orders->first()->total, $data['total']);
+        $this->assertInstanceOf(Order::class, $order);
+        $this->assertInstanceOf(Task::class, $order->task);
+        $this->assertEquals((float)$order->total, $data['total']);
     }
 
     public function testOrderDispatch()
@@ -228,6 +235,17 @@ class OrderTest extends TestCase
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
+    }
+
+    public function testSendOrder()
+    {
+        $order = factory(Order::class)->create();
+        $orderRepo = new OrderRepository($order);
+        $order->service()->dispatch(new InvoiceRepository(new Invoice), $orderRepo);
+        $order = $orderRepo->markSent($order);
+
+        $this->assertInstanceOf(Order::class, $order);
+        $this->assertEquals($order->status_id, Order::STATUS_SENT);
     }
 
     public function tearDown(): void

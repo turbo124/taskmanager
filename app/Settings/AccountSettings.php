@@ -7,6 +7,12 @@ use App\Account;
 class AccountSettings extends BaseSettings
 {
     private $settings = [
+        'create_task_on_order'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'slack_enabled'                   => [
             'required'         => false,
             'translated_value' => '',
@@ -853,9 +859,15 @@ class AccountSettings extends BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_order'             => [
+        'email_subject_order_received'    => [
             'required'         => false,
-            'translated_value' => 'texts.order_subject',
+            'translated_value' => 'texts.order_received_subject',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_subject_order_sent'        => [
+            'required'         => false,
+            'translated_value' => 'texts.order_sent_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
@@ -895,9 +907,15 @@ class AccountSettings extends BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_template_order'            => [
+        'email_template_order_received'   => [
             'required'         => false,
-            'translated_value' => 'texts.order_body',
+            'translated_value' => 'texts.order_received_body',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_template_order_sent'       => [
+            'required'         => false,
+            'translated_value' => 'texts.order_sent_body',
             'default_value'    => '',
             'type'             => 'string'
         ],

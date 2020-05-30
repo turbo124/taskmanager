@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\ClientContact;
 use App\CompanyToken;
 use App\Customer;
+use App\Jobs\Order\CreateOrder;
 use App\Events\Deal\DealWasCreated;
 use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
 use App\Jobs\Task\SaveTaskTimes;
+use App\Order;
 use App\Project;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
-use App\Order;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\User;
@@ -211,8 +212,9 @@ class TaskController extends Controller
         $user = $token->user;
         $account = $token->account;
 
-        $task = (new TaskFactory())->create($user, $account);
-        $task = $task->service()->createDeal(
+        $order = CreateOrder::dispatchNow(
+            $account,
+            $user,
             $request,
             (new CustomerRepository(new Customer)),
             new OrderRepository(new Order),
@@ -220,9 +222,7 @@ class TaskController extends Controller
             true
         );
 
-        event(new DealWasCreated($task, $task->account));
-
-        return response()->json($task);
+        return response()->json($order);
     }
 
     /**

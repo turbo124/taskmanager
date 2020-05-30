@@ -4,6 +4,10 @@ namespace App\Services\Order;
 
 use App\Events\Order\OrderWasHeld;
 use App\Invoice;
+use App\Account;
+use App\Repositories\CustomerRepository;
+use App\Repositories\TaskRepository;
+use App\User;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasEmailed;
 use App\Order;
@@ -15,8 +19,15 @@ use App\Services\Order\ConvertOrder;
 
 class OrderService extends ServiceBase
 {
-    protected $order;
+    /**
+     * @var Order
+     */
+    protected Order $order;
 
+    /**
+     * OrderService constructor.
+     * @param Order $order
+     */
     public function __construct(Order $order)
     {
         $config = [
@@ -24,7 +35,7 @@ class OrderService extends ServiceBase
             'archive' => $order->customer->getSetting('should_archive_order')
         ];
 
-        parent::__construct($order);
+        parent::__construct($order, $config);
         $this->order = $order;
     }
 
@@ -70,14 +81,19 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
+        return $this->order;
+    }
+
+    public function send()
+    {
+        // trigger
+        $subject = $this->order->customer->getSetting('email_subject_order_sent');
+        $body = $this->order->customer->getSetting('email_template_order_sent');
+        $this->trigger($subject, $body, new OrderRepository($this->order));
+
         event(new OrderWasDispatched($this->order));
 
-        // trigger
-        $subject = trans('texts.order_dispatched_subject');
-        $body = trans('texts.order_dispatched_body');
-        $this->trigger($subject, $body, $order_repo);
-
-        return $this->order;
+        return true;
     }
 
     public function calculateInvoiceTotals(): Order

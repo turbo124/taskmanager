@@ -148,11 +148,18 @@ class BaseRepository implements BaseRepositoryInterface
         $class = (new \ReflectionClass($entity))->getShortName();
         $entity_class = 'App\\' . $class;
 
-        if($entity_class === 'App\Order' && !$entity->invoice_id) {
-            return null;
+        $allowed_statuses[] = $entity_class::STATUS_DRAFT;
+
+        if ($entity_class === 'App\Order') {
+
+            if(!$entity->invoice_id) {
+                return null;
+            }
+
+            $allowed_statuses[] = $entity_class::STATUS_COMPLETE;
         }
 
-        if ($entity->status_id != $entity_class::STATUS_DRAFT) {
+        if (!in_array($entity->status_id, $allowed_statuses)) {
             return $entity;
         }
 
@@ -160,6 +167,12 @@ class BaseRepository implements BaseRepositoryInterface
 
         $entity->setStatus($entity_class::STATUS_SENT);
         $entity->save();
+
+        $service = $entity->service();
+
+        if (method_exists($service, 'send')) {
+            $service->send();
+        }
 
         $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 

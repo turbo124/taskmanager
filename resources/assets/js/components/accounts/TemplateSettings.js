@@ -44,8 +44,10 @@ class TemplateSettings extends Component {
                 email_template_invoice: '',
                 email_subject_lead: '',
                 email_template_lead: '',
-                email_subject_order: '',
-                email_template_order: ''
+                email_subject_order_received: '',
+                email_subject_order_sent: '',
+                email_template_order_received: '',
+                email_template_order_sent: ''
             }
         }
 
@@ -116,8 +118,6 @@ class TemplateSettings extends Component {
         const subjectKey = this.state.template_type.replace('template', 'subject')
         const bodyKey = this.state.template_type
 
-        alert(subjectKey + ' ' + bodyKey)
-
         const subject = !this.state.settings[subjectKey] ? '' : this.state.settings[subjectKey]
         const body = !this.state.settings[bodyKey] ? '' : this.state.settings[bodyKey]
 
@@ -163,10 +163,12 @@ class TemplateSettings extends Component {
     }
 
     render () {
-        const fields = this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
-            ? <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
+        const fields = <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
                 handleSettingsChange={this.handleSettingsChange}
-                handleChange={this.handleChange}/> : null
+                handleChange={this.handleChange}/>
+
+        console.log('fields', fields)
+
         const preview = this.state.showPreview && this.state.preview && Object.keys(this.state.preview).length && this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
             ? <EmailPreview preview={this.state.preview} entity={this.props.entity} entity_id={this.props.entity_id}
                 template_type={this.state.template_type}/> : null
