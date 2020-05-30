@@ -44,8 +44,10 @@ class TemplateSettings extends Component {
                 email_template_invoice: '',
                 email_subject_lead: '',
                 email_template_lead: '',
-                email_subject_order: '',
-                email_template_order: ''
+                email_subject_order_received: '',
+                email_subject_order_sent: '',
+                email_template_order_received: '',
+                email_template_order_sent: ''
             }
         }
 
@@ -115,8 +117,6 @@ class TemplateSettings extends Component {
         this.setState({ showSpinner: true, showPreview: false })
         const subjectKey = this.state.template_type.replace('template', 'subject')
         const bodyKey = this.state.template_type
-
-        alert(subjectKey + ' ' + bodyKey)
 
         const subject = !this.state.settings[subjectKey] ? '' : this.state.settings[subjectKey]
         const body = !this.state.settings[bodyKey] ? '' : this.state.settings[bodyKey]
