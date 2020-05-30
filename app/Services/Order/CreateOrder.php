@@ -7,6 +7,8 @@ use App\ClientContact;
 use App\Events\Deal\DealWasCreated;
 use App\Order;
 use App\Task;
+use App\Account;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Customer;
@@ -29,9 +31,26 @@ use Illuminate\Http\Request;
 class CreateDeal
 {
     /**
-     * @var Task
+     * @var Order
      */
     private Order $order;
+
+    /**
+     * @var Task
+     */
+    private Task $task;
+
+    /**
+     * @var User
+     */
+    private User $user;
+
+    /**
+     * @var Account
+     */
+    private Account $account;
+
+
     private $request;
 
     /**
@@ -64,14 +83,14 @@ class CreateDeal
      * @param $is_deal
      */
     public function __construct(
-        Order $order,
+        Account $account,
+        User $user,
         $request,
         CustomerRepository $customer_repo,
         OrderRepository $order_repo,
         TaskRepository $task_repo,
         $is_deal
     ) {
-        $this->order = $order;
         $this->request = $request;
         $this->customer_repo = $customer_repo;
         $this->order_repo = $order_repo;
@@ -118,7 +137,7 @@ class CreateDeal
     private function saveTask(Customer $customer): ?Task
     {
         try {
-            $task = TaskFactory::create($this->order->account, $this->order->user);
+            $task = TaskFactory::create($this->account, $this->user);
             $date = new DateTime(); // Y-m-d
             $date->add(new DateInterval('P30D'));
             $due_date = $date->format('Y-m-d');
@@ -153,7 +172,7 @@ class CreateDeal
 
     private function saveCustomer(): ?Customer
     {
-        $customer = CustomerFactory::create($this->task->account, $this->task->user);
+        $this->customer = CustomerFactory::create($this->account, $this->user);
 
         try {
             $contact = ClientContact::where('email', '=', $this->request->email)->first();
@@ -168,10 +187,10 @@ class CreateDeal
                     ]
                 );
 
-                $customer = $contact->customer;
+                $this->customer = $contact->customer;
             }
 
-            $customer = $this->customer_repo->save(
+            $this->customer = $this->customer_repo->save(
                 [
                     'name'                   => $this->request->first_name . ' ' . $this->request->last_name,
                     'phone'                  => $this->request->phone,
@@ -179,7 +198,7 @@ class CreateDeal
                     'currency_id'            => 2,
                     'default_payment_method' => 1
                 ],
-                $customer
+                $this->customer
             );
 
             if (empty($contact)) {
@@ -190,10 +209,10 @@ class CreateDeal
                     'phone'      => $this->request->phone,
                 ];
 
-                (new ClientContactRepository(new ClientContact))->save($contacts, $customer);
+                (new ClientContactRepository(new ClientContact))->save($contacts, $this->customer);
             }
 
-            return $customer;
+            return $this->customer;
         } catch (\Exception $e) {
             DB::rollback();
             return null;
@@ -255,6 +274,8 @@ class CreateDeal
                     'client_contact_id' => $contact['id']
                 ];
             }
+
+            $this->order = OrderFactory::create($this->account, $this->user, $customer);
 
             $this->order = $this->order_repo->createOrder(
                 [
