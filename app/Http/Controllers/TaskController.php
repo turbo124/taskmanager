@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ClientContact;
 use App\CompanyToken;
 use App\Customer;
+use App\Order;
 use App\Events\Deal\DealWasCreated;
 use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
