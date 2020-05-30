@@ -53,6 +53,28 @@ class OrderService extends ServiceBase
         event(new OrderWasEmailed($this->order->invitations->first()));
         return $this->order;
     }
+    
+    /**
+     * @param $request
+     * @param CustomerRepository $customer_repo
+     * @param OrderRepository $order_repo
+     * @param TaskRepository $task_repo
+     * @param bool $is_deal
+     * @return Task|null
+     */
+    public function createOrder(
+        $request,
+        CustomerRepository $customer_repo,
+        OrderRepository $order_repo,
+        TaskRepository $task_repo,
+        $is_deal = true
+    ) {
+        $create_order = new CreateOrder($this->task, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
+
+        $this->order = $create_order->execute();
+
+        return $this->order;
+    }
 
     /**
      * @param InvoiceRepository $invoice_repo
