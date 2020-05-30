@@ -25,6 +25,24 @@ class AccountSettings extends BaseSettings
             'default_value'    => 0,
             'type'             => 'float'
         ],
+        'allow_backorders'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'allow_partial_orders'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'inventory_enabled'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'late_fee_endless_amount'         => [
             'required'         => false,
             'translated_value' => '',

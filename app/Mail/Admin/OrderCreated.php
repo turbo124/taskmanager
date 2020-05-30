@@ -13,6 +13,9 @@ class OrderCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @var Order
+     */
     private Order $order;
 
     /**

@@ -77,8 +77,7 @@ class OrderController extends BaseController
     public function update(int $id, Request $request)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->save($request->all(), $order);
-        event(new OrderWasUpdated($order));
+        $this->order_repo->updateOrder($request->all(), $order);
         return response()->json($this->transformOrder($order));
     }
 
@@ -89,12 +88,10 @@ class OrderController extends BaseController
     public function store(CreateOrderRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $order = $this->order_repo->save(
+        $order = $this->order_repo->createOrder(
             $request->all(),
             OrderFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
-
-        event(new OrderWasCreated($order));
 
         return response()->json($this->transformOrder($order));
     }

@@ -43,12 +43,20 @@ export const icons = {
 }
 
 export const translations = {
+    order_filfilled: 'The Order has been fulfilled and items have been removed from backorder',
+    order_held: 'The Order has been held',
+    order_unheld: 'The order has been removed from hold and put back to its initial status',
+    fulfill: 'Fulfill Order',
+    hold_order: 'Hold Order',
+    unhold_order: 'Unhold Order',
     code: 'Code',
     add_payment_term: 'Add Payment Term',
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',
     budgeted: 'Budgeted',
     applied: 'Applied',
+    backordered: 'Backorder',
+    held: 'Held',
     draft: 'Draft',
     select_status: 'Select Status',
     cancelled: 'Cancelled',

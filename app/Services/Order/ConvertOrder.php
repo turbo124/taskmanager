@@ -10,8 +10,21 @@ use App\Repositories\InvoiceRepository;
 
 class ConvertOrder
 {
-    private $invoice_repo;
+    /**
+     * @var InvoiceRepository
+     */
+    private InvoiceRepository $invoice_repo;
 
+    /**
+     * @var Order
+     */
+    private Order $order;
+
+    /**
+     * ConvertOrder constructor.
+     * @param InvoiceRepository $invoice_repo
+     * @param Order $order
+     */
     public function __construct(InvoiceRepository $invoice_repo, Order $order)
     {
         $this->invoice_repo = $invoice_repo;

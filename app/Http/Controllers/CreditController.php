@@ -73,7 +73,7 @@ class CreditController extends BaseController
     {
         $credit = $this->credit_repo->findCreditById($id);
         $credit = $this->credit_repo->save($request->all(), $credit);
-        event(new CreditWasUpdated($credit));
+
         return response()->json($this->transformCredit($credit));
     }
 
@@ -84,11 +84,11 @@ class CreditController extends BaseController
     public function store(CreateCreditRequest $request)
     {
         $customer = Customer::find($request->input('customer_id'));
-        $credit = $this->credit_repo->save(
+        $credit = $this->credit_repo->createCreditNote(
             $request->all(),
             CreditFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
-        event(new CreditWasCreated($credit));
+
         return response()->json($this->transformCredit($credit));
     }
 

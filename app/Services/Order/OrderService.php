@@ -2,6 +2,7 @@
 
 namespace App\Services\Order;
 
+use App\Events\Order\OrderWasHeld;
 use App\Invoice;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasEmailed;
@@ -82,5 +83,52 @@ class OrderService extends ServiceBase
     public function calculateInvoiceTotals(): Order
     {
         return $this->calculateTotals($this->order);
+    }
+
+    /**
+     * @return Order
+     */
+    public function holdOrder(): ?Order
+    {
+        if ($this->order->status_id === Order::STATUS_HELD) {
+            return null;
+        }
+
+        $this->order->setPreviousStatus($this->order->status_id);
+        $this->order->setStatus(Order::STATUS_HELD);
+        $this->order->save();
+
+        event(new OrderWasHeld($this->order));
+        return $this->order;
+    }
+
+    /**
+     * @return Order
+     */
+    public function unholdOrder(): ?Order
+    {
+        if ($this->order->status_id !== Order::STATUS_HELD) {
+            return null;
+        }
+
+        $this->order->setStatus($this->order->previous_status);
+        $this->order->previous_status = null;
+        $this->order->save();
+        return $this->order;
+    }
+
+    public function fulfillOrder(OrderRepository $order_repo)
+    {
+        return (new FulfilOrder($this->order, $order_repo))->execute();
+    }
+
+    public function checkStock()
+    {
+        return (new CheckStock($this->order))->execute();
+    }
+
+    public function holdStock()
+    {
+        return (new HoldStock($this->order))->execute();
     }
 }

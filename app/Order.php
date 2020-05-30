@@ -30,9 +30,13 @@ class Order extends Model
     protected $presenter = 'App\Presenters\OrderPresenter';
 
     const STATUS_DRAFT = 1;
+    const STATUS_PARTIAL = 7;
+    const STATUS_ORDER_FAILED = 9;
+    const STATUS_HELD = 5;
     const STATUS_SENT = 2;
     const STATUS_APPROVED = 4;
     const STATUS_COMPLETE = 3;
+    const STATUS_BACKORDERED = 6;
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
@@ -77,7 +81,8 @@ class Order extends Model
         'custom_surcharge2',
         'custom_surcharge_tax1',
         'custom_surcharge_tax2',
-        'design_id'
+        'design_id',
+        'previous_status'
     ];
 
     protected $table = 'product_task';
@@ -158,16 +163,33 @@ class Order extends Model
         $this->total = (float)$total;
     }
 
+    /**
+     * @param float $balance
+     */
     public function setBalance(float $balance)
     {
         $this->balance = (float)$balance;
     }
 
+    /**
+     * @param int $status
+     */
+    public function setPreviousStatus(int $status)
+    {
+        $this->previous_status = (int) $status;
+    }
+
+    /**
+     * @param int $status
+     */
     public function setStatus(int $status)
     {
         $this->status_id = (int)$status;
     }
 
+    /**
+     * @param $invoice_id
+     */
     public function setInvoiceId($invoice_id)
     {
         $this->invoice_id = (int)$invoice_id;

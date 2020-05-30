@@ -5,7 +5,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
 import OrderModel from '../models/OrderModel'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 export default function OrderPresenter (props) {
     const colors = {
@@ -13,6 +13,8 @@ export default function OrderPresenter (props) {
         [consts.order_status_sent]: 'primary',
         [consts.order_status_complete]: 'success',
         [consts.order_status_approved]: 'success',
+        [consts.order_status_backorder]: 'warning',
+        [consts.order_status_held]: 'warning',
         '-1': 'danger'
     }
 
@@ -21,6 +23,8 @@ export default function OrderPresenter (props) {
         [consts.order_status_sent]: translations.sent,
         [consts.order_status_complete]: translations.complete,
         [consts.order_status_approved]: translations.dispatched,
+        [consts.order_status_backorder]: translations.backordered,
+        [consts.order_status_held]: translations.held,
         '-1': 'Expired'
     }
 

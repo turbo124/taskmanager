@@ -239,7 +239,10 @@ class CreateDeal
         }
     }
 
-
+    /**
+     * @param Customer $customer
+     * @return Order|null
+     */
     private function saveOrder(Customer $customer): ?Order
     {
         try {
@@ -254,7 +257,7 @@ class CreateDeal
 
             $order = OrderFactory::create($this->task->account, $this->task->user, $customer);
 
-            $order = $this->order_repo->save(
+            $order = $this->order_repo->createOrder(
                 [
                     'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
                     'invitations'       => $invitations,
@@ -278,7 +281,6 @@ class CreateDeal
             $subject = $order->customer->getSetting('email_subject_order');
             $body = $order->customer->getSetting('email_template_order');
 
-            event(new OrderWasCreated($order));
             $order->service()->sendEmail(null, $subject, $body);
 
             return $order;

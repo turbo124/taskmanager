@@ -30,6 +30,7 @@ class Product extends Model
         'sku',
         'name',
         'quantity',
+        'reserved_stock',
         'cover',
         'description',
         'price',
@@ -78,9 +79,30 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    /**
+     * @param $quantity
+     */
     public function reduceQuantityAvailiable($quantity)
     {
         $this->quantity -= $quantity;
+        $this->save();
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function reduceQuantityReserved(int $quantity)
+    {
+        $this->reserved_stock -= $quantity;
+        $this->save();
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function increaseQuantityReserved(int $quantity)
+    {
+        $this->reserved_stock += $quantity;
         $this->save();
     }
 }
