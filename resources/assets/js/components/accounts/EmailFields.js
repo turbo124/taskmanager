@@ -180,7 +180,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_order_received: {
-                name: 'Order',
+                name: 'Order Received',
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -206,7 +206,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_order_sent: {
-                name: 'Order',
+                name: 'Order Sent',
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -639,8 +639,14 @@ class EmailFields extends Component {
 
     _buildTemplate () {
         const allFields = this.getFormFields(this.props.template_type)
-        const sectionFields = allFields.fields
         const test = []
+
+        if (!allFields) {
+            return test
+        }
+
+        const sectionFields = allFields.fields
+
         test.push(sectionFields)
         return test
     }

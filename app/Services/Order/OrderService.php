@@ -5,6 +5,8 @@ namespace App\Services\Order;
 use App\Events\Order\OrderWasHeld;
 use App\Invoice;
 use App\Account;
+use App\Repositories\CustomerRepository;
+use App\Repositories\TaskRepository;
 use App\User;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasEmailed;
@@ -17,16 +19,23 @@ use App\Services\Order\ConvertOrder;
 
 class OrderService extends ServiceBase
 {
+    /**
+     * @var Order
+     */
     protected Order $order;
 
-    protected array $config = [
-        'email'   => $order->customer->getSetting('should_email_order'),
-        'archive' => $order->customer->getSetting('should_archive_order')
-    ];
-
+    /**
+     * OrderService constructor.
+     * @param Order $order
+     */
     public function __construct(Order $order)
     {
-        parent::__construct($order, $this->config);
+        $config = [
+            'email'   => $order->customer->getSetting('should_email_order'),
+            'archive' => $order->customer->getSetting('should_archive_order')
+        ];
+
+        parent::__construct($order, $config);
         $this->order = $order;
     }
 
@@ -55,30 +64,6 @@ class OrderService extends ServiceBase
         event(new OrderWasEmailed($this->order->invitations->first()));
         return $this->order;
     }
-    
-    /**
-     * @param $request
-     * @param CustomerRepository $customer_repo
-     * @param OrderRepository $order_repo
-     * @param TaskRepository $task_repo
-     * @param bool $is_deal
-     * @return Task|null
-     */
-    public function createOrder(
-        Account $account,
-        User $user,
-        $request,
-        CustomerRepository $customer_repo,
-        OrderRepository $order_repo,
-        TaskRepository $task_repo,
-        $is_deal = true
-    ) {
-        $create_order = new CreateOrder($account, $user, $request, $customer_repo, $order_repo, $task_repo, $is_deal);
-
-        $this->order = $create_order->execute();
-
-        return $this->order;
-    }
 
     /**
      * @param InvoiceRepository $invoice_repo
@@ -96,21 +81,15 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
-        $this->config = [
-            'email'   => false,
-            'archive' => $order->customer->getSetting('should_archive_order')
-        ];
-
         return $this->order;
     }
 
     public function send()
     {
-
         // trigger
-        $subject = $order->customer->getSetting('email_subject_order_sent');
-        $body = $order->customer->getSetting('email_template_order_sent');
-        $this->trigger($subject, $body, $order_repo);
+        $subject = $this->order->customer->getSetting('email_subject_order_sent');
+        $body = $this->order->customer->getSetting('email_template_order_sent');
+        $this->trigger($subject, $body, new OrderRepository($this->order));
 
         event(new OrderWasDispatched($this->order));
 

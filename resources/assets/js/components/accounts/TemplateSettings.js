@@ -163,10 +163,12 @@ class TemplateSettings extends Component {
     }
 
     render () {
-        const fields = this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
-            ? <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
+        const fields = <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
                 handleSettingsChange={this.handleSettingsChange}
-                handleChange={this.handleChange}/> : null
+                handleChange={this.handleChange}/>
+
+        console.log('fields', fields)
+
         const preview = this.state.showPreview && this.state.preview && Object.keys(this.state.preview).length && this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
             ? <EmailPreview preview={this.state.preview} entity={this.props.entity} entity_id={this.props.entity_id}
                 template_type={this.state.template_type}/> : null
