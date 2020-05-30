@@ -145,7 +145,7 @@ class CreateDeal
             $task = $this->task_repo->save(
                 [
                     'due_date'    => $due_date,
-                    'created_by'  => $this->order->user_id,
+                    'created_by'  => $this->user->id,
                     'source_type' => $this->request->source_type,
                     'title'       => $this->request->title,
                     'description' => isset($this->request->description) ? $this->request->description : '',
@@ -161,7 +161,7 @@ class CreateDeal
                 $task->users()->sync($this->request->input('contributors'));
             }
 
-            event(new DealWasCreated($this->task, $this->task->account));
+            event(new DealWasCreated($this->task, $this->account));
 
             return $this->task;
         } catch (\Exception $e) {
@@ -175,7 +175,7 @@ class CreateDeal
         $this->customer = CustomerFactory::create($this->account, $this->user);
 
         try {
-            $contact = ClientContact::where('email', '=', $this->request->email)->first();
+            $contact = ClientContact::where('email', '=', $this->request->email)->where('account_id', '=', $this->account->id)->first();
 
             if (!empty($contact)) {
                 $contact->update(
