@@ -44,9 +44,9 @@ class EmailFailures extends Command
      */
     public function handle()
     {
-        $failed_emails = Email::where('sent_at', '=', '')
-                              ->orWhereNull('sent_at')
-                              ->get();
+        $failed_emails = Email::where('failed_to_send', '=', 1)
+            ->where('number_of_tries', '<=', 3)
+            ->get();
 
         foreach ($failed_emails as $failed_email) {
             $entity_string = $failed_email->entity;
