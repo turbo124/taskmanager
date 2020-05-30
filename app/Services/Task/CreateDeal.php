@@ -278,8 +278,8 @@ class CreateDeal
                 $order
             );
 
-            $subject = $order->customer->getSetting('email_subject_order');
-            $body = $order->customer->getSetting('email_template_order');
+            $subject = $order->customer->getSetting('email_subject_order_received');
+            $body = $order->customer->getSetting('email_template_order_received');
 
             $order->service()->sendEmail(null, $subject, $body);
 
