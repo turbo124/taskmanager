@@ -70,14 +70,20 @@ class OrderService extends ServiceBase
             $this->order->save();
         }
 
-        event(new OrderWasDispatched($this->order));
+        return $this->order;
+    }
+
+    public function send()
+    {
 
         // trigger
-        $subject = trans('texts.order_dispatched_subject');
-        $body = trans('texts.order_dispatched_body');
+        $subject = $order->customer->getSetting('email_subject_order_sent');
+        $body = $order->customer->getSetting('email_template_order_sent');
         $this->trigger($subject, $body, $order_repo);
 
-        return $this->order;
+        event(new OrderWasDispatched($this->order));
+
+        return true;
     }
 
     public function calculateInvoiceTotals(): Order
