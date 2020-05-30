@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Events\Invoice\InvoiceWasDeleted;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Events\Invoice\InvoiceWasReversed;
+use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
+use App\Events\Order\OrderWasHeld;
 use App\Events\Order\OrderWasMarkedSent;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
@@ -50,6 +52,10 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
+use App\Listeners\Order\OrderBackorderedActivity;
+use App\Listeners\Order\OrderBackorderedNotification;
+use App\Listeners\Order\OrderHeldActivity;
+use App\Listeners\Order\OrderHeldNotification;
 use App\Listeners\Order\OrderUpdatedActivity;
 use App\Listeners\Payment\PaymentCreatedActivity;
 use App\Listeners\Payment\PaymentDeletedActivity;
@@ -178,6 +184,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderWasDeleted::class      => [
             OrderDeletedActivity::class
+        ],
+        OrderWasBackordered::class  => [
+            OrderBackorderedActivity::class,
+            OrderBackorderedNotification::class
+        ],
+        OrderWasHeld::class         => [
+            OrderHeldActivity::class,
+            OrderHeldNotification::class
         ],
         OrderWasArchived::class     => [
             OrderArchivedActivity::class

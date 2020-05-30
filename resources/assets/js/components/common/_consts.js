@@ -33,6 +33,8 @@ export const consts = {
     quote_status_approved_text: 'Approved',
     order_status_draft: 1,
     order_status_sent: 2,
+    order_status_held: 5,
+    order_status_backorder: 6,
     order_status_complete: 3,
     order_status_approved: 4,
     order_status_draft_text: 'Draft',

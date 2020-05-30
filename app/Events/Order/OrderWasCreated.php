@@ -11,7 +11,8 @@ use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 
 /**
- * Class InvoiceWasCreated.
+ * Class OrderWasCreated
+ * @package App\Events\Order
  */
 class OrderWasCreated implements PerformsMetrics
 {
@@ -25,7 +26,7 @@ class OrderWasCreated implements PerformsMetrics
     /**
      * @var Order
      */
-    public $order;
+    public Order $order;
 
     /**
      * Create a new event instance.

@@ -11,6 +11,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class UpdateInventory
+ * @package App\Jobs\Inventory
+ */
 class UpdateInventory implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -44,6 +48,7 @@ class UpdateInventory implements ShouldQueue
             if (!empty($item->attribute_id)) {
                 $product_attribute = ProductAttribute::find($item->attribute_id);
                 $product_attribute->reduceQuantityAvailiable($item->quantity);
+                $product_attribute->reduceQuantityReserved($item->quantity);
                 continue;
             }
 
@@ -54,6 +59,7 @@ class UpdateInventory implements ShouldQueue
             }
 
             $product->reduceQuantityAvailiable($item->quantity);
+            $product->reduceQuantityReserved($item->quantity);
         }
     }
 }

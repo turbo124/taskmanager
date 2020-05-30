@@ -73,7 +73,7 @@ class OrderTest extends TestCase
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $orderRepo = new OrderRepository($order);
-        $updated = $orderRepo->save($data, $order);
+        $updated = $orderRepo->updateOrder($data, $order);
         $found = $orderRepo->findOrderById($order->id);
         $this->assertInstanceOf(Order::class, $updated);
         $this->assertEquals($data['customer_id'], $found->customer_id);
@@ -113,7 +113,7 @@ class OrderTest extends TestCase
         ];
 
         $orderRepo = new OrderRepository(new Order);
-        $order = $orderRepo->save($data, $factory);
+        $order = $orderRepo->createOrder($data, $factory);
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($data['customer_id'], $order->customer_id);
     }

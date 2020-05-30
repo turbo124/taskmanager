@@ -96,6 +96,27 @@ class ProductSettings extends Component {
                     value: settings.should_update_inventory
                 },
                 {
+                    name: 'allow_backorders',
+                    label: 'Allow Backorders',
+                    type: 'switch',
+                    placeholder: 'Allow Backorders',
+                    value: settings.allow_backorders
+                },
+                {
+                    name: 'allow_partial_orders',
+                    label: 'Allow Partial Orders',
+                    type: 'switch',
+                    placeholder: 'Allow Partial Orders',
+                    value: settings.allow_partial_orders
+                },
+                {
+                    name: 'inventory_enabled',
+                    label: 'Inventory Enabled',
+                    type: 'switch',
+                    placeholder: 'Inventory Enabled',
+                    value: settings.inventory_enabled
+                },
+                {
                     name: 'show_cost',
                     label: 'Show Cost',
                     type: 'switch',

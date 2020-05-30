@@ -37,6 +37,7 @@ trait OrderTransformable
             'sub_total'             => (float)$order->sub_total,
             'tax_total'             => (float)$order->tax_total,
             'status_id'             => (int)$order->status_id,
+            'invoice_id'            => (int)$order->invoice_id,
             'discount_total'        => (float)$order->discount_total,
             'deleted_at'            => $order->deleted_at,
             'terms'                 => (string)$order->terms ?: '',

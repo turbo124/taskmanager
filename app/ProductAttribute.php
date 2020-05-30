@@ -32,10 +32,30 @@ class ProductAttribute extends Model
         return $this->belongsToMany(AttributeValue::class);
     }
 
+    /**
+     * @param $quantity
+     */
     public function reduceQuantityAvailiable($quantity)
     {
         $this->quantity -= $quantity;
         $this->save();
     }
 
+    /**
+     * @param int $quantity
+     */
+    public function reduceQuantityReserved(int $quantity)
+    {
+        $this->reserved_stock -= $quantity;
+        $this->save();
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function increaseQuantityReserved(int $quantity)
+    {
+        $this->reserved_stock += $quantity;
+        $this->save();
+    }
 }

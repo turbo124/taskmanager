@@ -27,6 +27,7 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\QuoteRepository;
 use App\Transformations\CreditTransformable;
 use App\Transformations\InvoiceTransformable;
+use App\Transformations\OrderTransformable;
 use App\Transformations\QuoteTransformable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -42,6 +43,7 @@ class BaseController extends Controller
     use CreditTransformable;
     use QuoteTransformable;
     use InvoiceTransformable;
+    use OrderTransformable;
 
     /**
      * @var InvoiceRepository
@@ -114,6 +116,29 @@ class BaseController extends Controller
                 return response()->json($this->transformQuote($quote));
                 break;
 
+            case 'hold_order':
+                $order = $entity->service()->holdOrder();
+
+                if (!$order) {
+                    return response()->json('Order is already hold');
+                }
+
+                return response()->json($this->transformOrder($order));
+                break;
+            case 'fulfill':
+                $order = $entity->service()->fulfillOrder((new OrderRepository(new Order)));
+                $order->save();
+                return response()->json($this->transformOrder($order));
+                break;
+            case 'unhold_order':
+                $order = $entity->service()->unholdOrder();
+
+                if (!$order) {
+                    return response()->json('Order is not on hold');
+                }
+
+                return response()->json($this->transformOrder($order));
+                break;
             case 'dispatch': // done
 
                 if (!in_array($entity->status_id, [Order::STATUS_DRAFT, Order::STATUS_SENT])) {
@@ -144,7 +169,7 @@ class BaseController extends Controller
                         auth()->user()->account_user()->account
                     )
                 );
-                return response()->json($order);
+                return response()->json($this->transformOrder($order));
                 break;
             case 'clone_to_quote': // done
                 $quote = CloneQuoteFactory::create($entity, auth()->user());
@@ -152,24 +177,20 @@ class BaseController extends Controller
                 return response()->json($this->transformQuote($quote));
                 break;
             case 'mark_sent': //done
-                $invoice = $this->invoice_repo->markSent($entity);
+                $entity = $this->invoice_repo->markSent($entity);
+
+                if(!$entity) {
+                    return response()->json('action failed');
+                }
 
                 if ($this->entity_string === 'Invoice') {
-                    $invoice->customer->increaseBalance($invoice->balance);
-                    $invoice->customer->save();
-                    $invoice->ledger()->updateBalance($invoice->balance);
-
-                    if (!$bulk) {
-                        return response()->json($this->transformInvoice($invoice));
-                    }
+                    $entity->customer->increaseBalance($entity->balance);
+                    $entity->customer->save();
+                    $entity->ledger()->updateBalance($entity->balance);
                 }
 
                 if (!$bulk) {
-                    if ($this->entity_string === 'Quote') {
-                        return response()->json($this->transformQuote($invoice));
-                    }
-
-                    return response()->json($this->transformCredit($invoice));
+                    return response()->json($this->transformEntity($entity));
                 }
                 break;
             case 'clone_to_credit': // done
@@ -192,7 +213,7 @@ class BaseController extends Controller
 
                 $quote->save();
 
-                return response()->json($quote);
+                return response()->json($this->transformEntity($quote));
                 break;
             case 'download': //done
                 $disk = config('filesystems.default');
@@ -264,6 +285,27 @@ class BaseController extends Controller
             default:
                 return response()->json(['message' => "The requested action `{$action}` is not available."], 400);
                 break;
+        }
+    }
+
+    /**
+     * @param $entity
+     * @return array
+     */
+    private function transformEntity($entity)
+    {
+        switch ($this->entity_string) {
+            case 'Invoice':
+                return $this->transformInvoice($entity);
+
+            case 'Credit':
+                return $this->transformCredit($entity);
+
+            case 'Quote':
+                return $this->transformQuote($entity);
+
+            case 'Order':
+                return $this->transformOrder($entity);
         }
     }
 

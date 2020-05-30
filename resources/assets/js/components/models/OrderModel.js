@@ -20,6 +20,7 @@ export default class OrderModel extends BaseModel {
             contacts: [],
             address: {},
             customer_id: '',
+            invoice_id: null,
             total: 0,
             design_id: '',
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
@@ -61,8 +62,11 @@ export default class OrderModel extends BaseModel {
             width: window.innerWidth
         }
 
-        this.sent = 2
-        this.approved = 4
+        this.sent = consts.order_status_sent
+        this.approved = consts.order_status_approved
+        this.completed = consts.order_status_complete
+        this.held = consts.order_status_held
+        this.backorder = consts.order_status_backorder
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -83,6 +87,22 @@ export default class OrderModel extends BaseModel {
 
     get isApproved () {
         return parseInt(this.fields.status_id) === this.approved
+    }
+
+    get isCompleted () {
+        return parseInt(this.fields.status_id) === this.completed
+    }
+
+    get isBackorder () {
+        return parseInt(this.fields.status_id) === this.backorder
+    }
+
+    get isHeld () {
+        return parseInt(this.fields.status_id) === this.held
+    }
+
+    hasInvoice () {
+        return this.fields.invoice_id && this.fields.invoice_id.length
     }
 
     addItem () {
@@ -116,8 +136,12 @@ export default class OrderModel extends BaseModel {
             actions.push('markSent')
         }
 
-        if (!this.isApproved) {
+        if (!this.isApproved && !this.isCompleted) {
             actions.push('dispatch')
+        }
+
+        if (this.isBackorder) {
+            actions.push('fulfill')
         }
 
         if (!this.fields.is_deleted) {
@@ -138,6 +162,14 @@ export default class OrderModel extends BaseModel {
 
         if (this.isModuleEnabled('quotes')) {
             actions.push('cloneOrderToQuote')
+        }
+
+        if (!this.isHeld && !this.hasInvoice() && !this.isCompleted) {
+            actions.push('holdOrder')
+        }
+
+        if (this.isHeld) {
+            actions.push('unholdOrder')
         }
 
         return actions

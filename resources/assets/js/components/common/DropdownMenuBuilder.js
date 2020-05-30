@@ -118,6 +118,18 @@ export default class DropdownMenuBuilder extends Component {
                 message = `The ${this.props.model.entity} ${translations.reversed_invoice}`
             }
 
+            if (action === 'fulfill') {
+                message = `The ${this.props.model.entity} ${translations.order_filfilled}`
+            }
+
+            if (action === 'holdOrder') {
+                message = `The ${this.props.model.entity} ${translations.order_held}`
+            }
+
+            if (action === 'unholdOrder') {
+                message = `The ${this.props.model.entity} ${translations.order_unheld}`
+            }
+
             if (action === 'refund') {
                 message = `The ${this.props.model.entity} ${translations.refunded}`
             }
@@ -245,6 +257,24 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={19} className="primary"
                     onClick={() => this.changeStatus('reverse')}>
                     <i className={`fa ${icons.reverse} mr-2`}/>{translations.reverse}
+                </DropdownItem>
+
+            case 'fulfill':
+                return <DropdownItem key={25} className="primary"
+                    onClick={() => this.changeStatus('fulfill')}>
+                    <i className={`fa ${icons.archive} mr-2`}/>{translations.fulfill}
+                </DropdownItem>
+
+            case 'holdOrder':
+                return <DropdownItem key={26} className="primary"
+                    onClick={() => this.changeStatus('hold_order')}>
+                    <i className={`fa ${icons.archive} mr-2`}/>{translations.hold_order}
+                </DropdownItem>
+
+            case 'unholdOrder':
+                return <DropdownItem key={26} className="primary"
+                    onClick={() => this.changeStatus('unhold_order')}>
+                    <i className={`fa ${icons.archive} mr-2`}/>{translations.unhold_order}
                 </DropdownItem>
 
             case 'archive':

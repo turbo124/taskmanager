@@ -10,6 +10,9 @@ namespace App\Repositories;
 
 use App\Account;
 use App\ClientContact;
+use App\Events\Order\OrderWasBackordered;
+use App\Events\Order\OrderWasCreated;
+use App\Events\Order\OrderWasUpdated;
 use App\Factory\OrderInvitationFactory;
 use App\Filters\OrderFilter;
 use App\NumberGenerator;
@@ -63,11 +66,57 @@ class OrderRepository extends BaseRepository
     }
 
     /**
-     * @param $data
+     * @param array $data
+     * @param Order $order
+     */
+    public function updateOrder(array $data, Order $order): ?Order
+    {
+        $order->fill($data);
+        $order = $this->save($data, $order);
+
+        event(new OrderWasUpdated($order));
+
+        return $order;
+    }
+
+    /**
+     * @param array $data
+     * @param Order $order
+     * @return Order|null
+     */
+    public function createOrder(array $data, Order $order): ?Order
+    {
+        $order->fill($data);
+
+        if ($order->customer->getSetting('inventory_enabled') === true) {
+            $order = $order->service()->fulfillOrder($this);
+
+            /************** hold stock ***************************/
+            // if the order hasnt been failed at this point then reserve stock
+            if ($order->status_id !== Order::STATUS_ORDER_FAILED) {
+                $order->service()->holdStock();
+            }
+        }
+
+        // save the order
+        $order = $this->save($data, $order);
+
+        // send backorder notification if order has been backordered
+        if ($order->status_id === Order::STATUS_BACKORDERED) {
+            event(new OrderWasBackordered($order));
+        }
+
+        event(new OrderWasCreated($order));
+
+        return $order;
+    }
+
+    /**
+     * @param array $data
      * @param Order $order
      * @return Order
      */
-    public function save($data, Order $order): Order
+    public function save(array $data, Order $order): Order
     {
         $order->fill($data);
         $order = $this->populateDefaults($order);

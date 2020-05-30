@@ -138,10 +138,19 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->save();
     }
 
+    /**
+     * @param $entity
+     * @return |null
+     * @throws \ReflectionException
+     */
     public function markSent($entity)
     {
         $class = (new \ReflectionClass($entity))->getShortName();
         $entity_class = 'App\\' . $class;
+
+        if($entity_class === 'App\Order' && !$entity->invoice_id) {
+            return null;
+        }
 
         if ($entity->status_id != $entity_class::STATUS_DRAFT) {
             return $entity;
