@@ -18,6 +18,7 @@ import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_icons'
 import Variations from './Variations'
+import Features from './Features'
 
 class AddProduct extends React.Component {
     constructor (props) {
@@ -45,7 +46,8 @@ class AddProduct extends React.Component {
             categories: [],
             selectedCategories: [],
             activeTab: '1',
-            variations: []
+            variations: [],
+            features: []
         }
 
         this.state = this.initialState
@@ -59,6 +61,7 @@ class AddProduct extends React.Component {
         this.handleCheck = this.handleCheck.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.handleVariations = this.handleVariations.bind(this)
+        this.handleFeatures = this.handleFeatures.bind(this)
     }
 
     componentDidMount () {
@@ -92,6 +95,10 @@ class AddProduct extends React.Component {
         this.setState({ variations: variations }, () => console.log('variations', this.state.variations))
     }
 
+    handleFeatures (features) {
+        this.setState({ features: features }, () => console.log('features', this.state.features))
+    }
+
     handleClick () {
         const formData = new FormData()
         formData.append('cover', this.state.cover)
@@ -105,6 +112,7 @@ class AddProduct extends React.Component {
         formData.append('name', this.state.name)
         formData.append('description', this.state.description)
         formData.append('variations', JSON.stringify(this.state.variations))
+        formData.append('features', JSON.stringify(this.state.features))
         formData.append('price', this.state.price)
         formData.append('is_featured', this.state.is_featured)
         formData.append('cost', this.state.cost)
@@ -216,6 +224,16 @@ class AddProduct extends React.Component {
                                     {translations.variations}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.features}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
@@ -241,6 +259,10 @@ class AddProduct extends React.Component {
 
                             <TabPane tabId="3">
                                 <Variations variations={this.state.variations} onChange={this.handleVariations} />
+                            </TabPane>
+
+                            <TabPane tabId="4">
+                                <Features features={this.state.features} onChange={this.handleFeatures} />
                             </TabPane>
                         </TabContent>
 

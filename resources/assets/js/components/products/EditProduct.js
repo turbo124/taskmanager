@@ -25,6 +25,7 @@ import ProductListDropdown from './ProductListDropdown'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { icons, translations } from '../common/_icons'
 import Variations from './Variations'
+import Features from './Features'
 
 class EditProduct extends React.Component {
     constructor (props) {
@@ -58,7 +59,8 @@ class EditProduct extends React.Component {
             custom_value3: this.props.product.custom_value3,
             custom_value4: this.props.product.custom_value4,
             activeTab: '1',
-            variations: this.props.product.attributes ? this.props.product.attributes : []
+            variations: this.props.product.attributes ? this.props.product.attributes : [],
+            features: this.props.product.features ? this.props.product.features : []
         }
 
         this.initialState = this.state
@@ -74,6 +76,7 @@ class EditProduct extends React.Component {
         this.handleFileChange = this.handleFileChange.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.handleVariations = this.handleVariations.bind(this)
+        this.handleFeatures = this.handleFeatures.bind(this)
     }
 
     getFormData () {
@@ -89,6 +92,7 @@ class EditProduct extends React.Component {
         formData.append('name', this.state.name)
         formData.append('assigned_user_id', this.state.assigned_user_id)
         formData.append('variations', JSON.stringify(this.state.variations))
+        formData.append('features', JSON.stringify(this.state.features))
         formData.append('notes', this.state.notes)
         formData.append('is_featured', this.state.is_featured)
         formData.append('description', this.state.description)
@@ -121,6 +125,10 @@ class EditProduct extends React.Component {
 
     handleVariations (variations) {
         this.setState({ variations: variations }, () => console.log('variations', this.state.variations))
+    }
+
+    handleFeatures (features) {
+        this.setState({ features: features }, () => console.log('features', this.state.features))
     }
 
     handleClick () {
@@ -269,6 +277,16 @@ class EditProduct extends React.Component {
                                     {translations.variations}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.features}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
@@ -295,10 +313,20 @@ class EditProduct extends React.Component {
 
                             <TabPane tabId="3">
                                 <Card>
-                                    <CardHeader>Attributes</CardHeader>
+                                    <CardHeader>{translations.attributes}</CardHeader>
                                     <CardBody>
 
                                         <Variations variations={this.state.variations} onChange={this.handleVariations} />
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="4">
+                                <Card>
+                                    <CardHeader>{translations.features}</CardHeader>
+                                    <CardBody>
+
+                                        <Features features={this.state.features} onChange={this.handleFeatures} />
                                     </CardBody>
                                 </Card>
                             </TabPane>

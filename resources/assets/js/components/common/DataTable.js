@@ -70,7 +70,7 @@ export default class DataTable extends Component {
     }
 
     updateIgnoredColumns (columns) {
-        this.setState({ ignoredColumns: columns.concat('paymentables', 'line_items', 'emails', 'timers', 'attributes') }, function () {
+        this.setState({ ignoredColumns: columns.concat('paymentables', 'line_items', 'emails', 'timers', 'attributes', 'features') }, function () {
             console.log('ignored columns', this.state.ignoredColumns)
         })
     }

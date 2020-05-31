@@ -5,7 +5,7 @@ import CompanyDropdown from '../common/CompanyDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import UserDropdown from '../common/UserDropdown'
 import GroupSettingsDropdown from '../common/GroupSettingsDropdown'
-import PaymentTermsDropdown from "../common/PaymentTermsDropdown";
+import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
 
 export default function SettingsForm (props) {
     const hasErrorFor = (field) => {

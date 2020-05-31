@@ -19,7 +19,7 @@ import Project from '../partials/Project'
 import Company from '../partials/Company'
 import Order from '../partials/Order'
 import Lead from '../partials/Lead'
-import Promocode from "../partials/Promocode";
+import Promocode from '../partials/Promocode'
 
 export default class ViewEntity extends Component {
     constructor (props) {

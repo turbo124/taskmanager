@@ -16,12 +16,15 @@ class SaveProductAttributes
     use Dispatchable;
 
     protected $data;
+
+    /**
+     * @var Product
+     */
     protected Product $product;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * SaveProductAttributes constructor.
+     * @param Product $product
      */
     public function __construct(Product $product)
     {
@@ -36,6 +39,10 @@ class SaveProductAttributes
     public function handle(ProductRepository $product_repo, $fields): bool
     {
         $variations = json_decode($fields, true);
+
+        if (empty($variations)) {
+            return true;
+        }
 
         $this->product->attributes()->forceDelete();
 

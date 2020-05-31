@@ -7,8 +7,8 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import { translations } from "../common/_icons";
-import { consts } from "../common/_consts";
+import { translations } from '../common/_icons'
+import { consts } from '../common/_consts'
 
 export default class OrderFilters extends Component {
     constructor (props) {

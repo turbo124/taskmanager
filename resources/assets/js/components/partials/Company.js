@@ -11,9 +11,9 @@ import {
 import { icons } from '../common/_icons'
 import { translations } from '../common/_icons'
 import PaymentModel from '../models/PaymentModel'
-import ViewEntityHeader from "../common/entityContainers/ViewEntityHeader";
-import SectionItem from "../common/entityContainers/SectionItem";
-import InfoItem from "../common/entityContainers/InfoItem";
+import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
+import SectionItem from '../common/entityContainers/SectionItem'
+import InfoItem from '../common/entityContainers/InfoItem'
 
 export default class Company extends Component {
     constructor (props) {

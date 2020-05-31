@@ -1004,6 +1004,12 @@ class AccountSettings extends BaseSettings
         return trans($value);
     }
 
+    /**
+     * @param Account $account
+     * @param $settings
+     * @param bool $full_validation
+     * @return Account
+     */
     public function save(Account $account, $settings, $full_validation = false): Account
     {
         try {

@@ -7,8 +7,8 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import { translations } from "../common/_icons";
-import { consts } from "../common/_consts";
+import { translations } from '../common/_icons'
+import { consts } from '../common/_consts'
 
 export default class RecurringInvoiceFilters extends Component {
     constructor (props) {
