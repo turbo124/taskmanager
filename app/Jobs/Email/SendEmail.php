@@ -4,6 +4,7 @@ namespace App\Jobs\Email;
 
 use App\Designs\Custom;
 use App\PdfData;
+use App\User;
 use Illuminate\Support\Carbon;
 use App\Designs\Clean;
 use App\Designs\PdfColumns;
@@ -138,29 +139,37 @@ class SendEmail implements ShouldQueue
         return $data;
     }
 
+    /**
+     * @param $subject
+     * @param $body
+     * @param $sent_successfully
+     * @return bool
+     */
     private function toDatabase($subject, $body, $sent_successfully)
     {
-        if (empty(auth()->user())) {
-            return false;
+        $user = auth()->user();
+
+        if (empty($user)) {
+            $user = User::find(5)->first(); //TODO
         }
 
         $entity = get_class($this->entity);
 
         // check if already sent
         $email = Email::whereSubject($subject)
-            ->whereEntity($entity)
-            ->whereEntityId($this->entity->id)
-            ->whereRecipientEmail($this->contact->present()->email)
-            ->whereFailedToSend(1)
-            ->first();
+                      ->whereEntity($entity)
+                      ->whereEntityId($this->entity->id)
+                      ->whereRecipientEmail($this->contact->present()->email)
+                      ->whereFailedToSend(1)
+                      ->first();
 
 
-        if(!empty($email) && !$sent_successfully) {
+        if (!empty($email) && !$sent_successfully) {
             $email->increment('number_of_tries', 1, ['failed_to_send' => 1]);
             return false;
         }
 
-        $email = EmailFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id);
+        $email = EmailFactory::create($user->id, $user->account_user()->account_id);
 
         (new EmailRepository(new Email))->save(
             [
@@ -171,7 +180,7 @@ class SendEmail implements ShouldQueue
                 'recipient'       => $this->contact->present()->name,
                 'recipient_email' => $this->contact->present()->email,
                 'sent_at'         => Carbon::now(),
-                'failed_to_send'  => $sent_successfully,
+                'failed_to_send'  => $sent_successfully === false,
             ],
             $email
         );

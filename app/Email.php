@@ -30,7 +30,8 @@ class Email extends Authenticatable
         'entity_id',
         'account_id',
         'user_id',
-        'direction'
+        'direction',
+        'failed_to_send'
     ];
 
     protected $casts = [
