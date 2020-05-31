@@ -1,4 +1,4 @@
-import { icons } from "./common/_icons";
+import { icons } from './common/_icons'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

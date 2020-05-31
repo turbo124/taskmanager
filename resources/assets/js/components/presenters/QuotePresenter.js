@@ -5,7 +5,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
 import QuoteModel from '../models/QuoteModel'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 export default function QuotePresenter (props) {
     const colors = {

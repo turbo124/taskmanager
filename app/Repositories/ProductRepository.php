@@ -195,6 +195,28 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
+     * @param Product $product
+     * @param $fields
+     * @return bool
+     */
+    public function saveProductFeatures(Product $product, $fields): bool
+    {
+        $features = json_decode($fields, true);
+
+        if (empty($features)) {
+            return true;
+        }
+
+        $product->features()->forceDelete();
+
+        foreach ($features as $feature) {
+            $product->features()->create($feature);
+        }
+
+        return true;
+    }
+
+    /**
      * @return Collection
      */
     public function listCombinations(): Collection
@@ -312,6 +334,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return true;
     }
 
+    /**
+     * @param $data
+     * @param Product $product
+     * @return Product|null
+     */
     public function save($data, Product $product): ?Product
     {
         $this->data['slug'] = Str::slug($data['name']);
@@ -324,6 +351,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         $product->fill($data);
         $product->save();
+
+        if (!empty($data['features'])) {
+            $this->saveProductFeatures($product, $data['features']);
+        }
 
         if (isset($data['image']) && !empty($data['image'])) {
             $this->saveProductImages(collect($data['image']), $product);

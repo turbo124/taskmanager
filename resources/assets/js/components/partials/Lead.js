@@ -3,12 +3,12 @@ import {
     Row,
     Card,
     CardText,
-    ListGroup,
+    ListGroup
 } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_icons'
-import InfoItem from "../common/entityContainers/InfoItem";
+import InfoItem from '../common/entityContainers/InfoItem'
 
 export default class Lead extends Component {
     render () {

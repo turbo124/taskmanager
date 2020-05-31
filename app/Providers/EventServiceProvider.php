@@ -52,6 +52,7 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
+use App\Listeners\Lead\LeadCreatedActivity;
 use App\Listeners\Order\OrderBackorderedActivity;
 use App\Listeners\Order\OrderBackorderedNotification;
 use App\Listeners\Order\OrderHeldActivity;
@@ -219,6 +220,7 @@ class EventServiceProvider extends ServiceProvider
             CreditMarkedSentActivity::class
         ],
         LeadWasCreated::class       => [
+            LeadCreatedActivity::class,
             LeadNotification::class
         ],
         LeadWasArchived::class      => [

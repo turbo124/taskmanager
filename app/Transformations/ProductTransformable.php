@@ -29,6 +29,7 @@ trait ProductTransformable
             'price'            => (float)$product->price ?: 0,
             'quantity'         => (float)$product->quantity ?: 1,
             'status'           => $product->status,
+            'features'         => $product->features,
             'cover'            => $product->cover,
             'company_id'       => (int)$product->company_id,
             'brand'            => !empty($product->company) ? $product->company->name : null,

@@ -12,8 +12,8 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { icons, translations } from '../common/_icons'
 import PaymentModel from '../models/PaymentModel'
-import ViewEntityHeader from "../common/entityContainers/ViewEntityHeader";
-import SimpleSectionItem from "../common/entityContainers/SimpleSectionItem";
+import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
+import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 
 export default class Payment extends Component {
     constructor (props) {

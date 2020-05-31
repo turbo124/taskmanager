@@ -4,8 +4,8 @@ import moment from 'moment'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
-import InvoiceModel from "../models/InvoiceModel";
-import { translations } from "../common/_icons";
+import InvoiceModel from '../models/InvoiceModel'
+import { translations } from '../common/_icons'
 
 export default function InvoicePresenter (props) {
     const colors = {

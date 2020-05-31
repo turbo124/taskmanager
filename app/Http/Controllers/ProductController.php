@@ -7,6 +7,7 @@ use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
 use App\Jobs\Customer\StoreProductAttributes;
 use App\Jobs\Product\SaveProductAttributes;
+use App\Jobs\Product\SaveProductFeatures;
 use App\Order;
 use App\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;

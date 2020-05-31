@@ -67,7 +67,7 @@ export default class SettingsForm extends React.Component {
     render () {
         return (<Card>
             <CardHeader>
-                    {translations.settings}
+                {translations.settings}
             </CardHeader>
 
             <CardBody>

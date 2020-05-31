@@ -43,6 +43,9 @@ export const icons = {
 }
 
 export const translations = {
+    maximum_5_features: 'You can only add 5 features for a product',
+    features: 'Features',
+    attributes: 'Attributes',
     order_filfilled: 'The Order has been fulfilled and items have been removed from backorder',
     order_held: 'The Order has been held',
     order_unheld: 'The order has been removed from hold and put back to its initial status',

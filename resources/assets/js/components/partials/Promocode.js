@@ -15,7 +15,7 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
 import FormatDate from '../common/FormatDate'
-import FormatMoney from "../common/FormatMoney";
+import FormatMoney from '../common/FormatMoney'
 
 export default class Promocode extends Component {
     render () {

@@ -2,13 +2,13 @@
 
 namespace App;
 
+use App\ProductAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use App\Company;
 use App\Category;
-use App\ProductAttribute;
 use App\ProductImage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -69,6 +69,14 @@ class Product extends Model
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function features()
+    {
+        return $this->hasMany(ProductFeature::class);
     }
 
     /**

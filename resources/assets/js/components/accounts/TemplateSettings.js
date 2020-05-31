@@ -164,8 +164,8 @@ class TemplateSettings extends Component {
 
     render () {
         const fields = <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
-                handleSettingsChange={this.handleSettingsChange}
-                handleChange={this.handleChange}/>
+            handleSettingsChange={this.handleSettingsChange}
+            handleChange={this.handleChange}/>
 
         console.log('fields', fields)
 

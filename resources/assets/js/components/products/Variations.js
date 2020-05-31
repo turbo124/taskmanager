@@ -42,7 +42,13 @@ export default class Variations extends Component {
 
     addLine (e) {
         this.setState((prevState) => ({
-            variations: [...prevState.variations, { attribute_values: [], price: 0, cost: 0, quantity: 0, is_default: false }]
+            variations: [...prevState.variations, {
+                attribute_values: [],
+                price: 0,
+                cost: 0,
+                quantity: 0,
+                is_default: false
+            }]
         }), () => this.props.onChange(this.state.variations))
     }
 
@@ -58,7 +64,7 @@ export default class Variations extends Component {
         const { variations } = this.state
         return (
             <form>
-                <VariationInputs variations={this.state.variations} errors={this.props.errors}
+                <VariationInputs errors={this.props.errors}
                     onChange={this.handleChange} variations={variations}
                     removeLine={this.removeLine}/>
                 <Button color="primary" onClick={this.addLine}>Add</Button>
