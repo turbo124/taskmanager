@@ -2,11 +2,8 @@
 
 namespace App\Listeners\Invoice;
 
-use App\Models\Activity;
-use App\Models\ClientContact;
-use App\Models\InvoiceInvitation;
-use App\Repositories\ActivityRepository;
-use App\Utils\Traits\MakesHash;
+use App\Factory\NotificationFactory;
+use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
@@ -44,7 +41,7 @@ class InvoiceReversedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
-
+        $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

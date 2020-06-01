@@ -63,6 +63,7 @@ class UploadFile implements ShouldQueue
 
         // create notification
         $notification = NotificationFactory::create($this->account->id, $this->user->id);
+        $notification->entity_id = $file->id;
         $notification->type = 'App\Notifications\AttachmentCreated';
         $notification->data = json_encode(
             [

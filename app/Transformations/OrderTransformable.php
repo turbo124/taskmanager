@@ -2,11 +2,13 @@
 
 namespace App\Transformations;
 
+use App\Audit;
 use App\Email;
 use App\Invoice;
 use App\InvoiceInvitation;
 use App\Order;
 use App\OrderInvitation;
+use App\Payment;
 use App\Repositories\CustomerRepository;
 use App\Customer;
 
@@ -52,6 +54,7 @@ trait OrderTransformable
             'custom_surcharge_tax1' => (bool)$order->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$order->custom_surcharge_tax2,
             'emails'                => $this->transformOrderEmails($order->emails()),
+            'audits'                => $this->transformAuditsForOrder($order->audits)
         ];
     }
 
@@ -85,6 +88,19 @@ trait OrderTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForOrder($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
             }
         )->all();
     }

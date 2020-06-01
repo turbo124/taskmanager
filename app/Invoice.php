@@ -158,6 +158,11 @@ class Invoice extends Model
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
 
+    public function audits()
+    {
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id');
+    }
+
     public function documents()
     {
         return $this->morphMany(File::class, 'documentable');

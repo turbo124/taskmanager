@@ -40,6 +40,7 @@ class CreditUpdatedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->credit->account_id, $event->credit->user_id);
+        $notification->entity_id = $event->credit->id;
         $this->notification_repo->save($notification, $fields);
 
         // regenerate pdf

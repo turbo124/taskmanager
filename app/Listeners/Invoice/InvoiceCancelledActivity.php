@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Invoice;
 
+use App\Factory\NotificationFactory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
@@ -39,7 +40,7 @@ class InvoiceCancelledActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
-
+        $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

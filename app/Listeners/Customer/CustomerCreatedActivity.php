@@ -39,6 +39,7 @@ class CustomerCreatedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->customer->account_id, $event->customer->user_id);
+        $notification->entity_id = $event->customer->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

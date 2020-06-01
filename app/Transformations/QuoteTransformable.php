@@ -2,6 +2,7 @@
 
 namespace App\Transformations;
 
+use App\Audit;
 use App\Email;
 use App\Quote;
 use App\QuoteInvitation;
@@ -49,6 +50,7 @@ trait QuoteTransformable
             'custom_surcharge_tax1' => (bool)$quote->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$quote->custom_surcharge_tax2,
             'emails'                => $this->transformQuoteEmails($quote->emails()),
+            'audits'                => $this->transformAuditsForQuote($quote->audits)
         ];
     }
 
@@ -82,6 +84,19 @@ trait QuoteTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForQuote($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
             }
         )->all();
     }

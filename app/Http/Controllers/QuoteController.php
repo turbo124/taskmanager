@@ -186,4 +186,9 @@ class QuoteController extends BaseController
         $this->quote_repo->restore($invoice);
         return response()->json([], 200);
     }
+
+    public function bulk(Request $request)
+    {
+
+    }
 }

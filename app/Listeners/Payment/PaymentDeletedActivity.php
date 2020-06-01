@@ -42,6 +42,7 @@ class PaymentDeletedActivity implements ShouldQueue
         $fields['type'] = get_class($this);
 
         $notification = NotificationFactory::create($payment->account_id, $payment->user_id);
+        $notification->entity_id = $event->payment->id;
 
         foreach ($invoices as $invoice) { //todo we may need to add additional logic if in the future we apply payments to other entity Types, not just invoices
             $fields2 = $fields;

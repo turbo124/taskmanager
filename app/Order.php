@@ -40,13 +40,13 @@ class Order extends Model
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
-        'account_id'  => 'integer',
-        'user_id'     => 'integer',
+        'account_id' => 'integer',
+        'user_id' => 'integer',
         'customer_id' => 'integer',
-        'line_items'  => 'object',
-        'updated_at'  => 'timestamp',
-        'deleted_at'  => 'timestamp',
-        'is_deleted'  => 'boolean',
+        'line_items' => 'object',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
+        'is_deleted' => 'boolean',
     ];
 
     protected $fillable = [
@@ -122,6 +122,11 @@ class Order extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
+    public function audits()
+    {
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id');
+    }
+
     /**
      * @return mixed
      */
@@ -176,7 +181,7 @@ class Order extends Model
      */
     public function setPreviousStatus(int $status)
     {
-        $this->previous_status = (int) $status;
+        $this->previous_status = (int)$status;
     }
 
     /**
