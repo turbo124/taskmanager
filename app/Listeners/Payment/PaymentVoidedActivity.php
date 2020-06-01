@@ -38,6 +38,7 @@ class PaymentVoidedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->payment->account_id, $event->payment->user_id);
+        $notification->entity_id = $event->payment->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

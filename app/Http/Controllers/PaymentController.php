@@ -77,6 +77,7 @@ class PaymentController extends Controller
         );
 
         $notification = NotificationFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
+        $notification->entity_id = $payment->id;
         (new NotificationRepository(new \App\Notification))->save(
             $notification,
             [

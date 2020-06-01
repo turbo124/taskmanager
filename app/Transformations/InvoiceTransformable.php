@@ -2,6 +2,7 @@
 
 namespace App\Transformations;
 
+use App\Audit;
 use App\Email;
 use App\Invoice;
 use App\InvoiceInvitation;
@@ -54,7 +55,8 @@ trait InvoiceTransformable
             'custom_surcharge_tax2' => (bool)$invoice->custom_surcharge_tax2,
             'last_sent_date'        => $invoice->last_sent_date ?: '',
             'emails'                => $this->transformEmails($invoice->emails()),
-            'paymentables'          => $this->transformInvoicePayments($invoice->payments)
+            'paymentables'          => $this->transformInvoicePayments($invoice->payments),
+            'audits'                => $this->transformAuditsForInvoice($invoice->audits)
         ];
     }
 
@@ -101,6 +103,19 @@ trait InvoiceTransformable
         return $paymentables->map(
             function (Payment $payment) {
                 return $this->transformPayment($payment);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForInvoice($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
             }
         )->all();
     }

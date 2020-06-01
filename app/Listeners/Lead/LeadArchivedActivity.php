@@ -40,6 +40,7 @@ class LeadArchivedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->lead->account_id, $event->lead->user_id);
+        $notification->entity_id = $event->lead->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

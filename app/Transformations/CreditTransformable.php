@@ -8,6 +8,7 @@
 
 namespace App\Transformations;
 
+use App\Audit;
 use App\Credit;
 use App\CreditInvitation;
 use App\Email;
@@ -54,6 +55,7 @@ trait CreditTransformable
             'custom_surcharge_tax1' => (bool)$credit->custom_surcharge_tax1,
             'custom_surcharge_tax2' => (bool)$credit->custom_surcharge_tax2,
             'emails'                => $this->transformCreditEmails($credit->emails()),
+            'audits'                => $this->transformAuditsForCredit($credit->audits)
         ];
     }
 
@@ -87,6 +89,19 @@ trait CreditTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForCredit($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
             }
         )->all();
     }

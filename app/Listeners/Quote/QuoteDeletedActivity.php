@@ -40,6 +40,7 @@ class QuoteDeletedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->quote->account_id, $event->quote->user_id);
+        $notification->entity_id = $event->quote->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

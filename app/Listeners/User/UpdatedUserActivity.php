@@ -45,6 +45,7 @@ class UpdatedUserActivity
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->user->account_id, $event->user->user_id);
+        $notification->entity_id = $event->user->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

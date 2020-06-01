@@ -40,6 +40,7 @@ class OrderArchivedActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->order->account_id, $event->order->user_id);
+        $notification->entity_id = $event->order->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

@@ -41,7 +41,7 @@ class InvoiceDeletedActivity implements ShouldQueue
 
         $notification =
             NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
-
+        $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

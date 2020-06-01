@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Audit;
 use App\Notification;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
@@ -49,6 +50,42 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     public function save(Notification $notification, array $data)
     {
         $notification->fill($data);
-        return $notification->save();
+
+        $response = $notification->save();
+
+        if (!$response) {
+            return false;
+        }
+
+        $this->audit($notification);
+
+        return true;
+    }
+
+    /**
+     * @param Notification $notification
+     * @return bool
+     */
+    private function audit(Notification $notification)
+    {
+        $entity_class = $notification->notifiable_type;
+        $data = json_decode($notification->data, true);
+
+        if (in_array($entity_class, ['App\Customer', 'App\Lead'])) {
+            $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('account')->first();
+        } else {
+            $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('customer', 'account')->first();
+        }
+
+        Audit::create(
+            [
+                'data'            => $entity,
+                'entity_class'    => $notification->notifiable_type,
+                'entity_id'       => $entity->id,
+                'notification_id' => $notification->id
+            ]
+        );
+
+        return true;
     }
 }

@@ -40,6 +40,7 @@ class InvoicePaidActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
+        $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }
