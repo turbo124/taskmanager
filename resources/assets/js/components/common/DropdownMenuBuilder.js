@@ -69,52 +69,67 @@ export default class DropdownMenuBuilder extends Component {
             }
 
             if (action === 'clone_to_invoice') {
-                // this.props.invoices.push(response.data)
-                // this.props.action(this.props.invoices)
+                this.props.invoices.push(response)
+                this.props.action(this.props.invoices)
                 message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
             }
 
             if (action === 'clone_to_quote') {
-                // this.props.invoices.push(response.data)
-                // this.props.action(this.props.invoices)
+                this.props.invoices.push(response)
+                this.props.action(this.props.invoices)
                 message = `Quote was created successfully. Quote ${response.number} has been created`
             }
 
             if (action === 'clone_to_credit') {
-                // this.props.invoices.push(response.data)
-                // this.props.action(this.props.invoices)
+                this.props.invoices.push(response)
+                this.props.action(this.props.invoices)
                 message = `Credit was created successfully. Credit ${response.number} has been created`
             }
 
             if (action === 'clone_to_order') {
-                // this.props.invoices.push(response.data)
-                // this.props.action(this.props.invoices)
+                this.props.invoices.push(response)
+                this.props.action(this.props.invoices)
                 message = `Order was created successfully. Order ${response.number} has been created`
             }
 
             if (action === 'clone_to_expense') {
-                // this.props.invoices.push(response.data)
-                // this.props.action(this.props.invoices)
+                this.props.invoices.push(response)
+                this.props.action(this.props.invoices)
                 message = `Expense was created successfully. Expense ${response.number} has been created`
             }
 
             if (action === 'approve') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.approved}`
             }
 
             if (action === 'mark_sent') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.sent}`
             }
 
             if (action === 'create_payment') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.paid}.`
             }
 
             if (action === 'cancel') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.cancelled_invoice}`
             }
 
             if (action === 'reverse') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.reversed_invoice}`
             }
 
@@ -122,12 +137,19 @@ export default class DropdownMenuBuilder extends Component {
                 message = `The ${this.props.model.entity} ${translations.order_filfilled}`
             }
 
-            if (action === 'holdOrder') {
-                message = `The ${this.props.model.entity} ${translations.order_held}`
+            if (action === 'hold_order') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                console.log('response', response)
+                this.props.action(this.props.invoices)
+                message = `${translations.order_held}`
             }
 
-            if (action === 'unholdOrder') {
-                message = `The ${this.props.model.entity} ${translations.order_unheld}`
+            if (action === 'unhold_order') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
+                message = `${translations.order_unheld}`
             }
 
             if (action === 'refund') {

@@ -102,6 +102,7 @@ class EditExpense extends React.Component {
     }
 
     handleClick () {
+        this.setState({ loading: true })
         this.expenseModel.update(this.getFormData()).then(response => {
             if (!response) {
                 this.setState({ errors: this.expenseModel.errors, message: this.expenseModel.error_message })
@@ -111,7 +112,7 @@ class EditExpense extends React.Component {
             const index = this.props.expenses.findIndex(expense => expense.id === this.state.id)
             this.props.expenses[index] = response
             this.props.action(this.props.expenses)
-            this.setState({ changesMade: false })
+            this.setState({ changesMade: false, loading: false })
             this.toggle()
         })
     }
@@ -137,11 +138,12 @@ class EditExpense extends React.Component {
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
 
-        const { message } = this.state
+        const { message, loading } = this.state
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_expense}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_expense}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_expense}
@@ -152,7 +154,10 @@ class EditExpense extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder formData={this.getFormData()} model={this.expenseModel}/>
+                        <DropdownMenuBuilder invoices={this.props.expenses} formData={this.getFormData()}
+                            model={this.expenseModel}
+                            action={this.props.action}/>
+
                         {successMessage}
                         {errorMessage}
 
@@ -236,6 +241,10 @@ class EditExpense extends React.Component {
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
                         <Button color="secondary" onClick={this.toggle}>Close</Button>
+
+                        {loading &&
+                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                        }
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

@@ -11,7 +11,7 @@ import UserDropdown from '../common/UserDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import CategoryDropdown from '../common/CategoryDropdown'
 import FormBuilder from '../accounts/FormBuilder'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {
@@ -97,7 +97,7 @@ export default class DetailsForm extends React.Component {
                 <Row form>
                     <Col md={3}>
                         <FormGroup>
-                            <Label for="sku">Sku(*):</Label>
+                            <Label for="sku">{translations.sku}(*):</Label>
                             <Input className={this.hasErrorFor('sku') ? 'is-invalid' : ''}
                                 type="text"
                                 name="sku"

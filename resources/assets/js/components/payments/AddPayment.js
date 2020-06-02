@@ -6,7 +6,7 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import Details from './Details'
 import PaymentModel from '../models/PaymentModel'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
 
 class AddPayment extends React.Component {
     constructor (props) {
@@ -71,6 +71,7 @@ class AddPayment extends React.Component {
     }
 
     handleClick () {
+        this.setState({ loading: true })
         const data = {
             date: this.state.date,
             type_id: this.state.type_id,
@@ -111,7 +112,7 @@ class AddPayment extends React.Component {
     }
 
     render () {
-        const { message } = this.state
+        const { message, loading } = this.state
 
         return (
             <React.Fragment>
@@ -146,6 +147,10 @@ class AddPayment extends React.Component {
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+
+                        {loading &&
+                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                        }
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

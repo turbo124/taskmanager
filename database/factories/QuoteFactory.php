@@ -9,6 +9,17 @@ $factory->define(Quote::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();
     $user = factory(User::class)->create();
 
+    for ($x = 0; $x < 5; $x++) {
+        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            ->setQuantity($faker->numberBetween(1, 10))
+            ->setUnitPrice($faker->randomFloat(2, 1, 1000))
+            ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
+            ->setUnitTax(10.00)
+            ->setProductId($faker->word())
+            ->setNotes($faker->realText(50))
+            ->toObject();
+    }
+
     return [
         'account_id' => 1,
         'status_id' => Quote::STATUS_DRAFT,
@@ -26,5 +37,6 @@ $factory->define(Quote::class, function (Faker\Generator $faker) {
         'custom_value4' => $faker->numberBetween(1,4),
         'is_deleted' => false,
         'po_number' => $faker->text(10),
+        'line_items'     => $line_items,
     ];
 });

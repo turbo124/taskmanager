@@ -3,11 +3,13 @@
 namespace App;
 
 use App\Product;
+use App\Traits\ManageStock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductAttribute extends Model
 {
+    use ManageStock;
 
     protected $fillable = [
         'quantity',
@@ -30,32 +32,5 @@ class ProductAttribute extends Model
     public function attributesValues()
     {
         return $this->belongsToMany(AttributeValue::class);
-    }
-
-    /**
-     * @param $quantity
-     */
-    public function reduceQuantityAvailiable($quantity)
-    {
-        $this->quantity -= $quantity;
-        $this->save();
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function reduceQuantityReserved(int $quantity)
-    {
-        $this->reserved_stock -= $quantity;
-        $this->save();
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function increaseQuantityReserved(int $quantity)
-    {
-        $this->reserved_stock += $quantity;
-        $this->save();
     }
 }

@@ -81,6 +81,8 @@ class Quote extends Model
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
+    const STATUS_INVOICED = 5;
+    const STATUS_ON_ORDER = 6;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
 
@@ -96,7 +98,11 @@ class Quote extends Model
 
     public function audits()
     {
-        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id');
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id')->where(
+            'entity_class',
+            '=',
+            get_class($this)
+        );
     }
 
     public function emails()
@@ -181,6 +187,11 @@ class Quote extends Model
     public function setInvoiceId($invoice_id)
     {
         $this->invoice_id = $invoice_id;
+    }
+
+    public function setOrderId($order_id)
+    {
+        $this->order_id = $order_id;
     }
 
     public function setNumber()

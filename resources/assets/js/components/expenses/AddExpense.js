@@ -17,7 +17,7 @@ import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
 import FileUploads from '../attachments/FileUploads'
 
 class AddExpense extends React.Component {
@@ -75,6 +75,8 @@ class AddExpense extends React.Component {
     }
 
     handleClick () {
+        this.setState({ loading: true })
+
         const data = {
             amount: this.state.amount,
             customer_id: this.state.customer_id,
@@ -120,7 +122,7 @@ class AddExpense extends React.Component {
     }
 
     render () {
-        const { message } = this.state
+        const { message, loading } = this.state
 
         return (
             <React.Fragment>
@@ -198,6 +200,10 @@ class AddExpense extends React.Component {
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+
+                        {loading &&
+                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                        }
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

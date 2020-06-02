@@ -327,6 +327,8 @@ export default class EditCredit extends Component {
     }
 
     saveData () {
+        this.setState({ loading: true })
+
         this.creditModel.save(this.getFormData()).then(response => {
             if (!response) {
                 this.setState({ errors: this.creditModel.errors, message: this.creditModel.error_message })
@@ -346,6 +348,7 @@ export default class EditCredit extends Component {
             const index = this.props.credits.findIndex(credit => credit.id === this.state.id)
             this.props.credits[index] = response
             this.props.action(this.props.credits)
+            this.setState({ loading: false })
         })
     }
 
@@ -462,7 +465,7 @@ export default class EditCredit extends Component {
         const documents = this.state.id ? <Documents credit={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder credits={this.props.credits} formData={this.getFormData()}
+            ? <DropdownMenuBuilder invoices={this.props.credits} formData={this.getFormData()}
                 model={this.creditModel}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}
@@ -571,7 +574,7 @@ export default class EditCredit extends Component {
 
     render () {
         const form = this.buildForm()
-        const { success } = this.state
+        const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
 
@@ -591,6 +594,10 @@ export default class EditCredit extends Component {
                         <ModalFooter>
                             <Button color="success" onClick={this.saveData}>Save</Button>
                             <Button color="secondary" onClick={this.toggle}>Close</Button>
+
+                            {loading &&
+                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                            }
                         </ModalFooter>
                     </Modal>
                 </React.Fragment>
