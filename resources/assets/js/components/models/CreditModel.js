@@ -127,6 +127,7 @@ export default class CreditModel extends BaseModel {
 
         if (!this.fields.deleted_at) {
             actions.push('archive')
+            actions.push('cloneToCredit')
         }
 
         if (this.isModuleEnabled('invoices') && !this.isApproved) {

@@ -278,6 +278,7 @@ export default class EditOrder extends Component {
     }
 
     saveData () {
+        this.setState({ loading: true })
         this.orderModel.save(this.getFormData()).then(response => {
             if (!response) {
                 this.setState({ errors: this.orderModel.errors, message: this.orderModel.error_message })
@@ -297,6 +298,7 @@ export default class EditOrder extends Component {
             const index = this.props.credits.findIndex(credit => credit.id === this.state.id)
             this.props.credits[index] = response
             this.props.action(this.props.credits)
+            this.setState({ loading: false })
         })
     }
 
@@ -406,9 +408,11 @@ export default class EditOrder extends Component {
         const documents = this.state.id ? <Documents order={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder formData={this.getFormData()}
+            ? <DropdownMenuBuilder invoices={this.props.orders} formData={this.getFormData()}
                 model={this.orderModel}
-                task_id={this.props.task_id}/> : null
+                task_id={this.state.task_id}
+                handleTaskChange={this.handleTaskChange}
+                action={this.props.action}/> : null
 
         const form = isMobile
             ? <React.Fragment>
@@ -546,7 +550,7 @@ export default class EditOrder extends Component {
 
     render () {
         const form = this.buildForm()
-        const { success } = this.state
+        const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_order}</DropdownItem>
 
@@ -566,6 +570,10 @@ export default class EditOrder extends Component {
                         <ModalFooter>
                             <Button color="success" onClick={this.saveData}>{translations.save}</Button>
                             <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+
+                            {loading &&
+                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                            }
                         </ModalFooter>
                     </Modal>
                 </React.Fragment>

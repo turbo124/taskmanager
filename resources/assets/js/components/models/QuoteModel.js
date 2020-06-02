@@ -69,7 +69,8 @@ export default class CreditModel extends BaseModel {
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            width: window.innerWidth
+            width: window.innerWidth,
+            loading: false
         }
 
         this.sent = 2

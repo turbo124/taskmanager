@@ -93,6 +93,8 @@ export default class QuoteFilters extends Component {
                             <option value={consts.quote_status_sent}>{translations.sent}</option>
                             <option value='active'>{translations.viewed}</option>
                             <option value={consts.quote_status_approved}>{translations.approved}</option>
+                            <option value={consts.quote_status_invoiced}>{translations.invoiced}</option>
+                            <option value={consts.quote_status_on_order}>{translations.on_order}</option>
                             <option value='overdue'>{translations.expired}</option>
                         </Input>
                     </FormGroup>

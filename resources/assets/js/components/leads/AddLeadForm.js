@@ -13,7 +13,7 @@ import Contact from './Contact'
 import Address from './Address'
 import Details from './Details'
 import Notes from '../common/Notes'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
 
 class AddLeadForm extends React.Component {
     constructor (props) {
@@ -200,7 +200,7 @@ class AddLeadForm extends React.Component {
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
 
                         {loading &&
-                        <span className="fa fa-circle-o-notch fa-spin"/>
+                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
                         }
                     </ModalFooter>
                 </Modal>

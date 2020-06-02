@@ -102,6 +102,7 @@ class EditPayment extends React.Component {
     }
 
     handleClick () {
+        this.setState({ loading: true })
         this.paymentModel.update(this.getFormData()).then(response => {
             if (!response) {
                 this.setState({ errors: this.paymentModel.errors, message: this.paymentModel.error_message })
@@ -111,7 +112,7 @@ class EditPayment extends React.Component {
             const index = this.props.payments.findIndex(payment => payment.id === this.state.id)
             this.props.payments[index] = response
             this.props.action(this.props.payments)
-            this.setState({ changesMade: false })
+            this.setState({ changesMade: false, loading: false })
             this.toggle()
         })
     }
@@ -140,7 +141,7 @@ class EditPayment extends React.Component {
     }
 
     render () {
-        const { message } = this.state
+        const { message, loading } = this.state
 
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
@@ -184,6 +185,10 @@ class EditPayment extends React.Component {
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+
+                        {loading &&
+                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                        }
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

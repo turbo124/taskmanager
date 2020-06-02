@@ -77,6 +77,10 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
             $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('customer', 'account')->first();
         }
 
+        if(!$entity) {
+            return true;
+        }
+
         Audit::create(
             [
                 'data'            => $entity,

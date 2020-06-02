@@ -3,6 +3,7 @@
 namespace App;
 
 use App\ProductAttribute;
+use App\Traits\ManageStock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,6 +17,7 @@ class Product extends Model
 {
 
     use SoftDeletes;
+    use ManageStock;
 
     protected $casts = [
         'is_featured' => 'boolean'
@@ -85,32 +87,5 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
-    }
-
-    /**
-     * @param $quantity
-     */
-    public function reduceQuantityAvailiable($quantity)
-    {
-        $this->quantity -= $quantity;
-        $this->save();
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function reduceQuantityReserved(int $quantity)
-    {
-        $this->reserved_stock -= $quantity;
-        $this->save();
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function increaseQuantityReserved(int $quantity)
-    {
-        $this->reserved_stock += $quantity;
-        $this->save();
     }
 }

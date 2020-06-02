@@ -41,7 +41,7 @@ class InvoiceEmailActivity implements ShouldQueue
 
         $notification =
             NotificationFactory::create($event->invitation->invoice->account_id, $event->invitation->invoice->user_id);
-        $notification->entity_id = $event->invoice->id;
+        $notification->entity_id = $event->invitation->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

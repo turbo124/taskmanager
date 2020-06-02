@@ -16,6 +16,8 @@ export const consts = {
     quote_status_expired: '-1',
     quote_status_draft: 1,
     quote_status_sent: 2,
+    quote_status_invoiced: 5,
+    quote_status_on_order: 6,
     quote_status_approved: 4,
     quote_status_expired_text: 'Expired',
     recurring_invoice_status_draft: 2,

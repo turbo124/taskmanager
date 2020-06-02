@@ -1,6 +1,5 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import moment from 'moment'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
@@ -12,6 +11,8 @@ export default function QuotePresenter (props) {
         [consts.quote_status_draft]: 'secondary',
         [consts.quote_status_sent]: 'primary',
         [consts.quote_status_approved]: 'success',
+        [consts.quote_status_on_order]: 'success',
+        [consts.quote_status_invoiced]: 'success',
         '-1': 'danger'
     }
 
@@ -19,6 +20,8 @@ export default function QuotePresenter (props) {
         [consts.quote_status_draft]: translations.draft,
         [consts.quote_status_sent]: translations.sent,
         [consts.quote_status_approved]: translations.approved,
+        [consts.quote_status_invoiced]: translations.invoiced,
+        [consts.quote_status_on_order]: translations.on_order,
         '-1': translations.expired
     }
 

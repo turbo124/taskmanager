@@ -11,6 +11,8 @@ namespace Tests\Unit;
 use App\Filters\QuoteFilter;
 use App\Account;
 use App\NumberGenerator;
+use App\Order;
+use App\Repositories\OrderRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
 use App\Quote;
@@ -158,6 +160,26 @@ class QuoteTest extends TestCase
         $account->save();
 
         $quote = $quote->service()->approve(new InvoiceRepository(new Invoice), new QuoteRepository(new Quote));
+        $this->assertNotNull($quote->invoice_id);
         $this->assertInstanceOf(Quote::class, $quote);
+    }
+
+    public function testQuoteToOrderConversion()
+    {
+        $quote = factory(Quote::class)->create();
+        $quote->setStatus(Quote::STATUS_SENT);
+        $quote->save();
+
+        $account = $quote->account;
+        $settings = $account->settings;
+        $settings->should_convert_quote = true;
+        $settings->should_email_quote = true;
+        $settings->should_archive_quote = true;
+        $account->settings = $settings;
+        $account->save();
+
+        $order = $quote->service()->convertQuoteToOrder(new OrderRepository(new Order));
+        $this->assertNotNull($quote->order_id);
+        $this->assertInstanceOf(Order::class, $order);
     }
 }

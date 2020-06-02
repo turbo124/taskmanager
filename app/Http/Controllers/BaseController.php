@@ -168,15 +168,13 @@ class BaseController extends Controller
 
                 break;
             case 'clone_to_order':
-                $order = (new OrderRepository(new Order))->createOrder(
-                    $request->all(),
-                    CloneQuoteToOrderFactory::create(
-                        $this->quote_repo->findQuoteById($entity->id),
-                        auth()->user(),
-                        auth()->user()->account_user()->account
-                    )
-                );
-                $response = $this->transformOrder($order);
+                $order = $entity->service()->convertQuoteToOrder((new OrderRepository(new Order())));
+
+                if (!$order) {
+                    $response = false;
+                } else {
+                    $response = $this->transformOrder($order);
+                }
                 break;
             case 'clone_to_quote': // done
                 $quote = CloneQuoteFactory::create($entity, auth()->user());

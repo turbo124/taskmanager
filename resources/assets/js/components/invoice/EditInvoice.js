@@ -381,6 +381,7 @@ class EditInvoice extends Component {
     }
 
     saveData () {
+        this.setState({ loading: true })
         this.invoiceModel.save(this.getFormData()).then(response => {
             if (!response) {
                 this.setState({ errors: this.invoiceModel.errors, message: this.invoiceModel.error_message })
@@ -400,6 +401,7 @@ class EditInvoice extends Component {
             const index = this.props.invoices.findIndex(invoice => invoice.id === this.state.id)
             this.props.invoices[index] = response
             this.props.action(this.props.invoices)
+            this.setState({ loading: false })
         })
     }
 
@@ -623,7 +625,7 @@ class EditInvoice extends Component {
 
     render () {
         const form = this.buildForm()
-        const { success } = this.state
+        const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_invoice}
             </DropdownItem>
@@ -644,6 +646,10 @@ class EditInvoice extends Component {
                         <ModalFooter>
                             <Button color="success" onClick={this.saveData}>{translations.save}</Button>
                             <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+
+                            {loading &&
+                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
+                            }
                         </ModalFooter>
                     </Modal>
                 </React.Fragment>

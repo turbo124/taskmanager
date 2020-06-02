@@ -7,6 +7,7 @@ use App\Quote;
 use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasEmailed;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\OrderRepository;
 use App\Services\Quote\MarkSent;
 use App\Repositories\QuoteRepository;
 use App\Services\ServiceBase;
@@ -36,7 +37,7 @@ class QuoteService extends ServiceBase
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('should_convert_quote')) {
-           (new ConvertQuote($this->quote, $invoice_repo))->execute();
+           (new ConvertQuoteToInvoice($this->quote, $invoice_repo))->execute();
         }
 
         event(new QuoteWasApproved($this->quote));
@@ -75,16 +76,29 @@ class QuoteService extends ServiceBase
         return $this->quote;
     }
 
+    /**
+     * @return Quote
+     */
     public function calculateInvoiceTotals(): Quote
     {
         return $this->calculateTotals($this->quote);
     }
 
     /**
+     * @param OrderRepository $order_repository
+     * @return \App\Order|null
+     */
+    public function convertQuoteToOrder(OrderRepository $order_repository)
+    {
+        return (new ConvertQuoteToOrder($this->quote, $order_repository))->execute();
+    }
+
+    /**
      * @param InvoiceRepository $invoice_repository
+     * @return Invoice|null
      */
     public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {
-        return (new ConvertQuote($this->quote, $invoice_repository))->execute();
+        return (new ConvertQuoteToInvoice($this->quote, $invoice_repository))->execute();
     }
 }

@@ -31,7 +31,7 @@ class CloneQuoteToOrderFactory
         $order->task_id = $quote->task_id;
         $order->discount_total = $quote->discount_total;
         $order->tax_total = $quote->tax_total;
-        $order->is_amount_discount = $quote->is_amount_discount;
+        $order->is_amount_discount = $quote->is_amount_discount ?: false;
         $order->footer = $quote->footer;
         $order->public_notes = $quote->public_notes;
         $order->private_notes = $quote->private_notes;

@@ -39,7 +39,8 @@ export const icons = {
     product: 'fa-barcode',
     order: 'fa-shopping-cart',
     calendar: 'fa-calendar',
-    percent: 'fa-percent'
+    percent: 'fa-percent',
+    spinner: 'fa-circle-o-notch fa-spin'
 }
 
 export const translations = {
@@ -133,6 +134,7 @@ export const translations = {
     edit_task: 'Edit Task',
     add_order: 'Add Order',
     edit_order: 'Edit Order',
+    on_order: 'On Order',
     edit_recurring_invoice: 'Edit Recurring Invoice',
     edit_recurring_quote: 'Edit Recurring Quote',
     add_recurring_invoice: 'Add Recurring Invoice',
