@@ -98,7 +98,11 @@ class Quote extends Model
 
     public function audits()
     {
-        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id');
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id')->where(
+            'entity_class',
+            '=',
+            get_class($this)
+        );
     }
 
     public function emails()

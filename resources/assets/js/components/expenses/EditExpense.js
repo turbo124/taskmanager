@@ -142,7 +142,8 @@ class EditExpense extends React.Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_expense}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_expense}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_expense}
@@ -153,7 +154,10 @@ class EditExpense extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder formData={this.getFormData()} model={this.expenseModel}/>
+                        <DropdownMenuBuilder invoices={this.props.expenses} formData={this.getFormData()}
+                            model={this.expenseModel}
+                            action={this.props.action}/>
+
                         {successMessage}
                         {errorMessage}
 

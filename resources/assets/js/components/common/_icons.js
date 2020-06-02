@@ -237,6 +237,7 @@ export const translations = {
     quantity: 'Quantity',
     price: 'Price',
     cost: 'Cost',
+    sku: 'Sku',
     is_featured: 'Is Featured',
     thumbnails: 'Thumbnails',
     cover: 'Cover Image',

@@ -181,5 +181,6 @@ class QuoteTest extends TestCase
         $order = $quote->service()->convertQuoteToOrder(new OrderRepository(new Order));
         $this->assertNotNull($quote->order_id);
         $this->assertInstanceOf(Order::class, $order);
+        $this->assertEquals(6, $quote->status_id);
     }
 }

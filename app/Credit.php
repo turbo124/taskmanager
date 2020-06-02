@@ -60,12 +60,12 @@ class Credit extends Model
     ];
 
     protected $casts = [
-        'account_id'  => 'integer',
-        'user_id'     => 'integer',
+        'account_id' => 'integer',
+        'user_id' => 'integer',
         'customer_id' => 'integer',
-        'line_items'  => 'object',
-        'updated_at'  => 'timestamp',
-        'deleted_at'  => 'timestamp',
+        'line_items' => 'object',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     const STATUS_DRAFT = 1;
@@ -143,7 +143,11 @@ class Credit extends Model
 
     public function audits()
     {
-        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id');
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id')->where(
+            'entity_class',
+            '=',
+            get_class($this)
+        );
     }
 
     public function emails()

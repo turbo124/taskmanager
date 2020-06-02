@@ -161,7 +161,10 @@ class EditPayment extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder model={this.paymentModel} formData={this.getFormData()}/>
+                        <DropdownMenuBuilder invoices={this.props.payments} formData={this.getFormData()}
+                            model={this.paymentModel}
+                            action={this.props.action}/>
+
                         {successMessage}
                         {errorMessage}
 
