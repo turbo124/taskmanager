@@ -102,4 +102,14 @@ class Company extends Model
         return $this->hasMany(CompanyContact::class)->orderBy('is_primary', 'desc');
     }
 
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+            return true;
+        }
+
+        return true;
+    }
+
 }
