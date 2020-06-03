@@ -64,4 +64,14 @@ class Expense extends Model
     {
         return $this->belongsTo('App\Customer')->withTrashed();
     }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+            return true;
+        }
+
+        return true;
+    }
 }
