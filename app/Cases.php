@@ -13,6 +13,10 @@ class Cases extends Model
 
     protected $fillable = [
         'status_id',
+        'priority_id',
+        'category_id',
+        'due_date',
+        'private_notes',
         'subject',
         'message',
         'user_id',
@@ -21,6 +25,10 @@ class Cases extends Model
     ];
 
     const STATUS_DRAFT = 1;
+
+    const PRIORITY_LOW = 1;
+    const PRIORITY_MEDIUM = 2;
+    const PRIORITY_HIGH = 3;
 
     /**
      * @param Customer $customer
