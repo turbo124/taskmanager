@@ -29,6 +29,7 @@ class Lead extends Model
     const UNQUALIFIED = 100;
 
     protected $fillable = [
+        'number',
         'account_id',
         'user_id',
         'first_name',
