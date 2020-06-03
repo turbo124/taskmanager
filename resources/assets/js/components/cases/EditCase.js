@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, L
 import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import CustomerDropdown from '../common/CustomerDropdown'
+import Datepicker from '../common/Datepicker'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -12,6 +13,10 @@ export default class EditCase extends React.Component {
             id: this.props.case.id,
             subject: this.props.case.subject,
             customer_id: this.props.case.customer_id,
+            due_date: this.props.case.due_date,
+            priority_id: this.props.case.priority_id,
+            category_id: this.props.case.category_id,
+            private_notes: this.props.case.private_notes,
             message: this.props.case.message,
             loading: false,
             changesMade: false,
@@ -49,7 +54,11 @@ export default class EditCase extends React.Component {
         axios.put(`/api/cases/${this.state.id}`, {
             subject: this.state.subject,
             message: this.state.message,
-            customer_id: this.state.customer_id
+            customer_id: this.state.customer_id,
+            due_date: this.state.due_date,
+            priority_id: this.state.priority_id,
+            private_notes: this.state.private_notes,
+            category_id: this.state.category_id
         })
             .then((response) => {
                 const index = this.props.cases.findIndex(case_file => case_file.id === this.state.id)
@@ -115,6 +124,45 @@ export default class EditCase extends React.Component {
                                 customers={this.props.customers}
                             />
                         </FormGroup>
+
+                         <FormGroup>
+                                <Label for="examplePassword">{translations.due_date}</Label>
+                                <Datepicker className="form-control" name="due_date" date={this.state.due_date}
+                                    handleInput={this.handleInput}/>
+                            </FormGroup>
+                       
+                            <FormGroup>
+                                <Label for="examplePassword">{translations.private_notes}</Label>
+                                <Input value={this.state.private_notes} type="text"
+                                    name="private_notes"
+                                    onChange={this.handleInput} id="private_notes"
+                                    />
+                            </FormGroup>
+
+                              <FormGroup>
+                                <Label for="examplePassword">{translations.priority}</Label>
+                                <Input value={this.state.priority_id} type="select"
+                                    name="priority_id"
+                                    onChange={this.handleInput} id="priority_id"
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="1">High</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3">Low</option>
+                                    </Input>
+                            </FormGroup>
+
+                           <FormGroup>
+                                <Label for="examplePassword">{translations.priority}</Label>
+                                <Input value={this.state.category_id} type="select"
+                                    name="category_id"
+                                    onChange={this.handleInput} id="category_id"
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="1">Test</option>
+                                        
+                                    </Input>
+                            </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
