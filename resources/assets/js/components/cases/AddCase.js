@@ -4,6 +4,7 @@ import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
 import CustomerDropdown from "../common/CustomerDropdown";
+import Datepicker from '../common/Datepicker'
 
 export default class AddCase extends React.Component {
     constructor (props) {
@@ -13,6 +14,10 @@ export default class AddCase extends React.Component {
             subject: '',
             message: '',
             customer_id: '',
+            due_date: '',
+            priority_id: '',
+            category_id: '',
+            private_notes: '',
             loading: false,
             errors: []
         }
@@ -54,7 +59,11 @@ export default class AddCase extends React.Component {
         axios.post('/api/cases', {
             subject: this.state.subject,
             message: this.state.message,
-            customer_id: this.state.customer_id
+            customer_id: this.state.customer_id,
+            due_date: this.state.due_date,
+            priority_id: this.state.priority_id,
+            private_notes: this.state.private_notes,
+            category_id: this.state.category_id
         })
             .then((response) => {
                 const newUser = response.data
@@ -63,6 +72,10 @@ export default class AddCase extends React.Component {
                 localStorage.removeItem('caseForm')
                 this.setState({
                     subject: '',
+                    private_notes: '',
+                    priority_id: '',
+                    category_id: '',
+                    due_date: '',
                     message: '',
                     customer_id: ''
                 })
@@ -84,7 +97,11 @@ export default class AddCase extends React.Component {
                 this.setState({
                     subject: '',
                     message: '',
-                    customer_id: ''
+                    customer_id: '',
+                    due_date: '',
+                    private_notes: '',
+                    priority_id: '',
+                    category_id: '',
                 }, () => localStorage.removeItem('caseForm'))
             }
         })
@@ -125,6 +142,45 @@ export default class AddCase extends React.Component {
                                 customers={this.props.customers}
                             />
                         </FormGroup>
+
+                            <FormGroup>
+                                <Label for="examplePassword">{translations.due_date}</Label>
+                                <Datepicker className="form-control" name="due_date" date={this.state.due_date}
+                                    handleInput={this.props.handleInput}/>
+                            </FormGroup>
+                       
+                            <FormGroup>
+                                <Label for="examplePassword">{translations.private_notes}</Label>
+                                <Input value={this.state.private_notes} type="text"
+                                    name="private_notes"
+                                    onChange={this.props.handleInput} id="private_notes"
+                                    />
+                            </FormGroup>
+
+                              <FormGroup>
+                                <Label for="examplePassword">{translations.priority}</Label>
+                                <Input value={this.state.priority_id} type="select"
+                                    name="priority_id"
+                                    onChange={this.props.handleInput} id="priority_id"
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="1">High</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3">Low</option>
+                                    </Input>
+                            </FormGroup>
+
+                           <FormGroup>
+                                <Label for="examplePassword">{translations.priority}</Label>
+                                <Input value={this.state.category_id} type="select"
+                                    name="category_id"
+                                    onChange={this.props.handleInput} id="category_id"
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="1">Test</option>
+                                        
+                                    </Input>
+                            </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
