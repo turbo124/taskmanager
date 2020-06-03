@@ -44,6 +44,7 @@ class LeadRepository extends BaseRepository
     public function save(Lead $lead, array $data): Lead
     {
         $lead = $lead->fill($data);
+        $lead->setNumber();
         $lead->save();
         return $lead;
     }
