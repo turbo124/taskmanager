@@ -17,6 +17,7 @@ trait CompanyTransformable
     {
         return [
             'id'               => (int)$company->id,
+            'number'           => $company->number ?: '',
             'name'             => $company->name,
             'website'          => $company->website ?: '',
             'created_at'       => $company->created_at,
