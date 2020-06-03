@@ -10,8 +10,9 @@ class NumberGenerator
      * @return string
      * @throws \Exception
      */
-    public function getNextNumberForEntity(Customer $customer, $entity_obj): string
+    public function getNextNumberForEntity(Customer $customer = null, $entity_obj): string
     {
+        $this->entity_obj = $entity_obj;
         $resource = get_class($entity_obj);
         $entity_id = strtolower(explode('\\', $resource)[1]);
 
@@ -20,7 +21,7 @@ class NumberGenerator
 
         $this->setType($customer, $pattern_entity, $counter_var, $resource);
 
-        $padding = $customer->getSetting('counter_padding');
+        $padding = $customer !== null ? $customer->getSetting('counter_padding') : $entity_obj->account->settings->counter_padding;
 
         $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
 
@@ -31,12 +32,16 @@ class NumberGenerator
         return $number;
     }
 
-    private function setType(Customer $customer, $pattern_entity, $counter_var, $resource)
+    private function setType(Customer $customer = null, $pattern_entity, $counter_var, $resource)
     {
-        $pattern = trim($customer->getSetting($pattern_entity));
+        $pattern = $customer !== null ? trim($customer->getSetting($pattern_entity)) : trim($this->entity_obj->account->settings->{$pattern_entity});
 
-        $this->counter = $customer->account->settings->{$counter_var};
-        $this->counter_entity = $customer->account;
+        $this->counter = $this->entity_obj->account->settings->{$counter_var};
+        $this->counter_entity = $this->entity_obj->account;
+
+        if($customer === null) {
+            return true;
+        }
 
         if ($resource === Customer::class || strpos($pattern, 'clientCounter')) {
             $this->counter = $customer->getSetting($counter_var);
@@ -45,6 +50,8 @@ class NumberGenerator
             $this->counter = $customer->group_settings->{$counter_var};
             $this->counter_entity = $customer->group_settings;
         }
+
+        return true;
     }
 
     /**
@@ -76,7 +83,7 @@ class NumberGenerator
         $check = false;
         do {
             $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
-            $check = $class::whereAccountId($customer->account_id)->whereNumber($number)->withTrashed()->first();
+            $check = $class::whereAccountId($this->entity_obj->account->id)->whereNumber($number)->withTrashed()->first();
 
             $counter++;
         } while ($check);
