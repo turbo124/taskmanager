@@ -155,7 +155,7 @@ export default class ProductList extends Component {
 
                 <Card>
                     <CardBody>
-                        <ProductFilters products={products}
+                        <ProductFilters companies={companies} products={products}
                             updateIgnoredColumns={this.updateIgnoredColumns}
                             filters={filters} filter={this.filterProducts}
                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>

@@ -48,6 +48,7 @@ import Notifications from './accounts/Notifications'
 import Modules from './accounts/ModuleSettings'
 import Localisation from './accounts/LocalisationSettings'
 import WorkflowSettings from './accounts/WorkflowSettings'
+import Cases from './cases/Cases'
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -296,6 +297,12 @@ const routes = [
         exact: true,
         name: 'Leads List',
         component: Leads
+    },
+    {
+        path: '/cases',
+        exact: true,
+        name: 'Cases List',
+        component: Cases
     },
     {
         path: '/users/:username',

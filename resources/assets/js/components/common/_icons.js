@@ -1,3 +1,6 @@
+import { Input } from "reactstrap";
+import React from "react";
+
 export const icons = {
     refresh: 'fa-gear',
     checkbox: 'fa-check-square',
@@ -44,6 +47,27 @@ export const icons = {
 }
 
 export const translations = {
+    select_event: 'Select Event',
+    order_created: 'Order Created',
+    order_deleted: 'Order Deleted',
+    credit_created: 'Credit Created',
+    credit_deleted: 'Credit Deleted',
+    customer_created: 'Customer Created',
+    customer_deleted: 'Customer Deleted',
+    invoice_created: 'Invoice Created',
+    invoice_deleted: 'Invoice Deleted',
+    payment_created: 'Payment Created',
+    payment_deleted: 'Payment Deleted',
+    order_backordered: 'Order Backordered',
+    quote_created: 'Quote Created',
+    quote_deleted: 'Quote Deleted',
+    lead_created: 'Lead Created',
+    subject: 'Subject',
+    add_case: 'Add Case',
+    edit_case: 'Edit Case',
+    message: 'Message',
+    target_url: 'Target URL',
+    event: 'Event',
     maximum_5_features: 'You can only add 5 features for a product',
     features: 'Features',
     attributes: 'Attributes',
@@ -58,6 +82,7 @@ export const translations = {
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',
     budgeted: 'Budgeted',
+    budgeted_hours: 'Budgeted Hours',
     applied: 'Applied',
     backordered: 'Backorder',
     held: 'Held',

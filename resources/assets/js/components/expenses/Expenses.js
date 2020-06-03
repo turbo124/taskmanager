@@ -78,6 +78,7 @@ export default class Expenses extends Component {
         this.expenseList = this.expenseList.bind(this)
         this.filterExpenses = this.filterExpenses.bind(this)
         this.getCompanies = this.getCompanies.bind(this)
+        this.getCustomers = this.getCustomers.bind(this)
     }
 
     componentDidMount () {
