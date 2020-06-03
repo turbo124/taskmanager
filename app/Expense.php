@@ -57,6 +57,11 @@ class Expense extends Model
         return $this->belongsTo(User::class, 'assigned_user_id', 'id');
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     /**
      * @return mixed
      */
