@@ -31,6 +31,19 @@ class Cases extends Model
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 3;
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer')->withTrashed();
+    }
+
     /**
      * @param Customer $customer
      */
