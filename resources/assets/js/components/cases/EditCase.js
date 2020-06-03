@@ -146,9 +146,9 @@ export default class EditCase extends React.Component {
                                     onChange={this.handleInput} id="priority_id"
                                     >
                                         <option value="">Select Option</option>
-                                        <option value="1">High</option>
+                                        <option value="1">Low</option>
                                         <option value="2">Medium</option>
-                                        <option value="3">Low</option>
+                                        <option value="3">High</option>
                                     </Input>
                             </FormGroup>
 
