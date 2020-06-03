@@ -18,6 +18,7 @@ class Cases extends Model
         'due_date',
         'private_notes',
         'subject',
+        'number',
         'message',
         'user_id',
         'account_id',
