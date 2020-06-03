@@ -53,6 +53,16 @@ class Lead extends Model
         'status_id'
     ];
 
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity(null, $this);
+            return true;
+        }
+
+        return true;
+    }
+
     public function service(): LeadService
     {
         return new LeadService($this);
