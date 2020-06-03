@@ -17,6 +17,7 @@ trait CaseTransformable
     {
         return [
             'id'            => (int)$cases->id,
+            'number'        => $cases->number ?: '',
             'message'       => $cases->message,
             'subject'       => $cases->subject,
             'private_notes' => $cases->private_notes,
