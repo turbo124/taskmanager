@@ -12,6 +12,7 @@ class Expense extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'number',
         'customer_id',
         'status_id',
         'company_id',
