@@ -84,7 +84,6 @@ class ReverseInvoicePayment
     private function createCreditNote(float $total_paid)
     {
         $credit = CreditFactory::create($this->invoice->account, $this->invoice->user, $this->invoice->customer);
-        $credit->customer_id = $this->invoice->customer_id;
 
         $line_items[] = (new LineItem)
             ->setQuantity(1)
