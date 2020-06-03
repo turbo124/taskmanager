@@ -266,7 +266,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="postcode">Due Date:</Label>
+                            <Label for="postcode">{translations.due_date}:</Label>
                             <Input
                                 value={this.state.due_date}
                                 type='date'
@@ -277,7 +277,7 @@ class EditProject extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="postcode">Budgeted Hours:</Label>
+                            <Label for="postcode">{translations.budgeted_hours}:</Label>
                             <Input
                                 value={this.state.budgeted_hours}
                                 type='text'
@@ -288,8 +288,8 @@ class EditProject extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </div>

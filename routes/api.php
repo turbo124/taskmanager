@@ -30,6 +30,9 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         // subscription
         Route::resource('subscriptions', 'SubscriptionController');
 
+        // cases
+        Route::resource('cases', 'CaseController');
+
         //design
         Route::resource('designs', 'DesignController');// name = (payments. index / create / show / update / destroy / edit
 

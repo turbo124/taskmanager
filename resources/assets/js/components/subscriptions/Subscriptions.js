@@ -21,7 +21,7 @@ export default class Subscriptions extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['updated_at', 'is_deleted', 'user_id', 'account_id', 'id', 'entity_id', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',

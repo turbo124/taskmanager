@@ -209,6 +209,14 @@ if (modules.leads) {
     })
 }
 
+if (modules.cases) {
+    tasks.children.push({
+        name: 'Cases',
+        url: '/cases',
+        icon: 'fa fa-chain-broken'
+    })
+}
+
 if (modules.projects) {
     tasks.children.push({
         name: 'Projects',

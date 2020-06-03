@@ -7,6 +7,8 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditProduct from './EditProduct'
+import CasePresenter from '../presenters/CasePresenter'
+import ProductPresenter from '../presenters/ProductPresenter'
 
 export default class ProductItem extends Component {
     constructor (props) {
@@ -55,8 +57,9 @@ export default class ProductItem extends Component {
                 const columnList = Object.keys(product).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(product, product.name)} data-label={key}
-                        key={key}>{product[key]}</td>
+                    return <ProductPresenter key={key} companies={companies}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={product}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

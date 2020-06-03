@@ -22,7 +22,8 @@ class Subscription extends Model
     const QUOTEWASCREATED = 11;
     const QUOTEWASDELETED = 12;
     const LEADWASCREATED = 13;
-
+    const ORDERWASBACKORDERED = 14;
+    const ORDERWASHELD = 15;
 
     protected $fillable = [
         'name',
