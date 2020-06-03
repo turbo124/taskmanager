@@ -114,6 +114,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     public function save(array $data, Company $company): ?Company
     {
         $company->fill($data);
+        $company->setNumber();
         $company->save();
 
         return $company;
