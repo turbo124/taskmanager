@@ -5,6 +5,7 @@ import { CardBody, Card } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CaseFilters from './CaseFilters'
 import CaseItem from './CaseItem'
+import queryString from 'query-string'
 
 export default class Cases extends Component {
     constructor (props) {
@@ -22,12 +23,14 @@ export default class Cases extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['id', 'category_id', 'priority_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
                 start_date: '',
-                end_date: ''
+                end_date: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                category_id: queryString.parse(this.props.location.search).category_id || ''
             }
         }
 
@@ -94,9 +97,9 @@ export default class Cases extends Component {
     }
 
     render () {
-        const { searchText, status, start_date, end_date } = this.state.filters
+        const { searchText, status, start_date, end_date, customer_id, category_id } = this.state.filters
         const { view, cases, customers } = this.state
-        const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
+        const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}`
 
         return customers.length ? (
             <div className="data-table">

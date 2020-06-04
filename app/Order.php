@@ -207,7 +207,7 @@ class Order extends Model
     public function setNumber()
     {
         if (empty($this->number) || !isset($this->id)) {
-            $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
             return true;
         }
 

@@ -21,13 +21,16 @@ class CaseFilter extends QueryFilter
 {
     use CaseTransformable;
 
-    private $case_repo;
+    /**
+     * @var CaseRepository
+     */
+    private CaseRepository $case_repo;
 
     private $model;
 
     /**
-     * SubscriptionFilters constructor.
-     * @param SubscriptionRepository $subscriptionRepository
+     * CaseFilter constructor.
+     * @param CaseRepository $case_repo
      */
     public function __construct(CaseRepository $case_repo)
     {
@@ -54,6 +57,10 @@ class CaseFilter extends QueryFilter
 
         if ($request->has('search_term') && !empty($request->search_term)) {
             $this->query = $this->searchFilter($request->search_term);
+        }
+
+        if ($request->filled('customer_id')) {
+            $this->query->whereCustomerId($request->customer_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {

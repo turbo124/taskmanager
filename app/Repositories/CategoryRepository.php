@@ -33,6 +33,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $this->model = $category;
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     /**
      * List all the categories
      *
@@ -72,7 +77,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      * @param Account $account
      * @return Category
      */
-    public function createCategory(array $params, Account $account): Category
+    public function createCategory(array $params, Category $category): Category
     {
         $collection = collect($params);
         if (isset($params['name'])) {
@@ -83,7 +88,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $params['cover'] = $this->saveCoverImage($params['cover']);
         }
 
-        $category = CategoryFactory::create($account);
         $category->fill($params);
 
         if (isset($params['parent']) && !empty($params['parent'])) {
@@ -110,9 +114,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      *
      * @return Category
      */
-    public function updateCategory(array $params): Category
+    public function updateCategory(array $params, Category $category): Category
     {
-        $category = $this->findCategoryById($this->model->id);
         $collection = collect($params)->except('_token');
         $slug = Str::slug($collection->get('name'));
         $cover = '';

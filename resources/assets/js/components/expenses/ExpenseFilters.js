@@ -9,6 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_icons'
+import ExpenseCategoryDropdown from "../common/ExpenseCategoryDropdown";
 
 export default class ExpenseFilters extends Component {
     constructor (props) {
@@ -19,6 +20,7 @@ export default class ExpenseFilters extends Component {
                 status_id: 'active',
                 searchText: '',
                 customer_id: '',
+                category_id: '',
                 company_id: '',
                 start_date: '',
                 end_date: ''
@@ -109,6 +111,17 @@ export default class ExpenseFilters extends Component {
                 <Col md={2}>
                     <FormGroup>
                         <DateFilter onChange={this.filterExpenses} />
+                    </FormGroup>
+                </Col>
+
+                <Col md={3}>
+                    <FormGroup>
+                        <ExpenseCategoryDropdown
+                            name="category_id"
+                            category={this.props.filters.category_id}
+                            renderErrorFor={this.renderErrorFor}
+                            onChange={this.filterExpenses}
+                        />
                     </FormGroup>
                 </Col>
             </Row>

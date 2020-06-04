@@ -57,7 +57,7 @@ class Lead extends Model
     public function setNumber()
     {
         if (empty($this->number) || !isset($this->id)) {
-            $this->number = (new NumberGenerator)->getNextNumberForEntity(null, $this);
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this);
             return true;
         }
 

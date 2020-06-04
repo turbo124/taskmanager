@@ -4,6 +4,8 @@ import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
+import CaseCategoryDropdown from "../common/CaseCategoryDropdown";
+import { consts } from "../common/_consts";
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -125,44 +127,43 @@ export default class EditCase extends React.Component {
                             />
                         </FormGroup>
 
-                         <FormGroup>
-                                <Label for="examplePassword">{translations.due_date}</Label>
-                                <Datepicker className="form-control" name="due_date" date={this.state.due_date}
-                                    handleInput={this.handleInput}/>
-                            </FormGroup>
-                       
-                            <FormGroup>
-                                <Label for="examplePassword">{translations.private_notes}</Label>
-                                <Input value={this.state.private_notes} type="text"
-                                    name="private_notes"
-                                    onChange={this.handleInput} id="private_notes"
-                                    />
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="examplePassword">{translations.due_date}</Label>
+                            <Datepicker className="form-control" name="due_date" date={this.state.due_date}
+                                handleInput={this.handleInput}/>
+                        </FormGroup>
 
-                              <FormGroup>
-                                <Label for="examplePassword">{translations.priority}</Label>
-                                <Input value={this.state.priority_id} type="select"
-                                    name="priority_id"
-                                    onChange={this.handleInput} id="priority_id"
-                                    >
-                                        <option value="">Select Option</option>
-                                        <option value="1">Low</option>
-                                        <option value="2">Medium</option>
-                                        <option value="3">High</option>
-                                    </Input>
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="examplePassword">{translations.private_notes}</Label>
+                            <Input value={this.state.private_notes} type="textarea"
+                                name="private_notes"
+                                onChange={this.handleInput} id="private_notes"
+                            />
+                        </FormGroup>
 
-                           <FormGroup>
-                                <Label for="examplePassword">{translations.priority}</Label>
-                                <Input value={this.state.category_id} type="select"
-                                    name="category_id"
-                                    onChange={this.handleInput} id="category_id"
-                                    >
-                                        <option value="">Select Option</option>
-                                        <option value="1">Test</option>
-                                        
-                                    </Input>
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="examplePassword">{translations.priority}</Label>
+                            <Input value={this.state.priority_id} type="select"
+                                name="priority_id"
+                                onChange={this.handleInput} id="priority_id"
+                            >
+                                <option value="">{translations.select_option}</option>
+                                <option value={consts.low_priority}>{translations.low}</option>
+                                <option value={consts.medium_priority}>{translations.medium}</option>
+                                <option value={consts.high_priority}>{translations.high}</option>
+                            </Input>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label>{translations.category}</Label>
+                            <CaseCategoryDropdown
+                                name="category_id"
+                                category={this.state.category_id}
+                                errors={this.state.errors}
+                                renderErrorFor={this.renderErrorFor}
+                                handleInputChanges={this.handleInput}
+                            />
+                        </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>

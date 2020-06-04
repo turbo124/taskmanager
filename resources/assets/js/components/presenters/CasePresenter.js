@@ -2,6 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import { consts } from '../common/_consts'
 import { translations } from '../common/_icons'
+import FormatDate from '../common/FormatDate'
 
 export default function CasePresenter (props) {
     const colors = {
@@ -29,6 +30,10 @@ export default function CasePresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
                 data-label="Customer">{customer.name}</td>
         }
+        case 'date':
+        case 'due_date':
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date">
+                <FormatDate field={field} date={entity[field]}/></td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
                 data-label={field}>{entity[field]}</td>

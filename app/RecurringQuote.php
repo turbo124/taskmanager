@@ -92,7 +92,7 @@ class RecurringQuote extends Model
             return true;
         }
 
-        $this->number = (new NumberGenerator)->getNextNumberForEntity($this->customer, $this);
+        $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
         return true;
     }
 }

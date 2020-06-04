@@ -11,6 +11,7 @@ import CompanyDropdown from '../common/CompanyDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_icons'
+import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
 
 export default class DetailsForm extends React.Component {
     hasErrorFor (field) {
@@ -49,14 +50,12 @@ export default class DetailsForm extends React.Component {
 
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.category}(*):</Label>
-                    <Input className={this.hasErrorFor('category_id') ? 'is-invalid' : ''}
-                        value={this.props.expense.category_id} type="select" id="category_id"
+                    <ExpenseCategoryDropdown
                         name="category_id"
-                        onChange={this.props.handleInput}>
-                        <option value="">Select Category</option>
-                        <option value="1">Test category</option>
-                    </Input>
-                    {this.renderErrorFor('category_id')}
+                        category={this.props.category_id}
+                        renderErrorFor={this.renderErrorFor}
+                        handleInputChanges={this.props.handleInput}
+                    />
                 </FormGroup>
 
                 <FormGroup className="mb-3">

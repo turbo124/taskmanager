@@ -46,6 +46,7 @@ class CreateLeadsTable extends Migration {
 			$table->integer('country_id')->default(225);
 			$table->integer('industry_id')->unsigned()->nullable()->index('industry_id');
 			$table->integer('status_id');
+			$table->string('number')->nullable();
 		});
 	}
 

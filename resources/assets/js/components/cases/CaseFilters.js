@@ -6,6 +6,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
 import CustomerDropdown from '../common/CustomerDropdown'
+import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
 
 export default class CaseFilters extends Component {
     constructor (props) {
@@ -17,7 +18,8 @@ export default class CaseFilters extends Component {
                 status: 'active',
                 start_date: '',
                 end_date: '',
-                customer_id: ''
+                customer_id: '',
+                category_id: ''
             }
         }
 
@@ -64,7 +66,7 @@ export default class CaseFilters extends Component {
                 <Col md={3}>
                     <CustomerDropdown
                         customer={this.props.filters.customer_id}
-                        handleInputChanges={this.filterCredits}
+                        handleInputChanges={this.filterCases}
                         customers={this.props.customers}
                         name="customer_id"
                     />
@@ -88,6 +90,17 @@ export default class CaseFilters extends Component {
                 <Col md={2}>
                     <FormGroup>
                         <DateFilter onChange={this.filterCases} />
+                    </FormGroup>
+                </Col>
+
+                <Col md={3}>
+                    <FormGroup>
+                        <CaseCategoryDropdown
+                            name="category_id"
+                            category={this.props.filters.category_id}
+                            renderErrorFor={this.renderErrorFor}
+                            onChange={this.filterCases}
+                        />
                     </FormGroup>
                 </Col>
             </Row>

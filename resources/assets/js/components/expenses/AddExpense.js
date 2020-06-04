@@ -188,12 +188,10 @@ class AddExpense extends React.Component {
                                     handleInput={this.handleInput}/>
                             </TabPane>
 
-                            {this.state.user_id && this.state.user_id.length &&
                             <TabPane tabId="3">
                                 <Notes errors={this.state.errors} public_notes={this.state.public_notes}
                                     private_notes={this.state.private_notes} handleInput={this.handleInput}/>
                             </TabPane>
-                            }
                         </TabContent>
                     </ModalBody>
 

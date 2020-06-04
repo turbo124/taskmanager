@@ -301,6 +301,18 @@ class AccountSettings extends BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
+        'lead_number_pattern'          => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'lead_number_counter'          => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'int'
+        ],
         'case_number_pattern'             => [
             'required'         => false,
             'translated_value' => '',

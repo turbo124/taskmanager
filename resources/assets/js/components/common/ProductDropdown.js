@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input } from 'reactstrap'
+import { translations } from "./_icons";
 
 export default class ProductDropdown extends Component {
     constructor (props) {
@@ -57,7 +58,7 @@ export default class ProductDropdown extends Component {
         return (
             <Input data-line={dataId} value={this.props.product} onChange={this.props.handleInputChanges} type="select"
                 name={name} id={name}>
-                <option value="">Select Product</option>
+                <option value="">{translations.select_option}</option>
                 {productList}
             </Input>
         )

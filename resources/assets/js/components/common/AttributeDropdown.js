@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input, FormGroup } from 'reactstrap'
+import { translations } from "./_icons";
 
 export default class AttributeDropdown extends Component {
     constructor (props) {
@@ -64,7 +65,7 @@ export default class AttributeDropdown extends Component {
                 <Input value={this.props.attribute_id} onChange={this.props.handleInputChanges} type="select"
                     data-id={data_id}
                     name={name} id={name}>
-                    <option value="">Select Attribute</option>
+                    <option value="">{translations.select_option}</option>
                     {attributeList}
                 </Input>
                 {this.renderErrorFor('attribute_id')}

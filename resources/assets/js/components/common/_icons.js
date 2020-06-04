@@ -47,6 +47,11 @@ export const icons = {
 }
 
 export const translations = {
+    low: 'Low',
+    medium: 'Medium',
+    high: 'High',
+    priority: 'Priority',
+    select_option: 'Select Option',
     select_event: 'Select Event',
     order_created: 'Order Created',
     order_deleted: 'Order Deleted',

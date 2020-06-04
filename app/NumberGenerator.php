@@ -4,13 +4,15 @@ namespace App;
 
 class NumberGenerator
 {
+    private $entity_obj;
+
     /**
      * @param Customer $customer
      * @param $entity_obj
      * @return string
      * @throws \Exception
      */
-    public function getNextNumberForEntity(Customer $customer = null, $entity_obj): string
+    public function getNextNumberForEntity($entity_obj, Customer $customer = null): string
     {
         $this->entity_obj = $entity_obj;
         $resource = get_class($entity_obj);
@@ -19,24 +21,30 @@ class NumberGenerator
         $pattern_entity = "{$entity_id}_number_pattern";
         $counter_var = "{$entity_id}_number_counter";
 
-        $this->setType($customer, $pattern_entity, $counter_var, $resource);
+        $this->setType($pattern_entity, $counter_var, $resource, $customer);
 
         $padding = $customer !== null ? $customer->getSetting('counter_padding') : $entity_obj->account->settings->counter_padding;
 
         $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
 
-        $number = $this->addPrefixToCounter($customer, $number, $resource);
+        $number = $this->addPrefixToCounter($number, $resource, $customer);
 
         $this->updateEntityCounter($this->counter_entity, $counter_var);
 
         return $number;
     }
 
-    private function setType(Customer $customer = null, $pattern_entity, $counter_var, $resource)
+    /**
+     * @param $pattern_entity
+     * @param $counter_var
+     * @param $resource
+     * @param Customer|null $customer
+     * @return bool
+     */
+    private function setType($pattern_entity, $counter_var, $resource, Customer $customer = null)
     {
         $pattern = $customer !== null ? trim($customer->getSetting($pattern_entity)) : trim($this->entity_obj->account->settings->{$pattern_entity});
-
-        $this->counter = $this->entity_obj->account->settings->{$counter_var};
+        $this->counter = $customer !== null ? $customer->getSetting($counter_var) : $this->entity_obj->account->settings->{$counter_var};
         $this->counter_entity = $this->entity_obj->account;
 
         if($customer === null) {
@@ -67,9 +75,15 @@ class NumberGenerator
         $entity->save();
     }
 
-    private function addPrefixToCounter(Customer $customer, $number, $resource): string
+    /**
+     * @param $number
+     * @param $resource
+     * @param Customer|null $customer
+     * @return string
+     */
+    private function addPrefixToCounter($number, $resource, Customer $customer = null): string
     {
-        $recurring_prefix = $customer->getSetting('recurring_number_prefix');
+        $recurring_prefix = $customer !== null ? $customer->getSetting('recurring_number_prefix') : $this->entity_obj->account->settings->recurring_number_prefix;
 
         if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class]) && !empty($recurring_prefix)) {
             return $recurring_prefix . $number;

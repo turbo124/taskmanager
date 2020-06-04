@@ -44,6 +44,7 @@ class CreateCompaniesTable extends Migration {
 			$table->string('id_number')->nullable();
 			$table->decimal('balance', 16, 4)->nullable();
 			$table->decimal('paid_to_date', 16, 4)->nullable();
+			$table->string('number')->nullable();
 		});
 	}
 

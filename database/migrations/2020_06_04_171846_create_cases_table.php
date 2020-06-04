@@ -24,6 +24,12 @@ class CreateCasesTable extends Migration {
 			$table->integer('customer_id')->unsigned()->index('customer_id');
 			$table->integer('status_id');
 			$table->boolean('is_deleted')->default(0);
+			$table->string('number')->nullable();
+			$table->text('private_notes', 65535)->nullable();
+			$table->integer('category_id')->unsigned()->nullable()->index('category_id');
+			$table->integer('priority_id')->nullable();
+			$table->date('due_date')->nullable();
+			$table->integer('parent_id')->unsigned()->nullable();
 		});
 	}
 
