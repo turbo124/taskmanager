@@ -12,29 +12,37 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use App\Category;
 use Illuminate\Http\UploadedFile;
 
-$factory->define(Category::class, function (Faker\Generator $faker) {
-    $name = $faker->unique()->randomElement([
-        'Gear',
-        'Clothing',
-        'Shoes',
-        'Diapering',
-        'Feeding',
-        'Bath',
-        'Toys',
-        'Nursery',
-        'Household',
-        'Grocery'
-    ]);
-    $file = UploadedFile::fake()->image('category.png', 600, 600);
-    return [
-        'account_id' => 1,
-        'name' => $name,
-        'slug' => \Illuminate\Support\Str::slug($name),
-        'description' => $faker->paragraph,
-        //'cover' => $file->store('categories', ['disk' => 'public']),
-        'status' => 1
-    ];
-});
+$factory->define(
+    Category::class,
+    function (Faker\Generator $faker) {
+        $user = factory(\App\User::class)->create();
+        $name = $faker->unique()->randomElement(
+            [
+                'Gear',
+                'Clothing',
+                'Shoes',
+                'Diapering',
+                'Feeding',
+                'Bath',
+                'Toys',
+                'Nursery',
+                'Household',
+                'Grocery'
+            ]
+        );
+        //$file = UploadedFile::fake()->image('category.png', 600, 600);
+        return [
+            'user_id'     => $user->id,
+            'account_id'  => 1,
+            'name'        => $name,
+            'slug'        => \Illuminate\Support\Str::slug($name),
+            'description' => $faker->paragraph,
+            //'cover' => $file->store('categories', ['disk' => 'public']),
+            'status'      => 1
+        ];
+    }
+);

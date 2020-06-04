@@ -224,7 +224,7 @@ class InvoiceTest extends TestCase
 
         $invoice = InvoiceFactory::create($this->main_account, $this->user, $customer);
 
-        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($customer, $invoice);
+        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($invoice, $customer);
         $this->assertEquals($customer->getSetting('counter_padding'), 5);
         $this->assertEquals($invoice_number, '00007');
         $this->assertEquals(strlen($invoice_number), 5);

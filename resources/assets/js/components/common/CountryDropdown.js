@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
+import { translations } from "./_icons";
 
 export default class CountryDropdown extends Component {
     constructor (props) {
@@ -69,7 +70,7 @@ export default class CountryDropdown extends Component {
         return (
             <FormGroup className="ml-2">
                 <Select
-                    placeholder="Select Country"
+                    placeholder={translations.select_option}
                     className="flex-grow-1"
                     classNamePrefix="select"
                     name="country_id"

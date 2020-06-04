@@ -1,6 +1,9 @@
 import React from 'react'
 
 export const consts = {
+    low_priority: 1,
+    medium_priority: 2,
+    high_priority: 3,
     order_created_subscription: 1,
     order_deleted_subscription: 2,
     credit_created_subscription: 3,

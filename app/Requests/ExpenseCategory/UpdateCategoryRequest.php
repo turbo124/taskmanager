@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Requests;
+namespace App\Requests\ExpenseCategory;
 
 use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
@@ -16,7 +16,7 @@ class UpdateCategoryRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('categories')->ignore(request()->segment(3))]
+            'name' => ['required', Rule::unique('expense_categories')->ignore(request()->segment(3))]
         ];
     }
 

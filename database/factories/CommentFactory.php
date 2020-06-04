@@ -19,7 +19,6 @@ use App\Comment;
 
 $factory->define(Comment::class, function (Faker $faker) {
     $user = factory(User::class)->create();
-    $task = factory(Task::class)->create();
 
     return [
         'account_id' => 1,

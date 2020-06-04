@@ -13,7 +13,12 @@ class Cases extends Model
 
     protected $fillable = [
         'status_id',
+        'priority_id',
+        'category_id',
+        'due_date',
+        'private_notes',
         'subject',
+        'number',
         'message',
         'user_id',
         'account_id',
@@ -21,6 +26,23 @@ class Cases extends Model
     ];
 
     const STATUS_DRAFT = 1;
+
+    const PRIORITY_LOW = 1;
+    const PRIORITY_MEDIUM = 2;
+    const PRIORITY_HIGH = 3;
+
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer')->withTrashed();
+    }
 
     /**
      * @param Customer $customer
@@ -52,5 +74,15 @@ class Cases extends Model
     public function setStatus(int $status)
     {
         $this->status_id = $status;
+    }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
+            return true;
+        }
+
+        return true;
     }
 }

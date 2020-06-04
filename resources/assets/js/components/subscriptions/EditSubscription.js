@@ -53,8 +53,7 @@ export default class EditSubscription extends React.Component {
         })
             .then((response) => {
                 const index = this.props.subscriptions.findIndex(subscription => subscription.id === this.state.id)
-                this.props.subscriptions[index].name = this.state.name
-                this.props.subscriptions[index].target_url = this.state.target_url
+                this.props.subscriptions[index] = response.data
                 this.props.action(this.props.subscriptions)
                 this.setState({ changesMade: false })
                 this.toggle()

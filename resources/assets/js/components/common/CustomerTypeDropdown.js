@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input, FormGroup } from 'reactstrap'
+import { translations } from "./_icons";
 
 export default class CustomerTypeDropdown extends Component {
     constructor (props) {
@@ -58,7 +59,7 @@ export default class CustomerTypeDropdown extends Component {
             <FormGroup>
                 <Input value={this.props.customer_type} onChange={this.props.handleInputChanges} type="select"
                     name="customer_type" id="customer_type">
-                    <option value="">Select Type</option>
+                    <option value="">{translations.select_option}</option>
                     {customerTypeList}
                 </Input>
                 {this.renderErrorFor('customer_type')}

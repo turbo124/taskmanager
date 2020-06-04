@@ -29,6 +29,7 @@ class Lead extends Model
     const UNQUALIFIED = 100;
 
     protected $fillable = [
+        'number',
         'account_id',
         'user_id',
         'first_name',
@@ -52,6 +53,16 @@ class Lead extends Model
         'public_notes',
         'status_id'
     ];
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this);
+            return true;
+        }
+
+        return true;
+    }
 
     public function service(): LeadService
     {

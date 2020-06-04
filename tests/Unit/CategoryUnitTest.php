@@ -4,7 +4,9 @@ namespace Tests\Unit;
 
 use App\Account;
 use App\Category;
+use App\Factory\CategoryFactory;
 use App\Repositories\CategoryRepository;
+use App\User;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,22 +22,27 @@ class CategoryUnitTest extends TestCase
     /**
      * @var Account
      */
-    private $account;
+    private Account $account;
+
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->account = Account::where('id', 1)->first();
+        $this->user = factory(User::class)->create();
     }
 
     /** @test */
     public function it_can_get_the_child_categories()
     {
         $parent = factory(Category::class)->create();
-        $child = factory(Category::class)->create([
-            'parent_id' => $parent->id
-        ]);
+        $child = factory(Category::class)->create(
+            [
+                'parent_id' => $parent->id
+            ]
+        );
         $categoryRepo = new CategoryRepository($parent);
         $children = $categoryRepo->findChildren();
         foreach ($children as $c) {
@@ -48,9 +55,11 @@ class CategoryUnitTest extends TestCase
     public function it_can_get_the_parent_category()
     {
         $parent = factory(Category::class)->create();
-        $child = factory(Category::class)->create([
-            'parent_id' => $parent->id
-        ]);
+        $child = factory(Category::class)->create(
+            [
+                'parent_id' => $parent->id
+            ]
+        );
         $categoryRepo = new CategoryRepository($child);
         $found = $categoryRepo->findParentCategory();
         $this->assertInstanceOf(Category::class, $found);
@@ -145,11 +154,13 @@ class CategoryUnitTest extends TestCase
         $attributes = $category->getFillable();
         $categoryRepo = new CategoryRepository(new Category);
         $categories = $categoryRepo->listCategories('id', 'desc', $this->account);
-        $categories->each(function ($category, $key) use ($attributes) {
-            foreach ($category->getFillable() as $key => $value) {
-                $this->assertArrayHasKey($key, $attributes);
+        $categories->each(
+            function ($category, $key) use ($attributes) {
+                foreach ($category->getFillable() as $key => $value) {
+                    $this->assertArrayHasKey($key, $attributes);
+                }
             }
-        });
+        );
     }
 
     /** @test */
@@ -188,7 +199,7 @@ class CategoryUnitTest extends TestCase
             'cover'       => $cover
         ];
         $categoryRepo = new CategoryRepository($category);
-        $updated = $categoryRepo->updateCategory($params);
+        $updated = $categoryRepo->updateCategory($params, $category);
         $this->assertInstanceOf(Category::class, $updated);
         $this->assertEquals($params['name'], $updated->name);
         $this->assertEquals($params['slug'], $updated->slug);
@@ -210,8 +221,9 @@ class CategoryUnitTest extends TestCase
             'status'      => 1,
             'parent'      => $parent->id
         ];
-        $category = new CategoryRepository(new Category);
-        $created = $category->createCategory($params, $this->account);
+        $categoryRepo = new CategoryRepository(new Category);
+        $category = CategoryFactory::create($this->account, $this->user);
+        $created = $categoryRepo->createCategory($params, $category);
         $this->assertInstanceOf(Category::class, $created);
         $this->assertEquals($params['name'], $created->name);
         $this->assertEquals($params['slug'], $created->slug);
@@ -229,8 +241,10 @@ class CategoryUnitTest extends TestCase
             'description' => $this->faker->paragraph,
             'status'      => 1
         ];
-        $category = new CategoryRepository(new Category);
-        $created = $category->createCategory($params, $this->account);
+
+        $category = CategoryFactory::create($this->account, $this->user);
+        $categoryRepo = new CategoryRepository($category);
+        $created = $categoryRepo->createCategory($params, $category);
         $this->assertTrue($created->isRoot());
     }
 
@@ -242,11 +256,14 @@ class CategoryUnitTest extends TestCase
         $child = factory(Category::class)->create();
         $child->parent()->associate($parent)->save();
         // send params without parent
-        $category = new CategoryRepository($child);
-        $updated = $category->updateCategory([
-            'name' => 'Boys',
-            'slug' => 'boys'
-        ]);
+        $categoryRepo = new CategoryRepository($child);
+        $updated = $categoryRepo->updateCategory(
+            [
+                'name' => 'Boys',
+                'slug' => 'boys'
+            ],
+            $child
+        );
         // check if updated category is root
         $this->assertTrue($updated->isRoot());
     }
@@ -259,11 +276,14 @@ class CategoryUnitTest extends TestCase
 
         // set parent category via repository
         $category = new CategoryRepository($child);
-        $updated = $category->updateCategory([
-            'name'   => 'Boys',
-            'slug'   => 'boys',
-            'parent' => $parent->id
-        ]);
+        $updated = $category->updateCategory(
+            [
+                'name'   => 'Boys',
+                'slug'   => 'boys',
+                'parent' => $parent->id
+            ],
+            $child
+        );
         // check if updated category is root
         $this->assertTrue($updated->parent->is($parent));
     }

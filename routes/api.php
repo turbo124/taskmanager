@@ -33,6 +33,12 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         // cases
         Route::resource('cases', 'CaseController');
 
+        // expense categories
+        Route::resource('expense-categories', 'ExpenseCategoryController');
+
+        // case categories
+        Route::resource('case-categories', 'CaseCategoryController');
+
         //design
         Route::resource('designs', 'DesignController');// name = (payments. index / create / show / update / destroy / edit
 

@@ -41,6 +41,7 @@ class ExpenseRepository extends BaseRepository
     public function save(array $data, Expense $expense): ?Expense
     {
         $expense->fill($data);
+        $expense->setNumber();
         $expense->save();
 
         return $expense;

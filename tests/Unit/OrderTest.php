@@ -167,7 +167,7 @@ class OrderTest extends TestCase
 
         $order = OrderFactory::create($this->account, $this->user, $customer);
 
-        $order_number = $this->objNumberGenerator->getNextNumberForEntity($customer, $order);
+        $order_number = $this->objNumberGenerator->getNextNumberForEntity($order, $customer);
         $this->assertEquals($customer->getSetting('counter_padding'), 5);
         $this->assertEquals($order_number, '00007');
         $this->assertEquals(strlen($order_number), 5);
@@ -241,9 +241,16 @@ class OrderTest extends TestCase
     {
         $order = factory(Order::class)->create();
         $orderRepo = new OrderRepository($order);
+        $account = $order->account;
+        $settings = $account->settings;
+        $settings->should_convert_order = true;
+        $settings->should_email_order = true;
+        $settings->should_archive_order = true;
+        $account->settings = $settings;
+        $account->save();
+
         $order->service()->dispatch(new InvoiceRepository(new Invoice), $orderRepo);
         $order = $orderRepo->markSent($order);
-
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($order->status_id, Order::STATUS_SENT);
     }

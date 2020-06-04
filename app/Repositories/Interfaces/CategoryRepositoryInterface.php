@@ -26,16 +26,17 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param array $params
-     * @param Account $account
+     * @param Category $category
      * @return Category
      */
-    public function createCategory(array $params, Account $account): Category;
+    public function createCategory(array $params, Category $category): Category;
 
     /**
-     *
      * @param array $params
+     * @param Category $category
+     * @return Category
      */
-    public function updateCategory(array $params): Category;
+    public function updateCategory(array $params, Category $category): Category;
 
     /**
      *

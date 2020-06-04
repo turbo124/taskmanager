@@ -28,6 +28,7 @@ export default class Expenses extends Component {
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                category_id: queryString.parse(this.props.location.search).category_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
                 company_id: queryString.parse(this.props.location.search).company_id || '',
                 start_date: '',
@@ -151,8 +152,8 @@ export default class Expenses extends Component {
 
     render () {
         const { expenses, customers, custom_fields, view, companies } = this.state
-        const { searchText, status_id, customer_id, company_id, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}`
+        const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id } = this.state.filters
+        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
         const addButton = customers.length ? <AddExpense
             custom_fields={custom_fields}
             customers={customers}

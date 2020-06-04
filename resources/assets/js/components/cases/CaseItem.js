@@ -5,7 +5,6 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditCase from './EditCase'
 import { Input } from 'reactstrap'
-import CreditPresenter from '../presenters/CreditPresenter'
 import CasePresenter from '../presenters/CasePresenter'
 
 export default class CaseItem extends Component {

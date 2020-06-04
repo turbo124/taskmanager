@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input, FormGroup } from 'reactstrap'
+import { translations } from "./_icons";
 
 export default class QuoteDropdown extends Component {
     constructor (props) {
@@ -70,7 +71,7 @@ export default class QuoteDropdown extends Component {
             </Input>
         ) : <Input value={this.props.quote_id} onChange={this.props.handleInputChanges} type="select"
             name={name} id={name}>
-            <option value="">Select Quote</option>
+            <option value="">{translations.select_option}</option>
             {quoteList}
         </Input>
 

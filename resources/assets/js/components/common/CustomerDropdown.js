@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
+import { translations } from "./_icons";
 
 export default class CustomerDropdown extends Component {
     constructor (props) {
@@ -78,7 +79,7 @@ export default class CustomerDropdown extends Component {
         const selectList = this.props.disabled
             ? <Input disabled value={this.props.customer} onChange={this.props.handleInputChanges} type="select"
                 name={name} id={name}>{customerList}{options}</Input> : <Select
-                placeholder="Select Customer"
+                placeholder={translations.select_option}
                 className="flex-grow-1"
                 classNamePrefix="select"
                 name={name}

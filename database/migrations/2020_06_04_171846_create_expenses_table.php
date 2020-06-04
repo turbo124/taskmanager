@@ -51,6 +51,7 @@ class CreateExpensesTable extends Migration {
 			$table->string('custom_value4')->nullable();
 			$table->integer('status_id')->default(1);
 			$table->text('private_notes', 65535)->nullable();
+			$table->string('number')->nullable();
 		});
 	}
 

@@ -12,6 +12,7 @@ class Expense extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'number',
         'customer_id',
         'status_id',
         'company_id',
@@ -57,11 +58,26 @@ class Expense extends Model
         return $this->belongsTo(User::class, 'assigned_user_id', 'id');
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     /**
      * @return mixed
      */
     public function customer()
     {
         return $this->belongsTo('App\Customer')->withTrashed();
+    }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
+            return true;
+        }
+
+        return true;
     }
 }

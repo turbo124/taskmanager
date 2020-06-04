@@ -19,6 +19,7 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'number',
         'name',
         'website',
         'phone_number',
@@ -65,6 +66,10 @@ class Company extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
 
     public function currency()
     {
@@ -74,17 +79,6 @@ class Company extends Model
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    public function company_users()
-    {
-        return $this->hasMany(CompanyUser::class);
-    }
-
-    public function owner()
-    {
-        $c = $this->company_users->where('is_owner', true)->first();
-        return User::find($c->user_id);
     }
 
     public function documents()
@@ -100,6 +94,16 @@ class Company extends Model
     public function contacts()
     {
         return $this->hasMany(CompanyContact::class)->orderBy('is_primary', 'desc');
+    }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this);
+            return true;
+        }
+
+        return true;
     }
 
 }

@@ -16,6 +16,7 @@ trait ExpenseTransformable
     {
         return [
             'id'                    => $expense->id,
+            'number'                => $expense->number ?: '',
             'user_id'               => $expense->user_id,
             'assigned_user_id'      => $expense->assigned_user_id,
             'company_id'            => $expense->company_id,

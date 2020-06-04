@@ -53,9 +53,8 @@ class CreditController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(SearchRequest $request)
     {

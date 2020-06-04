@@ -1,75 +1,80 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import axios from 'axios'
-import EditCategory from './EditCategory'
 import AddCategory from './AddCategory'
-import { Button } from 'reactstrap'
+import { CardBody, Card } from 'reactstrap'
 import DataTable from '../common/DataTable'
+import CategoryFilters from './CategoryFilters'
+import CategoryItem from './CategoryItem'
 
-export default class Brands extends Component {
+export default class Categories extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            dropdownButtonActions: ['download'],
             categories: [],
-            errors: []
+            cachedData: [],
+            view: {
+                ignore: [],
+                viewMode: false,
+                viewedId: null,
+                title: null
+            },
+            errors: [],
+            ignoredColumns: ['id', 'category_id', 'parent_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'status', 'deleted_at', 'created_at'],
+            filters: {
+                searchText: '',
+                status: 'active',
+                start_date: '',
+                end_date: ''
+            }
         }
 
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
-        this.ignoredColumns = ['status', 'parent_id']
-    }
-
-    componentDidMount () {
-        this.getUsers()
+        this.filterCategories = this.filterCategories.bind(this)
+        this.getCustomers = this.getCustomers.bind(this)
     }
 
     addUserToState (categories) {
-        this.setState({ categories: categories })
+        const cachedData = !this.state.cachedData.length ? categories : this.state.cachedData
+        this.setState({
+            categories: categories,
+            cachedData: cachedData
+        })
     }
 
-    userList () {
-        if (this.state.categories && this.state.categories.length) {
-            return this.state.categories.map(category => {
-                const columnList = Object.keys(category).filter(key => {
-                    return this.ignoredColumns && !this.ignoredColumns.includes(key)
-                }).map(key => {
-                    return <td data-label={key} key={key}>{category[key]}</td>
+    getCustomers () {
+        axios.get('/api/customers')
+            .then((r) => {
+                this.setState({
+                    customers: r.data
                 })
-
-                return <tr key={category.id}>
-                    <td>
-                        <Button color="danger" onClick={() => this.deleteCategory(category.id)}>Delete</Button>
-                        <EditCategory
-                            users={this.state.users}
-                            category={category}
-                            categories={this.state.categories}
-                            action={this.addUserToState}
-                        />
-                    </td>
-
-                    {columnList}
-                </tr>
             })
-        } else {
-            return <tr>
-                <td className="text-center">No Records Found.</td>
-            </tr>
-        }
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
-    deleteCategory (id) {
-        const self = this
-        axios.delete('/api/categories/' + id)
-            .then(function (response) {
-                const arrCategories = [...self.state.categories]
-                const index = arrCategories.findIndex(category => category.id === id)
-                arrCategories.splice(index, 1)
-                self.addUserToState(arrCategories)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+    componentDidMount () {
+        this.getCustomers()
+    }
+
+    filterCategories (filters) {
+        this.setState({ filters: filters })
+    }
+
+    resetFilters () {
+        this.props.reset()
+    }
+
+    userList (props) {
+        const { categories, customers } = this.state
+        return <CategoryItem showCheckboxes={props.showCheckboxes} customers={customers} categories={categories}
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+            toggleViewedEntity={props.toggleViewedEntity}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     getUsers () {
@@ -88,23 +93,43 @@ export default class Brands extends Component {
     }
 
     render () {
-        const fetchUrl = '/api/categories/'
+        const { searchText, status, start_date, end_date } = this.state.filters
+        const { view, categories, customers } = this.state
+        const fetchUrl = `/api/categories?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
-            <div className="data-table m-md-3 m-0">
+            <div className="data-table">
+                <Card>
+                    <CardBody>
+                        <CategoryFilters categories={categories}
+                            customers={customers}
+                            updateIgnoredColumns={this.updateIgnoredColumns}
+                            filters={this.state.filters} filter={this.filterCategories}
+                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                <AddCategory
-                    users={this.state.users}
-                    categories={this.state.categories}
-                    action={this.addUserToState}
-                />
+                        <AddCategory
+                            customers={customers}
+                            categories={categories}
+                            action={this.addUserToState}
+                        />
+                    </CardBody>
+                </Card>
 
-                <DataTable
-                    ignore={this.ignoredColumns}
-                    userList={this.userList}
-                    fetchUrl={fetchUrl}
-                    updateState={this.addUserToState}
-                />
+                <Card>
+                    <CardBody>
+                        <DataTable
+                            columnMapping={{ customer_id: 'CUSTOMER' }}
+                            dropdownButtonActions={this.state.dropdownButtonActions}
+                            entity_type="Category"
+                            bulk_save_url="/api/categories/bulk"
+                            view={view}
+                            ignore={this.state.ignoredColumns}
+                            userList={this.userList}
+                            fetchUrl={fetchUrl}
+                            updateState={this.addUserToState}
+                        />
+                    </CardBody>
+                </Card>
             </div>
         )
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input } from 'reactstrap'
+import { translations } from "./_icons";
 
 export default class ExpenseDropdown extends Component {
     constructor (props) {
@@ -57,7 +58,7 @@ export default class ExpenseDropdown extends Component {
         return (
             <Input data-line={dataId} value={this.props.expense} onChange={this.props.handleInputChanges} type="select"
                 name={name} id={name}>
-                <option value="">Select Expense</option>
+                <option value="">{translations.select_option}</option>
                 {expenseList}
             </Input>
         )

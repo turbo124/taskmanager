@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\CompanyToken;
+use App\Factory\CategoryFactory;
+use App\Filters\CategoryFilter;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Requests\CreateCategoryRequest;
-use App\Requests\UpdateCategoryRequest;
 use App\Http\Controllers\Controller;
+use App\Requests\Category\CreateCategoryRequest;
+use App\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Category;
@@ -24,7 +26,7 @@ class CategoryController extends Controller
     /**
      * @var CategoryRepositoryInterface
      */
-    private $categoryRepo;
+    private $category_repo;
 
     /**
      * CategoryController constructor.
@@ -33,57 +35,31 @@ class CategoryController extends Controller
      */
     public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepo = $categoryRepository;
+        $this->category_repo = $categoryRepository;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(SearchRequest $request)
     {
-        $orderBy = !$request->column ? 'name' : $request->column;
-        $orderDir = !$request->order ? 'asc' : $request->order;
-        $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-
-        if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->categoryRepo->searchCategory(
-                request()->input('search_term'),
-                auth()->user()->account_user()->account
-            );
-        } else {
-            $list = $this->categoryRepo->listCategories($orderBy, $orderDir, auth()->user()->account_user()->account);
-        }
-
-        $categories = $list->map(
-            function (Category $category) {
-                return $this->transformCategory($category);
-            }
-        )->all();
-
-        if ($recordsPerPage > 0) {
-            $paginatedResults = $this->categoryRepo->paginateArrayResults($categories, $recordsPerPage);
-            return $paginatedResults->toJson();
-        }
-
-        return collect($categories)->toJson();
+        $categories = (new CategoryFilter($this->category_repo))->filter($request, auth()->user()->account_user()->account);
+        return response()->json($categories);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param CreateCategoryRequest $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateCategoryRequest $request)
     {
-        $categoryObj = $this->categoryRepo->createCategory(
-            $request->except('_token', '_method'),
-            auth()->user()->account_user()->account
+        $category = $this->category_repo->createCategory(
+            $request->all(),
+            CategoryFactory::create(auth()->user()->account_user()->account, auth()->user())
         );
-        $category = $this->transformCategory($categoryObj);
-        return response()->json($category);
+
+        return response()->json($this->transformCategory($category));
     }
 
     /**
@@ -95,9 +71,9 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, int $id)
     {
-        $category = $this->categoryRepo->findCategoryById($id);
+        $category = $this->category_repo->findCategoryById($id);
         $update = new CategoryRepository($category);
-        $update->updateCategory($request->except('_token', '_method'));
+        $update->updateCategory($request->except('_token', '_method'), $category);
     }
 
     /**
@@ -108,7 +84,7 @@ class CategoryController extends Controller
      */
     public function destroy(int $id)
     {
-        $category = $this->categoryRepo->findCategoryById($id);
+        $category = $this->category_repo->findCategoryById($id);
         $category->products()->sync([]);
         $category->delete();
     }
@@ -119,19 +95,18 @@ class CategoryController extends Controller
      */
     public function removeImage(Request $request)
     {
-        $this->categoryRepo->deleteFile($request->only('category'));
+        $this->category_repo->deleteFile($request->only('category'));
     }
 
     public function getRootCategories()
     {
-        $categories = $this->categoryRepo->rootCategories();
+        $categories = $this->category_repo->rootCategories();
         return response()->json($categories);
     }
 
     /**
-     *
      * @param string $slug
-     * @return type
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getCategory(string $slug)
     {
@@ -139,14 +114,13 @@ class CategoryController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $category = $this->categoryRepo->findCategoryBySlug($slug, $account);
+        $category = $this->category_repo->findCategoryBySlug($slug, $account);
         return response()->json($category);
     }
 
     /**
-     *
      * @param string $slug
-     * @return type
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getChildCategories(string $slug)
     {
@@ -154,20 +128,19 @@ class CategoryController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $category = $this->categoryRepo->findCategoryBySlug($slug, $account);
+        $category = $this->category_repo->findCategoryBySlug($slug, $account);
         $categoryRepo = new CategoryRepository($category);
         $categories = $categoryRepo->findChildren();
         return response()->json($categories);
     }
 
     /**
-     *
      * @param int $category_id
-     * @return type
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getForm(int $category_id)
     {
-        $category = $this->categoryRepo->findCategoryById($category_id);
+        $category = $this->category_repo->findCategoryById($category_id);
         $form = (new CategoryRepository($category))->getFormForCategory();
         return response()->json($form);
     }

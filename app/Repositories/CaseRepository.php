@@ -40,6 +40,7 @@ class CaseRepository extends BaseRepository
     public function save(array $data, Cases $case)
     {
         $case->fill($data);
+        $case->setNumber();
         $case->save();
         return $case;
     }
