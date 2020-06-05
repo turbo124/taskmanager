@@ -65,7 +65,7 @@ class ReverseInvoicePayment
             $this->createCreditNote($total_paid);
         }
 
-        $this->invoice->ledger()->updateBalance($this->balance * -1, $this->note);
+        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->note);
 
         // update customer
         $this->updateCustomer($total_paid);

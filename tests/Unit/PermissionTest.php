@@ -32,9 +32,11 @@ class PermissionTest extends TestCase
         $roleRepo = new RoleRepository($role);
         $roleRepo->attachToPermission($permission);
         $attachedPermissions = $roleRepo->listPermissions();
-        $attachedPermissions->each(function (Permission $item) use ($permission) {
-            $this->assertEquals($permission->name, $item->name);
-        });
+        $attachedPermissions->each(
+            function (Permission $item) use ($permission) {
+                $this->assertEquals($permission->name, $item->name);
+            }
+        );
     }
 
     /** @test */

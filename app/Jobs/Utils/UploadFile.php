@@ -59,7 +59,7 @@ class UploadFile implements ShouldQueue
         $file->width = $width;
         $file->height = $height;
 
-        $this->entity->documents()->save($file);
+        $this->entity->files()->save($file);
 
         // create notification
         $notification = NotificationFactory::create($this->account->id, $this->user->id);

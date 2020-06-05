@@ -95,7 +95,6 @@ class CreditTest extends TestCase
     /** @test */
     public function it_can_create_a_credit()
     {
-
         $customerId = $this->customer->id;
         $total = $this->faker->randomFloat();
         $user = factory(User::class)->create();

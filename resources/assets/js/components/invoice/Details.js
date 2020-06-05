@@ -99,20 +99,25 @@ export default class Details extends Component {
                                 className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         </FormGroup>
 
-                        <CustomerDropdown
-                            handleInputChanges={this.props.handleInput}
-                            customer={this.props.invoice.customer_id}
-                            customers={this.props.customers}
-                            errors={this.props.errors}
-                        />
-
-                        <CompanyDropdown
-                            company_id={this.props.invoice.company_id}
-                            name="company_id"
-                            hasErrorFor={this.hasErrorFor}
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
-                        />
+                        <FormGroup>
+                            <Label>{translations.customer}</Label>
+                            <CustomerDropdown
+                                handleInputChanges={this.props.handleInput}
+                                customer={this.props.invoice.customer_id}
+                                customers={this.props.customers}
+                                errors={this.props.errors}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>{translations.company}</Label>
+                            <CompanyDropdown
+                                company_id={this.props.invoice.company_id}
+                                name="company_id"
+                                hasErrorFor={this.hasErrorFor}
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleInput}
+                            />
+                        </FormGroup>
                     </CardBody>
                 </Card>
             </React.Fragment>

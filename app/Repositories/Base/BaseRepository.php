@@ -151,8 +151,7 @@ class BaseRepository implements BaseRepositoryInterface
         $allowed_statuses[] = $entity_class::STATUS_DRAFT;
 
         if ($entity_class === 'App\Order') {
-
-            if(!$entity->invoice_id) {
+            if (!$entity->invoice_id) {
                 return null;
             }
 

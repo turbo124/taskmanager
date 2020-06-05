@@ -6,6 +6,7 @@ import CurrencyDropdown from '../common/CurrencyDropdown'
 import UserDropdown from '../common/UserDropdown'
 import GroupSettingsDropdown from '../common/GroupSettingsDropdown'
 import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
+import { translations } from '../common/_icons'
 
 export default function SettingsForm (props) {
     const hasErrorFor = (field) => {
@@ -39,43 +40,59 @@ export default function SettingsForm (props) {
                     {renderErrorFor('payment_terms')}
                 </FormGroup>
 
-                <PaymentTypeDropdown
-                    name="default_payment_method"
-                    data-namespace="customer"
-                    payment_type={props.customer.default_payment_method}
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
-                />
+                <FormGroup>
+                    <Label>{translations.payment_method}</Label>
+                    <PaymentTypeDropdown
+                        name="default_payment_method"
+                        data-namespace="customer"
+                        payment_type={props.customer.default_payment_method}
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                </FormGroup>
 
-                <CompanyDropdown
-                    data-namespace="customer"
-                    company_id={props.customer.company_id}
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
-                />
+                <FormGroup>
+                    <Label>{translations.company}</Label>
+                    <CompanyDropdown
+                        data-namespace="customer"
+                        company_id={props.customer.company_id}
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                </FormGroup>
 
-                <CurrencyDropdown
-                    data-namespace="customer"
-                    currency_id={props.customer.currency_id}
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
-                />
+                <FormGroup>
+                    <Label>{translations.currency}</Label>
+                    <CurrencyDropdown
+                        data-namespace="customer"
+                        currency_id={props.customer.currency_id}
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                </FormGroup>
 
-                <UserDropdown
-                    data-namespace="customer"
-                    user_id={props.customer.assigned_user}
-                    name="assigned_user"
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
-                />
+                <FormGroup>
+                    <Label>{translations.assigned_user}</Label>
+                    <UserDropdown
+                        data-namespace="customer"
+                        user_id={props.customer.assigned_user}
+                        name="assigned_user"
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                </FormGroup>
 
-                <GroupSettingsDropdown
-                    data-namespace="customer"
-                    group_settings_id={props.customer.group_settings_id}
-                    name="group_settings_id"
-                    errors={props.errors}
-                    handleInputChanges={props.onChange}
-                />
+                <FormGroup>
+                    <Label>{translations.customer_group}</Label>
+                    <GroupSettingsDropdown
+                        data-namespace="customer"
+                        group_settings_id={props.customer.group_settings_id}
+                        name="group_settings_id"
+                        errors={props.errors}
+                        handleInputChanges={props.onChange}
+                    />
+                </FormGroup>
+
             </CardBody>
         </Card>
 

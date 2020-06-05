@@ -34,13 +34,12 @@ class SendQuoteApprovedNotification implements ShouldQueue
 
         if (!empty($quote->account->account_users)) {
             foreach ($quote->account->account_users as $account_user) {
-
                 $notification_types = $this->getNotificationTypesForAccountUser(
                     $account_user,
                     ['quote_approved']
                 );
 
-                if(!empty($notification_types) && in_array('mail', $notification_types)) {
+                if (!empty($notification_types) && in_array('mail', $notification_types)) {
                     $account_user->user->notify(new QuoteApprovedNotification($quote, 'mail'));
                 }
             }

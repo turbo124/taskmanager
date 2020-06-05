@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { FormGroup } from 'reactstrap'
+import { FormGroup, Label } from 'reactstrap'
 import Select from 'react-select'
-import { translations } from "./_icons";
+import { translations } from './_icons'
 
 export default class CompanyDropdown extends Component {
     constructor (props) {
@@ -70,7 +70,7 @@ export default class CompanyDropdown extends Component {
         const company = this.props.company_id ? this.state.companies.filter(option => option.id === this.props.company_id) : null
 
         return (
-            <FormGroup className="mr-2">
+            <React.Fragment>
                 <Select value={company}
                     placeholder={translations.select_option}
                     className="flex-grow-1"
@@ -82,7 +82,7 @@ export default class CompanyDropdown extends Component {
                     onChange={(value) => this.handleChange(value, name)}
                 />
                 {this.renderErrorFor('company_id')}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

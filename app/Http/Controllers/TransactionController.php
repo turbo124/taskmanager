@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyLedger;
-use App\Transformers\CompanyLedgerTransformer;
+use App\Transaction;
 use Illuminate\Http\Request;
 
-class CompanyLedgerController extends Controller
+class TransactionController extends Controller
 {
 
     public function __construct()
@@ -21,12 +20,12 @@ class CompanyLedgerController extends Controller
      */
     public function index()
     {
-        $company_ledger = CompanyLedger::whereAccountId(auth()->user()->account_user()->account_id)->orderBy(
+        $transaction = Transaction::whereAccountId(auth()->user()->account_user()->account_id)->orderBy(
             'id',
             'ASC'
         );
 
-        return response()->json($company_ledger);
+        return response()->json($transaction);
     }
 
 

@@ -16,7 +16,7 @@ class UpdateCaseRequest extends BaseFormRequest
     {
         return [
             'subject' => 'required',
-            'message'   => 'required',
+            'message' => 'required',
         ];
     }
 }

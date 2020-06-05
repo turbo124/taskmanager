@@ -128,9 +128,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(AccountUser::class);
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function account_user()

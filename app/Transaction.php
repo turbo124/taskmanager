@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyLedger extends Model
+class Transaction extends Model
 {
     protected $fillable = [
         'customer_id',
-        'balance',
-        'adjustment',
+        'updated_balance',
+        'amount',
         'notes',
         'account_id',
         'user_id'
@@ -29,11 +29,6 @@ class CompanyLedger extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
-    }
-
-    public function company_ledgerable()
-    {
-        return $this->morphTo();
     }
 
     public function setUser(User $user)
@@ -56,26 +51,26 @@ class CompanyLedger extends Model
         $this->notes = $notes;
     }
 
-    public function setBalance($balance)
+    public function setUpdatedBalance($updated_balance)
     {
-        $this->balance = $balance;
+        $this->updated_balance = $updated_balance;
     }
 
-    public function setAdjustment($adjustment)
+    public function setAmount($amount)
     {
-        $this->adjustment = $adjustment;
+        $this->amount = $amount;
     }
 
-    public function createLedger()
+    public function createTransaction()
     {
         $this->create(
             [
-                'user_id'     => $this->user_id,
-                'account_id'  => $this->account_id,
-                'customer_id' => $this->customer_id,
-                'balance'     => $this->balance,
-                'adjustment'  => $this->adjustment,
-                'notes'       => $this->notes
+                'user_id'         => $this->user_id,
+                'account_id'      => $this->account_id,
+                'customer_id'     => $this->customer_id,
+                'updated_balance' => $this->balance,
+                'amount'          => $this->adjustment,
+                'notes'           => $this->notes
             ]
         );
     }

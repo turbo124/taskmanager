@@ -59,8 +59,6 @@ class TaxRateUnitTest extends TestCase
     /** @test */
     public function it_can_get_the_tax_rate()
     {
-
-
         $data = [
             'name' => $this->faker->word,
             'rate' => $this->faker->randomFloat()
@@ -96,7 +94,6 @@ class TaxRateUnitTest extends TestCase
         $this->assertInstanceOf(TaxRate::class, $updated);
         $this->assertEquals($update['name'], $taxRate->name);
         $this->assertEquals($update['rate'], $taxRate->rate);
-
     }
 
     /** @test */

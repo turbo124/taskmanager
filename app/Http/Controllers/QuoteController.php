@@ -189,6 +189,5 @@ class QuoteController extends BaseController
 
     public function bulk(Request $request)
     {
-
     }
 }

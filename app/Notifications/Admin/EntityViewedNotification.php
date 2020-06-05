@@ -88,7 +88,7 @@ class EntityViewedNotification extends Notification implements ShouldQueue
 
     private function getMessage()
     {
-       return trans(
+        return trans(
             "texts.notification_{$this->entity_name}_viewed_subject",
             [
                 'customer'         => $this->contact->present()->name(),

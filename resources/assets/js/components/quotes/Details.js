@@ -115,20 +115,26 @@ export default class Details extends Component {
                                 className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         </FormGroup>
 
-                        <CustomerDropdown
-                            handleInputChanges={this.props.handleInput}
-                            customer={this.props.quote.customer_id}
-                            customers={this.props.customers}
-                            errors={this.props.errors}
-                        />
+                        <FormGroup>
+                            <Label>{translations.customer}</Label>
+                            <CustomerDropdown
+                                handleInputChanges={this.props.handleInput}
+                                customer={this.props.quote.customer_id}
+                                customers={this.props.customers}
+                                errors={this.props.errors}
+                            />
+                        </FormGroup>
 
-                        <CompanyDropdown
-                            company_id={this.props.quote.company_id}
-                            name="company_id"
-                            hasErrorFor={this.hasErrorFor}
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
-                        />
+                        <FormGroup>
+                            <Label>{translations.company}</Label>
+                            <CompanyDropdown
+                                company_id={this.props.quote.company_id}
+                                name="company_id"
+                                hasErrorFor={this.hasErrorFor}
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleInput}
+                            />
+                        </FormGroup>
 
                         {customForm}
                     </CardBody>

@@ -2,9 +2,8 @@
 
 namespace App;
 
-use App\Events\PaymentWasVoided;
-use App\Services\Ledger\LedgerService;
 use App\Services\Payment\PaymentService;
+use App\Services\Transaction\TransactionService;
 use Illuminate\Database\Eloquent\Model;
 use App\PaymentMethod;
 use App\Customer;
@@ -12,9 +11,7 @@ use App\Invoice;
 use App\Paymentable;
 use App\Events\Payment\PaymentWasDeleted;
 use Laracasts\Presenter\PresentableTrait;
-use Event;
 use App\Utils\Number;
-use App\Events\PaymentWasRefunded;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -97,11 +94,6 @@ class Payment extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function invoice()
-    {
-        return $this->morphedByMany(Invoice::class, 'paymentable')->withPivot('amount', 'refunded');
-    }
-
     public function invoices()
     {
         return $this->morphedByMany(Invoice::class, 'paymentable')->withPivot('amount')->withTrashed();
@@ -117,24 +109,24 @@ class Payment extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function company_ledger()
-    {
-        return $this->morphMany(CompanyLedger::class, 'company_ledgerable');
-    }
-
     public function service(): PaymentService
     {
         return new PaymentService($this);
     }
 
-    public function ledger()
+    public function transaction_service()
     {
-        return new LedgerService($this);
+        return new TransactionService($this);
     }
 
-    public function documents()
+    public function transactions()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function user()
@@ -209,5 +201,14 @@ class Payment extends Model
         }
 
         return substr($invoice_texts, 0, -1);
+    }
+
+    /**
+     * @param float $amount
+     */
+    public function applyPayment(float $amount)
+    {
+        $this->applied += $amount;
+        $this->save();
     }
 }

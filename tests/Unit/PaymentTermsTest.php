@@ -42,12 +42,15 @@ class PaymentTermsTest extends TestCase
         $this->account = Account::where('id', 1)->first();
     }
 
-     
+
     /** @test */
     public function it_can_show_all_the_terms()
     {
         factory(PaymentTerms::class)->create();
-        $list = (new PaymentTermsFilter(new PaymentTermsRepository(new PaymentTerms)))->filter(new SearchRequest, $this->account);
+        $list = (new PaymentTermsFilter(new PaymentTermsRepository(new PaymentTerms)))->filter(
+            new SearchRequest,
+            $this->account
+        );
         $this->assertNotEmpty($list);
     }
 
@@ -97,9 +100,9 @@ class PaymentTermsTest extends TestCase
         $factory = (new PaymentTermsFactory)->create($this->account, $user);
 
         $data = [
-            'account_id'  => $this->account->id,
-            'user_id'     => $user->id,
-            'name'        => $this->faker->word()
+            'account_id' => $this->account->id,
+            'user_id'    => $user->id,
+            'name'       => $this->faker->word()
         ];
 
         $payment_terms_repo = new PaymentTermsRepository(new PaymentTerms);

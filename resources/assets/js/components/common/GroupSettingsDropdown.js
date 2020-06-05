@@ -57,14 +57,14 @@ export default class GroupSettingsDropdown extends Component {
         }
 
         return (
-            <FormGroup className="ml-2">
+            <React.Fragment>
                 <Input value={this.props.group_settings_id} onChange={this.props.handleInputChanges} type="select"
                     name="group_settings_id" id="group_settings_id">
                     <option value="">Select Group Setting</option>
                     {groupList}
                 </Input>
                 {this.renderErrorFor('group_settings_id')}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

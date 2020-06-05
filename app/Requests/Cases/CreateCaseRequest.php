@@ -16,7 +16,7 @@ class CreateCaseRequest extends BaseFormRequest
     {
         return [
             'subject' => 'required',
-            'message'   => 'required',
+            'message' => 'required',
         ];
     }
 }

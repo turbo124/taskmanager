@@ -38,7 +38,10 @@ class ExpenseCategoryController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $categories = (new ExpenseCategoryFilter($this->category_repo))->filter($request, auth()->user()->account_user()->account);
+        $categories = (new ExpenseCategoryFilter($this->category_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account
+        );
         return response()->json($categories);
     }
 

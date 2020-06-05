@@ -78,7 +78,6 @@ class ExpenseTest extends TestCase
     /** @test */
     public function it_can_create_a_expense()
     {
-
         $factory = (new ExpenseFactory)->create($this->account, $this->user);
 
         $data = [

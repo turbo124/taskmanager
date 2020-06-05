@@ -48,7 +48,6 @@ class MessageTest extends TestCase
     /** @test */
     public function it_can_create_a_message()
     {
-
         $data = [
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
@@ -77,7 +76,6 @@ class MessageTest extends TestCase
     /** @test */
     public function it_can_list_all_messages()
     {
-
         $data = [
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,

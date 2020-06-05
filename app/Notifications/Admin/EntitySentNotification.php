@@ -90,9 +90,9 @@ class EntitySentNotification extends Notification implements ShouldQueue
     private function getDataArray()
     {
         return [
-            'total'    => $this->entity->getFormattedTotal(),
+            'total' => $this->entity->getFormattedTotal(),
             'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->getNumber(),
+            'invoice' => $this->entity->getNumber(),
         ];
     }
 
@@ -101,7 +101,10 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return (new SlackMessage)->from(trans('texts.from_slack'))->success()
                                  ->image($this->entity->account->present()->logo)
                                  ->content(
-                                     trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray())
+                                     trans(
+                                         "texts.notification_{$this->entity_name}_sent_subject",
+                                         $this->getDataArray()
+                                     )
                                  );
     }
 

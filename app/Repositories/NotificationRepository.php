@@ -74,10 +74,11 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
         if (in_array($entity_class, ['App\Customer', 'App\Lead'])) {
             $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('account')->first();
         } else {
-            $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('customer', 'account')->first();
+            $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('customer', 'account')->first(
+            );
         }
 
-        if(!$entity) {
+        if (!$entity) {
             return true;
         }
 

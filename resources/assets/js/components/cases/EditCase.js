@@ -4,8 +4,8 @@ import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
-import CaseCategoryDropdown from "../common/CaseCategoryDropdown";
-import { consts } from "../common/_consts";
+import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
+import { consts } from '../common/_consts'
 
 export default class EditCase extends React.Component {
     constructor (props) {

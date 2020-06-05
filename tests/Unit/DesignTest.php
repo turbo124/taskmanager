@@ -84,7 +84,6 @@ class DesignTest extends TestCase
     /** @test */
     public function it_can_create_a_design()
     {
-
         $user = factory(User::class)->create();
         $design = (new DesignFactory)->create(1, $user->id);
 
@@ -107,17 +106,25 @@ class DesignTest extends TestCase
 
     public function testQuoteDesignExists()
     {
-        $this->quote = factory(\App\Quote::class)->create([
-            'user_id'     => $this->user->id,
-            'customer_id' => $this->customer->id,
-            'company_id'  => $this->account->id,
-        ]);
+        $this->quote = factory(\App\Quote::class)->create(
+            [
+                'user_id'     => $this->user->id,
+                'customer_id' => $this->customer->id,
+                'company_id'  => $this->account->id,
+            ]
+        );
 
         $this->contact = $this->quote->customer->primary_contact()->first();
 
         $design = Design::find(3);
 
-        $designer = new PdfColumns(new PdfData($this->quote, $this->contact), $this->quote, $design, $this->account->settings->pdf_variables, 'quote');
+        $designer = new PdfColumns(
+            new PdfData($this->quote, $this->contact),
+            $this->quote,
+            $design,
+            $this->account->settings->pdf_variables,
+            'quote'
+        );
 
         $html = $designer->buildDesign();
 
@@ -136,17 +143,25 @@ class DesignTest extends TestCase
 
     public function testInvoiceDesignExists()
     {
-        $this->invoice = factory(\App\Quote::class)->create([
-            'user_id'     => $this->user->id,
-            'customer_id' => Customer::first(),
-            'company_id'  => $this->account->id,
-        ]);
+        $this->invoice = factory(\App\Quote::class)->create(
+            [
+                'user_id'     => $this->user->id,
+                'customer_id' => Customer::first(),
+                'company_id'  => $this->account->id,
+            ]
+        );
 
         $this->contact = $this->invoice->customer->primary_contact()->first();
 
         $design = Design::find(3);
 
-        $designer = new PdfColumns(new PdfData($this->invoice, $this->contact), $this->invoice, $design, $this->account->settings->pdf_variables, 'invoice');
+        $designer = new PdfColumns(
+            new PdfData($this->invoice, $this->contact),
+            $this->invoice,
+            $design,
+            $this->account->settings->pdf_variables,
+            'invoice'
+        );
 
         $html = $designer->buildDesign();
 

@@ -50,7 +50,7 @@ trait MakesInvoiceHtml
 
         $footer = $designer->getSection('footer');
         $footer = str_replace('$signature_here', $signature, $footer);
-        $footer = str_replace('$client_signature_here',  $client_signature, $footer);
+        $footer = str_replace('$client_signature_here', $client_signature, $footer);
 
         $data = [
             'entity'   => $entity,

@@ -55,14 +55,14 @@ export default class EventTypeDropdown extends Component {
         }
 
         return (
-            <FormGroup>
+            <React.Fragment>
                 <Input value={this.props.event_type} onChange={this.props.handleInputChanges} type="select"
                     name="event_type" id="event_type">
                     <option value="">Select Event Type</option>
                     {eventTypeList}
                 </Input>
                 {this.renderErrorFor('event_type')}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

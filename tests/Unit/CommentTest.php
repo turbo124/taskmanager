@@ -79,9 +79,12 @@ class CommentTest extends TestCase
         $task = factory(Task::class)->create();
         $comment = factory(Comment::class)->create();
         $response = $task->comments()->attach($comment);
-        $this->assertDatabaseHas('comments', [
-            'comment' => $comment->comment
-        ]);
+        $this->assertDatabaseHas(
+            'comments',
+            [
+                'comment' => $comment->comment
+            ]
+        );
     }
 
     /** @test */

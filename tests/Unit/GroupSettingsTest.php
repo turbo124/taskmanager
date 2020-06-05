@@ -45,12 +45,15 @@ class GroupSettingsTest extends TestCase
         $this->customer = factory(Customer::class)->create();
     }
 
-    
+
     /** @test */
     public function it_can_show_all_the_groups()
     {
         factory(GroupSetting::class)->create();
-        $list = (new GroupSettingFilter(new GroupSettingRepository(new GroupSetting)))->filter(new SearchRequest, $this->account);
+        $list = (new GroupSettingFilter(new GroupSettingRepository(new GroupSetting)))->filter(
+            new SearchRequest,
+            $this->account
+        );
         $this->assertNotEmpty($list);
     }
 
@@ -101,9 +104,9 @@ class GroupSettingsTest extends TestCase
 
 
         $data = [
-            'account_id'  => $this->account->id,
-            'user_id'     => $user->id,
-            'name'        => $this->faker->word()
+            'account_id' => $this->account->id,
+            'user_id'    => $user->id,
+            'name'       => $this->faker->word()
         ];
 
         $group_setting_repo = new GroupSettingRepository(new GroupSetting);

@@ -67,11 +67,11 @@ class FileTest extends TestCase
     public function it_can_create_a_file()
     {
         $data = [
-            'account_id'        => $this->account_id,
-            'documentable_id'   => $this->task->id,
-            'documentable_type' => 'App\Task',
-            'user_id'           => $this->user->id,
-            'name'              => $this->faker->word,
+            'account_id'    => $this->account_id,
+            'fileable_id'   => $this->task->id,
+            'fileable_type' => 'App\Task',
+            'user_id'       => $this->user->id,
+            'name'          => $this->faker->word,
         ];
 
         $fileRepo = new FileRepository(new File);

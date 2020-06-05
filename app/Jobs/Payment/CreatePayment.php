@@ -50,11 +50,11 @@ class CreatePayment implements ShouldQueue
         $customer = Customer::find($this->request->customer_id);
         $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
         $data = [
-            'company_gateway_id' => $this->request->company_gateway_id,
-            'status_id' => Payment::STATUS_COMPLETED,
-            'date' => Carbon::now(),
-            'amount' => $this->request->amount,
-            'type_id' => $this->request->payment_type,
+            'company_gateway_id'    => $this->request->company_gateway_id,
+            'status_id'             => Payment::STATUS_COMPLETED,
+            'date'                  => Carbon::now(),
+            'amount'                => $this->request->amount,
+            'type_id'               => $this->request->payment_type,
             'transaction_reference' => $this->request->payment_method
 
         ];
@@ -92,7 +92,7 @@ class CreatePayment implements ShouldQueue
 
         foreach ($invoices as $invoice) {
             $payment->attachInvoice($invoice);
-            $payment->ledger()->updateBalance($invoice->balance * -1);
+            $payment->transaction_service()->createTransaction($invoice->balance * -1);
             $payment->customer->increaseBalance($invoice->balance * -1);
             $payment->customer->increasePaidToDateAmount($invoice->balance);
             $payment->customer->save();

@@ -73,7 +73,11 @@ class CaseController extends Controller
      */
     public function store(CreateCaseRequest $request)
     {
-        $case = CaseFactory::create(auth()->user()->account_user()->account, auth()->user(), Customer::find($request->customer_id)->first());
+        $case = CaseFactory::create(
+            auth()->user()->account_user()->account,
+            auth()->user(),
+            Customer::find($request->customer_id)->first()
+        );
         $this->case_repo->save($request->all(), $case);
         return response()->json($this->transform($case));
     }

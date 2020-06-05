@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Filters\CreditFilter;
-use App\Services\Ledger\LedgerService;
 use App\Services\Credit\CreditService;
+use App\Services\Transaction\TransactionService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,23 +60,18 @@ class Credit extends Model
     ];
 
     protected $casts = [
-        'account_id' => 'integer',
-        'user_id' => 'integer',
+        'account_id'  => 'integer',
+        'user_id'     => 'integer',
         'customer_id' => 'integer',
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
     ];
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
     const STATUS_PARTIAL = 3;
     const STATUS_APPLIED = 4;
-
-    public function assigned_user()
-    {
-        return $this->belongsTo(User::class, 'assigned_user_id', 'id');
-    }
 
     /**
      * @return BelongsTo
@@ -86,9 +81,14 @@ class Credit extends Model
         return $this->belongsTo('App\Account');
     }
 
-    public function ledger()
+    public function transaction_service()
     {
-        return new LedgerService($this);
+        return new TransactionService($this);
+    }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
     }
 
     /**
@@ -102,15 +102,6 @@ class Credit extends Model
     public function service(): CreditService
     {
         return new CreditService($this);
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function invoice()
-    {
-        return $this->belongsTo('App\Invoice')->withTrashed();
     }
 
     public function invitations()
@@ -131,16 +122,6 @@ class Credit extends Model
         return $this->belongsTo('App\Customer')->withTrashed();
     }
 
-    public function invoices()
-    {
-        return $this->belongsToMany(Invoice::class)->using(Paymentable::class);
-    }
-
-    public function company_ledger()
-    {
-        return $this->morphMany(CompanyLedger::class, 'company_ledgerable');
-    }
-
     public function audits()
     {
         return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id')->where(
@@ -155,9 +136,9 @@ class Credit extends Model
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     /********************** Getters and setters ************************************/

@@ -301,7 +301,7 @@ class InvoiceTest extends TestCase
         (new CreditRepository(new Credit))->markSent($credit);
 
         /* Set invoice balance to 0 */
-        $invoice->ledger()->updateBalance($balance_remaining * -1, $item->getNotes())->save();
+        $invoice->transaction_service()->createTransaction($balance_remaining * -1, $item->getNotes())->save();
 
         /* Set invoice status to reversed... somehow*/
         $invoice->status_id = Invoice::STATUS_REVERSED;

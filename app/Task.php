@@ -109,9 +109,9 @@ class Task extends Model
         return $this->belongsToMany(Comment::class);
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function service(): TaskService

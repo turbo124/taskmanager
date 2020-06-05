@@ -48,7 +48,7 @@ class CancelInvoice
         $this->updateInvoice();
 
         $old_balance = $this->invoice->balance;
-        $this->invoice->ledger()->updateBalance($old_balance, "Invoice cancellation");
+        $this->invoice->transaction_service()->createTransaction($old_balance, "Invoice cancellation");
 
         // update customer
         $this->updateCustomer();

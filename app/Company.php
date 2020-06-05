@@ -81,9 +81,9 @@ class Company extends Model
         return $this->belongsTo(Country::class, 'country_id');
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function assigned_user()

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
 import axios from 'axios'
 import { icons, translations } from '../common/_icons'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 export default class EditSubscription extends React.Component {
     constructor (props) {

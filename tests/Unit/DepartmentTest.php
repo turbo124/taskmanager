@@ -99,7 +99,6 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_can_create_a_department()
     {
-
         $factory = (new DepartmentFactory)->create($this->account_id, $this->user->id);
         $user = factory(User::class)->create();
 
@@ -158,9 +157,12 @@ class DepartmentTest extends TestCase
         $child[0]->parent()->associate($parent[0])->save();
         // send params without parent
         $department = new DepartmentRepository($child[0]);
-        $updated = $department->save([
-            'name' => 'Boys',
-        ], $child[0]);
+        $updated = $department->save(
+            [
+                'name' => 'Boys',
+            ],
+            $child[0]
+        );
         // check if updated category is root
         $this->assertTrue($updated->isRoot());
     }
@@ -174,10 +176,13 @@ class DepartmentTest extends TestCase
 
         // set parent category via repository
         $department = new DepartmentRepository($child);
-        $updated = $department->save([
-            'name'   => $name,
-            'parent' => $parent->id
-        ], $child);
+        $updated = $department->save(
+            [
+                'name'   => $name,
+                'parent' => $parent->id
+            ],
+            $child
+        );
 
         // check if updated category is root
         $this->assertEquals($updated->name, $name);
