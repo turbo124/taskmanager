@@ -190,7 +190,7 @@ class BaseController extends Controller
                     if ($this->entity_string === 'Invoice') {
                         $entity->customer->increaseBalance($entity->balance);
                         $entity->customer->save();
-                        $entity->transaction_service()->updateBalance($entity->balance);
+                        $entity->transaction_service()->createTransaction($entity->balance);
                     }
 
                     $response = $this->transformEntity($entity);
