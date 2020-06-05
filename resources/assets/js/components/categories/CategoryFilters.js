@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
-    FormGroup, Input, Row, Col
+    Row, Col
 } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
-import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
-import CustomerDropdown from '../common/CustomerDropdown'
 
 export default class CategoryFilters extends Component {
     constructor (props) {

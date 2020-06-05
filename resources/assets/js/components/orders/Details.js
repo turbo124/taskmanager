@@ -60,12 +60,15 @@ export default class Details extends React.Component {
                     {this.renderErrorFor('po_number')}
                 </FormGroup>
 
-                <CustomerDropdown
-                    handleInputChanges={this.props.handleInput}
-                    customer={this.props.order.customer_id}
-                    customers={this.props.customers}
-                    errors={this.props.errors}
-                />
+                <FormGroup>
+                    <Label>{translations.customer}</Label>
+                    <CustomerDropdown
+                        handleInputChanges={this.props.handleInput}
+                        customer={this.props.order.customer_id}
+                        customers={this.props.customers}
+                        errors={this.props.errors}
+                    />
+                </FormGroup>
             </CardBody>
         </Card>
         )

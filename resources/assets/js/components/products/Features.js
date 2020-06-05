@@ -4,7 +4,7 @@ import {
     Button
 } from 'reactstrap'
 import FeatureInputs from './FeatureInputs'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 export default class Features extends Component {
     constructor (props) {

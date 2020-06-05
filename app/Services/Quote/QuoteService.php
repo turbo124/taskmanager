@@ -37,7 +37,7 @@ class QuoteService extends ServiceBase
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('should_convert_quote')) {
-           (new ConvertQuoteToInvoice($this->quote, $invoice_repo))->execute();
+            (new ConvertQuoteToInvoice($this->quote, $invoice_repo))->execute();
         }
 
         event(new QuoteWasApproved($this->quote));

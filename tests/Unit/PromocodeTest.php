@@ -65,7 +65,15 @@ class PromocodeTest extends TestCase
     /** @test */
     public function it_can_apply_a_discount()
     {
-        $promocode = (new Promocodes)->create($this->account, 1, 500, ['scope' => 'order', 'scope_value' => 10], Carbon::now()->addDays(10), 1, false);
+        $promocode = (new Promocodes)->create(
+            $this->account,
+            1,
+            500,
+            ['scope' => 'order', 'scope_value' => 10],
+            Carbon::now()->addDays(10),
+            1,
+            false
+        );
         $first = $promocode->first();
         $test = (new Promocodes)->apply($this->order, $this->account, $first['code'], $this->customer);
         $this->assertInstanceOf(Promocode::class, $test);

@@ -79,9 +79,9 @@ class Lead extends Model
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function user()

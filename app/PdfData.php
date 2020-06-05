@@ -511,7 +511,7 @@ class PdfData
             'value' => $this->entity->getFormattedSubtotal() ?: '&nbsp;',
             'label' => trans('texts.sub_total')
         ];
-        
+
         return $this;
     }
 
@@ -712,6 +712,7 @@ class PdfData
 
             if (is_numeric($item->product_id) && $item->type_id === 1) {
                 $product = Product::find($item->product_id);
+
                 $this->line_items[$key][$table_type . '.product_key'] = $product->name;
 
                 if (!empty($item->attribute_id)) {

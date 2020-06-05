@@ -132,7 +132,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $this->saveInvitations($invoice, 'invoice', $data);
 
         if ($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total) {
-            $invoice->ledger()->updateBalance(($invoice->total - $original_amount));
+            $updated_amount = $invoice->total - $original_amount;
+            $invoice->transaction_service()->createTransaction($updated_amount);
         }
 
 

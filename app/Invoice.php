@@ -4,7 +4,7 @@ namespace App;
 
 use App\NumberGenerator;
 use App\Services\Invoice\InvoiceService;
-use App\Services\Ledger\LedgerService;
+use App\Services\Transaction\TransactionService;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Invoice\InvoiceWasDeleted;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -93,7 +93,6 @@ class Invoice extends Model
         return new InvoiceService($this);
     }
 
-
     /**
      * @return bool
      * @throws \Exception
@@ -129,33 +128,19 @@ class Invoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function company_ledger()
-    {
-        return $this->morphMany(CompanyLedger::class, 'company_ledgerable');
-    }
-
-    public function credits()
-    {
-        return $this->belongsToMany(Credit::class)->using(Paymentable::class)->withPivot('amount', 'refunded')
-                    ->withTimestamps();
-    }
-
     public function payments()
     {
         return $this->morphToMany(Payment::class, 'paymentable')->withPivot('amount', 'refunded')->withTimestamps();
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function paymentType()
-    {
-        return $this->belongsTo(PaymentMethod::class, 'payment_type');
-    }
-
     public function emails()
     {
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
+    }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
     }
 
     public function audits()
@@ -167,9 +152,9 @@ class Invoice extends Model
         );
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     /**
@@ -185,9 +170,9 @@ class Invoice extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function ledger()
+    public function transaction_service()
     {
-        return new LedgerService($this);
+        return new TransactionService($this);
     }
 
     public function isCancellable(): bool

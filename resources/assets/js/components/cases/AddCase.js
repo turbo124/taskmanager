@@ -6,7 +6,7 @@ import { translations } from '../common/_icons'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 export default class AddCase extends React.Component {
     constructor (props) {

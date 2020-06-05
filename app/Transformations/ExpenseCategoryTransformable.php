@@ -14,9 +14,9 @@ trait ExpenseCategoryTransformable
     protected function transformCategory(ExpenseCategory $category)
     {
         return [
-            'id'          => (int)$category->id,
-            'name'        => $category->name,
-            'parent_id'   => $category->parent_id,
+            'id'        => (int)$category->id,
+            'name'      => $category->name,
+            'parent_id' => $category->parent_id,
         ];
     }
 

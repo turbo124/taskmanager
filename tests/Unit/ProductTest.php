@@ -62,21 +62,23 @@ class ProductTest extends TestCase
         $productRepo->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
-        $images->each(function (ProductImage $image) use ($product) {
-            $productImageRepo = new ProductImageRepository($image);
-            $foundProduct = $productImageRepo->findProduct();
-            $this->assertInstanceOf(Product::class, $foundProduct);
-            $this->assertEquals($product->name, $foundProduct->name);
-            $this->assertEquals($product->slug, $foundProduct->slug);
-            $this->assertEquals($product->description, $foundProduct->description);
-            $this->assertEquals($product->quantity, $foundProduct->quantity);
-            $this->assertEquals($product->price, $foundProduct->price);
-            $this->assertEquals($product->status, $foundProduct->status);
+        $images->each(
+            function (ProductImage $image) use ($product) {
+                $productImageRepo = new ProductImageRepository($image);
+                $foundProduct = $productImageRepo->findProduct();
+                $this->assertInstanceOf(Product::class, $foundProduct);
+                $this->assertEquals($product->name, $foundProduct->name);
+                $this->assertEquals($product->slug, $foundProduct->slug);
+                $this->assertEquals($product->description, $foundProduct->description);
+                $this->assertEquals($product->quantity, $foundProduct->quantity);
+                $this->assertEquals($product->price, $foundProduct->price);
+                $this->assertEquals($product->status, $foundProduct->status);
 
-            if (File::exists(public_path($image->src))) {
-                File::delete(public_path($image->src));
+                if (File::exists(public_path($image->src))) {
+                    File::delete(public_path($image->src));
+                }
             }
-        });
+        );
     }
 
     /** @test */
@@ -93,11 +95,13 @@ class ProductTest extends TestCase
         $productRepo->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
-        $images->each(function (ProductImage $image) {
-            $exists = Storage::disk('public')->exists($image->src);
-            $this->assertTrue($exists);
-            File::delete(public_path($image->src));
-        });
+        $images->each(
+            function (ProductImage $image) {
+                $exists = Storage::disk('public')->exists($image->src);
+                $this->assertTrue($exists);
+                File::delete(public_path($image->src));
+            }
+        );
     }
 
     /** @test */
@@ -259,14 +263,16 @@ class ProductTest extends TestCase
         $thumbnails = $productRepo->findProductImages($created);
         $this->assertCount(3, $thumbnails);
 
-        $thumbnails->each(function ($thumbnail) {
-            $repo = new ProductRepository(new Product());
-            $repo->deleteThumb($thumbnail->src);
+        $thumbnails->each(
+            function ($thumbnail) {
+                $repo = new ProductRepository(new Product());
+                $repo->deleteThumb($thumbnail->src);
 
-            if (File::exists(public_path($thumbnail->src))) {
-                File::delete(public_path($thumbnail->src));
+                if (File::exists(public_path($thumbnail->src))) {
+                    File::delete(public_path($thumbnail->src));
+                }
             }
-        });
+        );
 
         $this->assertCount(0, $productRepo->findProductImages($created));
 
@@ -341,9 +347,11 @@ class ProductTest extends TestCase
         $product = factory(Product::class)->create();
         $categories = factory(Category::class, 4)->create();
         $productRepo = new ProductRepository($product);
-        $ids = $categories->transform(function (Category $category) {
-            return $category->id;
-        })->all();
+        $ids = $categories->transform(
+            function (Category $category) {
+                return $category->id;
+            }
+        )->all();
         $productRepo->syncCategories($ids, $product);
         $this->assertCount(4, $productRepo->getCategories());
         $productRepo->detachCategories($product);

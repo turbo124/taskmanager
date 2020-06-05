@@ -42,8 +42,12 @@ class CompanyUnitTest extends TestCase
     public function it_can_show_all_the_brands()
     {
         $insertedbrand = factory(Company::class)->create();
-        $list = (new CompanyFilter(new CompanyRepository(new Company,
-            new CompanyContactRepository(new CompanyContact))))->filter(new SearchRequest(), $this->account);
+        $list = (new CompanyFilter(
+            new CompanyRepository(
+                new Company,
+                new CompanyContactRepository(new CompanyContact)
+            )
+        ))->filter(new SearchRequest(), $this->account);
         $myLastElement = end($list);
         $this->assertNotEmpty($list);
     }
@@ -91,7 +95,6 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_create_a_brand()
     {
-
         $factory = (new CompanyFactory)->create($this->user, $this->account);
 
         $data = [

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Input } from 'reactstrap'
-import { translations } from "./_icons";
+import { translations } from './_icons'
 
 export default class ExpenseDropdown extends Component {
     constructor (props) {

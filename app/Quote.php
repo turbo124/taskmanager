@@ -111,14 +111,6 @@ class Quote extends Model
     }
 
     /**
-     * @return BelongsTo
-     */
-    public function paymentType()
-    {
-        return $this->belongsTo(PaymentMethod::class, 'payment_type');
-    }
-
-    /**
      * @return mixed
      */
     public function invitations()
@@ -141,9 +133,9 @@ class Quote extends Model
         return new QuoteService($this);
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     /********************** Getters and setters ************************************/

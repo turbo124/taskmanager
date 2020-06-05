@@ -182,7 +182,7 @@ class Customer extends Model implements HasLocalePreference
      */
     public function reducePaidToDateAmount(float $amount)
     {
-         $this->paid_to_date -= $amount;
+        $this->paid_to_date -= $amount;
     }
 
     /**

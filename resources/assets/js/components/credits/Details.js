@@ -71,12 +71,15 @@ export default class Details extends React.Component {
                         className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                 </FormGroup>
 
-                <CustomerDropdown
-                    handleInputChanges={this.props.handleInput}
-                    customer={this.props.credit.customer_id}
-                    customers={this.props.customers}
-                    errors={this.props.errors}
-                />
+                <FormGroup>
+                    <Label>{translations.customer}</Label>
+                    <CustomerDropdown
+                        handleInputChanges={this.props.handleInput}
+                        customer={this.props.credit.customer_id}
+                        customers={this.props.customers}
+                        errors={this.props.errors}
+                    />
+                </FormGroup>
             </CardBody>
         </Card>
         )

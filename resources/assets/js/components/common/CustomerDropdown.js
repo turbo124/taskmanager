@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { Input, FormGroup, Label } from 'reactstrap'
 import Select from 'react-select'
-import { translations } from "./_icons";
+import { translations } from './_icons'
 
 export default class CustomerDropdown extends Component {
     constructor (props) {
@@ -91,10 +91,10 @@ export default class CustomerDropdown extends Component {
             />
 
         return (
-            <FormGroup>
+            <React.Fragment>
                 {selectList}
                 {this.renderErrorFor('customer_id')}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

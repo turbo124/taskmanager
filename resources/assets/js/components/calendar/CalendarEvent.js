@@ -9,6 +9,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import DeleteModal from '../common/DeleteModal'
 import RestoreModal from '../common/RestoreModal'
+import { translations } from '../common/_icons'
 
 const Label2 = styled.span`
   display: flex;
@@ -239,12 +240,12 @@ class CalendarEvent extends React.Component {
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Update Event
+                        {translations.update_event}
                     </ModalHeader>
 
                     <ModalBody>
                         <FormGroup>
-                            <Label for="title">Title(*):</Label>
+                            <Label for="title">{translations.title}(*):</Label>
                             <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''}
                                 value={this.state.title}
                                 type="text" name="title"
@@ -253,7 +254,7 @@ class CalendarEvent extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Description(*):</Label>
+                            <Label for="description">{translations.description}(*):</Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 value={this.state.description}
                                 type="text" name="description"
@@ -262,7 +263,7 @@ class CalendarEvent extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="location">Location:</Label>
+                            <Label for="location">{translations.location}:</Label>
                             <Input className={this.hasErrorFor('location') ? 'is-invalid' : ''} type="textarea"
                                 value={this.state.location}
                                 name="location"
@@ -272,7 +273,7 @@ class CalendarEvent extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="beginDate">Begin Date:</Label>
+                            <Label for="beginDate">{translations.start_date}:</Label>
                             <DateTime viewDate={new Date()} value={beginDate} dateFormat="YYYY-MM-DD"
                                 inputProps={{ name: 'beginDate' }}
                                 className={this.hasErrorFor('beginDate') ? 'is-invalid' : ''}
@@ -281,7 +282,7 @@ class CalendarEvent extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="endDate">End Date:</Label>
+                            <Label for="endDate">{translations.end_date}:</Label>
                             <DateTime value={endDate} dateFormat="YYYY-MM-DD" inputProps={{ name: 'endDate' }}
                                 className={this.hasErrorFor('endDate') ? 'is-invalid' : ''}
                                 onChange={this.handleEndDate.bind(this)}/>
@@ -289,18 +290,24 @@ class CalendarEvent extends React.Component {
                             {this.renderErrorFor('endDate')}
                         </FormGroup>
 
-                        <EventTypeDropdown
-                            errors={this.state.errors}
-                            event_type={this.state.event_type}
-                            handleInputChanges={this.handleInput}
-                        />
+                        <FormGroup>
+                            <Label>{translations.event_type}</Label>
+                            <EventTypeDropdown
+                                errors={this.state.errors}
+                                event_type={this.state.event_type}
+                                handleInputChanges={this.handleInput}
+                            />
+                        </FormGroup>
 
-                        <CustomerDropdown
-                            name="customer_id"
-                            errors={this.state.errors}
-                            handleInputChanges={this.handleInput}
-                            customer={this.state.customer_id}
-                        />
+                        <FormGroup>
+                            <Label>{translations.customer}</Label>
+                            <CustomerDropdown
+                                name="customer_id"
+                                errors={this.state.errors}
+                                handleInputChanges={this.handleInput}
+                                customer={this.state.customer_id}
+                            />
+                        </FormGroup>
 
                         {userList}
                         {customForm}
@@ -308,11 +315,11 @@ class CalendarEvent extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Update</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         {deleteButton}
                         {archiveButton}
                         {restoreButton}
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

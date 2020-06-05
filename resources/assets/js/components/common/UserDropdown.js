@@ -102,10 +102,10 @@ export default class UserDropdown extends Component {
         const input = this.props.multiple && this.props.multiple === true ? this.multiple(userList, name) : this.single(userList, name)
 
         return (
-            <FormGroup className="ml-2">
+            <React.Fragment>
                 {input}
                 {this.renderErrorFor('user_id')}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

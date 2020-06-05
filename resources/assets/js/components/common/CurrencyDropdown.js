@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
-import { translations } from "./_icons";
+import { translations } from './_icons'
 
 export default class CurrencyDropdown extends Component {
     constructor (props) {
@@ -68,7 +68,7 @@ export default class CurrencyDropdown extends Component {
         const currency = this.props.currency_id ? this.state.currencies.filter(option => option.id === this.props.currency_id) : null
         const name = this.props.name ? this.props.name : 'currency_id'
         return (
-            <FormGroup className="ml-2">
+            <React.Fragment>
                 <Select
                     placeholder={translations.select_option}
                     className="flex-grow-1"
@@ -81,7 +81,7 @@ export default class CurrencyDropdown extends Component {
                     onChange={(value) => this.handleChange(value, name)}
                 />
                 {this.renderErrorFor(name)}
-            </FormGroup>
+            </React.Fragment>
         )
     }
 }

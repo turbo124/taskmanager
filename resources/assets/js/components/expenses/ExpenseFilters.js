@@ -9,7 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_icons'
-import ExpenseCategoryDropdown from "../common/ExpenseCategoryDropdown";
+import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
 
 export default class ExpenseFilters extends Component {
     constructor (props) {

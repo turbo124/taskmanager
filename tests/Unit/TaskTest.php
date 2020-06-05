@@ -42,8 +42,12 @@ class TaskTest extends TestCase
     public function it_can_show_all_the_tasks()
     {
         $insertedtask = factory(Task::class)->create();
-        $list = (new TaskFilter(new TaskRepository(new Task,
-            new ProjectRepository(new Project))))->filter(new SearchRequest(), $this->account);
+        $list = (new TaskFilter(
+            new TaskRepository(
+                new Task,
+                new ProjectRepository(new Project)
+            )
+        ))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         //$this->assertInstanceOf(Task::class, $list[0]);
         // $this->assertInstanceOf(Collection::class, $list);
@@ -103,7 +107,6 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_create_a_task()
     {
-
         $data = [
             'account_id'   => $this->account->id,
             'task_type'    => 1,
@@ -125,7 +128,6 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_create_a_project_task()
     {
-
         $project = factory(Project::class)->create();
 
         $data = [
@@ -176,13 +178,15 @@ class TaskTest extends TestCase
         $due_date = $this->faker->dateTime;
         $task_type = 2;
 
-        $address = factory(Task::class)->create([
-            'account_id' => $this->account->id,
-            'title'      => $title,
-            'content'    => $content,
-            'due_date'   => $due_date,
-            'task_type'  => $task_type
-        ]);
+        $address = factory(Task::class)->create(
+            [
+                'account_id' => $this->account->id,
+                'title'      => $title,
+                'content'    => $content,
+                'due_date'   => $due_date,
+                'task_type'  => $task_type
+            ]
+        );
 
         $transformed = $this->transformTask($address);
         $this->assertNotEmpty($transformed);

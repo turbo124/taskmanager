@@ -89,7 +89,6 @@ class LeadTest extends TestCase
     /** @test */
     public function it_can_create_a_lead()
     {
-
         $data = [
             'account_id'  => $this->account->id,
             'user_id'     => $this->user->id,
@@ -112,7 +111,7 @@ class LeadTest extends TestCase
         $this->assertEquals($data['first_name'], $lead->first_name);
     }
 
-      /** @test */
+    /** @test */
     public function it_can_convert_a_lead()
     {
         $lead = factory(Lead::class)->create();

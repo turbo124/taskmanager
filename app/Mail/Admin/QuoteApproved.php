@@ -96,8 +96,8 @@ class QuoteApproved extends Mailable
     private function buildDataArray()
     {
         return [
-            'total'    => $this->quote->getFormattedTotal(),
-            'quote'  => $this->quote->getNumber(),
+            'total' => $this->quote->getFormattedTotal(),
+            'quote' => $this->quote->getNumber(),
         ];
     }
 }

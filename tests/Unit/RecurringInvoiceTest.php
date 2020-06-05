@@ -115,10 +115,10 @@ class RecurringInvoiceTest extends TestCase
     public function it_can_create_a_invoice()
     {
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
+            'account_id'  => $this->account->id,
+            'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total' => 200
+            'total'       => 200
         ];
 
         $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);

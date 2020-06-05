@@ -51,7 +51,6 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_list_all_the_payments()
     {
-
         $data = [
             'customer_id' => $this->customer->id,
             'user_id'     => $this->user->id,
@@ -112,7 +111,6 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_get_the_payments()
     {
-
         $data = [
             'customer_id' => $this->customer->id,
             'type_id'     => 1,
@@ -248,7 +246,6 @@ class PaymentUnitTest extends TestCase
 
         $this->assertNotNull($payment);
         $this->assertEquals(50, $payment->amount);
-
     }
 
     public function testPaymentLessThanPartialAmount()
@@ -393,7 +390,8 @@ class PaymentUnitTest extends TestCase
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
-        (new Refund($payment, (
+        (new Refund(
+            $payment, (
         new CreditRepository(new Credit)),
             [
                 'amount'   => 2,
@@ -402,7 +400,8 @@ class PaymentUnitTest extends TestCase
                         'invoice_id' => $invoice->id,
                         'amount'     => 2.0
                     ],
-                ]]
+                ]
+            ]
         ))->refund();
 
         $this->assertEquals($invoice->balance, 2);
@@ -444,7 +443,8 @@ class PaymentUnitTest extends TestCase
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
-        (new Refund($payment, (
+        (new Refund(
+            $payment, (
         new CreditRepository(new Credit)),
             [
                 'amount' => 2,
@@ -456,7 +456,6 @@ class PaymentUnitTest extends TestCase
 
     public function testConversion()
     {
-
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment(['amount' => 800], $factory);

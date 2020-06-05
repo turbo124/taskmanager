@@ -33,13 +33,12 @@ class OrderNotification implements ShouldQueue
 
         if (!empty($order->account->account_users)) {
             foreach ($order->account->account_users as $account_user) {
-
                 $notification_types = $this->getNotificationTypesForAccountUser(
                     $account_user,
                     ['order_created']
                 );
 
-                if(!empty($notification_types) && in_array('mail', $notification_types)) {
+                if (!empty($notification_types) && in_array('mail', $notification_types)) {
                     $account_user->user->notify(new NewOrderNotification($order, 'mail'));
                 }
             }

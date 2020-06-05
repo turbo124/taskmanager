@@ -152,7 +152,6 @@ class UserTest extends TestCase
         $user = factory(User::class)->create($arrUser);
         $transformed = $this->transformUser($user);
         $this->assertNotEmpty($transformed);
-
     }
 
     public function tearDown(): void

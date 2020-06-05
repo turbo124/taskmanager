@@ -27,8 +27,8 @@ class CreateFilesTable extends Migration {
 			$table->integer('width')->unsigned()->nullable();
 			$table->integer('height')->unsigned()->nullable();
 			$table->boolean('is_default')->default(0);
-			$table->integer('documentable_id')->unsigned();
-			$table->string('documentable_type');
+			$table->integer('fileable_id')->unsigned();
+			$table->string('fileable_type');
 			$table->integer('company_id')->unsigned()->nullable();
 			$table->softDeletes();
 		});

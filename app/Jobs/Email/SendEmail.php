@@ -100,8 +100,8 @@ class SendEmail implements ShouldQueue
             $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }
 
-        foreach ($this->entity->documents as $document) {
-            $message->setAttachments($document->generateUrl(), ['as' => $document->name]);
+        foreach ($this->entity->files as $file) {
+            $message->setAttachments($file->generateUrl(), ['as' => $file->name]);
         }
 
         if ($this->entity instanceof Invoice && $settings->ubl_email_attachment) {

@@ -40,7 +40,9 @@ class PaymentFailedNotification implements ShouldQueue
                     );
 
                     if (!empty($notification_types) && in_array('mail', $notification_types)) {
-                        $account_user->user->notify(new \App\Notifications\Admin\PaymentFailedNotification($payment, 'mail'));
+                        $account_user->user->notify(
+                            new \App\Notifications\Admin\PaymentFailedNotification($payment, 'mail')
+                        );
                     }
                 }
             }

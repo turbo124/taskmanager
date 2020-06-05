@@ -22,7 +22,7 @@ class MakeInvoicePayment
 
     public function execute()
     {
-        $this->payment->ledger()->updateBalance($this->payment_amount * -1);
+        $this->payment->transaction_service()->createTransaction($this->payment_amount * -1);
 
         $this->updateCustomer();
 

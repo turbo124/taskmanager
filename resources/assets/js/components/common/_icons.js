@@ -1,5 +1,5 @@
-import { Input } from "reactstrap";
-import React from "react";
+import { Input } from 'reactstrap'
+import React from 'react'
 
 export const icons = {
     refresh: 'fa-gear',
@@ -314,6 +314,12 @@ export const translations = {
     title: 'Title',
     description: 'Description',
     customer: 'Customer',
+    location: 'Location',
+    event_type: 'Event Type',
+    customer_group: 'Customer Group',
+    payment_method: 'Payment Method',
+    update_event: 'Update Event',
+    create_event: 'Create Event',
     assigned_user: 'Assigned User',
     date: 'Date',
     due_date: 'Due Date',

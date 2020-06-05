@@ -48,9 +48,9 @@ class Expense extends Model
     ];
 
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function assigned_user()

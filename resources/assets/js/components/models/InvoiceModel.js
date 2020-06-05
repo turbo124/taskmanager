@@ -70,7 +70,7 @@ export default class InvoiceModel extends BaseModel {
             showSuccessMessage: false,
             showErrorMessage: false,
             width: window.innerWidth,
-            loading: false,
+            loading: false
         }
 
         this.approved = 4

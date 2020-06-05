@@ -33,14 +33,16 @@ class ProductAttributeUnitTest extends TestCase
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
         $productAttributeRepo->findProductAttributeById(999);
     }
-    
+
     /** @test */
     public function it_can_find_the_product_attribute_by_id()
     {
         $product = factory(Product::class)->create();
-        $productAttribute = factory(ProductAttribute::class)->create([
-            'product_id' => $product->id
-        ]);
+        $productAttribute = factory(ProductAttribute::class)->create(
+            [
+                'product_id' => $product->id
+            ]
+        );
 
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
         $found = $productAttributeRepo->findProductAttributeById($productAttribute->id);
@@ -80,7 +82,7 @@ class ProductAttributeUnitTest extends TestCase
     {
         $data = [
             'quantity' => 1,
-            'price' => 10.45
+            'price'    => 10.45
         ];
 
         $productAttribute = new ProductAttribute($data);
@@ -99,7 +101,7 @@ class ProductAttributeUnitTest extends TestCase
     {
         $data = [
             'quantity' => 1,
-            'price' => 10.45
+            'price'    => 10.45
         ];
 
         $productAttribute = new ProductAttribute($data);

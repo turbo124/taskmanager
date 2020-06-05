@@ -22,6 +22,11 @@ use App\Events\Payment\PaymentWasCreated;
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface
 {
     /**
+     * @var float|int
+     */
+    private float $total_amount = 0;
+
+    /**
      * PaymentRepository constructor.
      * @param Payment $payment
      */
@@ -65,6 +70,12 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         return $this->model;
     }
 
+
+    /**
+     * @param array $data
+     * @param Payment $payment
+     * @return Payment|null
+     */
     public function processPayment(array $data, Payment $payment)
     {
         $payment = $this->save($data, $payment);
@@ -72,20 +83,11 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->customer->increasePaidToDateAmount($payment->amount);
         $payment->customer->save();
 
-        $invoice_totals = isset($data['invoices']) && is_array($data['invoices']) ? array_sum(
-            array_column($data['invoices'], 'amount')
-        ) : 0;
-        $credit_totals = isset($data['credits']) && is_array($data['credits']) ? array_sum(
-            array_column($data['credits'], 'amount')
-        ) : 0;
-
         $this->applyPaymentToInvoices($data, $payment);
         $this->applyPaymentToCredits($data, $payment);
 
-        $invoice_totals -= $credit_totals;
-
-        if ($invoice_totals == $payment->amount || $invoice_totals < $payment->amount) {
-            $payment->applied += $invoice_totals;
+        if ($this->total_amount == $payment->amount || $this->total_amount < $payment->amount) {
+            $payment->applyPayment($this->total_amount);
         }
 
         $payment->save();
@@ -116,7 +118,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->setStatus(payment::STATUS_COMPLETED);
         $payment->save();
 
-        $payment->ledger()->updateBalance($payment->amount * -1);
+        $payment->transaction_service()->createTransaction($payment->amount * -1);
 
         if ($send_event) {
             event(new PaymentWasCreated($payment, $payment->account));
@@ -147,22 +149,30 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         return $payment;
     }
 
+    /**
+     * @param array $data
+     * @param Payment $payment
+     * @return bool
+     */
     private function applyPaymentToCredits(array $data, Payment $payment): bool
     {
-        if (isset($data['credits']) && is_array($data['credits'])) {
-            $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
+        if (empty($data['credits'])) {
+            return true;
+        }
 
-            $data['credits'] = collect($data['credits'])->keyBy('credit_id')->toArray();
+        $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
 
-            foreach ($credits as $credit) {
-                if (empty($data['credits'][$credit->id])) {
-                    continue;
-                }
+        $data['credits'] = collect($data['credits'])->keyBy('credit_id')->toArray();
 
-                $payment->attachCredit($credit);
-                $amount = $data['credits'][$credit->id]['amount'];
-                $this->updateCredits($credit, $amount);
+        foreach ($credits as $credit) {
+            if (empty($data['credits'][$credit->id])) {
+                continue;
             }
+
+            $payment->attachCredit($credit);
+            $amount = $data['credits'][$credit->id]['amount'];
+            $this->updateCredits($credit, $amount);
+            $this->total_amount -= $amount;
         }
 
         return true;
@@ -183,33 +193,41 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $credit->save();
     }
 
+    /**
+     * @param array $data
+     * @param Payment $payment
+     * @return bool
+     */
     private function applyPaymentToInvoices(array $data, Payment $payment): bool
     {
-        if (isset($data['invoices']) && is_array($data['invoices'])) {
-            $invoices = Invoice::whereIn('id', array_column($data['invoices'], 'invoice_id'))->get();
-
-            $data['invoices'] = collect($data['invoices'])->keyBy('invoice_id')->toArray();
-
-            foreach ($invoices as $invoice) {
-                if (empty($data['invoices'][$invoice->id])) {
-                    continue;
-                }
-
-                $payment->attachInvoice($invoice);
-
-                $amount = $data['invoices'][$invoice->id]['amount'];
-
-                $invoice = $invoice->service()->makeInvoicePayment($payment, $amount);
-            }
-
+        if (empty($data['invoices'])) {
+            $this->adjustCustomerTotals($payment);
             return true;
         }
 
-        $this->adjustCustomerTotals($payment);
+        $invoices = Invoice::whereIn('id', array_column($data['invoices'], 'invoice_id'))->get();
+
+        $data['invoices'] = collect($data['invoices'])->keyBy('invoice_id')->toArray();
+
+        foreach ($invoices as $invoice) {
+            if (empty($data['invoices'][$invoice->id])) {
+                continue;
+            }
+
+            $payment->attachInvoice($invoice);
+
+            $amount = $data['invoices'][$invoice->id]['amount'];
+            $this->total_amount += $amount;
+
+            $invoice->service()->makeInvoicePayment($payment, $amount);
+        }
 
         return true;
     }
 
+    /**
+     * @param Payment $payment
+     */
     private function adjustCustomerTotals(Payment $payment)
     {
         $payment->customer->increasePaidToDateAmount($payment->amount);

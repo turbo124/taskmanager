@@ -5,6 +5,7 @@ import DateTime from 'react-datetime'
 import EventTypeDropdown from '../common/EventTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
+import { translations } from '../common/_icons'
 
 class CreateEvent extends React.Component {
     constructor (props) {
@@ -187,7 +188,7 @@ class CreateEvent extends React.Component {
         return (
             <Form>
                 <FormGroup>
-                    <Label for="title">Title(*):</Label>
+                    <Label for="title">{translations.title}(*):</Label>
                     <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''}
                         value={this.state.title}
                         type="text" name="title"
@@ -196,7 +197,7 @@ class CreateEvent extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="description">Description(*):</Label>
+                    <Label for="description">{translations.description}(*):</Label>
                     <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                         value={this.state.description}
                         type="text" name="description"
@@ -205,7 +206,7 @@ class CreateEvent extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="location">Location:</Label>
+                    <Label for="location">{translations.location}:</Label>
                     <Input className={this.hasErrorFor('location') ? 'is-invalid' : ''} type="text"
                         value={this.state.location}
                         name="location"
@@ -215,7 +216,7 @@ class CreateEvent extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="beginDate">Start Date:</Label>
+                    <Label for="beginDate">{translations.start_date}:</Label>
                     <DateTime dateFormat="YYYY-MM-DD" inputProps={{ name: 'beginDate' }}
                         className={this.hasErrorFor('beginDate') ? 'is-invalid' : ''}
                         onChange={this.handleStartDate.bind(this)}/>
@@ -223,25 +224,31 @@ class CreateEvent extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="endDate">End Date:</Label>
+                    <Label for="endDate">{translations.end_date}:</Label>
                     <DateTime dateFormat="YYYY-MM-DD" inputProps={{ name: 'endDate' }}
                         className={this.hasErrorFor('endDate') ? 'is-invalid' : ''}
                         onChange={this.handleEndDate.bind(this)}/>
                     {this.renderErrorFor('endDate')}
                 </FormGroup>
 
-                <EventTypeDropdown
-                    errors={this.state.errors}
-                    event_type={this.state.event_type}
-                    handleInputChanges={this.handleInput}
-                />
+                <FormGroup>
+                    <Label>{translations.event_type}</Label>
+                    <EventTypeDropdown
+                        errors={this.state.errors}
+                        event_type={this.state.event_type}
+                        handleInputChanges={this.handleInput}
+                    />
+                </FormGroup>
 
-                <CustomerDropdown
-                    name="customer_id"
-                    errors={this.state.errors}
-                    handleInputChanges={this.handleInput}
-                    customer={this.state.customer_id}
-                />
+                <FormGroup>
+                    <Label>{translations.customer}</Label>
+                    <CustomerDropdown
+                        name="customer_id"
+                        errors={this.state.errors}
+                        handleInputChanges={this.handleInput}
+                        customer={this.state.customer_id}
+                    />
+                </FormGroup>
 
                 {userList}
                 {customForm}
@@ -251,7 +258,7 @@ class CreateEvent extends React.Component {
 
     render () {
         const form = this.buildForm()
-        const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
+        const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
 
         if (this.props.modal) {
             return (
@@ -260,7 +267,7 @@ class CreateEvent extends React.Component {
 
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>
-                            Create a new event
+                            {translations.create_event}
                         </ModalHeader>
 
                         <ModalBody>
@@ -269,7 +276,7 @@ class CreateEvent extends React.Component {
 
                         <ModalFooter>
                             {saveButton}
-                            <Button color="secondary" onClick={this.toggle}>Close</Button>
+                            <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                         </ModalFooter>
                     </Modal>
                 </React.Fragment>

@@ -40,13 +40,13 @@ class Order extends Model
     const STATUS_EXPIRED = -1;
 
     protected $casts = [
-        'account_id' => 'integer',
-        'user_id' => 'integer',
+        'account_id'  => 'integer',
+        'user_id'     => 'integer',
         'customer_id' => 'integer',
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-        'is_deleted' => 'boolean',
+        'line_items'  => 'object',
+        'updated_at'  => 'timestamp',
+        'deleted_at'  => 'timestamp',
+        'is_deleted'  => 'boolean',
     ];
 
     protected $fillable = [
@@ -112,9 +112,9 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function documents()
+    public function files()
     {
-        return $this->morphMany(File::class, 'documentable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function user()

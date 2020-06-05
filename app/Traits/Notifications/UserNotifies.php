@@ -5,8 +5,12 @@ namespace App\Traits\Notifications;
 
 trait UserNotifies
 {
-    public function findUserNotificationTypesByInvitation($invitation, $account_user, $entity_name, $required_permissions)
-    {
+    public function findUserNotificationTypesByInvitation(
+        $invitation,
+        $account_user,
+        $entity_name,
+        $required_permissions
+    ) {
         if ($invitation->{$entity_name}->user_id == $account_user->_user_id ||
             $invitation->{$entity_name}->assigned_user_id == $account_user->user_id) {
             array_push($required_permissions, "all_user_notifications");

@@ -23,22 +23,19 @@ $factory->define(File::class, function (Faker $faker) {
 
     return [
         'account_id' => 1,
+        'company_id' => null,
         'is_active' => 1,
-        'documentable_id' => $task->id,
-        'documentable_type' => 'App\Task',
+        'fileable_id' => $task->id,
+        'fileable_type' => 'App\Task',
         'user_id' => $user->id,
         'name' => $faker->text,
         'file_path' => $faker->word,
         'preview' => null,
-        'name' => null,
         'type' => null,
         'size' => null,
         'width' => null,
         'height' => null,
         'is_default' => 0,
-        'documentable_id' => 0,
-        'documentable_type' => '',
-        'company_id' => null,
         'deleted_at' => null
     ];
 });
