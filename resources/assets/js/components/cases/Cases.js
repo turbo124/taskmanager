@@ -23,7 +23,7 @@ export default class Cases extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['id', 'category_id', 'priority_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
