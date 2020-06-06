@@ -80,8 +80,9 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     {
         $payment = $this->save($data, $payment);
 
-        $payment->customer->increasePaidToDateAmount($payment->amount);
-        $payment->customer->save();
+        if(!$payment->id && !empty($data['invoices'])) {
+            $this->adjustCustomerTotals($data['amount']);
+        }
 
         $this->applyPaymentToInvoices($data, $payment);
         $this->applyPaymentToCredits($data, $payment);
@@ -201,7 +202,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     private function applyPaymentToInvoices(array $data, Payment $payment): bool
     {
         if (empty($data['invoices'])) {
-            $this->adjustCustomerTotals($payment);
+            $this->adjustCustomerTotals($payment->amount);
             return true;
         }
 
@@ -226,12 +227,12 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     }
 
     /**
-     * @param Payment $payment
+     * @param float $amount
      */
-    private function adjustCustomerTotals(Payment $payment)
+    private function adjustCustomerTotals(float $amount)
     {
         $payment->customer->increasePaidToDateAmount($payment->amount);
-        $payment->customer->increaseBalance($payment->amount);
+        //$payment->customer->increaseBalance($payment->amount);
         $payment->customer->save();
     }
 
