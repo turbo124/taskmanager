@@ -35,6 +35,7 @@ export default class ProductList extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'reviews',
                 'features',
                 'attributes',
                 'deleted_at',

@@ -16,6 +16,9 @@ trait ProductTransformable
     {
         return [
             'id'               => (int)$product->id,
+            'rating'           => (int)$product->rating,
+            'ratings_count'    => (int)$product->ratings_count,
+            'reviews'          => $product->reviews,
             'name'             => $product->name,
             'sku'              => $product->sku,
             'created_at'       => $product->created_at,

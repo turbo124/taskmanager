@@ -78,15 +78,19 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
      */
     public function processPayment(array $data, Payment $payment)
     {
+        $update_customer = !isset($payment->id);
         $payment = $this->save($data, $payment);
-
-        $payment->customer->increasePaidToDateAmount($payment->amount);
-        $payment->customer->save();
 
         $this->applyPaymentToInvoices($data, $payment);
         $this->applyPaymentToCredits($data, $payment);
 
-        if ($this->total_amount == $payment->amount || $this->total_amount < $payment->amount) {
+        if ($update_customer) {
+            // if there is no calculated amount from the invoices / credits use the amount specified in the payment
+            $amount_redeemable = $this->total_amount == 0 ? $data['amount'] : $this->total_amount;
+            $this->adjustCustomerTotals($payment->customer, $amount_redeemable);
+        }
+
+        if ($this->total_amount <= $payment->amount) {
             $payment->applyPayment($this->total_amount);
         }
 
@@ -201,7 +205,6 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     private function applyPaymentToInvoices(array $data, Payment $payment): bool
     {
         if (empty($data['invoices'])) {
-            $this->adjustCustomerTotals($payment);
             return true;
         }
 
@@ -226,13 +229,14 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     }
 
     /**
-     * @param Payment $payment
+     * @param Customer $customer
+     * @param float $amount
      */
-    private function adjustCustomerTotals(Payment $payment)
+    private function adjustCustomerTotals(Customer $customer, float $amount)
     {
-        $payment->customer->increasePaidToDateAmount($payment->amount);
-        $payment->customer->increaseBalance($payment->amount);
-        $payment->customer->save();
+        $customer->increasePaidToDateAmount($amount);
+        //$payment->customer->increaseBalance($payment->amount);
+        $customer->save();
     }
 
     public function reversePaymentsForInvoice(Invoice $invoice)
