@@ -11,6 +11,17 @@ import FormatDate from '../common/FormatDate'
 import FormatMoney from '../common/FormatMoney'
 
 export default class Product extends Component {
+
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab }, () => {
+                if (this.state.activeTab === '3') {
+                    this.loadPdf()
+                }
+            })
+        }
+    }
+
     render () {
         return (
             <React.Fragment>
