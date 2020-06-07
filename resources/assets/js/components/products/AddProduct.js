@@ -285,7 +285,12 @@ class AddProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="4">
-                                <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
+                                 <Card>
+                                    <CardHeader>{translations.features}</CardHeader>
+                                    <CardBody>
+                                        <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
+                                    </CardBody>
+                                </Card>
                             </TabPane>
 
                             <TabPane tabId="5">
