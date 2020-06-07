@@ -36,8 +36,33 @@ export default class Product extends Component {
 
     render () {
         return (
-            <React.Fragment>
-                <ViewEntityHeader heading_1={translations.cost} value_1={this.props.entity.cost}
+                 <React.Fragment>
+                <Nav tabs>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
+                        >
+                            {translations.overview}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
+                        >
+                            {translations.details}
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                                   <ViewEntityHeader heading_1={translations.cost} value_1={this.props.entity.cost}
                     heading_2={translations.price} value_2={this.props.entity.price}/>
 
                 <Row>
@@ -56,7 +81,26 @@ export default class Product extends Component {
                             title={translations.quantity}/>
                     </ListGroup>
                 </Row>
+                    </TabPane>
 
+                    <TabPane tabId="2">
+                        <Row>
+                            <ListGroup className="col-12">
+                                {this.props.entity.variations.map((contact, index) => (
+                                    <React.Fragment>
+                                        <InfoItem icon={icons.envelope}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.email}`} title={translations.email}/>
+                                        <InfoItem icon={icons.phone}
+                                            first_value={`${contact.first_name} ${contact.last_name}`}
+                                            value={`${contact.phone}`} title={translations.phone_number}/>
+                                    </React.Fragment>
+
+                                ))}
+                            </ListGroup>
+                        </Row>
+                    </TabPane>
+                </TabContent>
             </React.Fragment>
 
         )
