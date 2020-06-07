@@ -19,6 +19,7 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_icons'
 import Variations from './Variations'
 import Features from './Features'
+import ProductAttribute from './ProductAttribute'
 
 class AddProduct extends React.Component {
     constructor (props) {
