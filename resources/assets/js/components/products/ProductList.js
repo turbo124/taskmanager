@@ -35,6 +35,12 @@ export default class ProductList extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'length',
+                'width',
+                'height',
+                'weight',
+                'mass_unit',
+                'distance_unit',
                 'reviews',
                 'features',
                 'attributes',
