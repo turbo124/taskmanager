@@ -7,12 +7,12 @@ class ProductAttribute extends React.Component {
         super(props)
         this.state = {
             modal: false,
-            range_from: 0,
-            range_to: 0,
-            payable_months: 12,
-            minimum_downpayment: 0,
-            number_of_years: 0,
-            interest_rate: 0,
+            length: 0,
+            width: 0,
+            height: 0,
+            distance_unit: '',
+            weight: 0,
+            mass_unit: '',
             loading: false,
             errors: []
         }
@@ -49,62 +49,73 @@ class ProductAttribute extends React.Component {
             <React.Fragment>
 
                 <FormGroup>
-                    <Label for="range_from">Range From:</Label>
-                    <Input value={this.state.range_from}
-                        className={this.hasErrorFor('range_from') ? 'is-invalid' : ''}
+                    <Label for="length">Length:</Label>
+                    <Input value={this.props.product.length}
+                        className={this.hasErrorFor('length') ? 'is-invalid' : ''}
                         type="number"
-                        name="range_from" onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('range_from')}
+                        name="length" onChange={this.props.handleInput}/>
+                    {this.renderErrorFor('length')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="range_to">Range To:</Label>
-                    <Input className={this.hasErrorFor('range_to') ? 'is-invalid' : ''}
-                        value={this.state.range_to}
+                    <Label for="width">Width:</Label>
+                    <Input className={this.hasErrorFor('width') ? 'is-invalid' : ''}
+                        value={this.props.product.width}
                         type="number"
-                        name="range_to"
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('range_to')}
+                        name="width"
+                        onChange={this.props.handleInput}/>
+                    {this.renderErrorFor('width')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="minimum_downpayment">Minimum Downpayment:</Label>
-                    <Input className={this.hasErrorFor('minimum_downpayment') ? 'is-invalid' : ''}
+                    <Label for="height">Height:</Label>
+                    <Input className={this.hasErrorFor('height') ? 'is-invalid' : ''}
                         type="number"
-                        name="minimum_downpayment"
-                        value={this.state.minimum_downpayment}
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('minimum_downpayment')}
+                        name="height"
+                        value={this.props.product.height}
+                        onChange={this.props.handleInput}/>
+                    {this.renderErrorFor('height')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="number_of_years">Number of years:</Label>
-                    <Input className={this.hasErrorFor('number_of_years') ? 'is-invalid' : ''}
-                        type="number"
-                        name="number_of_years"
-                        value={this.state.number_of_years}
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('number_of_years')}
+                    <Label for="distance_unit">Distance Unit:</Label>
+                    <Input className={this.hasErrorFor('distance_unit') ? 'is-invalid' : ''}
+                        type="select"
+                        name="distance_unit"
+                        value={this.props.product.distance_unit}
+                        onChange={this.props.handleInput}>
+                        <option value="">Select Option</option>  
+                         <option value="cm">Centimetres</option>
+                         <option value="mtr">Meters</option>
+                         <option value="in">Inches</option>
+                         <option value="mm">Milimeters</option>
+                    </Input>
+                    {this.renderErrorFor('distance_unit')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="payable_months">Months to Repay:</Label>
-                    <Input className={this.hasErrorFor('payable_months') ? 'is-invalid' : ''}
+                    <Label for="weight">Weight:</Label>
+                    <Input className={this.hasErrorFor('weight') ? 'is-invalid' : ''}
                         type="number"
-                        name="payable_months"
-                        value={this.state.payable_months}
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('payable_months')}
+                        name="weight"
+                        value={this.props.product.weight}
+                        onChange={this.props.handleInput}/>
+                    {this.renderErrorFor('weight')}
                 </FormGroup>
 
-                <FormGroup>
-                    <Label for="interest_rate">Interest Rate:</Label>
-                    <Input className={this.hasErrorFor('interest_rate') ? 'is-invalid' : ''}
-                        value={this.state.interest_rate}
-                        type="number"
-                        name="interest_rate"
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('interest_rate')}
+                 <FormGroup>
+                    <Label for="mass_unit">Mass Unit:</Label>
+                    <Input className={this.hasErrorFor('mass_unit') ? 'is-invalid' : ''}
+                        type="select"
+                        name="mass_unit"
+                        value={this.props.product.mass_unit}
+                        onChange={this.props.handleInput}>
+                        <option value="">Select Option</option>  
+                         <option value="oz">Ounces</option>
+                         <option value="gms">Grams</option>
+                         <option value="lbs">Pounds</option>
+                    </Input>
+                    {this.renderErrorFor('mass_unit')}
                 </FormGroup>
             </React.Fragment>
         )
