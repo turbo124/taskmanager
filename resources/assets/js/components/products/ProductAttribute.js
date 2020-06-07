@@ -5,43 +5,23 @@ import { Input, FormGroup, Label } from 'reactstrap'
 class ProductAttribute extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            length: 0,
-            width: 0,
-            height: 0,
-            distance_unit: '',
-            weight: 0,
-            mass_unit: '',
-            loading: false,
-            errors: []
-        }
 
-        this.state = { ...this.state, ...this.props.values }
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
     hasErrorFor (field) {
-        return !!this.state.errors[field]
+        return !!this.props.errors[field]
     }
 
     renderErrorFor (field) {
         if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }
-    }
-
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-
-        this.props.onChange(e)
     }
 
     render () {
