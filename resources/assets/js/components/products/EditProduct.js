@@ -297,6 +297,16 @@ class EditProduct extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('4')
                                     }}>
+                                    {translations.attributes}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('5')
+                                    }}>
                                     {translations.features}
                                 </NavLink>
                             </NavItem>
