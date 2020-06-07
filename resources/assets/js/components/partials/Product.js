@@ -12,6 +12,18 @@ import FormatMoney from '../common/FormatMoney'
 
 export default class Product extends Component {
 
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            activeTab: '1',
+            show_success: false
+        }
+
+        //this.triggerAction = this.triggerAction.bind(this)
+        this.toggleTab = this.toggleTab.bind(this)
+    }
+
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab }, () => {
