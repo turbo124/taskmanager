@@ -345,6 +345,15 @@ class EditProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="4">
+                                 <Card>
+                                    <CardHeader>{translations.features}</CardHeader>
+                                    <CardBody>
+                                        <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="5">
                                 <Card>
                                     <CardHeader>{translations.features}</CardHeader>
                                     <CardBody>
