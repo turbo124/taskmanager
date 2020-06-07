@@ -19,6 +19,21 @@ class Product extends Model
     use SoftDeletes;
     use ManageStock;
 
+    public const MASS_UNIT = [
+        'OUNCES' => 'oz',
+        'GRAMS' => 'gms',
+        'POUNDS' => 'lbs'
+    ];
+
+    public const DISTANCE_UNIT = [
+        'CENTIMETER' => 'cm',
+        'METER' => 'mtr',
+        'INCH' => 'in',
+        'MILIMETER' => 'mm',
+        'FOOT' => 'ft',
+        'YARD' => 'yd'
+    ];
+
     protected $casts = [
         'is_featured' => 'boolean'
     ];
