@@ -38,6 +38,12 @@ class AddProduct extends React.Component {
             custom_value2: '',
             custom_value3: '',
             custom_value4: '',
+            length: 0,
+            width: 0,
+            height: 0,
+            distance_unit: '',
+            weight: 0,
+            mass_unit: '',
             notes: '',
             price: '',
             sku: '',
@@ -118,6 +124,12 @@ class AddProduct extends React.Component {
         formData.append('cost', this.state.cost)
         formData.append('quantity', this.state.quantity)
         formData.append('sku', this.state.sku)
+        formData.append('length', this.state.length)
+        formData.append('width', this.state.width)
+        formData.append('height', this.state.height)
+        formData.append('weight', this.state.weight)
+        formData.append('mass_unit', this.state.mass_unit)
+        formData.append('distance_unit', this.state.distance_unit)
         formData.append('company_id', this.state.company_id)
         formData.append('category', this.state.selectedCategories)
         formData.append('notes', this.state.notes)
@@ -225,11 +237,21 @@ class AddProduct extends React.Component {
                                 </NavLink>
                             </NavItem>
 
-                            <NavItem>
+                             <NavItem>
                                 <NavLink
                                     className={this.state.activeTab === '4' ? 'active' : ''}
                                     onClick={() => {
                                         this.toggleTab('4')
+                                    }}>
+                                    {translations.attributes}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('5')
                                     }}>
                                     {translations.features}
                                 </NavLink>
@@ -262,6 +284,10 @@ class AddProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="4">
+                                <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
+                            </TabPane>
+
+                            <TabPane tabId="5">
                                 <Features features={this.state.features} onChange={this.handleFeatures} />
                             </TabPane>
                         </TabContent>
