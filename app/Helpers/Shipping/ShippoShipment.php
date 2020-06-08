@@ -141,12 +141,14 @@ class ShippoShipment
      *
      * @return void
      */
-    private function readyParcel(Collection $collection)
+    private function readyParcel(array $line_items)
     {
-        $weight = $collection->map(function ($item) {
+        $weight = collect($line_items)->map(function ($item) {
+            $product = Product::find($item->product_id)->first();
+
             return [
-                'weight' => $item->product->weight * $item->qty,
-                'mass_unit' => $item->product->mass_unit
+                'weight' => $product->weight * $item->qty,
+                'mass_unit' => $product->mass_unit
             ];
         })->map(function ($item) {
             $total = 0;
