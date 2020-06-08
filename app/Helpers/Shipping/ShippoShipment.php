@@ -3,8 +3,9 @@
 namespace App\Helpers\Shipping;
 
 use App\Shop\Addresses\Address;
-use App\Shop\Customers\Customer;
-use App\Shop\Products\Product;
+use App\Customer;
+use App\Product;
+use App\Order;
 use App\Shop\Shipping\ShippingInterface;
 use Illuminate\Support\Collection;
 use Shippo;
@@ -147,7 +148,7 @@ class ShippoShipment
             $product = Product::find($item->product_id)->first();
 
             return [
-                'weight' => $product->weight * $item->qty,
+                'weight' => $product->weight * $item->quantity,
                 'mass_unit' => $product->mass_unit
             ];
         })->map(function ($item) {
