@@ -57,10 +57,24 @@ class ShippoShipment
         $this->customer = $customer;
     }
 
+    public function createShippingProcess(Order $order)
+    {
+
+        if ($customerRepo->findAddresses()->count() > 0 && $products->count() > 0) {
+
+            $this->setPickupAddress();
+            $deliveryAddress = $this->customer->address->where('address_type', '=', 2)->first();
+            $this->setDeliveryAddress($deliveryAddress);
+            $this->readyParcel($order->line_items);
+
+            return $this->readyShipment();
+        }
+    }
+
     /**
      * Address where the shipment will be picked up
      */
-    public function setPickupAddress()
+    private function setPickupAddress()
     {
         $warehouse = [
             'name' => config('app.name'),
@@ -79,7 +93,7 @@ class ShippoShipment
     /**
      * @param Address $address
      */
-    public function setDeliveryAddress(Address $address)
+    private function setDeliveryAddress(Address $address)
     {
         $delivery =  [
             'name' => $address->alias,
@@ -98,7 +112,7 @@ class ShippoShipment
     /**
      * @return \Shippo_Shipment
      */
-    public function readyShipment()
+    private function readyShipment()
     {
         $shipment = Shippo_Shipment::create(array(
                 'address_from'=> $this->warehouseAddress,
@@ -127,7 +141,7 @@ class ShippoShipment
      *
      * @return void
      */
-    public function readyParcel(Collection $collection)
+    private function readyParcel(Collection $collection)
     {
         $weight = $collection->map(function ($item) {
             return [
