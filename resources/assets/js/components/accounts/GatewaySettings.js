@@ -20,6 +20,7 @@ import {
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import Checkbox from '../common/Checkbox'
+import GatewayDropdown from '../common/GatewayDropdown'
 
 class GatewaySettings extends Component {
     constructor (props) {
@@ -428,17 +429,18 @@ class GatewaySettings extends Component {
             <Button color="primary" onClick={this.handleSubmit}>Save</Button>
         </TabContent> : null
 
+        const gatewayDropdown = this.state.company_gateways && Object.keys(this.state.company_gateways).length
+            ? <GatewayDropdown errors={this.state.errors} gateway_key={this.state.gateway_key}
+                handleInputChanges={this.handleChange}
+                gateways={this.state.company_gateways}/> : null
+
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
 
                 <FormGroup>
                     <Label>Gateway Type</Label>
-                    <Input onChange={this.handleChange} type="select" name="gateway_key" value={this.state.gateway_key}>
-                        <option value="">Select Gateway</option>
-                        <option value="d14dd26a37cecc30fdd65700bfb55b23">Stripe</option>
-                        <option value="c3dec814e14cbd7d86abd92ce6789f8c">Test Empty</option>
-                    </Input>
+                    {gatewayDropdown}
                 </FormGroup>
 
                 <Nav tabs>

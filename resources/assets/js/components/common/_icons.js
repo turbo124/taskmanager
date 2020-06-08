@@ -341,5 +341,20 @@ export const translations = {
     payments: 'Payments',
     invoices: 'Invoices',
     orders: 'Orders',
-    overview: 'Overview'
+    overview: 'Overview',
+    height: 'Height',
+    width: 'Width',
+    length: 'Length',
+    distance_unit: 'Distance Unit',
+    weight: 'Weight',
+    mass_unit: 'Mass Unit',
+    centimeters: 'Centimeters',
+    meters: 'Meters',
+    inches: 'Inches',
+    milimeters: 'Milimeters',
+    ounces: 'Ounces',
+    grams: 'Grams',
+    pounds: 'Pounds',
+    foot: 'Foot',
+    yard: 'Yard'
 }

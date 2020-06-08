@@ -54,7 +54,7 @@ class EditProduct extends React.Component {
             height: this.props.product.height,
             distance_unit: this.props.product.distance_unit,
             weight: this.props.product.weight,
-            mass_unit: this.props.mass_unit,
+            mass_unit: this.props.product.mass_unit,
             categories: [],
             is_featured: false,
             selectedCategories: this.props.product.category_ids ? this.props.product.category_ids : [],
@@ -345,7 +345,7 @@ class EditProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="4">
-                                 <Card>
+                                <Card>
                                     <CardHeader>{translations.features}</CardHeader>
                                     <CardBody>
                                         <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>

@@ -145,17 +145,14 @@ class BaseRepository implements BaseRepositoryInterface
      */
     public function markSent($entity)
     {
-        $class = (new \ReflectionClass($entity))->getShortName();
-        $entity_class = 'App\\' . $class;
+        $allowed_statuses[] = $entity::STATUS_DRAFT;
 
-        $allowed_statuses[] = $entity_class::STATUS_DRAFT;
-
-        if ($entity_class === 'App\Order') {
+        if (get_class($entity) === 'App\Order') {
             if (!$entity->invoice_id) {
                 return null;
             }
 
-            $allowed_statuses[] = $entity_class::STATUS_COMPLETE;
+            $allowed_statuses[] = $entity::STATUS_COMPLETE;
         }
 
         if (!in_array($entity->status_id, $allowed_statuses)) {
@@ -164,7 +161,7 @@ class BaseRepository implements BaseRepositoryInterface
 
         $entity->invitations()->where('sent_date', '=', null)->update(['sent_date' => Carbon::now()]);
 
-        $entity->setStatus($entity_class::STATUS_SENT);
+        $entity->setStatus($entity::STATUS_SENT);
         $entity->save();
 
         $service = $entity->service();
@@ -173,6 +170,7 @@ class BaseRepository implements BaseRepositoryInterface
             $service->send();
         }
 
+        $class = (new \ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 
         if (class_exists($event_class)) {
