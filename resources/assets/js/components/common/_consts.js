@@ -1,6 +1,15 @@
 import React from 'react'
 
 export const consts = {
+    centimeters: 'cm',
+    meters: 'mtr',
+    inches: 'in',
+    milimeters: 'mm',
+    ounces: 'oz',
+    grams: 'gms',
+    pounds: 'lbs',
+    foot: 'ft',
+    yard: 'yd',
     low_priority: 1,
     medium_priority: 2,
     high_priority: 3,

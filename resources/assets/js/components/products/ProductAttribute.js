@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { Input, FormGroup, Label } from 'reactstrap'
+import { translations } from '../common/_icons'
+import { consts } from "../common/_consts";
 
 class ProductAttribute extends React.Component {
     constructor (props) {
@@ -29,7 +31,7 @@ class ProductAttribute extends React.Component {
             <React.Fragment>
 
                 <FormGroup>
-                    <Label for="length">Length:</Label>
+                    <Label for="length">{translations.length}:</Label>
                     <Input value={this.props.product.length}
                         className={this.hasErrorFor('length') ? 'is-invalid' : ''}
                         type="number"
@@ -38,7 +40,7 @@ class ProductAttribute extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="width">Width:</Label>
+                    <Label for="width">{translations.width}:</Label>
                     <Input className={this.hasErrorFor('width') ? 'is-invalid' : ''}
                         value={this.props.product.width}
                         type="number"
@@ -48,7 +50,7 @@ class ProductAttribute extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="height">Height:</Label>
+                    <Label for="height">{translations.height}:</Label>
                     <Input className={this.hasErrorFor('height') ? 'is-invalid' : ''}
                         type="number"
                         name="height"
@@ -58,23 +60,25 @@ class ProductAttribute extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="distance_unit">Distance Unit:</Label>
+                    <Label for="distance_unit">{translations.distance_unit}:</Label>
                     <Input className={this.hasErrorFor('distance_unit') ? 'is-invalid' : ''}
                         type="select"
                         name="distance_unit"
                         value={this.props.product.distance_unit}
                         onChange={this.props.handleInput}>
-                        <option value="">Select Option</option>  
-                         <option value="cm">Centimetres</option>
-                         <option value="mtr">Meters</option>
-                         <option value="in">Inches</option>
-                         <option value="mm">Milimeters</option>
+                        <option value="">{translations.select_option}</option>
+                        <option value={consts.centimeters}>{translations.centimeters}</option>
+                        <option value={consts.meters}>{translations.meters}</option>
+                        <option value={consts.inches}>{translations.inches}</option>
+                        <option value={consts.milimeters}>{translations.milimeters}</option>
+                        <option value={consts.foot}>{translations.foot}</option>
+                        <option value={consts.yard}>{translations.yard}</option>
                     </Input>
                     {this.renderErrorFor('distance_unit')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="weight">Weight:</Label>
+                    <Label for="weight">{translations.weight}:</Label>
                     <Input className={this.hasErrorFor('weight') ? 'is-invalid' : ''}
                         type="number"
                         name="weight"
@@ -83,17 +87,17 @@ class ProductAttribute extends React.Component {
                     {this.renderErrorFor('weight')}
                 </FormGroup>
 
-                 <FormGroup>
-                    <Label for="mass_unit">Mass Unit:</Label>
+                <FormGroup>
+                    <Label for="mass_unit">{translations.mass_unit}:</Label>
                     <Input className={this.hasErrorFor('mass_unit') ? 'is-invalid' : ''}
                         type="select"
                         name="mass_unit"
                         value={this.props.product.mass_unit}
                         onChange={this.props.handleInput}>
-                        <option value="">Select Option</option>  
-                         <option value="oz">Ounces</option>
-                         <option value="gms">Grams</option>
-                         <option value="lbs">Pounds</option>
+                        <option value="">{translations.select_option}</option>
+                        <option value={consts.ounces}>{translations.ounces}</option>
+                        <option value={consts.grams}>{translations.grams}</option>
+                        <option value={consts.pounds}>{translations.pounds}</option>
                     </Input>
                     {this.renderErrorFor('mass_unit')}
                 </FormGroup>

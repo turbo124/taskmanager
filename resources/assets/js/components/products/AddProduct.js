@@ -9,7 +9,10 @@ import {
     NavItem,
     NavLink,
     TabContent,
-    TabPane
+    TabPane,
+    Card,
+    CardHeader,
+    CardBody
 } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'

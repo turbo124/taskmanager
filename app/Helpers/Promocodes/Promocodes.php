@@ -173,22 +173,11 @@ class Promocodes
      */
     private function validateScope($data, Order $order, Customer $customer)
     {
-        switch ($data['scope']) {
-            case 'order':
-
-                if ($order->total < $data['scope_value']) {
-                    return false;
-                }
-                break;
-
-            case 'product':
-                if (!in_array($data['scope_value'], array_column($order->line_items, 'product_id'))) {
-                    return false;
-                }
-                break;
-        }
-
-        return true;
+        $scope_class = 'App\Helpers\Promocodes\Scopes\\' . ucfirst($data['scope']);
+        $scope_obj = new $scope_class();
+        $scope_obj->setOrder($order);
+        $scope_obj->setScopeValue($data['scope_value']);
+        return $scope_obj->validate();
     }
 
     /**
