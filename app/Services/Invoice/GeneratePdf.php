@@ -5,9 +5,9 @@ namespace App\Services\Invoice;
 use App\ClientContact;
 use App\Design;
 use App\Designs\PdfColumns;
+use App\Helpers\Pdf\InvoicePdf;
 use App\Invoice;
 use App\Jobs\Pdf\CreatePdf;
-use App\PdfData;
 use Illuminate\Support\Facades\Storage;
 
 class GeneratePdf
@@ -54,7 +54,7 @@ class GeneratePdf
 
         $design = Design::find($this->invoice->getDesignId());
 
-        $objPdf = new PdfData($this->invoice);
+        $objPdf = new InvoicePdf($this->invoice);
 
         $designer =
             new PdfColumns(

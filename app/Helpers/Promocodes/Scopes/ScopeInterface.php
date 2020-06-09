@@ -9,15 +9,15 @@ interface ScopeInterface
 
     /**
      * @param $scope_value
-     * @return $this
+     * @return mixed
      */
-    public function setScopeValue($scope_value): self;
+    public function setScopeValue($scope_value);
 
     /**
      * @param \App\Order $order
-     * @return $this
+     * @return mixed
      */
-    public function setOrder(\App\Order $order): self;
+    public function setOrder(\App\Order $order);
 
     /**
      * @return bool

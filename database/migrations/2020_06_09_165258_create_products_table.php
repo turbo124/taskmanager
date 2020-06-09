@@ -40,6 +40,12 @@ class CreateProductsTable extends Migration {
 			$table->integer('reserved_stock')->nullable()->default(0);
 			$table->integer('rating')->nullable()->default(0);
 			$table->integer('ratings_count')->default(0);
+			$table->decimal('length', 5)->nullable()->default(0.00);
+			$table->decimal('width', 5)->nullable()->default(0.00);
+			$table->decimal('height', 5)->nullable()->default(0.00);
+			$table->decimal('weight', 5)->nullable()->default(0.00);
+			$table->enum('mass_unit', array('oz','gms','lbs',''))->nullable();
+			$table->enum('distance_unit', array('cm','mtr','in','mm','ft','yd'))->nullable();
 		});
 	}
 

@@ -11,8 +11,7 @@ use App\Factory\DesignFactory;
 use App\Filters\CreditFilter;
 use App\Filters\DesignFilter;
 use App\Filters\InvoiceFilter;
-use App\PdfData;
-use App\Repositories\CreditRepository;
+use App\Helpers\Pdf\InvoicePdf;
 use App\Repositories\DesignRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
@@ -119,7 +118,7 @@ class DesignTest extends TestCase
         $design = Design::find(3);
 
         $designer = new PdfColumns(
-            new PdfData($this->quote, $this->contact),
+            new InvoicePdf($this->quote),
             $this->quote,
             $design,
             $this->account->settings->pdf_variables,
@@ -156,7 +155,7 @@ class DesignTest extends TestCase
         $design = Design::find(3);
 
         $designer = new PdfColumns(
-            new PdfData($this->invoice, $this->contact),
+            new InvoicePdf($this->invoice),
             $this->invoice,
             $design,
             $this->account->settings->pdf_variables,

@@ -306,10 +306,14 @@ const products = {
             url: '/products',
             icon: `fa ${icons.product}`
         },
-
         {
             name: 'Categories',
             url: '/categories',
+            icon: 'fa fa-building'
+        },
+        {
+            name: 'Brands',
+            url: '/brands',
             icon: 'fa fa-building'
         },
         {

@@ -9,6 +9,19 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();
     $user = factory(User::class)->create();
 
+    for ($x = 0; $x < 2; $x++) {
+        $product = factory(\App\Product::class)->create();
+
+        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            ->setQuantity(2)
+            ->setUnitPrice($faker->randomFloat(2, 1, 1000))
+            ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
+            ->setUnitTax(10.00)
+            ->setProductId($product->id)
+            ->setNotes($faker->realText(50))
+            ->toObject();
+    }
+
     return [
         'account_id' => 1,
         'status_id' => Order::STATUS_DRAFT,
@@ -26,5 +39,6 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'custom_value4' => $faker->numberBetween(1,4),
         'is_deleted' => false,
         'po_number' => $faker->text(10),
+        'line_items' => $line_items
     ];
 });

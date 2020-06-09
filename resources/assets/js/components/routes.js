@@ -10,6 +10,7 @@ import Invoice from './invoice/Invoice'
 import Order from './orders/Order'
 import Companies from './companies/Companies'
 import Categories from './categories/Categories'
+import Brands from './brands/Brands'
 import ProjectList from './forms/ProjectList'
 import Leads from './leads/Leads'
 import TaskList from './forms/TaskList'
@@ -129,6 +130,11 @@ const routes = [
         path: '/categories',
         name: 'Categories',
         component: Categories
+    },
+    {
+        path: '/brands',
+        name: 'Brands',
+        component: Brands
     },
     {
         path: '/departments',

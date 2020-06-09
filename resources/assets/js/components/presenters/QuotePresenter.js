@@ -13,7 +13,7 @@ export default function QuotePresenter (props) {
         [consts.quote_status_approved]: 'success',
         [consts.quote_status_on_order]: 'success',
         [consts.quote_status_invoiced]: 'success',
-        '-1': 'danger'
+        100: 'danger'
     }
 
     const statuses = {
@@ -22,14 +22,14 @@ export default function QuotePresenter (props) {
         [consts.quote_status_approved]: translations.approved,
         [consts.quote_status_invoiced]: translations.invoiced,
         [consts.quote_status_on_order]: translations.on_order,
-        '-1': translations.expired
+        100: translations.expired
     }
 
     const { field, entity } = props
 
     const objQuoteModel = new QuoteModel(entity, props.customers)
     const is_late = objQuoteModel.isLate()
-    const entity_status = is_late === true ? '-1' : entity.status_id
+    const entity_status = is_late === true ? 100 : entity.status_id
 
     const status = !entity.deleted_at
         ? <Badge color={colors[entity_status]}>{statuses[entity_status]}</Badge>

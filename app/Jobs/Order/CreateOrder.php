@@ -302,6 +302,7 @@ class CreateOrder implements ShouldQueue
                 [
                     'custom_surcharge1' => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
                     'invitations'       => $invitations,
+                    'shipping_id'       => isset($this->request->shipping_id) ? $this->request->shipping_id : null,
                     'balance'           => $this->request->total,
                     'sub_total'         => $this->request->sub_total,
                     'total'             => $this->request->total,

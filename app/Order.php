@@ -82,6 +82,8 @@ class Order extends Model
         'custom_surcharge_tax1',
         'custom_surcharge_tax2',
         'design_id',
+        'shipping_id',
+        'shipping_label_url',
         'previous_status'
     ];
 

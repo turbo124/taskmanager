@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Factory\CloneOrderToInvoiceFactory;
+use App\Helpers\Shipping\ShippoShipment;
 use App\Invoice;
 use App\Jobs\Order\CreateOrder;
 use App\Services\Order\OrderService;
@@ -67,7 +68,6 @@ class OrderTest extends TestCase
         $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
-
 
     /** @test */
     public function it_can_update_the_order()
@@ -147,6 +147,7 @@ class OrderTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function it_can_archive_the_order()
     {
         $order = factory(Order::class)->create();
@@ -155,6 +156,7 @@ class OrderTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function testOrderPadding()
     {
         $customer = factory(Customer::class)->create();
@@ -220,6 +222,7 @@ class OrderTest extends TestCase
         $this->assertEquals((float)$order->total, $data['total']);
     }
 
+    /** @test */
     public function testOrderDispatch()
     {
         $order = factory(Order::class)->create();
@@ -237,6 +240,7 @@ class OrderTest extends TestCase
         $this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
     }
 
+    /** @test */
     public function testSendOrder()
     {
         $order = factory(Order::class)->create();
@@ -254,6 +258,26 @@ class OrderTest extends TestCase
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($order->status_id, Order::STATUS_SENT);
     }
+
+    /** @test */
+    public function shipOrder()
+    {
+        $order = factory(Order::class)->create();
+        $order->customer_id = 5;
+        $order->save();
+        $objShipping = new ShippoShipment(
+            $order->customer, json_decode(json_encode($order->line_items), true)
+        );
+        $shipping = $objShipping->createShippingProcess();
+        $this->assertArrayHasKey('rates', $shipping);
+
+        $rates = $objShipping->getRates();
+        $order->shipping_id = $rates[0]['object_id'];
+        $order->save();
+        $shipping = $objShipping->createLabel($order);
+        $this->assertTrue($shipping);
+    }
+
 
     public function tearDown(): void
     {

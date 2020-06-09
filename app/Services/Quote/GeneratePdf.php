@@ -5,8 +5,8 @@ namespace App\Services\Quote;
 use App\ClientContact;
 use App\Design;
 use App\Designs\PdfColumns;
+use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
-use App\PdfData;
 use App\Quote;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,7 +53,7 @@ class GeneratePdf
         }
 
         $design = Design::find($this->quote->getDesignId());
-        $objPdf = new PdfData($this->quote);
+        $objPdf = new InvoicePdf($this->quote);
         $designer =
             new PdfColumns(
                 $objPdf, $this->quote, $design, $this->quote->customer->getSetting('pdf_variables'), 'quote'
