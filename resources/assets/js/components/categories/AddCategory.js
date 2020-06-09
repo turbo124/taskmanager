@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, CustomInput } from 'reactstrap'
 import axios from 'axios'
+import AddButtons from '../common/AddButtons'
+import { translations } from '../common/_icons'
 
 class AddCategory extends React.Component {
     constructor (props) {
@@ -112,53 +114,53 @@ class AddCategory extends React.Component {
 
         return (
             <React.Fragment>
-                <Button color="success" onClick={this.toggle}>Add Category</Button>
+                <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Add Category
+                        {translations.add_category}
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name">Name <span className="text-danger">*</span></Label>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                id="name" placeholder="Name" onChange={this.handleInput.bind(this)}/>
+                                id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Description </Label>
+                            <Label for="description">{translations.description} </Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
                                 name="description" id="description" rows="5"
-                                placeholder="Description" onChange={this.handleInput.bind(this)}/>
+                                placeholder={translations.description} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('description')}
                         </FormGroup>
 
                         {parentDropdown}
 
                         <FormGroup>
-                            <Label>Cover Image</Label>
+                            <Label>{translations.cover}</Label>
                             <CustomInput onChange={this.handleFileChange} type="file" id="cover"
                                 name="cover"
                                 label="Cover!"/>
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="status">Status </Label>
+                            <Label for="status">{translations.status} </Label>
                             <Input className={this.hasErrorFor('status') ? 'is-invalid' : ''} type="select"
                                 name="status"
                                 id="status"
                                 onChange={this.handleInput.bind(this)}
                             >
-                                <option value="0">Disable</option>
-                                <option value="1">Enable</option>
+                                <option value="0">{translations.disable}</option>
+                                <option value="1">{translations.enable}</option>
                             </Input>
                             {this.renderErrorFor('status')}
                         </FormGroup>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

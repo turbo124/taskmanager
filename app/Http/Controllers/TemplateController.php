@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\PdfData;
+use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\LeadPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
 
@@ -33,8 +34,10 @@ class TemplateController extends Controller
 
         $entity_object = !$entity_id ? $class::first() : $class::whereId($entity_id)->first();
 
+        $objPdfBuilder = $class === 'App\Lead' ? new LeadPdf($entity_object) : new InvoicePdf($entity_object);
+
         $data = (new TemplateEngine(
-            new PdfData($entity_object), $body, $subject, $entity, $entity_id, $template
+            $objPdfBuilder, $body, $subject, $entity, $entity_id, $template
         ))->build();
 
         return response()->json($data, 200);

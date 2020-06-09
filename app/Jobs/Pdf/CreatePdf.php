@@ -2,12 +2,6 @@
 
 namespace App\Jobs\Pdf;
 
-use App\Designs\Custom;
-use App\Designs\Clean;
-use App\Designs\PdfColumns;
-use App\Design;
-use App\Account;
-use App\PdfData;
 use App\Traits\MakesInvoiceHtml;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
-use App\ClientContact;
 
 class CreatePdf implements ShouldQueue
 {
@@ -39,7 +32,7 @@ class CreatePdf implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(PdfData $objPdf, $entity, $file_path, $designer, $contact = null, $disk = 'public')
+    public function __construct($objPdf, $entity, $file_path, $designer, $contact = null, $disk = 'public')
     {
         $this->entity = $entity;
         $this->objPdf = $objPdf;

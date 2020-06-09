@@ -1,20 +1,26 @@
 <?php
 
-namespace App;
+namespace App\Helpers\Pdf;
 
+use App\Account;
+use App\ClientContact;
+use App\Country;
+use App\Customer;
+use App\Product;
+use App\ProductAttribute;
 use App\Utils\Number;
 
 /**
  * Class PdfData
  * @package App
  */
-class PdfData
+class PdfBuilder
 {
-    private $labels;
-    private $values;
-    private $data;
-    private $entity;
-    private $line_items;
+    protected $labels;
+    protected $values;
+    protected $data;
+    protected $entity;
+    protected $line_items;
 
     /**
      * PdfData constructor.
@@ -27,76 +33,7 @@ class PdfData
         $this->class = strtolower((new \ReflectionClass($this->entity))->getShortName());
     }
 
-    public function build($contact = null)
-    {
-        $this->data = [];
-
-        if (get_class($this->entity) === 'App\Lead') {
-            return $this->buildLead();
-        }
-
-        return $this->buildInvoice($contact);
-    }
-
-    private function buildLead($contact = null)
-    {
-        $this->buildClientForLead($this->entity)
-             ->buildAddress($this->entity, $this->entity)
-             ->buildAccount($this->entity->account);
-
-        foreach ($this->data as $key => $value) {
-            if (isset($value['label'])) {
-                $this->labels[$key . '_label'] = $value['label'];
-            }
-
-            if (isset($value['value'])) {
-                $this->values[$key] = $value['value'];
-            }
-        }
-
-        return $this;
-    }
-
-    private function buildInvoice($contact = null)
-    {
-        $contact === null ? $this->entity->customer->contacts->first() : $contact;
-        $customer = $this->entity->customer;
-
-        $this->setDefaults($customer)
-             ->buildContact($contact)
-             ->setTaxes($customer)
-             ->setDate($this->entity->date)
-             ->setDueDate($this->entity->due_date)
-             ->setNumber($this->entity->number)
-             ->setPoNumber($this->entity->po_number)
-             ->buildCustomer($customer)
-             ->buildCustomerAddress($customer)
-             ->buildAccount($this->entity->account)
-             ->setTerms($this->entity->terms)
-             ->setDiscount($customer, $this->entity->discount_total)
-             ->setSubTotal($customer, $this->entity->sub_total)
-             ->setBalance($customer, $this->entity->balance)
-             ->setTotal($customer, $this->entity->total)
-             ->setNotes($this->entity->public_notes)
-             ->setInvoiceCustomValues()
-             ->buildProduct()
-             ->transformLineItems($customer, $this->entity)
-             ->buildTask();
-
-        foreach ($this->data as $key => $value) {
-            if (isset($value['label'])) {
-                $this->labels[$key . '_label'] = $value['label'];
-            }
-
-            if (isset($value['value'])) {
-                $this->values[$key] = $value['value'];
-            }
-        }
-
-        return $this;
-    }
-
-    private function setDefaults(Customer $customer): self
+    protected function setDefaults(Customer $customer): self
     {
         $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $this->class)];
         $this->data['$invoice.partial_due'] = [
@@ -113,7 +50,7 @@ class PdfData
 
     private function findCustomType($entity, $field)
     {
-        $custom_fields = $this->account->custom_fields;
+        $custom_fields = $entity->account->custom_fields;
 
         if (!isset($custom_fields->{$entity})) {
             return '';
@@ -135,7 +72,12 @@ class PdfData
         return $new_array[0]->type;
     }
 
-    private function makeCustomField($entity, $field): string
+    /**
+     * @param $entity
+     * @param $field
+     * @return string
+     */
+    protected function makeCustomField($entity, $field): string
     {
         $custom_fields = $this->entity->account->custom_fields;
 
@@ -232,41 +174,6 @@ class PdfData
         $this->data['$customer4'] = [
             'value' => $customer->custom_value4 ?: '&nbsp;',
             'label' => $this->makeCustomField('Customer', 'custom_value4')
-        ];
-
-        return $this;
-    }
-
-    public function buildClientForLead(Lead $lead): self
-    {
-        $this->data['$customer.website'] = [
-            'value' => $lead->present()->website() ?: '&nbsp;',
-            'label' => trans('texts.website')
-        ];
-        $this->data['$customer.phone'] = [
-            'value' => $lead->present()->phone() ?: '&nbsp;',
-            'label' => trans('texts.phone_number')
-        ];
-        $this->data['$customer.email'] = ['value' => $lead->email, 'label' => trans('texts.email_address')];
-        $this->data['$customer.name'] = [
-            'value' => $lead->present()->name() ?: '&nbsp;',
-            'label' => trans('texts.customer_name')
-        ];
-        $this->data['$customer1'] = [
-            'value' => $lead->custom_value1 ?: '&nbsp;',
-            'label' => $this->makeCustomField('Lead', 'custom_value1')
-        ];
-        $this->data['$customer2'] = [
-            'value' => $lead->custom_value2 ?: '&nbsp;',
-            'label' => $this->makeCustomField('Lead', 'custom_value2')
-        ];
-        $this->data['$customer3'] = [
-            'value' => $lead->custom_value3 ?: '&nbsp;',
-            'label' => $this->makeCustomField('Lead', 'custom_value3')
-        ];
-        $this->data['$customer4'] = [
-            'value' => $lead->custom_value4 ?: '&nbsp;',
-            'label' => $this->makeCustomField('Lead', 'custom_value4')
         ];
 
         return $this;
@@ -699,7 +606,7 @@ class PdfData
      * @param string $table_type
      * @return $this
      */
-    private function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self
+    protected function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self
     {
         if (!isset($entity->line_items) || empty($entity->line_items)) {
             return $this;

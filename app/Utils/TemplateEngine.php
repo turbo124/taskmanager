@@ -2,8 +2,6 @@
 
 namespace App\Utils;
 
-use App\DataMapper\EmailTemplateDefaults;
-use App\PdfData;
 use App\Traits\MakesInvoiceHtml;
 use League\CommonMark\CommonMarkConverter;
 
@@ -25,14 +23,14 @@ class TemplateEngine
 
     /**
      * TemplateEngine constructor.
-     * @param PdfData $objPdf
+     * @param $objPdf
      * @param $body
      * @param $subject
      * @param $entity
      * @param $entity_id
      * @param $template
      */
-    public function __construct(PdfData $objPdf, $body, $subject, $entity, $entity_id, $template)
+    public function __construct($objPdf, $body, $subject, $entity, $entity_id, $template)
     {
         $this->body = $body;
 

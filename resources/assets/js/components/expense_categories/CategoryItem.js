@@ -1,0 +1,78 @@
+import React, { Component } from 'react'
+import axios from 'axios'
+import RestoreModal from '../common/RestoreModal'
+import DeleteModal from '../common/DeleteModal'
+import ActionsMenu from '../common/ActionsMenu'
+import EditCategory from './EditCategory'
+import { Input } from 'reactstrap'
+import CategoryPresenter from '../presenters/CategoryPresenter'
+
+export default class CategoryItem extends Component {
+    constructor (props) {
+        super(props)
+
+        this.deleteCategory = this.deleteCategory.bind(this)
+    }
+
+    deleteCategory (id, archive = false) {
+        const url = archive === true ? `/api/expense-categories/archive/${id}` : `/api/categories/${id}`
+        const self = this
+        axios.delete(url)
+            .then(function (response) {
+                const arrCategorys = [...self.props.categories]
+                const index = arrCategorys.findIndex(category => category.id === id)
+                arrCategorys.splice(index, 1)
+                self.props.addUserToState(arrCategorys)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
+    render () {
+        const { categories, ignoredColumns, customers } = this.props
+        if (categories && categories.length) {
+            return categories.map(category => {
+                const restoreButton = category.deleted_at
+                    ? <RestoreModal id={category.id} entities={categories} updateState={this.props.addUserToState}
+                        url={`/api/categories/restore/${category.id}`}/> : null
+                const deleteButton = !category.deleted_at
+                    ? <DeleteModal archive={false} deleteFunction={this.deleteCategory} id={category.id}/> : null
+                const archiveButton = !category.deleted_at
+                    ? <DeleteModal archive={true} deleteFunction={this.deleteCategory} id={category.id}/> : null
+
+                const editButton = !category.deleted_at ? <EditCategory
+                    categories={categories}
+                    customers={customers}
+                    category={category}
+                    action={this.props.addUserToState}
+                /> : null
+
+                const columnList = Object.keys(category).filter(key => {
+                    return ignoredColumns && !ignoredColumns.includes(key)
+                }).map(key => {
+                    return <CategoryPresenter key={key} customers={customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={category}/>
+                })
+
+                const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const selectedRow = this.props.viewId === category.id ? 'table-row-selected' : ''
+
+                return <tr className={selectedRow} key={category.id}>
+                    <td>
+                        <Input className={checkboxClass} value={category.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                            restore={restoreButton}/>
+                    </td>
+                    {columnList}
+                </tr>
+            })
+        } else {
+            return <tr>
+                <td className="text-center">No Records Found.</td>
+            </tr>
+        }
+    }
+}

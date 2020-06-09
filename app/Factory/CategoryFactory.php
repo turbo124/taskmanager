@@ -15,7 +15,7 @@ class CategoryFactory
      * @param User $user
      * @return Category
      */
-    public static function create(Account $account, User $user)
+    public static function create(Account $account, User $user): Category
     {
         $category = new Category;
         $category->account_id = $account->id;

@@ -15,9 +15,8 @@ export default function InvoicePresenter (props) {
         [consts.invoice_status_partial]: 'warning',
         [consts.invoice_status_draft_text]: 'danger',
         [consts.invoice_status_reversed]: 'danger',
-        '-1': 'danger',
-        '-2': 'danger',
-        '-3': 'danger'
+        [consts.invoice_status_cancelled]: 'danger',
+        100: 'danger'
     }
 
     const statuses = {
@@ -26,8 +25,7 @@ export default function InvoicePresenter (props) {
         [consts.invoice_status_paid]: translations.paid,
         [consts.invoice_status_partial]: translations.partial,
         [consts.invoice_status_cancelled]: translations.cancelled,
-        '-1': 'Overdue',
-        '-2': 'Unpaid',
+        100: translations.overdue,
         [consts.invoice_status_reversed]: translations.reversed
     }
 
@@ -36,7 +34,7 @@ export default function InvoicePresenter (props) {
     const objInvoiceModel = new InvoiceModel(entity, props.customers)
     const is_late = objInvoiceModel.isLate()
 
-    const entity_status = is_late === true ? '-1' : entity.status_id
+    const entity_status = is_late === true ? 100 : entity.status_id
 
     const status = !entity.deleted_at
         ? <Badge color={colors[entity_status]}>{statuses[entity_status]}</Badge>

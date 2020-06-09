@@ -54,6 +54,8 @@ class CreateProductTaskTable extends Migration {
 			$table->boolean('is_deleted')->default(0);
 			$table->string('po_number', 100)->nullable();
 			$table->integer('previous_status')->nullable();
+			$table->string('shipping_id', 100)->nullable();
+			$table->string('shipping_label_url')->nullable();
 		});
 	}
 

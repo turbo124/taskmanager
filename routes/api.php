@@ -36,6 +36,9 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         // expense categories
         Route::resource('expense-categories', 'ExpenseCategoryController');
 
+        // brands
+        Route::resource('brands', 'BrandController');
+
         // case categories
         Route::resource('case-categories', 'CaseCategoryController');
 
@@ -410,6 +413,8 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('promocode/apply', 'PromocodeController@apply');
     Route::post('promocode/validate', 'PromocodeController@validateCode');
 
+    //shipping
+    Route::post('shipping/getRates', 'ShippingController@getRates');
 
     Route::post('preview', 'PreviewController@show');
 });

@@ -3,6 +3,7 @@
 namespace App\Services\Order;
 
 use App\Events\Order\OrderWasHeld;
+use App\Helpers\Shipping\ShippoShipment;
 use App\Invoice;
 use App\Account;
 use App\Repositories\CustomerRepository;
@@ -90,6 +91,10 @@ class OrderService extends ServiceBase
         $subject = $this->order->customer->getSetting('email_subject_order_sent');
         $body = $this->order->customer->getSetting('email_template_order_sent');
         $this->trigger($subject, $body, new OrderRepository($this->order));
+
+        if (!empty($this->order->shipping_id)) {
+            (new ShippoShipment($this->order->customer, $this->order->line_items))->createLabel($this->order);
+        }
 
         event(new OrderWasDispatched($this->order));
 

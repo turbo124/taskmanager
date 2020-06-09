@@ -72,6 +72,8 @@ export default class EmailEditorForm extends Component {
     }
 
     sendMessage () {
+        this.setState({ showSuccessMessage: false, showErrorMessage: false })
+
         axios.post('/api/emails', {
             subject: this.state.subject,
             body: this.state.body,
@@ -82,11 +84,14 @@ export default class EmailEditorForm extends Component {
             design: this.state.design
         })
             .then((r) => {
+                this.setState({ showSuccessMessage: true, showErrorMessage: false })
                 console.warn(this.state.users)
             })
             .catch((error) => {
                 this.setState({
-                    errors: error.response.data.errors
+                    errors: error.response.data.errors,
+                    showSuccessMessage: false,
+                    showErrorMessage: true
                 })
             })
     }
@@ -111,9 +116,9 @@ export default class EmailEditorForm extends Component {
 
     render () {
         const successMessage = this.state.showSuccessMessage === true
-            ? <SuccessMessage message="Your message has been sent successfully"/> : null
+            ? <SuccessMessage message={translations.successfully_sent}/> : null
         const errorMessage = this.state.showErrorMessage === true ? <ErrorMessage
-            message="Your message could not be sent"/> : null
+            message={translations.failed_to_send}/> : null
 
         return (
             <Form>
@@ -129,7 +134,8 @@ export default class EmailEditorForm extends Component {
 
                 <FormGroup>
                     <Label for="exampleEmail">Body</Label>
-                    <Input className="textarea-lg" size="lg" type="textarea" onChange={this.handleChange} value={this.props.body} name="body" />
+                    <Input className="textarea-lg" size="lg" type="textarea" onChange={this.handleChange}
+                        value={this.props.body} name="body"/>
                     {this.renderErrorFor('body')}
                 </FormGroup>
 

@@ -3,10 +3,10 @@
 namespace App\Jobs\Email;
 
 use App\Designs\Custom;
-use App\PdfData;
+use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\LeadPdf;
 use App\User;
 use Illuminate\Support\Carbon;
-use App\Designs\Clean;
 use App\Designs\PdfColumns;
 use App\Design;
 use App\Email;
@@ -63,7 +63,8 @@ class SendEmail implements ShouldQueue
     {
         $settings = $this->entity->account->settings;
 
-        $objPdf = new PdfData($this->entity);
+        $objPdf = get_class($this->entity) === 'App\Lead' ? new LeadPdf($this->entity) : new InvoicePdf($this->entity);
+
         $objPdf->build();
         $labels = $objPdf->getLabels();
         $values = $objPdf->getValues();

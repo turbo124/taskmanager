@@ -2,10 +2,6 @@
 
 namespace App\Designs;
 
-use App\Account;
-use App\Invoice;
-use App\PdfData;
-
 class PdfColumns
 {
     public $design;
@@ -140,7 +136,7 @@ class PdfColumns
 
     private $sections = ['header', 'body', 'table', 'footer'];
 
-    public function __construct(PdfData $objPdf, $entity, $design, $input_variables, $entity_string)
+    public function __construct($objPdf, $entity, $design, $input_variables, $entity_string)
     {
         $this->entity = $entity;
 

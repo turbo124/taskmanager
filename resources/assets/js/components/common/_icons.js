@@ -47,6 +47,14 @@ export const icons = {
 }
 
 export const translations = {
+    add_category: 'Add Category',
+    edit_category: 'Edit Category',
+    status: 'Status',
+    disable: 'Disable',
+    enable: 'Enable',
+    parent: 'Parent',
+    successfully_sent: 'Your message has been sent successfully',
+    failed_to_send: 'Your message could not be sent',
     low: 'Low',
     medium: 'Medium',
     high: 'High',
