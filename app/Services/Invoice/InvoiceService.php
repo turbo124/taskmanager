@@ -86,10 +86,7 @@ class InvoiceService extends ServiceBase
 
         event(new InvoiceWasPaid($invoice));
 
-        // trigger
-        $subject = trans('texts.invoice_paid_subject');
-        $body = trans('texts.invoice_paid_body');
-        $this->trigger($subject, $body, $invoice_repo);
+        $this->sendPaymentEmail($invoice_repo);
 
         return $invoice;
     }
@@ -105,12 +102,19 @@ class InvoiceService extends ServiceBase
 
         event(new InvoiceWasPaid($invoice));
 
+        $this->sendPaymentEmail(new InvoiceRepository($this->invoice));
+
+        return $invoice;
+    }
+
+    private function sendPaymentEmail(InvoiceRepository $invoice_repo)
+    {
         // trigger
         $subject = trans('texts.invoice_paid_subject');
         $body = trans('texts.invoice_paid_body');
-        $this->trigger($subject, $body, (new InvoiceRepository(new Invoice)));
+        $this->trigger($subject, $body, $invoice_repo);
 
-        return $invoice;
+        return true;
     }
 
     /**
