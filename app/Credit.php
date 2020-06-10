@@ -18,6 +18,7 @@ class Credit extends Model
 {
     use SoftDeletes;
     use PresentableTrait;
+    use Money;
 
     protected $presenter = 'App\Presenters\CreditPresenter';
 
