@@ -67,12 +67,12 @@ export const CalculateSurcharges = (props) => {
     const { surcharges } = props
     const tax = parseFloat(surcharges.tax)
 
-    if (surcharges.custom_surcharge1 && surcharges.custom_surcharge1 > 0) {
-        total += surcharges.custom_surcharge1
+    if (surcharges.transaction_fee && surcharges.transaction_fee > 0) {
+        total += surcharges.transaction_fee
     }
 
-    if (surcharges.custom_surcharge1 && surcharges.custom_surcharge1 > 0 && surcharges.custom_surcharge_tax1 === true && tax > 0) {
-        tax_total += surcharges.custom_surcharge1 * (tax / 100)
+    if (surcharges.transaction_fee && surcharges.transaction_fee > 0 && surcharges.transaction_fee_tax === true && tax > 0) {
+        tax_total += surcharges.transaction_fee * (tax / 100)
     }
 
     if (surcharges.custom_surcharge2 && surcharges.custom_surcharge2 > 0) {

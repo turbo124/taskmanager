@@ -33,28 +33,21 @@ class ShippoShipment
      *
      * @var $warehouseAddress
      */
-    protected $warehouseAddress;
+    private $warehouseAddress;
 
     /**
      * The address of the customer where the item is to be delivered
      *
      * @var $deliveryAddress
      */
-    protected $deliveryAddress;
+    private $deliveryAddress;
 
     /**
      * The item/s
      *
      * @var $parcel
      */
-    protected $parcel;
-
-    /**
-     * Shipment
-     *
-     * @var $shipment
-     */
-    protected $shipment;
+    private $parcel;
 
     private $line_items;
 
@@ -111,14 +104,14 @@ class ShippoShipment
     private function setPickupAddress()
     {
         $warehouse = [
-            'name'    => config('app.name'),
-            'street1' => config('shop.warehouse.address_1'),
-            'city'    => config('shop.warehouse.city'),
-            'state'   => config('shop.warehouse.state'),
-            'zip'     => config('shop.warehouse.zip'),
-            'country' => config('shop.warehouse.country'),
-            'phone'   => config('shop.phone'),
-            'email'   => config('shop.email')
+            'name'    => $this->customer->account->settings->name,
+            'street1' => $this->customer->account->settings->address1,
+            'city'    => $this->customer->account->settings->city,
+            'state'   => $this->customer->account->settings->state,
+            'zip'     => $this->customer->account->settings->postal_code,
+            'country' => $this->customer->account->country()->iso,
+            'phone'   => $this->customer->account->settings->phone,
+            'email'   => $this->customer->account->settings->email
         ];
 
         $this->warehouseAddress = $warehouse;

@@ -108,23 +108,23 @@ class Invoice extends BaseCalculator
     {
         $custom_surcharge_total = 0;
 
-        if (!empty($this->entity->custom_surcharge1)) {
-            $custom_surcharge_total += $this->entity->custom_surcharge1;
+        if (!empty($this->entity->transaction_fee)) {
+            $custom_surcharge_total += $this->entity->transaction_fee;
 
             if (!empty($this->entity->custom_surcharge_tax1)) {
-                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax1, $this->sub_total, true);
+                $tax_total = $this->applyTax($this->entity->transaction_fee_tax, $this->sub_total, true);
                 $this->setTaxTotal($tax_total);
-                $this->setCustomTax($this->entity->custom_surcharge1);
+                $this->setCustomTax($this->entity->transaction_fee);
             }
         }
 
-        if (!empty($this->entity->custom_surcharge2)) {
-            $custom_surcharge_total += $this->entity->custom_surcharge2;
+        if (!empty($this->entity->shipping_cost)) {
+            $custom_surcharge_total += $this->entity->shipping_cost;
 
-            if (!empty($this->entity->custom_surcharge_tax2)) {
-                $tax_total = $this->applyTax($this->entity->custom_surcharge_tax2, $this->sub_total, true);
+            if (!empty($this->entity->shipping_cost_tax)) {
+                $tax_total = $this->applyTax($this->entity->shipping_cost_tax, $this->sub_total, true);
                 $this->setTaxTotal($tax_total);
-                $this->setCustomTax($this->entity->custom_surcharge2);
+                $this->setCustomTax($this->entity->shipping_cost);
             }
         }
 

@@ -239,10 +239,10 @@ class EditInvoice extends Component {
                     tax: null,
                     tax_rate_name: '',
                     private_notes: '',
-                    custom_surcharge1: null,
-                    custom_surcharge2: null,
-                    custom_surcharge_tax1: null,
-                    custom_surcharge_tax2: null,
+                    transaction_fee: null,
+                    shipping_cost: null,
+                    transaction_fee_tax: null,
+                    shipping_cost_tax: null,
                     custom_value1: '',
                     custom_value2: '',
                     custom_value3: '',
@@ -372,10 +372,10 @@ class EditInvoice extends Component {
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
-            custom_surcharge1: this.state.custom_surcharge1,
+            transaction_fee: this.state.transaction_fee,
             custom_surcharge_tax1: this.state.custom_surcharge_tax1,
-            custom_surcharge2: this.state.custom_surcharge2,
-            custom_surcharge_tax2: this.state.custom_surcharge_tax2,
+            shipping_cost: this.state.shipping_cost,
+            shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations
         }
     }

@@ -47,6 +47,10 @@ export const icons = {
 }
 
 export const translations = {
+    transaction_fee: 'Transaction Fee',
+    transaction_tax: 'Transaction Tax',
+    shipping_cost: 'Shipping Cost',
+    shipping_tax: 'Shipping Tax',
     add_category: 'Add Category',
     edit_category: 'Edit Category',
     status: 'Status',
