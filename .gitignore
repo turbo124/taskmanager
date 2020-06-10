@@ -1,7 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
-/database/seeds/*
+/database/_private/*
 database/setup.sql
 /storage/*.key
 /vendor

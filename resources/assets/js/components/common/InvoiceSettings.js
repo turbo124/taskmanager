@@ -2,6 +2,7 @@ import React from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
 import TaxRateDropdown from '../common/TaxRateDropdown'
 import DesignDropdown from '../common/DesignDropdown'
+import { translations } from "./_icons";
 
 export default function InvoiceSettings (props) {
     console.log('settings', props.settings)
@@ -12,15 +13,15 @@ export default function InvoiceSettings (props) {
                 <Row form>
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="exampleEmail">Custom Surcharge 1</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="custom_surcharge1" id="custom_surcharge1" placeholder="with a placeholder" value={props.settings.custom_surcharge1} />
+                            <Label for="exampleEmail">{translations.transaction_fee}</Label>
+                            <Input onChange={props.handleSurcharge} type="text" name="transaction_fee" id="transaction_fee" value={props.settings.transaction_fee} />
                         </FormGroup>
                     </Col>
                     <Col md={6}>
                         <FormGroup check>
                             <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="custom_surcharge_tax1" id="examplePassword" checked={props.settings.custom_surcharge_tax1} />
-                                Custom Surcharge Tax 1
+                                <Input onChange={props.handleSurcharge} type="checkbox" name="transaction_fee_tax" id="examplePassword" checked={props.settings.transaction_fee_tax} />
+                                {translations.transaction_tax}
                             </Label>
                         </FormGroup>
                     </Col>
@@ -29,15 +30,15 @@ export default function InvoiceSettings (props) {
                 <Row form>
                     <Col md={6}>
                         <FormGroup>
-                            <Label for="exampleEmail">Custom Surcharge 2</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="custom_surcharge2" id="custom_surcharge2" value={props.settings.custom_surcharge2} placeholder="with a placeholder" />
+                            <Label for="exampleEmail">{translations.shipping_cost}</Label>
+                            <Input onChange={props.handleSurcharge} type="text" name="shipping_cost" id="shipping_cost" value={props.settings.shipping_cost} />
                         </FormGroup>
                     </Col>
                     <Col md={6}>
                         <FormGroup check>
                             <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="custom_surcharge_tax2" id="custom_surcharge_tax2" checked={props.settings.custom_surcharge_tax2} />
-                                Custom Surcharge Tax 2
+                                <Input onChange={props.handleSurcharge} type="checkbox" name="shipping_cost_tax" id="shipping_cost_tax" checked={props.settings.shipping_cost_tax} />
+                                {translations.shipping_tax}
                             </Label>
                         </FormGroup>
                     </Col>

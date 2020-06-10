@@ -52,10 +52,10 @@ class Credit extends Model
         'custom_value2',
         'custom_value3',
         'custom_value4',
-        'custom_surcharge1',
-        'custom_surcharge2',
-        'custom_surcharge_tax1',
-        'custom_surcharge_tax2',
+        'transaction_fee',
+        'shipping_cost',
+        'transaction_fee_tax',
+        'shipping_cost_tax',
         'design_id'
     ];
 

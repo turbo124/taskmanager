@@ -52,7 +52,7 @@ class CloneOrderToInvoiceFactory
         $invoice->partial_due_date = null;
         $invoice->balance = $order->total;
         $invoice->line_items = $order->line_items;
-        $invoice->custom_surcharge1 = $order->custom_surcharge1;
+        $invoice->transaction_fee = $order->transaction_fee;
         $invoice->is_amount_discount = $order->is_amount_discount ?: false;
 
         return $invoice;

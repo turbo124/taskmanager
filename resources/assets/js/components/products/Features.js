@@ -39,7 +39,7 @@ export default class Features extends Component {
     }
 
     addLine (e) {
-        if (this.state.features.length <= 5) {
+        if (this.state.features.length >= 5) {
             alert(translations.maximum_5_features)
             return false
         }
