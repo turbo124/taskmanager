@@ -35,10 +35,14 @@ class InvoiceOrders implements ShouldQueue
         $line_items = $this->invoice->line_items;
 
         foreach ($line_items as $item) {
+            if (!isset($item->order_id)) {
+                continue;
+            }
+
             $order = Order::whereId($item->order_id)->first();
 
             if ($order) {
-                $order->status = Order::STATUS_INVOICED;
+                $order->setStatus(Order::STATUS_INVOICED);
                 $order->save();
             }
         }

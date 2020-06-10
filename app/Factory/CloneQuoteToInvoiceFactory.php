@@ -23,9 +23,14 @@ class CloneQuoteToInvoiceFactory
     public static function create(Quote $quote, User $user, Account $account): ?Invoice
     {
         $invoice = new Invoice();
-        $invoice->account_id = $account->id;
-        $invoice->customer_id = $quote->customer_id;
-        $invoice->user_id = $user->id;
+        $invoice->setAccount($account);
+        $invoice->setCustomer($quote->customer);
+        $invoice->setUser($user);
+        $invoice->setTotal($quote->total);
+        $invoice->setStatus(Invoice::STATUS_DRAFT);
+        $invoice->setNumber();
+        $invoice->setBalance($quote->total);
+        $invoice->setDueDate();
         $invoice->discount_total = $quote->discount_total;
         $invoice->tax_total = $quote->tax_total;
         $invoice->is_amount_discount = $quote->is_amount_discount ?: false;
@@ -36,18 +41,12 @@ class CloneQuoteToInvoiceFactory
         $invoice->tax_rate = $quote->tax_rate;
         $invoice->terms = $quote->terms;
         $invoice->sub_total = $quote->sub_total ?: 0;
-        $invoice->total = $quote->total;
         $invoice->balance = $quote->balance;
         $invoice->partial = $quote->partial;
         $invoice->partial_due_date = $quote->partial_due_date;
         $invoice->last_viewed = $quote->last_viewed;
-        $invoice->status_id = Invoice::STATUS_DRAFT;
-        $invoice->number = '';
-        $invoice->balance = $quote->total;
         $invoice->line_items = $quote->line_items;
-        $invoice->due_date = !empty($quote->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
-            $quote->customer->getSetting('payment_terms')
-        )->format('Y-m-d H:i:s') : $quote->due_date;
+
         return $invoice;
     }
 }

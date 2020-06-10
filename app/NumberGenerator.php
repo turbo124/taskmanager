@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Log;
+
 class NumberGenerator
 {
     private $entity_obj;
