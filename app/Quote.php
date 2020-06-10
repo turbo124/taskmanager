@@ -6,7 +6,7 @@ use App\Services\Quote\QuoteService;
 use Illuminate\Database\Eloquent\Model;
 use App\Task;
 use App\NumberGenerator;
-use App\Utils\Number;
+use App\Traits\Money;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -16,6 +16,7 @@ class Quote extends Model
 {
     use SoftDeletes;
     use PresentableTrait;
+    use Money;
 
     protected $presenter = 'App\Presenters\QuotePresenter';
 
@@ -198,17 +199,17 @@ class Quote extends Model
 
     public function getFormattedTotal()
     {
-        return Number::formatCurrency($this->total, $this->customer);
+        return $this->formatCurrency($this->total);
     }
 
     public function getFormattedSubtotal()
     {
-        return Number::formatCurrency($this->sub_total, $this->customer);
+        return $this->formatCurrency($this->sub_total);
     }
 
     public function getFormattedBalance()
     {
-        return Number::formatCurrency($this->balance, $this->customer);
+        return $this->formatCurrency($this->balance);
     }
 
     public function getNumber()
