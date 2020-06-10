@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
 use App\NumberGenerator;
-use App\Utils\Number;
+use App\Traits\Money;
 
 /**
  * Class Order
@@ -26,6 +26,7 @@ class Order extends Model
 {
     use PresentableTrait;
     use SoftDeletes;
+    use Money;
 
     protected $presenter = 'App\Presenters\OrderPresenter';
 
@@ -223,17 +224,17 @@ class Order extends Model
 
     public function getFormattedTotal()
     {
-        return Number::formatCurrency($this->total, $this->customer);
+        return $this->formatCurrency($this->total);
     }
 
     public function getFormattedSubtotal()
     {
-        return Number::formatCurrency($this->sub_total, $this->customer);
+        return $this->formatCurrency($this->sub_total);
     }
 
     public function getFormattedBalance()
     {
-        return Number::formatCurrency($this->balance, $this->customer);
+        return $this->formatCurrency($this->balance);
     }
 
     public function getDesignId()
