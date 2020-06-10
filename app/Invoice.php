@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Utils\Number;
+use App\Traits\Money;
 
 class Invoice extends Model
 {
 
-    use PresentableTrait, SoftDeletes;
+    use PresentableTrait, SoftDeletes, Money;
 
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
@@ -304,17 +304,17 @@ class Invoice extends Model
 
     public function getFormattedTotal()
     {
-        return Number::formatCurrency($this->total, $this->customer);
+        return $this->formatCurrency($this->total);
     }
 
     public function getFormattedSubtotal()
     {
-        return Number::formatCurrency($this->sub_total, $this->customer);
+        return $this->formatCurrency($this->sub_total);
     }
 
     public function getFormattedBalance()
     {
-        return Number::formatCurrency($this->balance, $this->customer);
+        return $this->formatCurrency($this->balance);
     }
 
     public function getDesignId()
