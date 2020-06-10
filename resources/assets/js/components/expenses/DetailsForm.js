@@ -42,10 +42,10 @@ export default class DetailsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup className="mr-2">
-                    <Label for="expense_date">{translations.date}(*):</Label>
-                    <Datepicker className="form-control" name="expense_date" date={this.props.expense.expense_date}
+                    <Label for="date">{translations.date}(*):</Label>
+                    <Datepicker className="form-control" name="date" date={this.props.expense.date}
                         handleInput={this.props.handleInput}/>
-                    {this.renderErrorFor('expense_date')}
+                    {this.renderErrorFor('date')}
                 </FormGroup>
 
                 <FormGroup className="mr-2">

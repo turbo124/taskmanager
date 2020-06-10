@@ -28,6 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CreateOrder implements ShouldQueue
 {
@@ -143,6 +144,7 @@ class CreateOrder implements ShouldQueue
             DB::commit();
             return $order;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             DB::rollback();
         }
     }
@@ -252,7 +254,7 @@ class CreateOrder implements ShouldQueue
                     ['customer_id' => $customer->id, 'address_type' => 1],
                     [
                         'address_1'    => $this->request->billing['address_1'],
-                        'address_2'    => $this->request->billing['address_2'],
+                        'address_2'    => !empty($this->request->billing['address_2']) ? $this->request->billing['address_2'] : '',
                         'zip'          => $this->request->billing['zip'],
                         'country_id'   => isset($this->request->billing['country_id']) ? $this->request->billing['country_id'] : 225,
                         'address_type' => 1
@@ -265,7 +267,7 @@ class CreateOrder implements ShouldQueue
                     ['customer_id' => $customer->id, 'address_type' => 2],
                     [
                         'address_1'    => $this->request->shipping['address_1'],
-                        'address_2'    => $this->request->shipping['address_2'],
+                        'address_2'    => !empty($this->request->shipping['address_2']) ? $this->request->shipping['address_2'] : '',
                         'zip'          => $this->request->shipping['zip'],
                         'country_id'   => isset($this->request->shipping['country_id']) ? $this->request->shipping['country_id'] : 225,
                         'address_type' => 2
@@ -275,6 +277,7 @@ class CreateOrder implements ShouldQueue
 
             return true;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             DB::rollback();
             return false;
         }

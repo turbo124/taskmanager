@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\BrandFactory;
+use App\Filters\BrandFilter;
+use App\Filters\CategoryFilter;
 use App\Repositories\BrandRepository;
 use App\Requests\Brand\CreateBrandRequest;
 use App\Requests\Brand\UpdateBrandRequest;
+use App\Requests\SearchRequest;
+use App\Transformations\BrandTransformable;
 
 /**
  * Class BrandController
@@ -13,6 +17,8 @@ use App\Requests\Brand\UpdateBrandRequest;
  */
 class BrandController extends Controller
 {
+    use BrandTransformable;
+
     /**
      * @var BrandRepository
      */
@@ -30,11 +36,13 @@ class BrandController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $data = $this->brand_repo->paginateArrayResults($this->brand_repo->listBrands(['*'], 'name', 'asc')->all());
-
-        return response()->json($data);
+        $brands = (new BrandFilter($this->brand_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account
+        );
+        return response()->json($brands);
     }
 
     /**
@@ -47,7 +55,7 @@ class BrandController extends Controller
             $request->all(),
             BrandFactory::create(auth()->user()->account_user()->account, auth()->user())
         );
-        return response()->json($brand);
+        return response()->json($this->transformBrand($brand));
     }
 
     /**
@@ -62,7 +70,7 @@ class BrandController extends Controller
         $brandRepo = new BrandRepository($brand);
         $brand = $brandRepo->save($request->all(), $brand);
 
-        return response()->json($brand);
+        return response()->json($this->transformBrand($brand));
     }
 
     /**

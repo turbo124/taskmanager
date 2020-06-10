@@ -22,6 +22,11 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
         $this->model = $brand;
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     /**
      * @param array $data
      * @param Brand $brand

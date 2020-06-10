@@ -156,6 +156,8 @@ class ShippoShipment
             $this->rates[$key]['object_id'] = $rate->object_id;
         }
 
+        Log::emergency($this->rates);
+
         return $shipment;
     }
 

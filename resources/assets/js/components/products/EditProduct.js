@@ -59,6 +59,7 @@ class EditProduct extends React.Component {
             is_featured: false,
             selectedCategories: this.props.product.category_ids ? this.props.product.category_ids : [],
             company_id: this.props.product.company_id,
+            brand_id: this.props.product.brand_id,
             assigned_user_id: this.props.product.assigned_user_id,
             notes: this.props.product.notes,
             custom_value1: this.props.product.custom_value1,
@@ -114,6 +115,7 @@ class EditProduct extends React.Component {
         formData.append('mass_unit', this.state.mass_unit)
         formData.append('distance_unit', this.state.distance_unit)
         formData.append('company_id', this.state.company_id)
+        formData.append('brand_id', this.state.brand_id)
         formData.append('category', this.state.selectedCategories)
         formData.append('range_from', this.state.range_from)
         formData.append('range_to', this.state.range_to)
@@ -346,7 +348,7 @@ class EditProduct extends React.Component {
 
                             <TabPane tabId="4">
                                 <Card>
-                                    <CardHeader>{translations.features}</CardHeader>
+                                    <CardHeader>{translations.attributes}</CardHeader>
                                     <CardBody>
                                         <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
                                     </CardBody>

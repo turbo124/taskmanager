@@ -103,7 +103,7 @@ export default class Expense extends Component {
 
                             <ul className="col-12 mt-4">
                                 <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.expense_date}/>}/>
+                                    value={<FormatDate date={this.props.entity.date}/>}/>
 
                                 <SimpleSectionItem heading={translations.transaction_reference}
                                     value={this.props.entity.transaction_reference}/>

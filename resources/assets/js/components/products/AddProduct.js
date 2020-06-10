@@ -33,6 +33,7 @@ class AddProduct extends React.Component {
             name: '',
             description: '',
             company_id: null,
+            brand_id: null,
             is_featured: false,
             quantity: 0,
             cost: 0,
@@ -135,6 +136,7 @@ class AddProduct extends React.Component {
         formData.append('mass_unit', this.state.mass_unit)
         formData.append('distance_unit', this.state.distance_unit)
         formData.append('company_id', this.state.company_id)
+        formData.append('brand_id', this.state.brand_id)
         formData.append('category', this.state.selectedCategories)
         formData.append('notes', this.state.notes)
         formData.append('assigned_user_id', this.state.assigned_user_id)
@@ -241,7 +243,7 @@ class AddProduct extends React.Component {
                                 </NavLink>
                             </NavItem>
 
-                             <NavItem>
+                            <NavItem>
                                 <NavLink
                                     className={this.state.activeTab === '4' ? 'active' : ''}
                                     onClick={() => {
@@ -288,8 +290,8 @@ class AddProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="4">
-                                 <Card>
-                                    <CardHeader>{translations.features}</CardHeader>
+                                <Card>
+                                    <CardHeader>{translations.attributes}</CardHeader>
                                     <CardBody>
                                         <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
                                     </CardBody>

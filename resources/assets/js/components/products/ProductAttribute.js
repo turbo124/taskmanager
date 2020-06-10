@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
-import { Input, FormGroup, Label } from 'reactstrap'
+import { Input, FormGroup, Label, Row, Col, CardBody } from 'reactstrap'
 import { translations } from '../common/_icons'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 class ProductAttribute extends React.Component {
     constructor (props) {
@@ -29,78 +28,93 @@ class ProductAttribute extends React.Component {
     render () {
         return (
             <React.Fragment>
+                <Row form>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="length">{translations.length}:</Label>
+                            <Input value={this.props.product.length}
+                                className={this.hasErrorFor('length') ? 'is-invalid' : ''}
+                                type="text"
+                                name="length" onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('length')}
+                        </FormGroup>
+                    </Col>
 
-                <FormGroup>
-                    <Label for="length">{translations.length}:</Label>
-                    <Input value={this.props.product.length}
-                        className={this.hasErrorFor('length') ? 'is-invalid' : ''}
-                        type="number"
-                        name="length" onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('length')}
-                </FormGroup>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="width">{translations.width}:</Label>
+                            <Input className={this.hasErrorFor('width') ? 'is-invalid' : ''}
+                                value={this.props.product.width}
+                                type="text"
+                                name="width"
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('width')}
+                        </FormGroup>
+                    </Col>
 
-                <FormGroup>
-                    <Label for="width">{translations.width}:</Label>
-                    <Input className={this.hasErrorFor('width') ? 'is-invalid' : ''}
-                        value={this.props.product.width}
-                        type="number"
-                        name="width"
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('width')}
-                </FormGroup>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="height">{translations.height}:</Label>
+                            <Input className={this.hasErrorFor('height') ? 'is-invalid' : ''}
+                                type="text"
+                                name="height"
+                                value={this.props.product.height}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('height')}
+                        </FormGroup>
+                    </Col>
 
-                <FormGroup>
-                    <Label for="height">{translations.height}:</Label>
-                    <Input className={this.hasErrorFor('height') ? 'is-invalid' : ''}
-                        type="number"
-                        name="height"
-                        value={this.props.product.height}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('height')}
-                </FormGroup>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="distance_unit">{translations.distance_unit}:</Label>
+                            <Input className={this.hasErrorFor('distance_unit') ? 'is-invalid' : ''}
+                                type="select"
+                                name="distance_unit"
+                                value={this.props.product.distance_unit}
+                                onChange={this.props.handleInput}>
+                                <option value="">{translations.select_option}</option>
+                                <option value={consts.centimeters}>{translations.centimeters}</option>
+                                <option value={consts.meters}>{translations.meters}</option>
+                                <option value={consts.inches}>{translations.inches}</option>
+                                <option value={consts.milimeters}>{translations.milimeters}</option>
+                                <option value={consts.foot}>{translations.foot}</option>
+                                <option value={consts.yard}>{translations.yard}</option>
+                            </Input>
+                            {this.renderErrorFor('distance_unit')}
+                        </FormGroup>
+                    </Col>
+                </Row>
 
-                <FormGroup>
-                    <Label for="distance_unit">{translations.distance_unit}:</Label>
-                    <Input className={this.hasErrorFor('distance_unit') ? 'is-invalid' : ''}
-                        type="select"
-                        name="distance_unit"
-                        value={this.props.product.distance_unit}
-                        onChange={this.props.handleInput}>
-                        <option value="">{translations.select_option}</option>
-                        <option value={consts.centimeters}>{translations.centimeters}</option>
-                        <option value={consts.meters}>{translations.meters}</option>
-                        <option value={consts.inches}>{translations.inches}</option>
-                        <option value={consts.milimeters}>{translations.milimeters}</option>
-                        <option value={consts.foot}>{translations.foot}</option>
-                        <option value={consts.yard}>{translations.yard}</option>
-                    </Input>
-                    {this.renderErrorFor('distance_unit')}
-                </FormGroup>
+                <Row form>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="weight">{translations.weight}:</Label>
+                            <Input className={this.hasErrorFor('weight') ? 'is-invalid' : ''}
+                                type="text"
+                                name="weight"
+                                value={this.props.product.weight}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('weight')}
+                        </FormGroup>
+                    </Col>
 
-                <FormGroup>
-                    <Label for="weight">{translations.weight}:</Label>
-                    <Input className={this.hasErrorFor('weight') ? 'is-invalid' : ''}
-                        type="number"
-                        name="weight"
-                        value={this.props.product.weight}
-                        onChange={this.props.handleInput}/>
-                    {this.renderErrorFor('weight')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="mass_unit">{translations.mass_unit}:</Label>
-                    <Input className={this.hasErrorFor('mass_unit') ? 'is-invalid' : ''}
-                        type="select"
-                        name="mass_unit"
-                        value={this.props.product.mass_unit}
-                        onChange={this.props.handleInput}>
-                        <option value="">{translations.select_option}</option>
-                        <option value={consts.ounces}>{translations.ounces}</option>
-                        <option value={consts.grams}>{translations.grams}</option>
-                        <option value={consts.pounds}>{translations.pounds}</option>
-                    </Input>
-                    {this.renderErrorFor('mass_unit')}
-                </FormGroup>
+                    <Col md={3}>
+                        <FormGroup>
+                            <Label for="mass_unit">{translations.mass_unit}:</Label>
+                            <Input className={this.hasErrorFor('mass_unit') ? 'is-invalid' : ''}
+                                type="select"
+                                name="mass_unit"
+                                value={this.props.product.mass_unit}
+                                onChange={this.props.handleInput}>
+                                <option value="">{translations.select_option}</option>
+                                <option value={consts.ounces}>{translations.ounces}</option>
+                                <option value={consts.grams}>{translations.grams}</option>
+                                <option value={consts.pounds}>{translations.pounds}</option>
+                            </Input>
+                            {this.renderErrorFor('mass_unit')}
+                        </FormGroup>
+                    </Col>
+                </Row>
             </React.Fragment>
         )
     }

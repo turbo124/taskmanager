@@ -11,7 +11,8 @@ use App\Requests\SearchRequest;
 use App\Transformations\CategoryTransformable;
 
 /**
- * TokenFilters
+ * Class CategoryFilter
+ * @package App\Filters
  */
 class CategoryFilter extends QueryFilter
 {
