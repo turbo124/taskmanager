@@ -33,7 +33,7 @@ export default function ExpensePresenter (props) {
                 amount={entity.amount}/>}</td>
         case 'status_field':
             return status
-        case 'expense_date':
+        case 'date':
         case 'payment_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }

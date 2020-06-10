@@ -20,7 +20,7 @@ export default class SettingsForm extends React.Component {
         super(props)
 
         this.state = {
-            currencyOpen: !!(this.props.expense.expense_currency_id && this.props.expense.expense_currency_id > 0),
+            currencyOpen: !!(this.props.expense.currency_id && this.props.expense.expense_currency_id > 0),
             paymentOpen: !!(this.props.expense.payment_date && this.props.expense.payment_date.length > 1)
         }
 
@@ -72,12 +72,12 @@ export default class SettingsForm extends React.Component {
 
             <CardBody>
                 <CustomInput
-                    checked={this.props.expense.should_be_invoiced}
+                    checked={this.props.expense.create_invoice}
                     type="switch"
-                    id="should_be_invoiced"
+                    id="create_invoice"
                     name="customSwitch"
                     label="Mark Billable"
-                    onChange={this.handleCheckboxChange.bind(this, 'should_be_invoiced')}/>
+                    onChange={this.handleCheckboxChange.bind(this, 'create_invoice')}/>
 
                 <CustomInput
                     checked={this.state.paymentOpen}
@@ -129,9 +129,9 @@ export default class SettingsForm extends React.Component {
                         <Col md={6}>
                             <FormGroup>
                                 <Label for="exampleEmail">{translations.currency}</Label>
-                                <CurrencyDropdown currency_id={this.props.expense.expense_currency_id}
+                                <CurrencyDropdown currency_id={this.props.expense.currency_id}
                                     handleInputChanges={this.props.handleInput}
-                                    name="expense_currency_id"/>
+                                    name="currency_id"/>
                             </FormGroup>
                         </Col>
                         <Col md={6}>
@@ -147,12 +147,12 @@ export default class SettingsForm extends React.Component {
                 </Collapse>
 
                 <CustomInput
-                    checked={this.props.expense.invoice_documents}
+                    checked={this.props.expense.include_documents}
                     type="switch"
-                    id="invoice_documents"
+                    id="include_documents"
                     name="customSwitch"
                     label="Add Documents to Invoice"
-                    onChange={this.handleCheckboxChange.bind(this, 'invoice_documents')}/>
+                    onChange={this.handleCheckboxChange.bind(this, 'include_documents')}/>
             </CardBody>
         </Card>
         )

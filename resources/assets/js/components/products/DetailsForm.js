@@ -12,6 +12,7 @@ import CompanyDropdown from '../common/CompanyDropdown'
 import CategoryDropdown from '../common/CategoryDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import { icons, translations } from '../common/_icons'
+import BrandDropdown from '../common/BrandDropdown'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {
@@ -53,9 +54,8 @@ export default class DetailsForm extends React.Component {
         return (<Card>
             <CardHeader>Product</CardHeader>
             <CardBody>
-
                 <Row form>
-                    <Col md={4}>
+                    <Col md={6}>
                         <FormGroup>
                             <Label for="name">{translations.name}(*):</Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
@@ -65,21 +65,7 @@ export default class DetailsForm extends React.Component {
                                 onChange={this.props.handleInput}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
-                    </Col>
 
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="email">{translations.description}:</Label>
-                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
-                                type="textarea"
-                                name="description"
-                                defaultValue={this.props.product.description}
-                                onChange={this.props.handleInput}/>
-                            {this.renderErrorFor('description')}
-                        </FormGroup>
-                    </Col>
-
-                    <Col md={4}>
                         <FormGroup>
                             <Label for="postcode">{translations.notes}:</Label>
                             <Input
@@ -90,24 +76,7 @@ export default class DetailsForm extends React.Component {
                                 onChange={this.props.handleInput}
                             />
                         </FormGroup>
-                    </Col>
 
-                </Row>
-
-                <Row form>
-                    <Col md={3}>
-                        <FormGroup>
-                            <Label for="sku">{translations.sku}(*):</Label>
-                            <Input className={this.hasErrorFor('sku') ? 'is-invalid' : ''}
-                                type="text"
-                                name="sku"
-                                value={this.props.product.sku}
-                                onChange={this.props.handleInput}/>
-                            {this.renderErrorFor('sku')}
-                        </FormGroup>
-                    </Col>
-
-                    <Col md={2}>
                         <FormGroup>
                             <Label for="email">{translations.quantity}:</Label>
                             <Input className={this.hasErrorFor('quantity') ? 'is-invalid' : ''}
@@ -117,9 +86,7 @@ export default class DetailsForm extends React.Component {
                                 onChange={this.props.handleInput}/>
                             {this.renderErrorFor('quantity')}
                         </FormGroup>
-                    </Col>
 
-                    <Col md={2}>
                         <FormGroup>
                             <Label for="price">{translations.price}(*):</Label>
                             <Input className={this.hasErrorFor('price') ? 'is-invalid' : ''}
@@ -129,9 +96,52 @@ export default class DetailsForm extends React.Component {
                                 onChange={this.props.handleInput}/>
                             {this.renderErrorFor('price')}
                         </FormGroup>
+
+                        <FormGroup>
+                            <Label for="postcode">{translations.vendor}:</Label>
+                            <CompanyDropdown
+                                name="company_id"
+                                company_id={this.props.product.company_id}
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleInput}
+                                companies={this.props.companies}
+                            />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="postcode">{translations.category}:</Label>
+                            <CategoryDropdown
+                                multiple={true}
+                                name="category"
+                                category={this.props.selectedCategories}
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleMultiSelect}
+                                categories={this.props.categories}
+                            />
+                        </FormGroup>
                     </Col>
 
-                    <Col md={2}>
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label for="email">{translations.description}:</Label>
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
+                                type="textarea"
+                                name="description"
+                                defaultValue={this.props.product.description}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('description')}
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="sku">{translations.sku}(*):</Label>
+                            <Input className={this.hasErrorFor('sku') ? 'is-invalid' : ''}
+                                type="text"
+                                name="sku"
+                                value={this.props.product.sku}
+                                onChange={this.props.handleInput}/>
+                            {this.renderErrorFor('sku')}
+                        </FormGroup>
+
                         <FormGroup>
                             <Label for="price">{translations.cost}:</Label>
                             <Input className={this.hasErrorFor('cost') ? 'is-invalid' : ''}
@@ -141,44 +151,18 @@ export default class DetailsForm extends React.Component {
                                 onChange={this.props.handleInput}/>
                             {this.renderErrorFor('cost')}
                         </FormGroup>
-                    </Col>
 
-                    <Col md={3}>
-                        <FormGroup check>
-                            <Label check>
-                                <Input value={this.props.product.is_featured} onChange={this.props.handleCheck}
-                                    type="checkbox"/>
-                                {translations.is_featured}
-                            </Label>
+                        <FormGroup>
+                            <Label for="postcode">{translations.brand}:</Label>
+                            <BrandDropdown
+                                name="brand_id"
+                                brand_id={this.props.product.brand_id}
+                                errors={this.props.errors}
+                                handleInputChanges={this.props.handleInput}
+                                brands={this.props.brands}
+                            />
                         </FormGroup>
-                    </Col>
-                </Row>
 
-                <Row form>
-                    <Col md={4}>
-                        <Label for="postcode">{translations.brand}:</Label>
-                        <CompanyDropdown
-                            name="company_id"
-                            company_id={this.props.product.company_id}
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
-                            companies={this.props.companies}
-                        />
-                    </Col>
-
-                    <Col md={4}>
-                        <Label for="postcode">{translations.category}:</Label>
-                        <CategoryDropdown
-                            multiple={true}
-                            name="category"
-                            category={this.props.selectedCategories}
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleMultiSelect}
-                            categories={this.props.categories}
-                        />
-                    </Col>
-
-                    <Col md={4}>
                         <FormGroup>
                             <Label for="postcode">{translations.assigned_user}:</Label>
                             <UserDropdown
@@ -188,7 +172,16 @@ export default class DetailsForm extends React.Component {
                                 handleInputChanges={this.props.handleInput}
                             />
                         </FormGroup>
+
+                        <FormGroup check>
+                            <Label check>
+                                <Input value={this.props.product.is_featured} onChange={this.props.handleCheck}
+                                    type="checkbox"/>
+                                {translations.is_featured}
+                            </Label>
+                        </FormGroup>
                     </Col>
+
                 </Row>
 
                 {customForm}

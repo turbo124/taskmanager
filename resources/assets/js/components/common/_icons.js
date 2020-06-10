@@ -47,6 +47,7 @@ export const icons = {
 }
 
 export const translations = {
+    vendor: 'Vendor',
     transaction_fee: 'Transaction Fee',
     transaction_tax: 'Transaction Tax',
     shipping_cost: 'Shipping Cost',

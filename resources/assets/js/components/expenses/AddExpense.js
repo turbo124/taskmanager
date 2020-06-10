@@ -42,7 +42,7 @@ class AddExpense extends React.Component {
     }
 
     handleInput (e) {
-        if (e.target.name === 'expense_currency_id') {
+        if (e.target.name === 'currency_id') {
             const exchange_rate = this.expenseModel.getExchangeRateForCurrency(e.target.value)
             this.setState({ exchange_rate: exchange_rate })
         }
@@ -80,17 +80,17 @@ class AddExpense extends React.Component {
         const data = {
             amount: this.state.amount,
             customer_id: this.state.customer_id,
-            expense_currency_id: this.state.expense_currency_id,
+            currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
             company_id: this.state.company_id,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             transaction_reference: this.state.transaction_reference,
-            invoice_category_id: this.state.category_id,
-            expense_date: this.state.expense_date,
+            category_id: this.state.category_id,
+            date: this.state.date,
             payment_type_id: this.state.payment_type_id,
-            invoice_documents: this.state.invoice_documents,
-            should_be_invoiced: this.state.should_be_invoiced,
+            include_documents: this.state.include_documents,
+            create_invoice: this.state.create_invoice,
             payment_date: this.state.payment_date,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
