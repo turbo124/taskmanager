@@ -32,8 +32,8 @@ class CreditRefund extends BaseRefund
             $total = $this->getAmount();
             $available_credit = $payment_credit->pivot->amount - $payment_credit->pivot->refunded;
             $total_to_credit = $available_credit > $total ? $total : $available_credit;
-            
             $this->updateRefundedAmountForCredit($payment_credit, $total_to_credit);
+            $this->reduceRefundAmount($available_credit <= $total ? $available_credit : 0);
         }
 
         $this->save();
