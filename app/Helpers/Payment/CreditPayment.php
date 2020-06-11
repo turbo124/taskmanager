@@ -22,11 +22,10 @@ class CreditPayment extends BasePaymentProcessor
      * @param CreditRepository $credit_repository
      * @param array $payment_credits
      */
-    public function __construct($credits, Payment $payment)
+    public function __construct(array $data, Payment $payment, PaymentRepository $payment_repo)
     {
-        //parent::__construct($payment, $data, $credit_repo);
-        $this->credits = $credits;
-        $this->payment = $payment;
+        parent::__construct($payment, $payment_repo, $data);
+        $this->credits = $data['credits'];
     }
 
     public function process()
