@@ -20,16 +20,16 @@ class InvoiceRefund extends BaseRefund
      * @param CreditRepository $credit_repository
      * @param array $payment_invoices
      */
-    public function __construct(array $invoices, Payment $payment)
+    public function __construct(array $invoices, Payment $payment, PaymentRepository $payment_repo)
     {
-        parent::__construct($payment);
+        parent::__construct($payment, $payment_repo);
         $this->invoices = $invoices;
     }
 
     /**
      * @return Payment
      */
-    public function refund($objCreditRefund = null)
+    public function process($objCreditRefund = null)
     {
         $invoices = Invoice::whereIn('id', array_column($this->invoices, 'invoice_id'))->get();
         $payment_invoices = collect($this->invoices)->keyBy('invoice_id')->toArray();
