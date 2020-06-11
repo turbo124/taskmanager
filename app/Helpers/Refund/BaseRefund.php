@@ -70,7 +70,7 @@ class BaseRefund
         $this->payment->setStatus($status);
     }
 
-    private function setRefundAmount()
+    private function updateRefundAmount()
     {
         $this->payment->refunded += $this->amount;
     }
@@ -114,20 +114,11 @@ class BaseRefund
      */
     protected function increaseRefundAmount(float $amount)
     {
-        $this->amount += $amount;
-        return $this;
-    }
-
-    /**
-     * @param float $amount
-     */
-    protected function reduceRefundAmount(float $amount)
-    {
-        if($amount <= 0) {
+        if(empty($amount) {
             return $this;
         }
 
-        $this->amount -= $amount;
+        $this->amount += $amount;
         return $this;
     }
 
@@ -159,7 +150,7 @@ class BaseRefund
 
     protected function save()
     {
-        $this->setRefundAmount();;
+        $this->updateRefundAmount();;
         $this->setStatus();
         $this->createCreditNote();
         $this->updateCustomer();
