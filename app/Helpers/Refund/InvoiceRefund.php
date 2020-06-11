@@ -31,10 +31,10 @@ class InvoiceRefund extends BaseRefund
      */
     public function refund($objCreditRefund = null)
     {
-        $ids = array_column($payment_invoices, 'invoice_id');
+        $ids = array_column($this->payment_invoices, 'invoice_id');
         $invoices = Invoice::whereIn('id', $ids)->get()->keyBy('id');
 
-        foreach ($payment_invoices as $payment_invoice) {
+        foreach ($this->payment_invoices as $payment_invoice) {
             if (!isset($invoices[$payment_invoice['invoice_id']])) {
                 continue;
             }
