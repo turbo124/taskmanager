@@ -20,10 +20,10 @@ class InvoiceRefund extends BasePaymentProcessor
      * @param CreditRepository $credit_repository
      * @param array $payment_invoices
      */
-    public function __construct(array $invoices, Payment $payment, PaymentRepository $payment_repo)
+    public function __construct(array $data, Payment $payment, PaymentRepository $payment_repo)
     {
-        parent::__construct($payment, $payment_repo);
-        $this->invoices = $invoices;
+        parent::__construct($payment, $payment_repo, $data);
+        $this->invoices = $data['invoices'];
     }
 
     /**
