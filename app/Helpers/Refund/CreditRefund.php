@@ -13,6 +13,13 @@ class CreditRefund extends BaseRefund
 {
     private array $payment_credits;
 
+    /**
+     * CreditRefund constructor.
+     * @param Payment $payment
+     * @param array $data
+     * @param CreditRepository $credit_repository
+     * @param array $payment_credits
+     */
     public function __construct(Payment $payment, array $data, CreditRepository $credit_repo, $payment_credits)
     {
         parent::__construct($payment, $data, $credit_repo);
@@ -25,6 +32,7 @@ class CreditRefund extends BaseRefund
             $total = $this->getAmount();
             $available_credit = $payment_credit->pivot->amount - $payment_credit->pivot->refunded;
             $total_to_credit = $available_credit > $total ? $total : $available_credit;
+            
             $this->updateRefundedAmountForCredit($payment_credit, $total_to_credit);
         }
 
