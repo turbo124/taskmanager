@@ -9,7 +9,7 @@ use App\Payment;
 use App\Paymentable;
 use App\Repositories\CreditRepository;
 
-class CreditPayment extends BaseRefund
+class CreditPayment extends BasePaymentProcessor
 {
     private array $credits;
 
@@ -42,7 +42,7 @@ class CreditPayment extends BaseRefund
             $this->payment->attachCredit($credit);
             $amount = $payment_credits[$credit->id]['amount'];
             $this->updateCredits($credit, $amount);
-            $this->increaseAmount($amount);
+            $this->increasePaymentAmount($amount);
         }
 
         return $this;
