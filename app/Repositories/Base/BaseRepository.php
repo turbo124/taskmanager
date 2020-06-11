@@ -145,17 +145,13 @@ class BaseRepository implements BaseRepositoryInterface
      */
     public function markSent($entity)
     {
-        $allowed_statuses[] = $entity::STATUS_DRAFT;
-
         if (get_class($entity) === 'App\Order') {
             if (!$entity->invoice_id) {
                 return null;
             }
-
-            $allowed_statuses[] = $entity::STATUS_COMPLETE;
         }
 
-        if (!in_array($entity->status_id, $allowed_statuses)) {
+        if (!$entity->canBeSent()) {
             return $entity;
         }
 

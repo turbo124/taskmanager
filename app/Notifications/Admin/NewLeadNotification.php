@@ -3,15 +3,11 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\LeadCreated;
-use App\Mail\SupportMessage;
-use App\Utils\Number;
 use App\Lead;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\Mail;
 
 class NewLeadNotification extends Notification implements ShouldQueue
 {

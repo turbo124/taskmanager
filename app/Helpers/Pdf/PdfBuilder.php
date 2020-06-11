@@ -8,7 +8,7 @@ use App\Country;
 use App\Customer;
 use App\Product;
 use App\ProductAttribute;
-use App\Utils\Number;
+use App\Traits\Money;
 
 /**
  * Class PdfData
@@ -16,6 +16,8 @@ use App\Utils\Number;
  */
 class PdfBuilder
 {
+    use Money;
+
     protected $labels;
     protected $values;
     protected $data;
@@ -37,7 +39,7 @@ class PdfBuilder
     {
         $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $this->class)];
         $this->data['$invoice.partial_due'] = [
-            'value' => Number::formatCurrency(
+            'value' => $this->formatCurrency(
                 $this->entity->partial,
                 $customer
             ) ?: '&nbsp;',
@@ -462,7 +464,7 @@ class PdfBuilder
     public function setDiscount(Customer $customer, $discount): self
     {
         $this->data['$discount'] = [
-            'value' => Number::formatCurrency($discount, $customer) ?: '&nbsp;',
+            'value' => $this->formatCurrency($discount, $customer) ?: '&nbsp;',
             'label' => trans('texts.discount')
         ];
         return $this;
@@ -517,7 +519,7 @@ class PdfBuilder
         }
 
         foreach ($tax_map as $tax) {
-            $data .= '<span>' . Number::formatCurrency($tax['total'], $customer) . '</span>';
+            $data .= '<span>' . $this->formatCurrency($tax['total'], $customer) . '</span>';
         }
 
         return $data;
@@ -635,14 +637,14 @@ class PdfBuilder
 
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
             $this->line_items[$key][$table_type . '.notes'] = $item->notes ?: '';
-            $this->line_items[$key][$table_type . '.cost'] = Number::formatCurrency($item->unit_price, $customer);
-            $this->line_items[$key][$table_type . '.line_total'] = Number::formatCurrency($item->sub_total, $customer);
+            $this->line_items[$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
+            $this->line_items[$key][$table_type . '.line_total'] = $this->formatCurrency($item->sub_total, $customer);
 
             $this->line_items[$key][$table_type . '.discount'] = '';
 
             if (isset($item->unit_discount) && $item->unit_discount > 0) {
                 if ($item->is_amount_discount) {
-                    $this->line_items[$key][$table_type . '.discount'] = Number::formatCurrency(
+                    $this->line_items[$key][$table_type . '.discount'] = $this->formatCurrency(
                         $item->unit_discount,
                         $customer
                     );

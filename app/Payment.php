@@ -190,7 +190,7 @@ class Payment extends Model
 
     public function getFormattedTotal()
     {
-        return $this->formatCurrency($this->amount);
+        return $this->formatCurrency($this->amount, $this->customer);
     }
 
     public function getFormattedInvoices()

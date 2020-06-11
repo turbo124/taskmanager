@@ -5,6 +5,7 @@ namespace App;
 use App\Filters\CreditFilter;
 use App\Services\Credit\CreditService;
 use App\Services\Transaction\TransactionService;
+use App\Traits\Balancer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ class Credit extends Model
     use SoftDeletes;
     use PresentableTrait;
     use Money;
+    use Balancer;
 
     protected $presenter = 'App\Presenters\CreditPresenter';
 
@@ -143,10 +145,6 @@ class Credit extends Model
     }
 
     /********************** Getters and setters ************************************/
-    public function setTotal(float $total)
-    {
-        $this->total = (float)$total;
-    }
 
     public function setDueDate()
     {
@@ -158,11 +156,6 @@ class Credit extends Model
     public function setStatus(int $status)
     {
         $this->status_id = $status;
-    }
-
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
     }
 
     public function setUser(User $user)
@@ -195,21 +188,6 @@ class Credit extends Model
         return $this->number;
     }
 
-    public function getFormattedTotal()
-    {
-        return $this->formatCurrency($this->total);
-    }
-
-    public function getFormattedSubtotal()
-    {
-        return $this->formatCurrency($this->sub_total);
-    }
-
-    public function getFormattedBalance()
-    {
-        return $this->formatCurrency($this->balance);
-    }
-
     public function getDesignId()
     {
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('credit_design_id');
@@ -219,4 +197,10 @@ class Credit extends Model
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/credits/' . $this->number . '.pdf';
     }
+
+    public function canBeSent()
+    {
+        return $this->status_id === self::STATUS_DRAFT;
+    }
+
 }

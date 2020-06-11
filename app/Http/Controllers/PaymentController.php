@@ -6,6 +6,7 @@ use App\Credit;
 use App\Customer;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\NotificationFactory;
+use App\Helpers\Refund\RefundFactory;
 use App\Invoice;
 use App\Jobs\Payment\CreatePayment;
 use App\Order;
@@ -153,7 +154,7 @@ class PaymentController extends Controller
     public function action(Request $request, Payment $payment, $action)
     {
         if ($action === 'refund') {
-            $payment = (new Refund($payment, new CreditRepository(new Credit), $request->all()))->refund();
+            $payment = (new RefundFactory())->createRefund($payment, $request->all(), new CreditRepository(new Credit));
             return response()->json($this->transformPayment($payment));
         }
 
@@ -175,7 +176,7 @@ class PaymentController extends Controller
     {
         $payment = $request->payment();
 
-        (new Refund($payment, new CreditRepository(new Credit), $request->all()))->refund();
+        $payment = (new RefundFactory())->createRefund($payment, $request->all(), new CreditRepository(new Credit));
 
         return response()->json($payment);
     }

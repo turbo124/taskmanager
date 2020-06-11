@@ -4,8 +4,8 @@ namespace App\Mail\Admin;
 
 use App\Order;
 use App\Task;
+use App\Traits\Money;
 use App\User;
-use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class TaskCreated extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, Money;
 
     private Task $task;
 
@@ -94,7 +94,7 @@ class TaskCreated extends Mailable
     private function buildDataArray()
     {
         return [
-            'total'    => Number::formatCurrency($this->task->valued_at, $this->task->customer),
+            'total'    => $this->formatCurrency($this->task->valued_at, $this->task->customer),
             'customer' => $this->task->customer->present()->name()
         ];
     }

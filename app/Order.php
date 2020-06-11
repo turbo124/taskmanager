@@ -10,6 +10,7 @@ namespace App;
 
 
 use App\Services\Order\OrderService;
+use App\Traits\Balancer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -27,6 +28,7 @@ class Order extends Model
     use PresentableTrait;
     use SoftDeletes;
     use Money;
+    use Balancer;
 
     protected $presenter = 'App\Presenters\OrderPresenter';
 
@@ -170,19 +172,6 @@ class Order extends Model
         $this->customer_id = (int)$customer->id;
     }
 
-    public function setTotal(float $total)
-    {
-        $this->total = (float)$total;
-    }
-
-    /**
-     * @param float $balance
-     */
-    public function setBalance(float $balance)
-    {
-        $this->balance = (float)$balance;
-    }
-
     /**
      * @param int $status
      */
@@ -222,21 +211,6 @@ class Order extends Model
         return $this->number;
     }
 
-    public function getFormattedTotal()
-    {
-        return $this->formatCurrency($this->total);
-    }
-
-    public function getFormattedSubtotal()
-    {
-        return $this->formatCurrency($this->sub_total);
-    }
-
-    public function getFormattedBalance()
-    {
-        return $this->formatCurrency($this->balance);
-    }
-
     public function getDesignId()
     {
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('order_design_id');
@@ -245,5 +219,10 @@ class Order extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/orders/' . $this->number . '.pdf';
+    }
+
+    public function canBeSent()
+    {
+        return in_array($this->status_id, [self::STATUS_DRAFT, self::STATUS_PARTIAL, self::STATUS_COMPLETE]);
     }
 }
