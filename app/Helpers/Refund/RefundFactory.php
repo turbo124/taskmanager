@@ -26,8 +26,10 @@ class RefundFactory
             }
         }
 
+        $objCreditRefunds = $payment->credits->count() > 0 ? (new CreditRefund($payment, $data, $credit_repo))->refund($payment->credits) : null;
+
         if (!empty($data['invoices'])) {
-            return (new InvoiceRefund($payment, $data, $credit_repo))->refund($data['invoices']);
+            return (new InvoiceRefund($payment, $data, $credit_repo))->refund($data['invoices'], $objCreditRefunds);
         }
 
         return (new PaymentRefund($payment, $data, $credit_repo))->refund();
