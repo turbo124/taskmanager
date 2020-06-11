@@ -111,7 +111,6 @@ class BasePaymentProcessor
 
     protected function save()
     {
-        $this->payment = $this->payment_repo->save($data, $payment);
         $this->applyPayment();
         //$this->setStatus();
         $this->updateCustomer();
