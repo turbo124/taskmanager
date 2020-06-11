@@ -4,10 +4,8 @@ namespace App\Notifications\Admin;
 
 use App\Mail\Admin\OrderCreated;
 use App\Order;
-use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
 

@@ -255,7 +255,7 @@ items.push(tasks)
 
 const users = {
     name: 'Users',
-    icon: 'fa fa-dashboard',
+    icon: `fa ${icons.user}`,
     children: [
         {
             name: 'Employees',

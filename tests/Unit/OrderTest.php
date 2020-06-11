@@ -256,6 +256,7 @@ class OrderTest extends TestCase
         $order->service()->dispatch(new InvoiceRepository(new Invoice), $orderRepo);
         $order = $orderRepo->markSent($order);
         $this->assertInstanceOf(Order::class, $order);
+
         $this->assertEquals($order->status_id, Order::STATUS_SENT);
     }
 

@@ -5,18 +5,19 @@ namespace App;
 use App\NumberGenerator;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Transaction\TransactionService;
+use App\Traits\Balancer;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Invoice\InvoiceWasDeleted;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Utils\Number;
+use App\Traits\Money;
 
 class Invoice extends Model
 {
 
-    use PresentableTrait, SoftDeletes;
+    use PresentableTrait, SoftDeletes, Money, Balancer;
 
     protected $presenter = 'App\Presenters\InvoicePresenter';
 
@@ -200,53 +201,7 @@ class Invoice extends Model
         $this->setStatus($status);
         $this->save();
 
-        $this->customer->increaseBalance($amount);
-        $this->customer->save();
-
-        if (!$this->updateRefundedAmountForInvoice($amount)) {
-            return false;
-        }
-
         return true;
-    }
-
-    private function updateRefundedAmountForInvoice($amount): bool
-    {
-        $paymentable_invoice = Paymentable::wherePaymentableId($this->id)->first();
-        $paymentable_invoice->refunded += $amount;
-        $paymentable_invoice->save();
-        return true;
-    }
-
-    /**
-     * @param $amount
-     */
-    public function reduceBalance($amount)
-    {
-        $this->balance -= floatval($amount);
-
-        if ($this->balance === 0.0) {
-            $this->setStatus(self::STATUS_PAID);
-        }
-
-        $this->save();
-        return $this;
-    }
-
-    /**
-     * @param float $amount
-     * @param float|int $partial_amount
-     * @return $this
-     */
-    public function resetPartialInvoice(float $amount, float $partial_amount = 0)
-    {
-        $this->balance += floatval($amount);
-        $this->partial = $partial_amount > 0 ? $this->partial -= $partial_amount : null;
-        $this->partial_due_date = $partial_amount > 0 ? $this->partial_due_date : null;
-        $this->status_id = Invoice::STATUS_PARTIAL;
-        $this->due_date = Carbon::now()->addDays($this->customer->getSetting('payment_terms'));
-        $this->save();
-        return $this;
     }
 
     /********************** Getters and setters ************************************/
@@ -277,16 +232,6 @@ class Invoice extends Model
         $this->status_id = $status;
     }
 
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-    }
-
-    public function setTotal(float $total)
-    {
-        $this->total = (float)$total;
-    }
-
     public function setNumber()
     {
         if (empty($this->number) || !isset($this->id)) {
@@ -302,21 +247,6 @@ class Invoice extends Model
         return $this->number;
     }
 
-    public function getFormattedTotal()
-    {
-        return Number::formatCurrency($this->total, $this->customer);
-    }
-
-    public function getFormattedSubtotal()
-    {
-        return Number::formatCurrency($this->sub_total, $this->customer);
-    }
-
-    public function getFormattedBalance()
-    {
-        return Number::formatCurrency($this->balance, $this->customer);
-    }
-
     public function getDesignId()
     {
         return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('invoice_design_id');
@@ -325,5 +255,10 @@ class Invoice extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/invoices/' . $this->number . '.pdf';
+    }
+
+    public function canBeSent()
+    {
+        return $this->status_id === self::STATUS_DRAFT;
     }
 }

@@ -7,6 +7,7 @@ use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\CreditFactory;
 use App\Filters\PaymentFilter;
+use App\Helpers\Refund\RefundFactory;
 use App\Invoice;
 use App\Payment;
 use App\Customer;
@@ -389,10 +390,11 @@ class PaymentUnitTest extends TestCase
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
+        $original_customer_balance = abs($payment->customer->balance);
+        $original_paid_to_date = abs($payment->customer->paid_to_date);
 
-        (new Refund(
-            $payment, (
-        new CreditRepository(new Credit)),
+        $payment = (new RefundFactory())->createRefund(
+            $payment,
             [
                 'amount'   => 2,
                 'invoices' => [
@@ -401,12 +403,16 @@ class PaymentUnitTest extends TestCase
                         'amount'     => 2.0
                     ],
                 ]
-            ]
-        ))->refund();
+            ],
+            new CreditRepository(new Credit)
+        );
 
         $this->assertEquals($invoice->balance, 2);
         $this->assertEquals($invoice->status_id, 2);
         $this->assertEquals(2, $payment->refunded);
+        $this->assertEquals(($original_customer_balance - 2), $payment->customer->balance);
+        $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
+        $this->assertEquals(($original_paid_to_date - 2), $payment->customer->paid_to_date);
     }
 
     public function testRefundClassWithoutInvoices()
@@ -443,15 +449,21 @@ class PaymentUnitTest extends TestCase
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = $paymentRepo->processPayment($data, $factory);
 
-        (new Refund(
-            $payment, (
-        new CreditRepository(new Credit)),
+        $original_customer_balance = abs($payment->customer->balance);
+        $original_paid_to_date = abs($payment->customer->paid_to_date);
+
+        $payment = (new RefundFactory())->createRefund(
+            $payment,
             [
                 'amount' => 2,
-            ]
-        ))->refund();
+            ],
+            new CreditRepository(new Credit)
+        );
 
         $this->assertEquals(2, $payment->refunded);
+        $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
+        $this->assertEquals(($original_customer_balance - 2), $payment->customer->balance);
+        $this->assertEquals(($original_paid_to_date - 2), $payment->customer->paid_to_date);
     }
 
     public function testConversion()

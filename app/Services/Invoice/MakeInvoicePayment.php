@@ -5,6 +5,7 @@ namespace App\Services\Invoice;
 use App\Invoice;
 use App\Payment;
 use App\Services\Customer\CustomerService;
+use Illuminate\Support\Carbon;
 
 class MakeInvoicePayment
 {
@@ -58,7 +59,7 @@ class MakeInvoicePayment
     {
         $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
         $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
-        $this->invoice->resetPartialInvoice($this->payment_amount * -1, $balance_adjustment);
+        $this->resetPartialInvoice($this->payment_amount * -1, $balance_adjustment);
         return $this->invoice;
     }
 
@@ -71,5 +72,22 @@ class MakeInvoicePayment
         $invoice->pivot->amount = $this->payment_amount;
         $invoice->pivot->save();
         return $invoice;
+    }
+
+    /**
+     * @param float $amount
+     * @param float|int $partial_amount
+     * @return bool
+     */
+    private function resetPartialInvoice(float $amount, float $partial_amount = 0): bool
+    {
+        $this->invoice->increaseBalance($amount);
+        $this->invoice->partial = $partial_amount > 0 ? $this->invoice->partial -= $partial_amount : null;
+        $this->invoice->partial_due_date = $partial_amount > 0 ? $this->invoice->partial_due_date : null;
+        $this->invoice->setStatus(Invoice::STATUS_PARTIAL);
+        $this->invoice->setDueDate();
+        $this->invoice->save();
+
+        return true;
     }
 }

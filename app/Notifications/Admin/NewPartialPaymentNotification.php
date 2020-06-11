@@ -3,11 +3,9 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\PartialPaymentMade;
-use App\Utils\Number;
 use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 

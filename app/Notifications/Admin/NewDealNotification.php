@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\TaskCreated;
-use App\Utils\Number;
+use App\Traits\Money;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,6 +13,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 class NewDealNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+    use Money;
 
     /**
      * Create a new notification instance.
@@ -76,7 +77,7 @@ class NewDealNotification extends Notification implements ShouldQueue
         $this->subject = trans(
             'texts.notification_deal_subject',
             [
-                'total'    => Number::formatCurrency($this->deal->valued_at, $this->deal->customer),
+                'total'    => $this->formatCurrency($this->deal->valued_at, $this->deal->customer),
                 'customer' => $this->deal->customer->present()->name()
             ]
         );

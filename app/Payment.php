@@ -11,7 +11,7 @@ use App\Invoice;
 use App\Paymentable;
 use App\Events\Payment\PaymentWasDeleted;
 use Laracasts\Presenter\PresentableTrait;
-use App\Utils\Number;
+use App\Traits\Money;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,6 +19,7 @@ class Payment extends Model
 {
     use PresentableTrait;
     use SoftDeletes;
+    use Money;
 
     protected $presenter = 'App\Presenters\OrderPresenter';
 
@@ -189,7 +190,7 @@ class Payment extends Model
 
     public function getFormattedTotal()
     {
-        return Number::formatCurrency($this->amount, $this->customer);
+        return $this->formatCurrency($this->amount, $this->customer);
     }
 
     public function getFormattedInvoices()

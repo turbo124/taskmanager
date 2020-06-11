@@ -8,20 +8,20 @@ use NumberFormatter;
 /**
  * Class Number.
  */
-trait Number
+trait Money
 {
-    public static function formatCurrency($value): string
+    public static function formatCurrency($value, $customer): string
     {
-        $currency = $this->customer->currency;
+        $currency = $customer->currency;
 
         if (empty($currency)) {
             return true;
         }
 
-        $locale = $this->customer->locale();
-        $country = $this->customer->getCountryId();
-        $decimal_separator = isset($this->customer->country->decimal_separator) ? $customer->country->decimal_separator : $currency->decimal_separator;
-        $thousand_separator = isset($this->customer->country->thousand_separator) ? $customer->country->thousand_separator : $currency->thousand_separator;
+        $locale = $customer->locale();
+        $country = $customer->getCountryId();
+        $decimal_separator = isset($customer->country->decimal_separator) ? $customer->country->decimal_separator : $currency->decimal_separator;
+        $thousand_separator = isset($customer->country->thousand_separator) ? $customer->country->thousand_separator : $currency->thousand_separator;
 
         $fmt = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         //$fmt->setTextAttribute(NumberFormatter::CURRENCY_CODE, 'USD');
@@ -35,7 +35,7 @@ trait Number
             $fmt->setSymbol(NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $decimal_separator);
         }
 
-        $no_symbol = $this->customer->account->settings->show_currency_code === true;
+        $no_symbol = $customer->account->settings->show_currency_code === true;
 
         if ($no_symbol) {
             $fmt->setPattern(str_replace('¤#', '', $fmt->getPattern()));
@@ -43,5 +43,20 @@ trait Number
         }
 
         return $fmt->formatCurrency($value, $currency->code);
+    }
+
+    public function getFormattedTotal()
+    {
+        return $this->formatCurrency($this->total, $this->customer);
+    }
+
+    public function getFormattedSubtotal()
+    {
+        return $this->formatCurrency($this->sub_total, $this->customer);
+    }
+
+    public function getFormattedBalance()
+    {
+        return $this->formatCurrency($this->balance, $this->customer);
     }
 }

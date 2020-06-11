@@ -39,15 +39,13 @@ export default function OrderPresenter (props) {
         : <Badge className="mr-2" color="warning">Archived</Badge>
 
     switch (field) {
-        case 'total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
-                <FormatMoney
-                    customers={props.customers} customer_id={entity.customer_id}
-                    amount={entity.total}/>}</td>
         case 'balance':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Balance">{
-                <FormatMoney customers={props.customers} customer_id={entity.customer_id}
-                    amount={entity.balance}/>}</td>
+        case 'total':
+        case 'discount_total':
+        case 'tax_total':
+        case 'sub_total':
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
+                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/></td>
         case 'status_field':
             return status
         case 'date':

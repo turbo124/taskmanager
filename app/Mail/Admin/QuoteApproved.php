@@ -4,7 +4,6 @@ namespace App\Mail\Admin;
 
 use App\Quote;
 use App\User;
-use App\Utils\Number;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

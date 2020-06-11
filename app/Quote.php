@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Services\Quote\QuoteService;
+use App\Traits\Balancer;
 use Illuminate\Database\Eloquent\Model;
 use App\Task;
 use App\NumberGenerator;
-use App\Utils\Number;
+use App\Traits\Money;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -16,6 +17,8 @@ class Quote extends Model
 {
     use SoftDeletes;
     use PresentableTrait;
+    use Money;
+    use Balancer;
 
     protected $presenter = 'App\Presenters\QuotePresenter';
 
@@ -166,16 +169,6 @@ class Quote extends Model
         $this->status_id = $status;
     }
 
-    public function setBalance(float $balance)
-    {
-        $this->balance = (float)$balance;
-    }
-
-    public function setTotal(float $total)
-    {
-        $this->total = (float)$total;
-    }
-
     public function setInvoiceId($invoice_id)
     {
         $this->invoice_id = $invoice_id;
@@ -196,21 +189,6 @@ class Quote extends Model
         return true;
     }
 
-    public function getFormattedTotal()
-    {
-        return Number::formatCurrency($this->total, $this->customer);
-    }
-
-    public function getFormattedSubtotal()
-    {
-        return Number::formatCurrency($this->sub_total, $this->customer);
-    }
-
-    public function getFormattedBalance()
-    {
-        return Number::formatCurrency($this->balance, $this->customer);
-    }
-
     public function getNumber()
     {
         return $this->number;
@@ -224,5 +202,10 @@ class Quote extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/quotes/' . $this->number . '.pdf';
+    }
+
+    public function canBeSent()
+    {
+        return $this->status_id === self::STATUS_DRAFT;
     }
 }
