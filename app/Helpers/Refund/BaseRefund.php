@@ -121,6 +121,19 @@ class BaseRefund
         $this->amount += $amount;
         return $this;
     }
+     
+    /**
+     * @param float $amount
+     */
+    protected function reduceRefundAmount(float $amount)
+    {
+        if(empty($amount) {
+            return $this;
+        }
+
+        $this->amount -= $amount;
+        return $this;
+    }
 
     public function getAmount()
     {
