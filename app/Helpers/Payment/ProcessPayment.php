@@ -16,7 +16,7 @@ class ProcessPayment
      * @param PaymentRepository $payment_repo
      * @return Payment|bool
      */
-    public function process(array $data, PaymentRepository $payment_repo)
+    public function process(array $data, PaymentRepository $payment_repo, Payment $payment)
     {
         $objCreditPayment = null;
  
