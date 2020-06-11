@@ -118,6 +118,19 @@ class BaseRefund
         return $this;
     }
 
+    /**
+     * @param float $amount
+     */
+    protected function reduceRefundAmount(float $amount)
+    {
+        if($amount <= 0) {
+            return $this;
+        }
+
+        $this->amount -= $amount;
+        return $this;
+    }
+
     public function getAmount()
     {
         return $this->amount;
