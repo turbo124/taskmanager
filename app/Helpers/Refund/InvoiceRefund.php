@@ -47,9 +47,20 @@ class InvoiceRefund extends BaseRefund
             $this->updateRefundedAmountForInvoice($invoice, $payment_invoice['amount']);
         }
 
+        $this->reduceCreditedAmount();
         $this->save();
 
         return $this->payment;
+    }
+
+    private function reduceCreditedAmount($objCreditRefund = null)
+    {
+        if($objCreditRefund === null || $objCreditRefund->getAmount() <= 0) {
+            return true;
+        }
+
+        $this->reduceRefundAmount($objCreditRefund->getAmount());
+        return true;
     }
 
     /**
