@@ -18,5 +18,15 @@ class ProcessPayment
      */
     public function process(array $data, PaymentRepository $payment_repo)
     {
+        $objCreditPayment = null;
+ 
+        if(!empty($data['credits'])) {
+            $objCreditPayment = new CreditPayment($data['credits']);
+            $objCreditRefunds->refund();
+        }
+
+        if (!empty($data['invoices'])) {
+            return (new InvoicePayment($data['invoices']))->refund($objCreditRefunds);
+        }
     }
 }
