@@ -42,7 +42,7 @@ class InvoiceRefund extends BasePaymentProcessor
             $this->payment->attachInvoice($invoice);
 
             $amount = $payment_invoices[$invoice->id]['amount'];
-            $this->increaseAmount($amount);
+            $this->increasePaymentAmount($amount);
 
             $invoice->service()->makeInvoicePayment($payment, $amount);
         }
@@ -59,7 +59,7 @@ class InvoiceRefund extends BasePaymentProcessor
             return true;
         }
 
-        $this->reduceRefundAmount($objCreditRefund->getAmount());
+        $this->reducePaymentAmount($objCreditRefund->getAmount());
         return true;
     }
 }
