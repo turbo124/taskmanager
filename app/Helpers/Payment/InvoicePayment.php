@@ -11,7 +11,7 @@ use App\Repositories\CreditRepository;
 
 class InvoiceRefund extends BaseRefund
 {
-    private array $payment_invoices;
+    private array $invoices;
 
     /**
      * InvoiceRefund constructor.
@@ -20,10 +20,10 @@ class InvoiceRefund extends BaseRefund
      * @param CreditRepository $credit_repository
      * @param array $payment_invoices
      */
-    public function __construct(Payment $payment, array $data, CreditRepository $credit_repository, array $payment_invoices)
+    public function __construct(array $invoices, Payment $payment)
     {
-        parent::__construct($payment, $data, $credit_repository);
-        $this->payment_invoices = $payment_invoices;
+        parent::__construct($payment);
+        $this->invoices = $invoices;
     }
 
     /**
@@ -31,20 +31,20 @@ class InvoiceRefund extends BaseRefund
      */
     public function refund($objCreditRefund = null)
     {
-        $ids = array_column($this->payment_invoices, 'invoice_id');
-        $invoices = Invoice::whereIn('id', $ids)->get()->keyBy('id');
+        $invoices = Invoice::whereIn('id', array_column($this->invoices, 'invoice_id'))->get();
+        $payment_invoices = collect($this->invoices)->keyBy('invoice_id')->toArray();
 
-        foreach ($this->payment_invoices as $payment_invoice) {
-            if (!isset($invoices[$payment_invoice['invoice_id']])) {
+        foreach ($invoices as $invoice) {
+           if (empty($data['invoices'][$invoice->id])) {
                 continue;
             }
 
-            $invoice = $invoices[$payment_invoice['invoice_id']];
+            $this->payment->attachInvoice($invoice);
 
-            $this->createLineItem($payment_invoice['amount'], $invoice);
-            $this->increaseRefundAmount($payment_invoice['amount']);
-            $invoice->adjustInvoices($payment_invoice['amount']);
-            $this->updateRefundedAmountForInvoice($invoice, $payment_invoice['amount']);
+            $amount = $payment_invoices[$invoice->id]['amount'];
+            $this->increaseAmount($amount);
+
+            $invoice->service()->makeInvoicePayment($payment, $amount);
         }
 
         $this->reduceCreditedAmount();
@@ -60,20 +60,6 @@ class InvoiceRefund extends BaseRefund
         }
 
         $this->reduceRefundAmount($objCreditRefund->getAmount());
-        return true;
-    }
-
-    /**
-     * @param Invoice $invoice
-     * @param $amount
-     * @return bool
-     */
-    private function updateRefundedAmountForInvoice(Invoice $invoice, $amount): bool
-    {
-        //TODO need to check paymentable type
-        $paymentable_invoice = Paymentable::wherePaymentableId($invoice->id)->wherePaymentableType('App\Invoice')->first();
-        $paymentable_invoice->refunded += $amount;
-        $paymentable_invoice->save();
         return true;
     }
 }
