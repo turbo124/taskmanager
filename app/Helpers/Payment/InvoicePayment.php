@@ -9,7 +9,7 @@ use App\Payment;
 use App\Paymentable;
 use App\Repositories\CreditRepository;
 
-class InvoiceRefund extends BaseRefund
+class InvoiceRefund extends BasePaymentProcessor
 {
     private array $invoices;
 
