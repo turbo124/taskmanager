@@ -70,7 +70,8 @@ class InvoiceRefund extends BaseRefund
      */
     private function updateRefundedAmountForInvoice(Invoice $invoice, $amount): bool
     {
-        $paymentable_invoice = Paymentable::wherePaymentableId($invoice->id)->first();
+        //TODO need to check paymentable type
+        $paymentable_invoice = Paymentable::wherePaymentableId($invoice->id)->wherePaymentableType('App\Invoice')->first();
         $paymentable_invoice->refunded += $amount;
         $paymentable_invoice->save();
         return true;
