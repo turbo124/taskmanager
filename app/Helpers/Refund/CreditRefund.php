@@ -11,15 +11,17 @@ use App\Repositories\CreditRepository;
 
 class CreditRefund extends BaseRefund
 {
+    private array $payment_credits;
 
-    public function __construct(Payment $payment, array $data, CreditRepository $credit_repo)
+    public function __construct(Payment $payment, array $data, CreditRepository $credit_repo, $payment_credits)
     {
         parent::__construct($payment, $data, $credit_repo);
+        $this->payment_credits = $payment_credits;
     }
 
-    public function refund($payment_credits)
+    public function refund()
     {
-        foreach ($payment_credits as $payment_credit) {
+        foreach ($this->payment_credits as $payment_credit) {
             $total = $this->getAmount();
             $available_credit = $payment_credit->pivot->amount - $payment_credit->pivot->refunded;
             $total_to_credit = $available_credit > $total ? $total : $available_credit;
