@@ -23,12 +23,12 @@ class ProcessPayment
         $objCreditPayment = null;
  
         if(!empty($data['credits'])) {
-            $objCreditPayment = new CreditPayment($data['credits']);
-            $objCreditRefunds->refund();
+            $objCreditPayment = new CreditPayment($data);
+            $objCreditRefunds->process();
         }
 
         if (!empty($data['invoices'])) {
-            return (new InvoicePayment($data['invoices']))->refund($objCreditRefunds);
+            return (new InvoicePayment($data))->process($objCreditRefunds);
         }
     }
 }
