@@ -15,16 +15,6 @@ class BasePaymentProcessor
 {
 
     /**
-     * @var Customer
-     */
-    protected Customer $customer;
-
-    /**
-     * @var array
-     */
-    protected array $line_items;
-
-    /**
      * @var Payment
      */
     protected Payment $payment;
@@ -34,34 +24,23 @@ class BasePaymentProcessor
      */
     private float $amount = 0;
 
-    /**
-     * @var bool
-     */
-    private bool $has_invoices = false;
+    private array $data;
 
-    private CreditRepository $credit_repo;
 
-    /**
-     * @var array
-     */
-    protected array $data;
+    private PaymentRepository $payment_repo;
+
 
     /**
      * BaseRefund constructor.
      * @param Payment $payment
      * @param array $data
-     * @param CreditRepository $credit_repo
+     * @param PaymentRepository $payment_repo
      */
-    public function __construct(Payment $payment, array $data, CreditRepository $credit_repo)
+    public function __construct(Payment $payment, PaymentRepository $payment_repo, array $data)
     {
         $this->payment = $payment;
+        $this->payment_repo = $payment_repo;
         $this->data = $data;
-        $this->credit_repo = $credit_repo;
-    }
-
-    protected function setCustomer()
-    {
-        $this->customer = $this->payment->customer;
     }
 
     private function setStatus()
@@ -70,9 +49,14 @@ class BasePaymentProcessor
         $this->payment->setStatus($status);
     }
 
-    private function updateRefundAmount()
+    private function applyPayment()
     {
-        $this->payment->refunded += $this->amount;
+       if ($this->amount > $this->payment->amount) {
+           return true;
+        }
+        
+        $this->payment->applied += $amount;
+        $this->payment->save();
     }
 
     /**
@@ -80,39 +64,24 @@ class BasePaymentProcessor
      */
     private function updateCustomer()
     {
-        $this->payment->customer->reducePaidToDateAmount($this->amount);
-        $this->payment->customer->increaseBalance($this->amount);
-        $this->payment->customer->save();
-        return $this;
-    }
-
-    /**
-     * @param float $amount
-     * @param Invoice|null $invoice
-     */
-    protected function createLineItem(float $amount, Invoice $invoice = null)
-    {
-        if ($invoice !== null) {
-            $this->has_invoices = true;
+        if(isset($payment->id)) {
+            return true;
         }
 
-        $this->line_items[] = (new LineItem($invoice))
-            ->setQuantity(1)
-            ->setUnitPrice($amount)
-            ->setProductId('CREDIT')
-            ->setNotes(
-                !empty($invoice) ? 'REFUND for invoice number ' . $invoice->number : 'REFUND for transaction_reference ' . $this->payment->number
-            )
-            ->setSubTotal($amount)
-            ->toObject();
+         $amount = $this->amount == 0 ? $this->data['amount'] : $this->amount;
+         $customer = $this->payment->customer;
 
-        return $this;
+        $customer->increasePaidToDateAmount($amount);
+        //$payment->customer->increaseBalance($payment->amount);
+        $customer->save();
+      
+         return $this;
     }
 
     /**
      * @param float $amount
      */
-    protected function increaseRefundAmount(float $amount)
+    protected function increasePaymentAmount(float $amount)
     {
         if(empty($amount) {
             return $this;
@@ -125,7 +94,7 @@ class BasePaymentProcessor
     /**
      * @param float $amount
      */
-    protected function reduceRefundAmount(float $amount)
+    protected function reducePaymentAmount(float $amount)
     {
         if(empty($amount) {
             return $this;
@@ -140,35 +109,15 @@ class BasePaymentProcessor
         return $this->amount;
     }
 
-    /**
-     * @return $this
-     */
-    private function createCreditNote()
-    {
-        $credit_note = CreditFactory::create($this->payment->account, $this->payment->user, $this->payment->customer);
-
-        $credit_note = $this->credit_repo->createCreditNote(
-            [
-                'line_items' => $this->line_items,
-                'total'      => $this->amount,
-                'balance'    => $this->amount
-            ],
-            $credit_note
-        );
-
-        $credit_note->transaction_service()->createTransaction($this->amount);
-
-        return $this;
-    }
-
     protected function save()
     {
-        $this->updateRefundAmount();;
-        $this->setStatus();
-        $this->createCreditNote();
+        $this->payment = $this->payment_repo->save($data, $payment);
+        $this->applyPayment();
+        //$this->setStatus();
         $this->updateCustomer();
+
         $this->payment->save();
 
-        event(new PaymentWasRefunded($this->payment, $this->data));
+        //event(new PaymentWasRefunded($this->payment, $this->data));
     }
 }
