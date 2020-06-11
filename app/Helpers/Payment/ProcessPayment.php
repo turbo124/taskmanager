@@ -18,6 +18,8 @@ class ProcessPayment
      */
     public function process(array $data, PaymentRepository $payment_repo, Payment $payment)
     {
+        $payment = $payment_repo->save($data, $payment);
+        
         $objCreditPayment = null;
  
         if(!empty($data['credits'])) {
