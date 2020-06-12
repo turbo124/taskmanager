@@ -79,7 +79,7 @@ class ProductController extends Controller
     {
         $product = ProductFactory::create(auth()->user(), auth()->user()->account_user()->account);
 
-        $product = (new CreateProduct($this->product_repo, $request->all(), $product))->handle();
+        $product = $product->service()->createProduct($this->product_repo, $request->all());
 
         return $this->transformProduct($product);
     }
@@ -99,7 +99,7 @@ class ProductController extends Controller
     {
         $product = $this->product_repo->findProductById($id);
 
-        $product = (new CreateProduct($this->product_repo, $request->all(), $product))->handle();
+        $product = $product->service()->createProduct($this->product_repo, $request->all());
 
         return response()->json($this->transformProduct($product));
     }
