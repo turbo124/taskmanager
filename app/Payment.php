@@ -203,13 +203,4 @@ class Payment extends Model
 
         return substr($invoice_texts, 0, -1);
     }
-
-    /**
-     * @param float $amount
-     */
-    public function applyPayment(float $amount)
-    {
-        $this->applied += $amount;
-        $this->save();
-    }
 }

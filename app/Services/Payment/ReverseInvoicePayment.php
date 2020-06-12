@@ -6,6 +6,10 @@ use App\Invoice;
 use App\Payment;
 use App\Customer;
 
+/**
+ * Class ReverseInvoicePayment
+ * @package App\Services\Payment
+ */
 class ReverseInvoicePayment
 {
     private Payment $payment;

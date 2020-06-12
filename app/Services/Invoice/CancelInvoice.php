@@ -12,6 +12,10 @@ use App\Payment;
 use App\Paymentable;
 use App\Services\Payment\PaymentService;
 
+/**
+ * Class CancelInvoice
+ * @package App\Services\Invoice
+ */
 class CancelInvoice
 {
 

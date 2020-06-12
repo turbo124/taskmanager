@@ -6,6 +6,7 @@ use App\Credit;
 use App\Customer;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\NotificationFactory;
+use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
 use App\Invoice;
 use App\Jobs\Payment\CreatePayment;
@@ -67,15 +68,13 @@ class PaymentController extends Controller
      */
     public function store(CreatePaymentRequest $request)
     {
-        $payment =
-        $payment = $this->payment_repo->processPayment(
-            $request->all(),
-            PaymentFactory::create(
-                Customer::where('id', $request->customer_id)->first(),
-                auth()->user(),
-                auth()->user()->account_user()->account
-            )
+        $payment = PaymentFactory::create(
+            Customer::where('id', $request->customer_id)->first(),
+            auth()->user(),
+            auth()->user()->account_user()->account
         );
+
+        $payment = (new ProcessPayment())->process($request->all(), $this->payment_repo, $payment);
 
         $notification = NotificationFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
         $notification->entity_id = $payment->id;
@@ -105,8 +104,7 @@ class PaymentController extends Controller
     public function update(UpdatePaymentRequest $request, $id)
     {
         $payment = $this->payment_repo->findPaymentById($id);
-
-        $payment = (new PaymentRepository($payment))->processPayment($request->all(), $payment);
+        $payment = (new ProcessPayment())->process($request->all(), $this->payment_repo, $payment);
         return response()->json($this->transformPayment($payment));
     }
 
@@ -199,7 +197,7 @@ class PaymentController extends Controller
      */
     public function completePayment(Request $request)
     {
-        $payment = CreatePayment::dispatchNow($request, $this->payment_repo);
+        $payment = CreatePayment::dispatchNow($request->all(), $this->payment_repo);
 
         return response()->json(['code' => 200, 'payment_id' => $payment->id]);
     }

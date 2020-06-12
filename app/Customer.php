@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Balancer;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +14,7 @@ use Illuminate\Contracts\Translation\HasLocalePreference;
 class Customer extends Model implements HasLocalePreference
 {
 
-    use SoftDeletes, PresentableTrait;
+    use SoftDeletes, PresentableTrait, Balancer;
 
     protected $presenter = 'App\Presenters\CustomerPresenter';
 
@@ -167,14 +168,6 @@ class Customer extends Model implements HasLocalePreference
         }
 
         return null;
-    }
-
-    /**
-     * @param float $amount
-     */
-    public function increaseBalance(float $amount)
-    {
-        $this->balance += $amount;
     }
 
     /**

@@ -34,6 +34,13 @@ class ServiceBase
         return true;
     }
 
+    /**
+     * @param string $subject
+     * @param string $body
+     * @param string $template
+     * @param null $contact
+     * @return bool
+     */
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
         if ($this->entity->invitations->count() === 0) {

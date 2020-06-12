@@ -7,10 +7,21 @@ use App\Payment;
 use App\Services\Customer\CustomerService;
 use Illuminate\Support\Carbon;
 
+/**
+ * Class MakeInvoicePayment
+ * @package App\Services\Invoice
+ */
 class MakeInvoicePayment
 {
 
+    /**
+     * @var Invoice
+     */
     private Invoice $invoice;
+
+    /**
+     * @var Payment
+     */
     private Payment $payment;
     private $payment_amount;
 
@@ -31,7 +42,7 @@ class MakeInvoicePayment
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            return $this->adjustInvoiceBalance();
+            return $this->updateInvoice();
         }
 
         if ($this->payment_amount > $this->invoice->balance) {
@@ -47,7 +58,7 @@ class MakeInvoicePayment
      */
     private function updateCustomer(): bool
     {
-        $this->payment->customer->increaseBalance($this->payment_amount * -1);
+        $this->payment->customer->reduceBalance($this->payment_amount);
         $this->payment->customer->save();
         return true;
     }
@@ -55,12 +66,35 @@ class MakeInvoicePayment
     /**
      * @return Invoice
      */
-    private function adjustInvoiceBalance(): Invoice
+    private function updateInvoice(): Invoice
     {
-        $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
-        $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
-        $this->resetPartialInvoice($this->payment_amount * -1, $balance_adjustment);
+        $this->resetPartialInvoice();
+        $this->updateBalance($this->payment_amount);
+        $this->setStatus();
+        $this->setDueDate();
+        $this->save();
+
         return $this->invoice;
+    }
+
+    private function updateBalance(float $amount)
+    {
+        $this->invoice->reduceBalance($amount);
+    }
+
+    private function setStatus()
+    {
+        $this->invoice->setStatus(Invoice::STATUS_PARTIAL);
+    }
+
+    private function setDueDate()
+    {
+        $this->invoice->setDueDate();
+    }
+
+    private function save()
+    {
+        $this->invoice->save();
     }
 
     /**
@@ -75,18 +109,20 @@ class MakeInvoicePayment
     }
 
     /**
-     * @param float $amount
-     * @param float|int $partial_amount
      * @return bool
      */
-    private function resetPartialInvoice(float $amount, float $partial_amount = 0): bool
+    private function resetPartialInvoice(): bool
     {
-        $this->invoice->increaseBalance($amount);
-        $this->invoice->partial = $partial_amount > 0 ? $this->invoice->partial -= $partial_amount : null;
-        $this->invoice->partial_due_date = $partial_amount > 0 ? $this->invoice->partial_due_date : null;
-        $this->invoice->setStatus(Invoice::STATUS_PARTIAL);
-        $this->invoice->setDueDate();
-        $this->invoice->save();
+        $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
+        $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
+
+        if ($balance_adjustment > 0) {
+            $this->invoice->partial -= $balance_adjustment;
+            return true;
+        }
+
+        $this->invoice->partial = null;
+        $this->invoice->partial_due_date = null;
 
         return true;
     }

@@ -22,11 +22,6 @@ use App\Events\Payment\PaymentWasCreated;
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface
 {
     /**
-     * @var float|int
-     */
-    private float $total_amount = 0;
-
-    /**
      * PaymentRepository constructor.
      * @param Payment $payment
      */
@@ -68,35 +63,6 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     public function getModel()
     {
         return $this->model;
-    }
-
-
-    /**
-     * @param array $data
-     * @param Payment $payment
-     * @return Payment|null
-     */
-    public function processPayment(array $data, Payment $payment)
-    {
-        $update_customer = !isset($payment->id);
-        $payment = $this->save($data, $payment);
-
-        $this->applyPaymentToInvoices($data, $payment);
-        $this->applyPaymentToCredits($data, $payment);
-
-        if ($update_customer) {
-            // if there is no calculated amount from the invoices / credits use the amount specified in the payment
-            $amount_redeemable = $this->total_amount == 0 ? $data['amount'] : $this->total_amount;
-            $this->adjustCustomerTotals($payment->customer, $amount_redeemable);
-        }
-
-        if ($this->total_amount <= $payment->amount) {
-            $payment->applyPayment($this->total_amount);
-        }
-
-        $payment->save();
-
-        return $payment;
     }
 
 
@@ -151,92 +117,6 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         }
 
         return $payment;
-    }
-
-    /**
-     * @param array $data
-     * @param Payment $payment
-     * @return bool
-     */
-    private function applyPaymentToCredits(array $data, Payment $payment): bool
-    {
-        if (empty($data['credits'])) {
-            return true;
-        }
-
-        $credits = Credit::whereIn('id', array_column($data['credits'], 'credit_id'))->get();
-
-        $data['credits'] = collect($data['credits'])->keyBy('credit_id')->toArray();
-
-        foreach ($credits as $credit) {
-            if (empty($data['credits'][$credit->id])) {
-                continue;
-            }
-
-            $payment->attachCredit($credit);
-            $amount = $data['credits'][$credit->id]['amount'];
-            $this->updateCredits($credit, $amount);
-            $this->total_amount -= $amount;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param Credit $credit
-     * @param Payment $payment
-     * @param $amount
-     */
-    private function updateCredits(Credit $credit, $amount)
-    {
-        $credit_balance = $credit->balance;
-        $status = $amount == $credit_balance ? Credit::STATUS_APPLIED : Credit::STATUS_PARTIAL;
-        $credit->setStatus($status);
-        $balance = floatval($amount * -1);
-        $credit->setBalance($credit_balance + $balance);
-        $credit->save();
-    }
-
-    /**
-     * @param array $data
-     * @param Payment $payment
-     * @return bool
-     */
-    private function applyPaymentToInvoices(array $data, Payment $payment): bool
-    {
-        if (empty($data['invoices'])) {
-            return true;
-        }
-
-        $invoices = Invoice::whereIn('id', array_column($data['invoices'], 'invoice_id'))->get();
-
-        $data['invoices'] = collect($data['invoices'])->keyBy('invoice_id')->toArray();
-
-        foreach ($invoices as $invoice) {
-            if (empty($data['invoices'][$invoice->id])) {
-                continue;
-            }
-
-            $payment->attachInvoice($invoice);
-
-            $amount = $data['invoices'][$invoice->id]['amount'];
-            $this->total_amount += $amount;
-
-            $invoice->service()->makeInvoicePayment($payment, $amount);
-        }
-
-        return true;
-    }
-
-    /**
-     * @param Customer $customer
-     * @param float $amount
-     */
-    private function adjustCustomerTotals(Customer $customer, float $amount)
-    {
-        $customer->increasePaidToDateAmount($amount);
-        //$payment->customer->increaseBalance($payment->amount);
-        $customer->save();
     }
 
     public function reversePaymentsForInvoice(Invoice $invoice)

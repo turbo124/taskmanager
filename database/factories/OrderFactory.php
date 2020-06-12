@@ -14,9 +14,9 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
 
         $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
             ->setQuantity(2)
-            ->setUnitPrice($faker->randomFloat(2, 1, 1000))
-            ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
-            ->setUnitTax(10.00)
+            ->setUnitPrice(40)
+            ->calculateSubTotal()->setUnitDiscount(0)
+            ->setUnitTax(0)
             ->setProductId($product->id)
             ->setNotes($faker->realText(50))
             ->toObject();
@@ -26,9 +26,10 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'account_id' => 1,
         'status_id' => Order::STATUS_DRAFT,
         'number' => '',
-        'total' => $faker->randomFloat(),
-        'tax_total' => $faker->randomFloat(),
-        'discount_total' => $faker->randomFloat(),
+        'total' => 160,
+        'tax_total' => 20,
+        'shipping_cost' => 20,
+        'discount_total' => 20,
         'customer_id' => $customer->id,
         'user_id' => $user->id,
         'date' => $faker->date(),
