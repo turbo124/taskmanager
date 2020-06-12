@@ -59,9 +59,13 @@ class CreateProduct implements ShouldQueue
         } else {
             $this->detachCategories($this->product);
         }
+
+        if(!empty($this->data['variations'])) {
+            $this->saveVariations($this->data['variations']);
+        }
     }
 
-    private function saveProductAttributes($fields): bool
+    private function saveVariations($fields): bool
     {
         $variations = json_decode($fields, true);
 
