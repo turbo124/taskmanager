@@ -6,11 +6,15 @@ use App\Factory\CloneOrderToInvoiceFactory;
 use App\Helpers\Shipping\ShippoShipment;
 use App\Invoice;
 use App\Jobs\Order\CreateOrder;
+use App\Jobs\Payment\CreatePayment;
+use App\Payment;
+use App\Repositories\PaymentRepository;
 use App\Services\Order\OrderService;
 use App\User;
 use App\Settings\AccountSettings;
 use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\DepartmentTransformable;
@@ -277,6 +281,34 @@ class OrderTest extends TestCase
         $order->save();
         $shipping = $objShipping->createLabel($order);
         $this->assertTrue($shipping);
+    }
+
+    /** @test */
+    public function test_complete_payment()
+    {
+        $order = factory(Order::class)->create();
+
+        $order->customer_id = 5;
+        $order->save();
+
+        $data = [
+            'ids'                => $order->id,
+            'order_id'           => $order->id,
+            'company_gateway_id' => 4,
+            'amount'             => $order->total,
+            'payment_type'       => 14,
+            'payment_method'     => 'abcd'
+        ];
+
+        $payment = (new CreatePayment($data, (new PaymentRepository(new Payment))))->handle();
+        $invoice = $payment->invoices->first();
+        $order = $order->fresh();
+
+        $this->assertNotNull($order->invoice_id);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals((float)$payment->amount, $order->total);
+        $this->assertEquals(0, $invoice->balance);
+        $this->assertEquals($invoice->total, $order->total);
     }
 
 

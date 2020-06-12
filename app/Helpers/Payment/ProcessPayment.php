@@ -11,24 +11,26 @@ class ProcessPayment
 {
 
     /**
-     * @param Payment $payment
      * @param array $data
      * @param PaymentRepository $payment_repo
-     * @return Payment|bool
+     * @param Payment $payment
+     * @return Payment|null
      */
-    public function process(array $data, PaymentRepository $payment_repo, Payment $payment)
+    public function process(array $data, PaymentRepository $payment_repo, Payment $payment): ?Payment
     {
         $payment = $payment_repo->save($data, $payment);
-        
+
         $objCreditPayment = null;
- 
-        if(!empty($data['credits'])) {
+
+        if (!empty($data['credits'])) {
             $objCreditPayment = new CreditPayment($data, $payment, $payment_repo);
-            $objCreditRefunds->process();
+            $payment = $objCreditPayment->process();
         }
 
         if (!empty($data['invoices'])) {
-            return (new InvoicePayment($data, $payment, $payment_repo))->process($objCreditRefunds);
+            $payment = (new InvoicePayment($data, $payment, $payment_repo))->process($objCreditPayment);
         }
+
+        return $payment;
     }
 }

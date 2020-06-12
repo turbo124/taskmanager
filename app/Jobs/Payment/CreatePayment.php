@@ -28,7 +28,11 @@ class CreatePayment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $request;
+    private array $data;
+
+    private $ids;
+
+    private Customer $customer;
 
     /**
      * @var PaymentRepository
@@ -37,43 +41,66 @@ class CreatePayment implements ShouldQueue
 
     /**
      * CreatePayment constructor.
-     * @param Request $request
+     * @param array $data
+     * @param PaymentRepository $payment_repo
      */
-    public function __construct(Request $request, PaymentRepository $payment_repo)
+    public function __construct(array $data, PaymentRepository $payment_repo)
     {
-        $this->request = $request;
+        $this->data = $data;
         $this->payment_repo = $payment_repo;
     }
 
     public function handle(): Payment
     {
-        $customer = Customer::find($this->request->customer_id);
-        $payment = PaymentFactory::create($customer, $customer->user, $customer->account);
+        if (!empty($this->data['order_id']) && $this->data['order_id'] !== 'null') {
+            return $this->createInvoiceFromOrder();
+        }
+
+        return $this->createPaymentFromInvoice();
+    }
+
+    private function createPayment()
+    {
+        $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
-            'company_gateway_id'    => $this->request->company_gateway_id,
+            'company_gateway_id'    => $this->data['company_gateway_id'],
             'status_id'             => Payment::STATUS_COMPLETED,
             'date'                  => Carbon::now(),
-            'amount'                => $this->request->amount,
-            'type_id'               => $this->request->payment_type,
-            'transaction_reference' => $this->request->payment_method
+            'amount'                => $this->data['amount'],
+            'type_id'               => $this->data['payment_type'],
+            'transaction_reference' => $this->data['payment_method']
 
         ];
 
         $payment = $this->payment_repo->save($data, $payment);
 
-        $ids = $this->request->ids;
+        return $payment;
+    }
 
-        if (!empty($this->request->order_id) && $this->request->order_id !== 'null') {
-            // order to invoice
-            $order = Order::where('id', '=', $this->request->order_id)->first();
-            $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
-            $invoice = Invoice::where('id', '=', $order->invoice_id)->first();
+    /**
+     * @return Payment
+     */
+    private function createPaymentFromInvoice(): Payment
+    {
+        $this->ids = $this->data['ids'];
+        $this->customer = Customer::find($this->data['customer_id']);
+        $payment = $this->createPayment();
+        $this->attachInvoices($payment);
+        return $payment;
+    }
 
-            Log::emergency('invoice255 ' . $invoice->total);
-            $ids = $invoice->id;
-        }
-
-        $this->attachInvoices($customer, $payment, $ids);
+    /**
+     * @return Payment
+     */
+    private function createInvoiceFromOrder(): Payment
+    {
+        // order to invoice
+        $order = Order::where('id', '=', $this->data['order_id'])->first();
+        $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
+        $this->ids = $order->invoice_id;
+        $this->customer = $order->customer;
+        $payment = $this->createPayment();
+        $this->attachInvoices($payment);
 
         return $payment;
     }
@@ -81,25 +108,32 @@ class CreatePayment implements ShouldQueue
     /**
      * @param Customer $customer
      * @param Payment $payment
-     * @param $ids
      * @return Payment
      */
-    private function attachInvoices(Customer $customer, Payment $payment, $ids): Payment
+    private function attachInvoices(Payment $payment): Payment
     {
-        $invoices = Invoice::whereIn('id', explode(",", $ids))
-                           ->whereCustomerId($customer->id)
+        $invoices = Invoice::whereIn('id', explode(",", $this->ids))
+                           ->whereCustomerId($this->customer->id)
                            ->get();
 
         foreach ($invoices as $invoice) {
-            $payment->attachInvoice($invoice);
             $payment->transaction_service()->createTransaction($invoice->balance * -1);
-            $payment->customer->increaseBalance($invoice->balance * -1);
-            $payment->customer->increasePaidToDateAmount($invoice->balance);
-            $payment->customer->save();
-
+            $this->updateCustomer($payment, $invoice);
             $invoice->reduceBalance($invoice->balance);
+            $payment->attachInvoice($invoice);
         }
 
         return $payment;
+    }
+
+    /**
+     * @param Payment $payment
+     * @param Invoice $invoice
+     */
+    private function updateCustomer(Payment $payment, Invoice $invoice)
+    {
+        $payment->customer->increaseBalance($invoice->balance * -1);
+        $payment->customer->increasePaidToDateAmount($invoice->balance);
+        $payment->customer->save();
     }
 }

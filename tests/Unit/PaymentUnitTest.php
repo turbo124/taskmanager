@@ -7,6 +7,7 @@ use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\CreditFactory;
 use App\Filters\PaymentFilter;
+use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
 use App\Invoice;
 use App\Payment;
@@ -62,7 +63,7 @@ class PaymentUnitTest extends TestCase
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $paymentRepo->processPayment($data, $factory);
+        (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account);
         $this->assertNotEmpty($lists);
     }
@@ -92,7 +93,7 @@ class PaymentUnitTest extends TestCase
         $data['invoices'][0]['amount'] = $invoice->total;
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $customer_balance = $payment->customer->balance;
         $customer_paid_to_date = $payment->customer->paid_to_date;
         $payment = $payment->service()->reverseInvoicePayment();
@@ -120,7 +121,7 @@ class PaymentUnitTest extends TestCase
 
         $paymentRepo = new PaymentRepository(new Payment);
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
-        $created = $paymentRepo->processPayment($data, $factory);
+        $created = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $found = $paymentRepo->findPaymentById($created->id);
         $this->assertEquals($data['customer_id'], $found->customer_id);
     }
@@ -142,7 +143,7 @@ class PaymentUnitTest extends TestCase
         $update = [
             'customer_id' => $this->customer->id,
         ];
-        $updated = $paymentRepo->processPayment($update, $payment);
+        $updated = (new ProcessPayment())->process($update, $paymentRepo, $payment);
         $this->assertInstanceOf(Payment::class, $updated);
         $this->assertEquals($update['customer_id'], $updated->customer_id);
     }
@@ -171,7 +172,7 @@ class PaymentUnitTest extends TestCase
         $data['invoices'][0]['amount'] = $invoice->total;
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $created = $paymentRepo->processPayment($data, $factory);
+        $created = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $this->assertEquals($data['customer_id'], $created->customer_id);
         $this->assertEquals($data['type_id'], $created->type_id);
     }
@@ -201,17 +202,17 @@ class PaymentUnitTest extends TestCase
             'date'        => '2019/12/12',
         ];
 
+        $original_balance = $invoice->balance;
+
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $this->assertEquals($data['customer_id'], $payment->customer_id);
         $this->assertNotNull($payment->invoices());
         $this->assertEquals(1, $payment->invoices()->count());
-
         $invoice = $payment->invoices()->first();
-
         $this->assertEquals($invoice->partial, 0);
-        //$this->assertEquals($invoice->balance, 4);
+        $this->assertEquals(($original_balance - 6), $invoice->balance);
     }
 
     public function testCreditPayment()
@@ -222,11 +223,10 @@ class PaymentUnitTest extends TestCase
         $credit = CreditFactory::create($this->account, $this->user, $client);//stub the company and user_id
         $credit->customer_id = $client->id;
         $credit->status_id = Invoice::STATUS_SENT;
-        //$invoice->uses_inclusive_Taxes = false;
+        $credit = $credit->service()->calculateInvoiceTotals();
+        $credit->total = 50;
         $credit->save();
 
-        $credit = $credit->service()->calculateInvoiceTotals();
-        $credit->save();
 
         $data = [
             'amount'      => 50,
@@ -243,7 +243,7 @@ class PaymentUnitTest extends TestCase
 
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
 
         $this->assertNotNull($payment);
         $this->assertEquals(50, $payment->amount);
@@ -258,8 +258,6 @@ class PaymentUnitTest extends TestCase
         $invoice->customer_id = $client->id;
 
         $invoice->partial = 5.0;
-        //$invoice->line_items = $this->buildLineItems();
-        //$invoice->uses_inclusive_taxes = false;
 
         $invoice->save();
 
@@ -278,19 +276,19 @@ class PaymentUnitTest extends TestCase
             'date'        => '2019/12/12',
         ];
 
+        $original_balance = $invoice->balance;
+
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
 
         $this->assertNotNull($payment);
         $this->assertNotNull($payment->invoices());
         $this->assertEquals(1, $payment->invoices()->count());
 
         $invoice = $payment->invoices()->first();
-
         $this->assertEquals($invoice->partial, 3);
-        //$this->assertEquals($invoice->balance, 8);
-
+        $this->assertEquals(($original_balance - 2), $invoice->balance);
     }
 
     public function testBasicRefundValidation()
@@ -322,7 +320,7 @@ class PaymentUnitTest extends TestCase
 
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
 
         $this->assertNotNull($payment);
         $this->assertEquals(50, $payment->amount);
@@ -341,7 +339,7 @@ class PaymentUnitTest extends TestCase
         ];
 
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $this->assertNotNull($payment);
         $this->assertEquals(50, $payment->refunded);
     }
@@ -389,7 +387,7 @@ class PaymentUnitTest extends TestCase
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $original_customer_balance = abs($payment->customer->balance);
         $original_paid_to_date = abs($payment->customer->paid_to_date);
 
@@ -447,7 +445,7 @@ class PaymentUnitTest extends TestCase
 
         $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment($data, $factory);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
 
         $original_customer_balance = abs($payment->customer->balance);
         $original_paid_to_date = abs($payment->customer->paid_to_date);
@@ -470,7 +468,7 @@ class PaymentUnitTest extends TestCase
     {
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
-        $payment = $paymentRepo->processPayment(['amount' => 800], $factory);
+        $payment = (new ProcessPayment())->process(['amount' => 800], $paymentRepo, $factory);
 
         $converted = (new CurrencyConverter)
             ->setBaseCurrency($payment->account->getCurrency())

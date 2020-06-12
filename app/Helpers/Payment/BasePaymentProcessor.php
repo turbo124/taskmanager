@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Refund;
+namespace App\Helpers\Payment;
 
 use App\Credit;
 use App\Customer;
@@ -10,6 +10,7 @@ use App\Helpers\InvoiceCalculator\LineItem;
 use App\Invoice;
 use App\Payment;
 use App\Repositories\CreditRepository;
+use App\Repositories\PaymentRepository;
 
 class BasePaymentProcessor
 {
@@ -51,11 +52,11 @@ class BasePaymentProcessor
 
     private function applyPayment()
     {
-       if ($this->amount > $this->payment->amount) {
-           return true;
+        if ($this->amount > $this->payment->amount) {
+            return true;
         }
-        
-        $this->payment->applied += $amount;
+
+        $this->payment->applied += $this->amount;
         $this->payment->save();
     }
 
@@ -64,18 +65,18 @@ class BasePaymentProcessor
      */
     private function updateCustomer()
     {
-        if(isset($payment->id)) {
+        if (isset($payment->id)) {
             return true;
         }
 
-         $amount = $this->amount == 0 ? $this->data['amount'] : $this->amount;
-         $customer = $this->payment->customer;
+        $amount = $this->amount == 0 ? $this->data['amount'] : $this->amount;
+        $customer = $this->payment->customer;
 
         $customer->increasePaidToDateAmount($amount);
         //$payment->customer->increaseBalance($payment->amount);
         $customer->save();
-      
-         return $this;
+
+        return $this;
     }
 
     /**
@@ -83,20 +84,20 @@ class BasePaymentProcessor
      */
     protected function increasePaymentAmount(float $amount)
     {
-        if(empty($amount) {
+        if (empty($amount)) {
             return $this;
         }
 
         $this->amount += $amount;
         return $this;
     }
-     
+
     /**
      * @param float $amount
      */
     protected function reducePaymentAmount(float $amount)
     {
-        if(empty($amount) {
+        if (empty($amount)) {
             return $this;
         }
 
@@ -116,7 +117,6 @@ class BasePaymentProcessor
         $this->updateCustomer();
 
         $this->payment->save();
-
         //event(new PaymentWasRefunded($this->payment, $this->data));
     }
 }

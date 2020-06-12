@@ -4,23 +4,25 @@
 namespace App\Helpers\Payment;
 
 
+use App\Credit;
 use App\Invoice;
 use App\Payment;
 use App\Paymentable;
 use App\Repositories\CreditRepository;
+use App\Repositories\PaymentRepository;
 
 class CreditPayment extends BasePaymentProcessor
 {
+    /**
+     * @var array|mixed
+     */
     private array $credits;
 
-    private Payment $payment;
-
     /**
-     * CreditRefund constructor.
-     * @param Payment $payment
+     * CreditPayment constructor.
      * @param array $data
-     * @param CreditRepository $credit_repository
-     * @param array $payment_credits
+     * @param Payment $payment
+     * @param PaymentRepository $payment_repo
      */
     public function __construct(array $data, Payment $payment, PaymentRepository $payment_repo)
     {
@@ -28,13 +30,16 @@ class CreditPayment extends BasePaymentProcessor
         $this->credits = $data['credits'];
     }
 
-    public function process()
+    /**
+     * @return Payment|null
+     */
+    public function process(): ?Payment
     {
         $credits = Credit::whereIn('id', array_column($this->credits, 'credit_id'))->get();
         $payment_credits = collect($this->credits)->keyBy('credit_id')->toArray();
-       
-        foreach ($this->credits as $credit) {
-            if (empty($data['credits'][$credit->id])) {
+
+        foreach ($credits as $credit) {
+            if (empty($payment_credits[$credit->id])) {
                 continue;
             }
 
@@ -44,7 +49,7 @@ class CreditPayment extends BasePaymentProcessor
             $this->increasePaymentAmount($amount);
         }
 
-        return $this;
+        return $this->payment;
     }
 
     /**

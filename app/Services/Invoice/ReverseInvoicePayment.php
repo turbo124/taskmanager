@@ -9,6 +9,10 @@ use App\Invoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
+/**
+ * Class ReverseInvoicePayment
+ * @package App\Services\Invoice
+ */
 class ReverseInvoicePayment
 {
 
@@ -48,8 +52,6 @@ class ReverseInvoicePayment
         $this->credit_repo = $credit_repo;
         $this->payment_repo = $payment_repo;
         $this->invoice = $invoice;
-        $this->balance = $this->invoice->balance;
-        $this->note = "Credit for reversal of " . $this->invoice->getNumber();
     }
 
     public function execute()
@@ -58,14 +60,18 @@ class ReverseInvoicePayment
             return $this->invoice;
         }
 
+        $this->setBalance();
+
         $total_paid = $this->payment_repo->reversePaymentsForInvoice($this->invoice);
+
+        $this->setNote();
 
         if ($total_paid > 0) {
             // create Credit note
             $this->createCreditNote($total_paid);
         }
 
-        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->note);
+        $this->createTransaction();
 
         // update customer
         $this->updateCustomer($total_paid);
@@ -73,9 +79,23 @@ class ReverseInvoicePayment
         // update invoice
         $this->updateInvoice();
 
-        event(new InvoiceWasReversed($this->invoice));
-
         return $this->invoice;
+    }
+
+    private function setBalance()
+    {
+        $this->balance = $this->invoice->balance;
+    }
+
+    private function setNote()
+    {
+        $this->note = "Credit for reversal of " . $this->invoice->getNumber();
+    }
+
+    private function createTransaction()
+    {
+        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->note);
+
     }
 
     /**
@@ -105,6 +125,8 @@ class ReverseInvoicePayment
         $this->invoice->setStatus(Invoice::STATUS_REVERSED);
         $this->invoice->save();
 
+        event(new InvoiceWasReversed($this->invoice));
+
         return true;
     }
 
@@ -116,7 +138,7 @@ class ReverseInvoicePayment
     {
         $customer = $this->invoice->customer;
         $customer->increaseBalance($this->balance * -1);
-        $customer->increasePaidToDateAmount($total_paid * -1);
+        $customer->reducePaidToDateAmount($total_paid);
         $customer->save();
 
         return true;
