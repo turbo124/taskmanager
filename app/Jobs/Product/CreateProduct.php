@@ -13,6 +13,22 @@ use Illuminate\Queue\SerializesModels;
 class CreateProduct implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    private ProductRepository $product_repo;
+
+    private array $data;
+
+    /**
+     * Create a new job instance.
+     *
+     * @param  ProductRepository  $product_repo
+     * @return void
+     */
+    public function __construct(ProductRepository $product_repo, array $data)
+    {
+        $this->product_repo = $product_repo;
+        $this->data = $data;
+    }
     
     public function handle()
     {
