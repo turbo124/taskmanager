@@ -34,6 +34,6 @@ class ProductService extends ServiceBase
 
     public function createProduct(ProductRepository $product_repo, array $data): Product
     {
-        return (new CreateProduct($this->product))->execute();
+        return (new CreateProduct($product_repo, $data, $this->product))->execute();
     }
 }
