@@ -20,7 +20,7 @@ use App\Services\ServiceBase;
 
 class ProductService extends ServiceBase
 {
-    protected $product;
+    private $product;
 
     /**
      * ProductService constructor.
@@ -32,8 +32,8 @@ class ProductService extends ServiceBase
         $this->product = $product;
     }
 
-    public function createProduct(ProductRepository $product_repo): RecurringInvoice
+    public function createProduct(ProductRepository $product_repo, array $data): Product
     {
-        return $this->calculateTotals($this->invoice);
+        return (new CreateProduct($this->product))->execute();
     }
 }
