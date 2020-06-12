@@ -1,7 +1,19 @@
 <?php
 
-class CreateProduct
+namespace App\Jobs\Product;
+
+use App\Repositories\ProductRepository;
+use App\Factory\ProductFactory;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class CreateProduct implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    
     public function handle()
     {
         $this->data['slug'] = Str::slug($this->data['name']);
