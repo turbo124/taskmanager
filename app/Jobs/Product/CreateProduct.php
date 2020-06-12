@@ -60,4 +60,54 @@ class CreateProduct implements ShouldQueue
             $this->detachCategories($this->product);
         }
     }
+
+    private function saveProductAttributes($fields): bool
+    {
+        $variations = json_decode($fields, true);
+
+        if (empty($variations)) {
+            return true;
+        }
+
+        $this->product->attributes()->forceDelete();
+
+        foreach ($variations as $variation) {
+            $hasDefault = $this->product_repo->listProductAttributes()->where('default', 1)->count();
+            $variation['is_default'] = $variation['is_default'] == 1 && $hasDefault > 0 ? 0 : 1;
+
+            $objProductAttribute = new ProductAttribute();
+            $objProductAttribute->fill($variation);
+
+            $productAttribute = $this->product_repo->saveProductAttributes(
+                $objProductAttribute,
+                $this->product
+            );
+
+            foreach ($variation['attribute_values'] as $value) {
+                $attribute = (new AttributeValueRepository(new AttributeValue))->find($value);
+                $this->product_repo->saveCombination($productAttribute, $attribute);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return
+     */
+    private function validateFields(array $data)
+    {
+        $validator = Validator::make(
+            $data,
+            [
+                'productAttributeQuantity' => 'required'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $validator;
+        }
+    }
 }
