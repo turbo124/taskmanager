@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\RecurringInvoice;
+namespace App\Services\Product;
 
-use App\Invoice;
+use App\Product;
 use App\RecurringInvoice;
-use App\Repositories\CreditRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\PaymentRepository;
 use App\Payment;
 use App\Services\Customer\CustomerService;

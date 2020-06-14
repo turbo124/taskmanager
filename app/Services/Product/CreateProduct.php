@@ -14,8 +14,9 @@ use Illuminate\Http\UploadedFile;
 use App\Traits\UploadableTrait;
 use Illuminate\Support\Str;
 
-class CreateProduct implements ShouldQueue
+class CreateProduct
 {
+    use UploadableTrait;
 
     private ProductRepository $product_repo;
 
@@ -33,7 +34,7 @@ class CreateProduct implements ShouldQueue
     {
         $this->product_repo = $product_repo;
         $this->data = $data;
-        $this->product;
+        $this->product = $product;
     }
     
     public function execute()
@@ -46,7 +47,7 @@ class CreateProduct implements ShouldQueue
 
         $this->data['is_featured'] = !empty($this->data['is_featured']) && $this->data['is_featured'] === 'true' ? 1 : 0;
 
-        $this->product_repo->save($this->data, $this->product);
+        $this->product = $this->product_repo->save($this->data, $this->product);
 
         if (!empty($this->data['features'])) {
             $this->saveProductFeatures($this->product, $this->data['features']);
@@ -99,7 +100,7 @@ class CreateProduct implements ShouldQueue
                 $filename = $this->storeFile($file);
                 $productImage = new ProductImage(
                     [
-                        'product_id' => $this->model->id,
+                        'product_id' => $this->product->id,
                         'src'        => $filename
                     ]
                 );
