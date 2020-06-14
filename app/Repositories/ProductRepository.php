@@ -178,6 +178,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
+     * @return Collection
+     */
+    public function listCombinations(): Collection
+    {
+        return $this->model->attributes()->map(
+            function (ProductAttribute $productAttribute) {
+                return $productAttribute->attributesValues;
+            }
+        );
+    }
+
+    /**
      * @param ProductAttribute $productAttribute
      * @param AttributeValue ...$attributeValues
      *
@@ -190,40 +202,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return collect($attributeValues)->each(
             function (AttributeValue $value) use ($productAttribute) {
                 return $productAttribute->attributesValues()->save($value);
-            }
-        );
-    }
-
-    /**
-     * @param Product $product
-     * @param $fields
-     * @return bool
-     */
-    public function saveProductFeatures(Product $product, $fields): bool
-    {
-        $features = json_decode($fields, true);
-
-        if (empty($features)) {
-            return true;
-        }
-
-        $product->features()->forceDelete();
-
-        foreach ($features as $feature) {
-            $product->features()->create($feature);
-        }
-
-        return true;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function listCombinations(): Collection
-    {
-        return $this->model->attributes()->map(
-            function (ProductAttribute $productAttribute) {
-                return $productAttribute->attributesValues;
             }
         );
     }
@@ -303,69 +281,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * @param UploadedFile $file
-     * @return string
-     */
-    public function saveCoverImage(UploadedFile $file): string
-    {
-        return $file->store('products', ['disk' => 'public']);
-    }
-
-    /**
-     * @param Support $collection
-     * @param Product $product
-     * @return bool
-     */
-    public function saveProductImages(Support $collection, Product $product): bool
-    {
-        $collection->each(
-            function (UploadedFile $file) use ($product) {
-                $filename = $this->storeFile($file);
-                $productImage = new ProductImage(
-                    [
-                        'product_id' => $this->model->id,
-                        'src'        => $filename
-                    ]
-                );
-                $product->images()->save($productImage);
-            }
-        );
-
-        return true;
-    }
-
-    /**
      * @param $data
      * @param Product $product
      * @return Product|null
      */
     public function save($data, Product $product): ?Product
     {
-        $this->data['slug'] = Str::slug($data['name']);
-
-        if (!empty($data['cover']) && $data['cover'] instanceof UploadedFile) {
-            $data['cover'] = $this->saveCoverImage($data['cover']);
-        }
-
-        $data['is_featured'] = !empty($data['is_featured']) && $data['is_featured'] === 'true' ? 1 : 0;
 
         $product->fill($data);
         $product->save();
-
-        if (!empty($data['features'])) {
-            $this->saveProductFeatures($product, $data['features']);
-        }
-
-        if (isset($data['image']) && !empty($data['image'])) {
-            $this->saveProductImages(collect($data['image']), $product);
-        }
-
-        if (isset($data['category']) && !empty($data['category'])) {
-            $categories = !is_array($data['category']) ? explode(',', $data['category']) : $data['category'];
-            $this->syncCategories($categories, $product);
-        } else {
-            $this->detachCategories($product);
-        }
 
         return $product;
     }

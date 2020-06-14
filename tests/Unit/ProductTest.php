@@ -59,7 +59,7 @@ class ProductTest extends TestCase
         $collection = collect($thumbnails);
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $productRepo->saveProductImages($collection, $product);
+        $product->service()->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
         $images->each(
@@ -92,7 +92,7 @@ class ProductTest extends TestCase
         $collection = collect($thumbnails);
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $productRepo->saveProductImages($collection, $product);
+        $product->service()->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
         $images->each(
@@ -110,7 +110,7 @@ class ProductTest extends TestCase
         $cover = UploadedFile::fake()->image('cover.jpg', 600, 600);
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository($product);
-        $filename = $productRepo->saveCoverImage($cover);
+        $filename = $product->service()->saveCoverImage($cover);
         $exists = Storage::disk('public')->exists($filename);
         $this->assertTrue($exists);
 
@@ -202,14 +202,14 @@ class ProductTest extends TestCase
             'status'      => 1
         ];
         $productRepo = new ProductRepository($product);
-        $updated = $productRepo->save($data, $product);
+        $updated = $product->service()->createProduct($productRepo, $data);
         $this->assertInstanceOf(Product::class, $updated);
     }
 
     /** @test */
     public function it_can_create_a_product()
     {
-        $factory = (new ProductFactory())->create($this->user, $this->account);
+        $product = (new ProductFactory())->create($this->user, $this->account);
         $company = factory(Company::class)->create();
 
         $name = $this->faker->word;
@@ -223,8 +223,8 @@ class ProductTest extends TestCase
             'price'       => 9.95,
             'status'      => 1,
         ];
-        $product = new ProductRepository(new Product);
-        $created = $product->save($params, $factory);
+        $productRepo = new ProductRepository(new Product);
+        $created = $product->service()->createProduct($productRepo, $params);
         $this->assertInstanceOf(Product::class, $created);
         $this->assertEquals($params['sku'], $created->sku);
         $this->assertEquals($params['name'], $created->name);
@@ -237,13 +237,13 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_delete_a_thumbnail_image()
     {
-        $product = 'apple';
+        $product_name = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
             'account_id'  => $this->account->id,
             'sku'         => $this->faker->numberBetween(1111111, 999999),
-            'name'        => $product,
-            'slug'        => Str::slug($product),
+            'name'        => $product_name,
+            'slug'        => Str::slug($product_name),
             'description' => $this->faker->paragraph,
             'cover'       => $cover,
             'quantity'    => 10,
@@ -257,8 +257,8 @@ class ProductTest extends TestCase
             ]
         ];
         $productRepo = new ProductRepository(new Product);
-        $factory = (new ProductFactory())->create($this->user, $this->account);
-        $created = $productRepo->save($params, $factory);
+        $product = (new ProductFactory())->create($this->user, $this->account);
+        $created = $product->service()->createProduct($productRepo, $params);
         //$repo->saveProductImages(collect($params['image']), $created);
         $thumbnails = $productRepo->findProductImages($created);
         $this->assertCount(3, $thumbnails);
@@ -284,13 +284,13 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_show_all_the_product_images()
     {
-        $product = 'apple';
+        $product_name = 'apple';
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
         $params = [
             'account_id'  => $this->account->id,
             'sku'         => $this->faker->numberBetween(1111111, 999999),
-            'name'        => $product,
-            'slug'        => Str::slug($product),
+            'name'        => $product_name,
+            'slug'        => Str::slug($product_name),
             'description' => $this->faker->paragraph,
             'cover'       => $cover,
             'quantity'    => 10,
@@ -304,9 +304,9 @@ class ProductTest extends TestCase
             ]
         ];
 
-        $factory = (new ProductFactory())->create($this->user, $this->account);
+        $product = (new ProductFactory())->create($this->user, $this->account);
         $productRepo = new ProductRepository(new Product);
-        $created = $productRepo->save($params, $factory);
+        $created = $product->service()->createProduct($productRepo, $params);
         $repo = new ProductRepository($created);
         //$repo->saveProductImages(collect($params['image']), $created);
         $this->assertCount(3, $repo->findProductImages($created));

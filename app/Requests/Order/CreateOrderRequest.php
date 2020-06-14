@@ -2,8 +2,10 @@
 
 namespace App\Requests\Order;
 
+use App\Rules\Order\OrderTotals;
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class CreateOrderRequest extends FormRequest
 {
@@ -24,8 +26,10 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules()
     {
+        $input = $this->all();
+
         return [
-            'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'customer_id'    => 'required',
             'date'           => 'required',
             'due_date'       => 'required',
             'discount_total' => 'required',
@@ -33,6 +37,7 @@ class CreateOrderRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
+            'voucher_code'   => new OrderTotals($input),
         ];
     }
 

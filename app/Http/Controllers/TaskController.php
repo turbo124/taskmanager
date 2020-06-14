@@ -17,6 +17,7 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
+use App\Requests\Order\CreateOrderRequest;
 use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -36,6 +37,7 @@ use App\Repositories\SourceTypeRepository;
 use App\SourceType;
 use App\Filters\TaskFilter;
 use App\Requests\SearchRequest;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -204,7 +206,7 @@ class TaskController extends Controller
      * @param CreateDealRequest $request
      * @return type
      */
-    public function createDeal(Request $request)
+    public function createDeal(CreateOrderRequest $request)
     {
         $token_sent = $request->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();

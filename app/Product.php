@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use App\Company;
 use App\Category;
 use App\ProductImage;
+use App\Services\Product\ProductService;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -113,5 +114,10 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function service(): ProductService
+    {
+        return new ProductService($this);
     }
 }

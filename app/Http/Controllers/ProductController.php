@@ -6,7 +6,7 @@ use App\CompanyToken;
 use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
 use App\Jobs\Customer\StoreProductAttributes;
-use App\Jobs\Product\SaveProductAttributes;
+use App\Jobs\Product\CreateProduct;
 use App\Jobs\Product\SaveProductFeatures;
 use App\Order;
 use App\Product;
@@ -77,12 +77,9 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $product = $this->product_repo->save(
-            $request->except('variations'),
-            ProductFactory::create(auth()->user(), auth()->user()->account_user()->account)
-        );
+        $product = ProductFactory::create(auth()->user(), auth()->user()->account_user()->account);
 
-        (new SaveProductAttributes($product))->handle((new ProductRepository($product)), $request->input('variations'));
+        $product = $product->service()->createProduct($this->product_repo, $request->all());
 
         return $this->transformProduct($product);
     }
@@ -102,9 +99,7 @@ class ProductController extends Controller
     {
         $product = $this->product_repo->findProductById($id);
 
-        $product = $this->product_repo->save($request->except('variations'), $product);
-
-        (new SaveProductAttributes($product))->handle(new ProductRepository($product), $request->input('variations'));
+        $product = $product->service()->createProduct($this->product_repo, $request->all());
 
         return response()->json($this->transformProduct($product));
     }

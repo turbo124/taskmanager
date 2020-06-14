@@ -85,8 +85,6 @@ class Invoice extends Model
     const STATUS_PARTIAL = 4;
     const STATUS_PAID = 3;
     const STATUS_CANCELLED = 5;
-    const STATUS_OVERDUE = -1;
-    const STATUS_UNPAID = -2;
     const STATUS_REVERSED = 6;
 
     public function service(): InvoiceService
