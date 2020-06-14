@@ -31,6 +31,7 @@ class CreateCompanyGatewaysTable extends Migration {
 			$table->string('custom_value4')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			$table->boolean('exclude_from_checkout')->default(0);
 		});
 	}
 

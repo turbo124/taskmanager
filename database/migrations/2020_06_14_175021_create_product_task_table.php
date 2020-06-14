@@ -56,6 +56,7 @@ class CreateProductTaskTable extends Migration {
 			$table->integer('previous_status')->nullable();
 			$table->string('shipping_id', 100)->nullable();
 			$table->string('shipping_label_url')->nullable();
+			$table->string('voucher_code')->nullable();
 		});
 	}
 

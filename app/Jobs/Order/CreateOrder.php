@@ -303,6 +303,7 @@ class CreateOrder implements ShouldQueue
 
             $this->order = $this->order_repo->createOrder(
                 [
+                    'voucher_code'   => !empty($this->request->voucher_code) ? $this->request->voucher_code : null,
                     'shipping_cost'  => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
                     'invitations'    => $invitations,
                     'shipping_id'    => isset($this->request->shipping_id) ? $this->request->shipping_id : null,

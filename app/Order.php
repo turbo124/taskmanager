@@ -87,7 +87,8 @@ class Order extends Model
         'design_id',
         'shipping_id',
         'shipping_label_url',
-        'previous_status'
+        'previous_status',
+        'voucher_code'
     ];
 
     protected $table = 'product_task';

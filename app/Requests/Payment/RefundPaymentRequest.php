@@ -29,8 +29,6 @@ class RefundPaymentRequest extends BaseFormRequest
     {
         $input = $this->all();
 
-        Log::emergency($input);
-
         $rules = [
             'id'                    => 'bail|required',
             'id'                    => new RefundValidation($input),

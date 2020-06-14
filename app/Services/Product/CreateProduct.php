@@ -42,7 +42,7 @@ class CreateProduct
         $this->data['slug'] = Str::slug($this->data['name']);
 
         if (!empty($this->data['cover']) && $this->data['cover'] instanceof UploadedFile) {
-            $this->data['cover'] = $this->saveCoverImage($this->data['cover']);
+            $this->data['cover'] = $this->product->service()->saveCoverImage($this->data['cover']);
         }
 
         $this->data['is_featured'] = !empty($this->data['is_featured']) && $this->data['is_featured'] === 'true' ? 1 : 0;
@@ -54,7 +54,7 @@ class CreateProduct
         }
 
         if (isset($this->data['image']) && !empty($this->data['image'])) {
-            $this->saveProductImages(collect($this->data['image']), $this->product);
+            $this->product->service()->saveProductImages(collect($this->data['image']), $this->product);
         }
 
         $this->saveCategories();
@@ -74,40 +74,8 @@ class CreateProduct
             return true;
         }
             
-        $this->detachCategories($this->product);
+        $this->product_repo->detachCategories($this->product);
         
-        return true;
-    }
-
-    /**
-     * @param UploadedFile $file
-     * @return string
-     */
-    private function saveCoverImage(UploadedFile $file): string
-    {
-        return $file->store('products', ['disk' => 'public']);
-    }
-
-    /**
-     * @param Support $collection
-     * @param Product $product
-     * @return bool
-     */
-    private function saveProductImages(Support $collection, Product $product): bool
-    {
-        $collection->each(
-            function (UploadedFile $file) use ($product) {
-                $filename = $this->storeFile($file);
-                $productImage = new ProductImage(
-                    [
-                        'product_id' => $this->product->id,
-                        'src'        => $filename
-                    ]
-                );
-                $product->images()->save($productImage);
-            }
-        );
-
         return true;
     }
 
@@ -157,46 +125,10 @@ class CreateProduct
 
             foreach ($variation['attribute_values'] as $value) {
                 $attribute = (new AttributeValueRepository(new AttributeValue))->find($value);
-                $this->saveCombination($productAttribute, $attribute);
+                $this->product_repo->saveCombination($productAttribute, $attribute);
             }
         }
 
         return true;
-    }
-
-     /**
-     * @param ProductAttribute $productAttribute
-     * @param AttributeValue ...$attributeValues
-     *
-     * @return Collection
-     */
-    private function saveCombination(
-        ProductAttribute $productAttribute,
-        AttributeValue ...$attributeValues
-    ): \Illuminate\Support\Collection {
-        return collect($attributeValues)->each(
-            function (AttributeValue $value) use ($productAttribute) {
-                return $productAttribute->attributesValues()->save($value);
-            }
-        );
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return
-     */
-    private function validateFields(array $data)
-    {
-        $validator = Validator::make(
-            $data,
-            [
-                'productAttributeQuantity' => 'required'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return $validator;
-        }
     }
 }

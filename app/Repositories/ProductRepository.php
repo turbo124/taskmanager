@@ -191,6 +191,23 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * @param ProductAttribute $productAttribute
+     * @param AttributeValue ...$attributeValues
+     *
+     * @return Collection
+     */
+    public function saveCombination(
+        ProductAttribute $productAttribute,
+        AttributeValue ...$attributeValues
+    ): \Illuminate\Support\Collection {
+        return collect($attributeValues)->each(
+            function (AttributeValue $value) use ($productAttribute) {
+                return $productAttribute->attributesValues()->save($value);
+            }
+        );
+    }
+
+    /**
+     * @param ProductAttribute $productAttribute
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function findProductCombination(ProductAttribute $productAttribute)
