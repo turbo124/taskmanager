@@ -3,6 +3,7 @@
 namespace App\Services\Invoice;
 
 use App\Invoice;
+use App\Order;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
@@ -115,6 +116,21 @@ class InvoiceService extends ServiceBase
         $this->trigger($subject, $body, $invoice_repo);
 
         return true;
+    }
+
+    /**
+     * @return Order
+     */
+    public function reverseStatus(): ?Invoice
+    {
+        if (!in_array($this->invoice->status_id, [Invoice::STATUS_CANCELLED, Invoice::STATUS_REVERSED])) {
+            return null;
+        }
+
+        parent::reverseStatus();
+        parent::reverseBalance();
+
+        return $this->invoice;
     }
 
     /**

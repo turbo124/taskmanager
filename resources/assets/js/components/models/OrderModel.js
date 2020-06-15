@@ -169,7 +169,7 @@ export default class OrderModel extends BaseModel {
         }
 
         if (this.isHeld) {
-            actions.push('unholdOrder')
+            actions.push('reverse_status')
         }
 
         return actions

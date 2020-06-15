@@ -35,9 +35,9 @@ export default class UserList extends Component {
                 searchText: ''
             },
             ignoredColumns: [
+                'password',
                 'account_users',
                 'department',
-                'phone_number',
                 'job_description',
                 'gender',
                 'dob',

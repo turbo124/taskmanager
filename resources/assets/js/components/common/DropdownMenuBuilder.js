@@ -145,7 +145,7 @@ export default class DropdownMenuBuilder extends Component {
                 message = `${translations.order_held}`
             }
 
-            if (action === 'unhold_order') {
+            if (action === 'reverse_status') {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
@@ -198,7 +198,7 @@ export default class DropdownMenuBuilder extends Component {
             case 'cloneToInvoice':
                 return <DropdownItem key={5} className="primary"
                     onClick={() => this.changeStatus('clone_to_invoice')}>
-                    <i className={`fa ${icons.clone} mr-2`}/> Clone Invoice
+                    <i className={`fa ${icons.clone} mr-2`}/> {translations.clone_to_invoice}
                 </DropdownItem>
 
             case 'cloneToQuote':
@@ -220,7 +220,7 @@ export default class DropdownMenuBuilder extends Component {
             case 'dispatch':
                 return <DropdownItem key={9} className="primary"
                     onClick={() => this.changeStatus('dispatch')}>
-                    <i className={`fa ${icons.clone} mr-2`}/> Dispatch
+                    <i className={`fa ${icons.clone} mr-2`}/> {translations.dispatch}
                 </DropdownItem>
 
             case 'cloneOrderToInvoice':
@@ -238,19 +238,19 @@ export default class DropdownMenuBuilder extends Component {
             case 'cloneQuoteToInvoice':
                 return <DropdownItem key={12} className="primary"
                     onClick={() => this.changeStatus('clone_quote_to_invoice')}>
-                    <i className={`fa ${icons.clone} mr-2`}/> Clone To Invoice
+                    <i className={`fa ${icons.clone} mr-2`}/> {translations.clone_quote_to_invoice}
                 </DropdownItem>
 
             case 'cloneToCredit':
                 return <DropdownItem key={13} className="primary"
                     onClick={() => this.changeStatus('clone_to_credit')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>Clone Credit
+                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_credit}
                 </DropdownItem>
 
             case 'clone_to_order':
                 return <DropdownItem key={14} className="primary"
                     onClick={() => this.changeStatus('clone_to_order')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>Clone Order
+                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_order}
                 </DropdownItem>
 
             case 'markPaid':
@@ -261,7 +261,7 @@ export default class DropdownMenuBuilder extends Component {
             case 'cloneExpense':
                 return <DropdownItem key={16} className="primary"
                     onClick={() => this.changeStatus('clone_to_expense')}>
-                    <i className={`fa ${icons.clone} mr-2`}/> Clone Expense
+                    <i className={`fa ${icons.clone} mr-2`}/> {translations.clone_expense}
                 </DropdownItem>
 
             case 'delete':
@@ -293,9 +293,9 @@ export default class DropdownMenuBuilder extends Component {
                     <i className={`fa ${icons.archive} mr-2`}/>{translations.hold_order}
                 </DropdownItem>
 
-            case 'unholdOrder':
+            case 'reverse_status':
                 return <DropdownItem key={26} className="primary"
-                    onClick={() => this.changeStatus('unhold_order')}>
+                    onClick={() => this.changeStatus('reverse_status')}>
                     <i className={`fa ${icons.archive} mr-2`}/>{translations.unhold_order}
                 </DropdownItem>
 

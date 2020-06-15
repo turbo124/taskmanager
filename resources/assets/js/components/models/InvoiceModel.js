@@ -74,8 +74,10 @@ export default class InvoiceModel extends BaseModel {
         }
 
         this.approved = 4
-        this.paid = 3
-        this.sent = 2
+        this.reversed = consts.invoice_status_reversed
+        this.cancelled = consts.invoice_status_cancelled
+        this.paid = consts.invoice_status_paid
+        this.sent = consts.invoice_status_sent
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -106,6 +108,14 @@ export default class InvoiceModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.approved
     }
 
+    get isReversed () {
+        return parseInt(this.fields.status_id) === this.reversed
+    }
+
+    get isCancelled () {
+        return parseInt(this.fields.status_id) === this.cancelled
+    }
+
     get isPaid () {
         return parseInt(this.fields.status_id) === this.paid
     }
@@ -131,6 +141,10 @@ export default class InvoiceModel extends BaseModel {
 
         if (!this.isSent) {
             actions.push('markSent')
+        }
+
+        if (this.isCancelled || this.isReversed) {
+            actions.push('reverse_status')
         }
 
         if (!this.isPaid) {

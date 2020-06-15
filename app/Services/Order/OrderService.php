@@ -126,16 +126,14 @@ class OrderService extends ServiceBase
     /**
      * @return Order
      */
-    public function unholdOrder(): ?Order
+    public function reverseStatus(): ?Order
     {
         if ($this->order->status_id !== Order::STATUS_HELD) {
             return null;
         }
 
-        $this->order->setStatus($this->order->previous_status);
-        $this->order->previous_status = null;
-        $this->order->save();
-        return $this->order;
+       return $this->reverseStatus();
+
     }
 
     public function fulfillOrder(OrderRepository $order_repo)
