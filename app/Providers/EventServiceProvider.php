@@ -13,6 +13,7 @@ use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
 use App\Events\Payment\PaymentFailed;
 use App\Listeners\Credit\CreditUpdatedActivity;
+use App\Listeners\Invoice\InvoiceCancelledActivity;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Deal\DealWasCreated;
@@ -45,6 +46,7 @@ use App\Events\Credit\CreditWasMarkedSent;
 use App\Events\Credit\CreditWasUpdated;
 use App\Events\Lead\LeadWasCreated;
 use App\Events\Lead\LeadWasArchived;
+use App\Listeners\Invoice\InvoiceReversedActivity;
 use App\Listeners\Lead\LeadArchivedActivity;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Payment\PaymentWasCreated;
@@ -153,8 +155,10 @@ class EventServiceProvider extends ServiceProvider
             InvoiceDeletedActivity::class,
         ],
         InvoiceWasReversed::class   => [
+            InvoiceReversedActivity::class
         ],
         InvoiceWasCancelled::class  => [
+            InvoiceCancelledActivity::class
         ],
         InvitationWasViewed::class  => [
             EntityViewedListener::class

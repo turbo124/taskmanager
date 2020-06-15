@@ -204,6 +204,7 @@ class InvoiceTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function it_can_archive_the_invoice()
     {
         $invoice = factory(Invoice::class)->create();
@@ -212,6 +213,7 @@ class InvoiceTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function testInvoicePadding()
     {
         $customer = factory(Customer::class)->create();
@@ -244,6 +246,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice_number, '000002');
     } */
 
+    /** @test */
     public function testReverseInvoice()
     {
         $invoice = factory(Invoice::class)->create();
@@ -317,6 +320,7 @@ class InvoiceTest extends TestCase
         //create a ledger row for this with the resulting Credit ( also include an explanation in the notes section )
     }
 
+    /** @test */
     public function testReversalViaAPI()
     {
         $invoice = factory(Invoice::class)->create();
@@ -361,6 +365,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice->customer->paid_to_date, $new_customer_balance);
     }
 
+    /** @test */
     public function testReversalNoPayment()
     {
         $invoice = factory(Invoice::class)->create();
@@ -386,6 +391,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice->customer->balance, ($client_balance - $invoice_balance));
     }
 
+    /** @test */
     public function testCancelInvoice()
     {
         $invoice = factory(Invoice::class)->create();
@@ -403,5 +409,25 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice->customer->balance, ($client_balance + $invoice_balance));
         $this->assertNotEquals((float)$client_balance, (float)$invoice->customer->balance);
         $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
+    }
+
+    /** @test */
+    public function testCancellationReversal()
+    {
+        $invoice = factory(Invoice::class)->create();
+
+        $previous_status = $invoice->status_id;
+        $previous_balance = $invoice->balance;
+
+        $invoice->service()->cancelInvoice();
+
+        $this->assertEquals(0, $invoice->balance);
+        $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
+
+        $invoice->service()->reverseStatus();
+        $this->assertEquals($previous_status, $invoice->status_id);
+        $this->assertEquals($previous_balance, $invoice->balance);
+        $this->assertNull($invoice->previous_status);
+        $this->assertNull($invoice->previous_balance);
     }
 }

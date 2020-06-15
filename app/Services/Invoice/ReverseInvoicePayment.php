@@ -121,11 +121,14 @@ class ReverseInvoicePayment
      */
     private function updateInvoice(): bool
     {
+        $invoice = $this->invoice;
+        $this->invoice->setPreviousStatus();
+        $this->invoice->setPreviousBalance();
         $this->invoice->setBalance(0);
         $this->invoice->setStatus(Invoice::STATUS_REVERSED);
         $this->invoice->save();
 
-        event(new InvoiceWasReversed($this->invoice));
+        event(new InvoiceWasReversed($invoice));
 
         return true;
     }

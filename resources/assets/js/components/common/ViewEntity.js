@@ -21,6 +21,7 @@ import Order from '../partials/Order'
 import Lead from '../partials/Lead'
 import Promocode from '../partials/Promocode'
 import Product from '../partials/Product'
+import User from "../partials/User";
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -99,13 +100,16 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
                         <Project customers={this.props.customers} entity={this.props.entity}/>}
 
+                        {this.props.entity && this.props.entity_type && ['User'].includes(this.props.entity_type) &&
+                        <User entity={this.props.entity} />}
+
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
                         <Lead customers={this.props.customers} entity={this.props.entity}/>}
 
-                        {!['Product', 'Promocode', 'Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
+                        {!['User', 'Product', 'Promocode', 'Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>

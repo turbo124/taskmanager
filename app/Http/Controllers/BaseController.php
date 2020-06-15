@@ -133,14 +133,14 @@ class BaseController extends Controller
                 $order->save();
                 $response = $this->transformOrder($order);
                 break;
-            case 'unhold_order':
-                $order = $entity->service()->unholdOrder();
+            case 'reverse_status':
+                $order = $entity->service()->reverseStatus();
 
                 if (!$order) {
                     $response = false;
                     $message = 'Order is not on hold';
                 } else {
-                    $response = $this->transformOrder($order);
+                    $response = $this->transformEntity($order);
                 }
 
                 break;

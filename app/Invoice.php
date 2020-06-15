@@ -77,6 +77,7 @@ class Invoice extends Model
         'shipping_cost',
         'transaction_fee_tax',
         'shipping_cost_tax',
+        'previous_status',
         'design_id'
     ];
 
@@ -228,6 +229,16 @@ class Invoice extends Model
     public function setStatus(int $status)
     {
         $this->status_id = $status;
+    }
+
+    public function setPreviousStatus()
+    {
+        $this->previous_status = $this->status_id;
+    }
+
+    public function setPreviousBalance()
+    {
+        $this->previous_balance = $this->balance;
     }
 
     public function setNumber()

@@ -129,7 +129,7 @@ export default class Credit extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <ViewEntityHeader heading_1={translations.total} value_1={this.props.entity.total}
-                            heading_2={translations.balance} value_2={this.props.entity.balance}/>
+                            heading_2={translations.credit_remaining} value_2={this.props.entity.balance}/>
 
                         <CreditPresenter entity={this.props.entity} field="status_field"/>
 

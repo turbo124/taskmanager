@@ -57,8 +57,6 @@ class CancelInvoice
         // update customer
         $this->updateCustomer();
 
-        event(new InvoiceWasCancelled($this->invoice));
-
         return $this->invoice;
     }
 
@@ -67,9 +65,14 @@ class CancelInvoice
      */
     private function updateInvoice(): Invoice
     {
+        $invoice = $this->invoice;
+        $this->invoice->setPreviousStatus();
+        $this->invoice->setPreviousBalance();
         $this->invoice->setBalance(0);
         $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
         $this->invoice->save();
+
+        event(new InvoiceWasCancelled($invoice));
 
         return $this->invoice;
     }
