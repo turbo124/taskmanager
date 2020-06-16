@@ -27,9 +27,10 @@ class InvoiceRefund extends BaseRefund
     }
 
     /**
+     * @param CreditRefund|null $objCreditRefund
      * @return Payment
      */
-    public function refund($objCreditRefund = null)
+    public function refund(CreditRefund $objCreditRefund = null)
     {
         $ids = array_column($this->payment_invoices, 'invoice_id');
         $invoices = Invoice::whereIn('id', $ids)->get()->keyBy('id');

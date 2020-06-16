@@ -234,6 +234,8 @@ export const gb_translations = {
     credit_design: 'Credit Design',
     invoice: 'Invoice',
     brand: 'Brand',
+    add_brand: 'Add Brand',
+    edit_brand: 'Edit Brand',
     category: 'Category',
     quantity: 'Quantity',
     price: 'Price',

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, CustomInput } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
+import Details from './Details'
 
 class AddBrand extends React.Component {
     constructor (props) {
@@ -20,6 +21,7 @@ class AddBrand extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
+        this.handleInput = this.handleInput.bind(this)
     }
 
     handleFileChange (e) {
@@ -90,40 +92,8 @@ class AddBrand extends React.Component {
                         {translations.add_brand}
                     </ModalHeader>
                     <ModalBody>
-                        <FormGroup>
-                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('name')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="description">{translations.description} </Label>
-                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
-                                name="description" id="description" rows="5"
-                                placeholder={translations.description} onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('description')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label>{translations.cover}</Label>
-                            <CustomInput onChange={this.handleFileChange} type="file" id="cover"
-                                name="cover"
-                                label="Cover!"/>
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="status">{translations.status} </Label>
-                            <Input className={this.hasErrorFor('status') ? 'is-invalid' : ''} type="select"
-                                name="status"
-                                id="status"
-                                onChange={this.handleInput.bind(this)}
-                            >
-                                <option value="0">{translations.disable}</option>
-                                <option value="1">{translations.enable}</option>
-                            </Input>
-                            {this.renderErrorFor('status')}
-                        </FormGroup>
+                        <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
+                            renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
                     <ModalFooter>

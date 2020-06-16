@@ -7,13 +7,13 @@ import {
     ModalFooter,
     Input,
     Label,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup
+    FormGroup
 } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { icons, translations } from '../common/_icons'
+import DecoratedFormField from '../common/DecoratedFormField'
+import Details from './Details'
 
 class AddTaxRate extends React.Component {
     constructor (props) {
@@ -112,25 +112,8 @@ class AddTaxRate extends React.Component {
                             {message}
                         </div>}
 
-                        <Label>{translations.name}</Label>
-                        <InputGroup className="mb-3">
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
-                            </InputGroupAddon>
-                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                value={this.state.name} onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('name')}
-                        </InputGroup>
-
-                        <Label>{translations.amount}</Label>
-                        <InputGroup className="mb-3">
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
-                            </InputGroupAddon>
-                            <Input className={this.hasErrorFor('rate') ? 'is-invalid' : ''} type="text"
-                                value={this.state.rate} name="rate" onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('rate')}
-                        </InputGroup>
+                        <Details hasErrorFor={this.hasErrorFor} tax_rate={this.state}
+                            renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
 
                     </ModalBody>
 
