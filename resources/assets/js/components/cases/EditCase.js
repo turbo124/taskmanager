@@ -2,10 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
 import axios from 'axios'
 import { icons, translations } from '../common/_icons'
-import CustomerDropdown from '../common/CustomerDropdown'
-import Datepicker from '../common/Datepicker'
-import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
-import { consts } from '../common/_consts'
+import Details from './Details'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -94,76 +91,16 @@ export default class EditCase extends React.Component {
     render () {
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_case}
                     </ModalHeader>
                     <ModalBody>
-                        <FormGroup>
-                            <Label for="subject">{translations.subject} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('subject') ? 'is-invalid' : ''} type="text" name="subject"
-                                id="subject" value={this.state.subject} placeholder={translations.subject}
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('subject')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="message">{translations.message}<span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('message') ? 'is-invalid textarea-lg' : 'textarea-lg'} type="textarea" name="message"
-                                id="message" value={this.state.message} placeholder={translations.message}
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('message')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="description">{translations.customer}(*):</Label>
-                            <CustomerDropdown
-                                customer={this.state.customer_id}
-                                errors={this.state.errors}
-                                renderErrorFor={this.renderErrorFor}
-                                handleInputChanges={this.handleInput}
-                                customers={this.props.customers}
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="examplePassword">{translations.due_date}</Label>
-                            <Datepicker className="form-control" name="due_date" date={this.state.due_date}
-                                handleInput={this.handleInput}/>
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="examplePassword">{translations.private_notes}</Label>
-                            <Input value={this.state.private_notes} type="textarea"
-                                name="private_notes"
-                                onChange={this.handleInput} id="private_notes"
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="examplePassword">{translations.priority}</Label>
-                            <Input value={this.state.priority_id} type="select"
-                                name="priority_id"
-                                onChange={this.handleInput} id="priority_id"
-                            >
-                                <option value="">{translations.select_option}</option>
-                                <option value={consts.low_priority}>{translations.low}</option>
-                                <option value={consts.medium_priority}>{translations.medium}</option>
-                                <option value={consts.high_priority}>{translations.high}</option>
-                            </Input>
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label>{translations.category}</Label>
-                            <CaseCategoryDropdown
-                                name="category_id"
-                                category={this.state.category_id}
-                                errors={this.state.errors}
-                                renderErrorFor={this.renderErrorFor}
-                                handleInputChanges={this.handleInput}
-                            />
-                        </FormGroup>
+                        <Details customers={this.props.customers} errors={this.state.errors}
+                            hasErrorFor={this.hasErrorFor} case={this.state}
+                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                     </ModalBody>
 
                     <ModalFooter>
