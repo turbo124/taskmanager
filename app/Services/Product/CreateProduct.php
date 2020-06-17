@@ -27,7 +27,7 @@ class CreateProduct
     /**
      * Create a new job instance.
      *
-     * @param  ProductRepository  $product_repo
+     * @param ProductRepository $product_repo
      * @return void
      */
     public function __construct(ProductRepository $product_repo, array $data, Product $product)
@@ -36,7 +36,7 @@ class CreateProduct
         $this->data = $data;
         $this->product = $product;
     }
-    
+
     public function execute()
     {
         $this->data['slug'] = Str::slug($this->data['name']);
@@ -59,7 +59,7 @@ class CreateProduct
 
         $this->saveCategories();
 
-        if(!empty($this->data['variations'])) {
+        if (!empty($this->data['variations'])) {
             $this->saveVariations($this->data['variations']);
         }
 
@@ -69,13 +69,16 @@ class CreateProduct
     private function saveCategories()
     {
         if (isset($this->data['category']) && !empty($this->data['category'])) {
-            $categories = !is_array($this->data['category']) ? explode(',', $this->data['category']) : $this->data['category'];
+            $categories = !is_array($this->data['category']) ? explode(
+                ',',
+                $this->data['category']
+            ) : $this->data['category'];
             $this->product_repo->syncCategories($categories, $this->product);
             return true;
         }
-            
+
         $this->product_repo->detachCategories($this->product);
-        
+
         return true;
     }
 

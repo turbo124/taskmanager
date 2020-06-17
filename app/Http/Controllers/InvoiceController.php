@@ -8,6 +8,7 @@ use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneInvoiceFactory;
 use App\Factory\InvoiceToPaymentFactory;
+use App\Helpers\Refund\RefundFactory;
 use App\InvoiceInvitation;
 use App\Factory\CloneInvoiceToQuoteFactory;
 use App\Factory\NotificationFactory;

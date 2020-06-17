@@ -303,23 +303,24 @@ class CreateOrder implements ShouldQueue
 
             $this->order = $this->order_repo->createOrder(
                 [
-                    'voucher_code'   => !empty($this->request->voucher_code) ? $this->request->voucher_code : null,
-                    'shipping_cost'  => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
-                    'invitations'    => $invitations,
-                    'shipping_id'    => isset($this->request->shipping_id) ? $this->request->shipping_id : null,
-                    'balance'        => $this->request->total,
-                    'sub_total'      => $this->request->sub_total,
-                    'total'          => $this->request->total,
+                    'voucher_code'    => !empty($this->request->voucher_code) ? $this->request->voucher_code : null,
+                    'transaction_fee' => isset($this->request->transaction_fee) ? $this->request->transaction_fee : 0,
+                    'shipping_cost'   => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
+                    'invitations'     => $invitations,
+                    'shipping_id'     => isset($this->request->shipping_id) ? $this->request->shipping_id : null,
+                    'balance'         => $this->request->total,
+                    'sub_total'       => $this->request->sub_total,
+                    'total'           => $this->request->total,
                     //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
-                    'discount_total' => isset($this->request->discount_total) ? $this->request->discount_total : 0,
-                    'tax_rate'       => isset($this->request->tax_rate) ? (float)str_replace(
+                    'discount_total'  => isset($this->request->discount_total) ? $this->request->discount_total : 0,
+                    'tax_rate'        => isset($this->request->tax_rate) ? (float)str_replace(
                         '%',
                         '',
                         $this->request->tax_rate
                     ) : 0,
-                    'line_items'     => $this->request->products,
-                    'task_id'        => isset($this->task) ? $this->task->id : null,
-                    'date'           => date('Y-m-d')
+                    'line_items'      => $this->request->products,
+                    'task_id'         => isset($this->task) ? $this->task->id : null,
+                    'date'            => date('Y-m-d')
                 ],
                 $this->order
             );

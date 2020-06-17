@@ -5,9 +5,12 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.2.2",
+        "php": "^7.4",
+        "ext-curl": "*",
+        "ext-json": "*",
         "ext-zip": "*",
         "ashallendesign/laravel-exchange-rates": "^2.1",
+        "authorizenet/authorizenet": "^2.0",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "cleverit/ubl_invoice": "^1.3",
         "danielboendergaard/phantom-pdf": "^1.3",

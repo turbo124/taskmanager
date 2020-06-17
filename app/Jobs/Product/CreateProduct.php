@@ -21,7 +21,7 @@ class CreateProduct implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  ProductRepository  $product_repo
+     * @param ProductRepository $product_repo
      * @return void
      */
     public function __construct(ProductRepository $product_repo, array $data, Product $product)
@@ -30,7 +30,7 @@ class CreateProduct implements ShouldQueue
         $this->data = $data;
         $this->product;
     }
-    
+
     public function handle()
     {
         $this->product->service()->createProduct($this->product_repo, $this->data);

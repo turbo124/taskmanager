@@ -11,6 +11,7 @@ use Omnipay\Omnipay;
 
 class GatewayRefund extends BaseRefund
 {
+    const AUTHORIZE_ID = 6;
 
     /**
      * GatewayRefund constructor.
@@ -21,12 +22,13 @@ class GatewayRefund extends BaseRefund
     public function __construct(Payment $payment, array $data, CreditRepository $credit_repo)
     {
         parent::__construct($payment, $data, $credit_repo);
+        $this->payment = $payment;
     }
 
     /**
      * @return bool
      */
-    private function refund()
+    public function refund()
     {
         if (empty($this->payment->company_gateway_id)) {
             return false;
@@ -38,6 +40,15 @@ class GatewayRefund extends BaseRefund
             return false;
         }
 
+        if($company_gateway->id === self::AUTHORIZE_ID) {
+            return (new AuthorizeRefund($this->payment, $company_gateway))->build();
+        }
+
+        return $this->doRefund($company_gateway);
+    }
+
+    private function doRefund(CompanyGateway $company_gateway)
+    {
         $gateway = Omnipay::create($company_gateway->gateway->provider);
 
         $gateway->initialize((array)$company_gateway->config);
@@ -55,8 +66,6 @@ class GatewayRefund extends BaseRefund
         if ($response->isSuccessful()) {
             return true;
         }
-
-        return false;
     }
 
 }
