@@ -52,6 +52,7 @@ class CloneOrderToInvoiceFactory
         $invoice->line_items = $order->line_items;
         $invoice->transaction_fee = $order->transaction_fee;
         $invoice->shipping_cost = $order->shipping_cost;
+        $invoice->transaction_fee = $order->transaction_fee;
         $invoice->is_amount_discount = $order->is_amount_discount ?: false;
 
         return $invoice;

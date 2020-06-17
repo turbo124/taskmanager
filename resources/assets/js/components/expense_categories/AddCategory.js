@@ -55,7 +55,7 @@ class AddCategory extends React.Component {
                 this.props.categories.push(newUser)
                 this.props.action(this.props.categories)
                 this.setState({
-                    name: null,
+                    name: null
                 })
             })
             .catch((error) => {

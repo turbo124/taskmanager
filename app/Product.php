@@ -22,17 +22,17 @@ class Product extends Model
 
     public const MASS_UNIT = [
         'OUNCES' => 'oz',
-        'GRAMS' => 'gms',
+        'GRAMS'  => 'gms',
         'POUNDS' => 'lbs'
     ];
 
     public const DISTANCE_UNIT = [
         'CENTIMETER' => 'cm',
-        'METER' => 'mtr',
-        'INCH' => 'in',
-        'MILIMETER' => 'mm',
-        'FOOT' => 'ft',
-        'YARD' => 'yd'
+        'METER'      => 'mtr',
+        'INCH'       => 'in',
+        'MILIMETER'  => 'mm',
+        'FOOT'       => 'ft',
+        'YARD'       => 'yd'
     ];
 
     protected $casts = [

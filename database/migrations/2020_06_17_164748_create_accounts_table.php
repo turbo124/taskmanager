@@ -27,6 +27,7 @@ class CreateAccountsTable extends Migration {
 			$table->softDeletes();
 			$table->integer('domain_id')->unsigned()->default(1)->index();
 			$table->string('slack_webhook_url')->nullable();
+			$table->integer('transaction_fee')->default(0);
 		});
 	}
 

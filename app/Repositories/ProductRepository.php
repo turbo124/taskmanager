@@ -287,7 +287,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function save($data, Product $product): ?Product
     {
-
         $product->fill($data);
         $product->save();
 

@@ -132,8 +132,7 @@ class OrderService extends ServiceBase
             return null;
         }
 
-       return $this->reverseStatus();
-
+        return $this->reverseStatus();
     }
 
     public function fulfillOrder(OrderRepository $order_repo)
