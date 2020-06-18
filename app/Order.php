@@ -81,6 +81,7 @@ class Order extends Model
         'custom_value3',
         'custom_value4',
         'transaction_fee',
+        'gateway_fee',
         'shipping_cost',
         'transaction_fee_tax',
         'shipping_cost_tax',

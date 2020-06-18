@@ -80,6 +80,7 @@ export const gb_translations = {
     exchange_rate: 'Exchange Rate',
     converted: 'Converted',
     pdf: 'PDF',
+    view_pdf: 'View PDF',
     discount: 'Discount',
     subtotal: 'Subtotal',
     tax: 'Tax',

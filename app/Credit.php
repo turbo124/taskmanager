@@ -168,6 +168,14 @@ class Credit extends Model
         $this->account_id = (int)$account->id;
     }
 
+    /**
+     * @param Invoice $invoice
+     */
+    public function setInvoiceId(Invoice $invoice)
+    {
+        $this->invoice_id = $invoice->id;
+    }
+
     public function setCustomer(Customer $customer)
     {
         $this->customer_id = (int)$customer->id;

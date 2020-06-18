@@ -132,6 +132,10 @@ class Invoice extends BaseCalculator
             $this->total += $custom_surcharge_total;
         }
 
+        if (!empty($this->entity->gateway_fee)) {
+            $this->total += $this->entity->gateway_fee;
+        }
+
         return $this;
     }
 
