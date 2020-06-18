@@ -57,6 +57,7 @@ class CreateProductTaskTable extends Migration {
 			$table->string('shipping_id', 100)->nullable();
 			$table->string('shipping_label_url')->nullable();
 			$table->string('voucher_code')->nullable();
+			$table->decimal('gateway_fee', 16, 4)->default(0.0000);
 		});
 	}
 

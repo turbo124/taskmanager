@@ -8,6 +8,7 @@ use App\Quote;
 use App\User;
 use App\Account;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class CloneOrderToInvoiceFactory
@@ -55,6 +56,9 @@ class CloneOrderToInvoiceFactory
         $invoice->transaction_fee = $order->transaction_fee;
         $invoice->gateway_fee = $order->gateway_fee;
         $invoice->is_amount_discount = $order->is_amount_discount ?: false;
+
+        Log::emergency('here ' . $order->gateway_fee);
+        Log::emergency('here ' . $invoice->gateway_fee);
 
         return $invoice;
     }

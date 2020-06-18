@@ -216,7 +216,7 @@ export default class Order extends Component {
                         onClick={() => {
                             this.toggleTab('3')
                         }}>
-                        {translations.pdf}
+                        {translations.view_pdf}
                     </NavLink>
                     <NavLink className="flex-fill border border-secondary btn btn-dark"
                         onClick={() => {

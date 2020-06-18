@@ -1,5 +1,5 @@
 import React from 'react'
-import { gb_translations } from './translations_gb'
+import { gb_translations } from '../translations/translations_gb'
 
 export const icons = {
     refresh: 'fa-gear',

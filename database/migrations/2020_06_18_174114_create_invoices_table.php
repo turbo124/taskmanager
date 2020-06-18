@@ -67,6 +67,7 @@ class CreateInvoicesTable extends Migration {
 			$table->integer('order_id')->unsigned();
 			$table->integer('previous_status')->nullable();
 			$table->decimal('previous_balance', 16, 4)->nullable()->default(0.0000);
+			$table->decimal('gateway_fee', 16, 4)->default(0.0000);
 		});
 	}
 
