@@ -103,4 +103,13 @@ class CalculateCommission extends Command
 
        return true;
     }
+
+    private function createInvoice(Account $account)
+    {
+        if(empty($account->domains) || empty($account->domains->user_id)) {
+            $account = $this->account->service()->convertAccount();
+        }
+
+        $invoice = InvoiceFactory::create($account, $user, $customer)
+    }
 }
