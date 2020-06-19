@@ -104,4 +104,13 @@ class CalculateCommission extends Command
 
        return true;
     }
+
+    public function calculate(): float
+    {
+        $commission = $this->operation->getAmount() * self::COMMISSION_PERCENT / 100;
+        if ($commission > self::COMMISSION_MAX) {
+            return self::COMMISSION_MAX;
+        }
+        return $commission;
+    }
 }
