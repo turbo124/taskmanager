@@ -68,4 +68,14 @@ class Domain extends Model
     {
         return $this->hasMany(User::class)->withTrashed();
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class)->withTrashed();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withTrashed();
+    }
 }
