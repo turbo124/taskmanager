@@ -130,5 +130,7 @@ class CalculateCommission extends Command
             ->toObject();
 
         $invoice = (new InvoiceRepository(new Invoice))->save(['line_items' => $line_items], $invoice);
+
+        return $invoice;
     }
 }
