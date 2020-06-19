@@ -133,4 +133,10 @@ class CalculateCommission extends Command
 
         return $invoice;
     }
+
+    public function calculate($commission_amount, $total): float
+    {
+        return $total * $commission_amount / 100;
+       
+    }
 }
