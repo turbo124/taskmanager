@@ -40,6 +40,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'custom_value4' => $faker->numberBetween(1,4),
         'is_deleted' => false,
         'po_number' => $faker->text(10),
-        'line_items' => $line_items
+        'line_items' => $line_items,
+        'gateway_fee' => 0
     ];
 });

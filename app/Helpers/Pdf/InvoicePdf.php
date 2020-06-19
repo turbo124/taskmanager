@@ -37,6 +37,8 @@ class InvoicePdf extends PdfBuilder
              ->buildAccount($this->entity->account)
              ->setTerms($this->entity->terms)
              ->setDiscount($customer, $this->entity->discount_total)
+             ->setShippingCost($customer, $this->entity->shipping_cost)
+             ->setVoucherCode(isset($this->entity->voucher_code) ? $this->entity->voucher_code : '')
              ->setSubTotal($customer, $this->entity->sub_total)
              ->setBalance($customer, $this->entity->balance)
              ->setTotal($customer, $this->entity->total)

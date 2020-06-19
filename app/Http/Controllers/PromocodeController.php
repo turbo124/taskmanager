@@ -132,7 +132,13 @@ class PromocodeController extends Controller
         $account = $token->account;
         $customer = Customer::find($request->customer_id);
 
-        return (new Promocodes)->check($account, $request->voucher_code, $order, $customer);
+        $response = (new Promocodes)->check($account, $request->voucher_code, $order, $customer);
+
+        if (!$response) {
+            return response()->json('Invalid code used', 400);
+        }
+
+        return response()->json($response);
     }
 
     /**

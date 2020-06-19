@@ -68,6 +68,9 @@ class CreateInvoicesTable extends Migration {
 			$table->integer('previous_status')->nullable();
 			$table->decimal('previous_balance', 16, 4)->nullable()->default(0.0000);
 			$table->decimal('gateway_fee', 16, 4)->default(0.0000);
+			$table->string('voucher_code')->nullable();
+			$table->boolean('commission_paid')->default(0);
+			$table->dateTime('commission_paid_date')->nullable();
 		});
 	}
 

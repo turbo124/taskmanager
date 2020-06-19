@@ -79,7 +79,10 @@ class Invoice extends Model
         'transaction_fee_tax',
         'shipping_cost_tax',
         'previous_status',
-        'design_id'
+        'design_id',
+        'voucher_code',
+        'commission_paid',
+        'commission_paid_date'
     ];
 
     const STATUS_DRAFT = 1;

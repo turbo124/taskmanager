@@ -7,6 +7,12 @@ use App\Account;
 class AccountSettings extends BaseSettings
 {
     private $settings = [
+        'charge_gateway_to_customer'      => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'create_task_on_order'            => [
             'required'         => false,
             'translated_value' => '',

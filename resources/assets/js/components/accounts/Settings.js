@@ -267,7 +267,24 @@ class Settings extends Component {
                             text: 'No'
                         }
                     ]
-                }
+                },
+                {
+                    name: 'charge_gateway_to_customer',
+                    label: 'Charge Gateway Fee To Customer',
+                    type: 'select',
+                    value: settings.charge_gateway_to_customer,
+                    group: 3,
+                    options: [
+                        {
+                            value: true,
+                            text: 'Yes'
+                        },
+                        {
+                            value: false,
+                            text: 'No'
+                        }
+                    ]
+                },
             ]
         ]
 

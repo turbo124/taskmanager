@@ -470,6 +470,33 @@ class PdfBuilder
         return $this;
     }
 
+    public function setShippingCost(Customer $customer, $shipping): self
+    {
+        if (empty($shipping)) {
+            return $this;
+        }
+
+        $this->data['$shipping_cost'] = [
+            'value' => $this->formatCurrency($shipping, $customer) ?: '&nbsp;',
+            'label' => trans('texts.shipping')
+        ];
+        return $this;
+    }
+
+    public function setVoucherCode($voucher_code): self
+    {
+        if (empty($voucher_code)) {
+            return $this;
+        }
+
+        $this->data['$voucher'] = [
+            'value' => $voucher_code ?: '&nbsp;',
+            'label' => trans('texts.voucher')
+        ];
+
+        return $this;
+    }
+
     public function setNumber($number): self
     {
         $this->data['$number'] = [

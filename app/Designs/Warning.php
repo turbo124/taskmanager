@@ -46,6 +46,8 @@ $table_here
 			            <div class="inline-block col-6 text-left" style="page-break-inside: avoid;">
 			            	<span style="margin-right: 20px">$discount_label</span> $discount <br>
 			                <span style="margin-right: 20px">$tax_label</span> $tax <br>
+			                <span style="margin-right: 20px">$shipping_cost_label</span> $shipping_cost <br>
+			                <span style="margin-right: 20px">$voucher_label</span> $voucher <br>
 			            </div>
 			        </div>
 			    </div>

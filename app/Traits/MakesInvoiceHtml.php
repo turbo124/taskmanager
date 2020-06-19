@@ -64,6 +64,10 @@ trait MakesInvoiceHtml
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
 
+        if (empty($entity->voucher_code)) {
+            $html = str_replace(['$voucher_label', '$voucher'], '', $html);
+        }
+
         return $html;
     }
 
