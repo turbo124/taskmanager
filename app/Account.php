@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Notifications\Notification;
+use App\Services\Account\AccountService;
 use App\Credit;
 use App\Quote;
 use App\Invoice;
@@ -223,5 +224,10 @@ class Account extends Model
         $c = $this->account_users->where('is_owner', true)->first();
 
         return User::find($c->user_id);
+    }
+
+    public function service(): AccountService
+    {
+        return new AccountService($this);
     }
 }
