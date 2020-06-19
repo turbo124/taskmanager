@@ -95,6 +95,7 @@ class ServiceBase
                 ->setUnitPrice($line_item->unit_price)
                 ->setProductId($line_item->product_id)
                 ->setSubTotal(isset($line_item->sub_total) ? $line_item->sub_total : 0)
+                ->setTransactionFee(isset($line_item->transaction_fee) ? $line_item->transaction_fee : 0)
                 ->setTypeId(!isset($line_item->type_id) ? 1 : $line_item->type_id)
                 ->setUnitTax(isset($line_item->unit_tax) ? $line_item->unit_tax : 0)
                 ->setTaxRateName(isset($line_item->tax_rate_name) ? $line_item->tax_rate_name : '')

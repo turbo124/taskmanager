@@ -2,6 +2,7 @@
 
 namespace App\Rules\Order;
 
+use App\Product;
 use App\Promocode;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -50,8 +51,8 @@ class OrderTotals implements Rule
     {
         $this->calculateSubTotal();
         $this->calculateTax();
-        $this->calculateShipping();
         $this->calculateDiscount();
+        $this->calculateShipping();
         $this->checkTotals();
 
         return count($this->arrErrors) === 0;
@@ -104,16 +105,29 @@ class OrderTotals implements Rule
     {
         $this->sub_total = 0;
 
-        foreach ($this->request['products'] as $product) {
-            $this->sub_total += ($product['unit_price'] * $product['quantity']);
+        foreach ($this->request['line_items'] as $product) {
+            $this->sub_total += ($product->unit_price * $product->quantity);
         }
 
         return true;
     }
 
+//    private function addTransactionFee()
+//    {
+//        $transaction_fee = 0;
+//
+//        foreach ($this->request['products'] as $request_product) {
+//            $product = Product::whereId($request_product['product_id'])->first();
+//
+//            $account = $product->account;
+//            $transaction_fee = $account->transaction_fee;
+//        }
+//    }
+
     private function checkTotals()
     {
         $total = round($this->sub_total, 2);
+
         $match = (float)$total === (float)$this->request['total'];
 
         if (!$match) {

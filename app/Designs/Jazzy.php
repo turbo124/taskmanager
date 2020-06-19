@@ -68,6 +68,8 @@ $table_here
             <span style="margin-right: 60px">$discount_label</span> $discount<br>
             <span style="margin-right: 60px">$tax_label</span> $tax<br>
              <span style="margin-right: 60px">$balance_due_label</span> $balance_due<br>
+             <span style="margin-right: 60px">$shipping_cost_label</span> $shipping_cost<br>
+              <span style="margin-right: 60px">$voucher_label</span> $voucher<br>
         </div>
 </div>
 </div>

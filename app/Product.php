@@ -120,4 +120,12 @@ class Product extends Model
     {
         return new ProductService($this);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
 }

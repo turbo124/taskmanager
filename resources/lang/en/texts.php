@@ -86,6 +86,8 @@ return [
     'customer_name'                             => 'Customer Name',
     'date'                                      => 'Date',
     'discount'                                  => 'Discount',
+    'shipping'                                  => 'Shipping',
+    'voucher'                                   => 'Voucher',
     'product_name'                              => 'Product Name',
     'notes'                                     => 'Notes',
     'cost'                                      => 'Cost',

@@ -55,6 +55,7 @@ class CloneOrderToInvoiceFactory
         $invoice->shipping_cost = $order->shipping_cost;
         $invoice->transaction_fee = $order->transaction_fee;
         $invoice->gateway_fee = $order->gateway_fee;
+        $invoice->voucher_code = $order->voucher_code;
         $invoice->is_amount_discount = $order->is_amount_discount ?: false;
 
         Log::emergency('here ' . $order->gateway_fee);

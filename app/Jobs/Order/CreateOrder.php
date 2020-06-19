@@ -133,7 +133,7 @@ class CreateOrder implements ShouldQueue
                 }
             }
 
-            if (!empty($this->request->products)) {
+            if (!empty($this->request->line_items)) {
                 $order = $this->saveOrder($customer);
 
                 if (!$order) {
@@ -319,7 +319,7 @@ class CreateOrder implements ShouldQueue
                         '',
                         $this->request->tax_rate
                     ) : 0,
-                    'line_items'      => $this->request->products,
+                    'line_items'      => $this->request->line_items,
                     'task_id'         => isset($this->task) ? $this->task->id : null,
                     'date'            => date('Y-m-d')
                 ],

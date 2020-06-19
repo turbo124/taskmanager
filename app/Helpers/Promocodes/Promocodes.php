@@ -4,6 +4,7 @@ namespace App\Helpers\Promocodes;
 
 use App\Account;
 use App\Customer;
+use App\Exceptions\InvalidPromocodeException;
 use App\Order;
 use App\User;
 use Carbon\Carbon;
@@ -150,7 +151,7 @@ class Promocodes
         $promocode = Promocode::byCode($code)->where('account_id', '=', $account->id)->first();
 
         if ($promocode === null) {
-            throw new InvalidPromocodeException;
+            return false;
         }
 
         if ($promocode->isExpired() || ($promocode->isDisposable() && $promocode->users()->exists(
@@ -190,7 +191,9 @@ class Promocodes
     public function apply(Order $order, Account $account, $code, Customer $customer)
     {
         try {
-            if ($promocode = $this->check($account, $code, $order, $customer)) {
+            $promocode = $promocode = $this->check($account, $code, $order, $customer);
+
+            if ($promocode) {
 //                if ($this->isSecondUsageAttempt($promocode, $customer)) {
 //                    throw new \Exception('already used');
 //                }
@@ -214,6 +217,8 @@ class Promocodes
         } catch (\Exception $exception) {
             //
         }
+
+        Log::emergency('here mike');
 
         return false;
     }

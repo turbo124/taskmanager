@@ -187,7 +187,7 @@ class OrderTest extends TestCase
             'title'         => 'New web form request 2020/04/26',
             'task_type'     => 3,
             'task_status'   => 9,
-            'products'      => [
+            'line_items'      => [
                 0 => [
                     'quantity'      => 1,
                     'product_id'    => $this->product->id,

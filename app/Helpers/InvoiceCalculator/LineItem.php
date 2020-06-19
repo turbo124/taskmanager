@@ -49,6 +49,11 @@ class LineItem extends BaseCalculator
     private $is_amount_discount = true;
 
     /**
+     * @var float
+     */
+    private $transaction_fee = 0.00;
+
+    /**
      * @var bool
      */
     private $inclusive_taxes = false;
@@ -146,6 +151,23 @@ class LineItem extends BaseCalculator
     {
         $this->quantity = $quantity;
         return $this;
+    }
+
+    /**
+     * @param float $transaction_fee
+     */
+    public function setTransactionFee(float $transaction_fee): self
+    {
+        $this->transaction_fee = $transaction_fee;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTransactionFee(): float
+    {
+        return $this->transaction_fee;
     }
 
     /**
@@ -407,6 +429,7 @@ class LineItem extends BaseCalculator
             'is_amount_discount' => $this->isAmountDiscount(),
             'product_id'         => $this->getProductId(),
             'attribute_id'       => $this->getAttributeId(),
+            'transaction_fee'    => $this->getTransactionFee(),
             'description'        => $this->getDescription()
         ];
     }
