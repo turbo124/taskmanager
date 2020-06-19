@@ -69,7 +69,8 @@ class CalculateCommission extends Command
                     $account = $product->account;
 
                     $subtotal = $line_item->unit_price * $line_item->quantity;
-                    $calculated_fee = round((($commission / 100) * $subtotal), 2);
+                    $calculated_fee = round((($commission / 100) * $subtotal), 2); 
+                    // commission_amount = sale price * commission_percentage / 100
 
                     $items[$account->id][] =
                         [
