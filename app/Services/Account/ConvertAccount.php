@@ -67,10 +67,10 @@ class ConvertAccount
                 return null;
             }
 
-            $this->account->domain->user_id = $user->id;
-            $this->account->domain->customer_id = $customer->id;
+            $this->account->domains->user_id = $user->id;
+            $this->account->domains->customer_id = $customer->id;
 
-            if (!$this->account->domain->save()) {
+            if (!$this->account->domains->save()) {
                 DB::rollback();
                 return null;
             }
