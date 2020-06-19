@@ -73,6 +73,8 @@ class CalculateCommission extends Command
 
                     $items[$account->id][] =
                         [
+                            'invoice' => $invoice, 
+                            'account' => $account,
                             'line_total' => $subtotal,
                             'calculated_total' => $calculated_fee,
                             'product_id' => $product->id
@@ -91,10 +93,16 @@ class CalculateCommission extends Command
 
         foreach ($items as $account_id => $item) {
             $total = array_sum(array_column($item, 'calculated_total'));
+            if(!$this->createInvoice($item['account'], $item['invoice'], $total)) {
+                $success = false;
+            }
         }
 
         if ($success) {
-            Invoice::whereIn('id', $invoice_ids)->update(
+
+           $invoices = Invoice::whereIn('id', $invoice_ids)->get();
+
+           $invoices->update(
                 ['commission_paid' => true, 'commission_paid_date' => Carbon::now()]
             );
         }
@@ -104,12 +112,23 @@ class CalculateCommission extends Command
        return true;
     }
 
-    private function createInvoice(Account $account)
+    private function createInvoice(Account $account, Invoice $invoice, $total_paid)
     {
         if(empty($account->domains) || empty($account->domains->user_id)) {
             $account = $this->account->service()->convertAccount();
         }
 
-        $invoice = InvoiceFactory::create($account, $user, $customer)
+        $customer = $account->domains->customer;
+        $user = $account->domains->user;
+
+        $invoice = InvoiceFactory::create($account, $user, $customer);
+
+           $line_items[] = (new LineItem)
+            ->setQuantity(1)
+            ->setUnitPrice($total_paid)
+            ->setNotes("Commission for {$invoice->number}")
+            ->toObject();
+
+        $invoice = (new InvoiceRepository(new Invoice))->save(['line_items' => $line_items], $invoice);
     }
 }
