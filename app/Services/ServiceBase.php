@@ -49,8 +49,18 @@ class ServiceBase
             return $this->entity;
         }
 
-        $this->entity->customer->increaseBalance($this->entity->previous_balance);
-        $this->entity->setBalance($this->entity->previous_balance);
+        $previous_balance = $this->entity->previous_balance;
+        $customer = $this->entity->customer;
+        $customer->increaseBalance($previous_balance);
+        $customer->save();
+    
+        $this->entity->transaction_service()->createTransaction(
+            $previous_balance,
+            $customer->balance,
+            "Reverse Balance"
+        );
+
+        $this->entity->setBalance($previous_balance);
         $this->entity->previous_balance = null;
 
         $this->entity->save();
