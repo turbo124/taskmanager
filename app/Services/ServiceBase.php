@@ -49,6 +49,7 @@ class ServiceBase
             return $this->entity;
         }
 
+        $this->entity->customer->increaseBalance($this->entity->previous_balance);
         $this->entity->setBalance($this->entity->previous_balance);
         $this->entity->previous_balance = null;
 
