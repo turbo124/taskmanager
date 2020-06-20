@@ -17,35 +17,19 @@ class TransactionService extends ServiceBase
         $this->entity = $entity;
     }
 
-    public function createTransaction($amount, $notes = '')
+    public function createTransaction($amount, $new_balance, $notes = '')
     {
-        $transaction = $this->transaction();
-
-        $balance = 0;
-
-        if ($transaction) {
-            $balance = $transaction->balance;
-        }
 
         $transaction = new Transaction;
         $transaction->setAccount($this->entity->account);
         $transaction->setUser($this->entity->user);
         $transaction->setCustomer($this->entity->customer);
-        $transaction->setUpdatedBalance($balance + $amount);
+        $transaction->setUpdatedBalance($new_balance);
         $transaction->setAmount($amount);
         $transaction->setNotes($notes);
-        $transaction->createTransaction();
 
         $this->entity->transactions()->save($transaction);
 
         return $transaction;
-    }
-
-    private function transaction(): ?Transaction
-    {
-        return Transaction::whereCustomerId($this->entity->customer_id)
-                          ->whereAccountId($this->entity->account_id)
-                          ->orderBy('id', 'DESC')
-                          ->first();
     }
 }

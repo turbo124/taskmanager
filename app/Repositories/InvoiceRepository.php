@@ -133,7 +133,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
         if ($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total) {
             $updated_amount = $invoice->total - $original_amount;
-            $invoice->transaction_service()->createTransaction($updated_amount);
+            $invoice->transaction_service()->createTransaction($updated_amount, $invoice->customer->balance);
         }
 
 

@@ -156,7 +156,7 @@ class BaseRefund
             $credit_note
         );
 
-        $credit_note->transaction_service()->createTransaction($this->amount);
+        $credit_note->transaction_service()->createTransaction($this->amount, $credit_note->customer->balance);
 
         return $this;
     }
@@ -165,8 +165,8 @@ class BaseRefund
     {
         $this->updateRefundAmount();;
         $this->setStatus();
-        $this->createCreditNote();
         $this->updateCustomer();
+        $this->createCreditNote();
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));

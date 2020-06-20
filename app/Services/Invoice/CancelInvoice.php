@@ -48,14 +48,19 @@ class CancelInvoice
             return $this->invoice;
         }
 
+        $old_balance = $this->invoice->balance;
+
         // update invoice
         $this->updateInvoice();
 
-        $old_balance = $this->invoice->balance;
-        $this->invoice->transaction_service()->createTransaction($old_balance, "Invoice cancellation");
-
         // update customer
         $this->updateCustomer();
+
+        $this->invoice->transaction_service()->createTransaction(
+            $old_balance,
+            $this->invoice->customer->balance,
+            "Invoice cancellation"
+        );
 
         return $this->invoice;
     }
@@ -83,7 +88,7 @@ class CancelInvoice
     private function updateCustomer(): Customer
     {
         $customer = $this->invoice->customer;
-        $customer->increaseBalance($this->balance);
+        $customer->reduceBalance($this->balance);
         $customer->save();
 
         return $customer;
