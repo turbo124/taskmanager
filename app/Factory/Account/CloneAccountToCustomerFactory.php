@@ -10,21 +10,20 @@ use App\Account;
 class CloneAccountToCustomerFactory
 {
     /**
-     * @param Lead $lead
-     * @param $user_id
-     * @param $account_id
+     * @param Account $account
+     * @param User $user
      * @return Customer
      */
     public static function create(Account $account, User $user): Customer
     {
-        $client_contact = new Customer();
-        $client_contact->account_id = $account->id;
-        $client_contact->user_id = $user->id;
-        $client_contact->name = $account->name;
-        $client_contact->phone = $account->phone;
-        $client_contact->website = $account->website;
-        $client_contact->currency_id = 2;
+        $customer = new Customer();
+        $customer->account_id = $account->id;
+        $customer->user_id = $user->id;
+        $customer->name = $account->settings->name;
+        $customer->phone = $account->settings->phone;
+        $customer->website = $account->settings->website;
+        $customer->currency_id = $account->settings->currency_id;
 
-        return $client_contact;
+        return $customer;
     }
 }

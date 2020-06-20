@@ -12,7 +12,7 @@ use App\Repositories\LeadRepository;
  */
 class LeadService extends ServiceBase
 {
-    protected $lead;
+    protected Lead $lead;
 
     /**
      * LeadService constructor.

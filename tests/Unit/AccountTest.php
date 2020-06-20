@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Customer;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,20 +11,15 @@ use App\Account;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LeadTest extends TestCase
+class AccountTest extends TestCase
 {
 
-    use DatabaseTransactions, WithFaker, TaskTransformable;
-
-    private $user;
-    private $account;
+    use DatabaseTransactions, WithFaker;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
-        $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
@@ -32,6 +28,9 @@ class LeadTest extends TestCase
         $account = factory(Account::class)->create();
         $account = $account->service()->convertAccount();
         $this->assertInstanceOf(Account::class, $account);
+        $this->assertInstanceOf(Customer::class, $account->domains->customer);
+        $this->assertInstanceOf(User::class, $account->domains->user);
+        $this->assertEquals(1, $account->domains->customer->contacts->count());
     }
 
     public function tearDown(): void

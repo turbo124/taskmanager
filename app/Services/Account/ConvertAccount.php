@@ -36,7 +36,7 @@ class ConvertAccount
 
         try {
             DB::beginTransaction();
-           
+
             $user = CloneAccountToUserFactory::create($this->account);
 
             if (!$user->save()) {
@@ -79,6 +79,8 @@ class ConvertAccount
 
             return $this->account;
         } catch (\Exception $e) {
+            echo $e->getMessage();
+            die('here');
             DB::rollback();
             return null;
         }
