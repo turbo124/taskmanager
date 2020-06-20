@@ -32,6 +32,7 @@ export default class Customers extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'transactions',
                 'vat_number',
                 'public_notes',
                 'private_notes',

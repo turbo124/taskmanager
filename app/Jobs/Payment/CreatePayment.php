@@ -117,8 +117,8 @@ class CreatePayment implements ShouldQueue
                            ->get();
 
         foreach ($invoices as $invoice) {
-            $payment->transaction_service()->createTransaction($invoice->balance * -1);
             $this->updateCustomer($payment, $invoice);
+            $payment->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
             $invoice->reduceBalance($invoice->balance);
             $payment->attachInvoice($invoice);
         }

@@ -34,9 +34,12 @@ class MakeInvoicePayment
 
     public function execute()
     {
-        $this->payment->transaction_service()->createTransaction($this->payment_amount * -1);
-
         $this->updateCustomer();
+
+        $this->payment->transaction_service()->createTransaction(
+            $this->payment_amount * -1,
+            $this->payment->customer->balance
+        );
 
         $this->updateInvoiceTotal();
 

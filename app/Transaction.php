@@ -15,12 +15,6 @@ class Transaction extends Model
         'user_id'
     ];
 
-    protected $casts = [
-        'updated_at' => 'timestamp',
-        'created_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -59,19 +53,5 @@ class Transaction extends Model
     public function setAmount($amount)
     {
         $this->amount = $amount;
-    }
-
-    public function createTransaction()
-    {
-        $this->create(
-            [
-                'user_id'         => $this->user_id,
-                'account_id'      => $this->account_id,
-                'customer_id'     => $this->customer_id,
-                'updated_balance' => $this->balance,
-                'amount'          => $this->adjustment,
-                'notes'           => $this->notes
-            ]
-        );
     }
 }

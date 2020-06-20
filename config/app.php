@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Mikes Shop'),
+    'taskmanager_email' => env('TASKMANAGER_EMAIL'),
 
     /*
     |--------------------------------------------------------------------------

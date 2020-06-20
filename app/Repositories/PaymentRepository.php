@@ -88,7 +88,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->setStatus(payment::STATUS_COMPLETED);
         $payment->save();
 
-        $payment->transaction_service()->createTransaction($payment->amount * -1);
+        $payment->transaction_service()->createTransaction($payment->amount * -1, $payment->customer->balance);
 
         if ($send_event) {
             event(new PaymentWasCreated($payment, $payment->account));

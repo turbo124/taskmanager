@@ -71,10 +71,10 @@ class ReverseInvoicePayment
             $this->createCreditNote($total_paid);
         }
 
-        $this->createTransaction();
-
         // update customer
         $this->updateCustomer($total_paid);
+
+        $this->createTransaction();
 
         // update invoice
         $this->updateInvoice();
@@ -94,7 +94,7 @@ class ReverseInvoicePayment
 
     private function createTransaction()
     {
-        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->note);
+        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->invoice->customer->balance, $this->note);
     }
 
     /**
@@ -140,7 +140,7 @@ class ReverseInvoicePayment
     private function updateCustomer(float $total_paid): bool
     {
         $customer = $this->invoice->customer;
-        $customer->increaseBalance($this->balance * -1);
+        $customer->reduceBalance($this->balance);
         $customer->reducePaidToDateAmount($total_paid);
         $customer->save();
 

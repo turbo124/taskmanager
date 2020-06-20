@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Address;
 use App\ClientContact;
 use App\Customer;
+use App\Transaction;
 
 trait CustomerTransformable
 {
@@ -58,6 +59,7 @@ trait CustomerTransformable
             'settings'               => [
                 'payment_terms' => $customer->getSetting('payment_terms')
             ],
+            'transactions'           => $this->transformTransactions($customer->transactions),
             'custom_value1'          => $customer->custom_value1 ?: '',
             'custom_value2'          => $customer->custom_value2 ?: '',
             'custom_value3'          => $customer->custom_value3 ?: '',
@@ -65,6 +67,23 @@ trait CustomerTransformable
             'private_notes'          => $customer->private_notes ?: '',
             'public_notes'           => $customer->public_notes ?: '',
         ];
+    }
+
+    /**
+     * @param $transactions
+     * @return array
+     */
+    private function transformTransactions($transactions)
+    {
+        if (empty($transactions)) {
+            return [];
+        }
+
+        return $transactions->map(
+            function (Transaction $transaction) {
+                return (new TransactionTransformable())->transformTransaction($transaction);
+            }
+        )->all();
     }
 
     /**

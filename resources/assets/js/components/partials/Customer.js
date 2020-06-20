@@ -14,6 +14,7 @@ import PaymentModel from '../models/PaymentModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
+import Transaction from '../customers/Transaction'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -35,11 +36,7 @@ export default class Customer extends Component {
 
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '3') {
-                    this.loadPdf()
-                }
-            })
+            this.setState({ activeTab: tab })
         }
     }
 
@@ -81,6 +78,16 @@ export default class Customer extends Component {
                             }}
                         >
                             {translations.details}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}
+                        >
+                            {translations.transactions}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -133,6 +140,10 @@ export default class Customer extends Component {
                                     title={translations.shipping_address}/>
                             </ListGroup>
                         </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <Transaction transactions={this.props.entity.transactions} />
                     </TabPane>
                 </TabContent>
 

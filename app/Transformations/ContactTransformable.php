@@ -13,7 +13,7 @@ class ContactTransformable
     public function transformClientContact(ClientContact $contact)
     {
         return [
-            'id'            => $contact->id,
+            'id'            => (int)$contact->id,
             'first_name'    => $contact->first_name ?: '',
             'last_name'     => $contact->last_name ?: '',
             'email'         => $contact->email ?: '',
@@ -23,7 +23,7 @@ class ContactTransformable
             'custom_value2' => $contact->custom_value2 ?: '',
             'custom_value3' => $contact->custom_value3 ?: '',
             'custom_value4' => $contact->custom_value4 ?: '',
-            'password'      => !empty($contact->password) ? '*****' : ''
+            'password'      => ''
         ];
     }
 }

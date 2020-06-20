@@ -1,4 +1,5 @@
 export const gb_translations = {
+    transactions: 'Transactions',
     vendor: 'Vendor',
     transaction_fee: 'Transaction Fee',
     transaction_tax: 'Transaction Tax',

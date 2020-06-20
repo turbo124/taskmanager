@@ -2,19 +2,20 @@
 
 namespace App\Console\Commands;
 
+use App\Account;
+use App\Factory\InvoiceFactory;
+use App\Helpers\InvoiceCalculator\LineItem;
 use App\Product;
 use App\RecurringInvoice;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Invoice;
 use Illuminate\Support\Carbon;
 use App\Repositories\InvoiceRepository;
-use App\Services\InvoiceService;
+use App\Services\Invoice\InvoiceService;
 use DateTime;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Auth;
 use Exception;
-use App\Libraries\Utils;
 use App\Jobs\Cron\RecurringInvoicesCron;
 
 /**
@@ -22,6 +23,7 @@ use App\Jobs\Cron\RecurringInvoicesCron;
  */
 class CalculateCommission extends Command
 {
+    private $calculate_total = true;
 
     /**
      * The name and signature of the console command.
@@ -54,12 +56,15 @@ class CalculateCommission extends Command
      */
     public function handle()
     {
-        $invoices = Invoice::where('commission_paid', '=', 0)->get();
+        $invoices = Invoice::where('commission_paid', '=', 0)->where('status_id', '=', Invoice::STATUS_PAID)->get();
+
         $items = [];
         $invoice_ids = [];
 
         foreach ($invoices as $invoice) {
             $line_items = $invoice->line_items;
+            $subtotal = 0;
+            $calculated_fee = 0;
 
             foreach ($line_items as $line_item) {
                 if (!empty($line_item->transaction_fee) && $line_item->transaction_fee > 0) {
@@ -68,15 +73,17 @@ class CalculateCommission extends Command
                     $product = Product::whereId($line_item->product_id)->first();
                     $account = $product->account;
 
-                    $subtotal = $line_item->unit_price * $line_item->quantity;
-                    $calculated_fee = round((($commission / 100) * $subtotal), 2); 
-                    // commission_amount = sale price * commission_percentage / 100
+                    $subtotal += $line_item->unit_price * $line_item->quantity;
+                    $calculated_commission = $this->calculate($commission, $line_item->unit_price);
+                    $calculated_fee = $line_item->quantity > 0 ? $calculated_commission *= $line_item->quantity : $calculated_commission;
 
-                    $items[$account->id][] =
+                    $items[$account->id][$invoice->id] =
                         [
-                            'line_total' => $subtotal,
+                            'invoice'          => $invoice,
+                            'account'          => $account,
+                            'line_total'       => $subtotal,
                             'calculated_total' => $calculated_fee,
-                            'product_id' => $product->id
+                            'product_id'       => $product->id
                         ];
 
                     $invoice_ids[] = $invoice->id;
@@ -90,8 +97,24 @@ class CalculateCommission extends Command
 
         $success = true;
 
-        foreach ($items as $account_id => $item) {
-            $total = array_sum(array_column($item, 'calculated_total'));
+        foreach ($items as $account_id => $payable_invoices) {
+            // $calculated_total = array_sum(array_column($payable_invoice, 'calculated_total'));
+            //$line_total = array_sum(array_column($payable_invoice, 'line_total'));
+
+            foreach ($payable_invoices as $invoice_id => $payable_invoice) {
+                $total = $payable_invoice['calculated_total'];
+
+                echo $total . ' - ';
+
+                if ($this->calculate_total) {
+                    $account_commission = $payable_invoice['account']->transaction_fee;
+                    $total = $this->calculate($account_commission, $payable_invoice['line_total']);
+                }
+
+                if (!$this->createInvoice($payable_invoice['account'], $payable_invoice['invoice'], $total)) {
+                    $success = false;
+                }
+            }
         }
 
         if ($success) {
@@ -102,15 +125,47 @@ class CalculateCommission extends Command
 
         echo count($invoice_ids) . ' have been updated';
 
-       return true;
+        return true;
     }
 
-    public function calculate(): float
+    /**
+     * @param Account $account
+     * @param Invoice $invoice
+     * @param float $total_paid
+     * @return Invoice
+     */
+    private function createInvoice(Account $account, Invoice $invoice, float $total_paid): Invoice
     {
-        $commission = $this->operation->getAmount() * self::COMMISSION_PERCENT / 100;
-        if ($commission > self::COMMISSION_MAX) {
-            return self::COMMISSION_MAX;
+        if (empty($account->domains) || empty($account->domains->user_id)) {
+            $account = $account->service()->convertAccount();
         }
-        return $commission;
+
+        $customer = $account->domains->customer;
+        $user = $account->domains->user;
+
+        $invoice = InvoiceFactory::create($account, $user, $customer);
+
+        $line_items[] = (new LineItem)
+            ->setQuantity(1)
+            ->setUnitPrice($total_paid)
+            ->setTypeId(2)
+            ->setNotes("Commission for {$invoice->getNumber()}")
+            ->toObject();
+
+        $invoice = (new InvoiceRepository(new Invoice))->save(['line_items' => $line_items], $invoice);
+
+        echo 'created invoice ' . $invoice->getNumber();
+
+        return $invoice;
+    }
+
+    /**
+     * @param $commission_amount
+     * @param $total
+     * @return float
+     */
+    public function calculate($commission_amount, $total): float
+    {
+        return $total * $commission_amount / 100;
     }
 }
