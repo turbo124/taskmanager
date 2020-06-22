@@ -23,6 +23,7 @@ import { translations } from '../common/_icons'
 import Variations from './Variations'
 import Features from './Features'
 import ProductAttribute from './ProductAttribute'
+import FileUploads from '../attachments/FileUploads'
 
 class AddProduct extends React.Component {
     constructor (props) {
@@ -262,17 +263,30 @@ class AddProduct extends React.Component {
                                     {translations.features}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '6' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('6')
+                                    }}>
+                                    {translations.documents}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <DetailsForm errors={this.state.errors} handleInput={this.handleInput} product={this.state}
-                                    handleMultiSelect={this.handleMultiSelect} categories={this.props.categories}
+                                <DetailsForm errors={this.state.errors} handleInput={this.handleInput}
+                                    product={this.state}
+                                    handleMultiSelect={this.handleMultiSelect}
+                                    categories={this.props.categories}
                                     selectedCategories={this.state.selectedCategories}
                                     companies={this.state.companies}
                                     handleCheck={this.handleCheck}/>
 
-                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                <CustomFieldsForm handleInput={this.handleInput}
+                                    custom_value1={this.state.custom_value1}
                                     custom_value2={this.state.custom_value2}
                                     custom_value3={this.state.custom_value3}
                                     custom_value4={this.state.custom_value4}
@@ -286,20 +300,31 @@ class AddProduct extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="3">
-                                <Variations variations={this.state.variations} onChange={this.handleVariations} />
+                                <Variations variations={this.state.variations} onChange={this.handleVariations}/>
                             </TabPane>
 
                             <TabPane tabId="4">
                                 <Card>
                                     <CardHeader>{translations.attributes}</CardHeader>
                                     <CardBody>
-                                        <ProductAttribute errors={this.state.errors} handleInput={this.handleInput} product={this.state}/>
+                                        <ProductAttribute errors={this.state.errors} handleInput={this.handleInput}
+                                            product={this.state}/>
                                     </CardBody>
                                 </Card>
                             </TabPane>
 
                             <TabPane tabId="5">
-                                <Features features={this.state.features} onChange={this.handleFeatures} />
+                                <Features features={this.state.features} onChange={this.handleFeatures}/>
+                            </TabPane>
+
+                            <TabPane tabId="6">
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Product" entity={this.state}
+                                            user_id={this.state.user_id}/>
+                                    </CardBody>
+                                </Card>
                             </TabPane>
                         </TabContent>
 

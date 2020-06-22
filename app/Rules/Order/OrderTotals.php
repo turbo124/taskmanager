@@ -5,6 +5,7 @@ namespace App\Rules\Order;
 use App\Product;
 use App\Promocode;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class OrderTotals implements Rule
 {
@@ -36,10 +37,6 @@ class OrderTotals implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!isset($this->request['voucher_code'])) {
-            return true;
-        }
-
         if (!$this->validate()) {
             return false;
         }
@@ -49,6 +46,8 @@ class OrderTotals implements Rule
 
     private function validate(): bool
     {
+        Log::emergency('got here mike');
+
         $this->calculateSubTotal();
         $this->calculateTax();
         $this->calculateDiscount();
@@ -60,6 +59,10 @@ class OrderTotals implements Rule
 
     private function calculateDiscount()
     {
+        if (!isset($this->request['voucher_code'])) {
+            return true;
+        }
+
         $voucher = Promocode::whereCode($this->request['voucher_code'])->first();
         $voucher_amount = $voucher->reward;
         $voucher_type = $voucher->amount_type;

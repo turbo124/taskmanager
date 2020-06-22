@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Account;
 use App\AttributeValue;
 use App\Filters\ProductFilter;
+use App\ProductListingHistory;
 use App\Repositories\Base\BaseRepository;
 use App\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
@@ -71,12 +72,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * Get the product via slug
-     * @param array $slug
+     * @param string $slug
      * @return Product
      */
-    public function findProductBySlug(array $slug): Product
+    public function findProductBySlug(string $slug): Product
     {
-        return $this->findOneByOrFail($slug);
+        return Product::where('slug', '=', $slug)->first();
     }
 
     public function getModel()
@@ -280,13 +281,41 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $product->images()->get();
     }
 
+    private function addListingHistory(array $data, Product $product)
+    {
+        $relevant_fields_for_history = [
+            'price',
+            'cost'
+        ];
+
+        $changed_fields = array_intersect_key($data, array_flip($relevant_fields_for_history));
+        $saved_fields = array_intersect_key($product->toArray(), array_flip($relevant_fields_for_history));
+
+        $diff = array_diff($changed_fields, $saved_fields);
+
+        if (!empty($diff)) {
+            ProductListingHistory::create(
+                [
+                    'product_id' => $product->id,
+                    'changes'    => $diff,
+                    'user_id'    => $product->user_id,
+                    'account_id' => $product->account_id
+                ]
+            );
+        }
+    }
+
     /**
      * @param $data
      * @param Product $product
      * @return Product|null
      */
-    public function save($data, Product $product): ?Product
+    public function save(array $data, Product $product): ?Product
     {
+        if (!empty($product->id)) {
+            $this->addListingHistory($data, $product);
+        }
+
         $product->fill($data);
         $product->save();
 

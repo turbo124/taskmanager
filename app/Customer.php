@@ -87,6 +87,11 @@ class Customer extends Model implements HasLocalePreference
         return $this->belongsTo(PaymentMethod::class, 'default_payment_method');
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     /**
      * @return BelongsToMany
      */

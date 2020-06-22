@@ -21,6 +21,7 @@ class CreateProductRequest extends BaseFormRequest
             'description' => 'required:string',
             'price'       => 'required|numeric',
             'quantity'    => 'numeric',
+            'cost'        => 'numeric',
         ];
     }
 

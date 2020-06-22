@@ -90,6 +90,13 @@ class ProductController extends Controller
         return response()->json($this->transformProduct($product));
     }
 
+    public function find(string $slug)
+    {
+        Log::emergency($slug);
+        $product = $this->product_repo->findProductBySlug($slug);
+        return response()->json($this->transformProduct($product));
+    }
+
     /**
      * @param UpdateProductRequest $request
      * @param int $id

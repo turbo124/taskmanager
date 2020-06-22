@@ -72,8 +72,7 @@ class DesignController extends Controller
     {
         $design = $this->design_repo->findDesignById($id);
 
-        $design->fill($request->all());
-        $design->save();
+        $design = $this->design_repo->save($design, $request->all());
 
         return response()->json($this->transformDesign($design->fresh()));
     }
@@ -97,8 +96,7 @@ class DesignController extends Controller
     {
         $design = DesignFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
 
-        $design->fill($request->all());
-        $design->save();
+        $design = $this->design_repo->save($design, $request->all());
 
         return response()->json($this->transformDesign($design->fresh()));
     }
@@ -115,17 +113,4 @@ class DesignController extends Controller
         $this->design_repo->newDelete($design);
         return response()->json([], 200);
     }
-
-
-    public function bulk()
-    {
-        $action = request()->input('action');
-
-        $ids = request()->input('ids');
-        $designs = Design::withTrashed()->find($ids);
-
-        return response()->json(Design::withTrashed()->whereIn('id', $ids));
-    }
-
-
 }

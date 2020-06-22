@@ -31,7 +31,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
      * @param Product $product
      * @return Product|null
      */
-    public function save($data, Product $product): ?Product;
+    public function save(array $data, Product $product): ?Product;
 
     /**
      * @param int $id
@@ -45,10 +45,10 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function deleteProduct(): bool;
 
     /**
-     *
-     * @param array $slug
+     * @param string $slug
+     * @return Product
      */
-    public function findProductBySlug(array $slug): Product;
+    public function findProductBySlug(string $slug): Product;
 
     /**
      *

@@ -12,6 +12,8 @@ import Contact from '../common/Contact'
 import NotesForm from './NotesForm'
 import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
+import { translations } from '../common/_icons'
+import FileUploads from '../attachments/FileUploads'
 
 export default function CustomerTabs (props) {
     const setBilling = e => {
@@ -229,37 +231,43 @@ export default function CustomerTabs (props) {
             <Nav tabs>
                 <NavItem>
                     <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>
-                        Details
+                        {translations.details}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
                     <NavLink className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}>
-                        Contacts
+                        {translations.contacts}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
                     <NavLink className={activeTab === '3' ? 'active' : ''} onClick={() => setActiveTab('3')}>
-                        Notes
+                        {translations.notes}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
                     <NavLink className={activeTab === '4' ? 'active' : ''} onClick={() => setActiveTab('4')}>
-                        Settings
+                        {translations.settings}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
                     <NavLink className={activeTab === '5' ? 'active' : ''} onClick={() => setActiveTab('5')}>
-                        Billing Address
+                        {translations.billing_address}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
                     <NavLink className={activeTab == '6' ? 'active' : ''} onClick={() => setActiveTab('6')}>
-                        Shipping Address
+                        {translations.shipping_address}
+                    </NavLink>
+                </NavItem>
+
+                <NavItem>
+                    <NavLink className={activeTab == '7' ? 'active' : ''} onClick={() => setActiveTab('7')}>
+                        {translations.documents}
                     </NavLink>
                 </NavItem>
             </Nav>
@@ -277,7 +285,7 @@ export default function CustomerTabs (props) {
 
                 <TabPane tabId="2">
                     <Card>
-                        <CardHeader>Contacts</CardHeader>
+                        <CardHeader>{translations.contacts}</CardHeader>
                         <CardBody>
                             <Contact errors={errors} onChange={setContacts} contacts={contacts.contacts}/>
                         </CardBody>
@@ -290,7 +298,7 @@ export default function CustomerTabs (props) {
                         private_notes={customer.private_notes}/>
 
                     <Card>
-                        <CardHeader>Notes</CardHeader>
+                        <CardHeader>{translations.notes}</CardHeader>
                         <CardBody>
                             <NotesForm errors={errors} onChange={setCustomer} customer={customer}/>
                         </CardBody>
@@ -303,7 +311,7 @@ export default function CustomerTabs (props) {
 
                 <TabPane tabId="5">
                     <Card>
-                        <CardHeader>Addresses</CardHeader>
+                        <CardHeader>{translations.billing_address}</CardHeader>
                         <CardBody>
                             <AddressForm errors={errors} onChange={setBilling} customer={billing}/>
                         </CardBody>
@@ -311,9 +319,19 @@ export default function CustomerTabs (props) {
                 </TabPane>
                 <TabPane tabId="6">
                     <Card>
-                        <CardHeader>Addresses</CardHeader>
+                        <CardHeader>{translations.shipping_address}</CardHeader>
                         <CardBody>
                             <AddressForm onChange={setShipping} customer={shipping}/>
+                        </CardBody>
+                    </Card>
+                </TabPane>
+                <TabPane tabId="7">
+                    <Card>
+                        <CardHeader>{translations.documents}</CardHeader>
+                        <CardBody>
+                            {props.customer && props.customer.user_id &&
+                            <FileUploads entity_type="Customer" entity={props.customer}
+                                user_id={props.customer.user_id}/>}
                         </CardBody>
                     </Card>
                 </TabPane>

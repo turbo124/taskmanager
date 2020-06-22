@@ -418,6 +418,7 @@ class InvoiceTest extends TestCase
 
         $previous_status = $invoice->status_id;
         $previous_balance = $invoice->balance;
+        $customer_balance = $invoice->customer->balance;
 
         $invoice->service()->cancelInvoice();
 
@@ -429,5 +430,6 @@ class InvoiceTest extends TestCase
         $this->assertEquals($previous_balance, $invoice->balance);
         $this->assertNull($invoice->previous_status);
         $this->assertNull($invoice->previous_balance);
+        $this->assertEquals($customer_balance, $invoice->customer->balance);
     }
 }

@@ -407,6 +407,7 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('quote/bulk', 'QuoteController@bulk');
     Route::post('order/bulk', 'OrderController@bulk');
     Route::get('products/{product_id}', 'ProductController@show');
+    Route::get('products/find/{slug}', 'ProductController@find');
 
     //vouchers
     Route::get('promocode/{code}', 'PromocodeController@show');
