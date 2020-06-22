@@ -30,11 +30,22 @@ class DesignRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Lead
+     * @return Design
      */
     public function findDesignById(int $id): Design
     {
         return $this->findOneOrFail($id);
+    }
+
+    /**
+     * @param Design $design
+     * @param array $data
+     * @return Design|null
+     */
+    public function save(Design $design, array $data): ?Design
+    {
+        $design->fill($data);
+        $design->save();
     }
 
 }

@@ -7,6 +7,18 @@ use App\Account;
 class AccountSettings extends BaseSettings
 {
     private $settings = [
+        'portal_terms'                    => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'portal_privacy_policy'           => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
         'charge_gateway_to_customer'      => [
             'required'         => false,
             'translated_value' => '',

@@ -20,6 +20,7 @@ class UpdateProductRequest extends BaseFormRequest
             'name'        => ['required', Rule::unique('products')->ignore($this->segment(3))],
             'price'       => 'required|numeric',
             'quantity'    => 'numeric',
+            'cost'        => 'numeric',
             'description' => 'required'
         ];
     }

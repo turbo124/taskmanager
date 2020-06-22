@@ -27,6 +27,7 @@ import { icons, translations } from '../common/_icons'
 import Variations from './Variations'
 import Features from './Features'
 import ProductAttribute from './ProductAttribute'
+import FileUploads from '../attachments/FileUploads'
 
 class EditProduct extends React.Component {
     constructor (props) {
@@ -312,6 +313,16 @@ class EditProduct extends React.Component {
                                     {translations.features}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '6' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('6')
+                                    }}>
+                                    {translations.documents}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
@@ -361,6 +372,16 @@ class EditProduct extends React.Component {
                                     <CardBody>
 
                                         <Features features={this.state.features} onChange={this.handleFeatures} />
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="6">
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Product" entity={this.state}
+                                            user_id={this.state.user_id}/>
                                     </CardBody>
                                 </Card>
                             </TabPane>

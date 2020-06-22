@@ -36,8 +36,11 @@ class CreateOrderRequest extends FormRequest
             'sub_total'      => 'required',
             'total'          => 'required',
             'tax_total'      => 'required',
-            'line_items'     => 'required|array',
-            'voucher_code'   => new OrderTotals($input),
+            'line_items'     => [
+                'required',
+                'array',
+                new OrderTotals($input)
+            ]
         ];
     }
 

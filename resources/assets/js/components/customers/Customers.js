@@ -38,6 +38,7 @@ export default class Customers extends Component {
                 'private_notes',
                 'industry_id',
                 'size_id',
+                'user_id',
                 'created_at',
                 'contacts',
                 'deleted_at',
@@ -59,8 +60,7 @@ export default class Customers extends Component {
                 'custom_value2',
                 'custom_value3',
                 'custom_value4',
-                'group_settings_id',
-                'paid_to_date'
+                'group_settings_id'
                 // 'phone'
             ],
             custom_fields: [],

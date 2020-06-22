@@ -34,6 +34,7 @@ trait CustomerTransformable
 
         return [
             'id'                     => (int)$customer->id,
+            'user_id'                => (int)$customer->user_id,
             'number'                 => $customer->number,
             'created_at'             => $customer->created_at,
             'name'                   => $customer->name,
@@ -52,9 +53,9 @@ trait CustomerTransformable
             'industry_id'            => (int)$customer->industry_id ?: null,
             'size_id'                => (int)$customer->size_id ?: null,
             'currency_id'            => $customer->currency_id,
+            'balance'                => (float)$customer->balance,
             'paid_to_date'           => (float)$customer->paid_to_date,
             'credit_balance'         => (float)$customer->credit_balance,
-            'balance'                => (float)$customer->balance,
             'assigned_user'          => $customer->assigned_user_id,
             'settings'               => [
                 'payment_terms' => $customer->getSetting('payment_terms')

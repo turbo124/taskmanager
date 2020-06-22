@@ -108,6 +108,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     /**
      * @return HasMany
      */

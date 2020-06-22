@@ -11,6 +11,7 @@ import Details from './Details'
 import PaymentModel from '../models/PaymentModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import { icons, translations } from '../common/_icons'
+import Documents from './Documents'
 
 class EditPayment extends React.Component {
     constructor (props) {
@@ -177,6 +178,8 @@ class EditPayment extends React.Component {
                             customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
+
+                        <Documents payment={this.state} />
 
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}

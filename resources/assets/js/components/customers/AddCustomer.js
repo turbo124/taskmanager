@@ -97,12 +97,6 @@ class AddCustomer extends React.Component {
 
                     <ModalBody>
 
-                        {!submitSuccess && (
-                            <div className="alert alert-info" role="alert">
-                                Fill the form below to create a new post
-                            </div>
-                        )}
-
                         {submitSuccess && (
                             <div className="alert alert-info" role="alert">
                                 The form was successfully submitted!

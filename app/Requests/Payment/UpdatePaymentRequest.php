@@ -3,6 +3,8 @@
 namespace App\Requests\Payment;
 
 use App\Repositories\Base\BaseFormRequest;
+use App\Rules\Payment\CreditPaymentValidation;
+use App\Rules\Payment\InvoicePaymentValidation;
 use App\Rules\PaymentAppliedValidAmount;
 use App\Rules\ValidCreditsPresentRule;
 
@@ -17,7 +19,12 @@ class UpdatePaymentRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'invoices' => ['required', 'array', 'min:1', new PaymentAppliedValidAmount, new ValidCreditsPresentRule],
+            'invoices' => [
+                'array',
+                'min:1',
+                new InvoicePaymentValidation($this->all()),
+                new CreditPaymentValidation($this->all())
+            ],
         ];
     }
 }
