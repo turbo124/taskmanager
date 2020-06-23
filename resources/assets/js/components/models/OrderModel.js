@@ -275,7 +275,7 @@ export default class OrderModel extends BaseModel {
 
     isLate () {
         const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
-        const pending_statuses = [consts.order_status_draft, consts.order_status_sent, consts.order_status_approved]
+        const pending_statuses = [consts.order_status_draft, consts.order_status_backorder, consts.order_status_held, consts.order_status_partial]
 
         return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }

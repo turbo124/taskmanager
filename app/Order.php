@@ -36,6 +36,7 @@ class Order extends Model
     const STATUS_PARTIAL = 7;
     const STATUS_ORDER_FAILED = 9;
     const STATUS_HELD = 5;
+    const STATUS_CANCELLED = 8;
     const STATUS_SENT = 2;
     const STATUS_APPROVED = 4;
     const STATUS_COMPLETE = 3;

@@ -2,10 +2,13 @@
 
 namespace App\Services\Order;
 
+use App\Events\Order\OrderWasCancelled;
 use App\Events\Order\OrderWasHeld;
 use App\Helpers\Shipping\ShippoShipment;
 use App\Invoice;
 use App\Account;
+use App\Jobs\Inventory\ReverseInventory;
+use App\Jobs\Inventory\UpdateInventory;
 use App\Repositories\CustomerRepository;
 use App\Repositories\TaskRepository;
 use App\User;
@@ -96,6 +99,12 @@ class OrderService extends ServiceBase
             (new ShippoShipment($this->order->customer, $this->order->line_items))->createLabel($this->order);
         }
 
+        if ($this->order->customer->getSetting(
+                'inventory_enabled'
+            ) === true || $this->order->customer->getSetting('should_update_inventory') === true) {
+            UpdateInventory::dispatch($this->order);
+        }
+
         event(new OrderWasDispatched($this->order));
 
         return true;
@@ -104,6 +113,24 @@ class OrderService extends ServiceBase
     public function calculateInvoiceTotals(): Order
     {
         return $this->calculateTotals($this->order);
+    }
+
+    public function cancelOrder()
+    {
+        if (in_array($this->order->status_id, [Order::STATUS_HELD, Order::STATUS_CANCELLED])) {
+            return null;
+        }
+
+        $this->order->setPreviousStatus($this->order->status_id);
+        $this->order->setStatus(Order::STATUS_CANCELLED);
+        $this->order->save();
+
+        $update_reserved_stock = $this->order->status_id !== Order::STATUS_SENT;
+
+        (new ReverseInventory($this->order, $update_reserved_stock));
+
+        event(new OrderWasCancelled($this->order));
+        return $this->order;
     }
 
     /**

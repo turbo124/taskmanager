@@ -24,16 +24,22 @@ class ReverseInventory implements ShouldQueue
     /**
      * @var Credit
      */
-    private Credit $credit;
+    private $entity;
+
+    /**
+     * @var bool
+     */
+    private $restore_reserved_stock = false;
 
 
     /**
      * ReverseInventory constructor.
-     * @param Credit $credit
+     * @param $entity
+     * @param bool $restore_reserved_stock
      */
-    public function __construct(Credit $credit)
+    public function __construct($entity, $restore_reserved_stock = false)
     {
-        $this->credit = $credit;
+        $this->entity = $entity;
     }
 
     /**
@@ -44,11 +50,11 @@ class ReverseInventory implements ShouldQueue
      */
     public function handle()
     {
-        if (empty($this->credit->line_items)) {
+        if (empty($this->entity->line_items)) {
             return;
         }
 
-        foreach ($this->credit->line_items as $item) {
+        foreach ($this->entity->line_items as $item) {
             if (empty($item->product_id) || $item->type_id !== 1) {
                 continue;
             }
@@ -56,8 +62,12 @@ class ReverseInventory implements ShouldQueue
             if (!empty($item->attribute_id)) {
                 $product_attribute = ProductAttribute::find($item->attribute_id);
 
-                if ($this->credit->customer->getSetting('should_update_inventory')) {
+                if ($this->entity->customer->getSetting('should_update_inventory')) {
                     $product_attribute->increaseQuantityAvailiable($item->quantity);
+
+                    if ($this->restore_reserved_stock) {
+                        $product_attribute->reduceQuantityReserved($item->quantity);
+                    }
                 }
 
                 continue;
@@ -69,8 +79,12 @@ class ReverseInventory implements ShouldQueue
                 continue;
             }
 
-            if ($this->credit->customer->getSetting('should_update_inventory')) {
+            if ($this->entity->customer->getSetting('should_update_inventory')) {
                 $product->increaseQuantityAvailiable($item->quantity);
+
+                if ($this->restore_reserved_stock) {
+                    $product->reduceQuantityReserved($item->quantity);
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ export default function OrderPresenter (props) {
         [consts.order_status_approved]: 'success',
         [consts.order_status_backorder]: 'warning',
         [consts.order_status_held]: 'warning',
+        [consts.order_status_cancelled]: 'danger',
         '-1': 'danger'
     }
 
@@ -25,6 +26,7 @@ export default function OrderPresenter (props) {
         [consts.order_status_approved]: translations.dispatched,
         [consts.order_status_backorder]: translations.backordered,
         [consts.order_status_held]: translations.held,
+        [consts.order_status_cancelled]: translations.cancelled,
         '-1': 'Expired'
     }
 
