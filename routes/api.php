@@ -418,4 +418,6 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('shipping/getRates', 'ShippingController@getRates');
 
     Route::post('preview', 'PreviewController@show');
+
+    Route::post('customer/register', 'CustomerController@register');
 });
