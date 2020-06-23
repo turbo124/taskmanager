@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/api/tasks/deal',
+        '/api/customer/register',
         'api/lead',
         '/api/invoice/download',
         '/api/recurring-invoice/cancel',
