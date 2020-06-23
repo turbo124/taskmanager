@@ -173,4 +173,9 @@ class CustomerController extends Controller
         $this->customer_repo->restore($group);
         return response()->json([], 200);
     }
+
+    public function register(Request $request)
+    {
+
+    }
 }
