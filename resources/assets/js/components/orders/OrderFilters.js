@@ -92,6 +92,7 @@ export default class OrderFilters extends Component {
                             <option value={consts.order_status_sent}>{translations.sent}</option>
                             <option value={consts.order_status_approved}>{translations.dispatched}</option>
                             <option value={consts.order_status_complete}>{translations.complete}</option>
+                            <option value={consts.order_status_cancelled}>{translations.cancelled}</option>
                             <option value={consts.order_status_backorder}>{translations.backordered}</option>
                             <option value={consts.order_status_held}>{translations.held}</option>
                         </Input>

@@ -3,6 +3,7 @@
 namespace App\Jobs\Inventory;
 
 use App\Invoice;
+use App\Order;
 use App\Product;
 use App\ProductAttribute;
 use Illuminate\Bus\Queueable;
@@ -21,18 +22,18 @@ class UpdateInventory implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Invoice
+     * @var Order 
      */
-    private Invoice $invoice;
+    private Order $order;
 
 
     /**
      * UpdateInventory constructor.
-     * @param Invoice $invoice
+     * @param Order $order
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Order $order)
     {
-        $this->invoice = $invoice;
+        $this->order = $order;
     }
 
     /**
@@ -43,11 +44,11 @@ class UpdateInventory implements ShouldQueue
      */
     public function handle()
     {
-        if (empty($this->invoice->line_items)) {
+        if (empty($this->order->line_items)) {
             return;
         }
 
-        foreach ($this->invoice->line_items as $item) {
+        foreach ($this->order->line_items as $item) {
             if (empty($item->product_id) || $item->type_id !== 1) {
                 continue;
             }
@@ -55,11 +56,11 @@ class UpdateInventory implements ShouldQueue
             if (!empty($item->attribute_id)) {
                 $product_attribute = ProductAttribute::find($item->attribute_id);
 
-                if ($this->invoice->customer->getSetting('inventory_enabled') === true) {
+                if ($this->order->customer->getSetting('inventory_enabled') === true) {
                     $product_attribute->reduceQuantityReserved($item->quantity);
                 }
 
-                if ($this->invoice->customer->getSetting('should_update_inventory')) {
+                if ($this->order->customer->getSetting('should_update_inventory')) {
                     $product_attribute->reduceQuantityAvailiable($item->quantity);
                 }
 
@@ -72,11 +73,11 @@ class UpdateInventory implements ShouldQueue
                 continue;
             }
 
-            if ($this->invoice->customer->getSetting('should_update_inventory')) {
+            if ($this->order->customer->getSetting('should_update_inventory')) {
                 $product->reduceQuantityAvailiable($item->quantity);
             }
 
-            if ($this->invoice->customer->getSetting('inventory_enabled') === true) {
+            if ($this->order->customer->getSetting('inventory_enabled') === true) {
                 $product->reduceQuantityReserved($item->quantity);
             }
         }

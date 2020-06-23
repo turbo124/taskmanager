@@ -284,6 +284,19 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function cancelOrder()
+    {
+        $order = factory(Order::class)->create();
+        $order->customer_id = 5;
+        $order->save();
+        $original_status = $order->status_id;
+        $order = $order->service()->cancelOrder();
+        $this->assertInstanceOf(Order::class, $order);
+        $this->assertEquals(Order::STATUS_CANCELLED, $order->status_id);
+        $this->assertEquals($original_status, $order->previous_status);
+    }
+
+    /** @test */
     public function test_complete_payment()
     {
         $order = factory(Order::class)->create();
