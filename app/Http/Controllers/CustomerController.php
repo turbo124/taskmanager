@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\CompanyToken;
 use App\Customer;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Customer\CustomerWasUpdated;
+use App\Helpers\Customer\ContactRegister;
 use App\Jobs\Customer\StoreCustomerAddress;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Requests\Customer\BulkCustomerRequest;
+use App\Requests\Customer\CustomerRegistrationRequest;
 use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
 use App\Requests\Customer\UpdateCustomerRequest;
@@ -22,6 +25,7 @@ use Illuminate\Http\Request;
 use App\Factory\CustomerFactory;
 use App\Filters\CustomerFilter;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -144,10 +148,6 @@ class CustomerController extends Controller
         return response()->json($customerTypes);
     }
 
-    /**
-     * @param BulkCustomerRequest $request
-     * @return mixed
-     */
     public function bulk()
     {
         $action = request()->input('action');
@@ -174,8 +174,18 @@ class CustomerController extends Controller
         return response()->json([], 200);
     }
 
-    public function register(Request $request)
+    /**
+     * @param CustomerRegistrationRequest $request
+     */
+    public function register(CustomerRegistrationRequest $request)
     {
+        $account = Account::where('subdomain', '=', $request->input('subdomain'))->firstOrFail();
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $user = $token->user;
 
+        $contact = (new ContactRegister($request->all(), $account, $user))->create();
+
+        return response()->json(['contact' => $contact]);
     }
 }

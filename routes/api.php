@@ -120,7 +120,7 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
 // uploads
         Route::post('uploads', 'UploadController@store');
         Route::get('uploads/{entity}/{entity_id}', 'UploadController@index');
-        Route::delete('uploads/file_id', 'UploadController@destroy');
+        Route::delete('uploads/{file_id}', 'UploadController@destroy');
 
 // task status
         Route::get('taskStatus/search', 'TaskStatusController@search');
@@ -385,7 +385,6 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::get("category/form/{id}", 'CategoryController@getForm');
     Route::get("category/{slug}", 'CategoryController@getCategory');
     Route::post('tasks/products/{task_id}', 'TaskController@addProducts');
-    Route::get("categories/products/{id}", 'ProductController@getProductsForCategory');
     Route::post('tasks/deal', 'TaskController@createDeal');
     Route::post('lead', 'LeadController@store');
     Route::get('lead/convert/{id}', 'LeadController@convert');
@@ -408,6 +407,7 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('order/bulk', 'OrderController@bulk');
     Route::get('products/{product_id}', 'ProductController@show');
     Route::get('products/find/{slug}', 'ProductController@find');
+    Route::get("category/{id}/products", 'ProductController@getProductsForCategory');
 
     //vouchers
     Route::get('promocode/{code}', 'PromocodeController@show');

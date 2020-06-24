@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Events\Uploads\FileWasDeleted;
 use App\File;
 use App\Task;
 use App\Repositories\Interfaces\FileRepositoryInterface;
@@ -9,6 +10,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Exceptions\CreateFileErrorException;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class FileRepository extends BaseRepository implements FileRepositoryInterface
 {
@@ -55,6 +57,8 @@ class FileRepository extends BaseRepository implements FileRepositoryInterface
      */
     public function deleteFile(): bool
     {
+        Storage::delete(public_path($this->model->file_path));
+        event(new FileWasDeleted($this->model));
         return $this->delete();
     }
 

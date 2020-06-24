@@ -478,5 +478,15 @@ class PaymentUnitTest extends TestCase
 
         $this->assertNotNull($converted);
     }
+
+//    public function testAuthorizeRefund()
+//    {
+//       $payment = Payment::find(3386);
+//       $test = (new RefundFactory())->createRefund($payment, [], new CreditRepository(new Credit()));
+//
+//       echo '<pre>';
+//       print_r($payment);
+//       die;
+//    }
 }
 

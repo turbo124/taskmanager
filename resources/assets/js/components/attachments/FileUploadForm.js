@@ -33,7 +33,7 @@ class FileUpload extends Component {
     checkMimeType (event) {
         const files = event.target.files
         const err = []
-        const types = ['image/png', 'image/jpeg', 'image/gif']
+        const types = ['image/png', 'image/jpeg', 'image/gif', 'application/pdf']
         for (let x = 0; x < files.length; x++) {
             if (types.every(type => files[x].type !== type)) {
                 err[x] = files[x].type + ' is not a supported format\n'
