@@ -30,7 +30,7 @@ export default class PdfFields extends Component {
         const saved_columns = this.props.ignored_columns[this.props.section]
 
         columns.forEach(column => {
-            if (saved_columns.includes(column)) {
+            if (saved_columns && saved_columns.length && saved_columns.includes(column)) {
                 arrSelected.push({ label: column, value: column })
             } else {
                 arrTest.push({ label: column, value: column })
@@ -68,7 +68,7 @@ export default class PdfFields extends Component {
 
         if (selected && selected.length) {
             selected.forEach((user) => {
-                if (saved_columns.includes(user.value)) {
+                if (saved_columns && saved_columns.includes(user.value)) {
                     const values = this.state.values.filter(item => item.value !== user.value)
 
                     this.setState({ values: values })

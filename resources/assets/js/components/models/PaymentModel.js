@@ -14,6 +14,8 @@ export default class PaymentModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            deleted_at: null,
+            is_deleted: false,
             customer_id: '',
             invoice_id: null,
             transaction_reference: '',
@@ -44,6 +46,14 @@ export default class PaymentModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    get isArchived () {
+        return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0 && this.fields.is_deleted === false
+    }
+
+    get isActive () {
+        return !this.fields.deleted_at && this.fields.is_deleted === false
     }
 
     buildDropdownMenu () {

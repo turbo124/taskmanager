@@ -12,6 +12,7 @@ export default class OrderModel extends BaseModel {
 
         this._fields = {
             modalOpen: false,
+            deleted_at: null,
             is_amount_discount: false,
             id: null,
             showSuccessMessage: false,
@@ -67,6 +68,7 @@ export default class OrderModel extends BaseModel {
         this.completed = consts.order_status_complete
         this.held = consts.order_status_held
         this.backorder = consts.order_status_backorder
+        this.cancelled = consts.order_status_cancelled
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -91,6 +93,10 @@ export default class OrderModel extends BaseModel {
 
     get isCompleted () {
         return parseInt(this.fields.status_id) === this.completed
+    }
+
+    get isCancelled () {
+        return parseInt(this.fields.status_id) === this.cancelled
     }
 
     get isBackorder () {
@@ -119,10 +125,23 @@ export default class OrderModel extends BaseModel {
         return array
     }
 
+    isLate () {
+        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
+        const pending_statuses = [consts.order_status_draft, consts.order_status_backorder, consts.order_status_held, consts.order_status_partial]
+
+        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
+    }
+
+    get isDeleted () {
+        return this.fields.deleted_at && this.fields.deleted_at.length > 0
+    }
+
+    get isEditable () {
+        return !this.isCancelled && !this.isHeld && !this.isDeleted
+    }
+
     buildDropdownMenu () {
         const actions = []
-
-        console.log('invitations', this.fields.invitations)
 
         if (this.fields.invitations.length) {
             actions.push('pdf')
@@ -132,15 +151,19 @@ export default class OrderModel extends BaseModel {
             actions.push('email')
         }
 
-        if (!this.isHeld && !this.isSent) {
+        if (!this.isSent && this.isEditable) {
             actions.push('markSent')
         }
 
-        if (!this.isHeld && !this.isApproved && !this.isCompleted) {
+        if (!this.isCancelled) {
+            actions.push('cancel')
+        }
+
+        if (!this.isApproved && !this.isCompleted && this.isEditable) {
             actions.push('dispatch')
         }
 
-        if (!this.isHeld && this.isBackorder) {
+        if (this.isBackorder && this.isEditable) {
             actions.push('fulfill')
         }
 
@@ -152,19 +175,19 @@ export default class OrderModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (!this.isHeld && this.isModuleEnabled('invoices')) {
+        if (this.isModuleEnabled('invoices') && this.isEditable) {
             actions.push('cloneOrderToInvoice')
         }
 
-        if (!this.isHeld && this.isModuleEnabled('invoices') && !this.isApproved) {
+        if (this.isModuleEnabled('invoices') && !this.isApproved && this.isEditable) {
             actions.push('convert')
         }
 
-        if (!this.isHeld && this.isModuleEnabled('quotes')) {
+        if (this.isModuleEnabled('quotes') && this.isEditable) {
             actions.push('cloneOrderToQuote')
         }
 
-        if (!this.isHeld && !this.hasInvoice() && !this.isCompleted) {
+        if (!this.hasInvoice() && !this.isCompleted && this.isEditable) {
             actions.push('holdOrder')
         }
 
@@ -271,13 +294,6 @@ export default class OrderModel extends BaseModel {
 
     set customer_id (customer_id) {
         this._fields.customer_id = customer_id
-    }
-
-    isLate () {
-        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
-        const pending_statuses = [consts.order_status_draft, consts.order_status_backorder, consts.order_status_held, consts.order_status_partial]
-
-        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }
 
     customerChange (customer_id) {

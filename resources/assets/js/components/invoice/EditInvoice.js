@@ -644,7 +644,9 @@ class EditInvoice extends Component {
                             {form}
                         </ModalBody>
                         <ModalFooter>
+                            {this.invoiceModel.isEditable &&
                             <Button color="success" onClick={this.saveData}>{translations.save}</Button>
+                            }
                             <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
 
                             {loading &&

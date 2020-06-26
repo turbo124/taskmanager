@@ -37,6 +37,7 @@ import Attributes from './attributes/Attributes'
 import TemplateSettings from './accounts/TemplateSettings'
 import CustomFieldSettings from './accounts/CustomFieldSettings'
 import EmailSettings from './accounts/EmailSettings'
+import PortalSettings from './accounts/CustomerPortalSettings'
 import GatewaySettings from './accounts/GatewaySettings'
 import InvoiceSettings from './accounts/InvoiceSettings'
 import ProductSettings from './accounts/ProductSettings'
@@ -185,6 +186,11 @@ const routes = [
         path: '/accounts/:add?',
         name: 'Accounts',
         component: Accounts
+    },
+    {
+        path: '/portal-settings',
+        name: 'Portal Settings',
+        component: PortalSettings
     },
     {
         path: '/email-settings',

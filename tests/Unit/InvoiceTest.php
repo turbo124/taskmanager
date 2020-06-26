@@ -340,6 +340,8 @@ class InvoiceTest extends TestCase
         $account->settings = $settings;
         $account->save();
 
+        (new InvoiceRepository(new Invoice()))->markSent($invoice);
+
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
         $invoice = $invoice->service()->createPayment(
@@ -347,7 +349,7 @@ class InvoiceTest extends TestCase
             new PaymentRepository(new Payment)
         );
 
-        $this->assertEquals($invoice->customer->balance, ($invoice->balance * -1));
+        $this->assertEquals($invoice->customer->balance, $client_balance);
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date + $invoice_balance));
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->status_id);
@@ -369,14 +371,11 @@ class InvoiceTest extends TestCase
     public function testReversalNoPayment()
     {
         $invoice = factory(Invoice::class)->create();
-        $invoice->customer->balance = $invoice->balance;
-        $invoice->customer->save();
-
-        $this->assertEquals($invoice->customer->balance, $invoice->balance);
-
         $client_paid_to_date = $invoice->customer->paid_to_date;
         $client_balance = $invoice->customer->balance;
         $invoice_balance = $invoice->balance;
+
+        (new InvoiceRepository(new Invoice()))->markSent($invoice);
 
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
@@ -388,26 +387,26 @@ class InvoiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_REVERSED, $invoice->status_id);
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date));
-        $this->assertEquals($invoice->customer->balance, ($client_balance - $invoice_balance));
+        $this->assertEquals($invoice->customer->balance, $client_balance);
     }
 
     /** @test */
     public function testCancelInvoice()
     {
         $invoice = factory(Invoice::class)->create();
+        $client_balance = $invoice->customer->balance;
+
+        (new InvoiceRepository(new Invoice))->markSent($invoice);
 
         $this->assertTrue($invoice->isCancellable());
 
-        $client_balance = $invoice->customer->balance;
-        $invoice_balance = $invoice->balance;
-
+        (new InvoiceRepository(new Invoice()))->markSent($invoice);
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
-        $invoice->service()->cancelInvoice();
+        $invoice = $invoice->service()->cancelInvoice();
 
         $this->assertEquals(0, $invoice->balance);
-        $this->assertEquals($invoice->customer->balance, ($client_balance - $invoice_balance));
-        $this->assertNotEquals((float)$client_balance, (float)$invoice->customer->balance);
+        $this->assertEquals($invoice->customer->balance, $client_balance);
         $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
     }
 
@@ -416,20 +415,22 @@ class InvoiceTest extends TestCase
     {
         $invoice = factory(Invoice::class)->create();
 
-        $previous_status = $invoice->status_id;
         $previous_balance = $invoice->balance;
         $customer_balance = $invoice->customer->balance;
 
-        $invoice->service()->cancelInvoice();
+        (new InvoiceRepository(new Invoice()))->markSent($invoice);
+        $balance_with_invoice = $invoice->customer->balance;
 
+        $invoice->service()->cancelInvoice();
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
-
+        $this->assertEquals($customer_balance, $invoice->customer->balance);
         $invoice->service()->reverseStatus();
-        $this->assertEquals($previous_status, $invoice->status_id);
+
+        $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
         $this->assertEquals($previous_balance, $invoice->balance);
         $this->assertNull($invoice->previous_status);
         $this->assertNull($invoice->previous_balance);
-        $this->assertEquals($customer_balance, $invoice->customer->balance);
+        $this->assertEquals($invoice->customer->balance, $balance_with_invoice);
     }
 }

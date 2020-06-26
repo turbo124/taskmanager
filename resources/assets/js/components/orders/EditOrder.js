@@ -568,7 +568,9 @@ export default class EditOrder extends Component {
                             {form}
                         </ModalBody>
                         <ModalFooter>
+                            {this.orderModel.isEditable &&
                             <Button color="success" onClick={this.saveData}>{translations.save}</Button>
+                            }
                             <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
 
                             {loading &&

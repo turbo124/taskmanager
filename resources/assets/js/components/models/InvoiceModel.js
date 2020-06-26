@@ -124,6 +124,14 @@ export default class InvoiceModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.sent
     }
 
+    get isDeleted () {
+        return this.fields.deleted_at && this.fields.deleted_at.length > 0
+    }
+
+    get isEditable () {
+        return !this.isReversed && !this.isCancelled && !this.isDeleted
+    }
+
     buildDropdownMenu () {
         const actions = []
 
@@ -139,7 +147,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('newPayment')
         }
 
-        if (!this.isSent) {
+        if (!this.isSent && this.isEditable) {
             actions.push('markSent')
         }
 
@@ -147,7 +155,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('reverse_status')
         }
 
-        if (!this.isPaid) {
+        if (!this.isPaid && this.isEditable) {
             actions.push('markPaid')
         }
 
@@ -159,23 +167,27 @@ export default class InvoiceModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (!this.fields.deleted_at && this.isSent) {
+        if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
             actions.push('cancel')
         }
 
-        if (!this.fields.deleted_at && this.isSent) {
+        if (!this.fields.deleted_at && this.isSent && !this.isReversed) {
             actions.push('reverse')
         }
 
-        if (this.fields.task_id && this.fields.task_id !== '') {
+        if (this.fields.task_id && this.fields.task_id !== '' && this.isEditable) {
             actions.push('getProducts')
         }
 
-        actions.push('cloneToInvoice')
-        if (this.isModuleEnabled('quotes')) {
+        if (this.isEditable) {
+            actions.push('cloneToInvoice')
+        }
+
+        if (this.isModuleEnabled('quotes') && this.isEditable) {
             actions.push('cloneInvoiceToQuote')
         }
-        if (this.isModuleEnabled('credits')) {
+
+        if (this.isModuleEnabled('credits') && this.isEditable) {
             actions.push('cloneToCredit')
         }
 

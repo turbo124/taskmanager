@@ -9,6 +9,7 @@ import ActionsMenu from '../common/ActionsMenu'
 import EditPayment from './EditPayment'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import Refund from './Refund'
+import PaymentModel from "../models/PaymentModel";
 
 export default class PaymentItem extends Component {
     constructor (props) {
@@ -52,18 +53,20 @@ export default class PaymentItem extends Component {
 
     render () {
         const { payments, custom_fields, invoices, customers } = this.props
+
         if (payments && payments.length && customers.length && invoices.length) {
             return payments.map(payment => {
+                const paymentModel = new PaymentModel(null, payment)
                 const paymentableInvoices = invoices && invoices.length ? this.getPaymentables(payment) : null
 
-                const restoreButton = payment.deleted_at
+                const restoreButton = paymentModel.isArchived
                     ? <RestoreModal id={payment.id} entities={payments} updateState={this.props.updateCustomers}
                         url={`/api/payments/restore/${payment.id}`}/> : null
 
-                const archiveButton = !payment.deleted_at
+                const archiveButton = paymentModel.isActive
                     ? <DeleteModal archive={true} deleteFunction={this.deletePayment} id={payment.id}/> : null
 
-                const deleteButton = !payment.deleted_at
+                const deleteButton = paymentModel.isActive || paymentModel.isArchived
                     ? <DeleteModal archive={false} deleteFunction={this.deletePayment} id={payment.id}/> : null
 
                 const editButton = !payment.deleted_at ? <EditPayment

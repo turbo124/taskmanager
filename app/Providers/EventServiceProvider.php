@@ -12,6 +12,8 @@ use App\Events\Order\OrderWasMarkedSent;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
 use App\Events\Payment\PaymentFailed;
+use App\Events\Uploads\FileWasDeleted;
+use App\Events\Uploads\FileWasUploaded;
 use App\Listeners\Credit\CreditUpdatedActivity;
 use App\Listeners\Invoice\InvoiceCancelledActivity;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
@@ -236,6 +238,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         DealWasCreated::class       => [
             DealNotification::class
+        ],
+        FileWasUploaded::class       => [
+        ],
+        FileWasDeleted::class       => [
         ]
     ];
 

@@ -23,6 +23,7 @@ class GatewayRefund extends BaseRefund
     {
         parent::__construct($payment, $data, $credit_repo);
         $this->payment = $payment;
+        $this->data = $data;
     }
 
     /**
@@ -41,7 +42,7 @@ class GatewayRefund extends BaseRefund
         }
 
         if($company_gateway->id === self::AUTHORIZE_ID) {
-            return (new AuthorizeRefund($this->payment, $company_gateway))->build();
+            return (new AuthorizeRefund($this->payment, $company_gateway, $this->data))->build();
         }
 
         return $this->doRefund($company_gateway);

@@ -3,6 +3,8 @@
 
 namespace App\Jobs\Utils;
 
+use App\Events\Uploads\FileWasDeleted;
+use App\Events\Uploads\FileWasUploaded;
 use App\Factory\NotificationFactory;
 use App\File;
 use Illuminate\Bus\Queueable;
@@ -44,12 +46,14 @@ class UploadFile implements ShouldQueue
 
         $imgsizes = $path->getSize();
         $data = getimagesize($path);
-        $width = $data[0];
-        $height = $data[1];
+
+        $width = !empty($data) ? $data[0] : null;
+        $height = !empty($data) ? $data[1] : null;
+        $preview = !empty($data) ? $this->makePreview($path) : null;
 
         //Start Store in Database
         $file = new File;
-        $file->preview = $this->makePreview($path);
+        $file->preview = $preview;
         $file->user_id = $this->user->id;
         $file->account_id = $this->account->id;
         $file->file_path = $destinationPath . $originalname;
@@ -73,6 +77,8 @@ class UploadFile implements ShouldQueue
             ]
         );
         $notification->save();
+
+        event(new FileWasUploaded($file));
 
         return $file;
     }

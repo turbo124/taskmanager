@@ -124,14 +124,15 @@ class ProductTest extends TestCase
     {
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
         $product = new ProductRepository(new Product);
-        $product->findProductBySlug(['slug' => 'unknown']);
+        $product->findProductBySlug('unknown');
     }
 
     public function it_errors_creating_the_product_when_required_fields_are_not_passed()
     {
+        $product = new Product();
         $this->expectException(\Illuminate\Database\QueryException::class);
-        $task = new ProductRepository(new Product);
-        $task->createProduct([]);
+        $task = new ProductRepository($product);
+        $task->save([], $product);
     }
 
     /** @test */
@@ -139,7 +140,7 @@ class ProductTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $productRepo = new ProductRepository(new Product);
-        $found = $productRepo->findProductBySlug(['slug' => $product->slug]);
+        $found = $productRepo->findProductBySlug($product->slug);
         $this->assertEquals($product->name, $found->name);
     }
 

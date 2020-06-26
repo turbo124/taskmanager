@@ -197,7 +197,7 @@ class Invoice extends Model
 
     public function adjustInvoices($amount): bool
     {
-        $this->balance += $amount;
+        $this->increaseBalance($amount);
 
         $status = $this->total == $this->balance ? Invoice::STATUS_SENT : Invoice::STATUS_PARTIAL;
 

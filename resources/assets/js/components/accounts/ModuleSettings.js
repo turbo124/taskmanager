@@ -51,7 +51,7 @@ class ModuleSettings extends Component {
                 {
                     id: 'recurringInvoices',
                     value: 1,
-                    label: 'Recurring Invoices',
+                    label: translations.recurring_invoices,
                     isChecked: false
                 },
                 {
@@ -63,68 +63,68 @@ class ModuleSettings extends Component {
                 {
                     id: 'credits',
                     value: 2,
-                    label: 'Credits',
+                    label: translations.credits,
                     isChecked: false
                 },
                 {
                     id: 'quotes',
                     value: 4,
-                    label: 'Quotes',
+                    label: translations.quotes,
                     isChecked: false
                 },
                 {
                     id: 'products',
                     value: 4,
-                    label: 'Products',
+                    label: translations.products,
                     isChecked: false
                 },
                 {
                     id: 'leads',
                     value: 4,
-                    label: 'Leads',
+                    label: translations.leads,
                     isChecked: false
                 },
                 {
                     id: 'events',
                     value: 4,
-                    label: 'Events',
+                    label: translations.events,
                     isChecked: false
                 },
                 {
                     id: 'deals',
                     value: 4,
-                    label: 'Deals',
+                    label: translations.deals,
                     isChecked: false
                 },
                 { id: 'tasks', value: 8, label: 'Tasks', isChecked: false },
                 {
                     id: 'expenses',
                     value: 16,
-                    label: 'Expenses',
+                    label: translations.expenses,
                     isChecked: false
                 },
                 {
                     id: 'projects',
                     value: 32,
-                    label: 'Projects',
+                    label: translations.projects,
                     isChecked: false
                 },
                 {
                     id: 'companies',
                     value: 64,
-                    label: 'Vendors',
+                    label: translations.companies,
                     isChecked: false
                 },
                 {
                     id: 'cases',
                     value: 128,
-                    label: 'Cases',
+                    label: translations.cases,
                     isChecked: false
                 },
                 {
                     id: 'recurringExpenses',
                     value: 512,
-                    label: 'Recurring Expenses',
+                    label: translations.recurring_expenses,
                     isChecked: false
                 },
                 {
@@ -136,25 +136,25 @@ class ModuleSettings extends Component {
                 {
                     id: 'tasks',
                     value: 1024,
-                    label: 'Tasks',
+                    label: translations.tasks,
                     isChecked: false
                 },
                 {
                     id: 'payments',
                     value: 1024,
-                    label: 'Payments',
+                    label: translations.payments,
                     isChecked: false
                 },
                 {
                     id: 'invoices',
                     value: 1024,
-                    label: 'Invoices',
+                    label: translations.invoices,
                     isChecked: false
                 },
                 {
                     id: 'orders',
                     value: 2000,
-                    label: 'Orders',
+                    label: translations.orders,
                     isChecked: false
                 }
             ]
@@ -215,7 +215,7 @@ class ModuleSettings extends Component {
                             onClick={() => {
                                 this.toggleTab('1')
                             }}>
-                            Overview
+                            {translations.overview}
                         </NavLink>
                     </NavItem>
 
@@ -225,7 +225,7 @@ class ModuleSettings extends Component {
                             onClick={() => {
                                 this.toggleTab('2')
                             }}>
-                            Enable Modules
+                            {translations.enable_modules}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -242,7 +242,7 @@ class ModuleSettings extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Enable Modules</CardHeader>
+                            <CardHeader>{translations.enable_modules}</CardHeader>
                             <CardBody>
                                 <Form>
                                     <FormGroup>

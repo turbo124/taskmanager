@@ -77,7 +77,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function findProductBySlug(string $slug): Product
     {
-        return Product::where('slug', '=', $slug)->first();
+        return Product::where('slug', '=', $slug)->firstOrFail();
     }
 
     public function getModel()

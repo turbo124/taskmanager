@@ -13,6 +13,7 @@ import {
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
+import { translations } from '../common/_icons'
 
 class CustomFieldSettings extends Component {
     constructor (props) {
@@ -208,7 +209,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Customers
+                    {translations.customers}
                 </NavLink>
             </NavItem>)
             tabCounter++
@@ -217,7 +218,7 @@ class CustomFieldSettings extends Component {
         if (product && this.modules.products === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Products</CardHeader>
+                    <CardHeader>{translations.products}</CardHeader>
                     <CardBody>
                         {
                             product.map((val, idx) => {
@@ -239,7 +240,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Products
+                    {translations.products}
                 </NavLink>
             </NavItem>)
 
@@ -249,7 +250,7 @@ class CustomFieldSettings extends Component {
         if (invoices && this.modules.invoices === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Invoice</CardHeader>
+                    <CardHeader>{translations.invoices}</CardHeader>
                     <CardBody>
                         {
                             invoices.map((val, idx) => {
@@ -281,7 +282,7 @@ class CustomFieldSettings extends Component {
         if (payments && this.modules.payments === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Payments</CardHeader>
+                    <CardHeader>{translations.payments}</CardHeader>
                     <CardBody>
                         {
                             payments.map((val, idx) => {
@@ -303,7 +304,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Payments
+                    {translations.payments}
                 </NavLink>
             </NavItem>)
 
@@ -313,7 +314,7 @@ class CustomFieldSettings extends Component {
         if (companies && this.modules.companies === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Companies</CardHeader>
+                    <CardHeader>{translations.companies}</CardHeader>
                     <CardBody>
                         {
                             companies.map((val, idx) => {
@@ -335,7 +336,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Companies
+                    {translations.companies}
                 </NavLink>
             </NavItem>)
 
@@ -345,7 +346,7 @@ class CustomFieldSettings extends Component {
         if (quotes && this.modules.quotes === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Quotes</CardHeader>
+                    <CardHeader>{translations.quotes}</CardHeader>
                     <CardBody>
                         {
                             quotes.map((val, idx) => {
@@ -367,7 +368,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Quotes
+                    {translations.quotes}
                 </NavLink>
             </NavItem>)
 
@@ -377,7 +378,7 @@ class CustomFieldSettings extends Component {
         if (credits && this.modules.credits === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Credits</CardHeader>
+                    <CardHeader>{translations.credits}</CardHeader>
                     <CardBody>
                         {
                             credits.map((val, idx) => {
@@ -399,7 +400,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Credits
+                    {translations.credits}
                 </NavLink>
             </NavItem>)
 
@@ -409,7 +410,7 @@ class CustomFieldSettings extends Component {
         if (tasks && this.modules.tasks === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Tasks</CardHeader>
+                    <CardHeader>{translations.tasks}</CardHeader>
                     <CardBody>
                         {
                             tasks.map((val, idx) => {
@@ -431,7 +432,7 @@ class CustomFieldSettings extends Component {
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     data-id={tabCounter}
                     onClick={this.toggle}>
-                    Tasks
+                    {translations.tasks}
                 </NavLink>
             </NavItem>)
 
@@ -441,7 +442,7 @@ class CustomFieldSettings extends Component {
         if (expenses && this.modules.expenses === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
-                    <CardHeader>Expenses</CardHeader>
+                    <CardHeader>{translations.expenses}</CardHeader>
                     <CardBody>
                         {
                             expenses.map((val, idx) => {
@@ -463,7 +464,7 @@ class CustomFieldSettings extends Component {
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     data-id={tabCounter}
                     onClick={this.toggle}>
-                    Expenses
+                    {translations.expenses}
                 </NavLink>
             </NavItem>)
 
@@ -510,7 +511,7 @@ class CustomFieldSettings extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     {tabContent}
-                    <Button color="primary" onClick={this.handleSubmit}>Save</Button>
+                    <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                 </TabContent>
             </React.Fragment>
         )

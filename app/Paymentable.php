@@ -23,6 +23,6 @@ class Paymentable extends Pivot
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(Payment::class)->withTrashed();
     }
 }

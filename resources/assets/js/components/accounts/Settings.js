@@ -16,6 +16,7 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import { translations } from "../common/_icons";
 
 class Settings extends Component {
     constructor (props) {
@@ -120,49 +121,49 @@ class Settings extends Component {
             [
                 {
                     name: 'address1',
-                    label: 'Address 1',
+                    label: translations.address_1,
                     type: 'text',
-                    placeholder: 'Address 1',
+                    placeholder: translations.address_1,
                     value: settings.address1,
                     group: 2
                 },
                 {
                     name: 'address2',
-                    label: 'Address 2',
+                    label: translations.address_2,
                     type: 'text',
-                    placeholder: 'Address 2',
+                    placeholder: translations.address_2,
                     value: settings.address2,
                     group: 2
                 },
                 {
                     name: 'city',
-                    label: 'City',
+                    label: translations.city,
                     type: 'text',
-                    placeholder: 'City',
+                    placeholder: translations.city,
                     value: settings.city,
                     group: 2
                 },
                 {
                     name: 'state',
-                    label: 'State',
+                    label: translations.town,
                     type: 'text',
-                    placeholder: 'State',
+                    placeholder: translations.town,
                     value: settings.state,
                     group: 2
                 },
                 {
                     name: 'postal_code',
-                    label: 'Postal Code',
+                    label: translations.postcode,
                     type: 'text',
-                    placeholder: 'Postal Code',
+                    placeholder: translations.postcode,
                     value: settings.postal_code,
                     group: 2
                 },
                 {
                     name: 'country_id',
-                    label: 'Country',
+                    label: translations.country,
                     type: 'country',
-                    placeholder: 'Country',
+                    placeholder: translations.country,
                     value: settings.country_id,
                     group: 2
                 }
@@ -179,112 +180,112 @@ class Settings extends Component {
             [
                 {
                     name: 'name',
-                    label: 'Name',
+                    label: translations.name,
                     type: 'text',
-                    placeholder: 'Name',
+                    placeholder: translations.name,
                     value: settings.name,
                     group: 1
                 },
                 {
                     name: 'website',
-                    label: 'Website',
+                    label: translations.website,
                     type: 'text',
-                    placeholder: 'Website',
+                    placeholder: translations.website,
                     value: settings.website,
                     group: 1
                 },
                 {
                     name: 'phone',
-                    label: 'Phone Number',
+                    label: translations.phone_number,
                     type: 'text',
-                    placeholder: 'Phone Number',
+                    placeholder: translations.phone_number,
                     value: settings.phone,
                     group: 1
                 },
                 {
                     name: 'email',
-                    label: 'Email',
+                    label: translations.email,
                     type: 'text',
-                    placeholder: 'Email',
+                    placeholder: translations.email,
                     value: settings.email,
                     group: 1
                 },
                 {
                     name: 'vat_number',
-                    label: 'VAT Number',
+                    label: translations.vat_number,
                     type: 'text',
-                    placeholder: 'VAT Number',
+                    placeholder: translations.vat_number,
                     value: settings.vat_number,
                     group: 1
                 },
 
                 {
                     name: 'currency_id',
-                    label: 'Currency',
+                    label: translations.currency,
                     type: 'currency',
-                    placeholder: 'Currency',
+                    placeholder: translations.currency,
                     value: settings.currency_id,
                     group: 3
                 },
                 {
                     name: 'email_style',
-                    label: 'Email Template',
+                    label: translations.email_style,
                     type: 'select',
                     value: settings.design,
                     group: 3,
                     options: [
                         {
                             value: 'plain',
-                            text: 'Plain'
+                            text: translations.plain
                         },
                         {
                             value: 'light',
-                            text: 'Light'
+                            text: translations.light
                         },
                         {
                             value: 'dark',
-                            text: 'Dark'
+                            text: translations.dark
                         },
                         {
                             value: 'custom',
-                            text: 'Custom'
+                            text: translations.custom
                         }
                     ]
                 },
                 {
                     name: 'inclusive_taxes',
-                    label: 'Inclusive Taxes',
+                    label: translations.inclusive_taxes,
                     type: 'select',
                     value: settings.inclusive_taxes,
                     group: 3,
                     options: [
                         {
                             value: true,
-                            text: 'Yes'
+                            text: translations.yes
                         },
                         {
                             value: false,
-                            text: 'No'
+                            text: translations.no
                         }
                     ]
                 },
                 {
                     name: 'charge_gateway_to_customer',
-                    label: 'Charge Gateway Fee To Customer',
+                    label: translations.charge_gateway_to_customer,
                     type: 'select',
                     value: settings.charge_gateway_to_customer,
                     group: 3,
                     options: [
                         {
                             value: true,
-                            text: 'Yes'
+                            text: translations.yes
                         },
                         {
                             value: false,
-                            text: 'No'
+                            text: translations.no
                         }
                     ]
-                },
+                }
             ]
         ]
 
@@ -297,81 +298,81 @@ class Settings extends Component {
             [
                 {
                     name: 'payment_terms',
-                    label: 'Payment Terms',
+                    label: translations.payment_terms,
                     type: 'payment_terms',
-                    placeholder: 'Payment Terms',
+                    placeholder: translations.payment_terms,
                     value: settings.payment_terms,
                     group: 1
                 },
                 {
                     name: 'payment_type_id',
-                    label: 'Payment Type',
+                    label: translations.payment_type,
                     type: 'payment_type',
-                    placeholder: 'Payment Type',
+                    placeholder: translations.payment_type,
                     value: settings.payment_type_id,
                     group: 1
                 },
                 {
                     name: 'invoice_terms',
-                    label: 'Invoice Terms',
+                    label: translations.invoice_terms,
                     type: 'textarea',
-                    placeholder: 'Invoice Terms',
+                    placeholder: translations.invoice_terms,
                     value: settings.invoice_terms,
                     group: 1
                 },
                 {
                     name: 'invoice_footer',
-                    label: 'Invoice Footer',
+                    label: translations.invoice_footer,
                     type: 'textarea',
-                    placeholder: 'Invoice Footer',
+                    placeholder: translations.invoice_footer,
                     value: settings.invoice_footer,
                     group: 1
                 },
                 {
                     name: 'quote_terms',
-                    label: 'Quote Terms',
+                    label: translations.quote_terms,
                     type: 'textarea',
-                    placeholder: 'Quote Terms',
+                    placeholder: translations.quote_terms,
                     value: settings.quote_terms,
                     group: 1
                 },
                 {
                     name: 'quote_footer',
-                    label: 'Quote Footer',
+                    label: translations.quote_footer,
                     type: 'textarea',
-                    placeholder: 'Quote Footer',
+                    placeholder: translations.quote_footer,
                     value: settings.quote_footer,
                     group: 1
                 },
                 {
                     name: 'credit_terms',
-                    label: 'Credit Terms',
+                    label: translations.credit_terms,
                     type: 'textarea',
-                    placeholder: 'Credit Terms',
+                    placeholder: translations.credit_terms,
                     value: settings.credit_terms,
                     group: 1
                 },
                 {
                     name: 'credit_footer',
-                    label: 'Credit Footer',
+                    label: translations.credit_footer,
                     type: 'textarea',
-                    placeholder: 'Credit Footer',
+                    placeholder: translations.credit_footer,
                     value: settings.credit_footer,
                     group: 1
                 },
                 {
                     name: 'order_terms',
-                    label: 'Order Terms',
+                    label: translations.order_terms,
                     type: 'textarea',
-                    placeholder: 'Order Terms',
+                    placeholder: translations.order_terms,
                     value: settings.order_terms,
                     group: 1
                 },
                 {
                     name: 'order_footer',
-                    label: 'Order Footer',
+                    label: translations.order_footer,
                     type: 'textarea',
-                    placeholder: 'Order Footer',
+                    placeholder: translations.order_footer,
                     value: settings.order_footer,
                     group: 1
                 }
@@ -393,7 +394,7 @@ class Settings extends Component {
                             onClick={() => {
                                 this.toggle('1')
                             }}>
-                            Details
+                            {translations.details}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -402,7 +403,7 @@ class Settings extends Component {
                             onClick={() => {
                                 this.toggle('2')
                             }}>
-                            Address
+                            {translations.address}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -411,7 +412,7 @@ class Settings extends Component {
                             onClick={() => {
                                 this.toggle('3')
                             }}>
-                            Logo
+                            {translations.logo}
                         </NavLink>
                     </NavItem>
 
@@ -421,14 +422,14 @@ class Settings extends Component {
                             onClick={() => {
                                 this.toggle('4')
                             }}>
-                            Defaults
+                            {translations.defaults}
                         </NavLink>
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
-                            <CardHeader>Details</CardHeader>
+                            <CardHeader>{translations.details}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -439,7 +440,7 @@ class Settings extends Component {
                     </TabPane>
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Address</CardHeader>
+                            <CardHeader>{translations.address}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -450,11 +451,11 @@ class Settings extends Component {
                     </TabPane>
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>Logo</CardHeader>
+                            <CardHeader>{translations.logo}</CardHeader>
                             <CardBody>
                                 <FormGroup>
 
-                                    <Label>Logo</Label>
+                                    <Label>{translations.logo}</Label>
                                     <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
                                         type="file"
                                         id="company_logo" name="company_logo"
@@ -466,7 +467,7 @@ class Settings extends Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>Defaults</CardHeader>
+                            <CardHeader>{translations.defaults}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
