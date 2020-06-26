@@ -171,7 +171,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('cancel')
         }
 
-        if (!this.fields.deleted_at && this.isSent && !this.isReversed) {
+        if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {
             actions.push('reverse')
         }
 
