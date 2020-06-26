@@ -72,6 +72,11 @@ const items = [
                 icon: 'fa fa-dashboard'
             },
             {
+                name: 'Customer Portal Settings',
+                url: '/portal-settings',
+                icon: 'fa fa-dashboard'
+            },
+            {
                 name: 'Designs',
                 url: '/designs',
                 icon: 'fa fa-dashboard'

@@ -21,6 +21,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import Checkbox from '../common/Checkbox'
 import GatewayDropdown from '../common/GatewayDropdown'
+import { translations } from "../common/_icons";
 
 class GatewaySettings extends Component {
     constructor (props) {
@@ -250,34 +251,34 @@ class GatewaySettings extends Component {
             [
                 {
                     name: 'require_cvv',
-                    label: 'Require CVV',
+                    label: translations.require_cvv,
                     type: 'checkbox',
-                    placeholder: 'Require CVV',
+                    placeholder: translations.require_cvv,
                     value: settings.require_cvv ? settings.require_cvv : '',
                     group: 1
                 },
                 {
                     name: 'update_details',
-                    label: 'Update Address',
+                    label: translations.update_details,
                     type: 'checkbox',
-                    placeholder: 'Update Address',
+                    placeholder: translations.update_details,
                     value: settings.update_details ? settings.update_details : '',
                     group: 1
                 },
                 {
                     name: 'show_billing_address',
-                    label: 'Billing Address',
+                    label: translations.show_billing_address,
                     type: 'checkbox',
-                    placeholder: 'Billing Address',
+                    placeholder: translations.show_billing_address,
                     value: settings.show_billing_address ? settings.show_billing_address : '',
                     group: 1
                 },
 
                 {
                     name: 'show_shipping_address',
-                    label: 'Shipping Address',
+                    label: translations.show_shipping_address,
                     type: 'checkbox',
-                    placeholder: 'Shipping Address',
+                    placeholder: translations.show_shipping_address,
                     value: settings.show_shipping_address ? settings.show_shipping_address : '',
                     group: 1
                 }
@@ -300,41 +301,41 @@ class GatewaySettings extends Component {
             [
                 {
                     name: 'min_limit',
-                    label: 'Min Limit',
+                    label: translations.min_limit,
                     type: 'text',
-                    placeholder: 'Min Limit',
+                    placeholder: translations.min_limit,
                     value: settings && settings.min_limit ? settings.min_limit : '',
                     group: 1
                 },
                 {
                     name: 'max_limit',
-                    label: 'Max Limit',
+                    label: translations.max_limit,
                     type: 'text',
-                    placeholder: 'Max Limit',
+                    placeholder: translations.max_limit,
                     value: settings && settings.max_limit ? settings.max_limit : '',
                     group: 1
                 },
                 {
                     name: 'fee_amount',
-                    label: 'Fee Amount',
+                    label: translations.fee_amount,
                     type: 'text',
-                    placeholder: 'Fee Amount',
+                    placeholder: translations.fee_amount,
                     value: settings && settings.fee_amount ? settings.fee_amount : '',
                     group: 1
                 },
                 {
                     name: 'fee_percent',
-                    label: 'Fee Percent',
+                    label: translations.fee_percent,
                     type: 'text',
-                    placeholder: 'Fee Percent',
+                    placeholder: translations.fee_percent,
                     value: settings && settings.fee_percent ? settings.fee_percent : '',
                     group: 1
                 },
                 {
                     name: 'fee_cap',
-                    label: 'Fee Cap',
+                    label: translations.fee_cap,
                     type: 'text',
-                    placeholder: 'Fee Cap',
+                    placeholder: translations.fee_cap,
                     value: settings && settings.fee_cap ? settings.fee_cap : '',
                     group: 2
                 }
@@ -378,7 +379,7 @@ class GatewaySettings extends Component {
             <TabPane tabId="2">
                 <Form className="form-horizontal">
                     <Card>
-                        <CardHeader>Settings</CardHeader>
+                        <CardHeader>{translations.settings}</CardHeader>
                         <CardBody>
                             <FormBuilder
                                 handleCheckboxChange={this.handleChange}
@@ -389,7 +390,7 @@ class GatewaySettings extends Component {
                     </Card>
 
                     <Card>
-                        <CardHeader>Accepted Cards</CardHeader>
+                        <CardHeader>{translations.accepted_cards}</CardHeader>
                         <CardBody>
                             <FormGroup>
                                 <Row>
@@ -416,7 +417,7 @@ class GatewaySettings extends Component {
             </TabPane>
             <TabPane tabId="3">
                 <Card>
-                    <CardHeader>Limits \ Fees</CardHeader>
+                    <CardHeader>{translations.limits}</CardHeader>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
@@ -439,7 +440,7 @@ class GatewaySettings extends Component {
                 <ToastContainer/>
 
                 <FormGroup>
-                    <Label>Gateway Type</Label>
+                    <Label>{translations.gateway_type}</Label>
                     {gatewayDropdown}
                 </FormGroup>
 
@@ -450,7 +451,7 @@ class GatewaySettings extends Component {
                             onClick={() => {
                                 this.toggle('1')
                             }}>
-                            Credentials
+                            {translations.credentials}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -459,7 +460,7 @@ class GatewaySettings extends Component {
                             onClick={() => {
                                 this.toggle('2')
                             }}>
-                            Settings
+                            {translations.settings}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -468,7 +469,7 @@ class GatewaySettings extends Component {
                             onClick={() => {
                                 this.toggle('3')
                             }}>
-                            Limits/Fees
+                            {translations.limits}
                         </NavLink>
                     </NavItem>
                 </Nav>

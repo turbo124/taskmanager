@@ -7,6 +7,7 @@ import { credit_pdf_fields } from '../models/CreditModel'
 import { quote_pdf_fields } from '../models/QuoteModel'
 import { invoice_pdf_fields } from '../models/InvoiceModel'
 import PdfFields from './PdfFields'
+import { translations } from "../common/_icons";
 
 class InvoiceSettings extends Component {
     constructor (props) {
@@ -97,8 +98,6 @@ class InvoiceSettings extends Component {
     getSettingFields () {
         const settings = this.state.settings
 
-        console.log('settings', settings)
-
         const formFields = [
             [
                 {
@@ -109,19 +108,19 @@ class InvoiceSettings extends Component {
                     options: [
                         {
                             value: '1',
-                            text: 'Clean'
+                            text: translations.clean
                         },
                         {
                             value: '2',
-                            text: 'Bold'
+                            text: translations.bold
                         },
                         {
                             value: '3',
-                            text: 'Modern'
+                            text: translations.modern
                         },
                         {
                             value: '4',
-                            text: 'Plain'
+                            text: translations.plain
                         }
                     ],
                     group: 1
@@ -211,7 +210,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('1')
                             }}>
-                            Settings
+                            {translations.settings}
                         </NavLink>
                     </NavItem>
 
@@ -221,7 +220,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('2')
                             }}>
-                            Invoice Settings
+                            {translations.invoice_settings}
                         </NavLink>
                     </NavItem>
 
@@ -231,7 +230,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('3')
                             }}>
-                            Customer
+                            {translations.customer}
                         </NavLink>
                     </NavItem>
 
@@ -241,7 +240,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('4')
                             }}>
-                            Account
+                            {translations.account}
                         </NavLink>
                     </NavItem>
 
@@ -251,7 +250,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('5')
                             }}>
-                            Invoice
+                            {translations.invoice}
                         </NavLink>
                     </NavItem>
 
@@ -261,7 +260,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('6')
                             }}>
-                            Quote
+                            {translations.quote}
                         </NavLink>
                     </NavItem>
 
@@ -271,7 +270,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('7')
                             }}>
-                            Credit
+                            {translations.credit}
                         </NavLink>
                     </NavItem>
 
@@ -281,7 +280,7 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('8')
                             }}>
-                            Product
+                            {translations.product}
                         </NavLink>
                     </NavItem>
 
@@ -291,14 +290,14 @@ class InvoiceSettings extends Component {
                             onClick={() => {
                                 this.toggle('9')
                             }}>
-                            Task
+                            {translations.task}
                         </NavLink>
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
-                            <CardHeader>Settings</CardHeader>
+                            <CardHeader>{translations.settings}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -310,14 +309,14 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Invoice Options</CardHeader>
+                            <CardHeader>{translations.invoice}</CardHeader>
                             <CardBody/>
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>Customer</CardHeader>
+                            <CardHeader>{translations.customer}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="client_details" columns={this.getCustomerFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -327,7 +326,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>Account</CardHeader>
+                            <CardHeader>{translations.account}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="company_details" columns={this.getAccountFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -337,7 +336,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="5">
                         <Card>
-                            <CardHeader>Invoice</CardHeader>
+                            <CardHeader>{translations.invoice}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="invoice_details" columns={this.getInvoiceFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -347,7 +346,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="6">
                         <Card>
-                            <CardHeader>Quote</CardHeader>
+                            <CardHeader>{translations.quote}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="quote_details" columns={this.getQuoteFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -357,7 +356,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="7">
                         <Card>
-                            <CardHeader>Credit</CardHeader>
+                            <CardHeader>{translations.credit}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="credit_details" columns={this.getCreditFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -367,7 +366,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="8">
                         <Card>
-                            <CardHeader>Product</CardHeader>
+                            <CardHeader>{translations.product}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="product_columns" columns={this.getProductFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -377,7 +376,7 @@ class InvoiceSettings extends Component {
 
                     <TabPane tabId="9">
                         <Card>
-                            <CardHeader>Task</CardHeader>
+                            <CardHeader>{translations.task}</CardHeader>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="task_columns" columns={this.getTaskFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -386,7 +385,7 @@ class InvoiceSettings extends Component {
                     </TabPane>
                 </TabContent>
 
-                <Button color="primary" onClick={this.handleSubmit}>Save</Button>
+                <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
 
             </React.Fragment>
         ) : null

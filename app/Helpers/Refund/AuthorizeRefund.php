@@ -31,14 +31,20 @@ class AuthorizeRefund
     private CompanyGateway $company_gateway;
 
     /**
+     * @var array
+     */
+    private array $data;
+
+    /**
      * AuthorizeRefund constructor.
      * @param Payment $payment
      * @param CompanyGateway $company_gateway
      */
-    public function __construct(Payment $payment, CompanyGateway $company_gateway)
+    public function __construct(Payment $payment, CompanyGateway $company_gateway, array $data)
     {
         $this->payment = $payment;
         $this->company_gateway = $company_gateway;
+        $this->data = $data;
     }
 
     public function build()
@@ -124,9 +130,10 @@ class AuthorizeRefund
 
     private function createTransaction()
     {
+        $amount = $this->data['amount'] ?? $this->payment->amount;
         $this->transactionRequest = new TransactionRequestType();
         $this->transactionRequest->setTransactionType("refundTransaction");
-        $this->transactionRequest->setAmount(round($this->payment->amount, 2));
+        $this->transactionRequest->setAmount(round($amount, 2));
 
         if (isset($this->customerProfile)) {
             $this->transactionRequest->setProfile($this->customerProfile);

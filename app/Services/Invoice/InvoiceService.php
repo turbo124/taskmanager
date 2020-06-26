@@ -45,6 +45,15 @@ class InvoiceService extends ServiceBase
         return $this->invoice;
     }
 
+    public function send()
+    {
+        $customer = $this->invoice->customer;
+        $customer->increaseBalance($this->invoice->balance);
+        $customer->save();
+
+        $this->invoice->transaction_service()->createTransaction($this->invoice->balance, $customer->balance);
+    }
+
     public function sendReminders()
     {
         (new SendReminders($this->invoice->account->getSettings(), $this->invoice))->execute();

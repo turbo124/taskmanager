@@ -25,7 +25,7 @@ $factory->define(
 
         return [
             'account_id'     => 1,
-            'status_id'      => Invoice::STATUS_SENT,
+            'status_id'      => Invoice::STATUS_DRAFT,
             'number'         => $faker->ean13(),
             'total'          => $total,
             'balance'        => $total,

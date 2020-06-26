@@ -288,9 +288,9 @@ class BaseController extends Controller
                 break;
 
             case 'cancel': //done
-                $invoice = $entity->service()->cancelInvoice();
-
-                $response = $this->transformInvoice($invoice);
+                $method = "cancel{$this->entity_string}";
+                $entity = $entity->service()->{$method}();
+                $response = $this->transformEntity($entity);
 
                 break;
             default:

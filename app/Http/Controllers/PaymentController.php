@@ -186,8 +186,8 @@ class PaymentController extends Controller
      */
     public function restore(int $id)
     {
-        $group = Payment::withTrashed()->where('id', '=', $id)->first();
-        $this->payment_repo->restore($group);
+        $payment = Payment::withTrashed()->where('id', '=', $id)->first();
+        $this->payment_repo->restore($payment);
         return response()->json([], 200);
     }
 

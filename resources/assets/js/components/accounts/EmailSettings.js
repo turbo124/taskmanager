@@ -5,6 +5,7 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
+import { translations } from "../common/_icons";
 
 class EmailSettings extends Component {
     constructor (props) {
@@ -88,69 +89,69 @@ class EmailSettings extends Component {
             [
                 {
                     name: 'email_style',
-                    label: 'Email Style',
+                    label: translations.email_style,
                     type: 'select',
-                    placeholder: 'Email Style',
+                    placeholder: translations.email_style,
                     value: settings.email_style,
                     options: [
                         {
                             value: 'plain',
-                            text: 'Plain'
+                            text: translations.plain
                         },
                         {
                             value: 'light',
-                            text: 'Light'
+                            text: translations.light
                         },
                         {
                             value: 'dark',
-                            text: 'Dark'
+                            text: translations.dark
                         },
                         {
                             value: 'custom',
-                            text: 'Custom'
+                            text: translations.custom
                         }
                     ]
                 },
                 {
                     name: 'reply_to_email',
-                    label: 'Reply To Email',
+                    label: translations.reply_to_email,
                     type: 'text',
-                    placeholder: 'Reply To Email',
+                    placeholder: translations.reply_to_email,
                     value: settings.reply_to_email
                 },
                 {
                     name: 'bcc_email',
-                    label: 'BCC Email',
+                    label: translations.bcc_email,
                     type: 'text',
-                    placeholder: 'BCC Email',
+                    placeholder: translations.bcc_email,
                     value: settings.bcc_email
                 },
                 {
                     name: 'enable_email_markup',
-                    label: 'Enable Markup',
+                    label: translations.enable_email_markup,
                     type: 'switch',
-                    placeholder: 'Enable Markup',
+                    placeholder: translations.enable_email_markup,
                     value: settings.enable_email_markup
                 },
                 {
                     name: 'pdf_email_attachment',
-                    label: 'Attach PDF',
+                    label: translations.pdf_email_attachment,
                     type: 'switch',
-                    placeholder: 'Attach PDF',
+                    placeholder: translations.pdf_email_attachment,
                     value: settings.pdf_email_attachment
                 },
                 {
                     name: 'document_email_attachment',
-                    label: 'Attach Documents',
+                    label: translations.document_email_attachment,
                     type: 'switch',
-                    placeholder: 'Attach Documents',
+                    placeholder: translations.document_email_attachment,
                     value: settings.document_email_attachment
                 },
                 {
                     name: 'ubl_email_attachment',
-                    label: 'Attach UBL',
+                    label: translations.ubl_email_attachment,
                     type: 'switch',
-                    placeholder: 'Attach UBL',
+                    placeholder: translations.ubl_email_attachment,
                     value: settings.ubl_email_attachment
                 }
             ]

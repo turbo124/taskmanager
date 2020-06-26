@@ -4,7 +4,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
 import { translations } from '../common/_icons'
-import Avatar from "../common/Avatar";
+import Avatar from '../common/Avatar'
 
 export default function CustomerPresenter (props) {
     const colors = {

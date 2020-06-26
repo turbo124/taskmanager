@@ -28,7 +28,7 @@ $factory->define(Customer::class, function (Faker\Generator $faker) {
         'website' => $faker->url,
         'currency_id' => 2,
         'private_notes' => $faker->text(200),
-        'balance' => 999999,
+        'balance' => 2020.22,
         'paid_to_date' => 0,
         'custom_value1' => $faker->text(20),
         'custom_value2' => $faker->text(20),

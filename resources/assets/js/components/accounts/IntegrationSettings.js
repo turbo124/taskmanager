@@ -3,6 +3,7 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardBody, CardHeader } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
+import { translations } from "../common/_icons";
 
 class IntegrationSettings extends Component {
     constructor (props) {
@@ -77,16 +78,16 @@ class IntegrationSettings extends Component {
             [
                 {
                     name: 'slack_webhook_url',
-                    label: 'Slack URL',
+                    label: translations.slack_url,
                     type: 'text',
-                    placeholder: 'Slack URL',
+                    placeholder: translations.slack_url,
                     value: settings.slack_webhook_url
                 },
                 {
                     name: 'google_analytics_url',
-                    label: 'Google Analytics URL',
+                    label: translations.google_analytics_url,
                     type: 'text',
-                    placeholder: 'Google Analytics URL',
+                    placeholder: translations.google_analytics_url,
                     value: settings.google_analytics_url
                 }
             ]
@@ -98,14 +99,14 @@ class IntegrationSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
                 <Card>
-                    <CardHeader>Settings</CardHeader>
+                    <CardHeader>{translations.settings}</CardHeader>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
                             formFieldsRows={this.getFields()}
                         />
 
-                        <Button color="primary" onClick={this.handleSubmit}>Save</Button>
+                        <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>

@@ -264,8 +264,8 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
     Route::delete('payments/archive/{payment_id}', 'PaymentController@archive');
     Route::delete('payments/{payment_id}', 'PaymentController@destroy');
     Route::put('payments/{payment_id}', 'PaymentController@update');
-    Route::post('payments/{payment}/{action}', 'PaymentController@action')->name('payments.action');
     Route::post('payments/restore/{id}', 'PaymentController@restore');
+    Route::post('payments/{payment}/{action}', 'PaymentController@action')->name('payments.action');
 
     Route::resource('payment_terms', 'PaymentTermsController');
 

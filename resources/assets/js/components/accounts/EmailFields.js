@@ -5,6 +5,7 @@ import {
     Label
 } from 'reactstrap'
 import FormBuilder from './FormBuilder'
+import { translations } from '../common/_icons'
 
 class EmailFields extends Component {
     constructor (props) {
@@ -30,19 +31,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_invoice',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_invoice,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_invoice',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_invoice,
                         group: 1
                     }
@@ -57,19 +58,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_payment',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_payment,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_payment',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_payment,
                         group: 1
                     }
@@ -83,19 +84,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_payment_partial',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_payment_partial,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_payment_partial',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_payment_partial,
                         group: 1
                     }
@@ -109,19 +110,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_quote',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_quote,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_quote',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_quote,
                         group: 1
                     }
@@ -135,19 +136,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_credit',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_credit,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_credit',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_credit,
                         group: 1
                     }
@@ -161,19 +162,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_lead',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_lead,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_lead',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_lead,
                         group: 1
                     }
@@ -187,19 +188,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_order_received',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_order_received,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_order_received',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_order_received,
                         group: 1
                     }
@@ -213,19 +214,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_order_sent',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_order_sent,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_order_sent',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_order_sent,
                         group: 1
                     }
@@ -239,19 +240,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_reminder_endless',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_reminder_endless,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_reminder_endless',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_reminder_endless,
                         group: 1
                     },
@@ -340,19 +341,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_custom1',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_custom1,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_custom1',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_custom1,
                         group: 1
                     }
@@ -366,19 +367,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_custom2',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_custom2,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_custom2',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_custom2,
                         group: 1
                     }
@@ -392,19 +393,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_custom3',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_custom3,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_custom3',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_custom3,
                         group: 1
                     }
@@ -418,7 +419,7 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_reminder1',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
                         placeholder: 'Name',
                         value: settings.email_subject_reminder1,
@@ -427,10 +428,10 @@ class EmailFields extends Component {
                     {
                         id: 'body',
                         name: 'email_template_reminder1',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_reminder1,
                         group: 1
                     },
@@ -492,19 +493,19 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_reminder2',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_reminder2,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_reminder2',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
-                        placeholder: 'Body',
+                        placeholder: translations.body,
                         value: settings.email_template_reminder2,
                         group: 1
                     },
@@ -566,16 +567,16 @@ class EmailFields extends Component {
                     {
                         id: 'subject',
                         name: 'email_subject_reminder3',
-                        label: 'Subject',
+                        label: translations.subject,
                         type: 'text',
-                        placeholder: 'Subject',
+                        placeholder: translations.subject,
                         value: settings.email_subject_reminder3,
                         group: 1
                     },
                     {
                         id: 'body',
                         name: 'email_template_reminder3',
-                        label: 'Body',
+                        label: translations.body,
                         type: 'textarea',
                         inputClass: 'textarea-lg',
                         placeholder: 'Website',
@@ -599,15 +600,15 @@ class EmailFields extends Component {
                         options: [
                             {
                                 value: 'after_invoice_date',
-                                text: 'After Invoice Date'
+                                text: translations.after_invoice_date
                             },
                             {
                                 value: 'before_due_date',
-                                text: 'Before Due Date'
+                                text: translations.before_due_date
                             },
                             {
                                 value: 'after_due_date',
-                                text: 'After Due Date'
+                                text: translations.after_due_date
                             }
                         ],
                         value: settings.schedule_reminder3

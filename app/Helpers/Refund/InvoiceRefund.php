@@ -46,10 +46,13 @@ class InvoiceRefund extends BaseRefund
 
             $invoice = $invoices[$payment_invoice['invoice_id']];
 
+            if (!$this->updateRefundedAmountForInvoice($invoice, $payment_invoice['amount'])) {
+                continue;
+            }
+
             $this->createLineItem($payment_invoice['amount'], $invoice);
             $this->increaseRefundAmount($payment_invoice['amount']);
             $invoice->adjustInvoices($payment_invoice['amount']);
-            $this->updateRefundedAmountForInvoice($invoice, $payment_invoice['amount']);
         }
 
         $this->reduceCreditedAmount();
@@ -75,10 +78,14 @@ class InvoiceRefund extends BaseRefund
      */
     private function updateRefundedAmountForInvoice(Invoice $invoice, $amount): bool
     {
-        //TODO need to check paymentable type
         $paymentable_invoice = Paymentable::wherePaymentableId($invoice->id)->wherePaymentableType(
             'App\Invoice'
         )->first();
+
+        if (($amount + $paymentable_invoice->refunded) > $invoice->total) {
+            return false;
+        }
+
         $paymentable_invoice->refunded += $amount;
         $paymentable_invoice->save();
         return true;

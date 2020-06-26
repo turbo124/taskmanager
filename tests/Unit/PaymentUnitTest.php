@@ -179,12 +179,8 @@ class PaymentUnitTest extends TestCase
 
     public function testPaymentGreaterThanPartial()
     {
-        $client = CustomerFactory::create($this->account, $this->user);
-        $client->save();
-
-        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
-        $invoice->customer_id = $client->id;
-        $invoice = $invoice->service()->calculateInvoiceTotals();
+        $invoice = factory(Invoice::class)->create();
+        //$invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->partial = 5.0;
         $invoice->save();
 
@@ -192,7 +188,7 @@ class PaymentUnitTest extends TestCase
 
         $data = [
             'amount'      => 6.0,
-            'customer_id' => $client->id,
+            'customer_id' => $invoice->customer->id,
             'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
@@ -204,7 +200,7 @@ class PaymentUnitTest extends TestCase
 
         $original_balance = $invoice->balance;
 
-        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
+        $factory = (new PaymentFactory())->create($invoice->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $this->assertEquals($data['customer_id'], $payment->customer_id);
@@ -251,22 +247,17 @@ class PaymentUnitTest extends TestCase
 
     public function testPaymentLessThanPartialAmount()
     {
-        $client = CustomerFactory::create($this->account, $this->user);
-        $client->save();
-
-        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
-        $invoice->customer_id = $client->id;
+        $invoice = factory(Invoice::class)->create();
 
         $invoice->partial = 5.0;
 
         $invoice->save();
 
-        $invoice = $invoice->service()->calculateInvoiceTotals();
         (new InvoiceRepository(new Invoice))->markSent($invoice);
 
         $data = [
             'amount'      => 2.0,
-            'customer_id' => $client->id,
+            'customer_id' => $invoice->customer->id,
             'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
@@ -278,7 +269,7 @@ class PaymentUnitTest extends TestCase
 
         $original_balance = $invoice->balance;
 
-        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
+        $factory = (new PaymentFactory())->create($invoice->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
 
@@ -288,7 +279,7 @@ class PaymentUnitTest extends TestCase
 
         $invoice = $payment->invoices()->first();
         $this->assertEquals($invoice->partial, 3);
-        $this->assertEquals(($original_balance - 2), $invoice->balance);
+        $this->assertEquals(($original_balance - 2), (float)$invoice->balance);
     }
 
     public function testBasicRefundValidation()
@@ -346,10 +337,7 @@ class PaymentUnitTest extends TestCase
 
     public function testRefundClassWithInvoices()
     {
-        $client = CustomerFactory::create($this->account, $this->user);
-        $client->save();
-
-        $invoice = InvoiceFactory::create($this->account, $this->user, $client);
+        $invoice = factory(Invoice::class)->create();
 
         $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
             ->setQuantity(1)
@@ -362,10 +350,12 @@ class PaymentUnitTest extends TestCase
             ->toObject();
 
         $invoice->line_items = $line_items;
-        $invoice = $invoice->service()->calculateInvoiceTotals();
+        //$invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->save();
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
+        $original_customer_balance = abs($invoice->customer->balance);
+        $original_paid_to_date = abs($invoice->customer->paid_to_date);
 
         $account = $invoice->account;
         $settings = $account->settings;
@@ -374,55 +364,52 @@ class PaymentUnitTest extends TestCase
         $account->save();
 
         $data = [
-            'amount'      => 2.0,
+            'amount'      => $invoice->total,
             'customer_id' => $invoice->customer->id,
             'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount'     => 2.0
+                    'amount'     => $invoice->total
                 ],
             ],
             'date'        => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
+        $factory = (new PaymentFactory())->create($invoice->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
-        $original_customer_balance = abs($payment->customer->balance);
-        $original_paid_to_date = abs($payment->customer->paid_to_date);
+
+        $this->assertEquals(($original_customer_balance - $invoice->total), $payment->customer->balance);
 
         $payment = (new RefundFactory())->createRefund(
             $payment,
             [
-                'amount'   => 2,
+                'amount'   => $invoice->total,
                 'invoices' => [
                     [
                         'invoice_id' => $invoice->id,
-                        'amount'     => 2.0
+                        'amount'     => $invoice->total
                     ],
                 ]
             ],
             new CreditRepository(new Credit)
         );
 
-        $this->assertEquals($invoice->balance, 2);
+        $this->assertEquals($invoice->balance, $invoice->total);
         $this->assertEquals($invoice->status_id, 2);
-        $this->assertEquals(2, $payment->refunded);
-        $this->assertEquals(($original_customer_balance - 2), $payment->customer->balance);
+        $this->assertEquals($invoice->total, $payment->refunded);
+        $this->assertEquals($original_customer_balance, $payment->customer->balance);
         $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
-        $this->assertEquals(($original_paid_to_date - 2), $payment->customer->paid_to_date);
+        $this->assertEquals($original_paid_to_date, $payment->customer->paid_to_date);
     }
 
     public function testRefundClassWithoutInvoices()
     {
-        $client = CustomerFactory::create($this->account, $this->user);
-        $client->save();
-
-        $invoice = InvoiceFactory::create($this->account, $this->user, $client);//stub the company and user_id
-
-        $invoice->save();
+        $invoice = factory(Invoice::class)->create();
+        $original_paid_to_date = abs($invoice->customer->paid_to_date);
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
+        $original_customer_balance = $invoice->customer->balance;
 
         $account = $invoice->account;
         $settings = $account->settings;
@@ -432,36 +419,34 @@ class PaymentUnitTest extends TestCase
 
 
         $data = [
-            'amount'      => 2.0,
+            'amount'      => $invoice->total,
             'customer_id' => $invoice->customer->id,
             'invoices'    => [
                 [
                     'invoice_id' => $invoice->id,
-                    'amount'     => 2.0
+                    'amount'     => $invoice->total
                 ],
             ],
             'date'        => '2019/12/12',
         ];
 
-        $factory = (new PaymentFactory())->create($client, $this->user, $this->account);
+        $factory = (new PaymentFactory())->create($invoice->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
-
-        $original_customer_balance = abs($payment->customer->balance);
-        $original_paid_to_date = abs($payment->customer->paid_to_date);
+        $this->assertEquals(($invoice->customer->balance - $invoice->total), $payment->customer->balance);
 
         $payment = (new RefundFactory())->createRefund(
             $payment,
             [
-                'amount' => 2,
+                'amount' => $invoice->total,
             ],
             new CreditRepository(new Credit)
         );
 
-        $this->assertEquals(2, $payment->refunded);
+        $this->assertEquals($invoice->total, $payment->refunded);
         $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
-        $this->assertEquals(($original_customer_balance - 2), $payment->customer->balance);
-        $this->assertEquals(($original_paid_to_date - 2), $payment->customer->paid_to_date);
+        $this->assertEquals($original_customer_balance, $payment->customer->balance);
+        $this->assertEquals($original_paid_to_date, $payment->customer->paid_to_date);
     }
 
     public function testConversion()
