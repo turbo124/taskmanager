@@ -5,15 +5,13 @@ TamTam CRM is an all in one invoicing, order management and CRM system. It was b
 * Features
 * Multiple Accounts
 * Customer Management with contacts
-* Invoices
-* Recurring Invoices
-* Quotes
-* Recurring Quotes
+* Invoices / Recurring Invoices
+* Quotes / Recurring Quotes
 * Payments includes stripe, PayPal and authorize.net integration
 * Credits
 * Refunds
 * Expenses
-* Company Management with contacts
+* Vendor Management with contacts
 * Events
 * Tasks with time management
 * Projects
@@ -24,7 +22,7 @@ TamTam CRM is an all in one invoicing, order management and CRM system. It was b
 * Shippo shipping integration
 * Case Management
 * User Management with roles, permissions and departments
-* Product Management with categories, images, reviews, features and variations
+* Product Management with categories, images, reviews, features, variations and attributes
 * Voucher/Coupon Management
 * Order Management System
 
