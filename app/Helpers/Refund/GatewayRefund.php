@@ -41,7 +41,7 @@ class GatewayRefund extends BaseRefund
             return false;
         }
 
-        if($company_gateway->id === self::AUTHORIZE_ID) {
+        if ($company_gateway->id === self::AUTHORIZE_ID) {
             return (new AuthorizeRefund($this->payment, $company_gateway, $this->data))->build();
         }
 

@@ -57,9 +57,9 @@ class AuthorizeRefund
 
         $profile = $transaction_details->getProfile();
 
-        if(!empty($profile)) {
-           $this->buildPaymentProfile($transaction_details->getProfile()->getCustomerPaymentProfileId());
-           $this->buildCustomerProfile($transaction_details->getProfile()->getCustomerProfileId());
+        if (!empty($profile)) {
+            $this->buildPaymentProfile($transaction_details->getProfile()->getCustomerPaymentProfileId());
+            $this->buildCustomerProfile($transaction_details->getProfile()->getCustomerProfileId());
         }
 
         $this->createCreditCard($transaction_details->getPayment()->getCreditCard());
@@ -170,23 +170,8 @@ class AuthorizeRefund
         $controller = new CreateTransactionController($request);
         $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
-        echo '<pre>';
-        print_r($response);
-        die;
-
-        if ($response != null) {
-            if ($response->getMessages()->getResultCode() == "Ok") {
-                $tresponse = $response->getTransactionResponse();
-
-                if ($tresponse != null && $tresponse->getMessages() != null) {
-                    echo " Transaction Response code : " . $tresponse->getResponseCode() . "\n";
-                    echo "Refund SUCCESS: " . $tresponse->getTransId() . "\n";
-                    echo " Code : " . $tresponse->getMessages()[0]->getCode() . "\n";
-                    echo " Description : " . $tresponse->getMessages()[0]->getDescription() . "\n";
-                }
-
-                return true;
-            }
+        if ($response != null && $response->getMessages()->getResultCode() == "Ok") {
+            return true;
         }
 
         return false;

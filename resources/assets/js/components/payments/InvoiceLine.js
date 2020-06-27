@@ -24,35 +24,53 @@ export default class InvoiceLine extends Component {
         const idx = e.target.dataset.id
 
         const lines = [...this.state.lines]
-        let amount = 0
 
-        if (name === 'invoice_id') {
-            const invoice = this.paymentModel.getInvoice(e.target.value)
+        let amount = 0
+        let manual_update = false
+
+        if (name === 'invoice_id' || (e.target.dataset.invoice && e.target.dataset.invoice.length)) {
+            const invoice_id = e.target.dataset.invoice && e.target.dataset.invoice.length ? e.target.dataset.invoice : e.target.value
+            const invoice = this.paymentModel.getInvoice(invoice_id)
 
             if (!invoice) {
                 return
             }
 
+            let invoice_total = e.target.dataset.invoice && e.target.dataset.invoice.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(invoice.total)
+            let refunded_amount = 0
+
+            if (this.props.paymentables && this.props.paymentables.length > 0) {
+                refunded_amount = this.paymentModel.calculateRefundedAmount(this.props.paymentables)
+            }
+
+            if ((refunded_amount + invoice_total) > invoice.total) {
+                const amount_remaining = invoice.total - refunded_amount
+                invoice_total = amount_remaining
+                manual_update = true
+            }
+
             this.props.customerChange(invoice.customer_id)
-            lines[idx].amount = parseFloat(invoice.total)
-            amount = this.state.amount += parseFloat(invoice.total)
+            lines[idx].amount = parseFloat(invoice_total)
+            lines[idx].invoice_id = invoice_id
+
+            if (this.props.allInvoices && this.props.allInvoices.length === 1) {
+                amount = invoice_total
+            } else {
+                amount = this.state.amount += parseFloat(invoice_total)
+            }
         }
 
-        lines[e.target.dataset.id][e.target.name] = e.target.value
+        if (!manual_update) {
+            lines[e.target.dataset.id][e.target.name] = e.target.value
+        }
+
         this.setState({ lines }, () => {
             this.props.onChange(this.state.lines)
 
             if (amount > 0) {
                 this.props.handleAmountChange(amount)
             }
-
-            const nextIndex = parseInt(idx) === 0 ? 2 : parseInt(idx) + 2
-
-            if (this.state.lines.length < nextIndex) {
-                this.addLine(e)
-            }
-        }
-        )
+        })
     }
 
     addLine (e) {
@@ -87,7 +105,8 @@ export default class InvoiceLine extends Component {
             <form>
                 <InvoiceLineInputs invoices={invoices} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
-                    removeLine={this.removeLine}/>
+                    removeLine={this.removeLine}
+                    addLine={this.addLine}/>
                 {/* <Button color="primary" onClick={this.addLine}>Add</Button> */}
             </form>
         )

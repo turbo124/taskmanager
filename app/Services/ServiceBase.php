@@ -53,7 +53,7 @@ class ServiceBase
         $customer = $this->entity->customer;
         $customer->increaseBalance($previous_balance);
         $customer->save();
-    
+
         $this->entity->transaction_service()->createTransaction(
             $previous_balance,
             $customer->balance,

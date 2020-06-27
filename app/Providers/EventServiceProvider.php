@@ -239,7 +239,7 @@ class EventServiceProvider extends ServiceProvider
         DealWasCreated::class       => [
             DealNotification::class
         ],
-        FileWasUploaded::class       => [
+        FileWasUploaded::class      => [
         ],
         FileWasDeleted::class       => [
         ]

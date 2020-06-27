@@ -24,7 +24,7 @@ class CustomerRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'subdomain' => ['required', 'string'],
+            'subdomain'  => ['required', 'string'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', 'unique:client_contacts'],

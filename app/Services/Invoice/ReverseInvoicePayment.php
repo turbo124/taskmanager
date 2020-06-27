@@ -94,7 +94,11 @@ class ReverseInvoicePayment
 
     private function createTransaction()
     {
-        $this->invoice->transaction_service()->createTransaction($this->balance * -1, $this->invoice->customer->balance, $this->note);
+        $this->invoice->transaction_service()->createTransaction(
+            $this->balance * -1,
+            $this->invoice->customer->balance,
+            $this->note
+        );
     }
 
     /**

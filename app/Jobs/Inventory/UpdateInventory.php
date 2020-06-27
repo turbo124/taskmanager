@@ -22,7 +22,7 @@ class UpdateInventory implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Order 
+     * @var Order
      */
     private Order $order;
 
