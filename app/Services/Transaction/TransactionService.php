@@ -19,7 +19,6 @@ class TransactionService extends ServiceBase
 
     public function createTransaction($amount, $new_balance, $notes = '')
     {
-
         $transaction = new Transaction;
         $transaction->setAccount($this->entity->account);
         $transaction->setUser($this->entity->user);

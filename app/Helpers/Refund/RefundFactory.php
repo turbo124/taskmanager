@@ -18,13 +18,13 @@ class RefundFactory
      */
     public function createRefund(Payment $payment, array $data, CreditRepository $credit_repo)
     {
-//        if (!empty($payment->company_gateway_id)) {
-//            $refund = (new GatewayRefund($payment, $data, $credit_repo))->refund();
-//
-//            if (!$refund) {
-//                return false;
-//            }
-//        }
+        if (!empty($payment->company_gateway_id)) {
+            $refund = (new GatewayRefund($payment, $data, $credit_repo))->refund();
+
+            if (!$refund) {
+                return false;
+            }
+        }
 
         $objCreditRefunds = null;
 

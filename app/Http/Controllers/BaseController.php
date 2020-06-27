@@ -145,13 +145,14 @@ class BaseController extends Controller
 
                 break;
             case 'dispatch': // done
-                if (!in_array($entity->status_id,
-                              [
-                                  Order::STATUS_BACKORDERED,
-                                  Order::STATUS_DRAFT,
-                                  Order::STATUS_SENT,
-                                  Order::STATUS_COMPLETE
-                              ]
+                if (!in_array(
+                    $entity->status_id,
+                    [
+                        Order::STATUS_BACKORDERED,
+                        Order::STATUS_DRAFT,
+                        Order::STATUS_SENT,
+                        Order::STATUS_COMPLETE
+                    ]
                 )) {
                     $message = 'Unable to approve this order as it has expired.';
                     $response = false;

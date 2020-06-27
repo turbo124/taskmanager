@@ -24,7 +24,6 @@ class AccountService extends ServiceBase
      */
     public function __construct(Account $account)
     {
-
         parent::__construct($account);
         $this->account = $account;
     }

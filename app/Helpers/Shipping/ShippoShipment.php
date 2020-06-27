@@ -104,14 +104,14 @@ class ShippoShipment
     private function setPickupAddress()
     {
         $warehouse = array(
-            'name' => 'Shawn Ippotle',
+            'name'    => 'Shawn Ippotle',
             'street1' => '215 Clayton St.',
-            'city' => 'San Francisco',
-            'state' => 'CA',
-            'zip' => '94117',
+            'city'    => 'San Francisco',
+            'state'   => 'CA',
+            'zip'     => '94117',
             'country' => 'US',
-            'phone' => $this->customer->account->settings->phone,
-            'email' => $this->customer->account->settings->email
+            'phone'   => $this->customer->account->settings->phone,
+            'email'   => $this->customer->account->settings->email
         );
 
 //        $warehouse = [
@@ -154,7 +154,6 @@ class ShippoShipment
      */
     private function readyShipment()
     {
-
         $shipment = Shippo_Shipment::create(
             array(
                 'address_from' => $this->warehouseAddress,
