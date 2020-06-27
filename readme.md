@@ -21,6 +21,8 @@ TamTam CRM is an all in one invoicing, order management and CRM system. It was b
 * Deals
 * Customer Portal
 * Online Orders / Payments
+* Shippo shipping integration
+* Case Management
 * User Management with roles, permissions and departments
 * Product Management with categories, images, reviews, features and variations
 * Voucher/Coupon Management
