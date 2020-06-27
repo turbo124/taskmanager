@@ -21,7 +21,7 @@ class ShippoShipment
     /**
      * @var array
      */
-    private array $rates;
+    private array $rates = [];
 
     /**
      * @var Order
@@ -103,16 +103,27 @@ class ShippoShipment
      */
     private function setPickupAddress()
     {
-        $warehouse = [
-            'name'    => $this->customer->account->settings->name,
-            'street1' => $this->customer->account->settings->address1,
-            'city'    => $this->customer->account->settings->city,
-            'state'   => $this->customer->account->settings->state,
-            'zip'     => $this->customer->account->settings->postal_code,
-            'country' => $this->customer->account->country()->iso,
-            'phone'   => $this->customer->account->settings->phone,
-            'email'   => $this->customer->account->settings->email
-        ];
+        $warehouse = array(
+            'name' => 'Shawn Ippotle',
+            'street1' => '215 Clayton St.',
+            'city' => 'San Francisco',
+            'state' => 'CA',
+            'zip' => '94117',
+            'country' => 'US',
+            'phone' => $this->customer->account->settings->phone,
+            'email' => $this->customer->account->settings->email
+        );
+
+//        $warehouse = [
+//            'name'    => $this->customer->account->settings->name,
+//            'street1' => $this->customer->account->settings->address1,
+//            'city'    => $this->customer->account->settings->city,
+//            'state'   => $this->customer->account->settings->state,
+//            'zip'     => $this->customer->account->settings->postal_code,
+//            'country' => $this->customer->account->country()->iso,
+//            'phone'   => $this->customer->account->settings->phone,
+//            'email'   => $this->customer->account->settings->email
+//        ];
 
         $this->warehouseAddress = $warehouse;
     }
@@ -122,6 +133,8 @@ class ShippoShipment
      */
     private function setDeliveryAddress(Address $address)
     {
+        $contact = $this->customer->primary_contact()->first();
+
         $delivery = [
             'name'    => $this->customer->name,
             'street1' => $address->address_1,
@@ -129,7 +142,7 @@ class ShippoShipment
             'state'   => $address->state_code,
             'zip'     => $address->zip,
             'country' => $address->country->iso,
-            'phone'   => '',
+            'phone'   => !empty($contact) ? $contact->phone : '',
             'email'   => $this->customer->email
         ];
 
@@ -141,6 +154,7 @@ class ShippoShipment
      */
     private function readyShipment()
     {
+
         $shipment = Shippo_Shipment::create(
             array(
                 'address_from' => $this->warehouseAddress,
@@ -155,8 +169,6 @@ class ShippoShipment
             $this->rates[$key]['name'] = $rate->provider;
             $this->rates[$key]['object_id'] = $rate->object_id;
         }
-
-        Log::emergency($this->rates);
 
         return $shipment;
     }

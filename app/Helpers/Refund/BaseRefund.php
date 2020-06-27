@@ -66,7 +66,8 @@ class BaseRefund
 
     private function setStatus()
     {
-        $status = $this->payment->refunded == $this->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = (float)$this->payment->refunded === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+
         $this->payment->setStatus($status);
     }
 

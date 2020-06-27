@@ -51,6 +51,7 @@ export const gb_translations = {
     hold_order: 'Hold Order',
     unhold_order: 'Reverse Status',
     code: 'Code',
+    add: 'Add',
     add_payment_term: 'Add Payment Term',
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',

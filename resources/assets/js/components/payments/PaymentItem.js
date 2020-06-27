@@ -9,7 +9,7 @@ import ActionsMenu from '../common/ActionsMenu'
 import EditPayment from './EditPayment'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import Refund from './Refund'
-import PaymentModel from "../models/PaymentModel";
+import PaymentModel from '../models/PaymentModel'
 
 export default class PaymentItem extends Component {
     constructor (props) {
@@ -91,6 +91,7 @@ export default class PaymentItem extends Component {
                     ? <Refund customers={customers} payment={payment} allInvoices={paymentableInvoices}
                         invoices={invoices}
                         payments={payments}
+                        paymentables={payment.paymentables}
                         action={this.props.updateCustomers}/> : null
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

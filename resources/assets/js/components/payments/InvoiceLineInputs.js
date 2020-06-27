@@ -27,18 +27,27 @@ const InvoiceLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
+                                    data-invoice={props.invoices.length === 1 ? props.invoices[0].id : null}
                                     data-id={idx}
                                     onChange={props.onChange}
                                     value={props.lines[idx].amount}
+                                    autoFocus={(props.invoices && props.invoices.length === 1) || idx === 0}
                                     name="amount"
                                 />
                             </FormGroup>
                         </Col>
                     </Row>
 
-                    <Button color="danger" onClick={() => props.removeLine(idx)}>
-                        {translations.remove}
-                    </Button>
+                    {props.invoices.length > 1 &&
+                        <React.Fragment>
+                            <Button color="danger" onClick={() => props.removeLine(idx)}>
+                                {translations.remove}
+                            </Button>
+                            <Button color="primary" onClick={() => props.addLine(idx)}>
+                                {translations.add}
+                            </Button>
+                        </React.Fragment>
+                    }
                 </div>
             )
         })

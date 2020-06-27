@@ -176,7 +176,7 @@ class PaymentController extends Controller
 
         $payment = (new RefundFactory())->createRefund($payment, $request->all(), new CreditRepository(new Credit));
 
-        return response()->json($payment);
+        return response()->json($this->transformPayment($payment));
     }
 
 

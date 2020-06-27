@@ -12,6 +12,11 @@ class InvoiceRefundValidation implements Rule
     private $request;
 
     /**
+     * @var array
+     */
+    private $validationFailures = [];
+
+    /**
      * Create a new rule instance.
      *
      * @return void
@@ -57,11 +62,10 @@ class InvoiceRefundValidation implements Rule
                 return false;
             }
 
-
             $invoice_total += $invoice->total;
         }
 
-        if ($invoice_total > $this->request['amount']) {
+        if ($this->request['amount'] > $invoice_total) {
             return false;
         }
 
@@ -83,7 +87,7 @@ class InvoiceRefundValidation implements Rule
             return false;
         }*/
 
-        if (!in_array($invoice->status_id, [Invoice::STATUS_PAID])) {
+        if (!in_array($invoice->status_id, [Invoice::STATUS_PAID, Invoice::STATUS_PARTIAL])) {
             $this->validationFailures[] = 'Invoice is at the wrong status';
             return false;
         }

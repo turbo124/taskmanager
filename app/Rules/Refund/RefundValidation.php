@@ -58,7 +58,7 @@ class RefundValidation implements Rule
             return false;
         }
 
-        if ($payment->status_id !== Payment::STATUS_COMPLETED) {
+        if (!in_array($payment->status_id, [Payment::STATUS_COMPLETED, Payment::STATUS_PARTIALLY_REFUNDED])) {
             $this->validationFailures[] = 'payment has not been completed';
             return false;
         }

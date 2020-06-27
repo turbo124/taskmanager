@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, InputGroup,
-    InputGroupAddon, InputGroupText, DropdownItem, FormGroup
+    InputGroupAddon, InputGroupText, DropdownItem, FormGroup, Card, CardBody, Row, Col
 } from 'reactstrap'
 import axios from 'axios'
 import InvoiceLine from './InvoiceLine'
@@ -16,7 +16,7 @@ class Refund extends React.Component {
             send_email: false,
             errors: [],
             amount: this.props.payment.amount,
-            date: null,
+            date: this.props.payment.date,
             invoices: this.props.payment.invoices,
             payable_invoices: [],
             selectedInvoices: [],
@@ -125,9 +125,10 @@ class Refund extends React.Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.refund}`}/>{translations.refund}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.refund}`}/>{translations.refund}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
+                    <ModalHeader autoFocus={false} toggle={this.toggle}>
                         {translations.refund}
                     </ModalHeader>
                     <ModalBody>
@@ -136,44 +137,63 @@ class Refund extends React.Component {
                             {message}
                         </div>}
 
-                        <Label>Amount</Label>
-                        <InputGroup className="mb-3">
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
-                            </InputGroupAddon>
-                            <Input value={this.state.amount}
-                                className={this.hasErrorFor('amount') ? 'is-invalid' : ''} type="text"
-                                name="amount"
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('amount')}
-                        </InputGroup>
+                        <Card>
+                            <CardBody>
+                                {this.props.invoices.length > 0 &&
+                                <InvoiceLine paymentables={this.props.paymentables} invoices={this.props.invoices}
+                                    status={null}
+                                    handleAmountChange={this.setAmount} errors={this.state.errors}
+                                    allInvoices={this.props.allInvoices}
+                                    customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
+                                }
 
-                        <Label>Date</Label>
-                        <InputGroup className="mb-3">
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
-                            </InputGroupAddon>
-                            <Input value={this.state.date}
-                                className={this.hasErrorFor('date') ? 'is-invalid' : ''} type="date" name="date"
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('date')}
-                        </InputGroup>
+                                {this.props.invoices.length === 0 &&
+                                <React.Fragment>
+                                    <Label>{translations.amount}</Label>
+                                    <InputGroup className="mb-3">
+                                        <InputGroupAddon addonType="prepend">
+                                            <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
+                                        </InputGroupAddon>
+                                        <Input value={this.state.amount}
+                                            className={this.hasErrorFor('amount') ? 'is-invalid' : ''} type="text"
+                                            name="amount"
+                                            onChange={this.handleInput.bind(this)}/>
+                                        {this.renderErrorFor('amount')}
+                                    </InputGroup>
+                                </React.Fragment>
 
-                        <InvoiceLine invoices={this.props.invoices} status={null} handleAmountChange={this.setAmount} errors={this.state.errors}
-                            allInvoices={this.props.allInvoices}
-                            customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
+                                }
 
-                        <FormGroup check>
-                            <Label check>
-                                <Input value={this.state.send_email} onChange={this.handleCheck} type="checkbox"/>
-                                {translations.send_email}
-                            </Label>
-                        </FormGroup>
+                                <Label>Date</Label>
+                                <InputGroup className="mb-3">
+                                    <InputGroupAddon addonType="prepend">
+                                        <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input value={this.state.date}
+                                        className={this.hasErrorFor('date') ? 'is-invalid' : ''} type="date"
+                                        name="date"
+                                        onChange={this.handleInput.bind(this)}/>
+                                    {this.renderErrorFor('date')}
+                                </InputGroup>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormGroup check>
+                                    <Label check>
+                                        <Input value={this.state.send_email} onChange={this.handleCheck}
+                                            type="checkbox"/>
+                                        {translations.send_email}
+                                    </Label>
+                                </FormGroup>
+                            </CardBody>
+                        </Card>
                     </ModalBody>
 
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.refund}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
+                        <Button color="secondary" onClick={this.toggle}>{translations.cancel}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

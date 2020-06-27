@@ -166,4 +166,16 @@ export default class PaymentModel extends BaseModel {
             return false
         }
     }
+
+    calculateRefundedAmount (paymentables) {
+        let refunded = 0
+
+        paymentables.map((paymentable, idx) => {
+            if (paymentable.refunded > 0) {
+                refunded += parseFloat(paymentable.refunded)
+            }
+        })
+
+        return refunded
+    }
 }
