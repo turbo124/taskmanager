@@ -12,7 +12,7 @@ class DeletePayment
         $this->payment = $payment;
     }
 
-    public function run()
+    public function execute()
     {
         $this->updateCredit();
         $this->updateInvoice();
