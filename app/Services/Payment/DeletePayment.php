@@ -35,12 +35,24 @@ class DeletePayment
         if ($this->payment->invoices()->count() === 0) {
             return false;
         }
+
+        foreach($this->payment->invoices as $invoice) {
+            $invoice->adjustInvoices($invoice->total);
+
+            // create transaction
+        }
     }
 
     private function updateCredit()
     {
         if ($this->payment->credits()->count() === 0) {
             return false;
+        }
+
+        foreach($this->payment->credits as $credit){
+            $credit->increaseBalance($credit->total);
+            $credit->setStatus(Credit::STATUS_SENT);
+            $credit->save();
         }
     }
 
