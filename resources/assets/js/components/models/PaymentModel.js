@@ -48,6 +48,10 @@ export default class PaymentModel extends BaseModel {
         return this._url
     }
 
+    get isDeleted () {
+        return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0
+    }
+
     get isArchived () {
         return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0 && this.fields.is_deleted === false
     }
