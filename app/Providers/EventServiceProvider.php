@@ -129,9 +129,6 @@ class EventServiceProvider extends ServiceProvider
         PaymentWasRefunded::class   => [
             PaymentRefundedActivity::class,
         ],
-        PaymentWasVoided::class     => [
-            PaymentVoidedActivity::class,
-        ],
         PaymentFailed::class        => [
             PaymentFailedActivity::class,
             PaymentFailedNotification::class

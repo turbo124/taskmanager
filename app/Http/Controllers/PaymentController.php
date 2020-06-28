@@ -187,6 +187,11 @@ class PaymentController extends Controller
     public function restore(int $id)
     {
         $payment = Payment::withTrashed()->where('id', '=', $id)->first();
+
+        if($payment->is_deleted === true) {
+            return response()->json('Unable to resture deleted payment', 500);
+        }
+
         $this->payment_repo->restore($payment);
         return response()->json([], 200);
     }

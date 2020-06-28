@@ -53,6 +53,7 @@ class MakeInvoicePayment
         }
 
         $this->invoice->reduceBalance($this->payment_amount);
+
         return $this->invoice;
     }
 

@@ -1,12 +1,23 @@
 <?php
+
 namespace App\Services\Payment;
 
+use App\Credit;
+use App\Events\Payment\PaymentWasDeleted;
+use App\Invoice;
 use App\Payment;
 
 class DeletePayment
 {
+    /**
+     * @var Payment
+     */
     private Payment $payment;
 
+    /**
+     * DeletePayment constructor.
+     * @param Payment $payment
+     */
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
@@ -25,7 +36,7 @@ class DeletePayment
     private function updateCustomer(): bool
     {
         $customer = $this->payment->customer;
-        $customer->reducePaidToDate($this->payment->amount);
+        $customer->reducePaidToDateAmount($this->payment->amount);
 
         return true;
     }
@@ -36,16 +47,20 @@ class DeletePayment
             return true;
         }
 
-        foreach($this->payment->invoices as $invoice) {
-            $invoice->adjustInvoices($invoice->total);
+        foreach ($this->payment->invoices as $invoice) {
+            $invoice->adjustInvoices($invoice->pivot->amount);
 
             // create transaction
-            $this->createTransaction();
+            $this->createTransaction($invoice);
         }
 
         return true;
     }
 
+    /**
+     * @param Invoice $invoice
+     * @return bool
+     */
     private function createTransaction(Invoice $invoice): bool
     {
         $invoice->transaction_service()->createTransaction(
@@ -57,13 +72,16 @@ class DeletePayment
         return true;
     }
 
+    /**
+     * @return bool
+     */
     private function updateCredit(): bool
     {
         if ($this->payment->credits()->count() === 0) {
             return true;
         }
 
-        foreach($this->payment->credits as $credit){
+        foreach ($this->payment->credits as $credit) {
             $credit->increaseBalance($credit->total);
             $credit->setStatus(Credit::STATUS_SENT);
             $credit->save();
@@ -76,9 +94,12 @@ class DeletePayment
     {
         $this->payment->setStatus(Payment::STATUS_VOIDED);
         $this->payment->save();
+        event(new PaymentWasDeleted($this->payment));
 
-       // event here
+        $this->payment->delete();
 
-       return true;
+        // event here
+
+        return true;
     }
 }
