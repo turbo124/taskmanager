@@ -22,31 +22,45 @@ class DeletePayment
         return $this->payment;
     }
 
-    private function updateCustomer(): Customer
+    private function updateCustomer(): bool
     {
         $customer = $this->payment->customer;
         $customer->reducePaidToDate($this->payment->amount);
 
-        return $customer;
+        return true;
     }
 
-    private function updateInvoice()
+    private function updateInvoice(): bool
     {
         if ($this->payment->invoices()->count() === 0) {
-            return false;
+            return true;
         }
 
         foreach($this->payment->invoices as $invoice) {
             $invoice->adjustInvoices($invoice->total);
 
             // create transaction
+            $this->createTransaction();
         }
+
+        return true;
     }
 
-    private function updateCredit()
+    private function createTransaction(Invoice $invoice): bool
+    {
+        $invoice->transaction_service()->createTransaction(
+            $invoice->total,
+            $invoice->customer->balance,
+            'Payment Deletion'
+        );
+
+        return true;
+    }
+
+    private function updateCredit(): bool
     {
         if ($this->payment->credits()->count() === 0) {
-            return false;
+            return true;
         }
 
         foreach($this->payment->credits as $credit){
@@ -54,13 +68,17 @@ class DeletePayment
             $credit->setStatus(Credit::STATUS_SENT);
             $credit->save();
         }
+
+        return true;
     }
 
-    public function updatePayment()
+    public function updatePayment(): bool
     {
         $this->payment->setStatus(Payment::STATUS_VOIDED);
         $this->payment->save();
 
        // event here
+
+       return true;
     }
 }
