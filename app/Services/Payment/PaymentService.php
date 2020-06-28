@@ -29,4 +29,12 @@ class PaymentService extends ServiceBase
     {
         return (new ReverseInvoicePayment($this->payment))->execute();
     }
+
+    /**
+     * @return Payment
+     */
+    public function deletePayment(): Payment
+    {
+        return (new DeletePayment($this->payment))->execute();
+    }
 }

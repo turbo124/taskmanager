@@ -7,6 +7,24 @@ use App\Account;
 class AccountSettings extends BaseSettings
 {
     private $settings = [
+        'display_invoice_terms'           => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'display_invoice_signature'       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'display_quote_signature'         => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'portal_terms'                    => [
             'required'         => false,
             'translated_value' => '',

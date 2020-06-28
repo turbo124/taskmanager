@@ -17,7 +17,7 @@ class PaymentWasDeleted
     /**
      * @var Payment
      */
-    public $payment;
+    public Payment $payment;
 
     /**
      * Create a new event instance.

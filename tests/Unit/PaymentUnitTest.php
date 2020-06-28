@@ -32,14 +32,20 @@ class PaymentUnitTest extends TestCase
 
     use DatabaseTransactions, EventTransformable, WithFaker;
 
-    private $user;
+    /**
+     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    private User $user;
 
     /**
-     * @var int
+     * @var Account
      */
-    private $account;
+    private Account $account;
 
-    private $customer;
+    /**
+     * @var Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    private Customer $customer;
 
     public function setUp(): void
     {
@@ -78,6 +84,35 @@ class PaymentUnitTest extends TestCase
 
     /** @test */
     public function it_can_delete_the_payment()
+    {
+        $invoice = factory(Invoice::class)->create();
+        $factory = (new PaymentFactory())->create($invoice->customer, $invoice->user, $invoice->account);
+        $original_amount = $invoice->total;
+
+        $data = [
+            'customer_id' => $this->customer->id,
+            'type_id'     => 1,
+            'amount'      => $invoice->total
+        ];
+
+        $data['invoices'][0]['invoice_id'] = $invoice->id;
+        $data['invoices'][0]['amount'] = $invoice->total;
+
+        $paymentRepo = new PaymentRepository(new Payment);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
+        $original_paid_to_date = $payment->customer->paid_to_date;
+        $this->assertEquals($original_paid_to_date, $invoice->total);
+
+        $payment = $payment->service()->deletePayment();
+
+        $this->assertEquals($payment->customer->paid_to_date, ($original_paid_to_date - $original_amount));
+        $this->assertEquals($invoice->balance, $invoice->total);
+        $this->assertEquals($payment->status_id, Payment::STATUS_VOIDED);
+        $this->assertNotNull($payment->deleted_at);
+    }
+
+    /** @test */
+    public function it_can_reverse_the_payment()
     {
         $invoice = factory(Invoice::class)->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
