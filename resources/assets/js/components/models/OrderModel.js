@@ -11,6 +11,7 @@ export default class OrderModel extends BaseModel {
         this.entity = 'Order'
 
         this._fields = {
+            is_mobile: window.innerWidth <= 500,
             modalOpen: false,
             deleted_at: null,
             is_amount_discount: false,
@@ -59,8 +60,7 @@ export default class OrderModel extends BaseModel {
             dropdownOpen: false,
             changesMade: false,
             message: '',
-            success: false,
-            width: window.innerWidth
+            success: false
         }
 
         this.sent = consts.order_status_sent

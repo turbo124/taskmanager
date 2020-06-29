@@ -48,7 +48,7 @@ class DeletePayment
         }
 
         foreach ($this->payment->invoices as $invoice) {
-            $invoice->adjustInvoices($invoice->pivot->amount);
+            $invoice->resetBalance($invoice->pivot->amount);
 
             // create transaction
             $this->createTransaction($invoice);

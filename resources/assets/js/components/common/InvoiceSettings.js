@@ -8,7 +8,7 @@ export default function InvoiceSettings (props) {
     console.log('settings', props.settings)
     return (
         <Card>
-            <CardHeader>Items</CardHeader>
+            <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
                 <Row form>
                     <Col md={6}>
@@ -18,45 +18,35 @@ export default function InvoiceSettings (props) {
                         </FormGroup>
                     </Col>
                     <Col md={6}>
-                        <FormGroup check>
-                            <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="transaction_fee_tax" id="examplePassword" checked={props.settings.transaction_fee_tax} />
-                                {translations.transaction_tax}
-                            </Label>
-                        </FormGroup>
-                    </Col>
-                </Row>
-
-                <Row form>
-                    <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.shipping_cost}</Label>
                             <Input onChange={props.handleSurcharge} type="text" name="shipping_cost" id="shipping_cost" value={props.settings.shipping_cost} />
                         </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup check>
-                            <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="shipping_cost_tax" id="shipping_cost_tax" checked={props.settings.shipping_cost_tax} />
-                                {translations.shipping_tax}
-                            </Label>
-                        </FormGroup>
+                        {/* <FormGroup check> */}
+                        {/*    <Label check for="examplePassword"> */}
+                        {/*        <Input onChange={props.handleSurcharge} type="checkbox" name="transaction_fee_tax" id="examplePassword" checked={props.settings.transaction_fee_tax} /> */}
+                        {/*        {translations.transaction_tax} */}
+                        {/*    </Label> */}
+                        {/* </FormGroup> */}
                     </Col>
                 </Row>
 
-                <FormGroup>
-                    <Label>Tax</Label>
-                    <TaxRateDropdown
-                        name="tax"
-                        handleInputChanges={props.handleInput}
-                        errors={props.errors}
-                    />
-                </FormGroup>
+                {/* <Row form> */}
+                {/*    <Col md={6} /> */}
+                {/*    <Col md={6}> */}
+                {/*        <FormGroup check> */}
+                {/*            <Label check for="examplePassword"> */}
+                {/*                <Input onChange={props.handleSurcharge} type="checkbox" name="shipping_cost_tax" id="shipping_cost_tax" checked={props.settings.shipping_cost_tax} /> */}
+                {/*                {translations.shipping_tax} */}
+                {/*            </Label> */}
+                {/*        </FormGroup> */}
+                {/*    </Col> */}
+                {/* </Row> */}
 
                 <Row form>
-                    <Col>
+                    <Col md={6}>
                         <FormGroup>
-                            <Label>Discount</Label>
+                            <Label>{translations.discount}</Label>
                             <Input
                                 value={props.discount}
                                 type='text'
@@ -67,9 +57,9 @@ export default function InvoiceSettings (props) {
                         </FormGroup>
                     </Col>
 
-                    <Col>
+                    <Col md={6}>
                         <FormGroup>
-                            <Label>Discount Type</Label>
+                            <Label>{translations.discount_type}</Label>
                             <Input
                                 bsSize="sm"
                                 value={props.is_amount_discount}
@@ -85,10 +75,25 @@ export default function InvoiceSettings (props) {
                     </Col>
                 </Row>
 
-                <FormGroup>
-                    <Label>Design</Label>
-                    <DesignDropdown name="design_id" design={props.design_id} handleChange={props.handleInput}/>
-                </FormGroup>
+                <Row form>
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label>{translations.tax}</Label>
+                            <TaxRateDropdown
+                                name="tax"
+                                handleInputChanges={props.handleInput}
+                                errors={props.errors}
+                            />
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label>{translations.design}</Label>
+                            <DesignDropdown name="design_id" design={props.design_id} handleChange={props.handleInput}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
             </CardBody>
         </Card>
 

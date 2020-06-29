@@ -195,7 +195,7 @@ class Invoice extends Model
             ) && $this->is_deleted === false && $this->deleted_at === null;
     }
 
-    public function adjustInvoices($amount): bool
+    public function resetBalance($amount): bool
     {
         $this->increaseBalance($amount);
 
