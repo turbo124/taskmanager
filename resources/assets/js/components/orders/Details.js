@@ -37,8 +37,6 @@ export default class Details extends React.Component {
         return (<Card>
             <CardHeader>{translations.details}</CardHeader>
             <CardBody>
-                <h2>{this.props.customerName}</h2>
-                <Address address={this.props.address}/>
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.date}(*):</Label>
                     <Datepicker name="date" date={this.props.order.date} handleInput={this.props.handleInput}

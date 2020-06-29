@@ -8,8 +8,6 @@ import {
     CardHeader
 } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
-import CustomerDropdown from '../common/CustomerDropdown'
-import Address from '../invoice/Address'
 import { translations } from '../common/_icons'
 
 export default class Details extends React.Component {
@@ -38,9 +36,6 @@ export default class Details extends React.Component {
         return (<Card>
             <CardHeader>{translations.details}</CardHeader>
             <CardBody>
-                <h2>{this.props.customerName}</h2>
-                <Address address={this.props.address}/>
-
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.date}(*):</Label>
                     <Datepicker name="date" date={this.props.credit.date} handleInput={this.props.handleInput}
@@ -69,16 +64,6 @@ export default class Details extends React.Component {
                     <Label>{translations.partial_due_date}</Label>
                     <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date} handleInput={this.props.handleInput}
                         className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                </FormGroup>
-
-                <FormGroup>
-                    <Label>{translations.customer}</Label>
-                    <CustomerDropdown
-                        handleInputChanges={this.props.handleInput}
-                        customer={this.props.credit.customer_id}
-                        customers={this.props.customers}
-                        errors={this.props.errors}
-                    />
                 </FormGroup>
             </CardBody>
         </Card>

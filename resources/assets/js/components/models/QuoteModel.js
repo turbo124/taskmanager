@@ -18,6 +18,7 @@ export default class CreditModel extends BaseModel {
         this.error_message = ''
 
         this._fields = {
+            is_mobile: window.innerWidth <= 500,
             modalOpen: false,
             is_amount_discount: false,
             invitations: [],
@@ -69,7 +70,6 @@ export default class CreditModel extends BaseModel {
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            width: window.innerWidth,
             loading: false
         }
 
@@ -258,20 +258,21 @@ export default class CreditModel extends BaseModel {
 
     customerChange (customer_id) {
         const index = this.customers.findIndex(customer => customer.id === parseInt(customer_id))
-        const customer = this.customers[index]
-        const address = customer.billing ? {
-            line1: customer.billing.address_1,
-            town: customer.billing.address_2,
-            county: customer.billing.city,
-            country: 'United Kingdom'
-        } : null
 
-        const contacts = customer.contacts ? customer.contacts : []
+        const customer = this.customers[index]
+        // const address = customer.billing ? {
+        //     line1: customer.billing.address_1,
+        //     town: customer.billing.address_2,
+        //     county: customer.billing.city,
+        //     country: 'United Kingdom'
+        // } : null
+
+        const contacts = customer && customer.contacts ? customer.contacts : []
 
         return {
             customerName: customer.name,
-            contacts: contacts,
-            address: address
+            contacts: contacts
+            // address: address
 
         }
     }

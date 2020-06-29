@@ -18,10 +18,12 @@ import InvoiceSettings from '../common/InvoiceSettings'
 import Notes from '../common/Notes'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import AddButtons from '../common/AddButtons'
-import Contacts from '../credits/Contacts'
+import Contacts from '../orders/Contacts'
 import Emails from '../emails/Emails'
 import { icons, translations } from '../common/_icons'
 import NoteTabs from '../common/NoteTabs'
+import Detailsm from '../orders/Detailsm'
+import Contactsm from './Contactsm'
 
 export default class EditOrder extends Component {
     constructor (props) {
@@ -92,7 +94,7 @@ export default class EditOrder extends Component {
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth })
+        this.setState({ is_mobile: window.innerWidth <= 500 })
     }
 
     handleClick () {
@@ -193,7 +195,11 @@ export default class EditOrder extends Component {
 
     updatePriceData (index) {
         const line_items = this.state.line_items.slice()
-        line_items[index] = CalculateLineTotals({ currentRow: line_items[index], settings: this.settings, invoice: this.state })
+        line_items[index] = CalculateLineTotals({
+            currentRow: line_items[index],
+            settings: this.settings,
+            invoice: this.state
+        })
 
         this.setState({ line_items: line_items }, () => localStorage.setItem('orderForm', JSON.stringify(this.state)))
     }
@@ -369,12 +375,14 @@ export default class EditOrder extends Component {
             </NavItem>
         </Nav>
 
-        const isMobile = this.state.width <= 500
-
-        const details = <Details handleInput={this.handleInput}
-            customers={this.props.customers}
-            errors={this.state.errors} order={this.state}
-            address={this.state.address} customerName={this.state.customerName}/>
+        const details = this.state.is_mobile
+            ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors} order={this.state}
+            /> : <Details handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors} order={this.state}
+            />
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
             custom_value2={this.state.custom_value2}
@@ -382,18 +390,28 @@ export default class EditOrder extends Component {
             custom_value4={this.state.custom_value4}
             custom_fields={this.props.custom_fields}/>
 
-        const contacts = <Contacts errors={this.state.errors} contacts={this.state.contacts}
-            invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
+        const contacts = this.state.is_mobile ? <Contactsm address={this.state.address} customerName={this.state.customerName}
+            handleInput={this.handleInput} invoice={this.state}
+            errors={this.state.errors}
+            contacts={this.state.contacts}
+            invitations={this.state.invitations}
+            handleContactChange={this.handleContactChange}/>
+            : <Contacts address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
         const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
-            discount={this.state.discount} is_amount_discount={this.state.is_amount_discount} design_id={this.state.design_id}/>
+            discount={this.state.discount}
+            is_amount_discount={this.state.is_amount_discount}
+            design_id={this.state.design_id}/>
 
         const items = <Items order={this.state} errors={this.state.errors} handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
 
-        const notes = !isMobile
+        const notes = !this.state.is_mobile
             ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
@@ -414,7 +432,7 @@ export default class EditOrder extends Component {
                 handleTaskChange={this.handleTaskChange}
                 action={this.props.action}/> : null
 
-        const form = isMobile
+        const form = this.state.is_mobile
             ? <React.Fragment>
 
                 {tabs}
@@ -456,7 +474,7 @@ export default class EditOrder extends Component {
                             onClick={() => {
                                 this.toggleTab('1')
                             }}>
-                            Invoice
+                            {translations.order}
                         </NavLink>
                     </NavItem>
 
@@ -474,14 +492,17 @@ export default class EditOrder extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Row form>
-                            <Col md={6}>
+                            <Col md={4}>
                                 {details}
                                 {custom}
                             </Col>
 
-                            <Col md={6}>
-                                {contacts}
+                            <Col md={4}>
                                 {settings}
+                            </Col>
+
+                            <Col md={4}>
+                                {contacts}
                             </Col>
                         </Row>
                         {items}
@@ -552,7 +573,8 @@ export default class EditOrder extends Component {
         const form = this.buildForm()
         const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
-            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_order}</DropdownItem>
+            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_order}
+            </DropdownItem>
 
         if (this.props.modal) {
             return (

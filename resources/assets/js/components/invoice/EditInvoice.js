@@ -33,6 +33,9 @@ import InvoiceModel from '../models/InvoiceModel'
 import Emails from '../emails/Emails'
 import { icons, translations } from '../common/_icons'
 import NoteTabs from '../common/NoteTabs'
+import Contactsm from './Contactsm'
+import Detailsm from './Detailsm'
+import Recurring from './Recurring'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -105,7 +108,7 @@ class EditInvoice extends Component {
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth })
+        this.setState({ is_mobile: window.innerWidth <= 500 })
     }
 
     handleInput (e) {
@@ -477,12 +480,18 @@ class EditInvoice extends Component {
             </NavItem>
         </Nav>
 
-        const isMobile = this.state.width <= 500
+        const details = this.state.is_mobile
+            ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors} invoice={this.state}
+            />
+            : <Details address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors} invoice={this.state}
+            />
 
-        const details = <Details handleInput={this.handleInput}
-            customers={this.props.customers}
-            errors={this.state.errors} invoice={this.state}
-            address={this.state.address} customerName={this.state.customerName}/>
+        const recurring = <Recurring setRecurring={this.setRecurring} handleInput={this.handleInput}
+            errors={this.state.errors} invoice={this.state}/>
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
             custom_value2={this.state.custom_value2}
@@ -490,8 +499,16 @@ class EditInvoice extends Component {
             custom_value4={this.state.custom_value4}
             custom_fields={this.props.custom_fields}/>
 
-        const contacts = <Contacts errors={this.state.errors} contacts={this.state.contacts}
-            invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
+        const contacts = this.state.is_mobile ? <Contactsm address={this.state.address} customerName={this.state.customerName}
+            handleInput={this.handleInput} invoice={this.state}
+            errors={this.state.errors}
+            contacts={this.state.contacts}
+            invitations={this.state.invitations}
+            handleContactChange={this.handleContactChange}/>
+            : <Contacts address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
         const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
@@ -503,7 +520,7 @@ class EditInvoice extends Component {
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
 
-        const notes = !isMobile
+        const notes = !this.state.is_mobile
             ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
@@ -524,7 +541,7 @@ class EditInvoice extends Component {
                 action={this.props.action} model={this.invoiceModel}
             /> : null
 
-        const form = isMobile
+        const form = this.state.is_mobile
             ? <React.Fragment>
 
                 {tabs}
@@ -532,6 +549,7 @@ class EditInvoice extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         {details}
+                        {recurring}
                         {custom}
                     </TabPane>
 
@@ -565,7 +583,7 @@ class EditInvoice extends Component {
                             onClick={() => {
                                 this.toggleTab('1')
                             }}>
-                            Invoice
+                            {translations.invoice}
                         </NavLink>
                     </NavItem>
 
@@ -575,7 +593,7 @@ class EditInvoice extends Component {
                             onClick={() => {
                                 this.toggleTab('2')
                             }}>
-                            Email
+                            {translations.email}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -583,13 +601,17 @@ class EditInvoice extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Row form>
-                            <Col md={6}>
+                            <Col md={4}>
                                 {details}
                                 {custom}
                             </Col>
 
-                            <Col md={6}>
+                            <Col md={4}>
                                 {contacts}
+                                {recurring}
+                            </Col>
+
+                            <Col md={4}>
                                 {settings}
                             </Col>
                         </Row>

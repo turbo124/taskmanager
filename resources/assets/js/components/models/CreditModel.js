@@ -15,6 +15,7 @@ export default class CreditModel extends BaseModel {
         this.entity = 'Credit'
 
         this._fields = {
+            is_mobile: window.innerWidth <= 500,
             modalOpen: false,
             is_amount_discount: false,
             id: null,
@@ -62,8 +63,7 @@ export default class CreditModel extends BaseModel {
             dropdownOpen: false,
             changesMade: false,
             message: '',
-            success: false,
-            width: window.innerWidth
+            success: false
         }
 
         this.sent = 2

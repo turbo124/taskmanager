@@ -16,6 +16,7 @@ export default class InvoiceModel extends BaseModel {
         this.entity = 'Invoice'
 
         this._fields = {
+            is_mobile: window.innerWidth <= 500,
             modalOpen: false,
             is_amount_discount: false,
             deleted_at: null,
@@ -69,7 +70,6 @@ export default class InvoiceModel extends BaseModel {
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            width: window.innerWidth,
             loading: false
         }
 

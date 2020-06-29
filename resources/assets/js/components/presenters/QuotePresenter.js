@@ -19,7 +19,7 @@ export default function QuotePresenter (props) {
     const statuses = {
         [consts.quote_status_draft]: translations.draft,
         [consts.quote_status_sent]: translations.sent,
-        [consts.quote_status_approved]: translations.approved,
+        [consts.quote_status_approved]: translations.status_approved,
         [consts.quote_status_invoiced]: translations.invoiced,
         [consts.quote_status_on_order]: translations.on_order,
         100: translations.expired
