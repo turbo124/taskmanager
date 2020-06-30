@@ -55,7 +55,7 @@ export default class EditCase extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/cases/${this.state.id}`, {
+        const formData = {
             subject: this.state.subject,
             message: this.state.message,
             customer_id: this.state.customer_id,
@@ -63,19 +63,23 @@ export default class EditCase extends React.Component {
             priority_id: this.state.priority_id,
             private_notes: this.state.private_notes,
             category_id: this.state.category_id
+        }
+
+        this.caseModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.caseModel.errors, message: this.caseModel.error_message })
+                return
+            }
+
+            const index = this.props.cases.findIndex(case => case.id === this.props.case.id)
+            this.props.cases[index] = response
+            this.props.action(this.props.cases)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.cases.findIndex(case_file => case_file.id === this.state.id)
-                this.props.cases[index] = response.data
-                this.props.action(this.props.cases)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
