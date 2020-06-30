@@ -7,7 +7,7 @@ import Details from './Details'
 export default class EditCase extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
+        /* this.state = {
             modal: false,
             id: this.props.case.id,
             subject: this.props.case.subject,
@@ -20,9 +20,14 @@ export default class EditCase extends React.Component {
             loading: false,
             changesMade: false,
             errors: []
-        }
+        }*/
 
-        this.initialState = this.state
+        const data = this.props.case ? this.props.case : null
+        this.caseModel = new CaseModel(data, this.props.customers)
+        this.initialState = this.caseModel.fields
+        this.state = this.initialState
+
+        //this.initialState = this.state
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
