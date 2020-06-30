@@ -107,7 +107,7 @@ export default class Case extends Component {
                                     value={this.props.entity.subject}/>
 
                                 <SimpleSectionItem heading={translations.priority}
-                                    value={this.props.entity.priority_id}/>
+                                    value={<CasePresenter entity={this.props.entity} field="priority_field" />}/>
 
                                 <SimpleSectionItem heading={translations.due_date}
                                     value={this.props.entity.due_date}/>
