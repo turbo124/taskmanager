@@ -8,7 +8,7 @@ import Details from './Details'
 export default class AddCase extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
+        /* this.state = {
             modal: false,
             subject: '',
             message: '',
@@ -19,7 +19,12 @@ export default class AddCase extends React.Component {
             private_notes: '',
             loading: false,
             errors: []
-        }
+        }*/
+
+        const data = null
+        this.caseModel = new CaseModel(data, this.props.customers)
+        this.initialState = this.caseModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.handleInput = this.handleInput.bind(this)
