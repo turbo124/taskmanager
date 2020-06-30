@@ -7,6 +7,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import { consts } from '../common/_consts'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
+import CasePriorityDropdown from '../common/CasePriorityDropdown'
 
 export default class Details extends Component {
     render () {
@@ -55,15 +56,12 @@ export default class Details extends Component {
 
                 <FormGroup>
                     <Label for="examplePassword">{translations.priority}</Label>
-                    <Input value={this.props.case.priority_id} type="select"
+                    <CasePriorityDropdown
                         name="priority_id"
-                        onChange={this.props.handleInput} id="priority_id"
-                    >
-                        <option value="">{translations.select_option}</option>
-                        <option value={consts.low_priority}>{translations.low}</option>
-                        <option value={consts.medium_priority}>{translations.medium}</option>
-                        <option value={consts.high_priority}>{translations.high}</option>
-                    </Input>
+                        priority={this.props.case.priority_id}
+                        renderErrorFor={this.renderErrorFor}
+                        handleInputChanges={this.props.handleInput}
+                    />
                 </FormGroup>
 
                 <FormGroup>

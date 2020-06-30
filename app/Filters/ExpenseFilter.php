@@ -63,6 +63,10 @@ class ExpenseFilter extends QueryFilter
             $this->query->whereCompanyId($request->company_id);
         }
 
+        if ($request->filled('category_id')) {
+            $this->query->whereCategoryId($request->category_id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }

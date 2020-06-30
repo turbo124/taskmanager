@@ -1,10 +1,10 @@
 import React from 'react'
-import { Card, CardText } from 'reactstrap'
+import { Card, CardBody } from 'reactstrap'
 import FormatMoney from '../FormatMoney'
 
 export default function ViewEntityHeader (props) {
     return <Card body outline color="primary">
-        <CardText className="text-white">
+        <CardBody className="text-white">
             <div className="d-flex">
                 <div
                     className="p-2 flex-fill">
@@ -20,6 +20,6 @@ export default function ViewEntityHeader (props) {
                         amount={props.value_2}/>}
                 </div>
             </div>
-        </CardText>
+        </CardBody>
     </Card>
 }

@@ -123,6 +123,7 @@ class OrderService extends ServiceBase
 
         $this->order->setPreviousStatus($this->order->status_id);
         $this->order->setStatus(Order::STATUS_CANCELLED);
+        $this->order->setDateCancelled();
         $this->order->save();
 
         $update_reserved_stock = $this->order->status_id !== Order::STATUS_SENT;

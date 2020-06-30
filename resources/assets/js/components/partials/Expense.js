@@ -7,12 +7,12 @@ import {
     NavItem,
     NavLink,
     Card,
-    CardText,
+    CardBody,
     Row,
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    Col, CardTitle
+    Col, CardHeader
 } from 'reactstrap'
 import ExpenseModel from '../models/ExpenseModel'
 import ExpensePresenter from '../presenters/ExpensePresenter'
@@ -31,13 +31,13 @@ export default class Expense extends Component {
             show_success: false
         }
 
+        this.expenseModel = new ExpenseModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        const expenseModel = new ExpenseModel(this.props.entity)
-        expenseModel.completeAction(this.props.entity, action).then(response => {
+        this.expenseModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -61,8 +61,7 @@ export default class Expense extends Component {
     }
 
     render () {
-        const expenseModel = new ExpenseModel(this.props.entity)
-        const convertedAmount = expenseModel.convertedAmount
+        const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
 
         return (
@@ -81,7 +80,7 @@ export default class Expense extends Component {
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => { this.toggleTab('2') }}
                         >
-                            {translations.documents}
+                            {translations.documents} ({this.expenseModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -120,12 +119,12 @@ export default class Expense extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <Card body>
-                                    <CardTitle>{translations.documents}</CardTitle>
-                                    <CardText>
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
                                         <FileUploads entity_type="Expense" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
-                                    </CardText>
+                                    </CardBody>
                                 </Card>
                             </Col>
                         </Row>

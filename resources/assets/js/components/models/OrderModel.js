@@ -10,6 +10,12 @@ export default class OrderModel extends BaseModel {
         this.customers = customers
         this.entity = 'Order'
 
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+
         this._fields = {
             is_mobile: window.innerWidth <= 500,
             modalOpen: false,
@@ -109,6 +115,14 @@ export default class OrderModel extends BaseModel {
 
     hasInvoice () {
         return this.fields.invoice_id && this.fields.invoice_id.length
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     addItem () {

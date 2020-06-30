@@ -4,6 +4,7 @@ namespace App\Transformations;
 
 use App\Audit;
 use App\Email;
+use App\File;
 use App\Quote;
 use App\QuoteInvitation;
 use App\Repositories\CustomerRepository;
@@ -11,6 +12,7 @@ use App\Customer;
 
 trait QuoteTransformable
 {
+    use FileTransformable;
 
     /**
      * @param Quote $quote
@@ -50,8 +52,26 @@ trait QuoteTransformable
             'transaction_fee_tax' => (bool)$quote->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
             'emails'              => $this->transformQuoteEmails($quote->emails()),
-            'audits'              => $this->transformAuditsForQuote($quote->audits)
+            'audits'              => $this->transformAuditsForQuote($quote->audits),
+            'files'               => $this->transformQuoteFiles($quote->files)
         ];
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformQuoteFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return $this->transformFile($file);
+            }
+        )->all();
     }
 
     /**

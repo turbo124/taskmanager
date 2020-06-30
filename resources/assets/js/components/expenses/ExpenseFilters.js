@@ -120,7 +120,7 @@ export default class ExpenseFilters extends Component {
                             name="category_id"
                             category={this.props.filters.category_id}
                             renderErrorFor={this.renderErrorFor}
-                            onChange={this.filterExpenses}
+                            handleInputChanges={this.filterExpenses}
                         />
                     </FormGroup>
                 </Col>

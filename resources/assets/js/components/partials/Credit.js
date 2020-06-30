@@ -9,11 +9,11 @@ import {
     NavLink,
     Row,
     Card,
-    CardText,
+    CardBody,
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    CardTitle,
+    CardHeader,
     Col
 } from 'reactstrap'
 import CreditPresenter from '../presenters/CreditPresenter'
@@ -36,14 +36,15 @@ export default class Credit extends Component {
             show_success: false
         }
 
+        this.creditModel = new CreditModel(this.props.entity)
+
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        const creditModel = new CreditModel(this.props.entity)
-        creditModel.completeAction(this.props.entity, action).then(response => {
+        this.creditModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -122,7 +123,7 @@ export default class Credit extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents}
+                            {translations.documents} ({ this.creditModel.fileCount })
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -176,12 +177,12 @@ export default class Credit extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <Card body>
-                                    <CardTitle>{translations.documents}</CardTitle>
-                                    <CardText>
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
                                         <FileUploads entity_type="Credit" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
-                                    </CardText>
+                                    </CardBody>
                                 </Card>
                             </Col>
                         </Row>
@@ -189,12 +190,12 @@ export default class Credit extends Component {
                     <TabPane tabId="3">
                         <Row>
                             <Col>
-                                <Card body>
-                                    <CardTitle>{translations.pdf}</CardTitle>
-                                    <CardText>
+                                <Card>
+                                    <CardHeader>{translations.pdf}</CardHeader>
+                                    <CardBody>
                                         <iframe style={{ width: '400px', height: '400px' }}
                                             className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
-                                    </CardText>
+                                    </CardBody>
                                 </Card>
                             </Col>
                         </Row>

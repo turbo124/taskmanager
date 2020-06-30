@@ -220,6 +220,11 @@ class Invoice extends Model
         )->format('Y-m-d H:i:s') : null;
     }
 
+    public function setDateCancelled()
+    {
+        $this->date_cancelled = Carbon::now();
+    }
+
     public function setAccount(Account $account)
     {
         $this->account_id = (int)$account->id;
