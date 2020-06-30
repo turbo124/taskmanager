@@ -22,8 +22,6 @@ class AddLeadForm extends React.Component {
         this.leadModel = new LeadModel(null)
         this.initialState = this.leadModel.fields
         this.state = this.initialState
-
-        this.state = this.initialState
         this.toggle = this.toggle.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
         this.handleInputChanges = this.handleInputChanges.bind(this)
