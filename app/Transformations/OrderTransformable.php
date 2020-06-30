@@ -4,6 +4,7 @@ namespace App\Transformations;
 
 use App\Audit;
 use App\Email;
+use App\File;
 use App\Invoice;
 use App\InvoiceInvitation;
 use App\Order;
@@ -14,6 +15,7 @@ use App\Customer;
 
 trait OrderTransformable
 {
+    use FileTransformable;
 
     /**
      * @param Order $order
@@ -54,7 +56,8 @@ trait OrderTransformable
             'transaction_fee_tax' => (bool)$order->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$order->shipping_cost_tax,
             'emails'              => $this->transformOrderEmails($order->emails()),
-            'audits'              => $this->transformAuditsForOrder($order->audits)
+            'audits'              => $this->transformAuditsForOrder($order->audits),
+            'files'               => $this->transformOrderFiles($order->files)
         ];
     }
 
@@ -71,6 +74,23 @@ trait OrderTransformable
         return $invitations->map(
             function (OrderInvitation $invitation) {
                 return (new OrderInvitationTransformable)->transformOrderInvitation($invitation);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformOrderFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return $this->transformFile($file);
             }
         )->all();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CompanyToken;
 use App\Factory\CaseCategoryFactory;
 use App\Factory\ExpenseCategoryFactory;
 use App\Filters\CaseCategoryFilter;
@@ -40,9 +41,13 @@ class CaseCategoryController extends Controller
      */
     public function index(SearchRequest $request)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
+
         $categories = (new CaseCategoryFilter($this->category_repo))->filter(
             $request,
-            auth()->user()->account_user()->account
+            $account
         );
         return response()->json($categories);
     }

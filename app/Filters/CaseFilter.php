@@ -13,6 +13,7 @@ use App\Transformations\SubscriptionTransformable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 /**
  * TokenFilters
@@ -61,6 +62,14 @@ class CaseFilter extends QueryFilter
 
         if ($request->filled('customer_id')) {
             $this->query->whereCustomerId($request->customer_id);
+        }
+
+        if ($request->filled('category_id')) {
+            $this->query->whereCategoryId($request->category_id);
+        }
+
+        if ($request->filled('priority_id')) {
+            $this->query->wherePriorityId($request->priority_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {

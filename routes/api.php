@@ -30,17 +30,11 @@ Route::group(['middleware' => ['jwt.auth', 'api-header']], function () {
         // subscription
         Route::resource('subscriptions', 'SubscriptionController');
 
-        // cases
-        Route::resource('cases', 'CaseController');
-
         // expense categories
         Route::resource('expense-categories', 'ExpenseCategoryController');
 
         // brands
         Route::resource('brands', 'BrandController');
-
-        // case categories
-        Route::resource('case-categories', 'CaseCategoryController');
 
         //design
         Route::resource('designs', 'DesignController');// name = (payments. index / create / show / update / destroy / edit
@@ -420,4 +414,10 @@ Route::group(['middleware' => 'api-header'], function () {
     Route::post('preview', 'PreviewController@show');
 
     Route::post('customer/register', 'CustomerController@register');
+
+    // cases
+    Route::resource('cases', 'CaseController');
+
+    // case categories
+    Route::resource('case-categories', 'CaseCategoryController');
 });

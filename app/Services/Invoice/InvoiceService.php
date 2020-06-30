@@ -16,14 +16,21 @@ use App\Events\Invoice\InvoiceWasPaid;
 use App\Events\Invoice\InvoiceWasEmailed;
 use App\Services\ServiceBase;
 
+/**
+ * Class InvoiceService
+ * @package App\Services\Invoice
+ */
 class InvoiceService extends ServiceBase
 {
-    protected $invoice;
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
 
-    protected $customer_service;
-
-    private $payment_service;
-
+    /**
+     * InvoiceService constructor.
+     * @param Invoice $invoice
+     */
     public function __construct(Invoice $invoice)
     {
         $config = [
@@ -135,6 +142,8 @@ class InvoiceService extends ServiceBase
         if (!in_array($this->invoice->status_id, [Invoice::STATUS_CANCELLED, Invoice::STATUS_REVERSED])) {
             return null;
         }
+
+        $this->invoice->date_cancelled = null;
 
         parent::reverseStatus();
         parent::reverseBalance();

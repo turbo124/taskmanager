@@ -13,6 +13,11 @@ export default class CreditModel extends BaseModel {
         this.customers = customers
         this._url = '/api/credit'
         this.entity = 'Credit'
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
 
         this._fields = {
             is_mobile: window.innerWidth <= 500,
@@ -28,6 +33,7 @@ export default class CreditModel extends BaseModel {
             total: 0,
             customer_id: '',
             design_id: '',
+            file_count: 0,
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             custom_value1: '',
@@ -80,6 +86,14 @@ export default class CreditModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     get isSent () {

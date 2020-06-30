@@ -17,6 +17,12 @@ export default class CreditModel extends BaseModel {
         this.errors = []
         this.error_message = ''
 
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+
         this._fields = {
             is_mobile: window.innerWidth <= 500,
             modalOpen: false,
@@ -95,6 +101,14 @@ export default class CreditModel extends BaseModel {
 
     get isSent () {
         return parseInt(this.fields.status_id) === this.sent
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     buildDropdownMenu () {

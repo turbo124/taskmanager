@@ -4,6 +4,7 @@ namespace App\Transformations;
 
 use App\Audit;
 use App\Email;
+use App\File;
 use App\Invoice;
 use App\InvoiceInvitation;
 use App\Payment;
@@ -14,6 +15,7 @@ use App\Customer;
 trait InvoiceTransformable
 {
     use PaymentTransformable;
+    use FileTransformable;
 
     /**
      * @param Invoice $invoice
@@ -56,8 +58,26 @@ trait InvoiceTransformable
             'last_sent_date'      => $invoice->last_sent_date ?: '',
             'emails'              => $this->transformEmails($invoice->emails()),
             'paymentables'        => $this->transformInvoicePayments($invoice->payments),
-            'audits'              => $this->transformAuditsForInvoice($invoice->audits)
+            'audits'              => $this->transformAuditsForInvoice($invoice->audits),
+            'files'               => $this->transformInvoiceFiles($invoice->files)
         ];
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformInvoiceFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return $this->transformFile($file);
+            }
+        )->all();
     }
 
     /**

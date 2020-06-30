@@ -75,6 +75,7 @@ class CancelInvoice
         $this->invoice->setPreviousBalance();
         $this->invoice->setBalance(0);
         $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
+        $this->invoice->setDateCancelled();
         $this->invoice->save();
 
         event(new InvoiceWasCancelled($invoice));

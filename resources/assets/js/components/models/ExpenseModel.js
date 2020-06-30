@@ -12,6 +12,12 @@ export default class ExpenseModel extends BaseModel {
         this._url = '/api/expense'
         this.entity = 'Expense'
 
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+
         this._fields = {
             modal: false,
             amount: 0,
@@ -81,6 +87,14 @@ export default class ExpenseModel extends BaseModel {
 
     get convertedAmountWithTax () {
         return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     async completeAction (data, action) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Cases;
+use App\CompanyToken;
 use App\Customer;
 use App\Factory\CaseFactory;
 use App\Filters\CaseFilter;
@@ -13,6 +14,7 @@ use App\Requests\Cases\UpdateCaseRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\CaseTransformable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CaseController extends Controller
 {
@@ -38,9 +40,13 @@ class CaseController extends Controller
      */
     public function index(SearchRequest $request)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
+
         $cases = (new CaseFilter($this->case_repo))->filter(
             $request,
-            auth()->user()->account_user()->account
+            $account
         );
         return response()->json($cases);
     }
@@ -52,7 +58,7 @@ class CaseController extends Controller
     public function show(int $id)
     {
         $case = $this->case_repo->findCaseById($id);
-        return response()->json($case);
+        return response()->json($this->transform($case));
     }
 
     /**
@@ -73,9 +79,14 @@ class CaseController extends Controller
      */
     public function store(CreateCaseRequest $request)
     {
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
+        $user = $token->user;
+
         $case = CaseFactory::create(
-            auth()->user()->account_user()->account,
-            auth()->user(),
+            $account,
+            $user,
             Customer::find($request->customer_id)->first()
         );
         $this->case_repo->save($request->all(), $case);

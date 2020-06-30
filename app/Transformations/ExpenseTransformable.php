@@ -4,9 +4,11 @@ namespace App\Transformations;
 
 use App\Company;
 use App\Expense;
+use App\File;
 
 trait ExpenseTransformable
 {
+    use FileTransformable;
 
     /**
      * @param Expense $expense
@@ -50,8 +52,26 @@ trait ExpenseTransformable
             'updated_at'            => $expense->updated_at,
             'archived_at'           => $expense->deleted_at,
             'created_at'            => $expense->created_at,
+            'files'                 => $this->transformExpenseFiles($expense->files)
 
         ];
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformExpenseFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return $this->transformFile($file);
+            }
+        )->all();
     }
 
 }

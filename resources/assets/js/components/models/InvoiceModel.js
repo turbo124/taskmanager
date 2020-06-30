@@ -15,6 +15,12 @@ export default class InvoiceModel extends BaseModel {
         this._url = '/api/invoice'
         this.entity = 'Invoice'
 
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+
         this._fields = {
             is_mobile: window.innerWidth <= 500,
             modalOpen: false,
@@ -130,6 +136,14 @@ export default class InvoiceModel extends BaseModel {
 
     get isEditable () {
         return !this.isReversed && !this.isCancelled && !this.isDeleted
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     buildDropdownMenu () {

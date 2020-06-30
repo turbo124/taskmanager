@@ -8,13 +8,12 @@ import {
     NavLink,
     Row,
     Card,
-    CardText,
-    ListGroupItemText,
+    CardHeader,
     ListGroupItemHeading,
     ListGroupItem,
     ListGroup,
     Col,
-    CardTitle, Alert
+    CardBody, Alert
 } from 'reactstrap'
 import InvoicePresenter from '../presenters/InvoicePresenter'
 import FormatDate from '../common/FormatDate'
@@ -36,14 +35,14 @@ export default class Order extends Component {
             show_success: false
         }
 
+        this.orderModel = new OrderModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        const orderModel = new OrderModel(this.props.entity)
-        orderModel.completeAction(this.props.entity, action).then(response => {
+        this.orderModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -123,7 +122,7 @@ export default class Order extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents}
+                            {translations.documents} ({this.orderModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -180,12 +179,12 @@ export default class Order extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <Card body>
-                                    <CardTitle> {translations.documents} </CardTitle>
-                                    <CardText>
+                                <Card>
+                                    <CardHeader> {translations.documents} </CardHeader>
+                                    <CardBody>
                                         <FileUploads entity_type="Order" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
-                                    </CardText>
+                                    </CardBody>
                                 </Card>
                             </Col>
                         </Row>
@@ -193,12 +192,12 @@ export default class Order extends Component {
                     <TabPane tabId="3">
                         <Row>
                             <Col>
-                                <Card body>
-                                    <CardTitle> {translations.pdf} </CardTitle>
-                                    <CardText>
+                                <Card>
+                                    <CardHeader> {translations.pdf} </CardHeader>
+                                    <CardBody>
                                         <iframe style={{ width: '400px', height: '400px' }}
                                             className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
-                                    </CardText>
+                                    </CardBody>
                                 </Card>
                             </Col>
                         </Row>

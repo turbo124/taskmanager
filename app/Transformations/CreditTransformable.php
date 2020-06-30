@@ -12,10 +12,12 @@ use App\Audit;
 use App\Credit;
 use App\CreditInvitation;
 use App\Email;
+use App\File;
 
 
 trait CreditTransformable
 {
+    use FileTransformable;
 
     /**
      * @param Credit $credit
@@ -55,8 +57,26 @@ trait CreditTransformable
             'transaction_fee_tax' => (bool)$credit->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$credit->shipping_cost_tax,
             'emails'              => $this->transformCreditEmails($credit->emails()),
-            'audits'              => $this->transformAuditsForCredit($credit->audits)
+            'audits'              => $this->transformAuditsForCredit($credit->audits),
+            'files'               => $this->transformCreditFiles($credit->files)
         ];
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformCreditFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return $this->transformFile($file);
+            }
+        )->all();
     }
 
     /**

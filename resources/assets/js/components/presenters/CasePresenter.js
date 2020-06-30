@@ -10,9 +10,9 @@ export default function CasePresenter (props) {
     }
 
     const priority_colors = {
-        [consts.low_priority]: 'draft',
+        [consts.low_priority]: 'success',
         [consts.medium_priority]: 'warning',
-        [consts.low_priority]: 'danger'
+        [consts.high_priority]: 'danger'
     }
 
     const statuses = {

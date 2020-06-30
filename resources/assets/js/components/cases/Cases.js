@@ -23,14 +23,15 @@ export default class Cases extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['customer_name', 'files', 'private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
                 start_date: '',
                 end_date: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                category_id: queryString.parse(this.props.location.search).category_id || ''
+                category_id: queryString.parse(this.props.location.search).category_id || '',
+                priority_id: queryString.parse(this.props.location.search).priority_id || ''
             }
         }
 
@@ -97,9 +98,9 @@ export default class Cases extends Component {
     }
 
     render () {
-        const { searchText, status, start_date, end_date, customer_id, category_id } = this.state.filters
+        const { searchText, status, start_date, end_date, customer_id, category_id, priority_id } = this.state.filters
         const { view, cases, customers } = this.state
-        const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}`
+        const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}&priority_id=${priority_id}`
 
         return customers.length ? (
             <div className="data-table">
@@ -123,7 +124,8 @@ export default class Cases extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
+                            customers={this.state.customers}
+                            columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
                             dropdownButtonActions={this.state.dropdownButtonActions}
                             entity_type="Case"
                             bulk_save_url="/api/cases/bulk"

@@ -191,6 +191,11 @@ class Order extends Model
         $this->status_id = (int)$status;
     }
 
+    public function setDateCancelled()
+    {
+        $this->date_cancelled = Carbon::now();
+    }
+
     /**
      * @param $invoice_id
      */

@@ -36,6 +36,7 @@ export default class Expenses extends Component {
             },
             ignoredColumns:
                 [
+                    'files',
                     'customer_name',
                     'user_id',
                     'company_id',
