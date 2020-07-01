@@ -6,31 +6,18 @@ import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Datepicker from '../common/Datepicker'
 import { icons, translations } from '../common/_icons'
+import Details from './Details'
+import LeadModel from '../models/LeadModel'
+import RecurringInvoiceModel from '../models/RecurringInvoiceModel'
+import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 
 class UpdateRecurringInvoice extends Component {
     constructor (props, context) {
         super(props, context)
-        this.state = {
-            errors: [],
-            is_recurring: false,
-            changesMade: false,
-            id: this.props.invoice.id,
-            invoice_id: this.props.invoice && this.props.invoice.invoice_id ? this.props.invoice.invoice_id : 0,
-            customer_id: this.props.invoice && this.props.invoice.customer_id ? this.props.invoice.customer_id : 0,
-            finance_type: this.props.finance_type ? this.props.finance_type : 1,
-            start_date: this.props.invoice && this.props.invoice.start_date ? this.props.invoice.start_date : moment(new Date()).format('YYYY-MM-DD'),
-            end_date: this.props.invoice && this.props.invoice.end_date ? this.props.invoice.end_date : moment(new Date()).format('YYYY-MM-DD'),
-            recurring_due_date: this.props.invoice && this.props.invoice.recurring_due_date ? this.props.invoice.recurring_due_date : moment(new Date()).format('YYYY-MM-DD'),
-            frequency: this.props.invoice && this.props.invoice.frequency ? this.props.invoice.frequency : 1,
-            custom_value1: this.props.invoice.custom_value1,
-            custom_value2: this.props.invoice.custom_value2,
-            custom_value3: this.props.invoice.custom_value3,
-            custom_value4: this.props.invoice.custom_value4,
-            public_notes: this.props.invoice.public_notes,
-            private_notes: this.props.invoice.private_notes
-        }
 
-        this.initialState = this.state
+        this.recurringInvoiceModel = new RecurringInvoiceModel(this.props.invoice)
+        this.initialState = this.recurringInvoiceModel.fields
+        this.state = this.initialState
         this.handleInput = this.handleInput.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -51,13 +38,13 @@ class UpdateRecurringInvoice extends Component {
         }
     }
 
-    handleClick () {
-        axios.put(`/api/recurring-invoice/${this.state.id}`, {
+    getFormData () {
+        return {
             start_date: this.state.start_date,
             invoice_id: this.state.invoice_id,
             customer_id: this.state.customer_id,
             end_date: this.state.end_date,
-            recurring_due_date: this.state.recurring_due_date,
+            due_date: this.state.due_date,
             frequency: this.state.frequency,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
@@ -65,20 +52,27 @@ class UpdateRecurringInvoice extends Component {
             custom_value4: this.state.custom_value4,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes
+        }
+    }
+
+    handleClick () {
+        const formData = this.getFormData()
+
+        this.recurringInvoiceModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.recurringInvoiceModel.errors, message: this.recurringInvoiceModel.error_message })
+                return
+            }
+
+            const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.invoice.id)
+            this.props.invoices[index] = response
+            this.props.action(this.props.invoices)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.invoice.id)
-                this.props.invoices[index] = response.data
-                this.props.action(this.props.invoices)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                alert(error)
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     handleInput (e) {
@@ -113,38 +107,8 @@ class UpdateRecurringInvoice extends Component {
 
         const form = (
             <div className={inlineClass}>
-                <FormGroup>
-                    <Label for="start_date">{translations.start_date}(*):</Label>
-                    <Datepicker name="start_date" date={this.state.start_date} handleInput={this.handleInput}
-                        className={this.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {this.renderErrorFor('start_date')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="end_date">{translations.end_date}(*):</Label>
-                    <Datepicker name="end_date" date={this.state.end_date} handleInput={this.handleInput}
-                        className={this.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {this.renderErrorFor('end_date')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="recurring_due_date">{translations.due_date}(*):</Label>
-                    <Datepicker name="recurring_due_date" date={this.state.recurring_due_date} handleInput={this.handleInput}
-                        className={this.hasErrorFor('recurring_due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {this.renderErrorFor('recurring_due_date')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label>{translations.frequency}</Label>
-                    <Input
-                        value={this.state.frequency}
-                        type='select'
-                        name='frequency'
-                        placeholder="Days"
-                        id='frequency'
-                        onChange={this.handleInput}
-                    />
-                </FormGroup>
+                <Details recurring_invoice={this.state} hasErrorFor={this.hasErrorFor}
+                    renderErrorFor={this.renderErrorFor} handleInput={this.handleInput}/>
 
                 <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                     handleInput={this.handleInput}/>
@@ -157,13 +121,18 @@ class UpdateRecurringInvoice extends Component {
 
         return this.props.modal === true
             ? <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_recurring_invoice}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i
+                    className={`fa ${icons.edit}`}/>{translations.edit_recurring_invoice}</DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_recurring_invoice}
                     </ModalHeader>
 
                     <ModalBody>
+                        <DropdownMenuBuilder invoices={this.props.invoices} formData={this.getFormData()}
+                            model={this.recurringInvoiceModel}
+                            action={this.props.action}/>
+
                         {form}
                     </ModalBody>
                     <ModalFooter>

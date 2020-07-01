@@ -39,6 +39,9 @@ $factory->define(
             'is_deleted'     => false,
             'po_number'      => $faker->text(10),
             'line_items'     => $line_items,
+            'frequency'      => 1,
+            'start_date'     => $faker->date(),
+            'end_date'       => $faker->date()
         ];
     }
 );

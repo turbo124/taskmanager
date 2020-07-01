@@ -72,7 +72,7 @@ class AddLeadForm extends React.Component {
 
         this.leadModel.save(data).then(response => {
             if (!response) {
-                this.setState({ errors: this.leadModel.errors, message: this.taskModel.error_message })
+                this.setState({ errors: this.leadModel.errors, message: this.leadModel.error_message })
                 return
             }
             this.props.leads.push(response)
@@ -148,7 +148,7 @@ class AddLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('2')
                                         }}>
-                                        {translations.contacts}
+                                        {translations.contact}
                                     </NavLink>
                                 </NavItem>
 

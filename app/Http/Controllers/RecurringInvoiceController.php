@@ -11,7 +11,7 @@ use App\Notifications\ClientContactRequestCancellation;
 use App\RecurringInvoice;
 use App\Customer;
 use App\Repositories\RecurringInvoiceRepository;
-use App\Requests\RecurringInvoice\StoreRecurringInvoiceRequest;
+use App\Requests\RecurringInvoice\CreateRecurringInvoiceRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\RecurringInvoiceTransformable;
 use Exception;
@@ -57,11 +57,11 @@ class RecurringInvoiceController extends Controller
     }
 
     /**
-     * @param StoreRecurringInvoiceRequest $request
+     * @param CreateRecurringInvoiceRequest $request
      * @return mixed
      * @throws Exception
      */
-    public function store(StoreRecurringInvoiceRequest $request)
+    public function store(CreateRecurringInvoiceRequest $request)
     {
         $invoice = (new InvoiceRepository(new Invoice()))->findInvoiceById($request->invoice_id);
 
@@ -96,10 +96,10 @@ class RecurringInvoiceController extends Controller
 
     /**
      * @param int $id
-     * @param StoreRecurringInvoiceRequest $request
+     * @param CreateRecurringInvoiceRequest $request
      * @return mixed
      */
-    public function update(int $id, StoreRecurringInvoiceRequest $request)
+    public function update(int $id, CreateRecurringInvoiceRequest $request)
     {
         $recurring_invoice = $this->recurring_invoice_repo->findInvoiceById($id);
 

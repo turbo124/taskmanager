@@ -35,7 +35,8 @@ export default function RecurringInvoicePresenter (props) {
                 amount={entity.total}/>}</td>
         case 'date':
         case 'due_date':
-        case 'start_date': {
+        case 'start_date':
+        case 'end_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
         }
         case 'status_field':

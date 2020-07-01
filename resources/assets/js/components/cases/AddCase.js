@@ -1,25 +1,14 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import axios from 'axios'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
 import Details from './Details'
+import CaseModel from '../models/CaseModel'
 
 export default class AddCase extends React.Component {
     constructor (props) {
         super(props)
-        /* this.state = {
-            modal: false,
-            subject: '',
-            message: '',
-            customer_id: '',
-            due_date: '',
-            priority_id: '',
-            category_id: '',
-            private_notes: '',
-            loading: false,
-            errors: []
-        }*/
+
         this.caseModel = new CaseModel(null, this.props.customers)
         this.initialState = this.caseModel.fields
         this.state = this.initialState
@@ -77,7 +66,6 @@ export default class AddCase extends React.Component {
             this.props.action(this.props.cases)
             this.setState(this.initialState)
             localStorage.removeItem('caseForm')
-            this.toggle()
         })
     }
 

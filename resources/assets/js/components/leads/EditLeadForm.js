@@ -105,7 +105,7 @@ class EditLeadForm extends React.Component {
 
         this.leadModel.save(formData).then(response => {
             if (!response) {
-                this.setState({ errors: this.leadModel.errors, message: this.taskModel.error_message })
+                this.setState({ errors: this.leadModel.errors, message: this.leadModel.error_message })
                 return
             }
 
@@ -177,7 +177,7 @@ class EditLeadForm extends React.Component {
                 {button}
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
-                        Edit Lead
+                        {translations.edit_lead}
                     </ModalHeader>
 
                     <ModalBody>
@@ -190,7 +190,7 @@ class EditLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('1')
                                         }}>
-                                        Details
+                                        {translations.details}
                                     </NavLink>
                                 </NavItem>
 
@@ -200,7 +200,7 @@ class EditLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('2')
                                         }}>
-                                        Contact
+                                        {translations.contact}
                                     </NavLink>
                                 </NavItem>
 
@@ -210,7 +210,7 @@ class EditLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('3')
                                         }}>
-                                        Address
+                                        {translations.address}
                                     </NavLink>
                                 </NavItem>
 
@@ -220,7 +220,7 @@ class EditLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('4')
                                         }}>
-                                        Notes
+                                        {translations.notes}
                                     </NavLink>
                                 </NavItem>
 
@@ -230,7 +230,7 @@ class EditLeadForm extends React.Component {
                                         onClick={() => {
                                             this.toggleTab('5')
                                         }}>
-                                        Email
+                                        {translations.email}
                                     </NavLink>
                                 </NavItem>
                             </Nav>

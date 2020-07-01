@@ -18,7 +18,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
-use App\Requests\RecurringQuote\StoreRecurringQuoteRequest;
+use App\Requests\RecurringQuote\CreateRecurringQuoteRequest;
 use App\Transformations\RecurringQuoteTransformable;
 use Exception;
 use Illuminate\Http\Request;
@@ -60,11 +60,11 @@ class RecurringQuoteController extends Controller
     }
 
     /**
-     * @param StoreRecurringQuoteRequest $request
+     * @param CreateRecurringQuoteRequest $request
      * @return mixed
      * @throws Exception
      */
-    public function store(StoreRecurringQuoteRequest $request)
+    public function store(CreateRecurringQuoteRequest $request)
     {
         $quote = (new QuoteRepository(new Quote()))->findQuoteById($request->quote_id);
 
@@ -99,10 +99,10 @@ class RecurringQuoteController extends Controller
 
     /**
      * @param int $id
-     * @param StoreRecurringQuoteRequest $request
+     * @param CreateRecurringQuoteRequest $request
      * @return mixed
      */
-    public function update(int $id, StoreRecurringQuoteRequest $request)
+    public function update(int $id, CreateRecurringQuoteRequest $request)
     {
         $recurring_quote = $this->recurring_quote_repo->findQuoteById($id);
 

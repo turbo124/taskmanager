@@ -8,7 +8,7 @@ export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$qu
     '$quote.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
 ]
 
-export default class CreditModel extends BaseModel {
+export default class QuoteModel extends BaseModel {
     constructor (data = null, customers = null) {
         super()
         this.customers = customers
