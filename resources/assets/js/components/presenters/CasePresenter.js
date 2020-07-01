@@ -31,14 +31,17 @@ export default function CasePresenter (props) {
         ? <Badge color={status_colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
         : <Badge className="mr-2" color="warning">Archived</Badge>
 
+    const priority = <Badge color={priority_colors[entity.priority_id]}>{priorities[entity.priority_id]}</Badge>
+
     switch (field) {
         case 'status_field':
             return status
+        case 'priority_field':
+            return priority
         case 'status_id':
             return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Status">{status}</td>
         case 'priority_id':
-            return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Priority"><Badge
-                color={priority_colors[entity.priority_id]}>{priorities[entity.priority_id]}</Badge></td>
+            return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Priority">{priority}</td>
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]

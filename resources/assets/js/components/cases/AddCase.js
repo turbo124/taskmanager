@@ -1,25 +1,17 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import axios from 'axios'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
 import Details from './Details'
+import CaseModel from '../models/CaseModel'
 
 export default class AddCase extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            subject: '',
-            message: '',
-            customer_id: '',
-            due_date: '',
-            priority_id: '',
-            category_id: '',
-            private_notes: '',
-            loading: false,
-            errors: []
-        }
+
+        this.caseModel = new CaseModel(null, this.props.customers)
+        this.initialState = this.caseModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.handleInput = this.handleInput.bind(this)
@@ -55,7 +47,7 @@ export default class AddCase extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/cases', {
+        const data = {
             subject: this.state.subject,
             message: this.state.message,
             customer_id: this.state.customer_id,
@@ -63,28 +55,18 @@ export default class AddCase extends React.Component {
             priority_id: this.state.priority_id,
             private_notes: this.state.private_notes,
             category_id: this.state.category_id
+        }
+
+        this.caseModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.caseModel.errors, message: this.caseModel.error_message })
+                return
+            }
+            this.props.cases.push(response)
+            this.props.action(this.props.cases)
+            this.setState(this.initialState)
+            localStorage.removeItem('caseForm')
         })
-            .then((response) => {
-                const newUser = response.data
-                this.props.cases.push(newUser)
-                this.props.action(this.props.cases)
-                localStorage.removeItem('caseForm')
-                this.setState({
-                    subject: '',
-                    private_notes: '',
-                    priority_id: '',
-                    category_id: '',
-                    due_date: '',
-                    message: '',
-                    customer_id: ''
-                })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {

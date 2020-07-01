@@ -7,7 +7,7 @@ import { credit_pdf_fields } from '../models/CreditModel'
 import { quote_pdf_fields } from '../models/QuoteModel'
 import { invoice_pdf_fields } from '../models/InvoiceModel'
 import PdfFields from './PdfFields'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 class InvoiceSettings extends Component {
     constructor (props) {

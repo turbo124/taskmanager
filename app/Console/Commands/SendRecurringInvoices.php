@@ -62,7 +62,7 @@ class SendRecurringInvoices extends Command
             (new InvoiceRepository(new Invoice))->save([], $invoice);
 
             $recurringInvoice->last_sent_date = Carbon::today();
-            $recurringInvoice->next_send_date = Carbon::today()->addDays($recurringInvoice->frequency_id);
+            $recurringInvoice->next_send_date = Carbon::today()->addDays($recurringInvoice->frequency);
             $recurringInvoice->save();
             //Mail::send(new NewInvoice($newInvoice->client, $newInvoice));
         }

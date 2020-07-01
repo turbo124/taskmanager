@@ -21,7 +21,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import Checkbox from '../common/Checkbox'
 import GatewayDropdown from '../common/GatewayDropdown'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 class GatewaySettings extends Component {
     constructor (props) {

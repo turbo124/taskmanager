@@ -42,7 +42,7 @@ class QuoteToRecurringQuoteFactory
         $recurring_invoice->user_id = $quote->user_id;
         $recurring_invoice->customer_id = $quote->customer_id;
         $recurring_invoice->account_id = $quote->account_id;
-        $recurring_invoice->frequency_id = RecurringQuote::FREQUENCY_MONTHLY;
+        $recurring_invoice->frequency = 30;
         $recurring_invoice->start_date = null;
         $recurring_invoice->last_sent_date = null;
         $recurring_invoice->next_send_date = null;

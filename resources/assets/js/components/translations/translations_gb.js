@@ -166,6 +166,7 @@ export const gb_translations = {
     actions: 'Actions',
     email: 'Email',
     logo: 'Logo',
+    contact: 'Contact',
     contacts: 'Contacts',
     close: 'Close',
     save: 'Save',

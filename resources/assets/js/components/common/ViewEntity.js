@@ -22,7 +22,7 @@ import Lead from '../partials/Lead'
 import Promocode from '../partials/Promocode'
 import Product from '../partials/Product'
 import User from '../partials/User'
-import Case from "../partials/Case";
+import Case from '../partials/Case'
 
 export default class ViewEntity extends Component {
     constructor (props) {

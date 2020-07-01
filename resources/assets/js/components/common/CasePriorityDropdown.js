@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Input, FormGroup } from 'reactstrap'
 import { translations } from './_icons'
-import { consts } from "./_consts";
+import { consts } from './_consts'
 
 export default class CasePriorityDropdown extends Component {
     renderErrorFor (field) {
