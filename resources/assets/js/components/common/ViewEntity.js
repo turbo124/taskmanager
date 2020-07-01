@@ -10,10 +10,12 @@ import {
     ListGroupItemText
 } from 'reactstrap'
 import Invoice from '../partials/Invoice'
+import RecurringInvoice from '../partials/RecurringInvoice'
 import Payment from '../partials/Payment'
 import Customer from '../partials/Customer'
 import Expense from '../partials/Expense'
 import Quote from '../partials/Quote'
+import RecurringQuote from '../partials/RecurringQuote'
 import Credit from '../partials/Credit'
 import Project from '../partials/Project'
 import Company from '../partials/Company'
@@ -74,6 +76,9 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
                         <Invoice customers={this.props.customers} entity={this.props.entity}/>}
 
+                        {this.props.entity && this.props.entity_type && ['RecurringInvoice'].includes(this.props.entity_type) &&
+                        <RecurringInvoice customers={this.props.customers} entity={this.props.entity}/>}
+
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
                         <Credit customers={this.props.customers} entity={this.props.entity}/>}
 
@@ -97,6 +102,9 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
                         <Quote customers={this.props.customers} entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['RecurringQuote'].includes(this.props.entity_type) &&
+                        <RecurringQuote customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
                         <Project customers={this.props.customers} entity={this.props.entity}/>}
