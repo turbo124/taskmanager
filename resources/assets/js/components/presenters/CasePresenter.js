@@ -32,7 +32,7 @@ export default function CasePresenter (props) {
         : <Badge className="mr-2" color="warning">Archived</Badge>
 
     const priority = <Badge color={priority_colors[entity.priority_id]}>{priorities[entity.priority_id]}</Badge>
-    
+
     switch (field) {
         case 'status_field':
             return status

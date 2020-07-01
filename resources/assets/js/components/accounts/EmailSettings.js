@@ -5,7 +5,7 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
-import { translations } from "../common/_icons";
+import { translations } from '../common/_icons'
 
 class EmailSettings extends Component {
     constructor (props) {
