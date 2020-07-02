@@ -4,7 +4,7 @@ namespace App\Requests\RecurringQuote;
 
 use App\Repositories\Base\BaseFormRequest;
 
-class CreateRecurringQuoteRequest extends BaseFormRequest
+class UpdateRecurringQuoteRequest extends BaseFormRequest
 {
 
     /**

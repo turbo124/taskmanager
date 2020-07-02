@@ -32,7 +32,7 @@ trait QuoteTransformable
             'date'                => $quote->date ?: '',
             'due_date'            => $quote->due_date ?: '',
             'design_id'           => (int)$quote->design_id,
-            'invitations'         => $this->transformInvitations($quote->invitations),
+            'invitations'         => $this->transformQuoteInvitations($quote->invitations),
             'total'               => $quote->total,
             'balance'             => (float)$quote->balance,
             'sub_total'           => (float)$quote->sub_total,
@@ -78,7 +78,7 @@ trait QuoteTransformable
      * @param $invitations
      * @return array
      */
-    private function transformInvitations($invitations)
+    private function transformQuoteInvitations($invitations)
     {
         if (empty($invitations)) {
             return [];

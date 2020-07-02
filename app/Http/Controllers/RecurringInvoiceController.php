@@ -10,6 +10,9 @@ use App\Filters\InvoiceFilter;
 use App\Notifications\ClientContactRequestCancellation;
 use App\RecurringInvoice;
 use App\Customer;
+use App\Repositories\CreditRepository;
+use App\Repositories\Interfaces\InvoiceRepositoryInterface;
+use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\RecurringInvoice\CreateRecurringInvoiceRequest;
 use App\Requests\SearchRequest;
@@ -25,21 +28,29 @@ use App\Invoice;
  * Class RecurringInvoiceController
  * @package App\Http\Controllers\RecurringInvoiceController
  */
-class RecurringInvoiceController extends Controller
+class RecurringInvoiceController extends BaseController
 {
     use RecurringInvoiceTransformable;
 
     /**
      * @var RecurringInvoiceRepository
      */
-    protected $recurring_invoice_repo;
+    private RecurringInvoiceRepository $recurring_invoice_repo;
 
     /**
      * RecurringInvoiceController constructor.
      * @param RecurringInvoiceRepository $recurring_invoice_repo
+     * @param InvoiceRepositoryInterface $invoice_repo
+     * @param QuoteRepository $quote_repo
+     * @param CreditRepository $credit_repo
      */
-    public function __construct(RecurringInvoiceRepository $recurring_invoice_repo)
-    {
+    public function __construct(
+        RecurringInvoiceRepository $recurring_invoice_repo,
+        InvoiceRepositoryInterface $invoice_repo,
+        QuoteRepository $quote_repo,
+        CreditRepository $credit_repo
+    ) {
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'RecurringInvoice');
         $this->recurring_invoice_repo = $recurring_invoice_repo;
     }
 
@@ -91,7 +102,7 @@ class RecurringInvoiceController extends Controller
                 $invoice->total
             )
         );
-        return response()->json($this->transformInvoice($recurring_invoice));
+        return response()->json($this->transformRecurringInvoice($recurring_invoice));
     }
 
     /**
@@ -104,7 +115,20 @@ class RecurringInvoiceController extends Controller
         $recurring_invoice = $this->recurring_invoice_repo->findInvoiceById($id);
 
         $recurring_invoice = $this->recurring_invoice_repo->save($request->all(), $recurring_invoice);
-        return response()->json($this->transformInvoice($recurring_invoice));
+        return response()->json($this->transformRecurringInvoice($recurring_invoice));
+    }
+
+    /**
+     * @param Request $request
+     * @param RecurringInvoice $invoice
+     * @param $action
+     * @return array|bool|\Illuminate\Http\JsonResponse|string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \ReflectionException
+     */
+    public function action(Request $request, RecurringInvoice $recurring_invoice, $action)
+    {
+        return $this->performAction($request, $recurring_invoice, $action);
     }
 
     /**
@@ -123,19 +147,6 @@ class RecurringInvoiceController extends Controller
         $recurring_invoice = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
         $this->recurring_invoice_repo->newDelete($recurring_invoice);
         return response()->json([], 200);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function bulk()
-    {
-        $action = request()->input('action');
-
-        $ids = request()->input('ids');
-        $recurring_invoices = RecurringInvoice::withTrashed()->find($ids);
-
-        return response()->json($recurring_invoices);
     }
 
     /**

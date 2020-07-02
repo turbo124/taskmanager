@@ -84,9 +84,9 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('email')
         }
 
-        if (!this.isSent) {
-            actions.push('markSent')
-        }
+        // if (!this.isSent) {
+        //     actions.push('markSent')
+        // }
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -96,27 +96,7 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (this.fields.task_id && this.fields.task_id !== '') {
-            actions.push('getProducts')
-        }
-
-        if (!this.isApproved) {
-            actions.push('approve')
-        }
-
-        actions.push('cloneToQuote')
-
-        if (this.isModuleEnabled('orders')) {
-            actions.push('clone_to_order')
-        }
-
-        if (this.isModuleEnabled('credits')) {
-            actions.push('cloneToCredit')
-        }
-
-        if (this.isModuleEnabled('invoices')) {
-            actions.push('cloneQuoteToInvoice')
-        }
+        actions.push('cloneRecurringToQuote')
 
         return actions
     }

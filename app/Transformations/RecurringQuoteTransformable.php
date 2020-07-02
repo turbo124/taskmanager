@@ -14,7 +14,7 @@ trait RecurringQuoteTransformable
      * @param RecurringQuote $quote
      * @return array
      */
-    protected function transformQuote(RecurringQuote $quote)
+    protected function transformRecurringQuote(RecurringQuote $quote)
     {
         return [
             'id'             => (int)$quote->id,

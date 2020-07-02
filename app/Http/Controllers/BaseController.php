@@ -15,6 +15,8 @@ use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\CloneQuoteFactory;
 use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Factory\CloneQuoteToOrderFactory;
+use App\Factory\RecurringInvoiceToInvoiceFactory;
+use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Invoice;
 use App\Jobs\Pdf\Download;
 use App\Order;
@@ -272,6 +274,17 @@ class BaseController extends Controller
                     $response = $this->transformInvoice($invoice);
                 }
 
+                break;
+            case 'clone_recurring_to_quote':
+                $quote = RecurringQuoteToQuoteFactory::create($entity, $entity->customer);
+                (new QuoteRepository(new Quote()))->createQuote([], $quote);
+                $response = $this->transformQuote($quote);
+                break;
+
+            case 'clone_recurring_to_invoice':
+                $invoice = RecurringInvoiceToInvoiceFactory::create($entity, $entity->customer);
+                (new InvoiceRepository(new Invoice))->createInvoice([], $invoice);
+                $response = $this->transformInvoice($invoice);
                 break;
             case 'reverse': // done
                 $invoice = $entity->service()->reverseInvoicePayment(

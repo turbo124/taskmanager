@@ -19,6 +19,7 @@ use App\Notification;
 use App\Payment;
 use App\Quote;
 use App\Repositories\CreditRepository;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\QuoteRepository;
@@ -49,12 +50,16 @@ class InvoiceController extends BaseController
 
     use InvoiceTransformable, QuoteTransformable;
 
-    private $invoice_repo;
+    /**
+     * @var InvoiceRepositoryInterface|InvoiceRepository
+     */
+    private InvoiceRepository $invoice_repo;
 
     /**
      * InvoiceController constructor.
      * @param InvoiceRepositoryInterface $invoice_repo
      * @param QuoteRepository $quote_repo
+     * @param CreditRepository $credit_repo
      */
     public function __construct(
         InvoiceRepositoryInterface $invoice_repo,
