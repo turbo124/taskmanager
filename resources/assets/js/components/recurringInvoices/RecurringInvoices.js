@@ -145,8 +145,9 @@ export default class RecurringInvoices extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
+                            customers={this.state.customers}
                             dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Recurring Invoice"
+                            entity_type="RecurringInvoice"
                             bulk_save_url="/api/recurring-invoice/bulk"
                             view={view}
                             columnMapping={{ customer_id: 'CUSTOMER' }}

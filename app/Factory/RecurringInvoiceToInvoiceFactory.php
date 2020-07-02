@@ -20,8 +20,14 @@ class RecurringInvoiceToInvoiceFactory
     public static function create(RecurringInvoice $recurring_invoice, Customer $customer): Invoice
     {
         $invoice = new Invoice();
-        $invoice->account_id = $recurring_invoice->account_id;
-        $invoice->status_id = Invoice::STATUS_DRAFT;
+        $invoice->setAccount($recurring_invoice->account);
+        $invoice->setStatus(Invoice::STATUS_DRAFT);
+        $invoice->setCustomer($recurring_invoice->customer);
+        $invoice->setDueDate();
+        $invoice->setTotal($recurring_invoice->total);
+        $invoice->setBalance($recurring_invoice->total);
+        $invoice->setUser($recurring_invoice->user);
+
         $invoice->sub_total = $recurring_invoice->sub_total;
         $invoice->tax_total = $recurring_invoice->tax_total;
         $invoice->discount_total = $recurring_invoice->discount_total;
@@ -33,14 +39,9 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->public_notes = $recurring_invoice->public_notes;
         $invoice->private_notes = $recurring_invoice->private_notes;
         $invoice->date = date_create()->format('Y-m-d');
-        $invoice->due_date = $recurring_invoice->due_date; //todo calculate based on terms
-        $invoice->is_deleted = $recurring_invoice->is_deleted;
+        $invoice->is_deleted = false;
         $invoice->line_items = $recurring_invoice->line_items;
-        $invoice->total = $recurring_invoice->total;
-        $invoice->balance = $recurring_invoice->balance;
-        $invoice->user_id = $recurring_invoice->user_id;
         $invoice->recurring_id = $recurring_invoice->id;
-        $invoice->customer_id = $recurring_invoice->customer_id;
 
         return $invoice;
     }

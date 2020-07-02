@@ -77,7 +77,7 @@ class RecurringQuoteFilter extends QueryFilter
 
         $quotes = $list->map(
             function (RecurringQuote $quote) {
-                return $this->transformQuote($quote);
+                return $this->transformRecurringQuote($quote);
             }
         )->all();
 

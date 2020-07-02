@@ -117,22 +117,6 @@ export default class RecurringInvoiceModel extends BaseModel {
             actions.push('email')
         }
 
-        if (!this.isPaid) {
-            actions.push('newPayment')
-        }
-
-        if (!this.isSent && this.isEditable) {
-            actions.push('markSent')
-        }
-
-        if (this.isCancelled || this.isReversed) {
-            actions.push('reverse_status')
-        }
-
-        if (!this.isPaid && this.isEditable) {
-            actions.push('markPaid')
-        }
-
         if (!this.fields.is_deleted) {
             actions.push('delete')
         }
@@ -141,29 +125,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
-            actions.push('cancel')
-        }
-
-        if (!this.fields.deleted_at && this.isSent && !this.isReversed) {
-            actions.push('reverse')
-        }
-
-        if (this.fields.task_id && this.fields.task_id !== '' && this.isEditable) {
-            actions.push('getProducts')
-        }
-
-        if (this.isEditable) {
-            actions.push('cloneToInvoice')
-        }
-
-        if (this.isModuleEnabled('quotes') && this.isEditable) {
-            actions.push('cloneInvoiceToQuote')
-        }
-
-        if (this.isModuleEnabled('credits') && this.isEditable) {
-            actions.push('cloneToCredit')
-        }
+        actions.push('cloneRecurringToInvoice')
 
         return actions
     }

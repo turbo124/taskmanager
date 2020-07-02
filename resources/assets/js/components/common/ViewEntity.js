@@ -110,7 +110,7 @@ export default class ViewEntity extends Component {
                         <Project customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['User'].includes(this.props.entity_type) &&
-                        <User entity={this.props.entity} />}
+                        <User entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company customers={this.props.customers} entity={this.props.entity}/>}
@@ -121,7 +121,7 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Case'].includes(this.props.entity_type) &&
                         <Case customers={this.props.customers} entity={this.props.entity}/>}
 
-                        {!['Case', 'User', 'Product', 'Promocode', 'Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
+                        {!['RecurringInvoice', 'RecurringQuote', 'Case', 'User', 'Product', 'Promocode', 'Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
                         <ul className="mt-4 row">
                             {columnList}
                         </ul>

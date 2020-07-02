@@ -74,6 +74,14 @@ export default class DropdownMenuBuilder extends Component {
                 message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
             }
 
+            if (action === 'clone_recurring_to_invoice') {
+                message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
+            }
+
+            if (action === 'clone_recurring_to_quote') {
+                message = `Quote was created successfully. Quote ${response.number} has been created`
+            }
+
             if (action === 'clone_to_quote') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
@@ -233,6 +241,18 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={11} className="primary"
                     onClick={() => this.changeStatus('clone_order_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Quote
+                </DropdownItem>
+
+            case 'cloneRecurringToQuote':
+                return <DropdownItem key={11} className="primary"
+                    onClick={() => this.changeStatus('clone_recurring_to_quote')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone Recurring Quote To Quote
+                </DropdownItem>
+
+            case 'cloneRecurringToInvoice':
+                return <DropdownItem key={11} className="primary"
+                    onClick={() => this.changeStatus('clone_recurring_to_invoice')}>
+                    <i className={`fa ${icons.clone} mr-2`}/> Clone Recurring Invoice To Invoice
                 </DropdownItem>
 
             case 'cloneQuoteToInvoice':

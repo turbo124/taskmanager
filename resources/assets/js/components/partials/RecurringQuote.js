@@ -124,7 +124,7 @@ export default class RecurringQuote extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents} ({this.invoiceModel.fileCount})
+                            {translations.documents}
                         </NavLink>
                     </NavItem>
                 </Nav>

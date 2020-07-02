@@ -147,11 +147,12 @@ export default class RecurringQuotes extends Component {
                 <Card>
                     <CardBody>
                         <DataTable
+                            customers={this.state.customers}
                             dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Recurring Quote"
+                            entity_type="RecurringQuote"
                             bulk_save_url="/api/recurring-quote/bulk"
                             view={view}
-                            columnMapping={{ customer_id: 'Customer' }}
+                            columnMapping={{ customer_id: 'CUSTOMER' }}
                             ignore={this.state.ignoredColumns}
                             disableSorting={['id']}
                             defaultColumn='number'

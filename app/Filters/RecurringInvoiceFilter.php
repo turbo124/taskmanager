@@ -76,7 +76,7 @@ class RecurringInvoiceFilter extends QueryFilter
         $list = $this->query->get();
         $invoices = $list->map(
             function (RecurringInvoice $invoice) {
-                return $this->transformInvoice($invoice);
+                return $this->transformRecurringInvoice($invoice);
             }
         )->all();
 
