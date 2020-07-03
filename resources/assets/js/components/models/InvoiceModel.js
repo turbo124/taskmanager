@@ -84,6 +84,7 @@ export default class InvoiceModel extends BaseModel {
         this.cancelled = consts.invoice_status_cancelled
         this.paid = consts.invoice_status_paid
         this.sent = consts.invoice_status_sent
+        this.partial = consts.invoice_status_partial
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -130,6 +131,10 @@ export default class InvoiceModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.sent
     }
 
+    get isPartial () {
+        return parseInt(this.fields.status_id) === this.partial
+    }
+
     get isDeleted () {
         return this.fields.deleted_at && this.fields.deleted_at.length > 0
     }
@@ -168,8 +173,8 @@ export default class InvoiceModel extends BaseModel {
         if (this.isCancelled || this.isReversed) {
             actions.push('reverse_status')
         }
-
-        if (this.isSent && !this.isPaid && this.isEditable) {
+      
+        if ((this.isSent || this.isPartial) && !this.isPaid && this.isEditable) {
             actions.push('markPaid')
         }
 
@@ -185,7 +190,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('cancel')
         }
 
-        if (!this.fields.deleted_at && this.isSent && !this.isReversed) {
+        if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {
             actions.push('reverse')
         }
 
