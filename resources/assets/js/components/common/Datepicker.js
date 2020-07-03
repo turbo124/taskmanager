@@ -15,10 +15,11 @@ export default class Datepicker extends Component {
     }
 
     handleDateChange (date) {
+        const formatted_date = !date || date === 'undefined' || date === '' ? '' : moment(date).format('YYYY-MM-DD')
         const e = {}
         e.target = {
             name: this.props.name,
-            value: moment(date).format('YYYY-MM-DD')
+            value: formatted_date
         }
 
         this.props.handleInput(e)

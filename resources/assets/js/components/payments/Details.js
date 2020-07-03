@@ -35,6 +35,7 @@ export default class Details extends React.Component {
     }
 
     render () {
+        const customer_disabled = this.props.payment.payable_invoices.length > 0
         return (<Card>
             <CardHeader>{translations.details}</CardHeader>
             <CardBody>
@@ -77,12 +78,12 @@ export default class Details extends React.Component {
                 <FormGroup className="mb-3">
                     <Label>{translations.customer}</Label>
                     <CustomerDropdown
-                        disabled={true}
+                        disabled={customer_disabled}
                         customer={this.props.payment.customer_id}
                         errors={this.props.errors}
                         name="customer_id"
                         renderErrorFor={this.renderErrorFor}
-                        handleInputChanges={this.props.handleCustomerChange}
+                        handleInputChanges={this.props.handleInput}
                     />
                     {this.renderErrorFor('customer_id')}
                 </FormGroup>
