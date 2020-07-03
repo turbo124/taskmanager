@@ -29,7 +29,7 @@ class InvoicePaymentValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!isset($this->request['invoices'])) {
+        if (empty($this->request['invoices'])) {
             return true;
         }
 

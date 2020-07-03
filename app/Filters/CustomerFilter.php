@@ -89,7 +89,9 @@ class CustomerFilter extends QueryFilter
                       ->orWhereHas(
                           'contacts',
                           function ($query) use ($filter) {
-                              $query->where('email', 'like', '%' . $filter . '%');
+                              $query->where('email', 'like', '%' . $filter . '%')
+                                    ->orWhere('first_name', 'like', '%' . $filter . '%')
+                                    ->orWhere('last_name', 'like', '%' . $filter . '%');
                           }
                       )
                       ->orWhere('custom_value1', 'like', '%' . $filter . '%')
