@@ -56,7 +56,7 @@ export default class InvoiceLine extends Component {
             if (this.props.allInvoices && this.props.allInvoices.length === 1) {
                 amount = invoice_total
             } else {
-                amount = this.state.amount += parseFloat(invoice_total)
+                amount = this.state.amount + parseFloat(invoice_total)
             }
         }
 

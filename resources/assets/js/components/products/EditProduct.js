@@ -28,51 +28,15 @@ import Variations from './Variations'
 import Features from './Features'
 import ProductAttribute from './ProductAttribute'
 import FileUploads from '../attachments/FileUploads'
+import ProductModel from '../models/ProductModel'
 
 class EditProduct extends React.Component {
     constructor (props) {
         super(props)
 
-        this.state = {
-            modal: false,
-            loading: false,
-            changesMade: false,
-            dropdownOpen: false,
-            showSuccessMessage: false,
-            showErrorMessage: false,
-            errors: [],
-            name: this.props.product.name,
-            description: this.props.product.description,
-            price: this.props.product.price,
-            cost: this.props.product.cost,
-            quantity: this.props.product.quantity,
-            sku: this.props.product.sku,
-            images: this.props.product.images,
-            cover: '',
-            id: this.props.product.id,
-            length: this.props.product.length,
-            width: this.props.product.width,
-            height: this.props.product.height,
-            distance_unit: this.props.product.distance_unit,
-            weight: this.props.product.weight,
-            mass_unit: this.props.product.mass_unit,
-            categories: [],
-            is_featured: false,
-            selectedCategories: this.props.product.category_ids ? this.props.product.category_ids : [],
-            company_id: this.props.product.company_id,
-            brand_id: this.props.product.brand_id,
-            assigned_user_id: this.props.product.assigned_user_id,
-            notes: this.props.product.notes,
-            custom_value1: this.props.product.custom_value1,
-            custom_value2: this.props.product.custom_value2,
-            custom_value3: this.props.product.custom_value3,
-            custom_value4: this.props.product.custom_value4,
-            activeTab: '1',
-            variations: this.props.product.attributes ? this.props.product.attributes : [],
-            features: this.props.product.features ? this.props.product.features : []
-        }
-
-        this.initialState = this.state
+        this.productModel = new ProductModel(this.props.product)
+        this.initialState = this.productModel.fields
+        this.state = this.initialState
         this.state = { ...this.state, ...this.productAttributes }
 
         this.toggle = this.toggle.bind(this)
@@ -150,19 +114,21 @@ class EditProduct extends React.Component {
     handleClick () {
         const formData = this.getFormData()
 
-        axios.post(`/api/products/${this.state.id}`, formData)
-            .then((response) => {
-                this.setState({ changesMade: false })
-                const index = this.props.products.findIndex(product => parseInt(product.id) === this.state.id)
-                this.props.products[index] = response.data
-                this.props.action(this.props.products)
-                this.toggle()
+        this.productModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.productModel.errors, message: this.productModel.error_message })
+                return
+            }
+
+            const index = this.props.products.findIndex(product => product.id === this.props.product.id)
+            this.props.products[index] = response
+            this.props.action(this.props.products)
+            this.setState({
+                editMode: false,
+                changesMade: false
             })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+            this.toggle()
+        })
     }
 
     handleCheck () {

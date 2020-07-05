@@ -5,6 +5,7 @@ import ActionsMenu from '../common/ActionsMenu'
 import EditTaxRate from './EditTaxRate'
 import axios from 'axios'
 import { Input } from 'reactstrap'
+import TaxRatePresenter from '../presenters/TaxRatePresenter'
 
 export default class TaxRateItem extends Component {
     constructor (props) {
@@ -53,8 +54,8 @@ export default class TaxRateItem extends Component {
                 const columnList = Object.keys(taxRate).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name)} data-label={key}
-                        key={key}>{taxRate[key]}</td>
+                    return <TaxRatePresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={taxRate}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

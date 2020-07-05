@@ -1,18 +1,15 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
+import TokenModel from '../models/TokenModel'
 
 export default class AddToken extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: '',
-            loading: false,
-            errors: []
-        }
+        this.tokenModel = new TokenModel(null)
+        this.initialState = this.tokenModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -47,24 +44,21 @@ export default class AddToken extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/tokens', {
+        const data = {
             name: this.state.name
+        }
+
+        this.tokenModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.tokenModel.errors, message: this.tokenModel.error_message })
+                return
+            }
+
+            this.props.tokens.push(response)
+            this.props.action(this.props.tokens)
+            localStorage.removeItem('tokenForm')
+            this.setState(this.initialState)
         })
-            .then((response) => {
-                const newUser = response.data
-                this.props.tokens.push(newUser)
-                this.props.action(this.props.tokens)
-                localStorage.removeItem('tokenForm')
-                this.setState({
-                    name: null
-                })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {

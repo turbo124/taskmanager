@@ -18,6 +18,12 @@ export default function ProductPresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
                 data-label="Company">{company.name}</td>
         }
+        case 'is_featured': {
+            const icon = parseInt(entity.is_featured) === 1 ? 'fa-check' : 'fa-times-circle'
+            const icon_class = parseInt(entity.is_featured) === 1 ? 'text-success' : 'text-danger'
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.id)} key={field}
+                data-label={field}><i className={`fa ${icon} ${icon_class}`} /> </td>
+        }
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.id)} key={field}
                 data-label={field}>{entity[field]}</td>

@@ -36,6 +36,10 @@ export default class Categories extends Component {
         this.getCustomers = this.getCustomers.bind(this)
     }
 
+    componentDidMount () {
+        this.getCustomers()
+    }
+
     addUserToState (categories) {
         const cachedData = !this.state.cachedData.length ? categories : this.state.cachedData
         this.setState({
@@ -54,10 +58,6 @@ export default class Categories extends Component {
             .catch((e) => {
                 console.error(e)
             })
-    }
-
-    componentDidMount () {
-        this.getCustomers()
     }
 
     filterCategories (filters) {

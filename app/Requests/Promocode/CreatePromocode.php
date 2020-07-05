@@ -19,7 +19,7 @@ class CreatePromocode extends BaseFormRequest
             'amount'      => ['required'],
             'quantity'    => ['required'],
             'description' => ['required'],
-            'expiry_date' => ['required']
+            'expires_at'  => ['required']
         ];
     }
 }

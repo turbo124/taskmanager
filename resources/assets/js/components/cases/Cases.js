@@ -41,6 +41,10 @@ export default class Cases extends Component {
         this.getCustomers = this.getCustomers.bind(this)
     }
 
+    componentDidMount () {
+        this.getCustomers()
+    }
+
     addUserToState (cases) {
         const cachedData = !this.state.cachedData.length ? cases : this.state.cachedData
         this.setState({
@@ -59,10 +63,6 @@ export default class Cases extends Component {
             .catch((e) => {
                 console.error(e)
             })
-    }
-
-    componentDidMount () {
-        this.getCustomers()
     }
 
     filterCases (filters) {

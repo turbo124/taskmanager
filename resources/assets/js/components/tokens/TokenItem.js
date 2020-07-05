@@ -5,6 +5,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditToken from './EditToken'
 import { Input } from 'reactstrap'
+import TokenPresenter from '../presenters/TokenPresenter'
 
 export default class TokenItem extends Component {
     constructor (props) {
@@ -49,8 +50,8 @@ export default class TokenItem extends Component {
                 const columnList = Object.keys(token).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(token, token.name)} data-label={key}
-                        key={key}>{token[key]}</td>
+                    return <TokenPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={token}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

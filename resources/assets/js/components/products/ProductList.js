@@ -35,6 +35,9 @@ export default class ProductList extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'ratings_count',
+                'account_id',
+                'reserved_stock',
                 'length',
                 'width',
                 'height',

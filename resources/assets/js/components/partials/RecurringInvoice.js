@@ -139,7 +139,7 @@ export default class RecurringInvoice extends Component {
                         <Row>
                             <ListGroup className="col-12 mt-4">
                                 {this.props.entity.paymentables.map((line_item, index) => (
-                                    <a href={`/#/payments?number=${line_item.number}`}>
+                                    <a key={index} href={`/#/payments?number=${line_item.number}`}>
                                         <ListGroupItem className="list-group-item-dark">
                                             <ListGroupItemHeading
                                                 className="">
@@ -170,9 +170,9 @@ export default class RecurringInvoice extends Component {
                             <ul className="mt-4 col-12">
                                 <SimpleSectionItem heading={translations.date}
                                     value={<FormatDate date={this.props.entity.date}/>}/>
-                                 <SimpleSectionItem heading={translations.start_date}
+                                <SimpleSectionItem heading={translations.start_date}
                                     value={<FormatDate date={this.props.entity.start_date}/>}/>
-                                  <SimpleSectionItem heading={translations.end_date}
+                                <SimpleSectionItem heading={translations.end_date}
                                     value={<FormatDate date={this.props.entity.end_date}/>}/>
                                 <SimpleSectionItem heading={translations.due_date}
                                     value={<FormatDate date={this.props.entity.due_date}/>}/>

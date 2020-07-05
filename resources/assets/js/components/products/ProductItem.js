@@ -7,7 +7,6 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditProduct from './EditProduct'
-import CasePresenter from '../presenters/CasePresenter'
 import ProductPresenter from '../presenters/ProductPresenter'
 
 export default class ProductItem extends Component {

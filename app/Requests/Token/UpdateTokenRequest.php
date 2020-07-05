@@ -14,7 +14,7 @@ class UpdateTokenRequest extends BaseFormRequest
     public function rules()
     {
         return [
-
+            'name' => 'required',
         ];
     }
 }

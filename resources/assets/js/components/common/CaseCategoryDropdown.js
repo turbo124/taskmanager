@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { Input } from 'reactstrap'
 import { translations } from './_icons'
 
 export default class CaseCategoryDropdown extends Component {

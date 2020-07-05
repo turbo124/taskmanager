@@ -11,7 +11,7 @@ import UserDropdown from '../common/UserDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import CategoryDropdown from '../common/CategoryDropdown'
 import FormBuilder from '../accounts/FormBuilder'
-import { icons, translations } from '../common/_icons'
+import { translations } from '../common/_icons'
 import BrandDropdown from '../common/BrandDropdown'
 
 export default class DetailsForm extends React.Component {

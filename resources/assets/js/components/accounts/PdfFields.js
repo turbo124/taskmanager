@@ -92,7 +92,6 @@ export default class PdfFields extends Component {
 
                 if (!found) {
                     const { values } = this.state
-                    const word = this.capitalizeFirstLetters(user.value.split('.')[1].replace('_', ' '))
                     values.push({ label: user.value, value: user.value })
                     this.setState({ values: values })
                     saved_columns.push(user.value)

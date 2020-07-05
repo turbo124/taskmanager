@@ -5,6 +5,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditPromocode from './EditPromocode'
 import { Input } from 'reactstrap'
+import PromocodePresenter from '../presenters/PromocodePresenter'
 
 export default class PromocodeItem extends Component {
     constructor (props) {
@@ -49,8 +50,8 @@ export default class PromocodeItem extends Component {
                 const columnList = Object.keys(promocode).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(promocode, promocode.name)} data-label={key}
-                        key={key}>{promocode[key]}</td>
+                    return <PromocodePresenter key={key} customers={this.props.customers} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={promocode}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

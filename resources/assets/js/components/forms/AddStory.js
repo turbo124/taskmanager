@@ -6,24 +6,13 @@ import UserDropdown from '../common/UserDropdown'
 import AddButtons from '../common/AddButtons'
 import moment from 'moment'
 import { translations } from '../common/_icons'
+import ProjectModel from '../models/ProjectModel'
 
 class AddStory extends React.Component {
     constructor (props) {
         super(props)
-        this.initialState = {
-            modal: false,
-            title: '',
-            description: '',
-            customer_id: '',
-            notes: '',
-            due_date: '',
-            assigned_user_id: '',
-            budgeted_hours: '',
-            count: 2,
-            errors: [],
-            customers: []
-        }
-
+        this.projectModel = new ProjectModel(null)
+        this.initialState = this.projectModel.fields
         this.state = this.initialState
         this.toggle = this.toggle.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -81,7 +70,7 @@ class AddStory extends React.Component {
     }
 
     handleClick (event) {
-        axios.post('/api/projects', {
+        const data = {
             title: this.state.title,
             description: this.state.description,
             customer_id: this.state.customer_id,
@@ -90,22 +79,19 @@ class AddStory extends React.Component {
             due_date: this.state.due_date,
             assigned_user_id: this.state.assigned_user_id,
             budgeted_hours: this.state.budgeted_hours
+        }
+
+        this.projectModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.projectModel.errors, message: this.projectModel.error_message })
+                return
+            }
+
+            this.props.projects.push(response)
+            this.props.action(this.props.projects)
+            this.setState(this.initialState)
+            localStorage.removeItem('projectForm')
         })
-            .then((response) => {
-                if (response.data) {
-                    const newUser = response.data
-                    this.props.projects.push(newUser)
-                    this.props.action(this.props.projects)
-                    localStorage.removeItem('creditForm')
-                }
-                this.setState(this.initialState)
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {

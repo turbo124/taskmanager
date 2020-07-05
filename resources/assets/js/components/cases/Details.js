@@ -5,7 +5,6 @@ import {
 import { translations } from '../common/_icons'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
-import { consts } from '../common/_consts'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
 import CasePriorityDropdown from '../common/CasePriorityDropdown'
 

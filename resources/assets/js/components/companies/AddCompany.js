@@ -14,7 +14,6 @@ import {
     TabContent,
     TabPane
 } from 'reactstrap'
-import axios from 'axios'
 import Contact from '../common/Contact'
 import AddButtons from '../common/AddButtons'
 import SettingsForm from './SettingsForm'
@@ -23,40 +22,14 @@ import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import { translations } from '../common/_icons'
+import CompanyModel from '../models/CompanyModel'
 
 class AddCompany extends React.Component {
     constructor (props) {
         super(props)
 
-        this.initialState = {
-            modal: false,
-            name: '',
-            website: '',
-            phone_number: '',
-            email: '',
-            address_1: '',
-            currency_id: null,
-            assigned_user_id: null,
-            industry_id: '',
-            country_id: null,
-            company_logo: null,
-            custom_value1: '',
-            custom_value2: '',
-            custom_value3: '',
-            custom_value4: '',
-            private_notes: '',
-            address_2: '',
-            town: '',
-            city: '',
-            postcode: '',
-            loading: false,
-            errors: [],
-            contacts: [],
-            selectedUsers: [],
-            message: '',
-            activeTab: '1'
-        }
-
+        this.companyModel = new CompanyModel(null)
+        this.initialState = this.companyModel.fields
         this.state = this.initialState
         this.toggle = this.toggle.bind(this)
         this.updateContacts = this.updateContacts.bind(this)
@@ -138,27 +111,16 @@ class AddCompany extends React.Component {
         formData.append('custom_value3', this.state.custom_value3)
         formData.append('custom_value4', this.state.custom_value4)
 
-        axios.post('/api/companies', formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        this.companyModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.companyModel.errors, message: this.companyModel.error_message })
+                return
             }
+            this.props.brands.push(response)
+            this.props.action(this.props.brands)
+            localStorage.removeItem('companyForm')
+            this.setState(this.initialState)
         })
-            .then((response) => {
-                const newUser = response.data
-                this.props.brands.push(newUser)
-                this.props.action(this.props.brands)
-                localStorage.removeItem('companyForm')
-                this.setState(this.initialState)
-            })
-            .catch((error) => {
-                if (error.response.data.errors) {
-                    this.setState({
-                        errors: error.response.data.errors
-                    })
-                } else {
-                    this.setState({ message: error.response.data })
-                }
-            })
     }
 
     toggle () {
