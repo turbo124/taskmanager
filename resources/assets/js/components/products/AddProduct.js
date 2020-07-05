@@ -24,44 +24,15 @@ import Variations from './Variations'
 import Features from './Features'
 import ProductAttribute from './ProductAttribute'
 import FileUploads from '../attachments/FileUploads'
+import LeadModel from "../models/LeadModel";
+import ProductModel from "../models/ProductModel";
 
 class AddProduct extends React.Component {
     constructor (props) {
         super(props)
 
-        this.initialState = {
-            modal: false,
-            name: '',
-            description: '',
-            company_id: null,
-            brand_id: null,
-            is_featured: false,
-            quantity: 0,
-            cost: 0,
-            cover: '',
-            assigned_user_id: null,
-            custom_value1: '',
-            custom_value2: '',
-            custom_value3: '',
-            custom_value4: '',
-            length: 0,
-            width: 0,
-            height: 0,
-            distance_unit: '',
-            weight: 0,
-            mass_unit: '',
-            notes: '',
-            price: '',
-            sku: '',
-            loading: false,
-            errors: [],
-            categories: [],
-            selectedCategories: [],
-            activeTab: '1',
-            variations: [],
-            features: []
-        }
-
+        this.productModel = new ProductModel(null)
+        this.initialState = this.productModel.fields
         this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
@@ -146,24 +117,16 @@ class AddProduct extends React.Component {
         formData.append('custom_value3', this.state.custom_value3)
         formData.append('custom_value4', this.state.custom_value4)
 
-        axios.post('/api/products', formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        this.productModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.productModel.errors, message: this.productModel.error_message })
+                return
             }
+            this.props.products.push(response)
+            this.props.action(this.props.products)
+            this.setState(this.initialState)
+            localStorage.removeItem('productForm')
         })
-            .then((response) => {
-                this.toggle()
-                const newProduct = response.data
-                this.props.products.push(newProduct)
-                this.props.action(this.props.products)
-                localStorage.removeItem('productForm')
-                this.setState(this.initialState)
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     handleCheck () {

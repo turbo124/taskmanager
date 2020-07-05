@@ -31,14 +31,7 @@ class UpdateCompanyRequest extends BaseFormRequest
 
         $rules['contacts.*.email'] = 'nullable|distinct';
 
-        $contacts = request('contacts');
 
-        if (is_array($contacts)) {
-            // for ($i = 0; $i < count($contacts); $i++) {
-            // //    $rules['contacts.' . $i . '.email'] = 'nullable|email|unique:client_contacts,email,' . isset($contacts[$i]['id'].',company_id,'.$this->company_id);
-            //     //$rules['contacts.' . $i . '.email'] = 'nullable|email';
-            // }
-        }
         return $rules;
     }
 
@@ -46,25 +39,23 @@ class UpdateCompanyRequest extends BaseFormRequest
     {
         $input = $this->all();
 
-        $input['contacts'] = json_decode($input['contacts'], true);
+        if (!empty($input['contacts'])) {
+            $input['contacts'] = json_decode($input['contacts'], true);
 
-        $cleaned_contacts = [];
+            $cleaned_contacts = [];
 
-        foreach ($input['contacts'] as $key => $contact) {
-            if (isset($contact['password'])) {
-                $contact['password'] = str_replace("*", "", $contact['password']);
-
-                if (strlen($contact['password']) == 0) {
+            foreach ($input['contacts'] as $key => $contact) {
+                if (isset($contact['password']) && strlen($contact['password']) == 0) {
                     unset($input['contacts'][$key]['password']);
+                }
+
+                if (trim($contact['first_name']) !== '' && trim($contact['last_name']) !== '') {
+                    $cleaned_contacts[] = $contact;
                 }
             }
 
-            if (trim($contact['first_name']) !== '' && trim($contact['last_name']) !== '') {
-                $cleaned_contacts[] = $contact;
-            }
+            $input['contacts'] = $cleaned_contacts;
         }
-
-        $input['contacts'] = $cleaned_contacts;
 
         $this->replace($input);
     }

@@ -1,21 +1,16 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
-import axios from 'axios'
 import { icons, translations } from '../common/_icons'
+import TokenModel from '../models/TokenModel'
 
 export default class EditToken extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            id: this.props.token.id,
-            name: this.props.token.name,
-            loading: false,
-            changesMade: false,
-            errors: []
-        }
 
-        this.initialState = this.state
+        this.tokenModel = new TokenModel(this.props.token)
+        this.initialState = this.tokenModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -43,22 +38,26 @@ export default class EditToken extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/tokens/${this.state.id}`, {
+        const data = {
             name: this.state.name,
             settings: this.state.settings
+        }
+
+        this.tokenModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.tokenModel.errors, message: this.tokenModel.error_message })
+                return
+            }
+
+            const index = this.props.tokens.findIndex(token => token.id === this.props.token.id)
+            this.props.tokens[index] = response
+            this.props.action(this.props.tokens)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.tokens.findIndex(token => token.id === this.state.id)
-                this.props.tokens[index].name = this.state.name
-                this.props.action(this.props.tokens)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
@@ -79,7 +78,8 @@ export default class EditToken extends React.Component {
     render () {
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_token}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_token}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_token}

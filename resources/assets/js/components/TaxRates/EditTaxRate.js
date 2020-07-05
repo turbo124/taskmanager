@@ -7,23 +7,16 @@ import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import DecoratedFormField from '../common/DecoratedFormField'
 import Details from './Details'
+import TaxRateModel from '../models/TaxRateModel'
 
 class EditTaxRate extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            changesMade: false,
-            loading: false,
-            errors: [],
-            id: this.props.taxRate.id,
-            name: this.props.taxRate.name,
-            rate: this.props.taxRate.rate,
-            role: [],
-            message: ''
-        }
 
-        this.initialState = this.state
+        this.taxRateModel = new TaxRateModel(this.props.taxRate)
+        this.initialState = this.taxRateModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -51,28 +44,26 @@ class EditTaxRate extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/taxRates/${this.state.id}`, {
+        const formData = {
             name: this.state.name,
             rate: this.state.rate
+        }
+
+        this.taxRateModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taxRateModel.errors, message: this.taxRateModel.error_message })
+                return
+            }
+
+            const index = this.props.taxRates.findIndex(taxRate => taxRate.id === this.props.taxRate.id)
+            this.props.taxRates[index] = response
+            this.props.action(this.props.taxRates)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                this.initialState = this.state
-                const index = this.props.taxRates.findIndex(taxRate => taxRate.id === this.props.taxRate.id)
-                this.props.taxRates[index].name = this.state.name
-                this.props.taxRates[index].description = this.state.description
-                this.props.action(this.props.taxRates)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                if (error.response.data.errors) {
-                    this.setState({
-                        errors: error.response.data.errors
-                    })
-                } else {
-                    this.setState({ message: error.response.data })
-                }
-            })
     }
 
     toggle () {

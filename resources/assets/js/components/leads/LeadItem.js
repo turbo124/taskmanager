@@ -7,6 +7,8 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import EditLead from './EditLeadForm'
 import ActionsMenu from '../common/ActionsMenu'
+import CreditPresenter from '../presenters/CreditPresenter'
+import LeadPresenter from '../presenters/LeadPresenter'
 
 export default class LeadItem extends Component {
     constructor (props) {
@@ -59,8 +61,8 @@ export default class LeadItem extends Component {
                 const columnList = Object.keys(lead).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(lead, lead.title)} data-label={key}
-                        key={key}>{lead[key]}</td>
+                    return <LeadPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={lead}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

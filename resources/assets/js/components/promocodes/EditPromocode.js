@@ -1,30 +1,17 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
-import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import Datepicker from '../common/Datepicker'
+import PromocodeModel from '../models/PromocodeModel'
 
 export default class EditPromocode extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            id: this.props.promocode.id,
-            scope: this.props.promocode.scope,
-            scope_value: this.props.promocode.scope_value,
-            description: this.props.promocode.description,
-            reward: this.props.promocode.reward,
-            quantity: this.props.promocode.quantity,
-            amount_type: this.props.promocode.amount_type,
-            amount: 1,
-            expiry_date: this.props.promocode.expires_at,
-            loading: false,
-            changesMade: false,
-            errors: [],
-            values: this.props.promocode.values && this.props.promocode.values.length ? this.props.promocode.values : []
-        }
 
-        this.initialState = this.state
+        this.promocodeModel = new PromocodeModel(this.props.promocode)
+        this.initialState = this.promocodeModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -56,7 +43,7 @@ export default class EditPromocode extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/promocodes/${this.state.id}`, {
+        const data = {
             scope: this.state.scope,
             amount_type: this.state.amount_type,
             scope_value: this.state.scope_value,
@@ -64,20 +51,24 @@ export default class EditPromocode extends React.Component {
             reward: this.state.reward,
             quantity: this.state.quantity,
             amount: this.state.amount,
-            expiry_date: this.state.expiry_date
+            expires_at: this.state.expires_at
+        }
+
+        this.promocodeModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.promocodeModel.errors, message: this.promocodeModel.error_message })
+                return
+            }
+
+            const index = this.props.promocodes.findIndex(promocode => promocode.id === this.props.promocode.id)
+            this.props.promocodes[index] = response
+            this.props.action(this.props.promocodes)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.promocodes.findIndex(promocode => promocode.id === this.state.id)
-                this.props.promocodes[index] = response.data
-                this.props.action(this.props.promocodes)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
@@ -169,9 +160,9 @@ export default class EditPromocode extends React.Component {
 
                         <FormGroup>
                             <Label for="date">{translations.expiry_date}(*):</Label>
-                            <Datepicker name="expiry_date" date={this.state.expiry_date} handleInput={this.handleInput.bind(this)}
-                                className={this.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
-                            {this.renderErrorFor('expiry_date')}
+                            <Datepicker name="expires_at" date={this.state.expires_at} handleInput={this.handleInput.bind(this)}
+                                className={this.hasErrorFor('expires_at') ? 'form-control is-invalid' : 'form-control'}/>
+                            {this.renderErrorFor('expires_at')}
                         </FormGroup>
                     </ModalBody>
 

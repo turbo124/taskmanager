@@ -14,6 +14,7 @@ import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_icons'
 import FileUploads from '../attachments/FileUploads'
+import CustomerModel from '../models/CustomerModel'
 
 export default function CustomerTabs (props) {
     const setBilling = e => {
@@ -156,18 +157,22 @@ export default function CustomerTabs (props) {
             return false
         }
 
-        axios.put(`/api/customers/${props.customer.id}`, formdata
-        ).then(response => {
-            if (props.customers && props.customers.length) {
-                const index = props.customers.findIndex(customer => parseInt(customer.id) === props.customer.id)
-                props.customers[index] = response.data
-                props.action(props.customers)
-                props.toggle()
+        const customerModel = new CustomerModel(formdata)
+        customerModel.save(formdata).then(response => {
+            if (!response) {
+                this.setState({ errors: customerModel.errors, message: customerModel.error_message })
+                return
             }
-        })
-            .catch((error) => {
-                setErrors(error.response.data.errors)
+
+            const index = props.customers.findIndex(customer => parseInt(customer.id) === props.customer.id)
+            props.customers[index] = response
+            props.action(props.customers)
+            this.setState({
+                editMode: false,
+                changesMade: false
             })
+            props.toggle()
+        })
     }
 
     const submitForm = () => {
@@ -209,18 +214,19 @@ export default function CustomerTabs (props) {
             return false
         }
 
-        axios.post('/api/customers', formdata)
-            .then((response) => {
-                const newCustomer = response.data
-                props.customers.push(newCustomer)
-                props.action(props.customers)
-                toast.success('user mappings updated successfully')
-                props.toggle()
-            })
-            .catch((error) => {
-                setErrors(error.response.data.errors)
-                toast.error('Unable to update user mappings')
-            })
+        const customerModel = new CustomerModel(null)
+
+        customerModel.save(formdata).then(response => {
+            if (!response) {
+                this.setState({ errors: customerModel.errors, message: customerModel.error_message })
+                return
+            }
+
+            props.customers.push(response)
+            props.action(props.customers)
+            toast.success('user mappings updated successfully')
+            props.toggle()
+        })
     }
 
     const method = props.type === 'add' ? submitForm : updateForm

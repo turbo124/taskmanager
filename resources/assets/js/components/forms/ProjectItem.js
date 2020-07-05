@@ -7,6 +7,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditProject from './EditProject'
+import ProjectPresenter from '../presenters/ProjectPresenter'
 
 export default class ProjectItem extends Component {
     constructor (props) {
@@ -59,8 +60,8 @@ export default class ProjectItem extends Component {
                 const columnList = Object.keys(project).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(project, project.title)} data-label={key}
-                        key={key}>{project[key]}</td>
+                    return <ProjectPresenter key={key} customers={this.props.customers} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={project}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

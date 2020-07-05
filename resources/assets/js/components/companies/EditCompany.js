@@ -15,7 +15,6 @@ import {
     TabPane,
     DropdownItem
 } from 'reactstrap'
-import axios from 'axios'
 import Contact from '../common/Contact'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
@@ -26,43 +25,15 @@ import CompanyDropdown from './CompanyDropdown'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import { icons, translations } from '../common/_icons'
+import CompanyModel from '../models/CompanyModel'
 
 class EditCompany extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            loading: false,
-            dropdownOpen: false,
-            changesMade: false,
-            showSuccessMessage: false,
-            showErrorMessage: false,
-            errors: [],
-            contacts: this.props.brand.contacts && this.props.brand.contacts.length ? this.props.brand.contacts : [],
-            name: this.props.brand.name,
-            website: this.props.brand.website,
-            phone_number: this.props.brand.phone_number,
-            email: this.props.brand.email,
-            address_1: this.props.brand.address_1,
-            address_2: this.props.brand.address_2,
-            town: this.props.brand.town,
-            city: this.props.brand.city,
-            country_id: this.props.brand.country_id,
-            currency_id: this.props.brand.currency_id,
-            industry_id: this.props.brand.industry_id,
-            postcode: this.props.brand.postcode,
-            id: this.props.brand.id,
-            company_logo: null,
-            assigned_user_id: this.props.brand.assigned_user_id,
-            custom_value1: this.props.brand.custom_value1,
-            custom_value2: this.props.brand.custom_value2,
-            custom_value3: this.props.brand.custom_value3,
-            custom_value4: this.props.brand.custom_value4,
-            private_notes: this.props.brand.private_notes,
-            activeTab: '1'
-        }
+        this.companyModel = new CompanyModel(this.props.brand)
+        this.initialState = this.companyModel.fields
+        this.state = this.initialState
 
-        this.initialState = this.state
         this.updateContacts = this.updateContacts.bind(this)
         this.toggle = this.toggle.bind(this)
         this.handleMultiSelect = this.handleMultiSelect.bind(this)
@@ -128,19 +99,21 @@ class EditCompany extends React.Component {
     handleClick () {
         const formData = this.getFormData()
 
-        axios.post(`/api/companies/${this.state.id}`, formData)
-            .then((response) => {
-                const index = this.props.brands.findIndex(company => parseInt(company.id) === this.state.id)
-                this.props.brands[index] = response.data
-                this.props.action(this.props.brands)
-                this.setState({ changesMade: false })
-                this.toggle()
+        this.companyModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.companyModel.errors, message: this.companyModel.error_message })
+                return
+            }
+
+            const index = this.props.brands.findIndex(company => company.id === this.props.brand.id)
+            this.props.brands[index] = response
+            this.props.action(this.props.brands)
+            this.setState({
+                editMode: false,
+                changesMade: false
             })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+            this.toggle()
+        })
     }
 
     toggle () {

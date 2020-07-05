@@ -4,31 +4,21 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
-    Input,
-    Label,
-    FormGroup
+    ModalFooter
 } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import { icons, translations } from '../common/_icons'
-import DecoratedFormField from '../common/DecoratedFormField'
+import { translations } from '../common/_icons'
 import Details from './Details'
+import TaxRateModel from '../models/TaxRateModel'
 
 class AddTaxRate extends React.Component {
     constructor (props) {
         super(props)
 
-        this.initialState = {
-            modal: false,
-            name: '',
-            rate: '',
-            loading: false,
-            errors: [],
-            message: ''
-        }
-
+        this.taxRateModel = new TaxRateModel(null)
+        this.initialState = this.taxRateModel.fields
         this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -62,27 +52,21 @@ class AddTaxRate extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/taxRates', {
+        const data = {
             name: this.state.name,
             rate: this.state.rate
+        }
+
+        this.taxRateModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taxRateModel.errors, message: this.taxRateModel.error_message })
+                return
+            }
+            this.props.taxRates.push(response)
+            this.props.action(this.props.taxRates)
+            localStorage.removeItem('taxForm')
+            this.setState(this.initialState)
         })
-            .then((response) => {
-                this.toggle()
-                const newUser = response.data
-                this.props.taxRates.push(newUser)
-                this.props.action(this.props.taxRates)
-                localStorage.removeItem('taxForm')
-                this.setState(this.initialState)
-            })
-            .catch((error) => {
-                if (error.response.data.errors) {
-                    this.setState({
-                        errors: error.response.data.errors
-                    })
-                } else {
-                    this.setState({ message: error.response.data })
-                }
-            })
     }
 
     toggle () {

@@ -21,7 +21,7 @@ export default class Tokens extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['settings', 'deleted_at', 'created_at', 'updated_at', 'archived_at', 'is_deleted'],
             filters: {
                 searchText: '',
                 status: 'active',

@@ -10,29 +10,16 @@ import UserDropdown from '../common/UserDropdown'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import { icons, translations } from '../common/_icons'
+import ProjectModel from '../models/ProjectModel'
 
 class EditProject extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            dropdownOpen: false,
-            changesMade: false,
-            showSuccessMessage: false,
-            showErrorMessage: false,
-            title: this.props.project ? this.props.project.title : '',
-            description: this.props.project ? this.props.project.description : '',
-            customer_id: this.props.project ? this.props.project.customer_id : null,
-            notes: this.props.project ? this.props.project.notes : '',
-            due_date: this.props.project ? this.props.project.due_date : null,
-            assigned_user_id: this.props.project ? this.props.project.assigned_user_id : null,
-            budgeted_hours: this.props.project ? this.props.project.budgeted_hours : null,
-            count: 2,
-            errors: [],
-            customers: []
-        }
 
-        this.initialState = this.state
+        this.projectModel = new ProjectModel(this.props.project)
+        this.initialState = this.projectModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -112,28 +99,22 @@ class EditProject extends React.Component {
 
     handleClick (event) {
         const data = this.getFormData()
-        axios.put(`/api/projects/${this.props.project_id}`, data)
-            .then((response) => {
-                this.setState({
-                    notes: null,
-                    due_date: null,
-                    assigned_user_id: null,
-                    budgeted_hours: null,
-                    title: null,
-                    description: null,
-                    customer_id: null,
-                    created_by: null,
-                    storyId: null,
-                    loading: false,
-                    changesMade: false
-                })
-                this.toggle()
+
+        this.projectModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.projectModel.errors, message: this.projectModel.error_message })
+                return
+            }
+
+            const index = this.props.projects.findIndex(project => project.id === this.props.project.id)
+            this.props.projects[index] = response
+            this.props.action(this.props.projects)
+            this.setState({
+                editMode: false,
+                changesMade: false
             })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+            this.toggle()
+        })
     }
 
     getProject () {

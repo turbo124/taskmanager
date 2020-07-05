@@ -3,6 +3,7 @@
 namespace App\Requests\Promocode;
 
 use App\Repositories\Base\BaseFormRequest;
+use App\Settings\LineItemSettings;
 
 class UpdatePromocode extends BaseFormRequest
 {
@@ -19,7 +20,15 @@ class UpdatePromocode extends BaseFormRequest
             'amount'      => ['required'],
             'quantity'    => ['required'],
             'description' => ['required'],
-            'expiry_date' => ['required']
+            'expires_at'  => ['required']
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $input = $this->all();
+        $input['expires_at'] = date('Y-m-d', strtotime($input['expires_at']));
+
+        $this->replace($input);
     }
 }
