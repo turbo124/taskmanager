@@ -4,7 +4,6 @@ import {
     Dropdown,
     DropdownToggle, DropdownMenu
 } from 'reactstrap'
-import axios from 'axios'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
 import { icons, translations } from './_icons'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Label, Input, Card, CardBody, CardHeader } from 'reactstrap'
+import { FormGroup, Label, Card, CardBody, CardHeader } from 'reactstrap'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'

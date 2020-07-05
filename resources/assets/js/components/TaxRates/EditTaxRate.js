@@ -1,11 +1,9 @@
 import React from 'react'
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup,
-    InputGroupAddon, InputGroupText, DropdownItem
+    Button, Modal, ModalHeader, ModalBody, ModalFooter,
+    DropdownItem
 } from 'reactstrap'
-import axios from 'axios'
 import { icons, translations } from '../common/_icons'
-import DecoratedFormField from '../common/DecoratedFormField'
 import Details from './Details'
 import TaxRateModel from '../models/TaxRateModel'
 
@@ -86,7 +84,8 @@ class EditTaxRate extends React.Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_tax_rate}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_tax_rate}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_tax_rate}

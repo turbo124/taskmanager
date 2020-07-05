@@ -5,7 +5,6 @@ import ActionsMenu from '../common/ActionsMenu'
 import EditTaxRate from './EditTaxRate'
 import axios from 'axios'
 import { Input } from 'reactstrap'
-import TokenPresenter from '../presenters/TokenPresenter'
 import TaxRatePresenter from '../presenters/TaxRatePresenter'
 
 export default class TaxRateItem extends Component {

@@ -54,7 +54,7 @@ export default class Payment extends Component {
                 <Row>
                     <ListGroup className="col-12 mt-4">
                         {this.props.entity.paymentables.map((line_item, index) => (
-                            <a href={`/#/invoice?number=${line_item.number}`} >
+                            <a key={index} href={`/#/invoice?number=${line_item.number}`} >
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading>
                                         <i className={`fa ${icons.document} mr-4`}/> {line_item.number}

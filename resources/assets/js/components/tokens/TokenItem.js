@@ -5,7 +5,6 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditToken from './EditToken'
 import { Input } from 'reactstrap'
-import CreditPresenter from '../presenters/CreditPresenter'
 import TokenPresenter from '../presenters/TokenPresenter'
 
 export default class TokenItem extends Component {

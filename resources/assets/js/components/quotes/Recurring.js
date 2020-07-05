@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
-import FormBuilder from '../accounts/FormBuilder'
 import AddRecurringQuote from '../recurringQuotes/AddRecurringQuote'
 import { translations } from '../common/_icons'
 

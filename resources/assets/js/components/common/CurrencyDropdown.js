@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 import { translations } from './_icons'
 

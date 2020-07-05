@@ -8,7 +8,6 @@ import {
     Input,
     FormGroup,
     Label,
-    CustomInput,
     DropdownItem
 } from 'reactstrap'
 import axios from 'axios'

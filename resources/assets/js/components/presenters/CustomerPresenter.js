@@ -1,31 +1,10 @@
-import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
-import { translations } from '../common/_icons'
 import Avatar from '../common/Avatar'
 
 export default function CustomerPresenter (props) {
-    const colors = {
-        [consts.credit_status_draft]: 'secondary',
-        [consts.credit_status_sent]: 'primary',
-        [consts.credit_status_partial]: 'warning',
-        [consts.credit_status_applied]: 'success'
-    }
-
-    const statuses = {
-        [consts.credit_status_draft]: translations.draft,
-        [consts.credit_status_sent]: translations.sent,
-        [consts.credit_status_partial]: translations.partial,
-        [consts.credit_status_applied]: translations.applied
-    }
-
     const { field, entity } = props
-
-    const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
-        : <Badge className="mr-2" color="warning">Archived</Badge>
 
     switch (field) {
         case 'id':

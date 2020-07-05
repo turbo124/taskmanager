@@ -5,7 +5,6 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditPromocode from './EditPromocode'
 import { Input } from 'reactstrap'
-import CreditPresenter from '../presenters/CreditPresenter'
 import PromocodePresenter from '../presenters/PromocodePresenter'
 
 export default class PromocodeItem extends Component {

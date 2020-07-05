@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup, Label } from 'reactstrap'
+import { Input } from 'reactstrap'
 import Select from 'react-select'
 import { translations } from './_icons'
 

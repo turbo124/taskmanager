@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, CustomInput } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'

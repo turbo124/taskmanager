@@ -18,7 +18,6 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
 import { icons, translations } from '../common/_icons'
-import FileUploads from '../attachments/FileUploads'
 
 class AddExpense extends React.Component {
     constructor (props) {

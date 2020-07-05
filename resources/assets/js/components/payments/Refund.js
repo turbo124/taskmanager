@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, InputGroup,
-    InputGroupAddon, InputGroupText, DropdownItem, FormGroup, Card, CardBody, Row, Col
+    InputGroupAddon, InputGroupText, DropdownItem, FormGroup, Card, CardBody
 } from 'reactstrap'
 import axios from 'axios'
 import InvoiceLine from './InvoiceLine'

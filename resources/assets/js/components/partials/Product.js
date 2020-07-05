@@ -45,7 +45,7 @@ export default class Product extends Component {
                 return value.value
             }).join(',') : null
 
-            return <ListGroup className="col-12 mt-2">
+            return <ListGroup key={index} className="col-12 mt-2">
                 <InfoItem icon={icons.credit_card}
                     value={<FormatMoney amount={attribute.price}/>} title={translations.price}/>
                 <InfoItem icon={icons.credit_card}

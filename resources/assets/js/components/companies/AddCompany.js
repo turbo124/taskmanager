@@ -14,7 +14,6 @@ import {
     TabContent,
     TabPane
 } from 'reactstrap'
-import axios from 'axios'
 import Contact from '../common/Contact'
 import AddButtons from '../common/AddButtons'
 import SettingsForm from './SettingsForm'

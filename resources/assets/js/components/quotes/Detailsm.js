@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
-import Address from './Address'
 import CustomerDropdown from '../common/CustomerDropdown'
-import CompanyDropdown from '../common/CompanyDropdown'
 import FormBuilder from '../accounts/FormBuilder'
-import AddRecurringQuote from '../recurringQuotes/AddRecurringQuote'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_icons'
 

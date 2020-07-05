@@ -1,9 +1,6 @@
-import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
-import { translations } from '../common/_icons'
 
 export default function PromocodePresenter (props) {
     const { field, entity } = props

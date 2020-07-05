@@ -14,7 +14,6 @@ import {
     CardHeader,
     CardBody
 } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import ImageForm from './ImageForm'
 import DetailsForm from './DetailsForm'
@@ -24,8 +23,7 @@ import Variations from './Variations'
 import Features from './Features'
 import ProductAttribute from './ProductAttribute'
 import FileUploads from '../attachments/FileUploads'
-import LeadModel from "../models/LeadModel";
-import ProductModel from "../models/ProductModel";
+import ProductModel from '../models/ProductModel'
 
 class AddProduct extends React.Component {
     constructor (props) {

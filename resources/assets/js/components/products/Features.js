@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import VariationInputs from './VariationInputs'
 import {
     Button
 } from 'reactstrap'

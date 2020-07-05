@@ -7,7 +7,6 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import EditLead from './EditLeadForm'
 import ActionsMenu from '../common/ActionsMenu'
-import CreditPresenter from '../presenters/CreditPresenter'
 import LeadPresenter from '../presenters/LeadPresenter'
 
 export default class LeadItem extends Component {

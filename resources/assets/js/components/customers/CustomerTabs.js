@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Nav, NavItem, NavLink, TabContent, TabPane, Button } from 'reactstrap'
 import AddressForm from './AddressForm'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import CustomerForm from './CustomerForm'
 import SettingsForm from './SettingsForm'
