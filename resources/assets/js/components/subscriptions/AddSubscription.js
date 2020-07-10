@@ -4,18 +4,15 @@ import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
 import { consts } from '../common/_consts'
+import SubscriptionModel from '../models/SubscriptionModel'
 
 export default class AddSubscription extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: '',
-            target_url: '',
-            event_id: '',
-            loading: false,
-            errors: []
-        }
+
+        this.subscriptionModel = new SubscriptionModel(null)
+        this.initialState = this.subscriptionModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -50,27 +47,23 @@ export default class AddSubscription extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/subscriptions', {
+        const data = {
             name: this.state.name,
             target_url: this.state.target_url,
             event_id: this.state.event_id
+        }
+
+        this.subscriptionModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.subscriptionModel.errors, message: this.subscriptionModel.error_message })
+                return
+            }
+
+            this.props.subscriptions.push(response)
+            this.props.action(this.props.subscriptions)
+            localStorage.removeItem('subscriptionForm')
+            this.setState(this.initialState)
         })
-            .then((response) => {
-                const newUser = response.data
-                this.props.subscriptions.push(newUser)
-                this.props.action(this.props.subscriptions)
-                localStorage.removeItem('subscriptionForm')
-                this.setState({
-                    name: '',
-                    target_url: ''
-                })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {

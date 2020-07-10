@@ -5,6 +5,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditSubscription from './EditSubscription'
 import { Input } from 'reactstrap'
+import SubscriptionPresenter from '../presenters/SubscriptionPresenter'
 
 export default class SubscriptionItem extends Component {
     constructor (props) {
@@ -49,8 +50,8 @@ export default class SubscriptionItem extends Component {
                 const columnList = Object.keys(subscription).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(subscription, subscription.name)} data-label={key}
-                        key={key}>{subscription[key]}</td>
+                    return <SubscriptionPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={subscription}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

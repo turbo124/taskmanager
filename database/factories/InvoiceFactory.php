@@ -39,7 +39,7 @@ $factory->define(
             'due_date'       => $faker->date(),
             'line_items'     => $line_items,
             'terms'          => $faker->text(500),
-            'gateway_fee'    => 0
+            'gateway_fee'    => 12.99
         ];
     }
 );

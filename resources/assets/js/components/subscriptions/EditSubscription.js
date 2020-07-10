@@ -3,22 +3,16 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, L
 import axios from 'axios'
 import { icons, translations } from '../common/_icons'
 import { consts } from '../common/_consts'
+import SubscriptionModel from '../models/SubscriptionModel'
 
 export default class EditSubscription extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            id: this.props.subscription.id,
-            name: this.props.subscription.name,
-            target_url: this.props.subscription.target_url,
-            event_id: '',
-            loading: false,
-            changesMade: false,
-            errors: []
-        }
 
-        this.initialState = this.state
+        this.subscriptionModel = new SubscriptionModel(this.props.subscription)
+        this.initialState = this.subscriptionModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -46,23 +40,27 @@ export default class EditSubscription extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/subscriptions/${this.state.id}`, {
+        const data = {
             name: this.state.name,
             target_url: this.state.target_url,
             event_id: this.state.event_id
+        }
+
+        this.subscriptionModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.subscriptionModel.errors, message: this.subscriptionModel.error_message })
+                return
+            }
+
+            const index = this.props.subscriptions.findIndex(subscription => subscription.id === this.props.subscription.id)
+            this.props.subscriptions[index] = response
+            this.props.action(this.props.subscriptions)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.subscriptions.findIndex(subscription => subscription.id === this.state.id)
-                this.props.subscriptions[index] = response.data
-                this.props.action(this.props.subscriptions)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
