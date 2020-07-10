@@ -61,6 +61,16 @@ class InvoiceService extends ServiceBase
         $this->invoice->transaction_service()->createTransaction($this->invoice->balance, $customer->balance);
     }
 
+    /**
+     * @param InvoiceRepository $invoice_repository
+     * @return Invoice|null
+     */
+    public function autoBill(InvoiceRepository $invoice_repository): ?Invoice
+    {
+        return (new AutoBill($this->invoice, $invoice_repository))->execute();
+
+    }
+
     public function sendReminders()
     {
         (new SendReminders($this->invoice->account->getSettings(), $this->invoice))->execute();

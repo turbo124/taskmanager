@@ -10,10 +10,12 @@ use App\Requests\SearchRequest;
 use App\Requests\Subscription\CreateSubscriptionRequest;
 use App\Requests\Subscription\UpdateSubscriptionRequest;
 use App\Subscription;
+use App\Transformations\SubscriptionTransformable;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+    use SubscriptionTransformable;
 
     /**
      * @var SubscriptionRepository
@@ -63,7 +65,7 @@ class SubscriptionController extends Controller
 
         $subscription = $this->subscription_repo->save($request->all(), $subscription);
 
-        return response()->json($subscription->fresh());
+        return response()->json($this->transform($subscription));
     }
 
     /**
@@ -73,8 +75,8 @@ class SubscriptionController extends Controller
     public function store(CreateSubscriptionRequest $request)
     {
         $subscription = SubscriptionFactory::create(auth()->user()->account_user()->account, auth()->user());
-        $this->subscription_repo->save($request->all(), $subscription);
-        return response()->json($subscription);
+        $subscription = $this->subscription_repo->save($request->all(), $subscription);
+        return response()->json($this->transform($subscription));
     }
 
     /**

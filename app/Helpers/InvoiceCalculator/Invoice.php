@@ -108,7 +108,7 @@ class Invoice extends BaseCalculator
     {
         $custom_surcharge_total = 0;
 
-        if (!empty($this->entity->transaction_fee) && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
+        if (!empty($this->entity->transaction_fee)) {
             $custom_surcharge_total += $this->entity->transaction_fee;
 
 //            if (!empty($this->entity->custom_surcharge_tax1)) {
@@ -132,7 +132,7 @@ class Invoice extends BaseCalculator
             $this->total += $custom_surcharge_total;
         }
 
-        if (!empty($this->entity->gateway_fee)) {
+        if (!empty($this->entity->gateway_fee) && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
             $this->total += $this->entity->gateway_fee;
         }
 

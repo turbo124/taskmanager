@@ -9,8 +9,17 @@ use Carbon\Carbon;
 class SendReminders
 {
     private $settings;
-    private $invoice;
 
+    /**
+     * @var Invoice
+     */
+    private Invoice $invoice;
+
+    /**
+     * SendReminders constructor.
+     * @param $settings
+     * @param Invoice $invoice
+     */
     public function __construct($settings, Invoice $invoice)
     {
         $this->settings = $settings;

@@ -147,9 +147,6 @@ class InvoiceTest extends TestCase
     /** @test */
     public function it_can_create_a_invoice()
     {
-        $customerId = $this->customer->id;
-
-        $total = $this->faker->randomFloat();
         $user = factory(User::class)->create();
         $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);
 
@@ -432,5 +429,46 @@ class InvoiceTest extends TestCase
         $this->assertNull($invoice->previous_status);
         $this->assertNull($invoice->previous_balance);
         $this->assertEquals($invoice->customer->balance, $balance_with_invoice);
+    }
+
+    /** @test */
+    public function autoBill()
+    {
+        // create invoice
+        $user = factory(User::class)->create();
+        $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);
+
+        $total = $this->faker->randomFloat();
+
+        $data = [
+            'account_id'     => $this->main_account->id,
+            'user_id'        => $user->id,
+            'customer_id'    => $this->customer->id,
+            'total'          => 12.99,
+            'balance'        => 12.99,
+            'tax_total'      => 0,
+            'discount_total' => 0,
+            'status_id'      => 1,
+            'gateway_fee'    => 12.99
+        ];
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $original_invoice = $invoiceRepo->createInvoice($data, $factory);
+        $expected_amount = $original_invoice->total + $original_invoice->gateway_fee;
+
+        // add line items
+        $item = (new LineItem($original_invoice))
+            ->setQuantity(1)
+            ->setUnitPrice(12.99)
+            ->toObject();
+
+        $original_invoice->line_items = [$item];
+        $original_invoice->save();
+
+        // auto bill
+        $invoiceRepo->markSent($original_invoice);
+        $invoice = $original_invoice->service()->autoBill($invoiceRepo);
+        $this->assertEquals($expected_amount, $invoice->total);
+        $this->assertEquals(2, count($invoice->line_items));
     }
 }
