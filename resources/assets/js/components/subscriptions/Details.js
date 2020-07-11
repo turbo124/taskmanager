@@ -19,14 +19,17 @@ export default class Details extends Component {
                 </FormGroup>
 
                 <Label>{translations.target_url}</Label>
-                <DecoratedFormField name="rate" handleChange={this.props.handleInput}
+                <DecoratedFormField hasErrorFor={this.props.hasErrorFor}
+                    renderErrorFor={this.props.renderErrorFor} name="target_url"
+                    handleChange={this.props.handleInput}
                     value={this.props.subscription.target_url} icon={icons.link}/>
 
                 <FormGroup>
                     <Label for="event_id">{translations.event}<span className="text-danger">*</span></Label>
-                    <Input className={this.hasErrorFor('event_id') ? 'is-invalid' : ''} type="select" name="event_id"
-                        id="event_id" value={this.state.event_id}
-                        onChange={this.handleInput.bind(this)}>
+                    <Input className={this.props.hasErrorFor('event_id') ? 'is-invalid' : ''} type="select"
+                        name="event_id"
+                        id="event_id" value={this.props.subscription.event_id}
+                        onChange={this.props.handleInput.bind(this)}>
                         <option value="">{translations.select_event}</option>
                         <option value={consts.order_created_subscription}>{translations.order_created}</option>
                         <option value={consts.order_deleted_subscription}>{translations.order_deleted}</option>
@@ -44,7 +47,7 @@ export default class Details extends Component {
                         <option value={consts.quote_deleted_subscription}>{translations.quote_deleted}</option>
                         <option value={consts.lead_created_subscription}>{translations.lead_created}</option>
                     </Input>
-                    {this.renderErrorFor('event_id')}
+                    {this.props.renderErrorFor('event_id')}
                 </FormGroup>
             </React.Fragment>
         )

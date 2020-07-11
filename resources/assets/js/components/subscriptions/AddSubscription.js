@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import axios from 'axios'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_icons'
-import { consts } from '../common/_consts'
 import SubscriptionModel from '../models/SubscriptionModel'
+import Details from './Details'
 
 export default class AddSubscription extends React.Component {
     constructor (props) {
@@ -27,8 +26,11 @@ export default class AddSubscription extends React.Component {
     }
 
     handleInput (e) {
+        const value = e.target.value
+        const name = e.target.name
+
         this.setState({
-            [e.target.name]: e.target.value
+            [name]: value
         }, () => localStorage.setItem('subscriptionForm', JSON.stringify(this.state)))
     }
 
@@ -89,7 +91,8 @@ export default class AddSubscription extends React.Component {
                         {translations.add_subscription}
                     </ModalHeader>
                     <ModalBody>
-
+                        <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
+                            renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
                     <ModalFooter>

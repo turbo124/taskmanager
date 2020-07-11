@@ -15,7 +15,7 @@ class CreateSubscriptionRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'target_url' => 'required',
+            'target_url' => 'required|url',
             'event_id'   => 'required',
         ];
     }
