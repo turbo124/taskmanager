@@ -9,7 +9,7 @@ use App\Repositories\TokenRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Token\CreateTokenRequest;
 use App\Requests\Token\UpdateTokenRequest;
-use App\Transformations\CompanyTokenTransformable;
+use App\Transformations\TokenTransformable;
 
 /**
  * Class TokenController
@@ -17,7 +17,7 @@ use App\Transformations\CompanyTokenTransformable;
  */
 class TokenController extends Controller
 {
-    use CompanyTokenTransformable;
+    use TokenTransformable;
 
     public $token_repo;
 

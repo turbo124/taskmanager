@@ -2,6 +2,7 @@
 
 namespace App\Transformations;
 
+use App\Repositories\TimerRepository;
 use App\Task;
 use App\User;
 use App\Repositories\UserRepository;
@@ -30,7 +31,7 @@ trait TaskTransformable
             'content'                => $task->content,
             'comments'               => $task->comments,
             'due_date'               => $task->due_date,
-            'start_date'             => $task->start_date,
+            'start_date'             => $task->start_date ?: '',
             'is_completed'           => $task->is_completed,
             'task_status'            => $task->task_status,
             'status_name'            => !empty($task->taskStatus) ? $task->taskStatus->title : '',
@@ -53,6 +54,8 @@ trait TaskTransformable
             'custom_value4'          => $task->custom_value4 ?: '',
             'public_notes'           => $task->public_notes ?: '',
             'private_notes'          => $task->private_notes ?: '',
+            'duration'               => (new TimerRepository(new Timer()))->getTotalDuration($task),
+            'task_rate'              => 1.0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
         ];
     }

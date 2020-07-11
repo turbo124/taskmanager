@@ -6,7 +6,7 @@ use App\Account;
 use App\CompanyToken;
 use App\Repositories\TokenRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\CompanyTokenTransformable;
+use App\Transformations\TokenTransformable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Gate;
  */
 class TokenFilters extends QueryFilter
 {
-    use CompanyTokenTransformable;
+    use TokenTransformable;
 
     private $token_repo;
 

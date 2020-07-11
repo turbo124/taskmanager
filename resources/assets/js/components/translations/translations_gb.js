@@ -149,6 +149,7 @@ export const gb_translations = {
     add_recurring_quote: 'Add Recurring Quote',
     add_token: 'Add Token',
     edit_token: 'Edit Token',
+    token: 'Token',
     add_tax_rate: 'Add Tax Rate',
     edit_tax_rate: 'Edit Tax Rate',
     edit_user: 'Edit User',

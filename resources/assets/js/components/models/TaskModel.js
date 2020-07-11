@@ -8,7 +8,7 @@ const TaskTimeItem = {
     end_time: ''
 }
 
-export default class InvoiceModel extends BaseModel {
+export default class TaskModel extends BaseModel {
     constructor (data = null, customers) {
         super()
         this.customers = customers
@@ -94,8 +94,8 @@ export default class InvoiceModel extends BaseModel {
         return array
     }
 
-    calculateAmount (taskRate) {
-        return (taskRate * this.calculateDuration.inSeconds / 3600).toFixed(3)
+    calculateAmount (taskRate, duration) {
+        return (taskRate * duration).toFixed(3)
     }
 
     calculateDuration (currentStartTime, currentEndTime) {

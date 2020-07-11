@@ -25,6 +25,10 @@ import Promocode from '../partials/Promocode'
 import Product from '../partials/Product'
 import User from '../partials/User'
 import Case from '../partials/Case'
+import Subscription from '../partials/Subscription'
+import Task from '../partials/Task'
+import TaxRate from '../partials/TaxRate'
+import Token from "../partials/Token";
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -121,11 +125,17 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Case'].includes(this.props.entity_type) &&
                         <Case customers={this.props.customers} entity={this.props.entity}/>}
 
-                        {!['RecurringInvoice', 'RecurringQuote', 'Case', 'User', 'Product', 'Promocode', 'Lead', 'Company', 'Project', 'Payment', 'Invoice', 'Quote', 'Credit', 'Order', 'Expense', 'Customer'].includes(this.props.entity_type) &&
-                        <ul className="mt-4 row">
-                            {columnList}
-                        </ul>
-                        }
+                        {this.props.entity && this.props.entity_type && ['Subscription'].includes(this.props.entity_type) &&
+                        <Subscription entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Task'].includes(this.props.entity_type) &&
+                        <Task entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Tax Rate'].includes(this.props.entity_type) &&
+                        <TaxRate entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Token'].includes(this.props.entity_type) &&
+                        <Token entity={this.props.entity}/>}
 
                     </ModalBody>
                     <ModalFooter>

@@ -4,6 +4,8 @@ export default function TokenPresenter (props) {
     const { field, entity } = props
 
     switch (field) {
+        case 'token':
+            return <td>{`${entity.token.substring(0, 10)}xxxxxxxxxx`}</td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
                 data-label={field}>{entity[field]}</td>
