@@ -69,7 +69,7 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * @param CreateSubscriptionRequest $request
+     * @param CreateSubscriptionRequest $request\
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateSubscriptionRequest $request)

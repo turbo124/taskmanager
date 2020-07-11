@@ -11,7 +11,7 @@ export default class SubscriptionModel extends BaseModel {
         this._fields = {
             modal: false,
             name: '',
-            target_url: '',
+            target_url: 'http://',
             event_id: '',
             loading: false,
             errors: []

@@ -22,7 +22,7 @@ trait SubscriptionTransformable
             'created_at' => $subscription->created_at,
             'is_deleted' => (bool)$subscription->is_deleted,
             'target_url' => $subscription->target_url ? (string)$subscription->target_url : '',
-            'entity_id'  => (string)$subscription->entity_id,
+            'event_id'   => (int)$subscription->event_id,
             'format'     => (string)$subscription->format,
             'name'       => (string)$subscription->name,
         ];

@@ -39,6 +39,7 @@ export default class TaskList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'task_rate',
                 'timers',
                 'public_notes',
                 'private_notes',

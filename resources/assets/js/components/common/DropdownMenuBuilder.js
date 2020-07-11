@@ -62,6 +62,10 @@ export default class DropdownMenuBuilder extends Component {
 
             let message = `${action} completed successfully`
 
+            if (action === 'copy') {
+                message = translations.token_copied
+            }
+
             if (action === 'download') {
                 this.downloadPdf(response, this.props.model.fields.id)
                 message = translations.downloaded
@@ -332,6 +336,12 @@ export default class DropdownMenuBuilder extends Component {
             case 'refund':
                 return <DropdownItem key={22} className="primary"
                     onClick={() => this.changeStatus('refund')}>{translations.refund}</DropdownItem>
+
+            case 'copy':
+                return <DropdownItem key={23} className="primary"
+                    onClick={() => this.changeStatus('copy')}>
+                    <i className={`fa ${icons.clone} mr-2`}/>{translations.copy}
+                </DropdownItem>
         }
     }
 

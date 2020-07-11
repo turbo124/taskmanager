@@ -17,7 +17,9 @@ export default class Details extends Component {
                 </FormGroup>
 
                 <Label>{translations.amount}</Label>
-                <DecoratedFormField name="rate" handleChange={this.props.handleInput}
+                <DecoratedFormField hasErrorFor={this.props.hasErrorFor}
+                    renderErrorFor={this.props.renderErrorFor} name="rate"
+                    handleChange={this.props.handleInput}
                     value={this.props.tax_rate.rate} icon={icons.percent}/>
             </React.Fragment>
         )
