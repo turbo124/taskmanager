@@ -1,4 +1,6 @@
 export const gb_translations = {
+    copy: 'Copy',
+    token_copied: 'The token has been copied to the clipboard successfully',
     transactions: 'Transactions',
     vendor: 'Vendor',
     transaction_fee: 'Transaction Fee',

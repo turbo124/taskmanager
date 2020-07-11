@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
 import { icons, translations } from '../common/_icons'
 import TokenModel from '../models/TokenModel'
+import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 
 export default class EditToken extends React.Component {
     constructor (props) {
@@ -37,11 +38,15 @@ export default class EditToken extends React.Component {
         }
     }
 
-    handleClick () {
-        const data = {
+    getFormData () {
+        return {
             name: this.state.name,
             settings: this.state.settings
         }
+    }
+
+    handleClick () {
+        const data = this.getFormData()
 
         this.tokenModel.save(data).then(response => {
             if (!response) {
@@ -85,6 +90,10 @@ export default class EditToken extends React.Component {
                         {translations.edit_token}
                     </ModalHeader>
                     <ModalBody>
+                        <DropdownMenuBuilder invoices={this.props.tokens} formData={this.getFormData()}
+                            model={this.tokenModel}
+                            action={this.props.action}/>
+
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}

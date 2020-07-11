@@ -10,6 +10,7 @@ export default class TokenModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            token: '',
             name: '',
             loading: false,
             errors: []
@@ -30,6 +31,8 @@ export default class TokenModel extends BaseModel {
 
     buildDropdownMenu () {
         const actions = []
+
+        actions.push('copy')
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -69,7 +72,25 @@ export default class TokenModel extends BaseModel {
         }
     }
 
+    copyToken () {
+        const mark = document.createElement('textarea')
+        mark.setAttribute('readonly', 'readonly')
+        mark.value = this.fields.token
+        mark.style.position = 'fixed'
+        mark.style.top = 0
+        mark.style.clip = 'rect(0, 0, 0, 0)'
+        document.body.appendChild(mark)
+        mark.select()
+        document.execCommand('copy')
+        document.body.removeChild(mark)
+        return true
+    }
+
     async completeAction (data, action) {
+        if (action === 'copy') {
+            return this.copyToken()
+        }
+
         if (!this.fields.id) {
             return false
         }
