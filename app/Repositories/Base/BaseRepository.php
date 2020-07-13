@@ -258,6 +258,10 @@ class BaseRepository implements BaseRepositoryInterface
             return true;
         }
 
+        if(empty($data['invitations'])) {
+            return true;
+        }
+
         $invitation_class = sprintf("App\\%sInvitation", ucfirst($key));
 
         $id_key = $key . '_id';

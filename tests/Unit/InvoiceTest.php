@@ -443,7 +443,7 @@ class InvoiceTest extends TestCase
         $data = [
             'account_id'     => $this->main_account->id,
             'user_id'        => $user->id,
-            'customer_id'    => $this->customer->id,
+            'customer_id'    => 5,
             'total'          => 12.99,
             'balance'        => 12.99,
             'tax_total'      => 0,
