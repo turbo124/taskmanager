@@ -49,6 +49,8 @@ trait QuoteTransformable
             'custom_value4'       => (string)$quote->custom_value4 ?: '',
             'transaction_fee'     => (float)$quote->transaction_fee,
             'shipping_cost'       => (float)$quote->shipping_cost,
+            'gateway_fee'         => (float)$credit->gateway_fee,
+            'gateway_percentage'  => (bool)$credit->gateway_percentage,
             'transaction_fee_tax' => (bool)$quote->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
             'emails'              => $this->transformQuoteEmails($quote->emails()),
