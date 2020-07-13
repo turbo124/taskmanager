@@ -83,6 +83,7 @@ class Order extends Model
         'custom_value4',
         'transaction_fee',
         'gateway_fee',
+        'gateway_percentage',
         'shipping_cost',
         'transaction_fee_tax',
         'shipping_cost_tax',
@@ -90,7 +91,7 @@ class Order extends Model
         'shipping_id',
         'shipping_label_url',
         'previous_status',
-        'voucher_code'
+        'voucher_code',
     ];
 
     protected $table = 'product_task';
