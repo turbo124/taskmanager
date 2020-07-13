@@ -340,7 +340,9 @@ class EditInvoice extends Component {
             transaction_fee_tax: this.state.transaction_fee_tax,
             shipping_cost: this.state.shipping_cost,
             shipping_cost_tax: this.state.shipping_cost_tax,
-            invitations: this.state.invitations
+            invitations: this.state.invitations,
+            gateway_fee: this.state.gateway_fee,
+            gateway_percentage: this.state.gateway_percentage
         }
     }
 
