@@ -213,6 +213,8 @@ export default class EditCredit extends Component {
                     private_notes: '',
                     transaction_fee: null,
                     shipping_cost: null,
+                    gateway_fee: null,
+                    gateway_percentage: false,
                     transaction_fee_tax: null,
                     shipping_cost_tax: null,
                     custom_value1: '',
@@ -328,7 +330,9 @@ export default class EditCredit extends Component {
             transaction_fee_tax: this.state.transaction_fee_tax,
             shipping_cost: this.state.shipping_cost,
             shipping_cost_tax: this.state.shipping_cost_tax,
-            invitations: this.state.invitations
+            invitations: this.state.invitations,
+            gateway_fee: this.state.gateway_fee,
+            gateway_percentage: this.state.gateway_percentage,
         }
     }
 
