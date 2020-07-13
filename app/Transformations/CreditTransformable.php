@@ -54,6 +54,8 @@ trait CreditTransformable
             'custom_value4'       => (string)$credit->custom_value4 ?: '',
             'transaction_fee'     => (float)$credit->transaction_fee,
             'shipping_cost'       => (float)$credit->shipping_cost,
+            'gateway_fee'         => (float)$credit->gateway_fee,
+            'gateway_percentage'  => (bool)$credit->gateway_percentage,
             'transaction_fee_tax' => (bool)$credit->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$credit->shipping_cost_tax,
             'emails'              => $this->transformCreditEmails($credit->emails()),
