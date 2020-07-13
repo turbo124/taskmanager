@@ -468,7 +468,14 @@ class InvoiceTest extends TestCase
         // auto bill
         $invoiceRepo->markSent($original_invoice);
         $invoice = $original_invoice->service()->autoBill($invoiceRepo);
-        $this->assertEquals($expected_amount, $invoice->total);
-        $this->assertEquals(2, count($invoice->line_items));
+        
+        $payment = $invoice->payments->first();
+        $this->assertNotNull($payment);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals((float)$payment->amount, $invoice->total);
+        $this->assertEquals(0, $invoice->balance);
+        //$this->assertEquals($invoice->total, $order->total);
+        //$this->assertEquals($expected_amount, $invoice->total);
+        //$this->assertEquals(2, count($invoice->line_items));
     }
 }
