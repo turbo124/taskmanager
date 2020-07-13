@@ -165,7 +165,13 @@ class LineItemEditor extends Component {
         }
 
         if (this.props.invoice.gateway_fee && this.props.invoice.gateway_fee > 0) {
-            total += this.props.invoice.gateway_fee
+            let gateway_amount = this.props.invoice.gateway_fee
+            
+            if (this.props.invoice.gateway_percentage === true) {
+                gateway_amount = total * this.props.invoice.gateway_fee / 100
+            }
+
+            total += gateway_amount
         }
 
         if (this.props.invoice.total_custom_tax && this.props.invoice.total_custom_tax > 0) {
