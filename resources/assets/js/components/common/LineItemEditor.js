@@ -160,6 +160,14 @@ class LineItemEditor extends Component {
             total += this.props.invoice.total_custom_values
         }
 
+        if (this.props.invoice.shipping_cost && this.props.invoice.shipping_cost > 0) {
+            total += this.props.invoice.shipping_cost
+        }
+
+        if (this.props.invoice.gateway_fee && this.props.invoice.gateway_fee > 0) {
+            total += this.props.invoice.gateway_fee
+        }
+
         if (this.props.invoice.total_custom_tax && this.props.invoice.total_custom_tax > 0) {
             total += this.props.invoice.total_custom_tax
             tax_total += this.props.invoice.total_custom_tax
