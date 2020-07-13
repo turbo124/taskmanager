@@ -57,6 +57,8 @@ class Credit extends Model
         'custom_value4',
         'transaction_fee',
         'shipping_cost',
+        'gateway_fee',
+        'gateway_percentage',
         'transaction_fee_tax',
         'shipping_cost_tax',
         'design_id'
