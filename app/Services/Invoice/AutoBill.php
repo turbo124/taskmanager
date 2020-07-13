@@ -33,45 +33,10 @@ class AutoBill
     private function build()
     {
         $amount = $this->invoice->partial ? $this->invoice->partial : $this->invoice->balance;
-        $fee = $this->invoice->gateway_fee / $this->invoice->total;
-        $fee_remaining = $fee * $amount;
-        $this->addCharge($fee_remaining);
-        $this->save();
-        $total = $amount + $fee_remaining;
-
-        (new Authorize($this->invoice))->build($total);
+        (new Authorize($this->invoice))->build($amount);
         return true;
     }
-
-    private function addCharge(float $amount)
-    {
-        // update total
-        $this->invoice->total += $amount;
-
-        // create line
-        $line_items = array_filter(
-            $this->invoice->line_items,
-            function ($item) {
-                return ($item->type_id !== 2);
-            }
-        );
-
-        $line_items[] = (new LineItem)
-            ->setQuantity(1)
-            ->setNotes('Autobill invoice')
-            ->setUnitPrice($amount)
-            ->setSubTotal($amount)
-            ->setTypeId(2)
-            ->toObject();
-
-        $this->invoice->line_items = $line_items;
-    }
-
-    private function save()
-    {
-        $this->invoice_repo->save([], $this->invoice);
-    }
-
+    
     public function execute()
     {
         if ($this->invoice->is_deleted || !in_array(
