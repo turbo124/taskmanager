@@ -53,6 +53,8 @@ trait OrderTransformable
             'custom_value4'       => (string)$order->custom_value4 ?: '',
             'transaction_fee'     => (float)$order->transaction_fee,
             'shipping_cost'       => (float)$order->shipping_cost,
+            'gateway_fee'         => (float)$credit->gateway_fee,
+            'gateway_percentage'  => (bool)$credit->gateway_percentage,
             'transaction_fee_tax' => (bool)$order->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$order->shipping_cost_tax,
             'emails'              => $this->transformOrderEmails($order->emails()),
