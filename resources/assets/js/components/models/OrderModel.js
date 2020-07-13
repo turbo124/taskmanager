@@ -45,6 +45,8 @@ export default class OrderModel extends BaseModel {
             shipping_cost_tax: false,
             transaction_fee: 0,
             shipping_cost: 0,
+            gateway_fee: 0,
+            gateway_percentage: false,
             tax_rate_name: '',
             tax_rate: 0,
             // company_id: this.props.add === false && this.props.invoice && this.props.invoice.company_id ? this.props.invoice.company_id : '',
