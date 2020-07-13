@@ -3,6 +3,7 @@
 namespace App\Services\Invoice;
 
 use App\Helpers\InvoiceCalculator\LineItem;
+use App\Helpers\Payment\Authorize;
 use App\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
@@ -31,10 +32,14 @@ class AutoBill
 
     private function build()
     {
+        $amount = $this->invoice->partial ? $this->invoice->partial : $this->invoice->balance;
         $fee = $this->invoice->gateway_fee / $this->invoice->total;
-        $fee_remaining = $fee * $this->invoice->balance;
+        $fee_remaining = $fee * $amount;
         $this->addCharge($fee_remaining);
         $this->save();
+        $total = $amount + $fee_remaining;
+
+        (new Authorize($this->invoice))->build($total);
         return true;
     }
 
