@@ -133,7 +133,8 @@ class Invoice extends BaseCalculator
         }
 
         if (!empty($this->entity->gateway_fee) && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
-            $this->total += $this->entity->gateway_fee;
+            $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
+            $this->total = $this->applyGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
         }
 
         return $this;
