@@ -29,6 +29,13 @@ export default function InvoiceSettings (props) {
                         {/*    </Label> */}
                         {/* </FormGroup> */}
                     </Col>
+
+                     <Col md={6}>
+                        <FormGroup>
+                            <Label for="exampleEmail">{translations.gateway_fee}</Label>
+                            <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee" value={props.settings.gateway_fee} />
+                        </FormGroup>
+                    </Col>
                 </Row>
 
                 {/* <Row form> */}
