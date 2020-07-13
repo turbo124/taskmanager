@@ -65,6 +65,8 @@ export default class QuoteModel extends BaseModel {
             shipping_cost_tax: false,
             transaction_fee: 0,
             shipping_cost: 0,
+            gateway_fee: 0,
+            gateway_percentage: false,
             tax: 0,
             discount: 0,
             total_custom_values: 0,
