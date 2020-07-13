@@ -53,6 +53,8 @@ trait InvoiceTransformable
             'custom_value4'       => (string)$invoice->custom_value4 ?: '',
             'transaction_fee'     => (float)$invoice->transaction_fee,
             'shipping_cost'       => (float)$invoice->shipping_cost,
+            'gateway_fee'         => (float)$credit->gateway_fee,
+            'gateway_percentage'  => (bool)$credit->gateway_percentage,
             'transaction_fee_tax' => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
             'last_sent_date'      => $invoice->last_sent_date ?: '',
