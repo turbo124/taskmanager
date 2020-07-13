@@ -244,6 +244,8 @@ class EditInvoice extends Component {
                     private_notes: '',
                     transaction_fee: null,
                     shipping_cost: null,
+                    gateway_fee: null,
+                    gateway_percentage: false,
                     transaction_fee_tax: null,
                     shipping_cost_tax: null,
                     custom_value1: '',
@@ -379,7 +381,9 @@ class EditInvoice extends Component {
             custom_surcharge_tax1: this.state.custom_surcharge_tax1,
             shipping_cost: this.state.shipping_cost,
             shipping_cost_tax: this.state.shipping_cost_tax,
-            invitations: this.state.invitations
+            invitations: this.state.invitations,
+            gateway_fee: this.state.gateway_fee,
+            gateway_percentage: this.state.gateway_percentage
         }
     }
 
