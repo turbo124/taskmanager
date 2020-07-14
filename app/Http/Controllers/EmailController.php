@@ -43,34 +43,41 @@ class EmailController extends Controller
         $entity = "App\\$entity";
 
         $entity_obj = $entity::find($request->input('entity_id'));
-        $entity_obj->service()->sendEmail(null, $request->subject, $request->body);
+
+        $contact = $entity !== 'App\\Lead' ? $entity_obj->invitations->first()->contact : null;
+
+        $entity_obj->service()->sendEmail($contact, $request->subject, $request->body);
 
         if ($request->mark_sent === true) {
             $entity_obj->service()->markSent()->save();
         }
 
-        if ($entity_obj instanceof Invoice) {
-            return response()->json($this->transformInvoice($entity_obj));
+        $transformed_obj = $this->transformObject($entity_obj);
+
+        if (!$transformed_obj) {
+            return response()->json(['message' => 'Unable to transform entity'], 404);
         }
 
-        if ($entity_obj instanceof Lead) {
-            return response()->json($this->transformLead($entity_obj));
+        return response()->json($transformed_obj);
+    }
+
+    private function transformObject($entity_object)
+    {
+        $entity_class = (new \ReflectionClass($entity_object))->getShortName();
+
+        switch ($entity_class) {
+            case 'Lead':
+                return $this->transformLead($entity_object);
+            case 'Credit':
+                return $this->transformCredit($entity_object);
+            case 'Order':
+                return $this->transformOrder($entity_object);
+            case 'Quote':
+                return $this->transformQuote($entity_object);
+            case 'Invoice':
+                return $this->transformInvoice($entity_object);
         }
 
-        if ($entity_obj instanceof Quote) {
-            return response()->json($this->transformQuote($entity_obj));
-        }
-
-        if ($entity_obj instanceof Order) {
-            return response()->json($this->transformOrder($entity_obj));
-        }
-
-        if ($entity_obj instanceof Credit) {
-            return response()->json($this->transformCredit($entity_obj));
-        }
-
-        if ($entity_obj instanceof Lead) {
-            return response()->json($this->transformLead($entity_obj));
-        }
+        return false;
     }
 }

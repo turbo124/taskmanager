@@ -1,5 +1,7 @@
 export const gb_translations = {
     copy: 'Copy',
+    gateway_fee: 'Gateway Fee',
+    is_percentage: 'Is Percentage',
     token_copied: 'The token has been copied to the clipboard successfully',
     transactions: 'Transactions',
     vendor: 'Vendor',

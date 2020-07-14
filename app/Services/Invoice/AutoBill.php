@@ -3,7 +3,9 @@
 namespace App\Services\Invoice;
 
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Helpers\Payment\Authorize;
+use App\Helpers\Payment\Gateways\Authorize;
+use App\Helpers\Payment\Gateways\GatewayFactory;
+use App\Helpers\Payment\Gateways\Stripe;
 use App\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
@@ -33,10 +35,10 @@ class AutoBill
     private function build()
     {
         $amount = $this->invoice->partial ? $this->invoice->partial : $this->invoice->balance;
-        (new Authorize($this->invoice))->build($amount);
-        return true;
+        $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
+        return $gateway_obj->build($amount, $this->invoice);
     }
-    
+
     public function execute()
     {
         if ($this->invoice->is_deleted || !in_array(
@@ -50,8 +52,6 @@ class AutoBill
             return null;
         }
 
-        $this->build();
-
-        return $this->invoice;
+        return $this->build();
     }
 }

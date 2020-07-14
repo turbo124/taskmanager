@@ -467,9 +467,9 @@ class InvoiceTest extends TestCase
 
         // auto bill
         $invoiceRepo->markSent($original_invoice);
-        $invoice = $original_invoice->service()->autoBill($invoiceRepo);
-        
-        $payment = $invoice->payments->first();
+        $payment = $original_invoice->service()->autoBill($invoiceRepo);
+        $invoice = $payment->invoices->first();
+
         $this->assertNotNull($payment);
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals((float)$payment->amount, $invoice->total);

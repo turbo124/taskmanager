@@ -17,8 +17,6 @@ use App\File;
 
 trait CreditTransformable
 {
-    use FileTransformable;
-
     /**
      * @param Credit $credit
      * @return array
@@ -76,7 +74,7 @@ trait CreditTransformable
 
         return $files->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

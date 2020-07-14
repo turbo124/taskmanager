@@ -156,7 +156,7 @@ class EditInvoice extends Component {
     }
 
     handleSurcharge (e) {
-        const value = (!e.target.value) ? ('') : ((e.target.type === 'checkbox') ? (e.target.checked) : (parseFloat(e.target.value)))
+        const value = (!e.target.value) ? ('') : ((e.target.type === 'checkbox') ? (e.target.checked) : (e.target.value))
 
         this.setState({
             [e.target.name]: value

@@ -9,8 +9,6 @@ use App\Subscription;
 
 trait CaseTransformable
 {
-    use FileTransformable;
-
     /**
      * @param Subscription $subscription
      * @return array
@@ -52,7 +50,7 @@ trait CaseTransformable
 
         return $files->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

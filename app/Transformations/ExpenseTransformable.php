@@ -8,8 +8,6 @@ use App\File;
 
 trait ExpenseTransformable
 {
-    use FileTransformable;
-
     /**
      * @param Expense $expense
      * @return array
@@ -69,7 +67,7 @@ trait ExpenseTransformable
 
         return $files->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }
