@@ -34,7 +34,7 @@
         "shippo/shippo-php": "^1.4",
         "spatie/browsershot": "^3.33",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
-        "stripe/stripe-php": "^7.14",
+        "stripe/stripe-php": "^7.40",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {

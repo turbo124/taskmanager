@@ -31,6 +31,24 @@ export default function InvoiceSettings (props) {
                     </Col>
                 </Row>
 
+                <Row form>
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label for="exampleEmail">{translations.gateway_fee}</Label>
+                            <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee" value={props.settings.gateway_fee} />
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={6}>
+                        <FormGroup check>
+                            <Label check for="examplePassword">
+                                <Input onChange={props.handleSurcharge} type="checkbox" name="gateway_percentage" id="examplePassword" checked={props.settings.gateway_percentage} />
+                                {translations.is_percentage}
+                            </Label>
+                        </FormGroup>
+                    </Col>
+                </Row>
+
                 {/* <Row form> */}
                 {/*    <Col md={6} /> */}
                 {/*    <Col md={6}> */}

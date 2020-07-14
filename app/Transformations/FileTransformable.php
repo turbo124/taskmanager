@@ -4,13 +4,13 @@ namespace App\Transformations;
 
 use App\File;
 
-trait FileTransformable
+class FileTransformable
 {
     /**
      * @param File $document
      * @return array
      */
-    protected function transformFile(File $document)
+    public function transformFile(File $document)
     {
         return [
             'id'               => $document->id,

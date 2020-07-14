@@ -12,8 +12,6 @@ use App\Customer;
 
 trait QuoteTransformable
 {
-    use FileTransformable;
-
     /**
      * @param Quote $quote
      * @return array
@@ -49,6 +47,8 @@ trait QuoteTransformable
             'custom_value4'       => (string)$quote->custom_value4 ?: '',
             'transaction_fee'     => (float)$quote->transaction_fee,
             'shipping_cost'       => (float)$quote->shipping_cost,
+            'gateway_fee'         => (float)$quote->gateway_fee,
+            'gateway_percentage'  => (bool)$quote->gateway_percentage,
             'transaction_fee_tax' => (bool)$quote->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
             'emails'              => $this->transformQuoteEmails($quote->emails()),
@@ -69,7 +69,7 @@ trait QuoteTransformable
 
         return $files->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

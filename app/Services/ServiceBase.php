@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\ClientContact;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
 
@@ -76,6 +77,12 @@ class ServiceBase
      */
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
+        if($contact !== null) {
+            $invitation = $this->entity->invitations->first();
+            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
+            return $this->dispatchEmail($contact, $subject, $body, $template, $footer);
+        }
+
         if ($this->entity->invitations->count() === 0) {
             return false;
         }
@@ -83,9 +90,24 @@ class ServiceBase
         foreach ($this->entity->invitations as $invitation) {
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
 
-            if ($invitation->contact->send_email && $invitation->contact->email) {
-                SendEmail::dispatchNow($this->entity, $subject, $body, $template, $invitation->contact, $footer);
-            }
+            $this->dispatchEmail($invitation->contact, $subject, $body, $template, $footer);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param ClientContact $contact
+     * @param string $subject
+     * @param string $body
+     * @param string $template
+     * @param array $footer
+     * @return bool
+     */
+    private function dispatchEmail(ClientContact $contact, string $subject, string $body, string $template, array $footer)
+    {
+        if ($contact->send_email && $contact->email) {
+            SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
         }
 
         return true;

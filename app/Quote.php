@@ -79,7 +79,9 @@ class Quote extends Model
         'invoice_type_id',
         'is_amount_discount',
         'po_number',
-        'design_id'
+        'design_id',
+        'gateway_fee',
+        'gateway_percentage',
     ];
 
     const STATUS_DRAFT = 1;

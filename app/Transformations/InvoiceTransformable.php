@@ -15,7 +15,6 @@ use App\Customer;
 trait InvoiceTransformable
 {
     use PaymentTransformable;
-    use FileTransformable;
 
     /**
      * @param Invoice $invoice
@@ -53,6 +52,8 @@ trait InvoiceTransformable
             'custom_value4'       => (string)$invoice->custom_value4 ?: '',
             'transaction_fee'     => (float)$invoice->transaction_fee,
             'shipping_cost'       => (float)$invoice->shipping_cost,
+            'gateway_fee'         => (float)$invoice->gateway_fee,
+            'gateway_percentage'  => (bool)$invoice->gateway_percentage,
             'transaction_fee_tax' => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
             'last_sent_date'      => $invoice->last_sent_date ?: '',
@@ -75,7 +76,7 @@ trait InvoiceTransformable
 
         return $files->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

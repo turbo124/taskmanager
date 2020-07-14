@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
-    use FileTransformable;
-
     private $fileRepository;
     private $taskRepository;
 
@@ -42,7 +40,7 @@ class UploadController extends Controller
 
         $uploads = $uploads->map(
             function (File $file) {
-                return $this->transformFile($file);
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
 

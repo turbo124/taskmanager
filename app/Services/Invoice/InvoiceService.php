@@ -65,7 +65,7 @@ class InvoiceService extends ServiceBase
      * @param InvoiceRepository $invoice_repository
      * @return Invoice|null
      */
-    public function autoBill(InvoiceRepository $invoice_repository): ?Invoice
+    public function autoBill(InvoiceRepository $invoice_repository): ?Payment
     {
         return (new AutoBill($this->invoice, $invoice_repository))->execute();
 
@@ -169,6 +169,7 @@ class InvoiceService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
+
         if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }

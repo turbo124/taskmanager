@@ -3,7 +3,9 @@
 namespace App\Services\Invoice;
 
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Helpers\Payment\Authorize;
+use App\Helpers\Payment\Gateways\Authorize;
+use App\Helpers\Payment\Gateways\GatewayFactory;
+use App\Helpers\Payment\Gateways\Stripe;
 use App\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
@@ -33,43 +35,8 @@ class AutoBill
     private function build()
     {
         $amount = $this->invoice->partial ? $this->invoice->partial : $this->invoice->balance;
-        $fee = $this->invoice->gateway_fee / $this->invoice->total;
-        $fee_remaining = $fee * $amount;
-        $this->addCharge($fee_remaining);
-        $this->save();
-        $total = $amount + $fee_remaining;
-
-        (new Authorize($this->invoice))->build($total);
-        return true;
-    }
-
-    private function addCharge(float $amount)
-    {
-        // update total
-        $this->invoice->total += $amount;
-
-        // create line
-        $line_items = array_filter(
-            $this->invoice->line_items,
-            function ($item) {
-                return ($item->type_id !== 2);
-            }
-        );
-
-        $line_items[] = (new LineItem)
-            ->setQuantity(1)
-            ->setNotes('Autobill invoice')
-            ->setUnitPrice($amount)
-            ->setSubTotal($amount)
-            ->setTypeId(2)
-            ->toObject();
-
-        $this->invoice->line_items = $line_items;
-    }
-
-    private function save()
-    {
-        $this->invoice_repo->save([], $this->invoice);
+        $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
+        return $gateway_obj->build($amount, $this->invoice);
     }
 
     public function execute()
@@ -85,8 +52,6 @@ class AutoBill
             return null;
         }
 
-        $this->build();
-
-        return $this->invoice;
+        return $this->build();
     }
 }

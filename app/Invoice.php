@@ -82,7 +82,9 @@ class Invoice extends Model
         'design_id',
         'voucher_code',
         'commission_paid',
-        'commission_paid_date'
+        'commission_paid_date',
+        'gateway_fee',
+        'gateway_percentage',
     ];
 
     const STATUS_DRAFT = 1;
