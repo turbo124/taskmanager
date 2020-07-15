@@ -7,7 +7,7 @@ import {
 } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import TaskModel from '../models/TaskModel'

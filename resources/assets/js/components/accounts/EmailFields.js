@@ -5,7 +5,8 @@ import {
     Label
 } from 'reactstrap'
 import FormBuilder from './FormBuilder'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
+import { consts } from "../common/_consts";
 
 class EmailFields extends Component {
     constructor (props) {
@@ -451,16 +452,16 @@ class EmailFields extends Component {
                         type: 'select',
                         options: [
                             {
-                                value: 'after_invoice_date',
-                                text: 'After Invoice Date'
+                                value: consts.reminder_schedule_after_invoice_date,
+                                text: translations.after_invoice_date
                             },
                             {
-                                value: 'before_due_date',
-                                text: 'Before Due Date'
+                                value: consts.reminder_schedule_before_due_date,
+                                text: translations.before_due_date
                             },
                             {
-                                value: 'after_due_date',
-                                text: 'After Due Date'
+                                value: consts.reminder_schedule_after_due_date,
+                                text: translations.after_due_date
                             }
                         ],
                         value: settings.schedule_reminder1
@@ -525,16 +526,16 @@ class EmailFields extends Component {
                         type: 'select',
                         options: [
                             {
-                                value: 'after_invoice_date',
-                                text: 'After Invoice Date'
+                                value: consts.reminder_schedule_after_invoice_date,
+                                text: translations.after_invoice_date
                             },
                             {
-                                value: 'before_due_date',
-                                text: 'Before Due Date'
+                                value: consts.reminder_schedule_before_due_date,
+                                text: translations.before_due_date
                             },
                             {
-                                value: 'after_due_date',
-                                text: 'After Due Date'
+                                value: consts.reminder_schedule_after_due_date,
+                                text: translations.after_due_date
                             }
                         ],
                         value: settings.schedule_reminder2
@@ -599,15 +600,15 @@ class EmailFields extends Component {
                         type: 'select',
                         options: [
                             {
-                                value: 'after_invoice_date',
+                                value: consts.reminder_schedule_after_invoice_date,
                                 text: translations.after_invoice_date
                             },
                             {
-                                value: 'before_due_date',
+                                value: consts.reminder_schedule_before_due_date,
                                 text: translations.before_due_date
                             },
                             {
-                                value: 'after_due_date',
+                                value: consts.reminder_schedule_after_due_date,
                                 text: translations.after_due_date
                             }
                         ],

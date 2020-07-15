@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import TokenModel from '../models/TokenModel'
 
 export default class AddToken extends React.Component {

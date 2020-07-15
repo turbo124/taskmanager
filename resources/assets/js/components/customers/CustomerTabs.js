@@ -11,7 +11,7 @@ import Contact from '../common/Contact'
 import NotesForm from './NotesForm'
 import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 import CustomerModel from '../models/CustomerModel'
 

@@ -9,7 +9,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import DeleteModal from '../common/DeleteModal'
 import RestoreModal from '../common/RestoreModal'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 const Label2 = styled.span`
   display: flex;

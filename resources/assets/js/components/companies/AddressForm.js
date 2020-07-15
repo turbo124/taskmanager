@@ -8,7 +8,7 @@ import {
     CardHeader
 } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class AddressForm extends React.Component {
     constructor (props) {

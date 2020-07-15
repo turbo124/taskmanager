@@ -10,7 +10,7 @@ import {
 import CompanyDropdown from '../common/CompanyDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
 
 export default class DetailsForm extends React.Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Input } from 'reactstrap'
-import { translations } from './_icons'
+import { translations } from './_translations'
 import { consts } from './_consts'
 
 export default class CasePriorityDropdown extends Component {

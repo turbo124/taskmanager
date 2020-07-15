@@ -14,7 +14,7 @@ import {
 
 import axios from 'axios'
 import Select from 'react-select'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class AddRole extends React.Component {
     constructor (props) {

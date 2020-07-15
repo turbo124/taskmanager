@@ -2,7 +2,7 @@ import React from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
 import TaxRateDropdown from '../common/TaxRateDropdown'
 import DesignDropdown from '../common/DesignDropdown'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 export default function InvoiceSettings (props) {
     console.log('settings', props.settings)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, DropdownItem } from 'reactstrap'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Details from './Details'
 import CaseModel from '../models/CaseModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'

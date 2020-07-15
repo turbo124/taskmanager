@@ -11,7 +11,7 @@ import {
     TabPane,
     TabContent
 } from 'reactstrap'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 export default class NoteTabs extends Component {
     constructor (props) {

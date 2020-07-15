@@ -13,7 +13,8 @@ import Contact from './Contact'
 import Address from './Address'
 import Details from './Details'
 import Notes from '../common/Notes'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class AddLeadForm extends React.Component {
     constructor (props) {

@@ -5,7 +5,7 @@ import DateTime from 'react-datetime'
 import EventTypeDropdown from '../common/EventTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class CreateEvent extends React.Component {
     constructor (props) {

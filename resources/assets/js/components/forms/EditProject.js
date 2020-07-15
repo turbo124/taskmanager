@@ -9,7 +9,8 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import UserDropdown from '../common/UserDropdown'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import ProjectModel from '../models/ProjectModel'
 
 class EditProject extends React.Component {

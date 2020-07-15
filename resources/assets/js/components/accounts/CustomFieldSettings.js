@@ -13,7 +13,7 @@ import {
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class CustomFieldSettings extends Component {
     constructor (props) {

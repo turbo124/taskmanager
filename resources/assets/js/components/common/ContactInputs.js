@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 const ContactInputs = (props) => {
     return (

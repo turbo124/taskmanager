@@ -1,6 +1,6 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function ProductPresenter (props) {
     const { field, entity } = props

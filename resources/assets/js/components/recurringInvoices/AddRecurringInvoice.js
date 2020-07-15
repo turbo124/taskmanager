@@ -5,7 +5,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import AddButtons from '../common/AddButtons'
 import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import RecurringInvoiceModel from '../models/RecurringInvoiceModel'
 import Details from './Details'
 

@@ -9,7 +9,7 @@ import {
 } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
 import DropdownDate from '../common/DropdownDate'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {

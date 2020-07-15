@@ -19,7 +19,7 @@ import {
 import CreditPresenter from '../presenters/CreditPresenter'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import CreditModel from '../models/CreditModel'
 import LineItem from '../common/entityContainers/LineItem'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'

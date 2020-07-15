@@ -3,7 +3,7 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardBody, CardHeader } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class IntegrationSettings extends Component {
     constructor (props) {

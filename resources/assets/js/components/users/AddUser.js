@@ -21,7 +21,7 @@ import Notifications from '../common/Notifications'
 import DetailsForm from './DetailsForm'
 import PermissionsForm from './PermissionsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class AddUser extends React.Component {
     constructor (props) {

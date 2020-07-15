@@ -8,7 +8,8 @@ import {
     DropdownItem
 } from 'reactstrap'
 import axios from 'axios'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Details from './Details'
 
 class EditBrand extends React.Component {

@@ -18,7 +18,7 @@ import {
 import InvoicePresenter from '../presenters/InvoicePresenter'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import OrderModel from '../models/OrderModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'

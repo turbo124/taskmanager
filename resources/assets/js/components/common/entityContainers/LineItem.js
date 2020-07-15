@@ -1,5 +1,5 @@
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap'
-import { translations } from '../_icons'
+import { translations } from '../_translations'
 import React from 'react'
 import FormatMoney from '../FormatMoney'
 

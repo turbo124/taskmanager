@@ -7,7 +7,7 @@ import {
     ModalFooter
 } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Details from './Details'
 import TaxRateModel from '../models/TaxRateModel'
 

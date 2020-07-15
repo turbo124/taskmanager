@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Select from 'react-select'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 export default class CompanyDropdown extends Component {
     constructor (props) {

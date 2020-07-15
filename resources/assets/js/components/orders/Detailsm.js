@@ -8,7 +8,7 @@ import {
 } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import CustomerDropdown from '../common/CustomerDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Detailsm extends React.Component {
     constructor (props) {

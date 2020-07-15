@@ -1,7 +1,7 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
 import { consts } from '../common/_consts'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function CasePresenter (props) {

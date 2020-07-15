@@ -34,7 +34,11 @@ class AutoBill
 
     private function build()
     {
-        $amount = $this->invoice->partial ? $this->invoice->partial : $this->invoice->balance;
+        if ($this->invoice->status_id === Invoice::STATUS_DRAFT) {
+            $this->invoice_repo->markSent($this->invoice);
+        }
+
+        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
         $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
         return $gateway_obj->build($amount, $this->invoice);
     }

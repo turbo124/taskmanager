@@ -22,7 +22,8 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import TaskModel from '../models/TaskModel'
 import TaskDetails from './TaskDetails'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class EditTask extends Component {
     constructor (props) {

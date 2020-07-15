@@ -94,18 +94,55 @@ class Stripe extends BasePaymentGateway
 
         $invoice_label = $invoice !== null ? "Invoice: {$invoice->getNumber()}" : '';
 
-        $response = $this->stripe->charges->create(
-            [
-                'customer'    => $this->getStripeCustomer(),
-                'amount'      => $this->convertToStripeAmount($amount, $currency->precision),
-                'currency'    => $currency->code,
-                'source'      => $credit_card['id'],
-                'description' => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
-            ]
-        );
+        //https://stripe.com/docs/api/errors/handling
 
-        if($invoice !== null) {
-            return $this->completePayment($amount, $invoice, $response['id']);
+        try {
+            $response = $this->stripe->paymentIntents->create(
+                [
+                    'payment_method' => $this->customer_gateway->token,
+                    'customer'       => $this->customer_gateway->gateway_customer_reference,
+                    'confirm'        => true,
+                    'amount'         => $this->convertToStripeAmount($amount, $currency->precision),
+                    'currency'       => $currency->code,
+                    'description'    => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
+                ]
+            );
+        } catch (\Stripe\Exception\CardException $e) {
+            // Since it's a decline, \Stripe\Exception\CardException will be caught
+            echo 'Status is:' . $e->getHttpStatus() . '\n';
+            echo 'Type is:' . $e->getError()->type . '\n';
+            echo 'Code is:' . $e->getError()->code . '\n';
+            // param is '' in this case
+            echo 'Param is:' . $e->getError()->param . '\n';
+            echo 'Message is:' . $e->getError()->message . '\n';
+            return false;
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            // Too many requests made to the API too quickly
+            return false;
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            // Invalid parameters were supplied to Stripe's API
+            return false;
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            return false;
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            // Network communication with Stripe failed
+            return false;
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            return false;
+        } catch (\Exception $e) {
+            // Something else happened, completely unrelated to Stripe
+            return false;
+        }
+
+        $brand = $response->charges->data[0]->payment_method_details->card->brand;
+        $payment_method = !empty($this->card_types[$brand]) ? $this->card_types[$brand] : 12;
+
+        if ($invoice !== null) {
+            return $this->completePayment($amount, $invoice, $response->charges->data[0]->id, $payment_method);
         }
 
         return true;

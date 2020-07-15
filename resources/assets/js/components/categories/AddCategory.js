@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Details from './Details'
 
 class AddCategory extends React.Component {

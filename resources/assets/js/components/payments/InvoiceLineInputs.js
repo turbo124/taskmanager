@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
 import InvoiceDropdown from '../common/InvoiceDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 const InvoiceLineInputs = (props) => {
     return (

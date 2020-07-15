@@ -5,7 +5,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import UserDropdown from '../common/UserDropdown'
 import AddButtons from '../common/AddButtons'
 import moment from 'moment'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import ProjectModel from '../models/ProjectModel'
 
 class AddStory extends React.Component {

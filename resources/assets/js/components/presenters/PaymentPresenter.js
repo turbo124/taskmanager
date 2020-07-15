@@ -3,7 +3,7 @@ import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function PaymentPresenter (props) {
     const colors = {

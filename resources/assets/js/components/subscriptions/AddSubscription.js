@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import SubscriptionModel from '../models/SubscriptionModel'
 import Details from './Details'
 

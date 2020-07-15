@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class AddPaymentTerm extends React.Component {
     constructor (props) {

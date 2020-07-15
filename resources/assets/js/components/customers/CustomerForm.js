@@ -3,7 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap'
 import {
     Card, CardBody, CardHeader
 } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function CustomerForm (props) {
     const hasErrorFor = (field) => {

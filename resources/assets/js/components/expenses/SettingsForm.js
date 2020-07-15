@@ -13,7 +13,7 @@ import {
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import Datepicker from '../common/Datepicker'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {

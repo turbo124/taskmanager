@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Address extends React.Component {
     constructor (props) {

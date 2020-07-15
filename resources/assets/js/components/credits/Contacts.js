@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Label, Input, Card, CardBody, CardHeader } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import CustomerDropdown from '../common/CustomerDropdown'
 
 export default function Contacts (props) {

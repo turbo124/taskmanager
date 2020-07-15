@@ -12,7 +12,7 @@ import {
     InputGroup
 } from 'reactstrap'
 import axios from 'axios'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class EditRole extends React.Component {
     constructor (props) {

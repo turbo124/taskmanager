@@ -25,7 +25,8 @@ import DetailsForm from './DetailsForm'
 import PermissionsForm from './PermissionsForm'
 import UserDropdownMenu from './UserDropdownMenu'
 import CustomFieldsForm from '../common/CustomFieldsForm'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class EditUser extends React.Component {
     constructor (props) {

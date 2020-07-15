@@ -466,7 +466,6 @@ class InvoiceTest extends TestCase
         $original_invoice->save();
 
         // auto bill
-        $invoiceRepo->markSent($original_invoice);
         $payment = $original_invoice->service()->autoBill($invoiceRepo);
         $invoice = $payment->invoices->first();
 

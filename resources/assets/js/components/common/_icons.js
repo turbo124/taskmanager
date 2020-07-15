@@ -1,5 +1,4 @@
 import React from 'react'
-import { gb_translations } from '../translations/translations_gb'
 
 export const icons = {
     refresh: 'fa-gear',
@@ -44,12 +43,4 @@ export const icons = {
     calendar: 'fa-calendar',
     percent: 'fa-percent',
     spinner: 'fa-circle-o-notch fa-spin'
-}
-
-export const default_language = 'gb'
-export let translations = null
-switch (default_language) {
-    case 'gb':
-        translations = gb_translations
-        break
 }

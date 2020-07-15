@@ -9,7 +9,7 @@ import {
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class EmailEditorForm extends Component {
     constructor (props) {

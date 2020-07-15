@@ -7,7 +7,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
 
 export default class QuoteFilters extends Component {

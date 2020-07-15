@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
     ListGroup, Row
 } from 'reactstrap'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'
 
 export default class Subscription extends Component {
