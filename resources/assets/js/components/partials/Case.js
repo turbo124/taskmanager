@@ -15,7 +15,7 @@ import {
     Col, CardHeader
 } from 'reactstrap'
 import FormatDate from '../common/FormatDate'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'

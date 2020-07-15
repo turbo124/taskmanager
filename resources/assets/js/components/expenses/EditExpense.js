@@ -20,7 +20,8 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 
 class EditExpense extends React.Component {

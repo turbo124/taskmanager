@@ -4,7 +4,7 @@ import {
     ListGroup
 } from 'reactstrap'
 import { icons } from '../common/_icons'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import InfoItem from '../common/entityContainers/InfoItem'
 import FormatDate from '../common/FormatDate'

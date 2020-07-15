@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 export default class CustomerDropdown extends Component {
     constructor (props) {

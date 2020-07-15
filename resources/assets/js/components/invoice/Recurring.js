@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
 import AddRecurringInvoice from '../recurringInvoices/AddRecurringInvoice'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Recurring extends Component {
     constructor (props, context) {

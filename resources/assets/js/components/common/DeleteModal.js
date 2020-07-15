@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem } from 'reactstrap'
-import { icons, translations } from './_icons'
+import { icons } from './_icons'
+import { translations } from './_translations'
 
 export default class DeleteModal extends Component {
     constructor (props) {

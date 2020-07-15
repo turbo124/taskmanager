@@ -5,7 +5,8 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
+import { consts } from "../common/_consts";
 
 class EmailSettings extends Component {
     constructor (props) {
@@ -95,19 +96,19 @@ class EmailSettings extends Component {
                     value: settings.email_style,
                     options: [
                         {
-                            value: 'plain',
+                            value: consts.email_design_plain,
                             text: translations.plain
                         },
                         {
-                            value: 'light',
+                            value: consts.email_design_light,
                             text: translations.light
                         },
                         {
-                            value: 'dark',
+                            value: consts.email_design_dark,
                             text: translations.dark
                         },
                         {
-                            value: 'custom',
+                            value: consts.email_design_custom,
                             text: translations.custom
                         }
                     ]

@@ -15,7 +15,7 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import TaskModel from '../models/TaskModel'
 import TaskDetails from './TaskDetails'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class AddModal extends React.Component {
     constructor (props) {

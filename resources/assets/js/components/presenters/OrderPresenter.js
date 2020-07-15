@@ -4,7 +4,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
 import OrderModel from '../models/OrderModel'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function OrderPresenter (props) {
     const colors = {

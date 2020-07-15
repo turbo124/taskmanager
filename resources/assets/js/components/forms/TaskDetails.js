@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import CustomerDropdown from '../common/CustomerDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class TaskDetails extends React.Component {
     constructor (props) {

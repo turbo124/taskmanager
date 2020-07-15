@@ -13,7 +13,7 @@ import {
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class EditTaskTimes extends Component {
     constructor (props, context) {

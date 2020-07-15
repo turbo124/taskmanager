@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
-import { translations } from './_icons'
+import { translations } from './_translations'
 
 export default function Notes (props) {
     return (

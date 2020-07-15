@@ -9,7 +9,7 @@ import {
     CardBody,
     CardHeader
 } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class ImageForm extends React.Component {
     constructor (props) {

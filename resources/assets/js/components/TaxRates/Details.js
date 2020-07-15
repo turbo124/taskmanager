@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
     Input, FormGroup, Label
 } from 'reactstrap'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import DecoratedFormField from '../common/DecoratedFormField'
 
 export default class Details extends Component {

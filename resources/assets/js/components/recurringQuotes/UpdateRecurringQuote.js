@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, DropdownItem } from 'reactstrap'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Details from './Details'
 import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'

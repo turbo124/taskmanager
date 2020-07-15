@@ -14,7 +14,8 @@ import Address from './Address'
 import Details from './Details'
 import Notes from '../common/Notes'
 import Emails from '../emails/Emails'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class EditLeadForm extends React.Component {
     constructor (props) {

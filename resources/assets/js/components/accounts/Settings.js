@@ -16,7 +16,7 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class Settings extends Component {
     constructor (props) {

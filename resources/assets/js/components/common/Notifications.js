@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { CustomInput, Label } from 'reactstrap'
+import { consts } from './_consts'
+import { translations } from './_translations'
 
 export default class Notifications extends Component {
     constructor (props) {
@@ -10,86 +12,86 @@ export default class Notifications extends Component {
             notifications: [
                 {
                     id: 1,
-                    value: 'payment_success',
-                    label: 'Payment Successful',
+                    value: consts.notification_payment_success,
+                    label: translations.payment_successful,
                     isChecked: false
                 },
                 {
                     id: 1,
-                    value: 'lead_success',
-                    label: 'New Lead Created',
+                    value: consts.notification_lead_success,
+                    label: translations.new_lead_created,
                     isChecked: false
                 },
                 {
                     id: 1,
-                    value: 'deal_success',
-                    label: 'New Deal Created',
+                    value: consts.notification_deal_success,
+                    label: translations.new_deal_created,
                     isChecked: false
                 },
                 {
                     id: 2,
-                    value: 'payment_failure',
-                    label: 'Payment Failure',
+                    value: consts.notification_payment_failure,
+                    label: translations.payment_failure,
                     isChecked: false
                 },
                 {
                     id: 3,
-                    value: 'invoice_sent',
-                    label: 'Invoice Sent',
+                    value: consts.notification_invoice_sent,
+                    label: translations.invoice_sent,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'credit_sent',
-                    label: 'Credit Sent',
+                    value: consts.notification_credit_sent,
+                    label: translations.credit_sent,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'quote_sent',
-                    label: 'Quote Sent',
+                    value: consts.notification_quote_sent,
+                    label: translations.quote_sent,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'invoice_viewed',
-                    label: 'Invoice Viewed',
+                    value: consts.notification_invoice_viewed,
+                    label: translations.invoice_viewed,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'quote_viewed',
-                    label: 'Quote Viewed',
+                    value: consts.notification_quote_viewed,
+                    label: translations.quote_viewed,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'credit_viewed',
-                    label: 'Credit Viewed',
+                    value: consts.notification_credit_viewed,
+                    label: translations.credit_viewed,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'quote_approved',
-                    label: 'Quote Approved',
+                    value: consts.notification_quote_approved,
+                    label: translations.quote_approved,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'order_created',
-                    label: 'Order Created',
+                    value: consts.notification_order_created,
+                    label: translations.order_created,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'order_backordered',
-                    label: 'Order Backorder',
+                    value: consts.notification_order_backordered,
+                    label: translations.order_backordered,
                     isChecked: false
                 },
                 {
                     id: 4,
-                    value: 'order_held',
-                    label: 'Order Held',
+                    value: consts.notification_order_held,
+                    label: translations.held,
                     isChecked: false
                 }
             ]

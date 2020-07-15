@@ -19,7 +19,7 @@ import {
 import QuotePresenter from '../presenters/QuotePresenter'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import QuoteModel from '../models/QuoteModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'

@@ -1,4 +1,5 @@
-export const gb_translations = {
+const _localizedValues = []
+_localizedValues.gb = {
     copy: 'Copy',
     gateway_fee: 'Gateway Fee',
     is_percentage: 'Is Percentage',
@@ -226,6 +227,9 @@ export const gb_translations = {
     none: 'None',
     owned: 'Owned',
     payment_success: 'Payment Success',
+    payment_successful: 'Payment Successful',
+    new_lead_created: 'New Lead Created',
+    new_deal_created: 'New Deal Created',
     payment_failure: 'Payment Failure',
     invoice_sent: 'Invoice Sent',
     quote_sent: 'Quote Sent',
@@ -405,9 +409,13 @@ export const gb_translations = {
     modern: 'Modern',
     leads: 'Leads',
     deals: 'Deals',
+    recurring_quotes: 'Recurring Quotes',
     recurring_invoices: 'Recurring Invoices',
     recurring_expenses: 'Recurring Expenses',
     recurring_tasks: 'Recurring Tasks',
     cases: 'Cases',
     events: 'Events'
 }
+
+export const default_language = 'gb'
+export const translations = _localizedValues[default_language]

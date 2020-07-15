@@ -3,7 +3,7 @@ import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
 import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import Datepicker from '../common/Datepicker'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Detailsm extends Component {
     constructor (props, context) {

@@ -6,7 +6,8 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import Details from './Details'
 import PaymentModel from '../models/PaymentModel'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Documents from './Documents'
 
 class AddPayment extends React.Component {

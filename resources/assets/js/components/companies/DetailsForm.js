@@ -9,7 +9,7 @@ import {
     CardHeader
 } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {

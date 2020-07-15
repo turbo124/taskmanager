@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
     ListGroup, Row
 } from 'reactstrap'
-import { icons, translations } from '../common/_icons'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../common/entityContainers/SectionItem'
 

@@ -18,7 +18,7 @@ import {
 
 } from 'reactstrap'
 import { toast } from 'react-toastify'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 class ModuleSettings extends Component {
     constructor (props) {
@@ -57,7 +57,7 @@ class ModuleSettings extends Component {
                 {
                     id: 'recurringQuotes',
                     value: 1,
-                    label: 'Recurring Quotes',
+                    label: translations.recurring_quotes,
                     isChecked: false
                 },
                 {

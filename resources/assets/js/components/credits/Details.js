@@ -8,7 +8,7 @@ import {
     CardHeader
 } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Details extends React.Component {
     constructor (props) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import Datepicker from '../common/Datepicker'
 
 export default function Details (props) {

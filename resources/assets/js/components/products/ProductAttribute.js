@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, FormGroup, Label, Row, Col } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
 
 class ProductAttribute extends React.Component {

@@ -9,7 +9,7 @@ import {
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import IndustryDropdown from '../common/IndustryDropdown'
 import UserDropdown from '../common/UserDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {

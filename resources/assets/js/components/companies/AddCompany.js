@@ -21,7 +21,7 @@ import AddressForm from './AddressForm'
 import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 import CompanyModel from '../models/CompanyModel'
 
 class AddCompany extends React.Component {

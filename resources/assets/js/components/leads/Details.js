@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label, CardHeader, Card, CardBody } from 'reactstrap'
 import UserDropdown from '../common/UserDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default class Details extends React.Component {
     constructor (props) {

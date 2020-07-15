@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardHeader, CardBody } from 'reactstrap'
 import FileUploads from '../attachments/FileUploads'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function Documents (props) {
     return (

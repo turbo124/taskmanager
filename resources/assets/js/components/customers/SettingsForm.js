@@ -6,7 +6,7 @@ import CurrencyDropdown from '../common/CurrencyDropdown'
 import UserDropdown from '../common/UserDropdown'
 import GroupSettingsDropdown from '../common/GroupSettingsDropdown'
 import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function SettingsForm (props) {
     const hasErrorFor = (field) => {

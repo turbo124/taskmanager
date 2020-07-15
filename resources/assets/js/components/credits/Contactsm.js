@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
-import { translations } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function Contactsm (props) {
     const send_to = props.contacts.length ? props.contacts.map((contact, index) => {
