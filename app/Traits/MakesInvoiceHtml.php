@@ -37,7 +37,7 @@ trait MakesInvoiceHtml
         $settings = $entity->account->settings;
         $signature = !empty($settings->email_signature) && $entity->customer->getSetting(
             'show_signature_on_pdf'
-        ) === true ? '<span style="margin-bottom: 20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
+        ) === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
         $client_signature = $this->getClientSignature($entity, $contact);
 

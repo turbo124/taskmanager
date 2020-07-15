@@ -472,9 +472,7 @@ class PdfBuilder
 
     public function setShippingCost(Customer $customer, $shipping): self
     {
-        if (empty($shipping)) {
-            return $this;
-        }
+        $shipping = empty($shipping) ? 0 : $shipping;
 
         $this->data['$shipping_cost'] = [
             'value' => $this->formatCurrency($shipping, $customer) ?: '&nbsp;',
