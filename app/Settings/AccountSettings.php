@@ -6,6 +6,33 @@ use App\Account;
 
 class AccountSettings extends BaseSettings
 {
+    private $settings = [
+        'currency_id'                     => [
+            'required'         => true,
+            'translated_value' => '',
+            'default_value'    => 2,
+            'type'             => 'string'
+        ],
+        'address1'                        => [
+            'required'         => true,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'city'                            => [
+            'required'         => true,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email'                           => [
+            'required'         => true,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+    ];
+
     public function __construct()
     {
         $this->account_settings['pdf_variables']['default_value'] = $this->getPdfVariables();
