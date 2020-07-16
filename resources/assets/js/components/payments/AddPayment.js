@@ -24,6 +24,7 @@ class AddPayment extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.handleCustomerChange = this.handleCustomerChange.bind(this)
         this.setInvoices = this.setInvoices.bind(this)
+        this.setCredits = this.setCredits.bind(this)
         this.handleCheck = this.handleCheck.bind(this)
         this.setAmount = this.setAmount.bind(this)
     }
@@ -54,6 +55,10 @@ class AddPayment extends React.Component {
         this.setState({ payable_invoices: payableInvoices }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
     }
 
+    setCredits (payableCredits) {
+        this.setState({ payable_credits: payableCredits }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
+    }
+
     handleCustomerChange (customerId) {
         this.setState({ customer_id: customerId }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
     }
@@ -78,6 +83,7 @@ class AddPayment extends React.Component {
             date: this.state.date,
             type_id: this.state.type_id,
             invoices: this.state.payable_invoices,
+            credits: this.state.payable_credits,
             customer_id: this.state.customer_id,
             amount: this.state.amount,
             send_email: this.state.send_email,
@@ -133,8 +139,10 @@ class AddPayment extends React.Component {
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
                         <InvoiceLine status={2} handleAmountChange={this.setAmount} errors={this.state.errors}
-                            invoices={this.props.invoices}
-                            customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
+                            invoices={this.props.invoices} credits={this.props.credits}
+                            customerChange={this.handleCustomerChange} 
+                            onChange={this.setInvoices}
+                            onCreditChange={this.setCredits}/>
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
