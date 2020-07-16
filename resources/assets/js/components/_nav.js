@@ -1,4 +1,4 @@
-import { icons } from './common/_icons'
+import { getSettingsIcon, icons } from './common/_icons'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -19,98 +19,98 @@ const items = [
             {
                 name: 'Company Details',
                 url: '/accounts',
-                icon: 'fa fa-building'
+                icon: `fa ${getSettingsIcon('accounts')}`
             },
             {
                 name: 'Payment Terms',
                 url: '/payment_terms',
-                icon: 'fa fa-building'
+                icon: `fa ${getSettingsIcon('payment_terms')}`
             },
             {
                 name: 'Templates and Reminders',
                 url: '/template-settings',
-                icon: 'fa fa-exclamation-triangle'
+                icon: `fa ${getSettingsIcon('template-settings')}`
             },
             {
                 name: 'Email Settings',
                 url: '/email-settings',
-                icon: 'fa fa-envelope'
+                icon: `fa ${getSettingsIcon('email-settings')}`
             },
             {
                 name: 'Online Payments',
                 url: '/gateway-settings',
-                icon: 'fa fa-credit-card-alt'
+                icon: `fa ${getSettingsIcon('gateway-settings')}`
             },
             {
                 name: 'Invoice and Quotes',
                 url: '/invoice-settings',
-                icon: 'fa fa-user'
+                icon: `fa ${getSettingsIcon('invoice-settings')}`
             },
             {
                 name: 'Products',
                 url: '/product-settings',
-                icon: 'fa fa-barcode'
+                icon: `fa ${getSettingsIcon('product-settings')}`
             },
             {
                 name: 'Generated Numbers',
                 url: '/number-settings',
-                icon: 'fa fa-list'
+                icon: `fa ${getSettingsIcon('number-settings')}`
             },
             {
                 name: 'Groups',
                 url: '/group-settings',
-                icon: 'fa fa-group'
+                icon: `fa ${getSettingsIcon('group-settings')}`
             },
             {
                 name: 'Tax Rates',
                 url: '/tax-rates',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('tax-rates')}`
             },
             {
                 name: 'Field Settings',
                 url: '/field-settings',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('field-settings')}`
             },
             {
                 name: 'Customer Portal Settings',
                 url: '/portal-settings',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('portal-settings')}`
             },
             {
                 name: 'Designs',
                 url: '/designs',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('designs')}`
             },
             {
                 name: 'Integrations',
                 url: '/integrations',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('integrations')}`
             },
             {
                 name: 'Account Management',
                 url: '/modules',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('modules')}`
             },
             {
                 name: 'Localisation',
                 url: '/localisation',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('localisation')}`
             },
             {
                 name: 'Workflow Settings',
                 url: '/workflow-settings',
-                icon: 'fa fa-dashboard'
-            },
-            {
-                name: 'Subscriptions',
-                url: '/subscriptions',
-                icon: 'fa fa-dashboard'
-            },
-            {
-                name: 'Tokens',
-                url: '/tokens',
-                icon: 'fa fa-dashboard'
+                icon: `fa ${getSettingsIcon('workflow-settings')}`
             }
+            // {
+            //     name: 'Subscriptions',
+            //     url: '/subscriptions',
+            //     icon: 'fa fa-dashboard'
+            // },
+            // {
+            //     name: 'Tokens',
+            //     url: '/tokens',
+            //     icon: 'fa fa-dashboard'
+            // }
         ]
     }
 ]

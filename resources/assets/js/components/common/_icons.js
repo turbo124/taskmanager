@@ -42,5 +42,88 @@ export const icons = {
     order: 'fa-shopping-cart',
     calendar: 'fa-calendar',
     percent: 'fa-percent',
-    spinner: 'fa-circle-o-notch fa-spin'
+    spinner: 'fa-circle-o-notch fa-spin',
+    token: 'fa-key',
+    pencil: 'fa-pencil',
+    google: 'fa-google',
+    shield: 'fa-shield',
+    globe: 'fa-globe',
+    double_right: 'fa-angle-double-right',
+    cloud: 'fa-cloud',
+    header: 'fa-header',
+    group: 'fa-group',
+    pound_sign: 'fa-gbp',
+    payment_terms: 'fa-handshake-o',
+    pdf: 'fa-file-pdf-o',
+    text_file: 'fa-file-text',
+    word_file: 'fa-file-word-o',
+    excel_file: 'fa-file-excel-o',
+    powerpoint_file: 'fa-file-powerpoint-o',
+    image_file: 'fa-file-image-o'
+}
+
+export function getFileTypeIcon (type) {
+    switch (type) {
+        case 'pdf':
+            return icons.document
+        case 'psd':
+            return icons.pdf
+        case 'txt':
+            return icons.text_file
+        case 'doc':
+        case 'docx':
+            return icons.word_file
+        case 'xls':
+        case 'xlsx':
+            return icons.excel_file
+        case 'ppt':
+        case 'pptt':
+            return icons.powerpoint_file
+        case 'png':
+        case 'gif':
+        case 'jpg':
+        case 'jpeg':
+            return icons.image_file
+        default:
+            return null
+    }
+}
+
+export function getSettingsIcon (section) {
+    switch (section) {
+        case 'designs':
+            return icons.pencil
+        case 'integrations':
+            return icons.google
+        case 'modules':
+            return icons.shield
+        case 'localisation':
+            return icons.globe
+        case 'workflow-settings':
+            return icons.double_right
+        case 'portal-settings':
+            return icons.cloud
+        case 'field-settings':
+            return icons.header
+        case 'tax-rates':
+            return icons.percent
+        case 'group-settings':
+            return icons.group
+        case 'number-settings':
+            return icons.list
+        case 'product-settings':
+            return icons.product
+        case 'invoice-settings':
+            return icons.pound_sign
+        case 'gateway-settings':
+            return icons.credit_card
+        case 'email-settings':
+            return icons.envelope
+        case 'template-settings':
+            return icons.document
+        case 'payment_terms':
+            return icons.payment_terms
+        case 'accounts':
+            return icons.building
+    }
 }

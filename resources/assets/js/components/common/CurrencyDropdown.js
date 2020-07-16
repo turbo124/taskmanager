@@ -14,11 +14,7 @@ export default class CurrencyDropdown extends Component {
     }
 
     componentDidMount () {
-        if (!this.props.currencies || !this.props.currencies.length) {
-            this.getCurrencies()
-        } else {
-            this.setState({ currencies: this.props.currencies })
-        }
+        this.getCurrencies()
     }
 
     renderErrorFor (field) {
@@ -64,7 +60,7 @@ export default class CurrencyDropdown extends Component {
     }
 
     render () {
-        const currency = this.props.currency_id ? this.state.currencies.filter(option => option.id === this.props.currency_id) : null
+        const currency = this.props.currency_id ? this.state.currencies.filter(option => option.id === parseInt(this.props.currency_id)) : null
         const name = this.props.name ? this.props.name : 'currency_id'
         return (
             <React.Fragment>

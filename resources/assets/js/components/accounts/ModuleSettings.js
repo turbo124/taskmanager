@@ -19,6 +19,8 @@ import {
 } from 'reactstrap'
 import { toast } from 'react-toastify'
 import { translations } from '../common/_translations'
+import BlockButton from '../common/BlockButton'
+import { icons } from '../common/_icons'
 
 class ModuleSettings extends Component {
     constructor (props) {
@@ -233,9 +235,17 @@ class ModuleSettings extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
-                            <CardHeader>Account Management</CardHeader>
+                            <CardHeader>{translations.account_management}</CardHeader>
                             <CardBody>
-                                <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg" block>{translations.delete_company}</Button>
+                                <BlockButton icon={icons.link} button_text={translations.configure_webhooks}
+                                    button_link="/#/subscriptions"/>
+                                <BlockButton icon={icons.token} button_text={translations.configure_tokens}
+                                    button_link="/#/tokens"/>
+
+                                <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"
+                                    block>
+                                    <i style={{ marginRight: '14px', fontSize: '24px' }}
+                                        className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -246,7 +256,8 @@ class ModuleSettings extends Component {
                             <CardBody>
                                 <Form>
                                     <FormGroup>
-                                        <Label for="exampleCheckbox">Switches <input type="checkbox" onClick={this.handleAllChecked}/>Check
+                                        <Label for="exampleCheckbox">Switches <input type="checkbox"
+                                            onClick={this.handleAllChecked}/>Check
                                             all </Label>
                                         {this.state.moduleTypes.map((module, index) => {
                                             const isChecked = this.state.modules[module.id]
@@ -272,7 +283,8 @@ class ModuleSettings extends Component {
                     </TabPane>
                 </TabContent>
 
-                <Modal isOpen={this.state.showConfirm} fade="false" toggle={() => this.setState({ showConfirm: false })}>
+                <Modal isOpen={this.state.showConfirm} fade="false"
+                    toggle={() => this.setState({ showConfirm: false })}>
                     <ModalHeader toggle={() => this.setState({ showConfirm: false })}>Are you sure?</ModalHeader>
                     <ModalBody>
                         {translations.delete_company_message}
