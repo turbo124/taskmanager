@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
+import { translations } from "../common/_translations";
 
 class AddGroupSetting extends React.Component {
     constructor (props) {
@@ -90,9 +91,9 @@ class AddGroupSetting extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label for="name">Name <span className="text-danger">*</span></Label>
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                id="name" value={this.state.name} placeholder="Name"
+                                id="name" value={this.state.name} placeholder={translations.name}
                                 onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>

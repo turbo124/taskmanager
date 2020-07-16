@@ -245,10 +245,13 @@ _localizedValues.gb = {
     receive_all_notifications: 'Receive All Notifications',
     remove: 'Remove',
     account: 'Account',
+    configure_webhooks: 'Configure Webhooks',
+    configure_tokens: 'Configure Tokens',
+    account_management: 'Account Management',
     cancel_account: 'Delete Account',
     cancel_account_message:
         'Warning: This will permanently delete your account, there is no undo.',
-    delete_company: 'Delete Company',
+    delete_account: 'Delete Account',
     delete_company_message:
         'Warning: This will permanently delete your company, there is no undo.',
     enable_modules: 'Enable Modules',
@@ -372,6 +375,7 @@ _localizedValues.gb = {
     payment_terms: 'Payment Terms',
     invoice_terms: 'Invoice Terms',
     quote_terms: 'Quote Terms',
+    invoice_footer: 'Invoice Footer',
     quote_footer: 'Quote Footer',
     credit_terms: 'Credit Terms',
     credit_footer: 'Credit Footer',

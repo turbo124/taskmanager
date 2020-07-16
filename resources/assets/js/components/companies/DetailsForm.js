@@ -50,7 +50,7 @@ export default class DetailsForm extends React.Component {
         /> : null
 
         return (<Card>
-            <CardHeader>Details</CardHeader>
+            <CardHeader>{translations.details}</CardHeader>
             <CardBody>
                 <FormGroup>
                     <Label for="name">{translations.name}(*):</Label>

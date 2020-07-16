@@ -65,7 +65,7 @@ export default class CountryDropdown extends Component {
     }
 
     render () {
-        const country = this.props.country ? this.state.countries.filter(option => option.id === this.props.country) : null
+        const country = this.props.country ? this.state.countries.filter(option => option.id === parseInt(this.props.country)) : null
 
         return (
             <FormGroup className="ml-2">
