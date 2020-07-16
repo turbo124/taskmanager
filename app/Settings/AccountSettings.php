@@ -65,7 +65,7 @@ class AccountSettings extends BaseSettings
     public function save(Account $account, $settings, $full_validation = false): Account
     {
         try {
-            $settings = $this->validate($settings, $this->account_settings);
+            $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
 
             if (!$settings && $full_validation === true) {
                 echo '<pre>';
