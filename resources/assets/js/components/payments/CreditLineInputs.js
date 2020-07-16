@@ -15,7 +15,7 @@ const CreditLineInputs = (props) => {
                                 <CreditDropdown
                                     credits={props.credits}
                                     data_id={idx}
-                                    invoice_id={props.lines[idx].credit_id}
+                                    credit_id={props.lines[idx].credit_id}
                                     status={props.status}
                                     handleInputChanges={props.onChange}
                                     name="credit_id"
@@ -27,7 +27,7 @@ const CreditLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
-                                    data-invoice={props.credits.length === 1 ? props.credits[0].id : null}
+                                    data-credit={props.credits.length === 1 ? props.credits[0].id : null}
                                     data-id={idx}
                                     onChange={props.onChange}
                                     value={props.lines[idx].amount}
@@ -40,10 +40,10 @@ const CreditLineInputs = (props) => {
 
                     {props.credits.length > 1 &&
                         <React.Fragment>
-                            <Button color="danger" onClick={() => props.removeCredit(idx)}>
+                            <Button color="danger" onClick={() => props.removeLine(idx)}>
                                 {translations.remove}
                             </Button>
-                            <Button color="primary" onClick={() => props.addCredit(idx)}>
+                            <Button color="primary" onClick={() => props.addLine(idx)}>
                                 {translations.add}
                             </Button>
                         </React.Fragment>
