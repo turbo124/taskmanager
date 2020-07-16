@@ -10,20 +10,26 @@ export default class InvoiceLine extends Component {
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
+            credits: this.props.credits && this.props.credits.length ? this.props.credits : [{ credit_id: null, amount: 0 }],
             amount: 0,
             customer_id: null
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.addLine = this.addLine.bind(this)
+        this.addCredit = this.addCredit.bind(this)
         this.removeLine = this.removeLine.bind(this)
+        this.removeCredit = this.removeCredit.bind(this)
     }
 
     handleChange (e) {
         const name = e.target.name
         const idx = e.target.dataset.id
+        let is_credit = false
+        let is_invoice = false 
 
         const lines = [...this.state.lines]
+        const credits = [...this.state.credits]
 
         let amount = 0
         let manual_update = false
@@ -31,6 +37,7 @@ export default class InvoiceLine extends Component {
         if (name === 'invoice_id' || (e.target.dataset.invoice && e.target.dataset.invoice.length)) {
             const invoice_id = e.target.dataset.invoice && e.target.dataset.invoice.length ? e.target.dataset.invoice : e.target.value
             const invoice = this.paymentModel.getInvoice(invoice_id)
+            is_invoice = true
 
             if (!invoice) {
                 return
@@ -63,6 +70,7 @@ export default class InvoiceLine extends Component {
         if (name === 'credit_id' || (e.target.dataset.credit && e.target.dataset.credit.length)) {
             const credit_id = e.target.dataset.credit && e.target.dataset.credit.length ? e.target.dataset.credit : e.target.value
             const credit = this.paymentModel.getCredit(credit_id)
+            is_credit = true
 
             if (!credit) {
                 return
@@ -82,8 +90,8 @@ export default class InvoiceLine extends Component {
             }
 
             this.props.customerChange(credit.customer_id)
-            lines[idx].amount = parseFloat(credit_total)
-            lines[idx].credit_id = credit_id
+            credits[idx].amount = parseFloat(credit_total)
+            credits[idx].credit_id = credit_id
 
             if (this.props.allCredits && this.props.allCredits.length === 1) {
                 amount = credit_total
@@ -93,11 +101,18 @@ export default class InvoiceLine extends Component {
         }
 
         if (!manual_update) {
-            lines[e.target.dataset.id][e.target.name] = e.target.value
+            credits[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ lines }, () => {
-            this.props.onChange(this.state.lines)
+        this.setState({ lines: lines, credits: credits  }, () => {
+            
+            if(is_invoice === true) {
+                this.props.onChange(this.state.lines)
+            }
+
+            if(is_credit === true) {
+                this.props.onCreditChange(this.state.credits)
+            }
 
             if (amount > 0) {
                 this.props.handleAmountChange(amount)
@@ -107,15 +122,26 @@ export default class InvoiceLine extends Component {
 
     addLine (e) {
         const allowedInvoices = this.paymentModel.getInvoicesByStatus(this.props.status)
-        const allowedCredits = this.paymentModel.getCreditsByStatus(2)
 
-        if (this.state.lines.length >= (allowedInvoices.length + allowedCredits.length)) {
+        if (this.state.lines.length >= allowedInvoices.length) {
             return
         }
 
         this.setState((prevState) => ({
-            lines: [...prevState.lines, { invoice_id: null, amount: 0, credit_id: null }]
+            lines: [...prevState.lines, { invoice_id: null, amount: 0 }]
         }), () => this.props.onChange(this.state.lines))
+    }
+
+    addCredit (e) {
+        const allowedCredits = this.paymentModel.getCreditsByStatus(2)
+
+        if (this.state.lines.length >= allowedCredits.length) {
+            return
+        }
+
+        this.setState((prevState) => ({
+            credits: [...prevState.credits, { credit_id: null, amount: 0 }]
+        }), () => this.props.onChange(this.state.credits))
     }
 
     removeLine (idx) {
@@ -130,17 +156,34 @@ export default class InvoiceLine extends Component {
         }, () => this.props.onChange(this.state.lines))
     }
 
+    removeCredit (idx) {
+        //if (this.state.credits.length === 1) {
+            //return
+        //}
+
+        this.setState({
+            credits: this.state.credits.filter(function (credit, sidx) {
+                return sidx !== idx
+            })
+        }, () => this.props.onCreditChange(this.state.credits))
+    }
+
     render () {
-        const { lines } = this.state
+        const { lines, credits } = this.state
         const status = this.props.status ? this.props.status : null
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
         return (
             <form>
-                <InvoiceLineInputs invoices={invoices} credits={credits} status={status} errors={this.props.errors}
+                <InvoiceLineInputs invoices={invoices} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
+
+                 <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
+                    onChange={this.handleChange} lines={credits}
+                    removeLine={this.removeCredit}
+                    addLine={this.addCredit}/>
                 {/* <Button color="primary" onClick={this.addLine}>Add</Button> */}
             </form>
         )
