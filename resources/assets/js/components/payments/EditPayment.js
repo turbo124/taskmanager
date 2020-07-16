@@ -204,7 +204,9 @@ class EditPayment extends React.Component {
                             errors={this.state.errors}
                             invoices={this.props.invoices}
                             credits={this.props.credits}
-                            customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
+                            customerChange={this.handleCustomerChange} 
+                            onCreditChange={this.setCredits}
+                            onChange={this.setInvoices}/>
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
