@@ -10,7 +10,7 @@ export default class InvoiceLine extends Component {
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
-            credits: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{ credit_id: null, amount: 0 }],
+            credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{ credit_id: null, amount: 0 }],
             amount: 0,
             customer_id: null
         }
@@ -29,7 +29,7 @@ export default class InvoiceLine extends Component {
         let is_invoice = false 
 
         const lines = [...this.state.lines]
-        const credits = [...this.state.credits]
+        const credit_lines = [...this.state.credit_lines]
 
         let amount = 0
         let manual_update = false
@@ -90,8 +90,8 @@ export default class InvoiceLine extends Component {
             }
 
             this.props.customerChange(credit.customer_id)
-            credits[idx].amount = parseFloat(credit_total)
-            credits[idx].credit_id = credit_id
+            credit_lines[idx].amount = parseFloat(credit_total)
+            credit_lines[idx].credit_id = credit_id
 
             if (this.props.allCredits && this.props.allCredits.length === 1) {
                 amount = credit_total
@@ -100,18 +100,22 @@ export default class InvoiceLine extends Component {
             }
         }
 
-        if (!manual_update) {
-            credits[e.target.dataset.id][e.target.name] = e.target.value
+        if (!manual_update && is_invoice === true) {
+            lines[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ lines: lines, credits: credits  }, () => {
+        if (!manual_update && is_credit === true) {
+            credit_lines[e.target.dataset.id][e.target.name] = e.target.value
+        }
+
+        this.setState({ lines: lines, credit_lines: credit_lines  }, () => {
             
             if(is_invoice === true) {
                 this.props.onChange(this.state.lines)
             }
 
             if(is_credit === true) {
-                this.props.onCreditChange(this.state.credits)
+                this.props.onCreditChange(this.state.credit_lines)
             }
 
             if (amount > 0) {
@@ -140,8 +144,8 @@ export default class InvoiceLine extends Component {
         }
 
         this.setState((prevState) => ({
-            credits: [...prevState.credits, { credit_id: null, amount: 0 }]
-        }), () => this.props.onChange(this.state.credits))
+            credit_lines: [...prevState.credit_lines, { credit_id: null, amount: 0 }]
+        }), () => this.props.onCreditChange(this.state.credit_lines))
     }
 
     removeLine (idx) {
@@ -157,19 +161,19 @@ export default class InvoiceLine extends Component {
     }
 
     removeCredit (idx) {
-        //if (this.state.credits.length === 1) {
+        //if (this.state.credit_lines.length === 1) {
             //return
         //}
 
         this.setState({
-            credits: this.state.credits.filter(function (credit, sidx) {
+            credit_lines: this.state.credit_lines.filter(function (credit, sidx) {
                 return sidx !== idx
             })
-        }, () => this.props.onCreditChange(this.state.credits))
+        }, () => this.props.onCreditChange(this.state.credit_lines))
     }
 
     render () {
-        const { lines, credits } = this.state
+        const { lines, credit_lines } = this.state
         const status = this.props.status ? this.props.status : null
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
@@ -181,7 +185,7 @@ export default class InvoiceLine extends Component {
                     addLine={this.addLine}/>
 
                  <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
-                    onChange={this.handleChange} lines={credits}
+                    onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>
                 {/* <Button color="primary" onClick={this.addLine}>Add</Button> */}
