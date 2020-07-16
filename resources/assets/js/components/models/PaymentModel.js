@@ -3,9 +3,10 @@ import moment from 'moment'
 import BaseModel from './BaseModel'
 
 export default class PaymentModel extends BaseModel {
-    constructor (invoices, data = null) {
+    constructor (invoices, data = null, credits = null) {
         super()
         this.invoices = invoices
+        this.credits = credits
         this.errors = []
         this.error_message = ''
 
@@ -94,8 +95,24 @@ export default class PaymentModel extends BaseModel {
         return invoice[0]
     }
 
+    getCredit (credit_id) {
+        const credit = this.credits.filter(function (credit) {
+            return credit.id === parseInt(credit_id)
+        })
+
+        if (!credit.length || !credit[0]) {
+            return false
+        }
+
+        return credit[0]
+    }
+
     getInvoicesByStatus (status) {
         return status ? this.invoices.filter(invoice => invoice.status_id === status) : this.invoices
+    }
+
+    getCreditsByStatus (status) {
+        return status ? this.credits.filter(credit => credit.status_id === status) : this.credits
     }
 
     filterInvoicesByCustomer (customer_id) {
@@ -104,6 +121,15 @@ export default class PaymentModel extends BaseModel {
         }
         return this.invoices.filter(function (invoice) {
             return invoice.customer_id === parseInt(customer_id)
+        })
+    }
+
+    filterCreditsByCustomer (customer_id) {
+        if (customer_id === '') {
+            return this.credits
+        }
+        return this.credits.filter(function (credit) {
+            return credit.customer_id === parseInt(customer_id)
         })
     }
 
