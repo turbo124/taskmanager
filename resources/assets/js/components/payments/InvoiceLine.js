@@ -6,7 +6,7 @@ export default class InvoiceLine extends Component {
     constructor (props) {
         super(props)
 
-        this.paymentModel = new PaymentModel(this.props.invoices)
+        this.paymentModel = new PaymentModel(this.props.invoices, null, this.props.credits)
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
