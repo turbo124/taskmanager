@@ -11,7 +11,7 @@ const CreditLineInputs = (props) => {
                     <Row form>
                         <Col md={6}>
                             <FormGroup>
-                                <Label for="exampleEmail">{translations.invoice}</Label>
+                                <Label for="exampleEmail">{translations.credit}</Label>
                                 <CreditDropdown
                                     credits={props.credits}
                                     data_id={idx}

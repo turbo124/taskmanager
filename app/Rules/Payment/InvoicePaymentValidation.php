@@ -62,7 +62,7 @@ class InvoicePaymentValidation implements Rule
             $invoice_total += $invoice->total;
         }
 
-        if ($this->request['amount'] > $invoice_total) {
+        if ($invoice_total > $this->request['amount']) {
             $this->validationFailures[] = 'Payment amount cannot be more that the invoice total';
             return false;
         }

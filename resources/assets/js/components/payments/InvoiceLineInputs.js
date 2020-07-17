@@ -6,8 +6,6 @@ import { translations } from '../common/_translations'
 const InvoiceLineInputs = (props) => {
     return (
         props.lines.map((val, idx) => {
-            alert(props.lines[idx].invoice_id)
-
             return (
                 <div key={idx}>
                     <Row form>

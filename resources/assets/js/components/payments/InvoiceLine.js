@@ -64,7 +64,9 @@ export default class InvoiceLine extends Component {
             lines[idx].amount = parseFloat(invoice_total)
             lines[idx].invoice_id = invoice_id
 
-            if (this.props.allInvoices && this.props.allInvoices.length === 1) {
+            const sum = this.state.credit_lines.reduce((a, { amount }) => a + amount, 0)
+
+            if (sum <= 0 && this.props.allInvoices && this.props.allInvoices.length === 1) {
                 amount = invoice_total
             } else {
                 amount = this.state.amount + parseFloat(invoice_total)
@@ -80,7 +82,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            const credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
+            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
             let refunded_amount = 0
 
             if (this.props.paymentables && this.props.paymentables.length > 0) {
@@ -89,15 +91,16 @@ export default class InvoiceLine extends Component {
 
             if ((refunded_amount + credit_total) > credit.total) {
                 const amount_remaining = credit.total - refunded_amount
-                invoice_total = amount_remaining
+                credit_total = amount_remaining
                 manual_update = true
             }
 
             this.props.customerChange(credit.customer_id)
             credit_lines[idx].amount = parseFloat(credit_total)
-            credit_lines[idx].credit_id = credit_id
 
-            if (this.props.allCredits && this.props.allCredits.length === 1) {
+            const sum = this.state.lines.reduce((a, { amount }) => a + amount, 0)
+
+            if (sum <= 0 && this.props.allCredits && this.props.allCredits.length === 1) {
                 amount = credit_total
             } else {
                 amount = this.state.amount + parseFloat(credit_total)
@@ -112,7 +115,7 @@ export default class InvoiceLine extends Component {
             credit_lines[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ lines: lines, credit_lines: credit_lines }, () => {
+        this.setState({ amount: amount, lines: lines, credit_lines: credit_lines }, () => {
             if (is_invoice === true) {
                 this.props.onChange(this.state.lines)
             }

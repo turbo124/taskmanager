@@ -37,42 +37,14 @@ export default class PaymentItem extends Component {
             })
     }
 
-    getCreditPaymentables (payment) {
-        const creditIds = payment.paymentables.filter(paymentable => {
-            return paymentable.payment_id === payment.id && paymentable.paymentable_type === 'App\\Credit'
-        }).map(paymentable => {
-            return parseInt(paymentable.credit_id)
-        })
-
-        const credits = this.props.credits.filter(credit => {
-            return creditIds.includes(parseInt(credit.id))
-        })
-
-        return credits
-    }
-
-    getPaymentables (payment) {
-        const invoiceIds = payment.paymentables.filter(paymentable => {
-            return paymentable.payment_id === payment.id && paymentable.paymentable_type === 'App\\Invoice'
-        }).map(paymentable => {
-            return parseInt(paymentable.invoice_id)
-        })
-
-        const invoices = this.props.invoices.filter(invoice => {
-            return invoiceIds.includes(parseInt(invoice.id))
-        })
-
-        return invoices
-    }
-
     render () {
         const { payments, custom_fields, invoices, customers, credits } = this.props
 
         if (payments && payments.length && customers.length && invoices.length) {
             return payments.map(payment => {
-                const paymentModel = new PaymentModel(null, payment)
-                const paymentableInvoices = invoices && invoices.length ? this.getPaymentables(payment) : null
-                const paymentableCredits = credits && credits.length ? this.getCreditPaymentables(payment) : null
+                const paymentModel = new PaymentModel(invoices, payment, credits)
+                const paymentableInvoices = invoices && invoices.length ? paymentModel.paymentableInvoices : null
+                const paymentableCredits = credits && credits.length ? paymentModel.paymentableCredits : null
 
                 const restoreButton = !paymentModel.isDeleted
                     ? <RestoreModal id={payment.id} entities={payments} updateState={this.props.updateCustomers}

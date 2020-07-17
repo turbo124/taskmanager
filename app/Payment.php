@@ -136,24 +136,34 @@ class Payment extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function attachInvoice(Invoice $invoice): Payment
+    /**
+     * @param \App\Invoice $invoice
+     * @param float|null $amount
+     * @return $this
+     */
+    public function attachInvoice(Invoice $invoice, float $amount = null): Payment
     {
         $this->invoices()->attach(
             $invoice->id,
             [
-                'amount' => $this->amount
+                'amount' => $amount === null ? $this->amount : $amount
             ]
         );
 
         return $this;
     }
 
-    public function attachCredit(Credit $credit): Payment
+    /**
+     * @param Credit $credit
+     * @param $amount
+     * @return $this
+     */
+    public function attachCredit(Credit $credit, $amount): Payment
     {
         $this->credits()->attach(
             $credit->id,
             [
-                'amount' => $this->amount
+                'amount' => $amount
             ]
         );
 

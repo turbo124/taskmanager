@@ -32,18 +32,54 @@ export default class PaymentModel extends BaseModel {
             errors: [],
             send_email: true,
             selectedInvoices: [],
-            invoices: [],
-            credits: [],
+            payable_invoices: [],
+            payable_credits: [],
+            paymentables: [],
             message: ''
         }
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
+
+        if (this.fields.paymentables.length) {
+            console.log('paymentables', this.fields.paymentables)
+
+
+            this.buildPaymentables()
+        }
     }
 
     get fields () {
         return this._fields
+    }
+
+    get paymentableCredits () {
+        if (!this.credits.length || !this.fields.payable_credits.length) {
+            return false
+        }
+
+        const creditIds = this.fields.payable_credits.map(paymentable => {
+            return parseInt(paymentable.credit_id)
+        })
+
+        return this.credits.filter(credit => {
+            return creditIds.includes(parseInt(credit.id))
+        })
+    }
+
+    get paymentableInvoices () {
+        if (!this.invoices.length || !this.fields.payable_invoices.length) {
+            return false
+        }
+
+        const invoiceIds = this.fields.payable_invoices.map(paymentable => {
+            return parseInt(paymentable.invoice_id)
+        })
+
+        return this.invoices.filter(invoice => {
+            return invoiceIds.includes(parseInt(invoice.id))
+        })
     }
 
     get url () {
@@ -60,6 +96,23 @@ export default class PaymentModel extends BaseModel {
 
     get isActive () {
         return !this.fields.deleted_at && this.fields.is_deleted === false
+    }
+
+    buildPaymentables () {
+        if (!this.fields.id || !this.fields.paymentables) {
+            return false
+        }
+
+        const credits = this.fields.paymentables.filter(paymentable => {
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Credit'
+        })
+
+        const invoices = this.fields.paymentables.filter(paymentable => {
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Invoice'
+        })
+
+        this.fields.payable_invoices = invoices
+        this.fields.payable_credits = credits
     }
 
     buildDropdownMenu () {
