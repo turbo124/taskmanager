@@ -32,7 +32,7 @@ class CustomerArchivedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->customer->id;
-        $fields['data']['message'] = 'A new customer was archived';
+        $fields['data']['message'] = 'A customer was archived';
         $fields['notifiable_id'] = $event->customer->user_id;
         $fields['account_id'] = $event->customer->account_id;
         $fields['notifiable_type'] = get_class($event->customer);
