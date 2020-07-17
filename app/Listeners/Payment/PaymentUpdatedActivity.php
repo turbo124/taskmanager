@@ -43,6 +43,6 @@ class PaymentUpdatedActivity implements ShouldQueue
 
         $notification = NotificationFactory::create($payment->account_id, $payment->user_id);
         $notification->entity_id = $event->payment->id;
-        $this->notification_repo->save($notification, $
+        $this->notification_repo->save($notification, $fields);
     }
 }
