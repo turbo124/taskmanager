@@ -6,7 +6,7 @@ use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PaymentDeletedctivity implements ShouldQueue
+class PaymentUpdatedActivity implements ShouldQueue
 {
     protected $notification_repo;
 
@@ -28,16 +28,20 @@ class PaymentDeletedctivity implements ShouldQueue
      */
     public function handle($event)
     {
+        $payment = $event->payment;
+
+        $invoices = $payment->invoices;
+
         $fields = [];
-        $fields['data']['id'] = $event->payment->id;
-        $fields['data']['message'] = 'A payment was deleted';
-        $fields['notifiable_id'] = $event->payment->user_id;
-        $fields['account_id'] = $event->payment->account_id;
-        $fields['notifiable_type'] = get_class($event->payment);
+        $fields['data']['id'] = $payment->id;
+        $fields['data']['message'] = 'A payment was updated';
+        $fields['notifiable_id'] = $payment->user_id;
+        $fields['account_id'] = $payment->account_id;
+        $fields['notifiable_type'] = get_class($payment);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->payment->account_id, $event->payment->user_id);
+        $notification = NotificationFactory::create($payment->account_id, $payment->user_id);
         $notification->entity_id = $event->payment->id;
         $this->notification_repo->save($notification, $fields);
     }

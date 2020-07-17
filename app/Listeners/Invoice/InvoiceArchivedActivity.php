@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Listeners\Payment;
+namespace App\Listeners\Invoice;
 
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
-class PaymentDeletedctivity implements ShouldQueue
+class InvoiceArchivedActivity implements ShouldQueue
 {
     protected $notification_repo;
 
@@ -29,16 +31,17 @@ class PaymentDeletedctivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->payment->id;
-        $fields['data']['message'] = 'A payment was deleted';
-        $fields['notifiable_id'] = $event->payment->user_id;
-        $fields['account_id'] = $event->payment->account_id;
-        $fields['notifiable_type'] = get_class($event->payment);
+        $fields['data']['id'] = $event->invoice->id;
+        $fields['data']['message'] = 'An invoice was archived';
+        $fields['notifiable_id'] = $event->invoice->user_id;
+        $fields['account_id'] = $event->invoice->account_id;
+        $fields['notifiable_type'] = get_class($event->invoice);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->payment->account_id, $event->payment->user_id);
-        $notification->entity_id = $event->payment->id;
+        $notification =
+            NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
+        $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
     }
 }
