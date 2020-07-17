@@ -5,9 +5,8 @@ namespace App\Listeners\Payment;
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
-class PaymentDeletedActivity implements ShouldQueue
+class PaymentDeletedctivity implements ShouldQueue
 {
     protected $notification_repo;
 
@@ -29,32 +28,17 @@ class PaymentDeletedActivity implements ShouldQueue
      */
     public function handle($event)
     {
-        $payment = $event->payment;
-
-        $invoices = $payment->invoices;
-
         $fields = [];
-        $fields['data']['id'] = $payment->id;
+        $fields['data']['id'] = $event->payment->id;
         $fields['data']['message'] = 'A payment was deleted';
-        $fields['notifiable_id'] = $payment->user_id;
-        $fields['account_id'] = $payment->account_id;
-        $fields['notifiable_type'] = get_class($payment);
+        $fields['notifiable_id'] = $event->payment->user_id;
+        $fields['account_id'] = $event->payment->account_id;
+        $fields['notifiable_type'] = get_class($event->payment);
         $fields['type'] = get_class($this);
+        $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($payment->account_id, $payment->user_id);
+        $notification = NotificationFactory::create($event->payment->account_id, $event->payment->user_id);
         $notification->entity_id = $event->payment->id;
-
-        foreach ($invoices as $invoice) { //todo we may need to add additional logic if in the future we apply payments to other entity Types, not just invoices
-            $fields2 = $fields;
-
-            $fields2['data']['invoice_id'] = $invoice->id;
-            $fields2['data'] = json_encode($fields2['data']);
-            $this->notification_repo->save($notification, $fields2);
-        }
-
-        if (count($invoices) == 0) {
-            $fields['data'] = json_encode($fields['data']);
-            $this->notification_repo->save($notification, $fields);
-        }
+        $this->notification_repo->save($notification, $fields);
     }
 }
