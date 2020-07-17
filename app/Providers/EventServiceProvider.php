@@ -9,6 +9,8 @@ use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasHeld;
 use App\Events\Order\OrderWasMarkedSent;
+use App\Events\Payment\PaymentWasUpdated;
+use App\Events\Payment\PaymentWasArchived;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasVoided;
 use App\Events\Payment\PaymentFailed;
@@ -18,12 +20,16 @@ use App\Listeners\Credit\CreditUpdatedActivity;
 use App\Listeners\Invoice\InvoiceCancelledActivity;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
+use App\Events\Customer\CustomerWasUpdated;
+use App\Events\Customer\CustomerWasArchived;
+use App\Events\Customer\CustomerWasDeleted;
 use App\Events\Deal\DealWasCreated;
 use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasEmailed;
 use App\Events\Invoice\InvoiceWasMarkedSent;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Listeners\Invoice\InvoicePaidActivity;
+use App\Events\Invoice\InvoiceWasArchived;
 use App\Events\Invoice\InvoiceWasUpdated;
 use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasArchived;
@@ -56,6 +62,9 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
 use App\Listeners\Customer\CustomerCreatedActivity;
+use App\Listeners\Customer\CustomerUpdatedActivity;
+use App\Listeners\Customer\CustomerArchivedActivity;
+use App\Listeners\Customer\CustomerDeletedActivity;
 use App\Listeners\Lead\LeadCreatedActivity;
 use App\Listeners\Order\OrderBackorderedActivity;
 use App\Listeners\Order\OrderBackorderedNotification;
@@ -63,7 +72,9 @@ use App\Listeners\Order\OrderHeldActivity;
 use App\Listeners\Order\OrderHeldNotification;
 use App\Listeners\Order\OrderUpdatedActivity;
 use App\Listeners\Payment\PaymentCreatedActivity;
+use App\Listeners\Payment\PaymentUpdatedActivity;
 use App\Listeners\Payment\PaymentDeletedActivity;
+use App\Listeners\Payment\PaymentArchivedActivity;
 use App\Listeners\Payment\PaymentFailedActivity;
 use App\Listeners\Payment\PaymentFailedNotification;
 use App\Listeners\Payment\PaymentRefundedActivity;
@@ -85,6 +96,7 @@ use App\Listeners\Credit\CreditArchivedActivity;
 use App\Listeners\Credit\CreditDeletedActivity;
 use App\Listeners\Credit\CreditMarkedSentActivity;
 use App\Listeners\Invoice\InvoiceCreatedActivity;
+use App\Listeners\Invoice\InvoiceArchivedActivity;
 use App\Listeners\Invoice\InvoiceMarkedSentActivity;
 use App\Listeners\Invoice\InvoiceEmailActivity;
 use App\Listeners\Invoice\InvoiceEmailedNotification;
@@ -114,14 +126,29 @@ class EventServiceProvider extends ServiceProvider
         UserWasDeleted::class       => [
             DeletedUserActivity::class,
         ],
-        // Clients
+        // Customers
         CustomerWasCreated::class   => [
             CustomerCreatedActivity::class
+        ],
+        CustomerWasArchived::class   => [
+            CustomerArchivedActivity::class
+        ],
+        CustomerWasDeleted::class   => [
+            CustomerDeletedActivity::class
+        ],
+        CustomerWasUpdated::class   => [
+            CustomerUpdatedActivity::class
         ],
         //payments
         PaymentWasCreated::class    => [
             PaymentCreatedActivity::class,
             PaymentNotification::class,
+        ],
+        PaymentWasUpdated::class    => [
+            PaymentUpdatedActivity::class
+        ],
+        PaymentWasArchived::class    => [
+            PaymentArchivedActivity::class,
         ],
         PaymentWasDeleted::class    => [
             PaymentDeletedActivity::class,
@@ -136,6 +163,9 @@ class EventServiceProvider extends ServiceProvider
         //Invoices
         InvoiceWasMarkedSent::class => [
             InvoiceMarkedSentActivity::class,
+        ],
+        InvoiceWasArchived::class    => [
+            InvoiceArchivedActivity::class
         ],
         InvoiceWasUpdated::class    => [
             InvoiceUpdatedActivity::class
