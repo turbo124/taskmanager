@@ -7,7 +7,6 @@ use App\Customer;
 use App\Product;
 use App\Order;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Shippo;
 use Shippo_Shipment;
 

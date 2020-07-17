@@ -37,27 +37,14 @@ export default class PaymentItem extends Component {
             })
     }
 
-    getPaymentables (payment) {
-        const invoiceIds = payment.paymentables.filter(paymentable => {
-            return paymentable.payment_id === payment.id && paymentable.paymentable_type === 'App\\Invoice'
-        }).map(paymentable => {
-            return parseInt(paymentable.invoice_id)
-        })
-
-        const invoices = this.props.invoices.filter(invoice => {
-            return invoiceIds.includes(parseInt(invoice.id))
-        })
-
-        return invoices
-    }
-
     render () {
-        const { payments, custom_fields, invoices, customers } = this.props
+        const { payments, custom_fields, invoices, customers, credits } = this.props
 
         if (payments && payments.length && customers.length && invoices.length) {
             return payments.map(payment => {
-                const paymentModel = new PaymentModel(null, payment)
-                const paymentableInvoices = invoices && invoices.length ? this.getPaymentables(payment) : null
+                const paymentModel = new PaymentModel(invoices, payment, credits)
+                const paymentableInvoices = invoices && invoices.length ? paymentModel.paymentableInvoices : null
+                const paymentableCredits = credits && credits.length ? paymentModel.paymentableCredits : null
 
                 const restoreButton = !paymentModel.isDeleted
                     ? <RestoreModal id={payment.id} entities={payments} updateState={this.props.updateCustomers}
@@ -72,6 +59,7 @@ export default class PaymentItem extends Component {
                 const editButton = !payment.deleted_at ? <EditPayment
                     custom_fields={custom_fields}
                     invoices={invoices}
+                    credits={credits}
                     payment={payment}
                     action={this.props.updateCustomers}
                     payments={payments}
@@ -83,13 +71,14 @@ export default class PaymentItem extends Component {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
                     return <PaymentPresenter key={key} customers={customers} field={key}
-                        paymentables={paymentableInvoices} entity={payment}
+                        paymentables={paymentableInvoices} paymentable_credits={paymentableCredits} entity={payment}
                         toggleViewedEntity={this.props.toggleViewedEntity}/>
                 })
 
                 const refundButton = paymentableInvoices.length && invoices.length
                     ? <Refund customers={customers} payment={payment} allInvoices={paymentableInvoices}
                         invoices={invoices}
+                        credits={credits}
                         payments={payments}
                         paymentables={payment.paymentables}
                         action={this.props.updateCustomers}/> : null

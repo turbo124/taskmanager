@@ -10,6 +10,8 @@ class CreditPaymentValidation implements Rule
 
     private $request;
 
+    private $validationFailures = [];
+
     /**
      * Create a new rule instance.
      *
@@ -67,7 +69,7 @@ class CreditPaymentValidation implements Rule
         return true;
     }
 
-    private function validateCredit($credit_id)
+    private function validateCredit(int $credit_id)
     {
         $credit = Credit::whereId($credit_id)->first();
 
@@ -82,12 +84,12 @@ class CreditPaymentValidation implements Rule
             return false;
         }
 
-        if (!in_array($credit->status_id, [Invoice::STATUS_SENT])) {
+        if (!in_array($credit->status_id, [Credit::STATUS_SENT])) {
             $this->validationFailures[] = 'Credit is at the wrong status';
             return false;
         }
 
-        return true;
+        return $credit;
     }
 
     private function validateCustomer(Credit $credit)

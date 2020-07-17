@@ -24,6 +24,7 @@ trait PaymentTransformable
             'amount'                => (float)$payment->amount,
             'transaction_reference' => $payment->transaction_reference ?: '',
             'invoices'              => $payment->invoices,
+            'credits'               => $payment->credits,
             'paymentables'          => !empty($payment->paymentables) ? $this->transformPaymentables(
                 $payment->paymentables
             ) : [],

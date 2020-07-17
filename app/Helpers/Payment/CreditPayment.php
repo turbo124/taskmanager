@@ -43,8 +43,8 @@ class CreditPayment extends BasePaymentProcessor
                 continue;
             }
 
-            $this->payment->attachCredit($credit);
             $amount = $payment_credits[$credit->id]['amount'];
+            $this->payment->attachCredit($credit, $amount);
             $this->updateCredits($credit, $amount);
             $this->increasePaymentAmount($amount);
         }

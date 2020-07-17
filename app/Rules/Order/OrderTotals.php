@@ -5,7 +5,6 @@ namespace App\Rules\Order;
 use App\Product;
 use App\Promocode;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class OrderTotals implements Rule
 {
@@ -46,8 +45,6 @@ class OrderTotals implements Rule
 
     private function validate(): bool
     {
-        Log::emergency('got here mike');
-
         $this->calculateSubTotal();
         $this->calculateTax();
         $this->calculateDiscount();
@@ -96,6 +93,7 @@ class OrderTotals implements Rule
     private function calculateTax()
     {
         $tax_rate = (float)str_replace('%', '', $this->request['tax_rate']);
+
         $tax = (($tax_rate / 100) * $this->sub_total);
 
         $this->tax = round($tax, 2);

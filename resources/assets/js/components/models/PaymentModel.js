@@ -3,9 +3,10 @@ import moment from 'moment'
 import BaseModel from './BaseModel'
 
 export default class PaymentModel extends BaseModel {
-    constructor (invoices, data = null) {
+    constructor (invoices, data = null, credits = null) {
         super()
         this.invoices = invoices
+        this.credits = credits
         this.errors = []
         this.error_message = ''
 
@@ -32,16 +33,53 @@ export default class PaymentModel extends BaseModel {
             send_email: true,
             selectedInvoices: [],
             payable_invoices: [],
+            payable_credits: [],
+            paymentables: [],
             message: ''
         }
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
+
+        if (this.fields.paymentables.length) {
+            console.log('paymentables', this.fields.paymentables)
+
+
+            this.buildPaymentables()
+        }
     }
 
     get fields () {
         return this._fields
+    }
+
+    get paymentableCredits () {
+        if (!this.credits.length || !this.fields.payable_credits.length) {
+            return false
+        }
+
+        const creditIds = this.fields.payable_credits.map(paymentable => {
+            return parseInt(paymentable.credit_id)
+        })
+
+        return this.credits.filter(credit => {
+            return creditIds.includes(parseInt(credit.id))
+        })
+    }
+
+    get paymentableInvoices () {
+        if (!this.invoices.length || !this.fields.payable_invoices.length) {
+            return false
+        }
+
+        const invoiceIds = this.fields.payable_invoices.map(paymentable => {
+            return parseInt(paymentable.invoice_id)
+        })
+
+        return this.invoices.filter(invoice => {
+            return invoiceIds.includes(parseInt(invoice.id))
+        })
     }
 
     get url () {
@@ -58,6 +96,23 @@ export default class PaymentModel extends BaseModel {
 
     get isActive () {
         return !this.fields.deleted_at && this.fields.is_deleted === false
+    }
+
+    buildPaymentables () {
+        if (!this.fields.id || !this.fields.paymentables) {
+            return false
+        }
+
+        const credits = this.fields.paymentables.filter(paymentable => {
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Credit'
+        })
+
+        const invoices = this.fields.paymentables.filter(paymentable => {
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Invoice'
+        })
+
+        this.fields.payable_invoices = invoices
+        this.fields.payable_credits = credits
     }
 
     buildDropdownMenu () {
@@ -94,8 +149,24 @@ export default class PaymentModel extends BaseModel {
         return invoice[0]
     }
 
+    getCredit (credit_id) {
+        const credit = this.credits.filter(function (credit) {
+            return credit.id === parseInt(credit_id)
+        })
+
+        if (!credit.length || !credit[0]) {
+            return false
+        }
+
+        return credit[0]
+    }
+
     getInvoicesByStatus (status) {
         return status ? this.invoices.filter(invoice => invoice.status_id === status) : this.invoices
+    }
+
+    getCreditsByStatus (status) {
+        return status ? this.credits.filter(credit => credit.status_id === status) : this.credits
     }
 
     filterInvoicesByCustomer (customer_id) {
@@ -104,6 +175,15 @@ export default class PaymentModel extends BaseModel {
         }
         return this.invoices.filter(function (invoice) {
             return invoice.customer_id === parseInt(customer_id)
+        })
+    }
+
+    filterCreditsByCustomer (customer_id) {
+        if (customer_id === '') {
+            return this.credits
+        }
+        return this.credits.filter(function (credit) {
+            return credit.customer_id === parseInt(customer_id)
         })
     }
 

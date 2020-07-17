@@ -232,6 +232,11 @@ Route::group(
         Route::put('credit/{credit_id}', 'CreditController@update');
         Route::post('credits/restore/{id}', 'CreditController@restore');
         Route::post('credit/{credit}/{action}', 'CreditController@action')->name('credits.action');
+        Route::get(
+            'credits/getCreditsByStatus/{status}',
+            'CreditController@getCreditsByStatus'
+        )->middleware('role:null,invoicecontroller.index');
+
 
         //expenses
         Route::post('expense', 'ExpenseController@store');

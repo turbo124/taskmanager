@@ -34,6 +34,7 @@ export default class Payments extends Component {
                 end_date: ''
             },
             invoices: [],
+            credits: [],
             customers: [],
             showRestoreButton: false
         }
@@ -41,11 +42,13 @@ export default class Payments extends Component {
         this.updateCustomers = this.updateCustomers.bind(this)
         this.customerList = this.customerList.bind(this)
         this.getInvoices = this.getInvoices.bind(this)
+        this.getCredits = this.getCredits.bind(this)
         this.filterPayments = this.filterPayments.bind(this)
     }
 
     componentDidMount () {
         this.getInvoices()
+        this.getCredits()
         this.getCustomers()
         this.getCustomFields()
     }
@@ -70,6 +73,18 @@ export default class Payments extends Component {
             .then((r) => {
                 this.setState({
                     invoices: r.data
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    getCredits () {
+        axios.get('/api/credits')
+            .then((r) => {
+                this.setState({
+                    credits: r.data
                 })
             })
             .catch((e) => {
@@ -102,9 +117,10 @@ export default class Payments extends Component {
     }
 
     customerList (props) {
-        const { payments, custom_fields, invoices, customers } = this.state
+        const { payments, custom_fields, invoices, credits, customers } = this.state
         return <PaymentItem showCheckboxes={props.showCheckboxes} payments={payments} customers={customers}
             viewId={props.viewId}
+            credits={credits}
             invoices={invoices} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
             toggleViewedEntity={props.toggleViewedEntity}
@@ -112,12 +128,13 @@ export default class Payments extends Component {
     }
 
     render () {
-        const { payments, custom_fields, invoices, view, filters, customers } = this.state
+        const { payments, custom_fields, invoices, credits, view, filters, customers } = this.state
         const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
             custom_fields={custom_fields}
             invoices={invoices}
+            credits={credits}
             action={this.updateCustomers}
             payments={payments}
         /> : null

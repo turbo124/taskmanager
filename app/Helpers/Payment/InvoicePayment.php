@@ -42,9 +42,10 @@ class InvoicePayment extends BasePaymentProcessor
                 continue;
             }
 
-            $this->payment->attachInvoice($invoice);
-
             $amount = $payment_invoices[$invoice->id]['amount'];
+
+            $this->payment->attachInvoice($invoice, $amount);
+
             $this->increasePaymentAmount($amount);
 
             $invoice->service()->makeInvoicePayment($this->payment, $amount);
