@@ -110,4 +110,13 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     {
         return (new CreditFilter($this))->filter($search_request, $account);
     }
+
+    /**
+     * @param int $status
+     * @return Collection
+     */
+    public function findCreditsByStatus(int $status): Collection
+    {
+        return $this->model->where('status_id', '=', $status)->get();
+    }
 }

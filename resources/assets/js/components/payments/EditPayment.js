@@ -172,6 +172,8 @@ class EditPayment extends React.Component {
     render () {
         const { message, loading } = this.state
 
+        console.log('invoices a', this.state.payable_invoices)
+
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
@@ -179,7 +181,8 @@ class EditPayment extends React.Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_payment}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_payment}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         {translations.edit_payment}
@@ -200,17 +203,18 @@ class EditPayment extends React.Component {
                         <Details payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
-                        <InvoiceLine credit_lines={this.state.payable_credits} lines={this.state.payable_invoices} handleAmountChange={this.setAmount}
+                        <InvoiceLine payment={this.state} credit_lines={this.state.payable_credits}
+                            lines={this.state.payable_invoices} handleAmountChange={this.setAmount}
                             errors={this.state.errors}
                             invoices={this.props.invoices}
                             credits={this.props.credits}
-                            customerChange={this.handleCustomerChange} 
+                            customerChange={this.handleCustomerChange}
                             onCreditChange={this.setCredits}
                             onChange={this.setInvoices}/>
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
-                        <Documents payment={this.state} />
+                        <Documents payment={this.state}/>
 
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}

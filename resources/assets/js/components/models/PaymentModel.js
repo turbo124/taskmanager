@@ -32,7 +32,8 @@ export default class PaymentModel extends BaseModel {
             errors: [],
             send_email: true,
             selectedInvoices: [],
-            payable_invoices: [],
+            invoices: [],
+            credits: [],
             message: ''
         }
 

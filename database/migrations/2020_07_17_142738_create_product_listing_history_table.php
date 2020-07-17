@@ -16,7 +16,7 @@ class CreateProductListingHistoryTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->integer('product_id')->unsigned();
-			$table->text('changes');
+			$table->text('changes', 65535);
 			$table->timestamps();
 			$table->integer('account_id')->unsigned();
 			$table->integer('user_id')->unsigned();

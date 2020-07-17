@@ -140,4 +140,10 @@ class CreditController extends BaseController
     {
         return $this->performAction($request, $credit, $action);
     }
+
+    public function getCreditsByStatus(int $status)
+    {
+        $invoices = $this->credit_repo->findCreditsByStatus($status);
+        return response()->json($invoices);
+    }
 }

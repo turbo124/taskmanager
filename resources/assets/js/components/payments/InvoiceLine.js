@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import InvoiceLineInputs from './InvoiceLineInputs'
+import CreditLineInputs from './CreditLineInputs'
 import PaymentModel from '../models/PaymentModel'
 
 export default class InvoiceLine extends Component {
@@ -10,7 +11,10 @@ export default class InvoiceLine extends Component {
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
-            credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{ credit_id: null, amount: 0 }],
+            credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{
+                credit_id: null,
+                amount: 0
+            }],
             amount: 0,
             customer_id: null
         }
@@ -26,7 +30,7 @@ export default class InvoiceLine extends Component {
         const name = e.target.name
         const idx = e.target.dataset.id
         let is_credit = false
-        let is_invoice = false 
+        let is_invoice = false
 
         const lines = [...this.state.lines]
         const credit_lines = [...this.state.credit_lines]
@@ -76,7 +80,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
+            const credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
             let refunded_amount = 0
 
             if (this.props.paymentables && this.props.paymentables.length > 0) {
@@ -108,13 +112,12 @@ export default class InvoiceLine extends Component {
             credit_lines[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ lines: lines, credit_lines: credit_lines  }, () => {
-            
-            if(is_invoice === true) {
+        this.setState({ lines: lines, credit_lines: credit_lines }, () => {
+            if (is_invoice === true) {
                 this.props.onChange(this.state.lines)
             }
 
-            if(is_credit === true) {
+            if (is_credit === true) {
                 this.props.onCreditChange(this.state.credit_lines)
             }
 
@@ -161,9 +164,9 @@ export default class InvoiceLine extends Component {
     }
 
     removeCredit (idx) {
-        //if (this.state.credit_lines.length === 1) {
-            //return
-        //}
+        // if (this.state.credit_lines.length === 1) {
+        // return
+        // }
 
         this.setState({
             credit_lines: this.state.credit_lines.filter(function (credit, sidx) {
@@ -174,6 +177,10 @@ export default class InvoiceLine extends Component {
 
     render () {
         const { lines, credit_lines } = this.state
+
+        console.log('lines', lines)
+        console.log('credit', credit_lines)
+
         const status = this.props.status ? this.props.status : null
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
@@ -184,7 +191,7 @@ export default class InvoiceLine extends Component {
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
 
-                 <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
+                <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>

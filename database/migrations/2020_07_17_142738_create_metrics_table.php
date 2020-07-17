@@ -19,7 +19,7 @@ class CreateMetricsTable extends Migration {
 			$table->string('type');
 			$table->float('value')->default(1.00);
 			$table->string('resolution')->nullable();
-			$table->text('metadata')->nullable();
+			$table->text('metadata', 65535)->nullable();
 			$table->timestamps();
 		});
 	}

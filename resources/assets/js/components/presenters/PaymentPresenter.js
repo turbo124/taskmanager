@@ -60,7 +60,8 @@ export default function PaymentPresenter (props) {
 
         case 'invoices':
             return <td data-label="Invoices">{paymentInvoices}</td>
-
+        case 'credits':
+            return <td></td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
                 data-label={field}>{entity[field]}</td>
