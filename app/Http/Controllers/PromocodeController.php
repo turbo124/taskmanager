@@ -113,7 +113,7 @@ class PromocodeController extends Controller
                 'amount_type' => $request->input('amount_type'),
                 'reward'      => $request->input('reward'),
                 'data'        => $data,
-                'expires_at' => $request->input('expires_at'),
+                'expires_at'  => $request->input('expires_at'),
                 'quantity'    => $request->input('quantity'),
                 'description' => $request->input('description')
             ]

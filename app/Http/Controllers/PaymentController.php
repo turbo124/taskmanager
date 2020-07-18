@@ -188,7 +188,7 @@ class PaymentController extends Controller
     {
         $payment = Payment::withTrashed()->where('id', '=', $id)->first();
 
-        if($payment->is_deleted === true) {
+        if ($payment->is_deleted === true) {
             return response()->json('Unable to resture deleted payment', 500);
         }
 

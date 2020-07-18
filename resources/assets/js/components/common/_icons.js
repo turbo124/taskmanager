@@ -22,6 +22,8 @@ export const icons = {
     add: 'fa-plus',
     ellipsis: 'fa-ellipsis-h',
     down: 'fa-chevron-down',
+    angle_down: 'fa-angle-down',
+    angle_up: 'fa-angle-up',
     right: 'fa-chevron-right',
     restore: 'fa-window-restore',
     clear: 'fa-times',

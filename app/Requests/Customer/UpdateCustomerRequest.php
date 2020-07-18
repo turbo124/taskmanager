@@ -35,13 +35,16 @@ class UpdateCustomerRequest extends BaseFormRequest
         $input = $this->all();
         $cleaned_contacts = [];
 
-        foreach ($input['contacts'] as $key => $contact) {
-            if (trim($contact['first_name']) !== '' && trim($contact['last_name']) !== '') {
-                $cleaned_contacts[] = $contact;
+        if (!empty($input['contacts'])) {
+            foreach ($input['contacts'] as $key => $contact) {
+                if (trim($contact['first_name']) !== '' && trim($contact['last_name']) !== '') {
+                    $cleaned_contacts[] = $contact;
+                }
             }
+
+            $input['contacts'] = $cleaned_contacts;
         }
 
-        $input['contacts'] = $cleaned_contacts;
         $this->replace($input);
     }
 

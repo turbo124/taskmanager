@@ -1,15 +1,6 @@
 import React, { Component } from 'react'
-import FormBuilder from './FormBuilder'
+import FormBuilder from '../accounts/FormBuilder'
 import {
-    DropdownItem,
-    Modal,
-    ModalBody,
-    ModalHeader,
-    ModalFooter,
-    Button,
-    CustomInput,
-    FormGroup,
-    Label,
     Card,
     CardHeader,
     CardBody,
@@ -17,18 +8,16 @@ import {
     NavItem,
     NavLink,
     TabContent,
-    TabPane, Input
+    TabPane, Button
 } from 'reactstrap'
 import axios from 'axios'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
-import { toast } from 'react-toastify'
+import CustomerModel from '../models/CustomerModel'
 
 class CustomerSettings extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            modal: false,
             id: this.props.customer.id,
             activeTab: '1',
             settings: this.props.customer.settings,
@@ -37,11 +26,11 @@ class CustomerSettings extends Component {
             errors: []
         }
 
-        this.initialState = this.state
-        this.toggle = this.toggle.bind(this)
+        this.customerModel = new CustomerModel(this.props.customer)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     toggleTab (tab) {
@@ -62,12 +51,6 @@ class CustomerSettings extends Component {
                 [name]: value
             }
         }))
-    }
-
-    handleFileChange (e) {
-        this.setState({
-            [e.target.name]: e.target.files[0]
-        })
     }
 
     getFormFields () {
@@ -252,136 +235,71 @@ class CustomerSettings extends Component {
     }
 
     handleClick () {
-        const formData = new FormData()
-        formData.append('name', this.state.name)
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('company_logo', this.state.company_logo)
-        formData.append('_method', 'PUT')
-
-        axios.post(`/api/customer/${this.state.id}`, formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        this.customerModel.save({
+            settings: this.state.settings,
+            name: this.customerModel.fields.name
+        }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.customerModel.errors, message: this.customerModel.error_message })
+                return
             }
-        })
-            .then((response) => {
-                const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index].name = this.state.name
-                this.props.action(this.props.groups)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
-    }
-
-    toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
-            }
-
-            return
-        }
-
-        this.setState({
-            modal: !this.state.modal,
-            errors: []
+            alert('good')
         })
     }
 
     render () {
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_group}
-                    </ModalHeader>
-                    <ModalBody>
-                        <Nav tabs>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('1')
-                                    }}>
-                                    {translations.details}
-                                </NavLink>
-                            </NavItem>
-                      
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('2')
-                                    }}>
-                                    {translations.logo}
-                                </NavLink>
-                            </NavItem>
+                <Nav tabs>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}>
+                            {translations.details}
+                        </NavLink>
+                    </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('3')
-                                    }}>
-                                    {translations.defaults}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}>
+                            {translations.defaults}
+                        </NavLink>
+                    </NavItem>
+                </Nav>
 
-                        <TabContent activeTab={this.state.activeTab}>
-                            <TabPane tabId="1">
-                                <Card>
-                                    <CardHeader>{translations.details}</CardHeader>
-                                    <CardBody>
-                                      
-                                        <FormBuilder
-                                            handleChange={this.handleSettingsChange}
-                                            formFieldsRows={this.getFormFields()}
-                                        />
-                                    </CardBody>
-                                </Card>
-                            </TabPane>
-                          
-                            <TabPane tabId="2">
-                                <Card>
-                                    <CardHeader>{translations.logo}</CardHeader>
-                                    <CardBody>
-                                        <FormGroup>
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <Card>
+                            <CardHeader>{translations.details}</CardHeader>
+                            <CardBody>
 
-                                            <Label>{translations.logo}</Label>
-                                            <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
-                                                type="file"
-                                                id="company_logo" name="company_logo"
-                                                label="Logo"/>
-                                        </FormGroup>
-                                    </CardBody>
-                                </Card>
-                            </TabPane>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getFormFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
 
-                            <TabPane tabId="3">
-                                <Card>
-                                    <CardHeader>{translations.defaults}</CardHeader>
-                                    <CardBody>
-                                        <FormBuilder
-                                            handleChange={this.handleSettingsChange}
-                                            formFieldsRows={this.getDefaultFields()}
-                                        />
-                                    </CardBody>
-                                </Card>
-                            </TabPane>
-                        </TabContent>
-                    </ModalBody>
+                    <TabPane tabId="2">
+                        <Card>
+                            <CardHeader>{translations.defaults}</CardHeader>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDefaultFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
-                </Modal>
+                    <Button color="primary" onClick={this.handleClick}>{translations.save}</Button>
+                </TabContent>
             </React.Fragment>
         )
     }

@@ -4,6 +4,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { consts } from '../common/_consts'
 import { translations } from '../common/_translations'
+import PaymentModel from '../models/PaymentModel'
 
 export default function PaymentPresenter (props) {
     const colors = {
@@ -26,11 +27,16 @@ export default function PaymentPresenter (props) {
 
     const { field, entity } = props
 
+    const paymentModel = new PaymentModel(entity.invoices, entity, entity.credits)
+    const invoices = paymentModel.paymentableInvoices
+    const credits = paymentModel.paymentableCredits
+
     const status = !entity.deleted_at
         ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
         : <Badge color="warning">Archived</Badge>
 
-    const paymentInvoices = props.paymentables && Object.keys(props.paymentables).length > 0 ? Array.prototype.map.call(props.paymentables, s => s.number).toString() : null
+    const paymentInvoices = invoices && invoices.length > 0 ? Array.prototype.map.call(invoices, s => s.number).toString() : null
+    const paymentCredits = credits && credits.length > 0 ? Array.prototype.map.call(credits, s => s.number).toString() : null
 
     switch (field) {
         case 'amount':
@@ -61,7 +67,7 @@ export default function PaymentPresenter (props) {
         case 'invoices':
             return <td data-label="Invoices">{paymentInvoices}</td>
         case 'credits':
-            return <td></td>
+            return <td data-label="Credits">{paymentCredits}</td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
                 data-label={field}>{entity[field]}</td>

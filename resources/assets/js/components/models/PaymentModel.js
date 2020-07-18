@@ -43,9 +43,6 @@ export default class PaymentModel extends BaseModel {
         }
 
         if (this.fields.paymentables.length) {
-            console.log('paymentables', this.fields.paymentables)
-
-
             this.buildPaymentables()
         }
     }
@@ -80,6 +77,14 @@ export default class PaymentModel extends BaseModel {
         return this.invoices.filter(invoice => {
             return invoiceIds.includes(parseInt(invoice.id))
         })
+    }
+
+    get paymentable_invoices () {
+        return this.fields.payable_invoices
+    }
+
+    get paymentable_credits () {
+        return this.fields.payable_credits
     }
 
     get url () {

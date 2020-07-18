@@ -130,7 +130,7 @@ class EventServiceProvider extends ServiceProvider
         CustomerWasCreated::class   => [
             CustomerCreatedActivity::class
         ],
-        CustomerWasArchived::class   => [
+        CustomerWasArchived::class  => [
             CustomerArchivedActivity::class
         ],
         CustomerWasDeleted::class   => [
@@ -147,7 +147,7 @@ class EventServiceProvider extends ServiceProvider
         PaymentWasUpdated::class    => [
             PaymentUpdatedActivity::class
         ],
-        PaymentWasArchived::class    => [
+        PaymentWasArchived::class   => [
             PaymentArchivedActivity::class,
         ],
         PaymentWasDeleted::class    => [
@@ -164,7 +164,7 @@ class EventServiceProvider extends ServiceProvider
         InvoiceWasMarkedSent::class => [
             InvoiceMarkedSentActivity::class,
         ],
-        InvoiceWasArchived::class    => [
+        InvoiceWasArchived::class   => [
             InvoiceArchivedActivity::class
         ],
         InvoiceWasUpdated::class    => [

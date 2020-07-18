@@ -76,15 +76,12 @@ class Authorize extends BasePaymentGateway
         $controller = new CreateTransactionController($request);
         $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
-        if ($response != null)
-        {
-            if($response->getMessages()->getResultCode() == "Ok")
-            {
+        if ($response != null) {
+            if ($response->getMessages()->getResultCode() == "Ok") {
                 $tresponse = $response->getTransactionResponse();
 
-                if ($tresponse != null)
-                {
-                    if($invoice !== null) {
+                if ($tresponse != null) {
+                    if ($invoice !== null) {
                         return $this->completePayment($amount, $invoice, $tresponse->getTransId());
                     }
 

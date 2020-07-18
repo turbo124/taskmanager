@@ -20,8 +20,8 @@ class BasePaymentGateway
     protected $company_gateway;
 
     protected $card_types = [
-      'visa' => 5,
-      'master_card' => 6
+        'visa'        => 5,
+        'master_card' => 6
     ];
 
     /**
@@ -54,7 +54,6 @@ class BasePaymentGateway
      */
     protected function completePayment($amount, Invoice $invoice, $transaction_id, $payment_type = 12): ?Payment
     {
-
         $data = [
             'payment_method'     => $transaction_id,
             'payment_type'       => $payment_type,
