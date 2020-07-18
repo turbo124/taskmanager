@@ -15,6 +15,7 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
 import Transaction from '../customers/Transaction'
+import CustomerSettings from '../customers/CustomerSettings'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -145,7 +146,26 @@ export default class Customer extends Component {
                     <TabPane tabId="3">
                         <Transaction transactions={this.props.entity.transactions} />
                     </TabPane>
+
+                    <TabPane tabId="4">
+                        <CustomerSettings customer={this.props.entity} />
+                    </TabPane>
                 </TabContent>
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.toggleTab('4')
+                        }}>
+                        {translations.settings}
+                    </NavLink>
+                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                        onClick={() => {
+                            this.triggerAction('clone_to_invoice')
+                        }}>
+                        {translations.clone_to_invoice}
+                    </NavLink>
+                </div>
 
             </React.Fragment>
 
