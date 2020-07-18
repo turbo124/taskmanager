@@ -68,7 +68,6 @@ class InvoiceService extends ServiceBase
     public function autoBill(InvoiceRepository $invoice_repository): ?Payment
     {
         return (new AutoBill($this->invoice, $invoice_repository))->execute();
-
     }
 
     public function sendReminders()
@@ -169,7 +168,6 @@ class InvoiceService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
-
         if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }

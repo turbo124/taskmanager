@@ -77,7 +77,7 @@ class ServiceBase
      */
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
-        if($contact !== null) {
+        if ($contact !== null) {
             $invitation = $this->entity->invitations->first();
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
             return $this->dispatchEmail($contact, $subject, $body, $template, $footer);
@@ -104,8 +104,13 @@ class ServiceBase
      * @param array $footer
      * @return bool
      */
-    private function dispatchEmail(ClientContact $contact, string $subject, string $body, string $template, array $footer)
-    {
+    private function dispatchEmail(
+        ClientContact $contact,
+        string $subject,
+        string $body,
+        string $template,
+        array $footer
+    ) {
         if ($contact->send_email && $contact->email) {
             SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
         }

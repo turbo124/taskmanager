@@ -57,9 +57,7 @@ trait CustomerTransformable
             'paid_to_date'           => (float)$customer->paid_to_date,
             'credit_balance'         => (float)$customer->credit_balance,
             'assigned_user'          => $customer->assigned_user_id,
-            'settings'               => [
-                'payment_terms' => $customer->getSetting('payment_terms')
-            ],
+            'settings'               => $customer->settings,
             'transactions'           => $this->transformTransactions($customer->transactions),
             'custom_value1'          => $customer->custom_value1 ?: '',
             'custom_value2'          => $customer->custom_value2 ?: '',

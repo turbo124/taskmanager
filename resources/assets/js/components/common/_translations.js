@@ -5,6 +5,7 @@ _localizedValues.gb = {
     is_percentage: 'Is Percentage',
     token_copied: 'The token has been copied to the clipboard successfully',
     transactions: 'Transactions',
+    primary_contact: 'Primary Contact',
     vendor: 'Vendor',
     transaction_fee: 'Transaction Fee',
     transaction_tax: 'Transaction Tax',

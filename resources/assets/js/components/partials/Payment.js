@@ -24,12 +24,12 @@ export default class Payment extends Component {
             show_success: false
         }
 
+        this.paymentModel = new PaymentModel(this.props.entity.invoices, this.props.entity, this.props.entity.credits)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        const paymentModel = new PaymentModel(this.props.entity)
-        paymentModel.completeAction(this.props.entity, action).then(response => {
+        this.paymentModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -44,26 +44,45 @@ export default class Payment extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const paymentableInvoices = this.paymentModel.paymentable_invoices
+        const paymentableCredits = this.paymentModel.paymentable_credits
 
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.amount}
                     heading_2={translations.applied} value_2={this.props.entity.applied}/>
 
-                <PaymentPresenter entity={this.props.entity} field="status_field" />
+                <PaymentPresenter entity={this.props.entity} field="status_field"/>
 
                 <Row>
-                    <ListGroup className="col-12 mt-4">
-                        {this.props.entity.paymentables.map((line_item, index) => (
-                            <a key={index} href={`/#/invoice?number=${line_item.number}`} >
+                    <ListGroup className="col-12 mt-4 mb-2">
+                        {paymentableInvoices && paymentableInvoices.map((line_item, index) => (
+                            <a key={index} href={`/#/invoice?number=${line_item.number}`}>
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading>
-                                        <i className={`fa ${icons.document} mr-4`}/> {line_item.number}
+                                        <i className={`fa ${icons.document} mr-4`}/> {translations.invoice} > {line_item.number}
 
                                     </ListGroupItemHeading>
 
                                     <ListGroupItemText>
-                                        <FormatMoney amount={line_item.amount}/> - <FormatDate date={line_item.date} />
+                                        <FormatMoney amount={line_item.amount}/> - <FormatDate date={line_item.date}/>
+                                    </ListGroupItemText>
+                                </ListGroupItem>
+                            </a>
+                        ))}
+                    </ListGroup>
+
+                    <ListGroup className="col-12 mt-4">
+                        {paymentableCredits && paymentableCredits.map((line_item, index) => (
+                            <a key={index} href={`/#/credits?number=${line_item.number}`}>
+                                <ListGroupItem className="list-group-item-dark">
+                                    <ListGroupItemHeading>
+                                        <i className={`fa ${icons.document} mr-4`}/> {translations.credit} > {line_item.number}
+
+                                    </ListGroupItemHeading>
+
+                                    <ListGroupItemText>
+                                        <FormatMoney amount={line_item.amount}/> - <FormatDate date={line_item.date}/>
                                     </ListGroupItemText>
                                 </ListGroupItem>
                             </a>
@@ -83,8 +102,10 @@ export default class Payment extends Component {
 
                 <Row>
                     <ul className="col-12">
-                        <SimpleSectionItem heading={translations.date} value={<FormatDate date={this.props.entity.date}/>} />
-                        <SimpleSectionItem heading={translations.transaction_reference} value={this.props.entity.transaction_reference} />
+                        <SimpleSectionItem heading={translations.date}
+                            value={<FormatDate date={this.props.entity.date}/>}/>
+                        <SimpleSectionItem heading={translations.transaction_reference}
+                            value={this.props.entity.transaction_reference}/>
                     </ul>
                 </Row>
 

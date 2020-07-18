@@ -258,7 +258,7 @@ class BaseRepository implements BaseRepositoryInterface
             return true;
         }
 
-        if(empty($data['invitations'])) {
+        if (empty($data['invitations'])) {
             return true;
         }
 

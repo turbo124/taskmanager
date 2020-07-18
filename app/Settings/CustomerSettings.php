@@ -17,7 +17,7 @@ class CustomerSettings extends BaseSettings
     public function save(Customer $customer, $settings): ?Customer
     {
         try {
-            $settings = $this->validate($settings, $this->settings);
+            $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
 
             if (!$settings) {
                 return null;

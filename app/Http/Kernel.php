@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             VerifyCsrfToken::class,
-//            'throttle:60,1',
+            //            'throttle:60,1',
             'bindings',
         ],
     ];

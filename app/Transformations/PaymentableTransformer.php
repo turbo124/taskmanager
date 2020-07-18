@@ -15,10 +15,11 @@ class PaymentableTransformer
      */
     public function transform(Paymentable $paymentable)
     {
-        $entity_key = 'invoice_id';
         if ($paymentable->paymentable_type == Credit::class) {
             $entity_key = 'credit_id';
+            $entity = Credit::whereId($paymentable->paymentable_id)->first();
         } else {
+            $entity_key = 'invoice_id';
             $entity = Invoice::whereId($paymentable->paymentable_id)->first();
         }
 

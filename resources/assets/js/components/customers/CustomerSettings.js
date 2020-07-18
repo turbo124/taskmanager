@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import FormBuilder from './FormBuilder'
+import FormBuilder from '../accounts/FormBuilder'
 import {
-    Button,
-    CustomInput,
-    FormGroup,
-    Label,
     Card,
     CardHeader,
     CardBody,
@@ -12,12 +8,11 @@ import {
     NavItem,
     NavLink,
     TabContent,
-    TabPane, Input
+    TabPane, Button
 } from 'reactstrap'
 import axios from 'axios'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
-import { toast } from 'react-toastify'
+import CustomerModel from '../models/CustomerModel'
 
 class CustomerSettings extends Component {
     constructor (props) {
@@ -30,10 +25,12 @@ class CustomerSettings extends Component {
             changesMade: false,
             errors: []
         }
-    
+
+        this.customerModel = new CustomerModel(this.props.customer)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     toggleTab (tab) {
@@ -238,82 +235,72 @@ class CustomerSettings extends Component {
     }
 
     handleClick () {
-        const formData = new FormData()
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('company_logo', this.state.company_logo)
-        formData.append('_method', 'PUT')
-
-        axios.post(`/api/customer/${this.state.id}`, formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        this.customerModel.save({
+            settings: this.state.settings,
+            name: this.customerModel.fields.name
+        }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.customerModel.errors, message: this.customerModel.error_message })
+                return
             }
+            alert('good')
         })
-            .then((response) => {
-                /* const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index].name = this.state.name
-                this.props.action(this.props.groups)
-                this.setState({ changesMade: false })
-                this.toggle() */
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     render () {
         return (
             <React.Fragment>
-            <Nav tabs>
-                <NavItem>
-                    <NavLink
-                        className={this.state.activeTab === '1' ? 'active' : ''}
-                        onClick={() => {
-                            this.toggleTab('1')
-                        }}>
-                        {translations.details}
-                    </NavLink>
-                </NavItem>
-                      
-                <NavItem>
-                    <NavLink
-                        className={this.state.activeTab === '2' ? 'active' : ''}
-                        onClick={() => {
-                            this.toggleTab('2')
-                        }}>
-                        {translations.defaults}
-                    </NavLink>
-                </NavItem>
-            </Nav>
+                <Nav tabs>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}>
+                            {translations.details}
+                        </NavLink>
+                    </NavItem>
 
-            <TabContent activeTab={this.state.activeTab}>
-                <TabPane tabId="1">
-                    <Card>
-                        <CardHeader>{translations.details}</CardHeader>
-                        <CardBody>
-                                      
-                            <FormBuilder
-                                handleChange={this.handleSettingsChange}
-                                formFieldsRows={this.getFormFields()}
-                            />
-                        </CardBody>
-                    </Card>
-                </TabPane>
-                          
-                <TabPane tabId="2">
-                    <Card>
-                        <CardHeader>{translations.defaults}</CardHeader>
-                        <CardBody>
-                            <FormBuilder
-                                handleChange={this.handleSettingsChange}
-                                formFieldsRows={this.getDefaultFields()}
-                            />
-                        </CardBody>
-                    </Card>
-                </TabPane>
-            </TabContent>
-        </React.Fragment>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}>
+                            {translations.defaults}
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <Card>
+                            <CardHeader>{translations.details}</CardHeader>
+                            <CardBody>
+
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getFormFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="2">
+                        <Card>
+                            <CardHeader>{translations.defaults}</CardHeader>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDefaultFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <Button color="primary" onClick={this.handleClick}>{translations.save}</Button>
+                </TabContent>
+            </React.Fragment>
         )
     }
 }

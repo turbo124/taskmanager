@@ -32,7 +32,7 @@ export default function CustomerTabs (props) {
 
     const copyBilling = e => {
         setShippingValues({
-            address_1: billing.address_1 billing.address_1 : '',
+            address_1: billing.address_1 ? billing.address_1 : '',
             address_2: billing.address_2 ? billing.address_2 : '',
             zip: billing.zip ? billing.zip : '',
             city: billing.city ? billing.city : '',
@@ -42,10 +42,10 @@ export default function CustomerTabs (props) {
 
     const copyShipping = e => {
         setBillingValues({
-            address_1: shipping.address_1 shipping.address_1 : '',
+            address_1: shipping.address_1 ? shipping.address_1 : '',
             address_2: shipping.address_2 ? shipping.address_2 : '',
             zip: shipping.zip ? shipping.zip : '',
-            city: shipping.city ? billing.city : '',
+            city: shipping.city ? shipping.city : '',
             country_id: shipping.country_id ? shipping.country_id : 225
         })
     }
@@ -339,7 +339,7 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.billing_address}</CardHeader>
                         <CardBody>
                             <AddressForm errors={errors} onChange={setBilling} customer={billing}/>
-                              <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>Copy Shipping</Button>
+                            <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>Copy Shipping</Button>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -348,7 +348,7 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.shipping_address}</CardHeader>
                         <CardBody>
                             <AddressForm onChange={setShipping} customer={shipping}/>
-                              <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>Copy Billing</Button>
+                            <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>Copy Billing</Button>
                         </CardBody>
                     </Card>
                 </TabPane>

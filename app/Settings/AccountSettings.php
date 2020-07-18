@@ -7,25 +7,25 @@ use App\Account;
 class AccountSettings extends BaseSettings
 {
     private $settings = [
-        'currency_id'                     => [
+        'currency_id' => [
             'required'         => true,
             'translated_value' => '',
             'default_value'    => 2,
             'type'             => 'string'
         ],
-        'address1'                        => [
+        'address1'    => [
             'required'         => true,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'city'                            => [
+        'city'        => [
             'required'         => true,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email'                           => [
+        'email'       => [
             'required'         => true,
             'translated_value' => '',
             'default_value'    => '',
@@ -44,7 +44,10 @@ class AccountSettings extends BaseSettings
             array_combine(array_keys($this->account_settings), array_column($this->account_settings, 'default_value'))
         );
         $translated = array_filter(
-            array_combine(array_keys($this->account_settings), array_column($this->account_settings, 'translated_value'))
+            array_combine(
+                array_keys($this->account_settings),
+                array_column($this->account_settings, 'translated_value')
+            )
         );
         $translated = array_map(array($this, 'translate'), $translated);
 
