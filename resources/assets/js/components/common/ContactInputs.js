@@ -32,7 +32,15 @@ export default class ContactInputs extends Component {
                 contacts.map((val, idx) => {
                     return (
                         <Card style={{ marginBottom: '1rem' }} key={index}>
-                            <CardHeader onClick={this.toggle} data-event={index}>Header</CardHeader>
+                            <CardHeader onClick={this.toggle} data-event={index}>
+                                  <h5 class="mb-0">
+                                      Collapsible Group Item #1
+                                 </h5>
+
+                                 <h6 className="text-muted">
+                                     subtitle
+                                 </h6>
+                            </CardHeader>
                             <Collapse isOpen={collapse === index}>
                                 <CardBody>
                                     <Row form>
