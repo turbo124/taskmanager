@@ -13,6 +13,7 @@ const InvoiceLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="exampleEmail">{translations.invoice}</Label>
                                 <InvoiceDropdown
+                                    allowed_invoices={props.allowed_invoices}
                                     customer={props.payment.customer_id}
                                     invoices={props.invoices}
                                     data_id={idx}
