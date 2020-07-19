@@ -13,6 +13,7 @@ const CreditLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="exampleEmail">{translations.credit}</Label>
                                 <CreditDropdown
+                                    customer={props.payment.customer_id}
                                     credits={props.credits}
                                     data_id={idx}
                                     credit_id={props.lines[idx].credit_id}
