@@ -88,10 +88,10 @@ export default class WorkflowSettings extends Component {
         const formFields = [
             [
              {
-                    name: 'can_edit_invoice',
+                    name: 'should_lock_invoice',
                     label: translations.lock_invoice,
                     type: 'select',
-                    value: settings.can_edit_invoice,
+                    value: settings.should_lock_invoice,
                     options: [
                         {
                             value: consts.lock_invoices_off,
