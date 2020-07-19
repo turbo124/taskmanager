@@ -8,6 +8,8 @@ export default class InvoiceLine extends Component {
         super(props)
 
         this.paymentModel = new PaymentModel(this.props.invoices, null, this.props.credits)
+        this.allowed_invoices = this.props.lines && this.props.lines.length > 0 ? Array.prototype.map.call(this.props.lines, s => s.invoice_id) : null
+        this.allowed_credits = this.props.credit_lines && this.props.credit_lines.length > 0 ? Array.prototype.map.call(this.props.credit_lines, s => s.credit_id) : null
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
@@ -189,12 +191,12 @@ export default class InvoiceLine extends Component {
         const credits = this.props.allCredits ? this.props.allCredits : []
         return (
             <form>
-                <InvoiceLineInputs payment={this.props.payment} invoices={invoices} status={status} errors={this.props.errors}
+                <InvoiceLineInputs allowed_invoices={this.allowed_invoices} payment={this.props.payment} invoices={invoices} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
 
-                <CreditLineInputs payment={this.props.payment} credits={credits} status={status} errors={this.props.errors}
+                <CreditLineInputs allowed_credits={this.allowed_credits} payment={this.props.payment} credits={credits} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>
