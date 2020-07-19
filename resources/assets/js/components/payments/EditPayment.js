@@ -200,7 +200,7 @@ class EditPayment extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
+                        <Details hide_customer={true} payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
                         <InvoiceLine payment={this.state} credit_lines={this.state.payable_credits}
