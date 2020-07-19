@@ -51,12 +51,20 @@ export default class CreditDropdown extends Component {
 
     render () {
         let creditList = null
-        const { credits } = this.state
+        let { credits } = this.state
 
         if (!credits) {
             creditList = <option value="">Loading...</option>
         } else {
-            creditList = credits.map((credit, index) => (
+            if (this.props.customer_id && this.props.customer_id !== null) {
+                credits = credits.filter(credit => credit.customer_id === parseInt(this.props.customer_id))
+            }
+
+            if (this.props.allowed_credits && this.props.allowed_credits !== null) {
+                credits = credits.filter(credit => this.props.allowed_credits.includes(credit.id))
+            }
+
+            creditList = credits.filter(credit => credit.balance > 0).map((credit, index) => (
                 <option key={index} value={credit.id}>{credit.number} ({credit.total})</option>
             ))
         }
