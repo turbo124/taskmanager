@@ -14,6 +14,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'display_quote_terms'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'display_invoice_signature'       => [
             'required'         => false,
             'translated_value' => '',

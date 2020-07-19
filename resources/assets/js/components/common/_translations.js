@@ -1,5 +1,10 @@
 const _localizedValues = []
 _localizedValues.gb = {
+    security: 'Security',
+    display_invoice_terms: 'Display Invoice Terms to Customer',
+    display_quote_terms: 'Display Quote Terms to Customer',
+    display_invoice_signature: 'Require Customer to sign invoices',
+    display_quote_signature: 'Require Customer to sign quotes',
     copy: 'Copy',
     gateway_fee: 'Gateway Fee',
     is_percentage: 'Is Percentage',
