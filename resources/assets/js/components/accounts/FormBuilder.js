@@ -55,7 +55,9 @@ class FormBuilder extends React.Component {
                         label=""
                         onChange={this.props.handleChange.bind(this)}/>
                 </div>
-                <p class="mb-1">Help text</p>
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    help text
+                </small>
             </a>
         ) : (
             <FormGroup>
