@@ -135,7 +135,7 @@ class AddPayment extends React.Component {
                             {message}
                         </div>}
 
-                        <Details payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
+                        <Details hide_customer={false} payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
                         <InvoiceLine payment={this.state} status={2} handleAmountChange={this.setAmount} errors={this.state.errors}
