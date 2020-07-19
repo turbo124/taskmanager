@@ -118,7 +118,6 @@ export const consts = {
     email_design_plain: 'plain',
     email_design_light: 'light',
     email_design_dark: 'dark',
-    lock_off: 0,
     lock_invoices_off: 'off',
     lock_invoices_sent: 'when_sent',
     lock_invoices_paid: 'when_paid',
