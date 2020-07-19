@@ -189,12 +189,12 @@ export default class InvoiceLine extends Component {
         const credits = this.props.allCredits ? this.props.allCredits : []
         return (
             <form>
-                <InvoiceLineInputs invoices={invoices} status={status} errors={this.props.errors}
+                <InvoiceLineInputs payment={this.props.payment} invoices={invoices} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
 
-                <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
+                <CreditLineInputs payment={this.props.payment} credits={credits} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>
