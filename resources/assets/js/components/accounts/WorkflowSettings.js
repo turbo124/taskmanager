@@ -3,6 +3,9 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardHeader, CardBody, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import { icons } from '../common/_icons'
+import { translations } from '../common/_translations'
+import { consts } from '../common/_consts'
 
 export default class WorkflowSettings extends Component {
     constructor (props) {
@@ -84,6 +87,26 @@ export default class WorkflowSettings extends Component {
 
         const formFields = [
             [
+             {
+                    name: 'can_edit_invoice',
+                    label: translations.lock_invoice,
+                    type: 'select',
+                    value: settings.can_edit_invoice,
+                    options: [
+                        {
+                            value: consts.lock_invoices_off,
+                            text: translations.off
+                        },
+                        {
+                            value: consts.lock_invoices_sent,
+                            text: translations.when_sent
+                        },
+                        {
+                            value: consts.lock_invoices_paid,
+                            text: translations.when_paid
+                        }
+                    ]
+                }
                 {
                     name: 'should_email_invoice',
                     label: 'Auto Email',
@@ -223,7 +246,7 @@ export default class WorkflowSettings extends Component {
                             onClick={() => {
                                 this.toggle('1')
                             }}>
-                            Invoices
+                            {translations.invoices}
                         </NavLink>
                     </NavItem>
 
@@ -233,7 +256,7 @@ export default class WorkflowSettings extends Component {
                             onClick={() => {
                                 this.toggle('2')
                             }}>
-                            Quotes
+                            {translations.quotes}
                         </NavLink>
                     </NavItem>
 
@@ -243,7 +266,7 @@ export default class WorkflowSettings extends Component {
                             onClick={() => {
                                 this.toggle('3')
                             }}>
-                            Leads
+                            {translations.leads}
                         </NavLink>
                     </NavItem>
 
@@ -253,7 +276,7 @@ export default class WorkflowSettings extends Component {
                             onClick={() => {
                                 this.toggle('4')
                             }}>
-                            Orders
+                            {translations.orders}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -261,7 +284,7 @@ export default class WorkflowSettings extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
-                            <CardHeader>Invoice Settings</CardHeader>
+                            <CardHeader>{translations.invoice}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -273,7 +296,7 @@ export default class WorkflowSettings extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Quote Settings</CardHeader>
+                            <CardHeader>{translations.quote}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -285,7 +308,7 @@ export default class WorkflowSettings extends Component {
 
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>Lead Settings</CardHeader>
+                            <CardHeader>{translations.lead}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -297,7 +320,7 @@ export default class WorkflowSettings extends Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>Order Settings</CardHeader>
+                            <CardHeader>{translations.order}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
