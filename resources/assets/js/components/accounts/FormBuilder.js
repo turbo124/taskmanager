@@ -46,7 +46,10 @@ class FormBuilder extends React.Component {
         return field.icon ? (
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{field.label}</h5>
+                    <h5 class="mb-1">
+                        <i style={{ fontSize: '24px', marginLeft: '20px' }} className={field.icon}>
+                        {field.label}
+                    </h5>
                     <CustomInput
                         checked={field.value}
                         type="switch"
