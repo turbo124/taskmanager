@@ -43,7 +43,21 @@ class FormBuilder extends React.Component {
     }
 
     buildSwitch (field) {
-        return (
+        return field.icon ? (
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{field.label}</h5>
+                    <CustomInput
+                        checked={field.value}
+                        type="switch"
+                        id={field.name}
+                        name={field.name}
+                        label=""
+                        onChange={this.props.handleChange.bind(this)}/>
+                </div>
+                <p class="mb-1">Help text</p>
+            </a>
+        ) : (
             <FormGroup>
                 <CustomInput
                     checked={field.value}
