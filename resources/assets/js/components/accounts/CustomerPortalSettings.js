@@ -117,20 +117,23 @@ export default class CustomerPortalSettings extends Component {
                 {
                     name: 'display_invoice_terms',
                     label: translations.display_invoice_terms,
+                    icon: 'fa fa-check-square-o',
                     type: 'switch',
-                    placeholder: translations.display_invoice_terms
+                    placeholder: translations.display_invoice_terms,
                     value: settings.display_invoice_terms
                 },
                 {
                     name: 'display_quote_terms',
-                    label: translations.display_quote_terms
+                    label: translations.display_quote_terms,
+                    icon: 'fa fa-check-square-o',
                     type: 'switch',
-                    placeholder: translations.display_quote_terms
+                    placeholder: translations.display_quote_terms,
                     value: settings.display_quote_terms
                 },
                 {
                     name: 'display_invoice_signature',
                     label: translations.display_invoice_signature,
+                    icon: 'fa fa-pencil',
                     type: 'switch',
                     placeholder: translations.display_invoice_signature,
                     value: settings.display_invoice_signature
@@ -138,6 +141,7 @@ export default class CustomerPortalSettings extends Component {
                 {
                     name: 'display_quote_signature',
                     label: translations.display_quote_signature,
+                    icon: 'fa fa-pencil',
                     type: 'switch',
                     placeholder: translations.display_quote_signature,
                     value: settings.display_quote_signature
