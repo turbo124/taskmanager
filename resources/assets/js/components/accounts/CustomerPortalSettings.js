@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardBody, CardHeader } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { translations } from '../common/_translations'
@@ -11,6 +11,7 @@ export default class CustomerPortalSettings extends Component {
 
         this.state = {
             id: localStorage.getItem('account_id'),
+            activeTab: '1'
             settings: {}
         }
 
@@ -18,10 +19,17 @@ export default class CustomerPortalSettings extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.getAccount = this.getAccount.bind(this)
+        this.toggle = this.toggle.bind(this)
     }
 
     componentDidMount () {
         this.getAccount()
+    }
+
+    toggle (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
     }
 
     getAccount () {
@@ -71,7 +79,7 @@ export default class CustomerPortalSettings extends Component {
             })
     }
 
-    getFields () {
+    getSettingFields () {
         const settings = this.state.settings
 
         return [
@@ -101,21 +109,97 @@ export default class CustomerPortalSettings extends Component {
         ]
     }
 
+    getSecurityFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'display_invoice_terms',
+                    label: translations.display_invoice_terms,
+                    type: 'switch',
+                    placeholder: translations.display_invoice_terms
+                    value: settings.display_invoice_terms
+                },
+                {
+                    name: 'display_quote_terms',
+                    label: translations.display_quote_terms
+                    type: 'switch',
+                    placeholder: translations.display_quote_terms
+                    value: settings.display_quote_terms
+                },
+                {
+                    name: 'display_invoice_signature',
+                    label: translations.display_invoice_signature,
+                    type: 'switch',
+                    placeholder: translations.display_invoice_signature,
+                    value: settings.display_invoice_signature
+                },
+                {
+                    name: 'display_quote_signature',
+                    label: translations.display_quote_signature,
+                    type: 'switch',
+                    placeholder: translations.display_quote_signature,
+                    value: settings.display_quote_signature
+                },
+            ]
+        ]
+    }
+
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
-                <Card>
-                    <CardHeader>{translations.customer_portal}</CardHeader>
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getFields()}
-                        />
 
-                        <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
-                    </CardBody>
-                </Card>
+                 <Nav tabs>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('1')
+                            }}>
+                            {translations.settings}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('2')
+                            }}>
+                            {translations.security}
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <Card>
+                            <CardHeader>{translations.settings}</CardHeader>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getSettingFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="2">
+                        <Card>
+                            <CardHeader>{translations.security}</CardHeader>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getSecurityFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                     </TabPane>
+
+                    <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
+                </TabContent>
             </React.Fragment>
         ) : null
     }
