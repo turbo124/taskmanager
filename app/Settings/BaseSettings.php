@@ -7,7 +7,13 @@ class BaseSettings
 
     protected array $validationFailures = [];
 
-    protected array $account_settings = [
+    protected array $account_settings = [ 
+        'should_lock_invoice'           => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 'off',
+            'type'             => 'string'
+        ],
         'display_invoice_terms'           => [
             'required'         => false,
             'translated_value' => '',
