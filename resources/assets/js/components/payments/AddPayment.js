@@ -140,6 +140,7 @@ class AddPayment extends React.Component {
 
                         <InvoiceLine payment={this.state} status={2} handleAmountChange={this.setAmount} errors={this.state.errors}
                             invoices={this.props.invoices} credits={this.props.credits}
+                            payment={this.state}
                             customerChange={this.handleCustomerChange}
                             onChange={this.setInvoices}
                             onCreditChange={this.setCredits}/>
