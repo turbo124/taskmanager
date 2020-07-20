@@ -35,19 +35,41 @@ export default class InvoiceLine extends Component {
         const lines = [...this.state.lines]
         const credit_lines = [...this.state.credit_lines]
 
+        console.log('limes', lines)
+
+        const allowed_invoices = lines.length > 0 ? lines.map(({ invoice_id }) => invoice_id) : null
+        const allowed_credits = credit_lines.length > 0 ? credit_lines.map(({ invoice_id }) => invoice_id) : null
+
+        console.log('allowed invoices', allowed_invoices)
+
         let amount = 0
         let manual_update = false
 
         if (name === 'invoice_id' || (e.target.dataset.invoice && e.target.dataset.invoice.length)) {
-            const invoice_id = e.target.dataset.invoice && e.target.dataset.invoice.length ? e.target.dataset.invoice : e.target.value
+            let invoice_id = e.target.dataset.invoice && e.target.dataset.invoice.length ? e.target.dataset.invoice : e.target.value
+
+            if (invoice_id === 'test' && lines[idx]) {
+                invoice_id = lines[idx].invoice_id
+            }
+
             const invoice = this.paymentModel.getInvoice(invoice_id)
+
+            if (name === 'invoice_id' && allowed_invoices.includes(invoice_id)) {
+                return false
+            }
+
+            if (name === 'invoice_id' && invoice.balance <= 0) {
+                return false
+            }
+
             is_invoice = true
 
             if (!invoice) {
                 return
             }
 
-            let invoice_total = e.target.dataset.invoice && e.target.dataset.invoice.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(invoice.total)
+            let invoice_total = name !== 'amount' && this.state.amount <= 0 ? parseFloat(invoice.total) : parseFloat(e.target.value)
+
             let refunded_amount = 0
 
             if (this.props.paymentables && this.props.paymentables.length > 0) {
@@ -74,8 +96,22 @@ export default class InvoiceLine extends Component {
         }
 
         if (name === 'credit_id' || (e.target.dataset.credit && e.target.dataset.credit.length)) {
-            const credit_id = e.target.dataset.credit && e.target.dataset.credit.length ? e.target.dataset.credit : e.target.value
+            let credit_id = e.target.dataset.credit && e.target.dataset.credit.length ? e.target.dataset.credit : e.target.value
+
+            if (credit_id === 'test' && credit_lines[idx]) {
+                credit_id = credit_lines[idx].credit_id
+            }
+
             const credit = this.paymentModel.getCredit(credit_id)
+
+            if (name === 'credit_id' && allowed_credits.includes(credit_id)) {
+                return false
+            }
+
+            if (name === 'credit_id' && credit.balance <= 0) {
+                return false
+            }
+
             is_credit = true
 
             if (!credit) {
@@ -83,6 +119,7 @@ export default class InvoiceLine extends Component {
             }
 
             let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
+
             let refunded_amount = 0
 
             if (this.props.paymentables && this.props.paymentables.length > 0) {
@@ -181,20 +218,23 @@ export default class InvoiceLine extends Component {
     render () {
         const { lines, credit_lines } = this.state
 
-        console.log('lines', lines)
-        console.log('credit', credit_lines)
-
         const status = this.props.status ? this.props.status : null
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
+
+        console.log('invoices', invoices)
+        console.log('credits', credits)
         return (
             <form>
-                <InvoiceLineInputs invoices={invoices} status={status} errors={this.props.errors}
+                <InvoiceLineInputs allowed_invoices={this.allowed_invoices} payment={this.props.payment}
+                    invoices={invoices} status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
 
-                <CreditLineInputs credits={credits} status={status} errors={this.props.errors}
+                <CreditLineInputs allowed_credits={this.allowed_credits}
+                    payment={this.props.payment} credits={credits}
+                    status={status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>

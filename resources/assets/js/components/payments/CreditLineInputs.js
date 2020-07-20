@@ -13,6 +13,8 @@ const CreditLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="exampleEmail">{translations.credit}</Label>
                                 <CreditDropdown
+                                    allowed_credits={props.allowed_credits}
+                                    customer={props.payment.customer_id}
                                     credits={props.credits}
                                     data_id={idx}
                                     credit_id={props.lines[idx].credit_id}
@@ -27,7 +29,7 @@ const CreditLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
-                                    data-credit={props.credits.length === 1 ? props.credits[0].id : null}
+                                    data-credit={props.credits.length === 1 ? props.credits[0].id : 'test'}
                                     data-id={idx}
                                     onChange={props.onChange}
                                     value={props.lines[idx].amount}

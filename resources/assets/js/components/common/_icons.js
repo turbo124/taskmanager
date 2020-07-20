@@ -3,6 +3,7 @@ import React from 'react'
 export const icons = {
     refresh: 'fa-gear',
     checkbox: 'fa-check-square',
+    checkbox_o: 'fa-check-square-o',
     table: 'fa-table',
     columns: 'fa-columns',
     download: 'fa-download',
@@ -35,6 +36,7 @@ export const icons = {
     list: 'fa-list-ol',
     map_marker: 'fa-map-marker',
     envelope: 'fa-envelope',
+    book: 'fa-book',
     user: 'fa-user',
     project: 'fa-briefcase',
     task: 'fa-clock-o',
@@ -57,6 +59,7 @@ export const icons = {
     pound_sign: 'fa-gbp',
     payment_terms: 'fa-handshake-o',
     pdf: 'fa-file-pdf-o',
+    archive_file: 'a-file-archive-o',
     text_file: 'fa-file-text',
     word_file: 'fa-file-word-o',
     excel_file: 'fa-file-excel-o',

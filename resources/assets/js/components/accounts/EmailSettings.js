@@ -6,7 +6,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
 import { translations } from '../common/_translations'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
+import { icons } from '../common/_icons'
 
 class EmailSettings extends Component {
     constructor (props) {
@@ -127,16 +128,17 @@ class EmailSettings extends Component {
                     placeholder: translations.bcc_email,
                     value: settings.bcc_email
                 },
-                {
+                /* {
                     name: 'enable_email_markup',
                     label: translations.enable_email_markup,
                     type: 'switch',
                     placeholder: translations.enable_email_markup,
                     value: settings.enable_email_markup
-                },
+                }, */
                 {
                     name: 'pdf_email_attachment',
                     label: translations.pdf_email_attachment,
+                    icon: `fa ${icons.pdf}`,
                     type: 'switch',
                     placeholder: translations.pdf_email_attachment,
                     value: settings.pdf_email_attachment
@@ -144,6 +146,7 @@ class EmailSettings extends Component {
                 {
                     name: 'document_email_attachment',
                     label: translations.document_email_attachment,
+                    icon: `fa ${icons.image_file}`,
                     type: 'switch',
                     placeholder: translations.document_email_attachment,
                     value: settings.document_email_attachment
@@ -151,6 +154,7 @@ class EmailSettings extends Component {
                 {
                     name: 'ubl_email_attachment',
                     label: translations.ubl_email_attachment,
+                    icon: `fa ${icons.archive_file}`,
                     type: 'switch',
                     placeholder: translations.ubl_email_attachment,
                     value: settings.ubl_email_attachment

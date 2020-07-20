@@ -75,18 +75,20 @@ export default class Details extends React.Component {
                     {this.renderErrorFor('type_id')}
                 </FormGroup>
 
-                <FormGroup className="mb-3">
-                    <Label>{translations.customer}</Label>
-                    <CustomerDropdown
-                        disabled={customer_disabled}
-                        customer={this.props.payment.customer_id}
-                        errors={this.props.errors}
-                        name="customer_id"
-                        renderErrorFor={this.renderErrorFor}
-                        handleInputChanges={this.props.handleInput}
-                    />
-                    {this.renderErrorFor('customer_id')}
-                </FormGroup>
+                {this.props.hide_customer === false &&
+                    <FormGroup className="mb-3">
+                        <Label>{translations.customer}</Label>
+                        <CustomerDropdown
+                            disabled={customer_disabled}
+                            customer={this.props.payment.customer_id}
+                            errors={this.props.errors}
+                            name="customer_id"
+                            renderErrorFor={this.renderErrorFor}
+                            handleInputChanges={this.props.handleInput}
+                        />
+                        {this.renderErrorFor('customer_id')}
+                    </FormGroup>
+                }
 
                 <FormGroup check>
                     <Label check>

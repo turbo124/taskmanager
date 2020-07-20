@@ -1,5 +1,9 @@
 const _localizedValues = []
 _localizedValues.gb = {
+    off: 'Off',
+    when_sent: 'When Sent',
+    when_paid: 'When Paid',
+    lock_invoice: 'Lock Invoice',
     security: 'Security',
     display_invoice_terms: 'Display Invoice Terms to Customer',
     display_quote_terms: 'Display Quote Terms to Customer',
