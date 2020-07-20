@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardBody, CardHeader, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, NavLink, Nav, NavItem, TabContent, TabPane, ListGroup } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { translations } from '../common/_translations'
+import { icons } from '../common/_icons'
 
 export default class CustomerPortalSettings extends Component {
     constructor (props) {
@@ -11,7 +12,7 @@ export default class CustomerPortalSettings extends Component {
 
         this.state = {
             id: localStorage.getItem('account_id'),
-            activeTab: '1'
+            activeTab: '1',
             settings: {}
         }
 
@@ -112,12 +113,12 @@ export default class CustomerPortalSettings extends Component {
     getSecurityFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'display_invoice_terms',
                     label: translations.display_invoice_terms,
-                    icon: 'fa fa-check-square-o',
+                    icon: `fa ${icons.checkbox_o}`,
                     type: 'switch',
                     placeholder: translations.display_invoice_terms,
                     value: settings.display_invoice_terms
@@ -125,7 +126,7 @@ export default class CustomerPortalSettings extends Component {
                 {
                     name: 'display_quote_terms',
                     label: translations.display_quote_terms,
-                    icon: 'fa fa-check-square-o',
+                    icon: `fa ${icons.checkbox_o}`,
                     type: 'switch',
                     placeholder: translations.display_quote_terms,
                     value: settings.display_quote_terms
@@ -133,7 +134,7 @@ export default class CustomerPortalSettings extends Component {
                 {
                     name: 'display_invoice_signature',
                     label: translations.display_invoice_signature,
-                    icon: 'fa fa-pencil',
+                    icon: `fa ${icons.pencil}`,
                     type: 'switch',
                     placeholder: translations.display_invoice_signature,
                     value: settings.display_invoice_signature
@@ -141,11 +142,11 @@ export default class CustomerPortalSettings extends Component {
                 {
                     name: 'display_quote_signature',
                     label: translations.display_quote_signature,
-                    icon: 'fa fa-pencil',
+                    icon: `fa ${icons.pencil}`,
                     type: 'switch',
                     placeholder: translations.display_quote_signature,
                     value: settings.display_quote_signature
-                },
+                }
             ]
         ]
     }
@@ -155,7 +156,7 @@ export default class CustomerPortalSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                 <Nav tabs>
+                <Nav tabs>
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -176,7 +177,7 @@ export default class CustomerPortalSettings extends Component {
                         </NavLink>
                     </NavItem>
                 </Nav>
-                
+
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
@@ -200,8 +201,7 @@ export default class CustomerPortalSettings extends Component {
                                 />
                             </CardBody>
                         </Card>
-                     </TabPane>
-
+                    </TabPane>
                     <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                 </TabContent>
             </React.Fragment>

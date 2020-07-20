@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Client;
+namespace App\Events\Customer;
 
 use App\Customer;
 use Illuminate\Broadcasting\Channel;
@@ -16,18 +16,17 @@ class CustomerWasArchived
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Client
+     * @var Customer
      */
-    public $client;
+    public Customer $customer;
 
     /**
-     * Create a new event instance.
-     *
-     * @param Client $client
+     * CustomerWasArchived constructor.
+     * @param Customer $customer
      */
-    public function __construct(Customer $client)
+    public function __construct(Customer $customer)
     {
-        $this->client = $client;
+        $this->customer = $customer;
     }
 
     /**

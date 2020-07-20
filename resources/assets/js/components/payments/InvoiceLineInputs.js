@@ -29,7 +29,7 @@ const InvoiceLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
-                                    data-invoice={props.invoices.length === 1 ? props.invoices[0].id : null}
+                                    data-invoice={props.invoices.length === 1 ? props.invoices[0].id : 'test'}
                                     data-id={idx}
                                     onChange={props.onChange}
                                     value={props.lines[idx].amount}

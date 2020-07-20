@@ -6,7 +6,7 @@ use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PaymentDeletedctivity implements ShouldQueue
+class PaymentDeletedActivity implements ShouldQueue
 {
     protected $notification_repo;
 

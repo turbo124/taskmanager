@@ -87,7 +87,7 @@ export default class WorkflowSettings extends Component {
 
         const formFields = [
             [
-             {
+                {
                     name: 'should_lock_invoice',
                     label: translations.lock_invoice,
                     type: 'select',
@@ -106,11 +106,11 @@ export default class WorkflowSettings extends Component {
                             text: translations.when_paid
                         }
                     ]
-                }
+                },
                 {
                     name: 'should_email_invoice',
                     label: 'Auto Email',
-                    icon: 'fa fa-envelope',
+                    icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_invoice,
                     group: 1
@@ -118,7 +118,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_archive_invoice',
                     label: 'Auto Archive',
-                    icon: 'fa fa-archive',
+                    icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_invoice,
                     group: 1
@@ -137,7 +137,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_email_order',
                     label: 'Auto Email',
-                    icon: 'fa fa-envelope',
+                    icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_order,
                     group: 1
@@ -145,15 +145,15 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_archive_order',
                     label: 'Auto Archive',
-                    icon: 'fa fa-archive',
+                    icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_order,
                     group: 1
                 },
                 {
                     name: 'should_convert_order',
-                    label: 'Auto Convert', 
-                    icon: 'fa fa-book',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_order,
                     group: 1
@@ -172,7 +172,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_email_lead',
                     label: 'Auto Email',
-                    icon: 'fa fa-envelope',
+                    icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_lead,
                     group: 1
@@ -180,7 +180,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_archive_lead',
                     label: 'Auto Archive',
-                    icon: 'fa fa-archive',
+                    icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_lead,
                     group: 1
@@ -188,7 +188,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_convert_lead',
                     label: 'Auto Convert',
-                    icon: 'fa fa-book',
+                    icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_lead,
                     group: 1
@@ -207,7 +207,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_email_quote',
                     label: 'Auto Email',
-                    icon: 'fa fa-envelope',
+                    icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_quote,
                     group: 1
@@ -215,7 +215,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_archive_quote',
                     label: 'Auto Archive',
-                    icon: 'fa fa-archive',
+                    icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_quote,
                     group: 1
@@ -223,7 +223,7 @@ export default class WorkflowSettings extends Component {
                 {
                     name: 'should_convert_quote',
                     label: 'Auto Convert',
-                    icon: 'fa fa-book',
+                    icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_quote,
                     group: 1

@@ -11,17 +11,16 @@ class CustomerWasRestored
     use SerializesModels;
 
     /**
-     * @var Client
+     * @var Customer
      */
-    public $client;
+    public Customer $customer;
 
     /**
-     * Create a new event instance.
-     *
-     * @param Client $client
+     * CustomerWasRestored constructor.
+     * @param Customer $customer
      */
-    public function __construct(Customer $client)
+    public function __construct(Customer $customer)
     {
-        $this->client = $client;
+        $this->customer = $customer;
     }
 }

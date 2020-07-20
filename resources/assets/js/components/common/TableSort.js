@@ -12,7 +12,7 @@ export default class TableSort extends Component {
                 return (!this.props.ignore || !this.props.ignore.length) || (this.props.ignore.length && !this.props.ignore.includes(column))
             }).map(column => {
                 const sortedClass = (this.props.disableSorting && this.props.disableSorting.includes(column)) ? ('') : ((column === this.props.sorted_column) ? (`th-sm sorting_${this.props.order}`) : ('sorting_asc_disabled'))
-                return <th className={`table-head ${sortedClass} th-lg`} key={column}
+                return <th className={`table-head ${sortedClass}`} key={column}
                     onClick={() => this.sortByColumn(column)}>
                     {this.columnHead(column)}
                 </th>

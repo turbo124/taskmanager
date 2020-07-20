@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Log;
 
 class QuoteCreatedActivity implements ShouldQueue
 {
-    protected $notification_repo;
+    /**
+     * @var NotificationRepository
+     */
+    protected NotificationRepository $notification_repo;
 
     /**
      * Create the event listener.

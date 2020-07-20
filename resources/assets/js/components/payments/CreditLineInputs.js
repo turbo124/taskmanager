@@ -29,7 +29,7 @@ const CreditLineInputs = (props) => {
                             <FormGroup>
                                 <Label for="examplePassword">{translations.amount}</Label>
                                 <Input type="text"
-                                    data-credit={props.credits.length === 1 ? props.credits[0].id : null}
+                                    data-credit={props.credits.length === 1 ? props.credits[0].id : 'test'}
                                     data-id={idx}
                                     onChange={props.onChange}
                                     value={props.lines[idx].amount}

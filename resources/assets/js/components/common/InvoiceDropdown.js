@@ -56,15 +56,11 @@ export default class InvoiceDropdown extends Component {
         if (!invoices) {
             invoiceList = <option value="">Loading...</option>
         } else {
-            if (this.props.customer_id && this.props.customer_id !== null) {
+            if (this.props.customer_id) {
                 invoices = invoices.filter(invoice => invoice.customer_id === parseInt(this.props.customer_id))
             }
 
-            if (this.props.allowed_invoices && this.props.allowed_invoices !== null) {
-                invoices = invoices.filter(invoice => this.props.allowed_invoices.includes(invoice.id))
-            }
-
-            invoiceList = invoices.filter(invoice => invoice.balance > 0).map((invoice, index) => (
+            invoiceList = invoices.map((invoice, index) => (
                 <option key={index} value={invoice.id}>{invoice.number} ({invoice.total})</option>
             ))
         }

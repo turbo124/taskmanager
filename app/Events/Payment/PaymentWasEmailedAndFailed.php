@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Models\Payment;
+use App\Payment;
 use Illuminate\Queue\SerializesModels;
 
 class PaymentWasEmailedAndFailed
