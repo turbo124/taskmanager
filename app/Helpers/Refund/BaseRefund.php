@@ -162,16 +162,12 @@ class BaseRefund
         return $this;
     }
 
-    protected function save($is_credit = false)
+    protected function save()
     {
         $this->updateRefundAmount();;
         $this->setStatus();
         $this->updateCustomer();
-
-        if ($is_credit === false) {
-            $this->createCreditNote();
-        }
-
+        $this->createCreditNote();
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));
