@@ -5,6 +5,7 @@ namespace App\Helpers\Refund;
 
 
 use App\Invoice;
+use App\Credit;
 use App\Payment;
 use App\Paymentable;
 use App\Repositories\CreditRepository;
@@ -28,16 +29,26 @@ class CreditRefund extends BaseRefund
 
     public function refund()
     {
-        foreach ($this->payment_credits as $payment_credit) {
-            $total = $this->getAmount();
-            $available_credit = $payment_credit->pivot->amount - $payment_credit->pivot->refunded;
-            $total_to_credit = $available_credit > $total ? $total : $available_credit;
-            $this->updateRefundedAmountForCredit($payment_credit, $total_to_credit);
-            $this->updateCreditNote($payment_credit, $total_to_credit);
-            $this->increaseRefundAmount($available_credit <= $total ? $available_credit : 0);
-        }
+        $credits = $this->payment->credits->keyBy('id');
 
-        $this->save();
+        foreach ($this->payment_credits as $payment_credit) {
+            $total = $payment_credit['amount'];
+
+            $credit_id = $payment_credit['credit_id'];
+
+            if(empty($credits[$credit_id])) {
+                return false;
+            }
+
+            $credit = $credits[$credit_id];
+
+            $available_credit = $payment_credit['amount'] - $credit->pivot->refunded;
+
+            $total_to_credit = $available_credit > $total ? $total : $available_credit;
+            $this->updateRefundedAmountForCredit($credit, $total_to_credit);
+            $this->updateCreditNote($credit, $total_to_credit);
+            $this->increaseRefundAmount($available_credit <= $total ? $available_credit : 0);
+        } 
 
         return $this->payment;
     }
@@ -58,6 +69,7 @@ class CreditRefund extends BaseRefund
     private function updateCreditNote($credit, $amount)
     {
         $credit->increaseBalance($amount);
+        $credit->setStatus(Credit::STATUS_SENT);
         $credit->save();
         return true;
     }

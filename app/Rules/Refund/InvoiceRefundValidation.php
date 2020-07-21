@@ -11,6 +11,8 @@ class InvoiceRefundValidation implements Rule
 {
     private $request;
 
+    private Payment $payment;
+
     /**
      * @var array
      */
@@ -65,7 +67,7 @@ class InvoiceRefundValidation implements Rule
             $invoice_total += $invoice->total;
         }
 
-        if ($this->request['amount'] > $invoice_total) {
+        if ($invoice_total > $this->payment->amount) {
             return false;
         }
 
@@ -97,20 +99,20 @@ class InvoiceRefundValidation implements Rule
             $this->request['id']
         )->first();
 
-        $payment = Payment::whereId($this->request['id'])->first();
+        $this->payment = Payment::whereId($this->request['id'])->first();
 
-        if (!$payment) {
+        if (!$this->payment) {
             return false;
         }
 
-        $allowed_invoices = $payment->invoices->pluck('id')->toArray();
+        $allowed_invoices = $this->payment->invoices->pluck('id')->toArray();
 
         if (!in_array($invoice_id, $allowed_invoices)) {
             $this->validationFailures[] = 'Invoice is invalid';
             return false;
         }
 
-        if ($this->request['amount'] + $paymentable->refunded > $payment->amount) {
+        if ($this->request['amount'] + $paymentable->refunded > $this->payment->amount) {
             return false;
         }
 

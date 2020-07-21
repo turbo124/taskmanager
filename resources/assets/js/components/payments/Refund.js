@@ -82,7 +82,9 @@ class Refund extends React.Component {
             return el.amount !== 0 && el.invoice_id !== null
         })
 
-        const credits = this.state.payable_credits().filter(function (el) {
+        console.log('credits', this.state.payable_credits)
+
+        const credits = this.state.payable_credits.filter(function (el) {
             return el.amount !== 0 && el.credit_id !== null
         })
 
@@ -101,11 +103,13 @@ class Refund extends React.Component {
         })
             .then((response) => {
                 this.initialState = this.state
-                console.log('test', response.data)
-                const index = this.props.payments.findIndex(payment => payment.id === this.props.payment.id)
-                this.props.payments[index] = response.data
-                this.props.action(this.props.payments)
-                this.toggle()
+
+                if (this.props.payments && this.props.action) {
+                    const index = this.props.payments.findIndex(payment => payment.id === this.props.payment.id)
+                    this.props.payments[index] = response.data
+                    this.props.action(this.props.payments)
+                    this.toggle()
+                }
             })
             .catch((error) => {
                 if (error.response.data.message) {
@@ -137,8 +141,8 @@ class Refund extends React.Component {
         return <React.Fragment>
             <Card>
                 <CardBody>
-                    {this.props.invoices.length > 0 &&
                     <InvoiceLine payment={this.props.payment} paymentables={this.props.paymentables}
+                        refund={true}
                         credits={this.props.credits}
                         invoices={this.props.invoices}
                         status={null}
@@ -146,9 +150,8 @@ class Refund extends React.Component {
                         allInvoices={this.props.allInvoices}
                         allCredits={this.props.allCredits} onCreditChange={this.setCredits}
                         customerChange={this.handleCustomerChange} onChange={this.setInvoices}/>
-                    }
 
-                    {this.props.invoices.length === 0 &&
+                    {(!this.props.invoices || this.props.invoices.length === 0) &&
                     <React.Fragment>
                         <Label>{translations.amount}</Label>
                         <InputGroup className="mb-3">

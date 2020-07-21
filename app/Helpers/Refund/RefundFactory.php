@@ -28,8 +28,8 @@ class RefundFactory
 
         $objCreditRefunds = null;
 
-        if ($payment->credits->count() > 0) {
-            $objCreditRefunds = new CreditRefund($payment, $data, $credit_repo, $payment->credits);
+        if (!empty($data['credits'])) {
+            $objCreditRefunds = new CreditRefund($payment, $data, $credit_repo, $data['credits']);
             $objCreditRefunds->refund();
         }
 

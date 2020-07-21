@@ -270,7 +270,6 @@ class OrderTest extends TestCase
         $order = factory(Order::class)->create();
         $order->customer_id = 5;
 
-
         $order->save();
         $objShipping = new ShippoShipment(
             $order->customer, json_decode(json_encode($order->line_items), true)
