@@ -47,9 +47,7 @@ class CreditRefund extends BaseRefund
             $this->updateRefundedAmountForCredit($credit, $total_to_credit);
             $this->updateCreditNote($credit, $total_to_credit);
             $this->increaseRefundAmount($available_credit <= $total ? $available_credit : 0);
-        }
-
-        $this->save(true);
+        } 
 
         return $this->payment;
     }
