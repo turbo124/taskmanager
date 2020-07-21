@@ -5,6 +5,7 @@ namespace App\Helpers\Refund;
 
 
 use App\Invoice;
+use App\Credit;
 use App\Payment;
 use App\Paymentable;
 use App\Repositories\CreditRepository;
@@ -68,6 +69,7 @@ class CreditRefund extends BaseRefund
     private function updateCreditNote($credit, $amount)
     {
         $credit->increaseBalance($amount);
+        $credit->setStatus(Credit::STATUS_SENT);
         $credit->save();
         return true;
     }
