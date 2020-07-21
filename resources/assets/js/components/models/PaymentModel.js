@@ -5,8 +5,10 @@ import BaseModel from './BaseModel'
 export default class PaymentModel extends BaseModel {
     constructor (invoices, data = null, credits = null) {
         super()
+
         this.invoices = invoices
         this.credits = credits
+
         this.errors = []
         this.error_message = ''
 
@@ -143,6 +145,8 @@ export default class PaymentModel extends BaseModel {
     }
 
     getInvoice (invoice_id) {
+        console.log('all invoices here', this.invoices)
+
         const invoice = this.invoices.filter(function (invoice) {
             return invoice.id === parseInt(invoice_id)
         })

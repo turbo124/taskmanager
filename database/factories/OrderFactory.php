@@ -30,7 +30,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'tax_total' => 20,
         'shipping_cost' => 20,
         'discount_total' => 20,
-        'customer_id' => $customer->id,
+        'customer_id' => 5,
         'user_id' => $user->id,
         'date' => $faker->date(),
         'due_date' => $faker->date(),

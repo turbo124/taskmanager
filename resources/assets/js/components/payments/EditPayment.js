@@ -71,7 +71,7 @@ class EditPayment extends React.Component {
 
         this.setState({
             [e.target.name]: e.target.value,
-            customer_id: invoice.customer_id,
+            customer_id: credit.customer_id,
             amount: credit.total
         })
 
