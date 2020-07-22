@@ -425,9 +425,6 @@ class EditInvoice extends Component {
     }
 
     buildForm () {
-
-        alert(this.state.message)
-
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
         const errorMessage = this.state.showErrorMessage === true
