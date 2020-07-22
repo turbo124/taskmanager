@@ -173,7 +173,6 @@ class BaseRefund
         $this->setStatus();
         $this->updateCustomer();
         $this->createCreditNote();
-
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));
@@ -187,7 +186,6 @@ class BaseRefund
 
         $this->reduceRefundTotal();
         $this->setStatus();
-
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));
