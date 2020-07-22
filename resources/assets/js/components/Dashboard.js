@@ -69,6 +69,13 @@ function calculatePercentage (number1, number2) {
     return Math.floor((number1 / number2) * 100)
 }
 
+function filterOverdue (array) {
+    const today = new Date()
+    return array.filter((item)  => {
+        return new Date(item.due_date) > today
+    })
+}
+
 function filterByDate (startDate, endDate, array) {
     startDate = new Date(startDate)
     endDate = new Date(endDate)
@@ -348,9 +355,7 @@ class Dashboard extends Component {
                         break
 
                     case 'Overdue':
-                        const filterInvoicesByExpiration = this.state.invoices.filter((item)  => {
-                            return new Date(item.due_date) > today && item.status_id === 2
-                        })
+                        const filterInvoicesByExpiration = filterOverdue(this.state.invoices)
 
                         array = formatData(filterInvoicesByExpiration, 2, start, end, 'total', 'status_id')
                         //array = formatData(this.state.invoices, 5, start, end, 'amount', 'status', false)
@@ -404,9 +409,7 @@ class Dashboard extends Component {
                         break
 
                     case 'Overdue':
-                        const filterQuotesByExpiration = this.state.quotes.filter((item)  => {
-                            return new Date(item.due_date) > today && item.status_id === 2
-                        })
+                        const filterQuotesByExpiration = filterOverdue(this.state.quotes)
 
                         array = formatData(filterQuotesByExpiration, 2, start, end, 'total', 'status_id')
                         //array = formatData(this.state.quotes, 2, start, end, 'amount', 'status', false)
@@ -428,9 +431,7 @@ class Dashboard extends Component {
                         break
 
                     case 'Overdue':
-                        const filterCreditsByExpiration = this.state.credits.filter((item)  => {
-                            return new Date(item.due_date) > today && item.status_id === 2
-                        })
+                        const filterCreditsByExpiration = filterOverdue(this.state.credits)
      
                         array = formatData(filterCreditsByExpiration, 2, start, end, 'total', 'status_id')
                         //array = formatData(this.state.credits, 2, start, end, 'amount', 'status', false)
@@ -464,9 +465,7 @@ class Dashboard extends Component {
                         break
 
                     case 'Overdue':
-                        const filterOrdersByExpiration = this.state.orders.filter((item)  => {
-                            return new Date(item.due_date) > today && item.status_id !== 1
-                        })
+                        const filterOrdersByExpiration = filterOverdue(this.state.orders)
 
                         array = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
                         //array = formatData(this.state.orders, 3, start, end, 'amount', 'status', false)
@@ -502,11 +501,7 @@ class Dashboard extends Component {
         const invoicePaid = formatData(this.state.invoices, 3, start, end, 'total', 'status_id')
         const invoiceCancelled = formatData(this.state.invoices, 5, start, end, 'total', 'status_id')
 
-        const today = new Date().getTime();
-        const filterInvoicesByExpiration = this.state.invoices.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id === 2
-        })
-
+        const filterInvoicesByExpiration = filterOverdue(this.state.invoices)
         const invoiceOverdue = formatData(filterInvoicesByExpiration, 2, start, end, 'total', 'status_id')
     
         console.log('overdue invoices', filterInvoicesByExpiration)
@@ -519,20 +514,14 @@ class Dashboard extends Component {
         const quoteApproved = formatData(this.state.quotes, 4, start, end, 'total', 'status_id')
         const quoteUnapproved = formatData(this.state.quotes, 2, start, end, 'total', 'status_id')
 
-        const filterQuotesByExpiration = this.state.quotes.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id === 2
-        })
-
+        const filterQuotesByExpiration = filterOverdue(this.state.quotes)
         const quoteOverdue = formatData(filterQuotesByExpiration, 2, start, end, 'total', 'status_id')
 
         const creditActive = formatData(this.state.credits, 1, start, end, 'total', 'status_id')
         const creditCompleted = formatData(this.state.credits, 4, start, end, 'total', 'status_id')
         const creditSent = formatData(this.state.credits, 2, start, end, 'total', 'status_id')
 
-        const filterCreditsByExpiration = this.state.credits.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id === 2
-        })
-     
+        const filterCreditsByExpiration = filterOverdue(this.state.credits)
         const creditOverdue = formatData(filterCreditsByExpiration, 2, start, end, 'total', 'status_id')
 
         const orderHeld = formatData(this.state.orders, 5, start, end, 'total', 'status_id')
@@ -542,10 +531,7 @@ class Dashboard extends Component {
         const orderSent = formatData(this.state.orders, 2, start, end, 'total', 'status_id')
         const orderCompleted = formatData(this.state.orders, 3, start, end, 'total', 'status_id')
    
-        const filterOrdersByExpiration = this.state.orders.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id !== 1
-        })
-
+        const filterOrdersByExpiration = filterOverdue(this.state.orders)
         const orderOverdue = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
 
         const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
