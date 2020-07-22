@@ -558,26 +558,31 @@ class Dashboard extends Component {
                         value: orderHeld && Object.keys(orderHeld).length ? orderHeld.value : 0
                     },
                     Backordered: {
-                        avg: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.avg : 0,
-                        pct: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.pct : 0,
-                        value: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.value : 0
+                        avg: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.avg : 0,
+                        pct: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.pct : 0,
+                        value: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.value : 0
                     },
                     Cancelled: {
-                        avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
-                        pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
-                        value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+                        avg: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.avg : 0,
+                        pct: ordedCancelled && Object.keys(orderCancelled).length ? orderCancelled.pct : 0,
+                        value: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.value : 0
                     },
                     Completed: {
-                        avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
-                        pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
-                        value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+                        avg: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.avg : 0,
+                        pct: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.pct : 0,
+                        value: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.value : 0
+                    },
+                    Sent: {
+                        avg: orderSent && Object.keys(orderSent).length ? orderSent.avg : 0,
+                        pct: orderSent && Object.keys(orderSent).length ? orderSent.pct : 0,
+                        value: orderSent && Object.keys(orderSent).length ? orderSent.value : 0
                     }
                 },
                 datasets: [
                     {
                         label: 'Draft',
                         backgroundColor: hexToRgba(brandInfo, 10),
-                        borderColor: brandSecondary,
+                        borderColor: brandInfo,
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 2,
                         data: orderDraft && Object.keys(orderDraft).length ? Object.values(orderDraft.data) : []
@@ -592,13 +597,13 @@ class Dashboard extends Component {
                         data: orderHeld && Object.keys(orderHeld).length ? Object.values(orderHeld.data) : []
                     }, 
                     {
-                        label: 'Paid',
+                        label: 'Backordered',
                         backgroundColor: 'transparent',
-                        borderColor: brandSuccess,
+                        borderColor: brandWarning,
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 1,
                         borderDash: [8, 5],
-                        data: invoicePaid && Object.keys(invoicePaid).length ? Object.values(invoicePaid.data) : []
+                        data: orderBackordered && Object.keys(orderBackordered).length ? Object.values(orderBackordered.data) : []
                     },
                     {
                         label: 'Cancelled',
@@ -607,7 +612,25 @@ class Dashboard extends Component {
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 1,
                         borderDash: [8, 5],
-                        data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
+                        data: orderCancelled && Object.keys(orderCancelled).length ? Object.values(orderCancelled.data) : []
+                    },
+                    {
+                        label: 'Sent',
+                        backgroundColor: 'transparent',
+                        borderColor: brandSuccess,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: orderSent && Object.keys(orderSent).length ? Object.values(orderSent.data) : []
+                    },
+                    {
+                        label: 'Completed',
+                        backgroundColor: 'transparent',
+                        borderColor: brandSuccess,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: orderCompleted && Object.keys(orderCompleted).length ? Object.values(orderCompleted.data) : []
                     },
                 ]
             }
