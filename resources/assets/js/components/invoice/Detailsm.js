@@ -46,7 +46,8 @@ export default class Detailsm extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="due_date">{translations.due_date}(*):</Label>
-                        <Datepicker name="due_date" date={this.props.invoice.due_date} handleInput={this.props.handleInput}
+                        <Datepicker name="due_date" date={this.props.invoice.due_date}
+                            handleInput={this.props.handleInput}
                             className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         {this.renderErrorFor('due_date')}
                     </FormGroup>
@@ -69,10 +70,12 @@ export default class Detailsm extends Component {
 
                     <FormGroup className={this.props.invoice.has_partial === true ? '' : 'd-none'}>
                         <Label>{translations.partial_due_date}</Label>
-                        <Datepicker name="partial_due_date" date={this.props.invoice.partial_due_date} handleInput={this.props.handleInput}
+                        <Datepicker name="partial_due_date" date={this.props.invoice.partial_due_date}
+                            handleInput={this.props.handleInput}
                             className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     </FormGroup>
 
+                    {this.props.hide_customer === true &&
                     <FormGroup>
                         <Label>{translations.customer}</Label>
                         <CustomerDropdown
@@ -82,6 +85,8 @@ export default class Detailsm extends Component {
                             errors={this.props.errors}
                         />
                     </FormGroup>
+                    }
+
                     {/* <FormGroup> */}
                     {/*    <Label>{translations.company}</Label> */}
                     {/*    <CompanyDropdown */}

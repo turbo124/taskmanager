@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Credit;
 use App\Customer;
 use App\Events\Invoice\InvoiceWasCreated;
+use App\Events\Invoice\InvoiceWasRestored;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneInvoiceFactory;
 use App\Factory\InvoiceToPaymentFactory;
@@ -142,6 +143,11 @@ class InvoiceController extends BaseController
     public function update(UpdateInvoiceRequest $request, int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
+
+        if ($invoice->isLocked()) {
+            return response()->json(['message' => trans('texts.invoice_is_locked')], 422);
+        }
+
         $invoice = $this->invoice_repo->updateInvoice($request->all(), $invoice);
         return response()->json($this->transformInvoice($invoice));
     }

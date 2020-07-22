@@ -4,6 +4,7 @@
 namespace App\Helpers\Refund;
 
 
+use App\Credit;
 use App\Invoice;
 use App\Payment;
 use App\Paymentable;
@@ -49,7 +50,7 @@ class CreditRefund extends BaseRefund
             $this->increaseRefundAmount($available_credit <= $total ? $available_credit : 0);
         }
 
-        $this->save(true);
+        $this->completeCreditRefund();
 
         return $this->payment;
     }
@@ -70,6 +71,7 @@ class CreditRefund extends BaseRefund
     private function updateCreditNote($credit, $amount)
     {
         $credit->increaseBalance($amount);
+        $credit->setStatus(Credit::STATUS_SENT);
         $credit->save();
         return true;
     }

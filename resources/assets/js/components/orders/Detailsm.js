@@ -45,7 +45,8 @@ export default class Detailsm extends React.Component {
 
                 <FormGroup>
                     <Label for="due_date">{translations.due_date}(*):</Label>
-                    <Datepicker name="due_date" date={this.props.order.due_date} handleInput={this.props.handleInput}
+                    <Datepicker name="due_date" date={this.props.order.due_date}
+                        handleInput={this.props.handleInput}
                         className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('due_date')}
                 </FormGroup>
@@ -57,15 +58,17 @@ export default class Detailsm extends React.Component {
                     {this.renderErrorFor('po_number')}
                 </FormGroup>
 
-                <FormGroup>
-                    <Label>{translations.customer}</Label>
-                    <CustomerDropdown
-                        handleInputChanges={this.props.handleInput}
-                        customer={this.props.order.customer_id}
-                        customers={this.props.customers}
-                        errors={this.props.errors}
-                    />
-                </FormGroup>
+                {this.props.hide_customer === true &&
+                    <FormGroup>
+                        <Label>{translations.customer}</Label>
+                        <CustomerDropdown
+                            handleInputChanges={this.props.handleInput}
+                            customer={this.props.order.customer_id}
+                            customers={this.props.customers}
+                            errors={this.props.errors}
+                        />
+                    </FormGroup>
+                }
             </CardBody>
         </Card>
         )

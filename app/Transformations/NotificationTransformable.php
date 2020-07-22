@@ -21,6 +21,7 @@ trait NotificationTransformable
         $prop = new Notification;
         $prop->id = (int)$notification->id;
         $prop->type = $notification->type;
+        $prop->entity = class_basename($notification->notifiable_type);
         $prop->user_id = $notification->notifiable_id;
         $prop->author = $user->first_name . ' ' . $user->last_name;
         $prop->data = json_decode($notification->data, true);

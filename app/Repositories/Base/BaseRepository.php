@@ -136,6 +136,15 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->restore();
         $entity->is_deleted = false;
         $entity->save();
+
+        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasRestored";
+
+        if (class_exists($event_class)) {
+            event(new $event_class($entity));
+        }
+
+        return true;
     }
 
     /**

@@ -63,19 +63,22 @@ export default class Detailsm extends React.Component {
 
                 <FormGroup className={this.props.credit.has_partial === true ? '' : 'd-none'}>
                     <Label>{translations.partial_due_date}</Label>
-                    <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date} handleInput={this.props.handleInput}
+                    <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date}
+                        handleInput={this.props.handleInput}
                         className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                 </FormGroup>
 
-                <FormGroup>
-                    <Label>{translations.customer}</Label>
-                    <CustomerDropdown
-                        handleInputChanges={this.props.handleInput}
-                        customer={this.props.credit.customer_id}
-                        customers={this.props.customers}
-                        errors={this.props.errors}
-                    />
-                </FormGroup>
+                {this.props.hide_customer === true &&
+                    <FormGroup>
+                        <Label>{translations.customer}</Label>
+                        <CustomerDropdown
+                            handleInputChanges={this.props.handleInput}
+                            customer={this.props.credit.customer_id}
+                            customers={this.props.customers}
+                            errors={this.props.errors}
+                        />
+                    </FormGroup>
+                }
             </CardBody>
         </Card>
         )

@@ -30,7 +30,11 @@ class RefundFactory
 
         if (!empty($data['credits'])) {
             $objCreditRefunds = new CreditRefund($payment, $data, $credit_repo, $data['credits']);
-            $objCreditRefunds->refund();
+            $payment = $objCreditRefunds->refund();
+
+            if(empty($data['invoices'])) {
+                return $payment;
+            }
         }
 
         if (!empty($data['invoices'])) {

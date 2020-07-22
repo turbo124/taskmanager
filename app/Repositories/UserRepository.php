@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Account;
+use App\Events\User\UserEmailChanged;
 use App\Events\User\UserWasDeleted;
 use App\User;
 use App\Department;
@@ -141,6 +142,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function save(array $data, User $user): ?User
     {
         $data['username'] = !isset($data['username']) || empty($data['username']) && !empty($data['email']) ? $data['email'] : $data['username'];
+        $email_changed = false;
+
+        if (!empty($user->email) && $user->email !== $data['email']) {
+            $email_changed = true;
+        }
 
         /*************** save new user ***************************/
         $user->fill($data);
@@ -177,6 +183,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 $cu->fill($data['company_user']);
                 $cu->restore();
                 $cu->save();
+            }
+
+            if ($email_changed === true) {
+                event(new UserEmailChanged($user));
             }
         }
 

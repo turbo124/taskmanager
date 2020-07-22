@@ -76,15 +76,7 @@ class PaymentController extends Controller
 
         $payment = (new ProcessPayment())->process($request->all(), $this->payment_repo, $payment);
 
-        $notification = NotificationFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
-        $notification->entity_id = $payment->id;
-        (new NotificationRepository(new \App\Notification))->save(
-            $notification,
-            [
-                'data' => json_encode(['id' => $payment->id, 'message' => 'A new payment was created']),
-                'type' => 'App\Notifications\PaymentCreated'
-            ]
-        );
+        event(new PaymentWasCreated($payment));
 
         return response()->json($this->transformPayment($payment));
     }

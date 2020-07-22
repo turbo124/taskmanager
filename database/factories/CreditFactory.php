@@ -1,37 +1,45 @@
 <?php
 
-use Faker\Generator as Faker;
+use App\Credit;
+use App\Customer;
+use App\User;
 
-$factory->define(App\Credit::class, function (Faker $faker) {
-    $customer = factory(\App\Customer::class)->create();
-    $user = factory(\App\User::class)->create();
+$factory->define(
+    Credit::class,
+    function (Faker\Generator $faker) {
+        $customer = factory(Customer::class)->create();
+        $user = factory(User::class)->create();
 
-    $line_items = [];
+        $total = 800;
 
-    for ($x = 0; $x < 5; $x++) {
-        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
-            ->setQuantity($faker->numberBetween(1, 10))
-            ->setUnitPrice($faker->randomFloat(2, 1, 1000))
-            ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
-            ->setUnitTax(10.00)
-            ->setProductId($faker->word())
-            ->setNotes($faker->realText(50))
-            ->toObject();
+        for ($x = 0; $x < 5; $x++) {
+            $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+                ->setQuantity($faker->numberBetween(1, 10))
+                ->setUnitPrice($faker->randomFloat(2, 1, 1000))
+                ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
+                ->setUnitTax(10.00)
+                ->setProductId($faker->word())
+                ->setNotes($faker->realText(50))
+                ->toObject();
+        }
+
+        return [
+            'account_id'     => 1,
+            'status_id'      => Credit::STATUS_DRAFT,
+            'number'         => $faker->ean13(),
+            'total'          => $total,
+            'balance'        => $total,
+            'tax_total'      => $faker->randomFloat(2),
+            'discount_total' => $faker->randomFloat(2),
+            'customer_id'    => $customer->id,
+            'user_id'        => $user->id,
+            'is_deleted'     => false,
+            'po_number'      => $faker->text(10),
+            'date'           => $faker->date(),
+            'due_date'       => $faker->date(),
+            'line_items'     => $line_items,
+            'terms'          => $faker->text(500),
+            'gateway_fee'    => 12.99
+        ];
     }
-
-    return [
-        'customer_id' => $customer->id,
-        'status_id'   => App\Credit::STATUS_DRAFT,
-        'number'      => $faker->ean13(),
-        'account_id'  => 1,
-        'user_id'     => $user->id,
-        //'discount' => $faker->numberBetween(1,10),
-        //'is_amount_discount' => (bool)random_int(0,1),
-        'is_deleted'  => false,
-        //'po_number' => $faker->text(10),
-        'date'        => $faker->date(),
-        'due_date'    => $faker->date(),
-        'line_items'  => $line_items,
-        'terms'       => $faker->text(500),
-    ];
-});
+);

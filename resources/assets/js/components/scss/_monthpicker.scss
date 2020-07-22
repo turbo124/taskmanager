@@ -20,6 +20,9 @@ $color_mine_shaft_approx: #303030;
 
 .month-picker {
   position: relative;
+  .box {
+    font-size: 26px;
+  }
   > .rmp-container {
     position: relative;
     //Instead of the line below you could use @include box-sizing($bs)

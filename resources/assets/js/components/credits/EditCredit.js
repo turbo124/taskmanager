@@ -333,7 +333,7 @@ export default class EditCredit extends Component {
             shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations,
             gateway_fee: this.state.gateway_fee,
-            gateway_percentage: this.state.gateway_percentage,
+            gateway_percentage: this.state.gateway_percentage
         }
     }
 
@@ -342,7 +342,12 @@ export default class EditCredit extends Component {
 
         this.creditModel.save(this.getFormData()).then(response => {
             if (!response) {
-                this.setState({ errors: this.creditModel.errors, message: this.creditModel.error_message })
+                this.setState({
+                    errors: this.creditModel.errors,
+                    message: this.creditModel.error_message,
+                    showErrorMessage: true,
+                    loading: false
+                })
                 return
             }
 
@@ -373,7 +378,7 @@ export default class EditCredit extends Component {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
         const errorMessage = this.state.showErrorMessage === true
-            ? <ErrorMessage message="Something went wrong"/> : null
+            ? <ErrorMessage message={this.state.message.length > 0 ? this.state.message : 'Something went wrong'}/> : null
 
         const tabs = <Nav tabs>
             <NavItem>
@@ -438,7 +443,8 @@ export default class EditCredit extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+            ? <Detailsm hide_customer={this.state.id === null} address={this.state.address}
+                customerName={this.state.customerName} handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors} credit={this.state}/>
             : <Details address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
@@ -451,13 +457,15 @@ export default class EditCredit extends Component {
             custom_value4={this.state.custom_value4}
             custom_fields={this.props.custom_fields}/>
 
-        const contacts = this.state.is_mobile ? <Contactsm address={this.state.address} customerName={this.state.customerName}
-            handleInput={this.handleInput} invoice={this.state}
-            errors={this.state.errors}
-            contacts={this.state.contacts}
-            invitations={this.state.invitations}
-            handleContactChange={this.handleContactChange}/>
-            : <Contacts address={this.state.address} customerName={this.state.customerName}
+        const contacts = this.state.is_mobile
+            ? <Contactsm address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput} invoice={this.state}
+                errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations}
+                handleContactChange={this.handleContactChange}/>
+            : <Contacts address={this.state.address} hide_customer={this.state.id === null}
+                customerName={this.state.customerName}
                 handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>

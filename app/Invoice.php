@@ -197,6 +197,15 @@ class Invoice extends Model
             ) && $this->is_deleted === false && $this->deleted_at === null;
     }
 
+    public function isLocked()
+    {
+        return ($this->customer->getSetting(
+                    'should_lock_invoice'
+                ) === 'when_sent' && $this->status_id === self::STATUS_SENT) || ($this->customer->getSetting(
+                    'should_lock_invoice'
+                ) === 'when_paid' && $this->status_id === self::STATUS_PAID);
+    }
+
     public function resetBalance($amount): bool
     {
         $this->increaseBalance($amount);

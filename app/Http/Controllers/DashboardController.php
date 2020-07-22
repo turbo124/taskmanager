@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
+use App\Filters\LeadFilter;
 use App\Invoice;
+use App\Lead;
 use App\Payment;
 use App\Quote;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Repositories\LeadRepository;
+use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
 use App\Task;
 
@@ -46,14 +50,8 @@ class DashboardController extends Controller
         $leadsToday = $this->taskRepository->getRecentTasks(3, 3, auth()->user()->account_user()->account_id);
         $customersToday = $this->customerRepository->getRecentCustomers(3, auth()->user()->account_user()->account_id);
         $newDeals = $this->taskRepository->getNewDeals(3, auth()->user()->account_user()->account_id);
-        $leads = $this->taskRepository->getLeads(10, null, auth()->user()->account_user()->account_id);
+        $leads = (new LeadFilter(new LeadRepository(new Lead())))->filter(new SearchRequest(), auth()->user()->account_user()->account);
         $totalEarnt = $this->taskRepository->getTotalEarnt(3, auth()->user()->account_user()->account_id);
-
-        $tasks = $leads->map(
-            function (Task $task) {
-                return $this->transformTask($task);
-            }
-        )->all();
 
         $arrOutput = [
             'sources'      => $arrSources->toArray(),
@@ -63,7 +61,7 @@ class DashboardController extends Controller
             'leadsToday'   => number_format($leadsToday, 2),
             'newDeals'     => number_format($newDeals, 2),
             'newCustomers' => number_format($customersToday, 2),
-            'deals'        => $tasks,
+            'deals'        => $leads,
             'invoices'     => Invoice::all()->where('account_id', auth()->user()->account_user()->account_id),
             'quotes'       => Quote::all()->where('account_id', auth()->user()->account_user()->account_id),
             'payments'     => Payment::all()->where('account_id', auth()->user()->account_user()->account_id),

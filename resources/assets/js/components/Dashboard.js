@@ -26,6 +26,7 @@ import {
     hexToRgba
 } from '@coreui/coreui/dist/js/coreui-utilities'
 import MonthPicker from './common/MonthPicker'
+import { icons } from './common/_icons'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -227,8 +228,8 @@ class Dashboard extends Component {
         this.state = {
             sources: [],
             leadCounts: [],
-            start_date: null,
-            end_date: null,
+            start_date: new Date(moment().subtract(1, 'months').format('YYYY-MM-DD hh:mm')),
+            end_date: new Date(),
             totalBudget: 0,
             totalEarnt: 0,
             leadsToday: 0,
@@ -287,7 +288,6 @@ class Dashboard extends Component {
     }
 
     setDates (date) {
-        console.log('date 22', date)
         this.setState(date)
     }
 
@@ -353,6 +353,9 @@ class Dashboard extends Component {
                         break
                     case 'Refunded':
                         array = formatData(this.state.payments, 6, start, end, 'amount', 'status', false)
+                        break
+                    case 'Completed':
+                        array = formatData(this.state.payments, 4, start, end, 'amount', 'status', false)
                         break
                 }
                 break
@@ -420,6 +423,9 @@ class Dashboard extends Component {
         /* const taskLogged = Object.values(formatData(this.state.tasks, 1, currentMoment, endMoment, 'total', 'status_id'))
 
         const taskPaid = Object.values(formatData(this.state.tasks, 3, currentMoment, endMoment, 'total', 'status_id')) */
+
+        console.log('active invoices', invoiceOutstanding)
+        console.log('task invoiced', taskInvoiced)
 
         return [
             {
@@ -582,7 +588,7 @@ class Dashboard extends Component {
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 1,
                         borderDash: [8, 5],
-                        data: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced : []
+                        data: taskInvoiced && Object.keys(taskInvoiced).length ? Object.values(taskInvoiced.data) : []
                     }
                     // {
                     //     label: 'Paid',
@@ -803,11 +809,9 @@ class Dashboard extends Component {
                             <Row>
                                 <Col sm="5">
                                     <CardTitle
-                                        className="mb-0">{entry.name}</CardTitle>
-                                    <div
-                                        className="small text-muted">November
-                                        2015
-                                    </div>
+                                        className="mb-0"><h3>{entry.name}</h3></CardTitle>
+                                    <h5> {`${moment(this.state.start_date).format('Do MMMM YYYY')} - ${moment(this.state.end_date).format('Do MMMM YYYY')}`}
+                                    </h5>
                                 </Col>
                                 <Col sm="7"
                                     className="d-none d-sm-inline-block">
@@ -893,7 +897,17 @@ class Dashboard extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <MonthPicker onChange={this.setDates}/>
+                        <Row>
+                            <Col md={4} className="d-flex justify-content-between align-items-center">
+                                <i className={`ml-4 fa ${icons.left}`}/>
+                                <i className={`fa ${icons.right}`}/>
+                                <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
+                                    start_month={moment(this.state.start_date).format('M')}
+                                    end_year={moment(this.state.end_date).format('YYYY')}
+                                    end_month={moment(this.state.end_date).format('M')}
+                                    onChange={this.setDates}/>
+                            </Col>
+                        </Row>
 
                         <Row>
                             <Col className="col-xl-4" lg={6} md={12}>
