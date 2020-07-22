@@ -242,6 +242,7 @@ class Dashboard extends Component {
             expenses: [],
             tasks: [],
             orders: [],
+            credits: [],
             activeTab: '1'
         }
 
@@ -279,7 +280,8 @@ class Dashboard extends Component {
                             payments: r.data.payments,
                             expenses: r.data.expenses,
                             tasks: r.data.tasks,
-                            orders: r.data.orders
+                            orders: r.data.orders,
+                            credits: r.data.credits
                         }
                     )
                 }
@@ -384,6 +386,21 @@ class Dashboard extends Component {
                         break
                 }
 
+            case 'Credits':
+                switch (radioSelected) {
+                    case 'Active':
+                        array = formatData(this.state.credits, 1, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Completed':
+                        array = formatData(this.state.credits, 4, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Sent':
+                        array = formatData(this.state.credits, 2, start, end, 'amount', 'status', false)
+                        break
+                }
+
             case 'Orders':
                 switch (radioSelected) {
                     case 'Draft':
@@ -440,6 +457,13 @@ class Dashboard extends Component {
         const invoicePaid = formatData(this.state.invoices, 3, start, end, 'total', 'status_id')
         const invoiceCancelled = formatData(this.state.invoices, 5, start, end, 'total', 'status_id')
 
+        const today = new Date().getTime();
+        const filterInvoicesByExpiration = this.state.invoices.filter((item)  => {
+            return new Date(item.due_date) > today && item.status_id !== 3 && item.status_id !== 1
+        })
+    
+        console.log('overdue invoices', filterInvoicesByExpiration)
+
         const paymentActive = formatData(this.state.payments, 1, start, end, 'amount', 'status_id')
         const paymentRefunded = formatData(this.state.payments, 6, start, end, 'refunded', 'status_id')
         const paymentCompleted = formatData(this.state.payments, 4, start, end, 'amount', 'status_id')
@@ -448,12 +472,28 @@ class Dashboard extends Component {
         const quoteApproved = formatData(this.state.quotes, 4, start, end, 'total', 'status_id')
         const quoteUnapproved = formatData(this.state.quotes, 2, start, end, 'total', 'status_id')
 
+        const filterQuotesByExpiration = this.state.quotes.filter((item)  => {
+            return new Date(item.due_date) > today && item.status_id === 2
+        })
+
+        const creditActive = formatData(this.state.credits, 1, start, end, 'total', 'status_id')
+        const creditCompleted = formatData(this.state.credits, 4, start, end, 'total', 'status_id')
+        const creditSent = formatData(this.state.credits, 2, start, end, 'total', 'status_id')
+
+        const filterCreditsByExpiration = this.state.credits.filter((item)  => {
+            return new Date(item.due_date) > today && item.status_id === 2
+        })
+
         const orderHeld = formatData(this.state.orders, 5, start, end, 'total', 'status_id')
         const orderDraft = formatData(this.state.orders, 1, start, end, 'total', 'status_id')
         const orderBackordered = formatData(this.state.orders, 6, start, end, 'total', 'status_id')
         const orderCancelled = formatData(this.state.orders, 8, start, end, 'total', 'status_id')
         const orderSent = formatData(this.state.orders, 2, start, end, 'total', 'status_id')
         const orderCompleted = formatData(this.state.orders, 3, start, end, 'total', 'status_id')
+   
+        const filterOrdersByExpiration = this.state.orders.filter((item)  => {
+            return new Date(item.due_date) > today && item.status_id !== 2 && item.status_id !== 1
+        })
 
         const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
 
@@ -745,6 +785,59 @@ class Dashboard extends Component {
 
         if (modules.quotes) {
             charts.push(quotes)
+        }
+
+        const credits = {
+                name: 'Credits',
+                labels: dates,
+                buttons: {
+                    Active: {
+                        avg: creditActive && Object.keys(creditActive).length ? creditActive.avg : 0,
+                        pct: creditActive && Object.keys(creditActive).length ? creditActive.pct : 0,
+                        value: creditActive && Object.keys(creditActive).length ? creditActive.value : 0
+                    },
+                    Completed: {
+                        avg: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.avg : 0,
+                        pct: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.pct : 0,
+                        value: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.value : 0
+                    },
+                    Sent: {
+                        avg: creditSent && Object.keys(creditSent).length ? creditSent.avg : 0,
+                        pct: creditSent && Object.keys(creditSent).length ? creditSent.pct : 0,
+                        value: creditSent && Object.keys(creditSent).length ? creditSent.value : 0
+                    }
+                },
+                datasets: [
+                    {
+                        label: 'Active',
+                        backgroundColor: hexToRgba(brandInfo, 10),
+                        borderColor: brandInfo,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 2,
+                        data: creditActive && Object.keys(creditActive).length ? Object.values(creditActive.data) : []
+                    },
+                    {
+                        label: 'Completed',
+                        backgroundColor: 'transparent',
+                        borderColor: brandSuccess,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: creditCompleted && Object.keys(creditCompleted).length ? Object.values(creditCompleted.data) : []
+                    },
+                    {
+                        label: 'Sent',
+                        backgroundColor: 'transparent',
+                        borderColor: brandWarning,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 2,
+                        data: creditSent && Object.keys(creditSent).length ? Object.values(creditSent.data) : []
+                    }
+                ]
+            }
+
+        if (modules.credits) {
+            charts.push(credits)
         }
 
         const tasks = {
