@@ -318,6 +318,15 @@ class Dashboard extends Component {
                     case 'Invoiced':
                         // array = formatData(myData, 1, start, end, 'amount', 'status', false)
                         break
+
+                    case 'Overdue':
+                        const filterTasksByExpiration = this.state.tasks.filter((item)  => {
+                            return new Date(item.due_date) > today
+                        })
+
+                        const taskOverdue = formatData(filterTasksByExpiration, 1, start, end, 'valued_at', 'status_id')
+
+                    break
                 }
                 break
 
