@@ -427,8 +427,10 @@ class Dashboard extends Component {
         console.log('active invoices', invoiceOutstanding)
         console.log('task invoiced', taskInvoiced)
 
-        return [
-            {
+        const charts = []
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
+        const invoices = {
                 name: 'Invoices',
                 labels: dates,
                 buttons: {
@@ -462,8 +464,9 @@ class Dashboard extends Component {
                         data: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? Object.values(invoiceOutstanding.data) : []
                     }
                 ]
-            },
-            {
+            }
+
+        const payments = {
                 name: 'Payments',
                 labels: dates,
                 buttons: {
@@ -511,8 +514,9 @@ class Dashboard extends Component {
                         data: paymentCompleted && Object.keys(paymentCompleted).length ? Object.values(paymentCompleted.data) : []
                     }
                 ]
-            },
-            {
+            }
+
+        const quotes = {
                 name: 'Quotes',
                 labels: dates,
                 buttons: {
@@ -559,8 +563,9 @@ class Dashboard extends Component {
                         data: quoteUnapproved && Object.keys(quoteUnapproved).length ? Object.values(quoteUnapproved.data) : []
                     }
                 ]
-            },
-            {
+            }
+
+        const tasks = {
                 name: 'Tasks',
                 labels: dates,
                 buttons: {
@@ -599,8 +604,9 @@ class Dashboard extends Component {
                     //     data: taskPaid
                     // }
                 ]
-            },
-            {
+            }
+
+        const expenses = {
                 name: 'Expenses',
                 labels: dates,
                 buttons: {
@@ -661,7 +667,6 @@ class Dashboard extends Component {
                     }
                 ]
             }
-        ]
     }
 
     getPieOptions () {
