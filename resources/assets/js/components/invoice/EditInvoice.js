@@ -392,7 +392,12 @@ class EditInvoice extends Component {
         this.setState({ loading: true })
         this.invoiceModel.save(this.getFormData()).then(response => {
             if (!response) {
-                this.setState({ errors: this.invoiceModel.errors, message: this.invoiceModel.error_message })
+                this.setState({
+                    showErrorMessage: true,
+                    loading: false,
+                    errors: this.invoiceModel.errors,
+                    message: this.invoiceModel.error_message
+                })
                 return
             }
 
@@ -423,7 +428,7 @@ class EditInvoice extends Component {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
         const errorMessage = this.state.showErrorMessage === true
-            ? <ErrorMessage message="Something went wrong"/> : null
+            ? <ErrorMessage message={this.state.message.length > 0 ? this.state.message : 'Something went wrong'}/> : null
 
         const tabs = <Nav tabs>
             <NavItem>
@@ -488,6 +493,7 @@ class EditInvoice extends Component {
         const details = this.state.is_mobile
             ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
                 customers={this.props.customers}
+                hide_customer={this.state.id === null}
                 errors={this.state.errors} invoice={this.state}
             />
             : <Details address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
@@ -504,13 +510,15 @@ class EditInvoice extends Component {
             custom_value4={this.state.custom_value4}
             custom_fields={this.props.custom_fields}/>
 
-        const contacts = this.state.is_mobile ? <Contactsm address={this.state.address} customerName={this.state.customerName}
-            handleInput={this.handleInput} invoice={this.state}
-            errors={this.state.errors}
-            contacts={this.state.contacts}
-            invitations={this.state.invitations}
-            handleContactChange={this.handleContactChange}/>
-            : <Contacts address={this.state.address} customerName={this.state.customerName}
+        const contacts = this.state.is_mobile
+            ? <Contactsm address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput} invoice={this.state}
+                errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations}
+                handleContactChange={this.handleContactChange}/>
+            : <Contacts hide_customer={this.state.id === null} address={this.state.address}
+                customerName={this.state.customerName}
                 handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>

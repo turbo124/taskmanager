@@ -23,20 +23,18 @@ class PaymentWasCreated implements PerformsMetrics
     protected $meter = 'payment-created';
 
     /**
-     * @var array $payment
+     * @var Payment
      */
-    public $payment;
-    public $account;
+    public Payment $payment;
 
     /**
      * Create a new event instance.
      *
      * @param Payment $payment
      */
-    public function __construct(Payment $payment, Account $account)
+    public function __construct(Payment $payment)
     {
         $this->payment = $payment;
-        $this->account = $account;
         $this->send($payment, get_class($this));
     }
 }

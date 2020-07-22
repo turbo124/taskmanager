@@ -20,6 +20,7 @@ export default function Contacts (props) {
         <Card>
             <CardHeader>{translations.customer}</CardHeader>
             <CardBody>
+                {this.props.hide_customer === true &&
                 <FormGroup>
                     <Label>{translations.customer}</Label>
                     <CustomerDropdown
@@ -29,6 +30,7 @@ export default function Contacts (props) {
                         errors={props.errors}
                     />
                 </FormGroup>
+                }
 
                 {send_to}
             </CardBody>

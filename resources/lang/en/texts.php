@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'email_changed_subject'                     => 'Your email address has been changed',
+    'email_changed'                             => 'The email address on your user account has been changed to :email',
+    'invoice_is_locked'                         => 'The Invoice is Locked',
     'support_ticket_subject'                    => 'A new Support ticket was sent',
     'quote_approved_subject'                    => 'Your quote was approved',
     'quote_approved_body'                       => 'Quote $number has been approved',

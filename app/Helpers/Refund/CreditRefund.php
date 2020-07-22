@@ -4,6 +4,7 @@
 namespace App\Helpers\Refund;
 
 
+use App\Credit;
 use App\Invoice;
 use App\Credit;
 use App\Payment;
@@ -48,7 +49,9 @@ class CreditRefund extends BaseRefund
             $this->updateRefundedAmountForCredit($credit, $total_to_credit);
             $this->updateCreditNote($credit, $total_to_credit);
             $this->increaseRefundAmount($available_credit <= $total ? $available_credit : 0);
-        } 
+        }
+
+        $this->completeCreditRefund();
 
         return $this->payment;
     }

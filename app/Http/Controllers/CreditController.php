@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Credit\CreditWasCreated;
+use App\Events\Credit\CreditWasRestored;
 use App\Events\Credit\CreditWasUpdated;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneCreditFactory;
@@ -119,8 +120,8 @@ class CreditController extends BaseController
      */
     public function restore(int $id)
     {
-        $group = Credit::withTrashed()->where('id', '=', $id)->first();
-        $this->credit_repo->restore($group);
+        $credit = Credit::withTrashed()->where('id', '=', $id)->first();
+        $this->credit_repo->restore($credit);
         return response()->json([], 200);
     }
 

@@ -106,4 +106,37 @@ class OrderController extends BaseController
     {
         return $this->performAction($request, $order, $action);
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function archive(int $id)
+    {
+        $order = $this->order_repo->findOrderById($id);
+        $this->order_repo->archive($order);
+        return response()->json([], 200);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function destroy(int $id)
+    {
+        $order = $this->order_repo->findOrderById($id);
+        $this->order_repo->newDelete($order);
+        return response()->json([], 200);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function restore(int $id)
+    {
+        $order = $this->order_repo->findOrderById($id);
+        $this->order_repo->restore($order);
+        return response()->json([], 200);
+    }
 }

@@ -2,8 +2,11 @@ import * as React from 'react'
 import MessageDialog from './MessageDialog'
 import MessageBoard from './MessageBoard'
 import axios from 'axios'
-import { ListGroup, ListGroupItem, CardBody, CardHeader, Card } from 'reactstrap'
+import { ListGroup, CardBody, CardHeader, Card } from 'reactstrap'
 import Event from './Event'
+import { getEntityIcon } from '../common/_icons'
+import InfoItem from '../common/entityContainers/InfoItem'
+import FormatDate from '../common/FormatDate'
 
 class MessageContainer extends React.Component {
     constructor (props) {
@@ -161,6 +164,17 @@ class MessageContainer extends React.Component {
         this.setState({ events: events })
     }
 
+    formatAMPM (date) {
+        var hours = date.getHours()
+        var minutes = date.getMinutes()
+        var ampm = hours >= 12 ? 'pm' : 'am'
+        hours = hours % 12
+        hours = hours || 12 // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes
+        var strTime = hours + ':' + minutes + ' ' + ampm
+        return strTime
+    }
+
     render () {
         console.log('events', this.state.events)
 
@@ -183,27 +197,32 @@ class MessageContainer extends React.Component {
                         toggleOpenState={this.toggleOpenState}
                     />
 
-                    <h2>Messages</h2>
-                    <MessageBoard
-                        setMode={this.setMode}
-                        submitMessage={this.submitMessage}
-                        messages={messages}
-                        activeUser={true}
-                        users={users}
-                        deleteMessage={this.deleteMessage}
-                        setActiveMessage={this.setActiveMessage}
-                    />
+                    {this.messages && this.messages.length &&
+                    <React.Fragment>
+                        <h2>Messages</h2>
+                        <MessageBoard
+                            setMode={this.setMode}
+                            submitMessage={this.submitMessage}
+                            messages={messages}
+                            activeUser={true}
+                            users={users}
+                            deleteMessage={this.deleteMessage}
+                            setActiveMessage={this.setActiveMessage}
+                        />
+                    </React.Fragment>
+                    }
 
-                    <h2>Event Invitations</h2>
-                    {events && events.length ? (
-                        events.map((event, index) => (
+                    {events && events.length
+                        ? <React.Fragment>
+                            <h2>Event Invitations</h2> (
+                            events.map((event, index) => (
                             <Event key={index}
                                 action={this.updateEvents}
                                 events={this.state.events}
                                 event={event}
                             />
-                        ))
-                    ) : null}
+                            ))
+                            ) </React.Fragment> : null}
 
                     {notifications.length ? (
                         <Card>
@@ -211,15 +230,15 @@ class MessageContainer extends React.Component {
                             </CardHeader>
                             <CardBody>
                                 <ListGroup className="m-3">
-                                    {notifications.map((notification, index) => (
-                                        <React.Fragment key={index}>
-                                            <ListGroupItem color="dark"
-                                                className="d-flex justify-content-between align-items-center">
-                                                {`${notification.data.message}  by ${notification.author}`}
-                                                <span>{notification.created_at}</span>
-                                            </ListGroupItem>
-                                        </React.Fragment>
-                                    ))}
+                                    {notifications.map((notification, index) => {
+                                        return (<React.Fragment key={index}>
+                                            <InfoItem icon={getEntityIcon(notification.entity)}
+                                                value={notification.data.message}
+                                                title={<FormatDate date={notification.created_at}
+                                                    with_time={true}/>}/>
+                                        </React.Fragment>)
+                                    }
+                                    )}
                                 </ListGroup>
                             </CardBody>
                         </Card>

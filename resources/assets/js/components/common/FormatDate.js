@@ -46,7 +46,13 @@ export default class FormatDate extends Component {
         }
         const date_format_object = this.state.date_formats && this.state.date_formats.length ? this.state.date_formats.filter(date_format => date_format.id === parseInt(this.state.date_format_id)) : []
         const date_format = date_format_object.length ? date_format_object[0].format_moment : null
-        return date_format ? moment(this.props.date).format(date_format) : moment(this.props.date).format('DD/MMM/YYYY')
+        let date = date_format ? moment(this.props.date).format(date_format) : moment(this.props.date).format('DD/MMM/YYYY')
+
+        if (this.props.with_time && this.props.with_time === true) {
+            date += ` ${moment(this.props.date).format('h:mm:ss A')}`
+        }
+
+        return date
     }
 }
 

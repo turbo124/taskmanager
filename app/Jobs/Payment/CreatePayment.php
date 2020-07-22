@@ -3,7 +3,6 @@
 namespace App\Jobs\Payment;
 
 use App\Customer;
-use App\Events\Payment\PaymentWasCreated;
 use App\Factory\PaymentFactory;
 use App\Invoice;
 use App\Order;

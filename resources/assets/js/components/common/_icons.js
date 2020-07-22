@@ -26,6 +26,7 @@ export const icons = {
     angle_down: 'fa-angle-down',
     angle_up: 'fa-angle-up',
     right: 'fa-chevron-right',
+    left: 'fa-chevron-left',
     restore: 'fa-window-restore',
     clear: 'fa-times',
     edit: 'fa-edit',
@@ -65,6 +66,26 @@ export const icons = {
     excel_file: 'fa-file-excel-o',
     powerpoint_file: 'fa-file-powerpoint-o',
     image_file: 'fa-file-image-o'
+}
+
+export function getEntityIcon (entity) {
+    switch (entity) {
+        case 'User':
+            return icons.user
+        case 'Customer':
+            return icons.group
+        case 'Product':
+            return icons.product
+        case 'Payment':
+            return icons.credit_card
+        case 'Company':
+            return icons.company
+        case 'Invoice':
+        case 'Credit':
+        case 'Quote':
+        case 'Order':
+            return icons.document
+    }
 }
 
 export function getFileTypeIcon (type) {

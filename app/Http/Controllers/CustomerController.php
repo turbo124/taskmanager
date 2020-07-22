@@ -6,6 +6,7 @@ use App\Account;
 use App\CompanyToken;
 use App\Customer;
 use App\Events\Customer\CustomerWasCreated;
+use App\Events\Customer\CustomerWasRestored;
 use App\Events\Customer\CustomerWasUpdated;
 use App\Helpers\Customer\ContactRegister;
 use App\Jobs\Customer\StoreCustomerAddress;
@@ -169,8 +170,8 @@ class CustomerController extends Controller
      */
     public function restore(int $id)
     {
-        $group = Customer::withTrashed()->where('id', '=', $id)->first();
-        $this->customer_repo->restore($group);
+        $customer = Customer::withTrashed()->where('id', '=', $id)->first();
+        $this->customer_repo->restore($customer);
         return response()->json([], 200);
     }
 

@@ -212,6 +212,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals($data['type_id'], $created->type_id);
     }
 
+    /** @test */
     public function testPaymentGreaterThanPartial()
     {
         $invoice = factory(Invoice::class)->create();
@@ -246,6 +247,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals(($original_balance - 6), $invoice->balance);
     }
 
+    /** @test */
     public function testCreditPayment()
     {
         $client = CustomerFactory::create($this->account, $this->user);
@@ -280,6 +282,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals(50, $payment->amount);
     }
 
+    /** @test */
     public function testPaymentLessThanPartialAmount()
     {
         $invoice = factory(Invoice::class)->create();
@@ -317,6 +320,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals(($original_balance - 2), (float)$invoice->balance);
     }
 
+    /** @test */
     public function testBasicRefundValidation()
     {
         $client = CustomerFactory::create($this->account, $this->user);
@@ -370,6 +374,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals(50, $payment->refunded);
     }
 
+    /** @test */
     public function testRefundClassWithInvoices()
     {
         $invoice = factory(Invoice::class)->create();
@@ -438,6 +443,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals($original_paid_to_date, $payment->customer->paid_to_date);
     }
 
+    /** @test */
     public function testRefundClassWithoutInvoices()
     {
         $invoice = factory(Invoice::class)->create();
@@ -484,6 +490,7 @@ class PaymentUnitTest extends TestCase
         $this->assertEquals($original_paid_to_date, $payment->customer->paid_to_date);
     }
 
+    /** @test */
     public function testConversion()
     {
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
@@ -497,6 +504,68 @@ class PaymentUnitTest extends TestCase
             ->calculate();
 
         $this->assertNotNull($converted);
+    }
+
+    public function testRefundClassWithCredits()
+    {
+        $credit = factory(Credit::class)->create();
+
+        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            ->setQuantity(1)
+            ->setUnitPrice(2.0)
+            ->calculateSubTotal()
+            ->setUnitDiscount(0)
+            ->setUnitTax(0)
+            ->setProductId($this->faker->word())
+            ->setNotes($this->faker->realText(50))
+            ->toObject();
+
+        $credit->line_items = $line_items;
+        //$invoice = $invoice->service()->calculateInvoiceTotals();
+        $credit->save();
+
+        (new CreditRepository(new Credit()))->markSent($credit);
+
+        $data = [
+            'amount'      => $credit->total,
+            'customer_id' => $credit->customer->id,
+            'credits'    => [
+                [
+                    'credit_id' => $credit->id,
+                    'amount'     => $credit->total
+                ],
+            ],
+            'date'        => '2019/12/12',
+        ];
+
+        $factory = (new PaymentFactory())->create($credit->customer, $this->user, $this->account);
+        $paymentRepo = new PaymentRepository(new Payment);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
+
+        $credit = $payment->credits->first();
+
+        $this->assertEquals(0, $credit->balance);
+
+        $payment = (new RefundFactory())->createRefund(
+            $payment,
+            [
+                'amount'   => $credit->total,
+                'credits' => [
+                    [
+                        'credit_id' => $credit->id,
+                        'amount'     => $credit->total
+                    ],
+                ]
+            ],
+            new CreditRepository(new Credit)
+        );
+
+        $this->assertEquals($credit->balance, $credit->total);
+        $this->assertEquals($credit->status_id, 2);
+        $this->assertEquals($credit->total, $credit->pivot->refunded);
+        $this->assertEquals(-$credit->total, $payment->refunded);
+
+        $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
     }
 
 //    public function testAuthorizeRefund()

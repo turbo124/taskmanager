@@ -23,8 +23,6 @@ export default class BaseModel {
 
         if (error.response.data.errors) {
             this.errors = error.response.data.errors
-        } else {
-            this.error_message = error.response.data
         }
     }
 

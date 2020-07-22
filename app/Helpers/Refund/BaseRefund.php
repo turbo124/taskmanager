@@ -66,12 +66,17 @@ class BaseRefund
 
     private function setStatus()
     {
-        $status = (float)$this->payment->refunded === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = (float)abs($this->payment->refunded) === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
         $this->payment->setStatus($status);
     }
 
-    private function updateRefundAmount()
+    private function reduceRefundTotal()
+    {
+        $this->payment->refunded -= $this->amount;
+    }
+
+    private function increaseRefundTotal()
     {
         $this->payment->refunded += $this->amount;
     }
@@ -164,10 +169,23 @@ class BaseRefund
 
     protected function save()
     {
-        $this->updateRefundAmount();;
+        $this->increaseRefundTotal();
         $this->setStatus();
         $this->updateCustomer();
         $this->createCreditNote();
+        $this->payment->save();
+
+        event(new PaymentWasRefunded($this->payment, $this->data));
+    }
+
+    protected function completeCreditRefund()
+    {
+        if(!empty($this->data['invoices'])) {
+            return false;
+        }
+
+        $this->reduceRefundTotal();
+        $this->setStatus();
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));

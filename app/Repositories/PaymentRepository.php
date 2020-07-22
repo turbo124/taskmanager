@@ -92,7 +92,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->transaction_service()->createTransaction($payment->amount * -1, $payment->customer->balance);
 
         if ($send_event) {
-            event(new PaymentWasCreated($payment, $payment->account));
+            event(new PaymentWasCreated($payment));
         }
 
         return $payment->fresh();
