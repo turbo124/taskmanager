@@ -459,8 +459,10 @@ class Dashboard extends Component {
 
         const today = new Date().getTime();
         const filterInvoicesByExpiration = this.state.invoices.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id !== 3 && item.status_id !== 1
+            return new Date(item.due_date) > today && item.status_id === 2
         })
+
+        const invoiceOverdue = formatData(filterInvoicesByExpiration, 2, start, end, 'total', 'status_id')
     
         console.log('overdue invoices', filterInvoicesByExpiration)
 
@@ -476,6 +478,8 @@ class Dashboard extends Component {
             return new Date(item.due_date) > today && item.status_id === 2
         })
 
+        const quoteOverdue = formatData(filterQuotesByExpiration, 2, start, end, 'total', 'status_id')
+
         const creditActive = formatData(this.state.credits, 1, start, end, 'total', 'status_id')
         const creditCompleted = formatData(this.state.credits, 4, start, end, 'total', 'status_id')
         const creditSent = formatData(this.state.credits, 2, start, end, 'total', 'status_id')
@@ -483,6 +487,8 @@ class Dashboard extends Component {
         const filterCreditsByExpiration = this.state.credits.filter((item)  => {
             return new Date(item.due_date) > today && item.status_id === 2
         })
+     
+        const creditOverdue = formatData(filterCreditsByExpiration, 2, start, end, 'total', 'status_id')
 
         const orderHeld = formatData(this.state.orders, 5, start, end, 'total', 'status_id')
         const orderDraft = formatData(this.state.orders, 1, start, end, 'total', 'status_id')
@@ -492,8 +498,10 @@ class Dashboard extends Component {
         const orderCompleted = formatData(this.state.orders, 3, start, end, 'total', 'status_id')
    
         const filterOrdersByExpiration = this.state.orders.filter((item)  => {
-            return new Date(item.due_date) > today && item.status_id !== 2 && item.status_id !== 1
+            return new Date(item.due_date) > today && item.status_id !== 1
         })
+
+        const orderOverdue = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
 
         const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
 
@@ -538,6 +546,11 @@ class Dashboard extends Component {
                         avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
                         pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
                         value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+                    },
+                    Overdue: {
+                        avg: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.avg : 0,
+                        pct: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.pct : 0,
+                        value: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.value : 0
                     }
                 },
                 datasets: [
@@ -575,6 +588,15 @@ class Dashboard extends Component {
                         borderWidth: 1,
                         borderDash: [8, 5],
                         data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
+                    },
+                    {
+                        label: 'Overdue',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: invoiceOverdue && Object.keys(invoiceOverdue).length ? Object.values(invoiceOverdue.data) : []
                     },
                 ]
             }
@@ -616,6 +638,11 @@ class Dashboard extends Component {
                         avg: orderSent && Object.keys(orderSent).length ? orderSent.avg : 0,
                         pct: orderSent && Object.keys(orderSent).length ? orderSent.pct : 0,
                         value: orderSent && Object.keys(orderSent).length ? orderSent.value : 0
+                    },
+                    Overdue: {
+                        avg: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.avg : 0,
+                        pct: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.pct : 0,
+                        value: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.value : 0
                     }
                 },
                 datasets: [
@@ -671,6 +698,15 @@ class Dashboard extends Component {
                         borderWidth: 1,
                         borderDash: [8, 5],
                         data: orderCompleted && Object.keys(orderCompleted).length ? Object.values(orderCompleted.data) : []
+                    },
+                    {
+                        label: 'Overdue',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: orderOverdue && Object.keys(orderOverdue).length ? Object.values(orderOverdue.data) : []
                     },
                 ]
             }
@@ -752,6 +788,11 @@ class Dashboard extends Component {
                         avg: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.avg : 0,
                         pct: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.pct : 0,
                         value: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.value : 0
+                    },
+                    Overdue: {
+                        avg: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.avg : 0,
+                        pct: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.pct : 0,
+                        value: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.value : 0
                     }
                 },
                 datasets: [
@@ -779,7 +820,16 @@ class Dashboard extends Component {
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 2,
                         data: quoteUnapproved && Object.keys(quoteUnapproved).length ? Object.values(quoteUnapproved.data) : []
-                    }
+                    },
+                    {
+                        label: 'Overdue',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: quoteOverdue && Object.keys(quoteOverdue).length ? Object.values(quoteOverdue.data) : []
+                    },
                 ]
             }
 
@@ -805,6 +855,11 @@ class Dashboard extends Component {
                         avg: creditSent && Object.keys(creditSent).length ? creditSent.avg : 0,
                         pct: creditSent && Object.keys(creditSent).length ? creditSent.pct : 0,
                         value: creditSent && Object.keys(creditSent).length ? creditSent.value : 0
+                    },
+                    Overdue: {
+                        avg: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.avg : 0,
+                        pct: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.pct : 0,
+                        value: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.value : 0
                     }
                 },
                 datasets: [
@@ -832,7 +887,16 @@ class Dashboard extends Component {
                         pointHoverBackgroundColor: '#fff',
                         borderWidth: 2,
                         data: creditSent && Object.keys(creditSent).length ? Object.values(creditSent.data) : []
-                    }
+                    },
+                    {
+                        label: 'Overdue',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: creditOverdue && Object.keys(creditOverdue).length ? Object.values(creditOverdue.data) : []
+                    },
                 ]
             }
 
