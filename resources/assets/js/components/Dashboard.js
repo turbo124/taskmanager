@@ -337,6 +337,15 @@ class Dashboard extends Component {
                     case 'Cancelled':
                         array = formatData(this.state.invoices, 5, start, end, 'amount', 'status', false)
                         break
+
+                    case 'Overdue':
+                        const filterInvoicesByExpiration = this.state.invoices.filter((item)  => {
+                            return new Date(item.due_date) > today && item.status_id === 2
+                        })
+
+                        array = formatData(filterInvoicesByExpiration, 2, start, end, 'total', 'status_id')
+                        //array = formatData(this.state.invoices, 5, start, end, 'amount', 'status', false)
+                        break
                 }
                 break
 
@@ -384,6 +393,15 @@ class Dashboard extends Component {
                     case 'Unapproved':
                         array = formatData(this.state.quotes, 2, start, end, 'amount', 'status', false)
                         break
+
+                    case 'Overdue':
+                        const filterQuotesByExpiration = this.state.quotes.filter((item)  => {
+                            return new Date(item.due_date) > today && item.status_id === 2
+                        })
+
+                        array = formatData(filterQuotesByExpiration, 2, start, end, 'total', 'status_id')
+                        //array = formatData(this.state.quotes, 2, start, end, 'amount', 'status', false)
+                        break
                 }
 
             case 'Credits':
@@ -398,6 +416,15 @@ class Dashboard extends Component {
 
                     case 'Sent':
                         array = formatData(this.state.credits, 2, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Overdue':
+                        const filterCreditsByExpiration = this.state.credits.filter((item)  => {
+                            return new Date(item.due_date) > today && item.status_id === 2
+                        })
+     
+                        array = formatData(filterCreditsByExpiration, 2, start, end, 'total', 'status_id')
+                        //array = formatData(this.state.credits, 2, start, end, 'amount', 'status', false)
                         break
                 }
 
@@ -425,6 +452,15 @@ class Dashboard extends Component {
 
                     case 'Completed':
                         array = formatData(this.state.orders, 3, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Overdue':
+                        const filterOrdersByExpiration = this.state.orders.filter((item)  => {
+                            return new Date(item.due_date) > today && item.status_id !== 1
+                        })
+
+                        array = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
+                        //array = formatData(this.state.orders, 3, start, end, 'amount', 'status', false)
                         break
                 }
         }
