@@ -241,6 +241,7 @@ class Dashboard extends Component {
             payments: [],
             expenses: [],
             tasks: [],
+            orders: [],
             activeTab: '1'
         }
 
@@ -277,7 +278,8 @@ class Dashboard extends Component {
                             quotes: r.data.quotes,
                             payments: r.data.payments,
                             expenses: r.data.expenses,
-                            tasks: r.data.tasks
+                            tasks: r.data.tasks,
+                            orders: r.data.orders
                         }
                     )
                 }
@@ -325,6 +327,13 @@ class Dashboard extends Component {
 
                     case 'Outstanding':
                         array = formatData(this.state.invoices, 2, start, end, 'amount', 'status', false)
+                        break
+                    case 'Paid':
+                        array = formatData(this.state.invoices, 3, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Cancelled':
+                        array = formatData(this.state.invoices, 5, start, end, 'amount', 'status', false)
                         break
                 }
                 break
@@ -374,6 +383,33 @@ class Dashboard extends Component {
                         array = formatData(this.state.quotes, 2, start, end, 'amount', 'status', false)
                         break
                 }
+
+            case 'Orders':
+                switch (radioSelected) {
+                    case 'Draft':
+                        array = formatData(this.state.orders, 1, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Held':
+                        array = formatData(this.state.orders, 5, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Backordered':
+                        array = formatData(this.state.orders, 6, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Cancelled':
+                        array = formatData(this.state.orders, 8, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Sent':
+                        array = formatData(this.state.orders, 2, start, end, 'amount', 'status', false)
+                        break
+
+                    case 'Completed':
+                        array = formatData(this.state.orders, 3, start, end, 'amount', 'status', false)
+                        break
+                }
         }
 
         return array
@@ -401,6 +437,8 @@ class Dashboard extends Component {
         const dates = makeLabels(currentMoment, endMoment)
         const invoiceActive = formatData(this.state.invoices, 1, start, end, 'total', 'status_id')
         const invoiceOutstanding = formatData(this.state.invoices, 2, start, end, 'total', 'status_id')
+        const invoicePaid = formatData(this.state.invoices, 3, start, end, 'total', 'status_id')
+        const invoiceCancelled = formatData(this.state.invoices, 5, start, end, 'total', 'status_id')
 
         const paymentActive = formatData(this.state.payments, 1, start, end, 'amount', 'status_id')
         const paymentRefunded = formatData(this.state.payments, 6, start, end, 'refunded', 'status_id')
@@ -409,6 +447,13 @@ class Dashboard extends Component {
         const quoteActive = formatData(this.state.quotes, 1, start, end, 'total', 'status_id')
         const quoteApproved = formatData(this.state.quotes, 4, start, end, 'total', 'status_id')
         const quoteUnapproved = formatData(this.state.quotes, 2, start, end, 'total', 'status_id')
+
+        const orderHeld = formatData(this.state.orders, 5, start, end, 'total', 'status_id')
+        const orderDraft = formatData(this.state.orders, 1, start, end, 'total', 'status_id')
+        const orderBackordered = formatData(this.state.orders, 6, start, end, 'total', 'status_id')
+        const orderCancelled = formatData(this.state.orders, 8, start, end, 'total', 'status_id')
+        const orderSent = formatData(this.state.orders, 2, start, end, 'total', 'status_id')
+        const orderCompleted = formatData(this.state.orders, 3, start, end, 'total', 'status_id')
 
         const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
 
@@ -443,6 +488,16 @@ class Dashboard extends Component {
                         avg: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.avg : 0,
                         pct: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.pct : 0,
                         value: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.value : 0
+                    },
+                    Paid: {
+                        avg: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.avg : 0,
+                        pct: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.pct : 0,
+                        value: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.value : 0
+                    },
+                    Cancelled: {
+                        avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
+                        pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
+                        value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
                     }
                 },
                 datasets: [
@@ -462,9 +517,105 @@ class Dashboard extends Component {
                         borderWidth: 1,
                         borderDash: [8, 5],
                         data: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? Object.values(invoiceOutstanding.data) : []
-                    }
+                    }, 
+                    {
+                        label: 'Paid',
+                        backgroundColor: 'transparent',
+                        borderColor: brandSuccess,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: invoicePaid && Object.keys(invoicePaid).length ? Object.values(invoicePaid.data) : []
+                    },
+                    {
+                        label: 'Cancelled',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
+                    },
                 ]
             }
+
+        if (modules.invoices) {
+            charts.push(invoices)
+        }
+
+        const orders = {
+                name: 'Orders',
+                labels: dates,
+                buttons: {
+                    Draft: {
+                        avg: orderDraft && Object.keys(orderDraft).length ? orderDraft.avg : 0,
+                        pct: orderDraft && Object.keys(orderDraft).length ? orderDraft.pct : 0,
+                        value: orderDraft && Object.keys(orderDraft).length ? orderDraft.value : 0
+                    },
+                    Held: {
+                        avg: orderHeld && Object.keys(orderHeld).length ? orderHeld.avg : 0,
+                        pct: orderHeld && Object.keys(orderHeld).length ? orderHeld.pct : 0,
+                        value: orderHeld && Object.keys(orderHeld).length ? orderHeld.value : 0
+                    },
+                    Backordered: {
+                        avg: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.avg : 0,
+                        pct: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.pct : 0,
+                        value: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.value : 0
+                    },
+                    Cancelled: {
+                        avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
+                        pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
+                        value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+                    },
+                    Completed: {
+                        avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
+                        pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
+                        value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+                    }
+                },
+                datasets: [
+                    {
+                        label: 'Draft',
+                        backgroundColor: hexToRgba(brandInfo, 10),
+                        borderColor: brandSecondary,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 2,
+                        data: orderDraft && Object.keys(orderDraft).length ? Object.values(orderDraft.data) : []
+                    },
+                    {
+                        label: 'Held',
+                        backgroundColor: 'transparent',
+                        borderColor: brandWarning,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: orderHeld && Object.keys(orderHeld).length ? Object.values(orderHeld.data) : []
+                    }, 
+                    {
+                        label: 'Paid',
+                        backgroundColor: 'transparent',
+                        borderColor: brandSuccess,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: invoicePaid && Object.keys(invoicePaid).length ? Object.values(invoicePaid.data) : []
+                    },
+                    {
+                        label: 'Cancelled',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
+                    },
+                ]
+            }
+
+        if (modules.orders) {
+            charts.push(orders)
+        }
+ 
 
         const payments = {
                 name: 'Payments',
@@ -516,6 +667,10 @@ class Dashboard extends Component {
                 ]
             }
 
+        if (modules.payments) {
+            charts.push(payments)
+        }
+
         const quotes = {
                 name: 'Quotes',
                 labels: dates,
@@ -565,6 +720,10 @@ class Dashboard extends Component {
                 ]
             }
 
+        if (modules.quotes) {
+            charts.push(quotes)
+        }
+
         const tasks = {
                 name: 'Tasks',
                 labels: dates,
@@ -605,6 +764,10 @@ class Dashboard extends Component {
                     // }
                 ]
             }
+
+        if (modules.tasks) {
+            charts.push(tasks)
+        }
 
         const expenses = {
                 name: 'Expenses',
@@ -667,6 +830,10 @@ class Dashboard extends Component {
                     }
                 ]
             }
+
+        if (modules.expenses) {
+            charts.push(expenses)
+        }
     }
 
     getPieOptions () {
