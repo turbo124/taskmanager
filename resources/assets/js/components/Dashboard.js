@@ -549,6 +549,12 @@ class Dashboard extends Component {
         const taskInvoices = removeNullValues(this.state.invoices, 'task_id')
         const taskInvoiced = formatData(taskInvoices, null, start, end, 'total', 'status_id')
 
+        const filterTasksByExpiration = this.state.tasks.filter((item)  => {
+            return new Date(item.due_date) > today
+        })
+
+        const taskOverdue = formatData(filterTasksByExpiration, 1, start, end, 'valued_at', 'status_id')
+
         /* const taskLogged = Object.values(formatData(this.state.tasks, 1, currentMoment, endMoment, 'total', 'status_id'))
 
         const taskPaid = Object.values(formatData(this.state.tasks, 3, currentMoment, endMoment, 'total', 'status_id')) */
@@ -950,6 +956,11 @@ class Dashboard extends Component {
                         avg: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.avg : 0,
                         pct: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.pct : 0,
                         value: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.value : 0
+                    },
+                    Overdue: {
+                        avg: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.avg : 0,
+                        pct: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.pct : 0,
+                        value: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.value : 0
                     }
                 },
                 datasets: [
@@ -969,7 +980,16 @@ class Dashboard extends Component {
                         borderWidth: 1,
                         borderDash: [8, 5],
                         data: taskInvoiced && Object.keys(taskInvoiced).length ? Object.values(taskInvoiced.data) : []
-                    }
+                    },
+                    {
+                        label: 'Overdue',
+                        backgroundColor: 'transparent',
+                        borderColor: brandDanger,
+                        pointHoverBackgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderDash: [8, 5],
+                        data: taskOverdue && Object.keys(taskOverdue).length ? Object.values(taskOverdue.data) : []
+                    },
                     // {
                     //     label: 'Paid',
                     //     backgroundColor: 'transparent',
