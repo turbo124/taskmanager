@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\PaymentMade;
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -15,7 +15,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
 
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
 
@@ -26,7 +26,7 @@ class NewPaymentNotification extends Notification implements ShouldQueue
 
     /**
      * NewPaymentNotification constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

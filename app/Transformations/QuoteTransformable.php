@@ -2,13 +2,13 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\Email;
-use App\File;
-use App\Quote;
-use App\QuoteInvitation;
+use App\Models\Audit;
+use App\Models\Email;
+use App\Models\File;
+use App\Models\Quote;
+use App\Models\QuoteInvitation;
 use App\Repositories\CustomerRepository;
-use App\Customer;
+use App\Models\Customer;
 
 trait QuoteTransformable
 {

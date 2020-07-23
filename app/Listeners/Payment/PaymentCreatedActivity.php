@@ -34,6 +34,7 @@ class PaymentCreatedActivity implements ShouldQueue
 
         $fields = [];
         $fields['data']['id'] = $payment->id;
+        $fields['data']['customer_id'] = $event->payment->customer_id;
         $fields['data']['message'] = 'A new payment was created';
         $fields['notifiable_id'] = $payment->user_id;
         $fields['account_id'] = $payment->account_id;

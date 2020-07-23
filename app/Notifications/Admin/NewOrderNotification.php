@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\OrderCreated;
-use App\Order;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -14,7 +14,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var Order
+     * @var \App\Models\Order
      */
     private Order $order;
 

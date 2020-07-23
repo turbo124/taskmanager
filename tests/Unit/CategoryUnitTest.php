@@ -2,16 +2,16 @@
 
 namespace Tests\Unit;
 
-use App\Account;
-use App\Category;
+use App\Models\Account;
+use App\Models\Category;
 use App\Factory\CategoryFactory;
 use App\Repositories\CategoryRepository;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Product;
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class CategoryUnitTest extends TestCase
@@ -20,7 +20,7 @@ class CategoryUnitTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 

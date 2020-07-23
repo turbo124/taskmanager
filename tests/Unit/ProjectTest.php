@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Factory\ProjectFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Project;
-use App\Account;
+use App\Models\Project;
+use App\Models\Account;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
+use App\Models\User;
 
 class ProjectTest extends TestCase
 {

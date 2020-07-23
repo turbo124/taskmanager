@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
 use App\Filters\LeadFilter;
-use App\Lead;
+use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\LeadTransformable;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Requests\CreateMessageRequest;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
@@ -18,8 +18,8 @@ use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Transformations\MessageUserTransformable;
 use App\Transformations\MessageTransformable;
-use App\Customer;
-use App\Message;
+use App\Models\Customer;
+use App\Models\Message;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 

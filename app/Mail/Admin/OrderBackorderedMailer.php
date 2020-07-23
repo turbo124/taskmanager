@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Order;
-use App\User;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,7 +14,7 @@ class OrderBackorderedMailer extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var Order
+     * @var \App\Models\Order
      */
     private Order $order;
 
@@ -32,7 +32,7 @@ class OrderBackorderedMailer extends Mailable
 
     /**
      * OrderCreated constructor.
-     * @param Order $order
+     * @param \App\Models\Order $order
      * @param User $user
      */
     public function __construct(Order $order, User $user)

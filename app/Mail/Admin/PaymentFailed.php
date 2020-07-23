@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Payment;
-use App\User;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,7 +15,7 @@ class PaymentFailed extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
 
@@ -33,7 +33,7 @@ class PaymentFailed extends Mailable
 
     /**
      * PaymentFailed constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param User $user
      */
     public function __construct(Payment $payment, User $user)

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ClientContact;
-use App\Customer;
-use App\Address;
-use App\Design;
-use App\Invoice;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\Address;
+use App\Models\Design;
+use App\Models\Invoice;
 use App\Traits\MakesInvoiceHtml;
 use Illuminate\Support\Facades\DB;
 

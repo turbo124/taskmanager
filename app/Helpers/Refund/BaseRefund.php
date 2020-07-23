@@ -2,13 +2,13 @@
 
 namespace App\Helpers\Refund;
 
-use App\Credit;
-use App\Customer;
+use App\Models\Credit;
+use App\Models\Customer;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Factory\CreditFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Invoice;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Repositories\CreditRepository;
 
 class BaseRefund
@@ -25,7 +25,7 @@ class BaseRefund
     protected array $line_items;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     protected Payment $payment;
 
@@ -94,7 +94,7 @@ class BaseRefund
 
     /**
      * @param float $amount
-     * @param Invoice|null $invoice
+     * @param \App\Models\Invoice|null $invoice
      */
     protected function createLineItem(float $amount, Invoice $invoice = null)
     {

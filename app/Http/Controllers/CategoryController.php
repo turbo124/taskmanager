@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Factory\CategoryFactory;
 use App\Filters\CategoryFilter;
 use App\Repositories\CategoryRepository;
@@ -12,7 +12,7 @@ use App\Requests\Category\CreateCategoryRequest;
 use App\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Category;
+use App\Models\Category;
 use App\Transformations\CategoryTransformable;
 use App\Requests\SearchRequest;
 use Illuminate\Http\Response;

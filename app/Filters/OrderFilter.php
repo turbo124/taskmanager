@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Order;
+use App\Models\Account;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
 use App\Repositories\Support;
 use App\Requests\SearchRequest;
-use App\Task;
+use App\Models\Task;
 use App\Transformations\OrderTransformable;
 
 class OrderFilter extends QueryFilter
@@ -142,7 +142,7 @@ class OrderFilter extends QueryFilter
     }
 
     /**
-     * @param Task $task
+     * @param \App\Models\Task $task
      * @return Support
      */
     public function filterByTask(Task $task)
@@ -153,7 +153,7 @@ class OrderFilter extends QueryFilter
     }
 
     /**
-     * @param Task $objTask
+     * @param \App\Models\Task $objTask
      * @param int $status
      * @return mixed
      */

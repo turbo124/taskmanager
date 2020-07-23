@@ -3,13 +3,13 @@
 namespace App\Transformations;
 
 use App\Repositories\TimerRepository;
-use App\Task;
-use App\User;
+use App\Models\Task;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\TaskStatusRepository;
-use App\TaskStatus;
+use App\Models\TaskStatus;
 use App\Transformations\TimerTransformable;
-use App\Timer;
+use App\Models\Timer;
 use App\Transformations\CustomerTransformable;
 use App\Libraries\Utils;
 

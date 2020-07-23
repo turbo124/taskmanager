@@ -5,8 +5,9 @@
 use App\Model;
 use Faker\Generator as Faker;
 
-$factory->define(\App\Lead::class, function (Faker $faker) {
-    $user = factory(\App\User::class)->create();
+$factory->define(
+    \App\Models\Lead::class, function (Faker $faker) {
+    $user = factory(\App\Models\User::class)->create();
     return [
         'address_1' => $faker->streetAddress,
         'address_2' => null,

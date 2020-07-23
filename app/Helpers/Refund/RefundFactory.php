@@ -4,7 +4,7 @@
 namespace App\Helpers\Refund;
 
 
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\CreditRepository;
 
 class RefundFactory

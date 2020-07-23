@@ -3,7 +3,7 @@
 namespace App\Rules\Payment;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Credit;
+use App\Models\Credit;
 
 class ValidAmount implements Rule
 {

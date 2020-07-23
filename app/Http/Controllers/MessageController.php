@@ -9,8 +9,8 @@ use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Transformations\MessageUserTransformable;
 use App\Transformations\MessageTransformable;
-use App\Customer;
-use App\Message;
+use App\Models\Customer;
+use App\Models\Message;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 

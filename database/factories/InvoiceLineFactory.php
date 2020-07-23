@@ -1,5 +1,5 @@
 <?php
-use App\Invoice;
+use App\Models\Invoice;
 
 $factory->define(\App\Helpers\InvoiceCalculator\LineItem::class, function (Faker\Generator $faker) {
     

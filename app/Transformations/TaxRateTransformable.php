@@ -9,13 +9,13 @@
 namespace App\Transformations;
 
 
-use App\TaxRate;
+use App\Models\TaxRate;
 
 trait TaxRateTransformable
 {
 
     /**
-     * @param TaxRate $tax_rate
+     * @param \App\Models\TaxRate $tax_rate
      * @return array
      */
     protected function transformTaxRate(TaxRate $tax_rate)

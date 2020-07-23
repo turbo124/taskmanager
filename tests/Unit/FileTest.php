@@ -3,11 +3,11 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\User;
-use App\Task;
+use App\Models\User;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\File;
+use App\Models\File;
 use App\Repositories\FileRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -69,7 +69,7 @@ class FileTest extends TestCase
         $data = [
             'account_id'    => $this->account_id,
             'fileable_id'   => $this->task->id,
-            'fileable_type' => 'App\Task',
+            'fileable_type' => 'App\Models\Task',
             'user_id'       => $this->user->id,
             'name'          => $this->faker->word,
         ];

@@ -2,8 +2,9 @@
 
 namespace App\Requests\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\Base\BaseFormRequest;
+use App\Rules\Refund\CreditRefundValidation;
 use App\Rules\Refund\RefundValidation;
 use App\Rules\Refund\InvoiceRefundValidation;
 use Illuminate\Support\Facades\Log;
@@ -37,6 +38,7 @@ class RefundPaymentRequest extends BaseFormRequest
             'invoices.*.invoice_id' => 'required',
             'invoices.*.amount'     => 'required',
             'invoices'              => new InvoiceRefundValidation($input),
+            'credits'               => new CreditRefundValidation($input),
         ];
 
         return $rules;

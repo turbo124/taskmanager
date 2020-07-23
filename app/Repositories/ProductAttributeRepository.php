@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Base\BaseRepository;
-use App\ProductAttribute;
+use App\Models\ProductAttribute;
 use App\Repositories\Interfaces\ProductAttributeRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

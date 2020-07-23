@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -19,7 +19,7 @@ class PaymentWasEmailed
 
     /**
      * PaymentWasEmailed constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      */
     public function __construct(Payment $payment)
     {

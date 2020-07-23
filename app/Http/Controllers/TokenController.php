@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Factory\CompanyTokenFactory;
 use App\Filters\TokenFilters;
 use App\Repositories\TokenRepository;

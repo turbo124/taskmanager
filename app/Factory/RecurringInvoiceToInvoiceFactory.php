@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Customer;
-use App\Invoice;
-use App\RecurringInvoice;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
 
 /**
  * Class RecurringInvoiceToInvoiceFactory
@@ -14,8 +14,8 @@ class RecurringInvoiceToInvoiceFactory
 {
     /**
      * @param RecurringInvoice $recurring_invoice
-     * @param Customer $customer
-     * @return Invoice
+     * @param \App\Models\Customer $customer
+     * @return \App\Models\Invoice
      */
     public static function create(RecurringInvoice $recurring_invoice, Customer $customer): Invoice
     {

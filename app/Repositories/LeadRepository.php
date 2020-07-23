@@ -8,12 +8,12 @@
 
 namespace App\Repositories;
 
-use App\Lead;
+use App\Models\Lead;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
-use App\Message;
-use App\Customer;
-use App\User;
+use App\Models\Message;
+use App\Models\Customer;
+use App\Models\User;
 use Exception;
 
 /**
@@ -39,7 +39,7 @@ class LeadRepository extends BaseRepository
      *
      * @param array $data
      *
-     * @return Message
+     * @return \App\Models\Message
      */
     public function save(Lead $lead, array $data): Lead
     {

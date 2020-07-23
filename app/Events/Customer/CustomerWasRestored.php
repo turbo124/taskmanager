@@ -2,7 +2,7 @@
 
 namespace App\Events\Customer;
 
-use App\Customer;
+use App\Models\Customer;
 use Illuminate\Queue\SerializesModels;
 
 
@@ -11,13 +11,13 @@ class CustomerWasRestored
     use SerializesModels;
 
     /**
-     * @var Customer
+     * @var \App\Models\Customer
      */
     public Customer $customer;
 
     /**
      * CustomerWasRestored constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     public function __construct(Customer $customer)
     {

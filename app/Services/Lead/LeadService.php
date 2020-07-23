@@ -2,7 +2,7 @@
 
 namespace App\Services\Lead;
 
-use App\Lead;
+use App\Models\Lead;
 use App\Services\ServiceBase;
 use App\Repositories\LeadRepository;
 

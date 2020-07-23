@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Factory\CaseCategoryFactory;
 use App\Factory\ExpenseCategoryFactory;
 use App\Filters\CaseCategoryFilter;
 use App\Repositories\CaseCategoryRepository;
 use App\Repositories\ExpenseCategoryRepository;
-use App\Category;
+use App\Models\Category;
 use App\Requests\CaseCategory\CreateCategoryRequest;
 use App\Requests\CaseCategory\UpdateCategoryRequest;
 use App\Transformations\CaseCategoryTransformable;

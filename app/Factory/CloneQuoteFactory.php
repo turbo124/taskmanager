@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Quote;
-use App\User;
-use App\Account;
+use App\Models\Quote;
+use App\Models\User;
+use App\Models\Account;
 use Carbon\Carbon;
 
 /**
@@ -16,7 +16,7 @@ class CloneQuoteFactory
     /**
      * @param Quote $quote
      * @param User $user
-     * @return Quote|null
+     * @return \App\Models\Quote|null
      */
     public static function create(Quote $quote, User $user): ?Quote
     {

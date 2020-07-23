@@ -2,12 +2,12 @@
 
 namespace App\Helpers\Pdf;
 
-use App\Account;
-use App\ClientContact;
-use App\Country;
-use App\Customer;
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Account;
+use App\Models\ClientContact;
+use App\Models\Country;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Traits\Money;
 
 /**

@@ -8,23 +8,23 @@
 
 namespace Tests\Unit;
 
-use App\Account;
-use App\Credit;
+use App\Models\Account;
+use App\Models\Credit;
 use App\Factory\CreditFactory;
 use App\Factory\CustomerFactory;
 use App\Filters\InvoiceFilter;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\NumberGenerator;
-use App\Payment;
-use App\Paymentable;
+use App\Models\NumberGenerator;
+use App\Models\Payment;
+use App\Models\Paymentable;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
 use App\Settings\AccountSettings;
 use Tests\TestCase;
-use App\Invoice;
-use App\User;
-use App\Customer;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Customer;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
@@ -42,7 +42,7 @@ class InvoiceTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
      */
     private Customer $customer;
 

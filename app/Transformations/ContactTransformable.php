@@ -2,7 +2,7 @@
 
 namespace App\Transformations;
 
-use App\ClientContact;
+use App\Models\ClientContact;
 
 class ContactTransformable
 {

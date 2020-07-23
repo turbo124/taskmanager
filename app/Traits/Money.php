@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Currency;
+use App\Models\Currency;
 use NumberFormatter;
 
 /**

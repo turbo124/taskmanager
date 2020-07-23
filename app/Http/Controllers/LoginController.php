@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\AccountUser;
-use App\CompanyToken;
+use App\Models\AccountUser;
+use App\Models\CompanyToken;
 use App\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\User;
+use App\Models\User;
 use JWTAuth;
 use JWTAuthException;
 

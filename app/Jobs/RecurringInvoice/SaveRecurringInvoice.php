@@ -2,11 +2,11 @@
 
 namespace App\Jobs\RecurringInvoice;
 
-use App\Account;
+use App\Models\Account;
 use App\Factory\InvoiceToRecurringInvoiceFactory;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Repositories\RecurringInvoiceRepository;
-use App\RecurringInvoice;
+use App\Models\RecurringInvoice;
 use App\Factory\RecurringInvoiceFactory;
 
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,12 +23,12 @@ class SaveRecurringInvoice
     private array $request;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 
     /**
-     * @var Invoice
+     * @var \App\Models\Invoice
      */
     private Invoice $invoice;
 
@@ -36,7 +36,7 @@ class SaveRecurringInvoice
      * SaveRecurringInvoice constructor.
      * @param array $request
      * @param Account $account
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct(array $request, Account $account, Invoice $invoice)
     {
@@ -46,7 +46,7 @@ class SaveRecurringInvoice
     }
 
     /**
-     * @return RecurringInvoice|null
+     * @return \App\Models\RecurringInvoice|null
      */
     public function handle(): ?RecurringInvoice
     {

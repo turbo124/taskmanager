@@ -6,7 +6,7 @@ namespace App\Jobs\Utils;
 use App\Events\Uploads\FileWasDeleted;
 use App\Events\Uploads\FileWasUploaded;
 use App\Factory\NotificationFactory;
-use App\File;
+use App\Models\File;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

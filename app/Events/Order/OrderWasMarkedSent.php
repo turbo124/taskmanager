@@ -2,8 +2,8 @@
 
 namespace App\Events\Order;
 
-use App\Order;
-use App\Quote;
+use App\Models\Order;
+use App\Models\Quote;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -20,7 +20,7 @@ class OrderWasMarkedSent
 
     /**
      * OrderWasMarkedSent constructor.
-     * @param Order $order
+     * @param \App\Models\Order $order
      */
     public function __construct(Order $order)
     {

@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Event;
+use App\Models\Account;
+use App\Models\Event;
 use App\Repositories\EventRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\EventTransformable;

@@ -7,7 +7,7 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Requests\CreateDepartmentRequest;
 use App\Requests\UpdateDepartmentRequest;
-use App\Department;
+use App\Models\Department;
 use App\Transformations\DepartmentTransformable;
 use App\Requests\SearchRequest;
 use Exception;

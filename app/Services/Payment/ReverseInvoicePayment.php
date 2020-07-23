@@ -2,9 +2,9 @@
 
 namespace App\Services\Payment;
 
-use App\Invoice;
-use App\Payment;
-use App\Customer;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Customer;
 
 /**
  * Class ReverseInvoicePayment
@@ -20,7 +20,7 @@ class ReverseInvoicePayment
     }
 
     /**
-     * @return Payment|null
+     * @return \App\Models\Payment|null
      */
     public function execute(): ?Payment
     {

@@ -2,11 +2,11 @@
 
 namespace App\Filters;
 
-use App\Account;
+use App\Models\Account;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\UserTransformable;
-use App\User;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserFilter extends QueryFilter

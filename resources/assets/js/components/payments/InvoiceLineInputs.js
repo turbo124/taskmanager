@@ -40,16 +40,16 @@ const InvoiceLineInputs = (props) => {
                         </Col>
                     </Row>
 
-                    {props.invoices.length > 1 &&
-                        <React.Fragment>
-                            <Button color="danger" onClick={() => props.removeLine(idx)}>
-                                {translations.remove}
-                            </Button>
-                            <Button color="primary" onClick={() => props.addLine(idx)}>
-                                {translations.add}
-                            </Button>
-                        </React.Fragment>
-                    }
+                    {/* {props.invoices.length > 1 && */}
+                    {/*    <React.Fragment> */}
+                    {/*        <Button color="danger" onClick={() => props.removeLine(idx)}> */}
+                    {/*            {translations.remove} */}
+                    {/*        </Button> */}
+                    {/*        <Button color="primary" onClick={() => props.addLine(idx)}> */}
+                    {/*            {translations.add} */}
+                    {/*        </Button> */}
+                    {/*    </React.Fragment> */}
+                    {/* } */}
                 </div>
             )
         })

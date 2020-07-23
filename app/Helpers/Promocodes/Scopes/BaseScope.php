@@ -9,7 +9,7 @@ class BaseScope
     /**
      * @var Order
      */
-    protected \App\Order $order;
+    protected \App\Models\Order $order;
 
     protected $scope_value;
 
@@ -22,7 +22,7 @@ class BaseScope
         return $this;
     }
 
-    public function setOrder(\App\Order $order)
+    public function setOrder(\App\Models\Order $order)
     {
         $this->order = $order;
         return $this;

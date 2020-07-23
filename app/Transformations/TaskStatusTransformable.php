@@ -5,8 +5,8 @@ namespace App\Transformations;
 use App\Shop\Cities\Exceptions\CityNotFoundException;
 use App\Shop\Countries\Exceptions\CountryNotFoundException;
 use App\Shop\Customers\Exceptions\CustomerNotFoundException;
-use App\TaskStatus;
-use App\Customer;
+use App\Models\TaskStatus;
+use App\Models\Customer;
 use App\Repositories\TaskStatusRepository;
 
 trait TaskStatusTransformable

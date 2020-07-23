@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\CreditInvitation;
-use App\Gateway;
+use App\Models\Audit;
+use App\Models\CreditInvitation;
+use App\Models\Gateway;
 
 class GatewayTransformable
 {
     /**
-     * @param Audit $audit
+     * @param \App\Models\Audit $audit
      * @return array
      */
     public function transformGateway(Gateway $gateway)

@@ -2,13 +2,13 @@
 
 namespace App\Transformations;
 
-use App\ExpenseCategory;
+use App\Models\ExpenseCategory;
 
 trait ExpenseCategoryTransformable
 {
 
     /**
-     * @param ExpenseCategory $category
+     * @param \App\Models\ExpenseCategory $category
      * @return array
      */
     protected function transformCategory(ExpenseCategory $category)

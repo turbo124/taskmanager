@@ -4,10 +4,10 @@
 namespace App\Factory;
 
 
-use App\Account;
-use App\Brand;
-use App\Category;
-use App\User;
+use App\Models\Account;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\User;
 
 class BrandFactory
 {

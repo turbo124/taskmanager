@@ -3,6 +3,7 @@ import InvoiceLineInputs from './InvoiceLineInputs'
 import CreditLineInputs from './CreditLineInputs'
 import PaymentModel from '../models/PaymentModel'
 import axios from 'axios'
+import { consts } from '../common/_consts'
 
 export default class InvoiceLine extends Component {
     constructor (props) {
@@ -13,8 +14,6 @@ export default class InvoiceLine extends Component {
         if (!this.props.invoices) {
             this.getInvoices()
         }
-
-        console.log('invoices bb', this.paymentModel.invoices)
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
@@ -81,7 +80,7 @@ export default class InvoiceLine extends Component {
                 return false
             }
 
-            if (name === 'invoice_id' && invoice.balance <= 0) {
+            if (name === 'invoice_id' && invoice.balance <= 0 && !this.props.refund) {
                 return false
             }
 
@@ -91,7 +90,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let invoice_total = name !== 'amount' && this.state.amount <= 0 ? parseFloat(invoice.total) : parseFloat(e.target.value)
+            let invoice_total = name !== 'amount' ? parseFloat(invoice.total) : parseFloat(e.target.value)
 
             let refunded_amount = 0
 
@@ -178,23 +177,26 @@ export default class InvoiceLine extends Component {
             credit_lines[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ amount: amount, lines: lines, credit_lines: credit_lines }, () => {
+        this.setState({ amount: parseInt('' + (amount * 100)) / 100, lines: lines, credit_lines: credit_lines }, () => {
             if (is_invoice === true) {
                 this.props.onChange(this.state.lines)
+                this.addLine()
             }
 
             if (is_credit === true) {
                 this.props.onCreditChange(this.state.credit_lines)
+                this.addCredit()
             }
 
             if (amount > 0) {
-                this.props.handleAmountChange(amount)
+                this.props.handleAmountChange(parseInt('' + (amount * 100)) / 100)
             }
         })
     }
 
-    addLine (e) {
-        const allowedInvoices = this.paymentModel.getInvoicesByStatus(this.props.status)
+    addLine () {
+        const status = this.props.refund && this.props.refund === true ? consts.invoice_status_paid : this.props.status
+        const allowedInvoices = this.paymentModel.getInvoicesByStatus(status)
 
         if (this.state.lines.length >= allowedInvoices.length) {
             return
@@ -202,7 +204,9 @@ export default class InvoiceLine extends Component {
 
         this.setState((prevState) => ({
             lines: [...prevState.lines, { invoice_id: null, amount: 0 }]
-        }), () => this.props.onChange(this.state.lines))
+        }), () => {
+            this.props.onChange(this.state.lines)
+        })
     }
 
     addCredit (e) {

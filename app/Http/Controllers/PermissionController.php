@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Repositories\PermissionRepository;
 use App\Transformations\PermissionTransformable;
-use App\Permission;
+use App\Models\Permission;
 use App\Requests\CreatePermissionRequest;
 use App\Requests\UpdatePermissionRequest;
 use App\Requests\SearchRequest;

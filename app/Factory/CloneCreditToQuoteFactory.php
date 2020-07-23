@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Credit;
-use App\Quote;
-use App\User;
+use App\Models\Credit;
+use App\Models\Quote;
+use App\Models\User;
 use Carbon\Carbon;
 
 /**
@@ -14,8 +14,8 @@ use Carbon\Carbon;
 class CloneCreditToQuoteFactory
 {
     /**
-     * @param Credit $credit
-     * @param User $user
+     * @param \App\Models\Credit $credit
+     * @param \App\Models\User $user
      * @return Quote|null
      */
     public static function create(Credit $credit, User $user): ?Quote

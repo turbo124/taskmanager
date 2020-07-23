@@ -12,8 +12,8 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Address;
-use App\Customer;
+use App\Models\Address;
+use App\Models\Customer;
 
 $factory->define(Address::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();

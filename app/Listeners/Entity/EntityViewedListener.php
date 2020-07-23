@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Entity;
 
-use App\Notification;
+use App\Models\Notification;
 use App\Notifications\Admin\EntityViewedNotification;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;

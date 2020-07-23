@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Quote;
-use App\User;
+use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,7 +14,7 @@ class QuoteApproved extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var Quote
+     * @var \App\Models\Quote
      */
     private Quote $quote;
 
@@ -33,7 +33,7 @@ class QuoteApproved extends Mailable
     /**
      * QuoteApproved constructor.
      * @param Quote $quote
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(Quote $quote, User $user)
     {

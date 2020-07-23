@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Cases;
+use App\Models\Account;
+use App\Models\Cases;
 use App\Repositories\CaseRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Subscription;
+use App\Models\Subscription;
 use App\Transformations\CaseTransformable;
 use App\Transformations\SubscriptionTransformable;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,7 +41,7 @@ class CaseFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

@@ -4,7 +4,7 @@
 namespace App\Helpers\Pdf;
 
 
-use App\Lead;
+use App\Models\Lead;
 
 class LeadPdf extends PdfBuilder
 {
@@ -42,7 +42,7 @@ class LeadPdf extends PdfBuilder
     }
 
     /**
-     * @param Lead $lead
+     * @param \App\Models\Lead $lead
      * @return $this
      * @throws \Laracasts\Presenter\Exceptions\PresenterException
      */

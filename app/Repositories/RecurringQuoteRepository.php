@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Filters\RecurringQuoteFilter;
-use App\NumberGenerator;
-use App\RecurringQuote;
+use App\Models\NumberGenerator;
+use App\Models\RecurringQuote;
 use App\Requests\SearchRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class RecurringQuoteRepository extends BaseRepository
     /**
      * @param $data
      * @param RecurringQuote $quote
-     * @return RecurringQuote|null
+     * @return \App\Models\RecurringQuote|null
      */
     public function save($data, RecurringQuote $quote): ?RecurringQuote
     {
@@ -55,7 +55,7 @@ class RecurringQuoteRepository extends BaseRepository
 
     /**
      * @param SearchRequest $search_request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)

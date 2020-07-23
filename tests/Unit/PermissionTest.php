@@ -3,11 +3,11 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\User;
-use App\Task;
+use App\Models\User;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Role;
-use App\Permission;
+use App\Models\Role;
+use App\Models\Permission;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use Illuminate\Support\Collection;

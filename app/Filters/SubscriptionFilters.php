@@ -2,10 +2,10 @@
 
 namespace App\Filters;
 
-use App\Account;
+use App\Models\Account;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Subscription;
+use App\Models\Subscription;
 use App\Transformations\SubscriptionTransformable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

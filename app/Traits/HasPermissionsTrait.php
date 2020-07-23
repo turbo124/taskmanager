@@ -8,8 +8,8 @@
 
 namespace App\Traits;
 
-use App\Permission;
-use App\Role;
+use App\Models\Permission;
+use App\Models\Role;
 
 /**
  * Description of HasPermissionsTrait

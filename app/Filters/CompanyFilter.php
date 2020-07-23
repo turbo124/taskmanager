@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
+use App\Models\Account;
+use App\Models\Company;
 use App\Repositories\CompanyRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CompanyTransformable;

@@ -8,7 +8,7 @@ use App\Repositories\RoleRepository;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Requests\CreateRoleRequest;
 use App\Requests\UpdateRoleRequest;
-use App\Role;
+use App\Models\Role;
 use App\Transformations\RoleTransformable;
 use App\Requests\SearchRequest;
 use Exception;

@@ -2,7 +2,7 @@
 
 namespace App\Events\Customer;
 
-use App\Customer;
+use App\Models\Customer;
 use Illuminate\Queue\SerializesModels;
 
 /**

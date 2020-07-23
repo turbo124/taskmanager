@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Domain;
+use App\Models\Domain;
 
 class DomainRepository
 {

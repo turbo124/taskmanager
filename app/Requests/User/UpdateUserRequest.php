@@ -3,7 +3,7 @@
 namespace App\Requests\User;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\User;
+use App\Models\User;
 use App\Repositories\UserRepository;
 
 class UpdateUserRequest extends BaseFormRequest

@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
-use App\Credit;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Credit;
 use App\Repositories\CompanyRepository;
 use App\Repositories\CreditRepository;
 use App\Requests\SearchRequest;
@@ -31,7 +31,7 @@ class CreditFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

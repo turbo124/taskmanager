@@ -8,7 +8,7 @@ use App\Requests\CreateTaskStatusRequest;
 use App\Requests\UpdateTaskStatusRequest;
 use Illuminate\Http\Request;
 use App\Transformations\TaskStatusTransformable;
-use App\TaskStatus;
+use App\Models\TaskStatus;
 use App\Requests\SearchRequest;
 use Illuminate\Http\Response;
 

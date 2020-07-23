@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
-use App\User;
-use App\Task;
-use App\Customer;
+use App\Models\User;
+use App\Models\Task;
+use App\Models\Customer;
 /*
   |--------------------------------------------------------------------------
   | Model Factories
@@ -15,7 +15,7 @@ use App\Customer;
   |
  */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Comment;
+use App\Models\Comment;
 
 $factory->define(Comment::class, function (Faker $faker) {
     $user = factory(User::class)->create();

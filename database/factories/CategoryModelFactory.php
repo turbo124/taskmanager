@@ -13,13 +13,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Category;
+use App\Models\Category;
 use Illuminate\Http\UploadedFile;
 
 $factory->define(
     Category::class,
     function (Faker\Generator $faker) {
-        $user = factory(\App\User::class)->create();
+        $user = factory(\App\Models\User::class)->create();
         $name = $faker->unique()->randomElement(
             [
                 'Gear',

@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\OrderInvitation;
-use App\QuoteInvitation;
+use App\Models\OrderInvitation;
+use App\Models\QuoteInvitation;
 use Illuminate\Support\Str;
 
 class OrderInvitationFactory

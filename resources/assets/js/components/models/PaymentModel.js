@@ -111,11 +111,11 @@ export default class PaymentModel extends BaseModel {
         }
 
         const credits = this.fields.paymentables.filter(paymentable => {
-            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Credit'
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Models\\Credit'
         })
 
         const invoices = this.fields.paymentables.filter(paymentable => {
-            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Invoice'
+            return paymentable.payment_id === this.fields.id && paymentable.paymentable_type === 'App\\Models\\Invoice'
         })
 
         this.fields.payable_invoices = invoices

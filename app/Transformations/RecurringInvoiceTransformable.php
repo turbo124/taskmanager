@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\Invoice;
-use App\RecurringInvoice;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
 use App\Repositories\CustomerRepository;
-use App\Customer;
+use App\Models\Customer;
 
 trait RecurringInvoiceTransformable
 {

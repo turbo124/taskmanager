@@ -2,7 +2,7 @@
 
 namespace App\Events\Credit;
 
-use App\Credit;
+use App\Models\Credit;
 use App\Traits\SendSubscription;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -17,7 +17,7 @@ class CreditWasCreated
     /**
      * Create a new event instance.
      *
-     * @param Credit $credit
+     * @param \App\Models\Credit $credit
      */
     public function __construct(Credit $credit)
     {

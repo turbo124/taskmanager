@@ -2,11 +2,11 @@
 
 namespace App\Factory;
 
-use App\Customer;
-use App\Invoice;
-use App\Quote;
-use App\RecurringInvoice;
-use App\RecurringQuote;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Quote;
+use App\Models\RecurringInvoice;
+use App\Models\RecurringQuote;
 
 /**
  * Class RecurringInvoiceToInvoiceFactory
@@ -15,9 +15,9 @@ use App\RecurringQuote;
 class RecurringQuoteToQuoteFactory
 {
     /**
-     * @param RecurringQuote $recurring_quote
+     * @param \App\Models\RecurringQuote $recurring_quote
      * @param Customer $customer
-     * @return Quote
+     * @return \App\Models\Quote
      */
     public static function create(RecurringQuote $recurring_quote, Customer $customer): Quote
     {

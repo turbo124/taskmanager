@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Account;
-use App\Credit;
+use App\Models\Account;
+use App\Models\Credit;
 use App\Factory\CreditFactory;
 use App\Filters\CreditFilter;
 use App\Filters\InvoiceFilter;
 use App\Repositories\CreditRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
-use App\Invoice;
-use App\User;
-use App\Customer;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Customer;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;

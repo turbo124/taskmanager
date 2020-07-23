@@ -3,7 +3,7 @@
 namespace App\Events\Credit;
 
 use Illuminate\Queue\SerializesModels;
-use App\Credit;
+use App\Models\Credit;
 
 class CreditWasRestored
 {

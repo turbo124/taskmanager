@@ -2,7 +2,7 @@
 
 namespace App\Notifications\User;
 
-use App\User;
+use App\Models\User;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

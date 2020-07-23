@@ -2,7 +2,7 @@
 
 namespace App\Events\Credit;
 
-use App\CreditInvitation;
+use App\Models\CreditInvitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

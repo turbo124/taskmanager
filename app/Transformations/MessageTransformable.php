@@ -2,9 +2,9 @@
 
 namespace App\Transformations;
 
-use App\Customer;
-use App\User;
-use App\Message;
+use App\Models\Customer;
+use App\Models\User;
+use App\Models\Message;
 
 trait MessageTransformable
 {
@@ -12,7 +12,7 @@ trait MessageTransformable
     /**
      *
      * @param \App\Transformations\Message $message
-     * @param User $currentUser
+     * @param \App\Models\User $currentUser
      * @return \App\Transformations\Message
      */
     protected function transformMessage(Message $message, User $currentUser, Customer $customer)

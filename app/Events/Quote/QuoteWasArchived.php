@@ -3,7 +3,7 @@
 namespace App\Events\Quote;
 
 use Illuminate\Queue\SerializesModels;
-use App\Quote;
+use App\Models\Quote;
 
 class QuoteWasArchived
 {

@@ -2,18 +2,18 @@
 
 namespace App\Factory\Account;
 
-use App\ClientContact;
-use App\Customer;
-use App\User;
-use App\Account;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Str;
 
 class CloneAccountToContactFactory
 {
     /**
      * @param Account $account
-     * @param Customer $customer
-     * @param User $user
+     * @param \App\Models\Customer $customer
+     * @param \App\Models\User $user
      * @return ClientContact
      */
     public static function create(Account $account, Customer $customer, User $user): ClientContact

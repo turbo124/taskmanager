@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\CompanyToken;
-use App\Quote;
+use App\Models\CompanyToken;
+use App\Models\Quote;
 use App\Repositories\Base\BaseRepository;
 
 class TokenRepository extends BaseRepository

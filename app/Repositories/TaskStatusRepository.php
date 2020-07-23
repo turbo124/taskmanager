@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\TaskStatus;
+use App\Models\TaskStatus;
 use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use Exception;

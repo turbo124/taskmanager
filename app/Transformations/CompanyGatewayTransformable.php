@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\CompanyGateway;
-use App\Gateway;
+use App\Models\CompanyGateway;
+use App\Models\Gateway;
 
 trait CompanyGatewayTransformable
 {
@@ -30,7 +30,7 @@ trait CompanyGatewayTransformable
     }
 
     /**
-     * @param Gateway $gateway
+     * @param \App\Models\Gateway $gateway
      * @return array
      */
     public function transformGateway(Gateway $gateway)

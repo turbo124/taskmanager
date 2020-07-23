@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\QuoteInvitation;
+use App\Models\QuoteInvitation;
 use Illuminate\Support\Str;
 
 class QuoteInvitationFactory

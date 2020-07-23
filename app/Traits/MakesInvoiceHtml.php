@@ -79,11 +79,11 @@ trait MakesInvoiceHtml
      */
     private function getClientSignature($entity, $contact = null): ?string
     {
-        if (!in_array(get_class($entity), ['App\Invoice', 'App\Quote'])) {
+        if (!in_array(get_class($entity), ['App\Models\Invoice', 'App\Models\Quote'])) {
             return null;
         }
 
-        $invitation_class = 'App\\' . (new \ReflectionClass($entity))->getShortName() . 'Invitation';
+        $invitation_class = 'App\Models\\' . (new \ReflectionClass($entity))->getShortName() . 'Invitation';
 
         $invitations = $invitation_class::all();
 

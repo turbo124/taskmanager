@@ -2,7 +2,7 @@
 
 namespace App\Transformations;
 
-use App\Attribute;
+use App\Models\Attribute;
 
 class AttributeTransformable
 {

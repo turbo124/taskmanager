@@ -1,8 +1,8 @@
 <?php
 
-use App\Quote;
-use App\Customer;
-use App\User;
+use App\Models\Quote;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(Quote::class, function (Faker\Generator $faker) {
 

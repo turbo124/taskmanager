@@ -1,6 +1,6 @@
 
 <?php
-use App\TaxRate;
+use App\Models\TaxRate;
 
 $factory->define(TaxRate::class, function (Faker\Generator $faker) {
     

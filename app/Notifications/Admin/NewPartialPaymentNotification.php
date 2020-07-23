@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\PartialPaymentMade;
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -14,7 +14,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
 
@@ -25,7 +25,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
 
     /**
      * NewPartialPaymentNotification constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

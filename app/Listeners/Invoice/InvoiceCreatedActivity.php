@@ -30,6 +30,7 @@ class InvoiceCreatedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->invoice->id;
+        $fields['data']['customer_id'] = $event->invoice->customer_id;
         $fields['data']['message'] = 'A new invoice was created';
         $fields['notifiable_id'] = $event->invoice->user_id;
         $fields['account_id'] = $event->invoice->account_id;

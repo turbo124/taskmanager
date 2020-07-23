@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Account;
+use App\Models\Account;
 use App\Factory\InvoiceFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Product;
-use App\RecurringInvoice;
+use App\Models\Product;
+use App\Models\RecurringInvoice;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
-use App\Invoice;
+use App\Models\Invoice;
 use Illuminate\Support\Carbon;
 use App\Repositories\InvoiceRepository;
 use App\Services\Invoice\InvoiceService;
@@ -130,7 +130,7 @@ class CalculateCommission extends Command
 
     /**
      * @param Account $account
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @param float $total_paid
      * @return Invoice
      */

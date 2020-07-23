@@ -3,7 +3,7 @@
 namespace App\Events\Order;
 
 use App\Traits\SendSubscription;
-use App\Order;
+use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
 
 /**

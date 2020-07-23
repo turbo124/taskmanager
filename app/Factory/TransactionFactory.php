@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Transaction;
-use App\Account;
-use App\User;
+use App\Models\Transaction;
+use App\Models\Account;
+use App\Models\User;
 
 class TransactionFactory
 {

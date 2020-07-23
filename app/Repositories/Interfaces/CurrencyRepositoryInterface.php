@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Repositories\Base\BaseRepositoryInterface;
-use App\Currency;
+use App\Models\Currency;
 use Illuminate\Support\Collection;
 
 interface CurrencyRepositoryInterface extends BaseRepositoryInterface

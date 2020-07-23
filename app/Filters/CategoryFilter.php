@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\CaseCategory;
-use App\Category;
+use App\Models\Account;
+use App\Models\CaseCategory;
+use App\Models\Category;
 use App\Repositories\CaseCategoryRepository;
 use App\Repositories\CategoryRepository;
 use App\Requests\SearchRequest;
@@ -37,7 +37,7 @@ class CategoryFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

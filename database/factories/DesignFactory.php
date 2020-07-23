@@ -2,9 +2,10 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Design::class, function (Faker $faker) {
-    $customer = factory(\App\Customer::class)->create();
-    $user = factory(\App\User::class)->create();
+$factory->define(
+    \App\Models\Design::class, function (Faker $faker) {
+    $customer = factory(\App\Models\Customer::class)->create();
+    $user = factory(\App\Models\User::class)->create();
 
     return [
         'account_id' => 1,

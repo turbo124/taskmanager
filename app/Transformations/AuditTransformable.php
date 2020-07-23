@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\CreditInvitation;
+use App\Models\Audit;
+use App\Models\CreditInvitation;
 
 class AuditTransformable
 {

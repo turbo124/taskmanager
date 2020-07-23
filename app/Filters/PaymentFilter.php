@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Payment;
+use App\Models\Account;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\PaymentTransformable;

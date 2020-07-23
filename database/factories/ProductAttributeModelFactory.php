@@ -11,8 +11,8 @@
   |
  */
 
-use App\ProductAttribute;
-use App\Product;
+use App\Models\ProductAttribute;
+use App\Models\Product;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(ProductAttribute::class, function (Faker\Generator $faker) {

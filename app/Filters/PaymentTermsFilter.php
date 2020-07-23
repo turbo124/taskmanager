@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
-use App\PaymentTerms;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\PaymentTerms;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\PaymentTermsTransformable;
@@ -30,7 +30,7 @@ class PaymentTermsFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

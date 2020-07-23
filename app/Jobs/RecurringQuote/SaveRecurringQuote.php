@@ -2,11 +2,11 @@
 
 namespace App\Jobs\RecurringQuote;
 
-use App\Account;
+use App\Models\Account;
 use App\Factory\QuoteToRecurringQuoteFactory;
-use App\Quote;
+use App\Models\Quote;
 use App\Repositories\RecurringQuoteRepository;
-use App\RecurringQuote;
+use App\Models\RecurringQuote;
 use App\Factory\RecurringQuoteFactory;
 
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,7 +30,7 @@ class SaveRecurringQuote
     /**
      * SaveRecurringQuote constructor.
      * @param array $request
-     * @param Quote $quote
+     * @param \App\Models\Quote $quote
      */
     public function __construct(array $request, Quote $quote)
     {

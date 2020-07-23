@@ -2,29 +2,29 @@
 
 namespace App\Repositories;
 
-use App\ClientContact;
+use App\Models\ClientContact;
 use App\Events\Credit\CreditWasCreated;
 use App\Events\Credit\CreditWasUpdated;
 use App\Filters\CreditFilter;
 use App\Jobs\Inventory\ReverseInventory;
-use App\NumberGenerator;
+use App\Models\NumberGenerator;
 use App\Factory\CreditInvitationFactory;
-use App\CreditInvitation;
+use App\Models\CreditInvitation;
 use App\Repositories\Base\BaseRepository;
-use App\Credit;
-use App\Payment;
+use App\Models\Credit;
+use App\Models\Payment;
 use App\Requests\SearchRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
-use App\Customer;
-use App\Account;
+use App\Models\Customer;
+use App\Models\Account;
 use Illuminate\Support\Collection;
 
 class CreditRepository extends BaseRepository implements CreditRepositoryInterface
 {
     /**
      * PaymentRepository constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      */
     public function __construct(Credit $credit)
     {
@@ -56,7 +56,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
 
     /**
      * @param array $data
-     * @param Credit $credit
+     * @param \App\Models\Credit $credit
      * @return Credit|null
      */
     public function updateCreditNote(array $data, Credit $credit): ?Credit
@@ -71,7 +71,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     /**
      * @param array $data
      * @param Credit $credit
-     * @return Credit|null
+     * @return \App\Models\Credit|null
      */
     public function save(array $data, Credit $credit): ?Credit
     {

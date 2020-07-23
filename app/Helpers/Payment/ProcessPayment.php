@@ -4,7 +4,7 @@
 namespace App\Helpers\Payment;
 
 
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 
 class ProcessPayment
@@ -13,7 +13,7 @@ class ProcessPayment
     /**
      * @param array $data
      * @param PaymentRepository $payment_repo
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @return Payment|null
      */
     public function process(array $data, PaymentRepository $payment_repo, Payment $payment): ?Payment

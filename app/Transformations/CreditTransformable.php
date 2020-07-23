@@ -8,11 +8,11 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\Credit;
-use App\CreditInvitation;
-use App\Email;
-use App\File;
+use App\Models\Audit;
+use App\Models\Credit;
+use App\Models\CreditInvitation;
+use App\Models\Email;
+use App\Models\File;
 
 
 trait CreditTransformable

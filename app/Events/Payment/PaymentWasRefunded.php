@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -13,7 +13,7 @@ class PaymentWasRefunded
     use SerializesModels;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     public $payment;
 
@@ -22,7 +22,7 @@ class PaymentWasRefunded
     /**
      * Create a new event instance.
      *
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param $refund_amount
      */
     public function __construct(Payment $payment, $data)

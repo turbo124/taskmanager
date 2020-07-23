@@ -2,8 +2,8 @@
 
 namespace App\Events\Credit;
 
-use App\Account;
-use App\Credit;
+use App\Models\Account;
+use App\Models\Credit;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

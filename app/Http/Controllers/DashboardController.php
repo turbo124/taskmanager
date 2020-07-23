@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Expense;
+use App\Models\Expense;
 use App\Filters\LeadFilter;
-use App\Invoice;
-use App\Lead;
-use App\Payment;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Lead;
+use App\Models\Payment;
+use App\Models\Quote;
+use App\Models\Credit;
+use App\Models\Order;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\LeadRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
-use App\Task;
+use App\Models\Task;
 
 class DashboardController extends Controller
 {
@@ -64,7 +66,9 @@ class DashboardController extends Controller
             'deals'        => $leads,
             'invoices'     => Invoice::all()->where('account_id', auth()->user()->account_user()->account_id),
             'quotes'       => Quote::all()->where('account_id', auth()->user()->account_user()->account_id),
+            'credits'      => Credit::all()->where('account_id', auth()->user()->account_user()->account_id),
             'payments'     => Payment::all()->where('account_id', auth()->user()->account_user()->account_id),
+            'orders'       => Order::all()->where('account_id', auth()->user()->account_user()->account_id),
             'expenses'     => Expense::all()->where('account_id', auth()->user()->account_user()->account_id),
             'tasks'        => Task::all()->where('account_id', auth()->user()->account_user()->account_id),
         ];

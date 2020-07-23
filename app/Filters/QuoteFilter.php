@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Quote;
+use App\Models\Account;
+use App\Models\Quote;
 use App\Repositories\QuoteRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\QuoteTransformable;

@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Comment;
-use App\Task;
+use App\Models\Comment;
+use App\Models\Task;
 use Illuminate\Support\Collection;
 
 interface CommentRepositoryInterface
 {
     /**
      *
-     * @param Task $objTask
+     * @param \App\Models\Task $objTask
      */
     public function getAllCommentsForTask(Task $objTask, int $account_id);
 

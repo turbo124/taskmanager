@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\UserFilter;
 use App\Factory\UserFactory;
 use App\Jobs\User\CreateUser;
-use App\User;
+use App\Models\User;
 use App\Events\User\UserWasCreated;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -17,7 +17,7 @@ use App\Transformations\UserTransformable;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use App\Repositories\DepartmentRepository;
-use App\Department;
+use App\Models\Department;
 use App\Requests\SearchRequest;
 
 /**

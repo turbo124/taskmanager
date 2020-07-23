@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Task;
+use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -20,7 +20,7 @@ class OrderCreateEvent
     /**
      * Create a new event instance.
      *
-     * @param Task $task
+     * @param \App\Models\Task $task
      */
     public function __construct(Task $task)
     {

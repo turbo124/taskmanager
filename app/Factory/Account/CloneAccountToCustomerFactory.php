@@ -2,17 +2,17 @@
 
 namespace App\Factory\Account;
 
-use App\ClientContact;
-use App\Customer;
-use App\User;
-use App\Account;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\User;
+use App\Models\Account;
 
 class CloneAccountToCustomerFactory
 {
     /**
      * @param Account $account
-     * @param User $user
-     * @return Customer
+     * @param \App\Models\User $user
+     * @return \App\Models\Customer
      */
     public static function create(Account $account, User $user): Customer
     {

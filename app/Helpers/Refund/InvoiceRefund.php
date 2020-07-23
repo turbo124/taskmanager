@@ -4,9 +4,9 @@ namespace App\Helpers\Refund;
 
 use App\Events\Payment\PaymentWasRefunded;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Invoice;
-use App\Payment;
-use App\Paymentable;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Paymentable;
 use App\Repositories\CreditRepository;
 
 class InvoiceRefund extends BaseRefund
@@ -15,7 +15,7 @@ class InvoiceRefund extends BaseRefund
 
     /**
      * InvoiceRefund constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param array $data
      * @param CreditRepository $credit_repository
      * @param array $payment_invoices
@@ -32,7 +32,7 @@ class InvoiceRefund extends BaseRefund
 
     /**
      * @param CreditRefund|null $objCreditRefund
-     * @return Payment
+     * @return \App\Models\Payment
      */
     public function refund(CreditRefund $objCreditRefund = null)
     {
@@ -55,13 +55,17 @@ class InvoiceRefund extends BaseRefund
             $invoice->resetBalance($payment_invoice['amount']);
         }
 
-        $this->reduceCreditedAmount();
+        $this->reduceCreditedAmount($objCreditRefund);
         $this->save();
 
         return $this->payment;
     }
 
-    private function reduceCreditedAmount($objCreditRefund = null)
+    /**
+     * @param CreditRefund|null $objCreditRefund
+     * @return bool
+     */
+    private function reduceCreditedAmount(CreditRefund $objCreditRefund = null)
     {
         if ($objCreditRefund === null || $objCreditRefund->getAmount() <= 0) {
             return true;
@@ -72,14 +76,14 @@ class InvoiceRefund extends BaseRefund
     }
 
     /**
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @param $amount
      * @return bool
      */
     private function updateRefundedAmountForInvoice(Invoice $invoice, $amount): bool
     {
         $paymentable_invoice = Paymentable::wherePaymentableId($invoice->id)->wherePaymentableType(
-            'App\Invoice'
+            'App\Models\Invoice'
         )->first();
 
         if (($amount + $paymentable_invoice->refunded) > $invoice->total) {

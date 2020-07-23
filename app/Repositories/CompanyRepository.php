@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Company;
+use App\Models\Company;
 use App\Repositories\Base\BaseRepository;
-use App\Product;
+use App\Models\Product;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -19,7 +19,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     /**
      * CompanyRepository constructor.
      *
-     * @param Company $company
+     * @param \App\Models\Company $company
      */
     public function __construct(Company $company, CompanyContactRepository $contact_repo)
     {
@@ -68,7 +68,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
-     * @param Product $product
+     * @param \App\Models\Product $product
      */
     public function saveProduct(Product $product)
     {

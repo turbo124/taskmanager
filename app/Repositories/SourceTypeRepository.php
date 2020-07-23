@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\SourceType;
+use App\Models\SourceType;
 use App\Repositories\Interfaces\SourceTypeRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use Exception;
@@ -29,7 +29,7 @@ class SourceTypeRepository extends BaseRepository implements SourceTypeRepositor
     /**
      * @param int $id
      *
-     * @return SourceType
+     * @return \App\Models\SourceType
      * @throws Exception
      */
     public function findSourceById(int $id): SourceType

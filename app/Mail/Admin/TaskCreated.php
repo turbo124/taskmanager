@@ -2,10 +2,10 @@
 
 namespace App\Mail\Admin;
 
-use App\Order;
-use App\Task;
+use App\Models\Order;
+use App\Models\Task;
 use App\Traits\Money;
-use App\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -32,7 +32,7 @@ class TaskCreated extends Mailable
     /**
      * TaskCreated constructor.
      * @param Task $task
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(Task $task, User $user)
     {

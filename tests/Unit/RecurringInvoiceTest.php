@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Cases;
-use App\Customer;
+use App\Models\Cases;
+use App\Models\Customer;
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\CaseFactory;
 use App\Factory\LeadFactory;
@@ -11,8 +11,8 @@ use App\Factory\RecurringInvoiceFactory;
 use App\Filters\CaseFilter;
 use App\Filters\LeadFilter;
 use App\Filters\RecurringInvoiceFilter;
-use App\Lead;
-use App\RecurringInvoice;
+use App\Models\Lead;
+use App\Models\RecurringInvoice;
 use App\Repositories\CaseRepository;
 use App\Repositories\LeadRepository;
 use App\Repositories\ProjectRepository;
@@ -22,9 +22,9 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Task;
-use App\User;
-use App\Account;
+use App\Models\Task;
+use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\TaskTransformable;
@@ -40,7 +40,7 @@ class RecurringInvoiceTest extends TestCase
     private User $user;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 

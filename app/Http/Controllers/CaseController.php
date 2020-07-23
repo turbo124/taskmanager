@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Cases;
-use App\CompanyToken;
-use App\Customer;
+use App\Models\Cases;
+use App\Models\CompanyToken;
+use App\Models\Customer;
 use App\Factory\CaseFactory;
 use App\Filters\CaseFilter;
 use App\Repositories\CaseRepository;

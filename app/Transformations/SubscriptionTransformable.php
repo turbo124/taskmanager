@@ -3,13 +3,13 @@
 namespace App\Transformations;
 
 
-use App\Subscription;
+use App\Models\Subscription;
 
 trait SubscriptionTransformable
 {
 
     /**
-     * @param Subscription $subscription
+     * @param \App\Models\Subscription $subscription
      * @return array
      */
     public function transform(Subscription $subscription)

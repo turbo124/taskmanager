@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\Credit;
-use App\Account;
-use App\User;
-use App\Customer;
+use App\Models\Credit;
+use App\Models\Account;
+use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 

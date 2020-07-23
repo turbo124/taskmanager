@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Invoice;
-use App\RecurringInvoice;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
 
 class InvoiceToRecurringInvoiceFactory
 {

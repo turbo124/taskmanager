@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\CompanyGateway;
+use App\Models\CompanyGateway;
 
 class GatewaySettings extends BaseSettings
 {

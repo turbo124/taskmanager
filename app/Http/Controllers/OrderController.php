@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Events\Misc\InvitationWasViewed;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasUpdated;
@@ -11,9 +11,9 @@ use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\OrderFactory;
 use App\Filters\InvoiceFilter;
 use App\Filters\OrderFilter;
-use App\Invoice;
-use App\Order;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Quote;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\InvoiceRepository;

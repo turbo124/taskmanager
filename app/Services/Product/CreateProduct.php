@@ -3,13 +3,13 @@
 namespace App\Services\Product;
 
 use App\Repositories\ProductRepository;
-use App\Product;
-use App\AttributeValue;
+use App\Models\Product;
+use App\Models\AttributeValue;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
-use App\Category;
-use App\ProductImage;
-use App\ProductAttribute;
+use App\Models\Category;
+use App\Models\ProductImage;
+use App\Models\ProductAttribute;
 use Illuminate\Http\UploadedFile;
 use App\Traits\UploadableTrait;
 use Illuminate\Support\Str;
@@ -83,7 +83,7 @@ class CreateProduct
     }
 
     /**
-     * @param Product $product
+     * @param \App\Models\Product $product
      * @param $fields
      * @return bool
      */

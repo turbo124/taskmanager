@@ -1,8 +1,8 @@
 <?php
 
-use App\Credit;
-use App\Customer;
-use App\User;
+use App\Models\Credit;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(
     Credit::class,

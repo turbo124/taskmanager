@@ -4,9 +4,9 @@
 namespace App\Helpers\Payment\Gateways;
 
 
-use App\Invoice;
+use App\Models\Invoice;
 use App\Jobs\Payment\CreatePayment;
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Stripe\Customer;
 use Stripe\StripeClient;
@@ -17,11 +17,11 @@ class Stripe extends BasePaymentGateway
 
     /**
      * Stripe constructor.
-     * @param \App\Customer $customer
+     * @param \App\Models\Customer $customer
      * @param $customer_gateway
      * @param $company_gateway
      */
-    public function __construct(\App\Customer $customer, $customer_gateway, $company_gateway)
+    public function __construct(\App\Models\Customer $customer, $customer_gateway, $company_gateway)
     {
         parent::__construct($customer, $customer_gateway, $company_gateway);
     }
@@ -81,7 +81,7 @@ class Stripe extends BasePaymentGateway
     /**
      * @param float $amount
      * @param Invoice|null $invoice
-     * @return Payment|bool|null
+     * @return \App\Models\Payment|bool|null
      */
     private function createCharge(float $amount, Invoice $invoice = null)
     {

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\ClientContact;
+use App\Models\ClientContact;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
 
@@ -97,7 +97,7 @@ class ServiceBase
     }
 
     /**
-     * @param ClientContact $contact
+     * @param \App\Models\ClientContact $contact
      * @param string $subject
      * @param string $body
      * @param string $template

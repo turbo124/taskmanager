@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Payment;
-use App\User;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -33,7 +33,7 @@ class Refunded extends Mailable
     /**
      * Refunded constructor.
      * @param Payment $payment
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(Payment $payment, User $user)
     {

@@ -10,8 +10,8 @@ namespace App\Repositories\Interfaces;
 
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
-use App\Address;
-use App\Customer;
+use App\Models\Address;
+use App\Models\Customer;
 
 /**
  *
@@ -46,7 +46,7 @@ interface AddressRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param Address $address
+     * @param \App\Models\Address $address
      * @param Customer $customer
      */
     public function attachToCustomer(Address $address, Customer $customer);

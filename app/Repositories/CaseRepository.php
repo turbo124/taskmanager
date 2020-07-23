@@ -4,14 +4,14 @@
 namespace App\Repositories;
 
 
-use App\Cases;
+use App\Models\Cases;
 use App\Repositories\Base\BaseRepository;
 
 class CaseRepository extends BaseRepository
 {
     /**
      * CaseRepository constructor.
-     * @param Cases $case
+     * @param \App\Models\Cases $case
      */
     public function __construct(Cases $case)
     {
@@ -26,7 +26,7 @@ class CaseRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Cases
+     * @return \App\Models\Cases
      */
     public function findCaseById(int $id): Cases
     {
@@ -35,7 +35,7 @@ class CaseRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param Cases $case
+     * @param \App\Models\Cases $case
      */
     public function save(array $data, Cases $case)
     {

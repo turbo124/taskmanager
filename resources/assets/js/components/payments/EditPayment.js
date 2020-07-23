@@ -26,6 +26,7 @@ class EditPayment extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.setInvoices = this.setInvoices.bind(this)
         this.setCredits = this.setCredits.bind(this)
+        this.setAmount = this.setAmount.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.handleCustomerChange = this.handleCustomerChange.bind(this)
@@ -78,13 +79,8 @@ class EditPayment extends React.Component {
         this.setState({ payable_credits: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
-    handleCustomerChange (e) {
-        const invoices = this.paymentModel.filterInvoicesByCustomer(e.target.value)
-
-        this.setState({
-            [e.target.name]: e.target.value,
-            invoices: invoices
-        })
+    handleCustomerChange (customerId) {
+        this.setState({ customer_id: customerId }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
     }
 
     handleInput (e) {

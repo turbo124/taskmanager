@@ -9,7 +9,7 @@ use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Subscription\CreateSubscriptionRequest;
 use App\Requests\Subscription\UpdateSubscriptionRequest;
-use App\Subscription;
+use App\Models\Subscription;
 use App\Transformations\SubscriptionTransformable;
 use Illuminate\Http\Request;
 

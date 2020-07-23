@@ -2,22 +2,22 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\Email;
-use App\File;
-use App\Invoice;
-use App\InvoiceInvitation;
-use App\Payment;
-use App\Paymentable;
+use App\Models\Audit;
+use App\Models\Email;
+use App\Models\File;
+use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
+use App\Models\Payment;
+use App\Models\Paymentable;
 use App\Repositories\CustomerRepository;
-use App\Customer;
+use App\Models\Customer;
 
 trait InvoiceTransformable
 {
     use PaymentTransformable;
 
     /**
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @return array
      */
     protected function transformInvoice(Invoice $invoice)

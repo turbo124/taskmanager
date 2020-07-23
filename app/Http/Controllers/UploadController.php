@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
+use App\Models\File;
 use App\Jobs\Utils\UploadFile;
 use App\Repositories\TaskRepository;
 use App\Requests\UploadRequest;
@@ -10,9 +10,9 @@ use App\Repositories\Interfaces\FileRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\FileRepository;
-use App\Task;
+use App\Models\Task;
 use App\Transformations\FileTransformable;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
@@ -33,7 +33,7 @@ class UploadController extends Controller
 
     public function index($entity, $task_id)
     {
-        $class = "App\\" . ucfirst($entity);
+        $class = "App\Models\\" . ucfirst($entity);
         $entity = $class::find($task_id);
 
         $uploads = $this->fileRepository->getFilesForEntity($entity);
@@ -53,7 +53,7 @@ class UploadController extends Controller
      */
     public function store(UploadRequest $request)
     {
-        $class = "App\\" . ucfirst($request->entity_type);
+        $class = "App\Models\\" . ucfirst($request->entity_type);
         $obj = $class::where('id', $request->entity_id)->first();
         $user = Auth::user();
         $account = auth()->user()->account_user()->account;

@@ -2,7 +2,7 @@
 
 namespace App\Transformations;
 
-use App\Role;
+use App\Models\Role;
 
 trait RoleTransformable
 {
@@ -10,8 +10,8 @@ trait RoleTransformable
     /**
      * Transform the role
      *
-     * @param Role $role
-     * @return Role
+     * @param \App\Models\Role $role
+     * @return \App\Models\Role
      */
     protected function transformRole(Role $role)
     {

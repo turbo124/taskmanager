@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Company;
-use App\Account;
+use App\Models\Company;
+use App\Models\Account;
 use App\Factory\ProductFactory;
 use App\Filters\ProductFilter;
 use App\Jobs\Inventory\UpdateInventory;
-use App\Product;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 use App\Requests\SearchRequest;
 use Illuminate\Support\Facades\File;
@@ -16,12 +16,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\ProductTransformable;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
-use App\Category;
+use App\Models\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\ProductImageRepository;
-use App\ProductImage;
-use App\User;
+use App\Models\ProductImage;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class ProductTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-use App\File;
+use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 
 /**

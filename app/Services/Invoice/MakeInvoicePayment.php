@@ -2,8 +2,8 @@
 
 namespace App\Services\Invoice;
 
-use App\Invoice;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Services\Customer\CustomerService;
 use Illuminate\Support\Carbon;
 
@@ -15,12 +15,12 @@ class MakeInvoicePayment
 {
 
     /**
-     * @var Invoice
+     * @var \App\Models\Invoice
      */
     private Invoice $invoice;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
     private $payment_amount;
@@ -45,14 +45,14 @@ class MakeInvoicePayment
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            return $this->updateInvoice();
+            return $this->updateInvoice(true);
         }
 
         if ($this->payment_amount > $this->invoice->balance) {
             return $this->invoice;
         }
 
-        $this->invoice->reduceBalance($this->payment_amount);
+        $this->updateInvoice();
 
         return $this->invoice;
     }
@@ -70,12 +70,15 @@ class MakeInvoicePayment
     /**
      * @return Invoice
      */
-    private function updateInvoice(): Invoice
+    private function updateInvoice($partial = false): Invoice
     {
-        $this->resetPartialInvoice();
+        if ($partial) {
+            $this->resetPartialInvoice();
+            $this->setDueDate();
+        }
+
         $this->updateBalance($this->payment_amount);
         $this->setStatus();
-        $this->setDueDate();
         $this->save();
 
         return $this->invoice;
@@ -88,7 +91,9 @@ class MakeInvoicePayment
 
     private function setStatus()
     {
-        $this->invoice->setStatus(Invoice::STATUS_PARTIAL);
+        $this->invoice->setStatus(
+            $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID
+        );
     }
 
     private function setDueDate()
@@ -102,7 +107,7 @@ class MakeInvoicePayment
     }
 
     /**
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     private function updateInvoiceTotal(): Invoice
     {

@@ -5,13 +5,13 @@ namespace App\Jobs\Email;
 use App\Designs\Custom;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use App\Designs\PdfColumns;
-use App\Design;
-use App\Email;
-use App\Account;
-use App\Invoice;
+use App\Models\Design;
+use App\Models\Email;
+use App\Models\Account;
+use App\Models\Invoice;
 use App\Jobs\Invoice\CreateUbl;
 use App\Mail\SendMail;
 use Illuminate\Bus\Queueable;
@@ -22,7 +22,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use App\ClientContact;
+use App\Models\ClientContact;
 use App\Factory\EmailFactory;
 use App\Repositories\EmailRepository;
 
@@ -63,7 +63,7 @@ class SendEmail implements ShouldQueue
     {
         $settings = $this->entity->account->settings;
 
-        $objPdf = get_class($this->entity) === 'App\Lead' ? new LeadPdf($this->entity) : new InvoicePdf($this->entity);
+        $objPdf = get_class($this->entity) === 'App\Models\Lead' ? new LeadPdf($this->entity) : new InvoicePdf($this->entity);
 
         $objPdf->build();
         $labels = $objPdf->getLabels();
@@ -95,9 +95,9 @@ class SendEmail implements ShouldQueue
             $message->setBcc($settings->bcc_email);
         }
 
-        if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Lead' && get_class(
+        if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Models\Lead' && get_class(
                 $this->entity
-            ) !== 'App\Payment') {
+            ) !== 'App\Models\Payment') {
             $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }
 

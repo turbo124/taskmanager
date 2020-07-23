@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Company;
+use App\Models\Company;
 use App\Repositories\Base\BaseRepositoryInterface;
-use App\Brand;
-use App\Product;
+use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 interface CompanyRepositoryInterface extends BaseRepositoryInterface

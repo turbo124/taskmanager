@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Lead;
+use App\Models\Account;
+use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use App\Transformations\LeadTransformable;
 use Illuminate\Http\Request;

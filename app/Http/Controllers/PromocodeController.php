@@ -4,13 +4,13 @@
 namespace App\Http\Controllers;
 
 
-use App\CompanyToken;
-use App\Customer;
+use App\Models\CompanyToken;
+use App\Models\Customer;
 use App\Filters\GroupSettingFilter;
 use App\Filters\PromocodeFilter;
 use App\Helpers\Promocodes\Promocodes;
-use App\Order;
-use App\Promocode;
+use App\Models\Order;
+use App\Models\Promocode;
 use App\Repositories\PromocodeRepository;
 use App\Requests\Promocode\CreatePromocode;
 use App\Requests\Promocode\UpdatePromocode;

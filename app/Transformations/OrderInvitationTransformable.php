@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\Invoice;
-use App\InvoiceInvitation;
-use App\OrderInvitation;
+use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
+use App\Models\OrderInvitation;
 
 class OrderInvitationTransformable
 {
     /**
-     * @param OrderInvitation $invitation
+     * @param \App\Models\OrderInvitation $invitation
      * @return array
      */
     public function transformOrderInvitation(OrderInvitation $invitation)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
+use App\Models\Company;
 use App\Factory\CompanyFactory;
 use App\Repositories\CompanyRepository;
 use App\Repositories\CompanyContactRepository;
@@ -11,7 +11,7 @@ use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;
 use App\Settings\CompanySettings;
 use App\Transformations\CompanyTransformable;
-use App\Industry;
+use App\Models\Industry;
 use App\Filters\CompanyFilter;
 use App\Traits\UploadableTrait;
 use App\Requests\SearchRequest;

@@ -2,7 +2,7 @@
 
 namespace App\Events\CompanyToken;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;

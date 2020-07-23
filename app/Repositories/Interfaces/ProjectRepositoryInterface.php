@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Project;
+use App\Models\Project;
 use Illuminate\Support\Collection;
 use App\Repositories\Base\BaseRepositoryInterface;
 

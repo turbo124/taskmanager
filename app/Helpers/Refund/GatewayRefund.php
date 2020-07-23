@@ -4,8 +4,8 @@
 namespace App\Helpers\Refund;
 
 
-use App\CompanyGateway;
-use App\Payment;
+use App\Models\CompanyGateway;
+use App\Models\Payment;
 use App\Repositories\CreditRepository;
 use Omnipay\Omnipay;
 

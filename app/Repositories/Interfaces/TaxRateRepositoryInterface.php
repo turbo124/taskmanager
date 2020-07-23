@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Invoice;
+use App\Models\Invoice;
 use App\Repositories\Base\BaseRepositoryInterface;
-use App\TaxRate;
+use App\Models\TaxRate;
 use Illuminate\Support\Collection;
 
 interface TaxRateRepositoryInterface extends BaseRepositoryInterface

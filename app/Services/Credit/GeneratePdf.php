@@ -2,9 +2,9 @@
 
 namespace App\Services\Credit;
 
-use App\ClientContact;
-use App\Credit;
-use App\Design;
+use App\Models\ClientContact;
+use App\Models\Credit;
+use App\Models\Design;
 use App\Designs\PdfColumns;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
@@ -26,8 +26,8 @@ class GeneratePdf
 
     /**
      * GeneratePdf constructor.
-     * @param Credit $credit
-     * @param ClientContact|null $contact
+     * @param \App\Models\Credit $credit
+     * @param \App\Models\ClientContact|null $contact
      * @param bool $update
      */
     public function __construct(Credit $credit, ClientContact $contact = null, $update = false)

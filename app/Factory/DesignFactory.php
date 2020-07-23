@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Design;
+use App\Models\Design;
 
 class DesignFactory
 {

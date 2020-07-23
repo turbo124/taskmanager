@@ -12,7 +12,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
 use App\Services\Task\ConvertLead;
 use Illuminate\Http\Request;
-use App\Task;
+use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -33,7 +33,7 @@ class TaskService extends ServiceBase
 
     /**
      * TaskService constructor.
-     * @param Task $task
+     * @param \App\Models\Task $task
      */
     public function __construct(Task $task)
     {
@@ -105,7 +105,7 @@ class TaskService extends ServiceBase
     }
 
     /**
-     * @return Task|null
+     * @return \App\Models\Task|null
      */
     public function save(): ?Task
     {

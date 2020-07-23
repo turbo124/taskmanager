@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\ClientContact;
+use App\Models\ClientContact;
 use App\Factory\CloneRecurringInvoiceFactory;
 use App\Factory\CloneRecurringInvoiceToQuoteFactory;
 use App\Factory\RecurringInvoiceFactory;
 use App\Filters\InvoiceFilter;
 use App\Notifications\ClientContactRequestCancellation;
-use App\RecurringInvoice;
-use App\Customer;
+use App\Models\RecurringInvoice;
+use App\Models\Customer;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\QuoteRepository;
@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Filters\RecurringInvoiceFilter;
 use App\Repositories\InvoiceRepository;
-use App\Invoice;
+use App\Models\Invoice;
 
 /**
  * Class RecurringInvoiceController

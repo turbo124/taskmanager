@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Factory\AccountFactory;
 use App\Jobs\Domain\CreateDomain;
 use App\Notifications\NewAccountCreated;
 use App\Requests\Account\StoreAccountRequest;
-use App\Account;
+use App\Models\Account;
 use App\Repositories\AccountRepository;
 use App\Settings\AccountSettings;
 use App\Transformations\AccountTransformable;
@@ -195,6 +195,6 @@ class AccountController extends Controller
 
     public function getDateFormats()
     {
-        return response()->json(\App\DateFormat::get());
+        return response()->json(\App\Models\DateFormat::get());
     }
 }

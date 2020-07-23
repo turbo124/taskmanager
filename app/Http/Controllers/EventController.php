@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Models\Event;
 use App\Factory\EventFactory;
 use App\Filters\EventFilter;
 use App\Notifications\EventCreated;
@@ -14,11 +14,11 @@ use App\Requests\Event\UpdateEventRequest;
 use App\Repositories\Interfaces\EventRepositoryInterface;
 use App\Transformations\EventTransformable;
 use App\Repositories\TaskRepository;
-use App\Task;
+use App\Models\Task;
 use App\Repositories\UserRepository;
-use App\User;
+use App\Models\User;
 use App\Repositories\EventTypeRepository;
-use App\EventType;
+use App\Models\EventType;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 

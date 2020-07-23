@@ -2,18 +2,18 @@
 
 namespace Tests\Unit;
 
-use App\Company;
-use App\Expense;
+use App\Models\Company;
+use App\Models\Expense;
 use App\Factory\ExpenseFactory;
 use App\Filters\ExpenseFilter;
 use App\Filters\QuoteFilter;
 use App\Repositories\ExpenseRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
-use App\Quote;
-use App\User;
-use App\Account;
-use App\Customer;
+use App\Models\Quote;
+use App\Models\User;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Repositories\QuoteRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;

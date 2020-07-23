@@ -2,13 +2,13 @@
 
 namespace App\Helpers\Payment;
 
-use App\Credit;
-use App\Customer;
+use App\Models\Credit;
+use App\Models\Customer;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Factory\CreditFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Invoice;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
@@ -56,6 +56,8 @@ class BasePaymentProcessor
             return true;
         }
 
+        //TODO - Need to check this
+        $this->payment->amount = $this->amount;
         $this->payment->applied += $this->amount;
         $this->payment->save();
     }

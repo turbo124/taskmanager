@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\CustomerFilter;
+use App\Filters\UserFilter;
+use App\Models\Customer;
+use App\Models\User;
+use App\Repositories\CustomerRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\EventRepositoryInterface;
-use App\Notification;
+use App\Models\Notification;
+use App\Repositories\UserRepository;
+use App\Requests\SearchRequest;
 use App\Transformations\NotificationTransformable;
 use App\Transformations\EventTransformable;
 
 ;
 
 use Illuminate\Support\Facades\Auth;
-use App\Event;
+use App\Models\Event;
 
 class ActivityController extends Controller
 {
@@ -71,6 +78,14 @@ class ActivityController extends Controller
 
         return response()->json(
             [
+                'users'         => (new UserFilter(new UserRepository(new User())))->filter(
+                    new SearchRequest(),
+                    auth()->user()->account_user()->account
+                ),
+                'customers'     => (new CustomerFilter(new CustomerRepository(new Customer())))->filter(
+                    new SearchRequest(),
+                    auth()->user()->account_user()->account
+                ),
                 'notifications' => $notifications,
                 'comments'      => $comments,
                 'events'        => $events

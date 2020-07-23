@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Department;
+use App\Models\Department;
 
 class DepartmentFactory
 {

@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Account;
+use App\Models\Account;
 
 class AccountSettings extends BaseSettings
 {

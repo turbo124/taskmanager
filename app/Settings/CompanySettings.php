@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Company;
+use App\Models\Company;
 
 class CompanySettings extends BaseSettings
 {

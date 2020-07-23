@@ -2,12 +2,12 @@
 
 namespace App\Transformations;
 
-use App\PaymentTerms;
+use App\Models\PaymentTerms;
 
 trait PaymentTermsTransformable
 {
     /**
-     * @param PaymentTerms $payment_terms
+     * @param \App\Models\PaymentTerms $payment_terms
      * @return array
      */
     protected function transformPaymentTerms(PaymentTerms $payment_terms)

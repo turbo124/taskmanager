@@ -76,7 +76,7 @@ export default class TabContent extends Component {
                     </div>
 
                     <div label="Attachment" className="tab-content">
-                        <FileUploads entity_type="App\Task" entity={this.props.task} user_id={userId}/>
+                        <FileUploads entity_type="App\Models\Task" entity={this.props.task} user_id={userId}/>
                     </div>
                     <div label="Comment" className="tab-content">
                         <Comments task={this.props.task} user_id={userId}/>

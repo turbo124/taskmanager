@@ -35,6 +35,7 @@ class QuoteArchivedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->quote->id;
+        $fields['data']['customer_id'] = $event->quote->customer_id;
         $fields['data']['message'] = 'A quote was archived';
         $fields['notifiable_id'] = $event->quote->user_id;
         $fields['account_id'] = $event->quote->account_id;

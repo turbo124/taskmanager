@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class UserFactory

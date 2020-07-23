@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Notification;
+use App\Models\Notification;
 use Illuminate\Support\Collection;
 
 interface NotificationRepositoryInterface

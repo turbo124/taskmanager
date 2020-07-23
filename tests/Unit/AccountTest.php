@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Customer;
+use App\Models\Customer;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\User;
-use App\Account;
+use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

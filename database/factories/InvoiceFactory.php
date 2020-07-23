@@ -1,8 +1,8 @@
 <?php
 
-use App\Invoice;
-use App\Customer;
-use App\User;
+use App\Models\Invoice;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(
     Invoice::class,

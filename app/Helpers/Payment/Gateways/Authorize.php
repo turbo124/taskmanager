@@ -4,11 +4,11 @@
 namespace App\Helpers\Payment\Gateways;
 
 
-use App\CompanyGateway;
-use App\Customer;
-use App\Invoice;
+use App\Models\CompanyGateway;
+use App\Models\Customer;
+use App\Models\Invoice;
 use App\Jobs\Payment\CreatePayment;
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Illuminate\Support\Facades\DB;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
@@ -23,7 +23,7 @@ class Authorize extends BasePaymentGateway
 
     /**
      * Authorize constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      * @param $customer_gateway
      * @param $company_gateway
      */

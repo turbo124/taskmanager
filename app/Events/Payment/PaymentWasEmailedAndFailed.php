@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Queue\SerializesModels;
 
 class PaymentWasEmailedAndFailed
@@ -10,7 +10,7 @@ class PaymentWasEmailedAndFailed
     use SerializesModels;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     public $payment;
 

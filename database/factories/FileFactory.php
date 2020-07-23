@@ -13,9 +13,9 @@ use Faker\Generator as Faker;
   |
  */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\File;
-use App\Task;
-use App\User;
+use App\Models\File;
+use App\Models\Task;
+use App\Models\User;
 
 $factory->define(File::class, function (Faker $faker) {
     $user = factory(User::class)->create();
@@ -26,7 +26,7 @@ $factory->define(File::class, function (Faker $faker) {
         'company_id' => null,
         'is_active' => 1,
         'fileable_id' => $task->id,
-        'fileable_type' => 'App\Task',
+        'fileable_type' => 'App\Models\Task',
         'user_id' => $user->id,
         'name' => $faker->text,
         'file_path' => $faker->word,

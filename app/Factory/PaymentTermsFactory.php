@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\GroupSetting;
-use App\Account;
-use App\PaymentTerms;
-use App\User;
+use App\Models\GroupSetting;
+use App\Models\Account;
+use App\Models\PaymentTerms;
+use App\Models\User;
 
 class PaymentTermsFactory
 {

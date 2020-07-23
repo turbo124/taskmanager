@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Message;
+use App\Models\Message;
 use App\Repositories\MessageRepository;
-use App\User;
-use App\Customer;
+use App\Models\User;
+use App\Models\Customer;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;

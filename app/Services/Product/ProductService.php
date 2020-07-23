@@ -2,8 +2,8 @@
 
 namespace App\Services\Product;
 
-use App\Product;
-use App\ProductImage;
+use App\Models\Product;
+use App\Models\ProductImage;
 use App\Repositories\ProductRepository;
 use App\Services\ServiceBase;
 use App\Traits\UploadableTrait;

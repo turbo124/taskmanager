@@ -7,7 +7,7 @@ use App\Filters\ExpenseFilter;
 use App\Requests\Expense\CreateExpenseRequest;
 use App\Requests\Expense\UpdateExpenseRequest;
 use App\Requests\SearchRequest;
-use App\Expense;
+use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use Exception;
 use Illuminate\Http\RedirectResponse;

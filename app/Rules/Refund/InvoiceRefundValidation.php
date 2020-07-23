@@ -3,9 +3,9 @@
 namespace App\Rules\Refund;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Invoice;
-use App\Paymentable;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Paymentable;
+use App\Models\Payment;
 
 class InvoiceRefundValidation implements Rule
 {
@@ -54,7 +54,7 @@ class InvoiceRefundValidation implements Rule
         $this->customer = null;
 
         foreach ($arrInvoices as $arrInvoice) {
-            $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
+            $invoice = $this->validateInvoice($arrInvoice);
 
             if (!$invoice) {
                 return false;
@@ -67,16 +67,16 @@ class InvoiceRefundValidation implements Rule
             $invoice_total += $invoice->total;
         }
 
-        if ($invoice_total > $this->payment->amount) {
+        if ($invoice_total > $this->request['amount']) {
             return false;
         }
 
         return true;
     }
 
-    private function validateInvoice(int $invoice_id)
+    private function validateInvoice($arrInvoice)
     {
-        $invoice = Invoice::whereId($invoice_id)->first();
+        $invoice = Invoice::whereId($arrInvoice['invoice_id'])->first();
 
         // check allowed statuses here
         if (!$invoice || $invoice->is_deleted) {
@@ -94,10 +94,10 @@ class InvoiceRefundValidation implements Rule
             return false;
         }
 
-        $paymentable = Paymentable::where('paymentable_id', $invoice_id)->where(
+        $paymentable = Paymentable::where('paymentable_id', $arrInvoice['invoice_id'])->where(
             'payment_id',
             $this->request['id']
-        )->first();
+        )->where('paymentable_type', get_class($invoice))->first();
 
         $this->payment = Payment::whereId($this->request['id'])->first();
 
@@ -107,12 +107,14 @@ class InvoiceRefundValidation implements Rule
 
         $allowed_invoices = $this->payment->invoices->pluck('id')->toArray();
 
-        if (!in_array($invoice_id, $allowed_invoices)) {
+        if (!in_array($arrInvoice['invoice_id'], $allowed_invoices)) {
             $this->validationFailures[] = 'Invoice is invalid';
             return false;
         }
 
-        if ($this->request['amount'] + $paymentable->refunded > $this->payment->amount) {
+        $refundable_amount = ($paymentable->amount - $paymentable->refunded);
+
+        if ($arrInvoice['amount'] > $refundable_amount) {
             return false;
         }
 

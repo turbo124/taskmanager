@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Company;
-use App\CompanyContact;
+use App\Models\Company;
+use App\Models\CompanyContact;
 use App\Transformations\CompanyContactTransformable;
 
 trait CompanyTransformable

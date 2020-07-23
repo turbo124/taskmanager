@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\PaymentTerms;
+use App\Models\PaymentTerms;
 use App\Repositories\Base\BaseRepository;
 
 class PaymentTermsRepository extends BaseRepository

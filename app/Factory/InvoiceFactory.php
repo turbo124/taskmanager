@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\Account;
-use App\User;
-use App\Customer;
-use App\Invoice;
+use App\Models\Account;
+use App\Models\User;
+use App\Models\Customer;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Log;
 
 class InvoiceFactory
@@ -17,7 +17,7 @@ class InvoiceFactory
      * @param int $total
      * @param object|null $settings
      * @param Customer|null $customer
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     public static function create(
         Account $account,

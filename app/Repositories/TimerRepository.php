@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Timer;
-use App\Task;
+use App\Models\Timer;
+use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -40,8 +40,8 @@ class TimerRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param Timer $timer
-     * @return Timer|null
+     * @param \App\Models\Timer $timer
+     * @return \App\Models\Timer|null
      */
     public function save(Task $task, Timer $timer, array $data): ?Timer
     {

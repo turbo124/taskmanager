@@ -3,9 +3,9 @@
 use Faker\Generator as Faker;
 
 $factory->define(
-    App\Expense::class,
+    \App\Models\Expense::class,
     function (Faker $faker) {
-        $user = factory(\App\User::class)->create();
+        $user = factory(\App\Models\User::class)->create();
         return [
             'amount'                => $faker->numberBetween(1, 10),
             'account_id'            => 1,

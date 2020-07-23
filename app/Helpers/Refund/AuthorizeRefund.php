@@ -4,8 +4,8 @@
 namespace App\Helpers\Refund;
 
 
-use App\CompanyGateway;
-use App\Payment;
+use App\Models\CompanyGateway;
+use App\Models\Payment;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
 use net\authorize\api\contract\v1\CreditCardMaskedType;
 use net\authorize\api\contract\v1\CreditCardType;
@@ -26,7 +26,7 @@ class AuthorizeRefund
     private Payment $payment;
 
     /**
-     * @var CompanyGateway
+     * @var \App\Models\CompanyGateway
      */
     private CompanyGateway $company_gateway;
 
@@ -37,8 +37,8 @@ class AuthorizeRefund
 
     /**
      * AuthorizeRefund constructor.
-     * @param Payment $payment
-     * @param CompanyGateway $company_gateway
+     * @param \App\Models\Payment $payment
+     * @param \App\Models\CompanyGateway $company_gateway
      */
     public function __construct(Payment $payment, CompanyGateway $company_gateway, array $data)
     {

@@ -32,6 +32,7 @@ class CreditUpdatedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->credit->id;
+        $fields['data']['customer_id'] = $event->credit->customer_id;
         $fields['data']['message'] = 'A credit was updated';
         $fields['notifiable_id'] = $event->credit->user_id;
         $fields['account_id'] = $event->credit->account_id;

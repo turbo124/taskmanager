@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\AccountUser;
-use App\User;
+use App\Models\AccountUser;
+use App\Models\User;
 use App\Repositories\DepartmentRepository;
-use App\Department;
+use App\Models\Department;
 
 trait UserTransformable
 {

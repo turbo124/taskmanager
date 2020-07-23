@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Quote;
-use App\RecurringQuote;
+use App\Models\Quote;
+use App\Models\RecurringQuote;
 
 /**
  * Class QuoteToRecurringQuoteFactory
@@ -13,7 +13,7 @@ class QuoteToRecurringQuoteFactory
 {
     /**
      * @param Quote $quote
-     * @return RecurringQuote
+     * @return \App\Models\RecurringQuote
      */
     public static function create(Quote $quote): RecurringQuote
     {

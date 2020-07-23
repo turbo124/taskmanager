@@ -2,12 +2,12 @@
 
 namespace App\Services\RecurringQuote;
 
-use App\Invoice;
-use App\RecurringInvoice;
-use App\RecurringQuote;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
+use App\Models\RecurringQuote;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
-use App\Payment;
+use App\Models\Payment;
 use App\Services\Customer\CustomerService;
 use App\Services\Invoice\HandleCancellation;
 use App\Services\Invoice\HandleReversal;

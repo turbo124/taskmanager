@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 
-use App\Promocode;
+use App\Models\Promocode;
 use App\Repositories\Base\BaseRepository;
 
 /**

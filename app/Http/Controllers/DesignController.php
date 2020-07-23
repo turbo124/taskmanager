@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Design;
+use App\Models\Design;
 use App\Factory\DesignFactory;
 use App\Filters\DesignFilter;
 use App\Repositories\DesignRepository;

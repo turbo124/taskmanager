@@ -2,7 +2,7 @@
 
 namespace App\Events\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
