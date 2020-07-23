@@ -56,6 +56,8 @@ class BasePaymentProcessor
             return true;
         }
 
+        //TODO - Need to check this
+        $this->payment->amount = $this->amount;
         $this->payment->applied += $this->amount;
         $this->payment->save();
     }

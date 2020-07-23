@@ -48,10 +48,11 @@ class InvoicePayment extends BasePaymentProcessor
 
             $this->increasePaymentAmount($amount);
 
-            $invoice->service()->makeInvoicePayment($this->payment, $amount);
+            $invoice->service()->makeInvoicePayment($this->payment->fresh(), $amount);
         }
 
         $this->reduceCreditedAmount($objCreditPayment);
+
         $this->save();
 
         return $this->payment;

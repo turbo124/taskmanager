@@ -30,6 +30,7 @@ class PaymentRestoredActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->payment->id;
+        $fields['data']['customer_id'] = $event->payment->customer_id;
         $fields['data']['message'] = 'A payment was restored';
         $fields['notifiable_id'] = $event->payment->user_id;
         $fields['account_id'] = $event->payment->account_id;

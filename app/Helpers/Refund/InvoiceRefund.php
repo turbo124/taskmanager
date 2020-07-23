@@ -55,13 +55,17 @@ class InvoiceRefund extends BaseRefund
             $invoice->resetBalance($payment_invoice['amount']);
         }
 
-        $this->reduceCreditedAmount();
+        $this->reduceCreditedAmount($objCreditRefund);
         $this->save();
 
         return $this->payment;
     }
 
-    private function reduceCreditedAmount($objCreditRefund = null)
+    /**
+     * @param CreditRefund|null $objCreditRefund
+     * @return bool
+     */
+    private function reduceCreditedAmount(CreditRefund $objCreditRefund = null)
     {
         if ($objCreditRefund === null || $objCreditRefund->getAmount() <= 0) {
             return true;

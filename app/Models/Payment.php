@@ -148,7 +148,7 @@ class Payment extends Model
      * @param float|null $amount
      * @return $this
      */
-    public function attachInvoice(Models\Invoice $invoice, float $amount = null): Payment
+    public function attachInvoice(Invoice $invoice, float $amount = null): Payment
     {
         $this->invoices()->attach(
             $invoice->id,

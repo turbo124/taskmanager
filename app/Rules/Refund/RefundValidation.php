@@ -53,7 +53,14 @@ class RefundValidation implements Rule
             return false;
         }
 
-        if ($this->request['amount'] > $payment->amount) {
+        $invoice_total = array_sum(array_column($this->request['invoices'], 'amount'));
+
+        if(!empty($this->request['credits'])) {
+            $credit_total = array_sum(array_column($this->request['credits'], 'amount'));
+            $invoice_total -= $credit_total;
+        }
+
+        if ($invoice_total > $payment->amount) {
             $this->validationFailures[] = 'Refund amount is to high';
             return false;
         }

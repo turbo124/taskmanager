@@ -32,6 +32,7 @@ class OrderDispatchedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->order->id;
+        $fields['data']['customer_id'] = $event->order->customer_id;
         $fields['data']['message'] = 'A order was dispatched';
         $fields['notifiable_id'] = $event->order->user_id;
         $fields['account_id'] = $event->order->account_id;

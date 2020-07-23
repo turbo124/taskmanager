@@ -40,16 +40,16 @@ const CreditLineInputs = (props) => {
                         </Col>
                     </Row>
 
-                    {props.credits.length > 1 &&
-                        <React.Fragment>
-                            <Button color="danger" onClick={() => props.removeLine(idx)}>
-                                {translations.remove}
-                            </Button>
-                            <Button color="primary" onClick={() => props.addLine(idx)}>
-                                {translations.add}
-                            </Button>
-                        </React.Fragment>
-                    }
+                    {/* {props.credits.length > 1 && */}
+                    {/*    <React.Fragment> */}
+                    {/*        <Button color="danger" onClick={() => props.removeLine(idx)}> */}
+                    {/*            {translations.remove} */}
+                    {/*        </Button> */}
+                    {/*        <Button color="primary" onClick={() => props.addLine(idx)}> */}
+                    {/*            {translations.add} */}
+                    {/*        </Button> */}
+                    {/*    </React.Fragment> */}
+                    {/* } */}
                 </div>
             )
         })

@@ -17,7 +17,9 @@ class MessageContainer extends React.Component {
             activeMessage: undefined,
             messages: [],
             notifications: [],
-            events: []
+            events: [],
+            users: [],
+            customers: []
         }
         this.setMode = this.setMode.bind(this)
         this.toggleOpenState = this.toggleOpenState.bind(this)
@@ -74,7 +76,9 @@ class MessageContainer extends React.Component {
                 this.setState({
                     messages: r.data.comments,
                     notifications: r.data.notifications,
-                    events: r.data.events
+                    events: r.data.events,
+                    users: r.data.users,
+                    customers: r.data.customers
                 })
             })
             .catch((e) => {
@@ -231,9 +235,12 @@ class MessageContainer extends React.Component {
                             <CardBody>
                                 <ListGroup className="m-3">
                                     {notifications.map((notification, index) => {
+                                        const user = this.state.users.filter(user => user.id === notification.user_id)
+                                        const username = user && user.length ? `${user[0].first_name} ${user[0].last_name}` : ''
+                                        const message = `${username} - ${notification.data.message}`
                                         return (<React.Fragment key={index}>
                                             <InfoItem icon={getEntityIcon(notification.entity)}
-                                                value={notification.data.message}
+                                                value={message}
                                                 title={<FormatDate date={notification.created_at}
                                                     with_time={true}/>}/>
                                         </React.Fragment>)

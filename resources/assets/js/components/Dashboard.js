@@ -1516,9 +1516,9 @@ class Dashboard extends Component {
                         </Row>
 
                         <Row className="match-height">
-                            <Col className="col-xl-8" lg={12}>
-                                <StatsCard/>
-                            </Col>
+                            {/*<Col className="col-xl-8" lg={12}>*/}
+                            {/*    <StatsCard/>*/}
+                            {/*</Col>*/}
 
                             <Col className="col-xl-4" lg={12}>
                                 <CardModule

@@ -13,6 +13,20 @@ class CreatePaymentRequest extends BaseFormRequest
     {
         $input = $this->all();
 
+        $invoices = [];
+
+        if (!empty($input['invoices'])) {
+            foreach ($input['invoices'] as $key => $invoice) {
+                if (empty($invoice['invoice_id'])) {
+                    continue;
+                }
+
+                $invoices[] = $invoice;
+            }
+
+            $input['invoices'] = $invoices;
+        }
+
         $input['is_manual'] = true;
 
         $this->replace($input);

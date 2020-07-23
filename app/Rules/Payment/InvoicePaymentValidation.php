@@ -46,6 +46,10 @@ class InvoicePaymentValidation implements Rule
         $this->customer = null;
 
         foreach ($arrInvoices as $arrInvoice) {
+            if (empty($arrInvoice['invoice_id'])) {
+                continue;
+            }
+
             $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
 
             if (!$invoice) {
