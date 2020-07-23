@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\Address;
-use App\ClientContact;
-use App\Customer;
-use App\Design;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\Design;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 

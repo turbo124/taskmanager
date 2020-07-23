@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Event;
-use App\Customer;
+use App\Models\Event;
+use App\Models\Customer;
 use App\Factory\EventFactory;
-use App\Task;
-use App\User;
-use App\Account;
+use App\Models\Task;
+use App\Models\User;
+use App\Models\Account;
 use App\Repositories\EventRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

@@ -2,7 +2,7 @@
 
 namespace App\Presenters;
 
-use App\Country;
+use App\Models\Country;
 
 /**
  * Class AccountPresenter

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\CompanyGateway;
+use App\Models\CompanyGateway;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Http\Request;
 

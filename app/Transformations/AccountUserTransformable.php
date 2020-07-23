@@ -9,7 +9,7 @@
 namespace App\Transformations;
 
 
-use App\AccountUser;
+use App\Models\AccountUser;
 
 class AccountUserTransformable
 {

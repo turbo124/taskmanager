@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 
 trait ProductTransformable
 {
 
     /**
-     * @param Product $product
+     * @param \App\Models\Product $product
      * @return array
      */
     protected function transformProduct(Product $product)

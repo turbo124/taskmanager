@@ -2,8 +2,8 @@
 
 namespace App\Services\Invoice;
 
-use App\Invoice;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Services\Customer\CustomerService;
 use Illuminate\Support\Carbon;
 
@@ -15,12 +15,12 @@ class MakeInvoicePayment
 {
 
     /**
-     * @var Invoice
+     * @var \App\Models\Invoice
      */
     private Invoice $invoice;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
     private $payment_amount;
@@ -102,7 +102,7 @@ class MakeInvoicePayment
     }
 
     /**
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     private function updateInvoiceTotal(): Invoice
     {

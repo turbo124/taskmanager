@@ -11,9 +11,9 @@ use Faker\Generator as Faker;
 |
 */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Project;
+use App\Models\Project;
 $factory->define(Project::class, function (Faker $faker) {
-    $user = factory(\App\User::class)->create();
+    $user = factory(\App\Models\User::class)->create();
     return [
         'account_id' => 1,
         'assigned_user_id' => null,

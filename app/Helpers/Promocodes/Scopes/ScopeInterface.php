@@ -14,10 +14,10 @@ interface ScopeInterface
     public function setScopeValue($scope_value);
 
     /**
-     * @param \App\Order $order
+     * @param \App\Models\Order $order
      * @return mixed
      */
-    public function setOrder(\App\Order $order);
+    public function setOrder(\App\Models\Order $order);
 
     /**
      * @return bool

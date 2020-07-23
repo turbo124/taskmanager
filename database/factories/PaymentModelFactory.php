@@ -12,13 +12,13 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Invoice;
-use App\Customer;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Customer;
+use App\Models\Payment;
 
 $factory->define(Payment::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();
-    $user = factory(\App\User::class)->create();
+    $user = factory(\App\Models\User::class)->create();
     $invoice = factory(Invoice::class)->create();
     return [
         'user_id' => $user->id,

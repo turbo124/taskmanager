@@ -2,12 +2,12 @@
 
 namespace App\Services\Invoice;
 
-use App\Invoice;
-use App\Order;
+use App\Models\Invoice;
+use App\Models\Order;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
-use App\Payment;
+use App\Models\Payment;
 use App\Services\Invoice\ReverseInvoicePayment;
 use App\Services\Invoice\CreatePayment;
 use Illuminate\Support\Carbon;
@@ -29,7 +29,7 @@ class InvoiceService extends ServiceBase
 
     /**
      * InvoiceService constructor.
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {
@@ -80,7 +80,7 @@ class InvoiceService extends ServiceBase
     /**
      * @param CreditRepository $credit_repo
      * @param PaymentRepository $payment_repo
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     public function reverseInvoicePayment(CreditRepository $credit_repo, PaymentRepository $payment_repo)
     {
@@ -100,7 +100,7 @@ class InvoiceService extends ServiceBase
     /**
      * @param InvoiceRepository $invoice_repo
      * @param PaymentRepository $payment_repo
-     * @return Invoice|null
+     * @return \App\Models\Invoice|null
      */
     public function createPayment(InvoiceRepository $invoice_repo, PaymentRepository $payment_repo): ?Invoice
     {

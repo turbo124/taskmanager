@@ -2,7 +2,7 @@
 
 namespace App\Services\Transaction;
 
-use App\Transaction;
+use App\Models\Transaction;
 use App\Factory\TransactionFactory;
 use App\Services\ServiceBase;
 

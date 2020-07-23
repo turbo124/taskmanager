@@ -3,8 +3,8 @@
 namespace App\Transformations;
 
 
-use App\CompanyToken;
-use App\Subscription;
+use App\Models\CompanyToken;
+use App\Models\Subscription;
 
 trait TokenTransformable
 {

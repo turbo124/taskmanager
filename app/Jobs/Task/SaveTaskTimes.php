@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Task;
 
-use App\Task;
+use App\Models\Task;
 use App\Factory\QuoteToRecurringQuoteFactory;
-use App\Quote;
+use App\Models\Quote;
 use App\Repositories\RecurringQuoteRepository;
-use App\RecurringQuote;
+use App\Models\RecurringQuote;
 use App\Factory\RecurringQuoteFactory;
 
 use Illuminate\Foundation\Bus\Dispatchable;

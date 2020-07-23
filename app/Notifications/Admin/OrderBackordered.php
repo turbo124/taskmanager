@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\OrderBackorderedMailer;
-use App\Order;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;

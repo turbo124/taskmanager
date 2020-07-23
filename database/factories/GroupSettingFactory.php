@@ -11,11 +11,12 @@
   |
  */
 
-use App\Department;
-use App\User;
+use App\Models\Department;
+use App\Models\User;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(\App\GroupSetting::class, function (Faker\Generator $faker) {
+$factory->define(
+    \App\Models\GroupSetting::class, function (Faker\Generator $faker) {
     $user = factory(User::class)->create();
     return [
         'account_id' => 1,

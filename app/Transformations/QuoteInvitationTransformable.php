@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Quote;
-use App\QuoteInvitation;
+use App\Models\Quote;
+use App\Models\QuoteInvitation;
 
 class QuoteInvitationTransformable
 {

@@ -2,13 +2,13 @@
 
 namespace App\Transformations;
 
-use App\Email;
+use App\Models\Email;
 
 class EmailTransformable
 {
 
     /**
-     * @param Email $email
+     * @param \App\Models\Email $email
      * @return array
      */
     public function transformEmail(Email $email)

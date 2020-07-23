@@ -2,8 +2,8 @@
 
 namespace App\Services\Quote;
 
-use App\Invoice;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Quote;
 use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasEmailed;
 use App\Repositories\InvoiceRepository;
@@ -77,7 +77,7 @@ class QuoteService extends ServiceBase
     }
 
     /**
-     * @return Quote
+     * @return \App\Models\Quote
      */
     public function calculateInvoiceTotals(): Quote
     {
@@ -86,7 +86,7 @@ class QuoteService extends ServiceBase
 
     /**
      * @param OrderRepository $order_repository
-     * @return \App\Order|null
+     * @return \App\Models\Order|null
      */
     public function convertQuoteToOrder(OrderRepository $order_repository)
     {

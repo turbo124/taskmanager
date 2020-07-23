@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Event;
-use App\Account;
-use App\User;
+use App\Models\Event;
+use App\Models\Account;
+use App\Models\User;
 
 class EventFactory
 {

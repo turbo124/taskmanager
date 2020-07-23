@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Attribute;
+use App\Models\Attribute;
 use App\Filters\AttributeFilter;
 use App\Http\Controllers\Controller;
 use App\Jobs\Attribute\SaveAttributeValues;

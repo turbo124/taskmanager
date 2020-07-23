@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Payment;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Factory\PaymentFactory;
-use App\Invoice;
-use App\Order;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
@@ -106,8 +106,8 @@ class CreatePayment implements ShouldQueue
     }
 
     /**
-     * @param Customer $customer
-     * @param Payment $payment
+     * @param \App\Models\Customer $customer
+     * @param \App\Models\Payment $payment
      * @return Payment
      */
     private function attachInvoices(Payment $payment): Payment
@@ -128,7 +128,7 @@ class CreatePayment implements ShouldQueue
 
     /**
      * @param Payment $payment
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     private function updateCustomer(Payment $payment, Invoice $invoice)
     {

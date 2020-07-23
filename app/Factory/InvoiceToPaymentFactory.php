@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Invoice;
-use App\Payment;
-use App\RecurringInvoice;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\RecurringInvoice;
 
 class InvoiceToPaymentFactory
 {

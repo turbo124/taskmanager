@@ -2,12 +2,12 @@
 
 namespace App\Services\Lead;
 
-use App\ClientContact;
-use App\Design;
+use App\Models\ClientContact;
+use App\Models\Design;
 use App\Designs\PdfColumns;
 use App\Jobs\Pdf\CreatePdf;
-use App\Lead;
-use App\Order;
+use App\Models\Lead;
+use App\Models\Order;
 use Illuminate\Support\Facades\Storage;
 
 class GeneratePdf

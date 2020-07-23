@@ -12,10 +12,10 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Customer;
-use App\Company;
-use App\Account;
-use App\User;
+use App\Models\Customer;
+use App\Models\Company;
+use App\Models\Account;
+use App\Models\User;
 
 $factory->define(Customer::class, function (Faker\Generator $faker) {
 

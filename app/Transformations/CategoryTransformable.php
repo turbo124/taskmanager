@@ -2,13 +2,13 @@
 
 namespace App\Transformations;
 
-use App\Category;
+use App\Models\Category;
 
 trait CategoryTransformable
 {
 
     /**
-     * @param Category $category
+     * @param \App\Models\Category $category
      * @return array
      */
     protected function transformCategory(Category $category)

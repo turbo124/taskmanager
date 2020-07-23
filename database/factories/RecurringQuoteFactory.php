@@ -1,11 +1,11 @@
 <?php
 
-use App\Quote;
-use App\Customer;
-use App\User;
+use App\Models\Quote;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(
-    \App\RecurringQuote::class,
+    \App\Models\RecurringQuote::class,
     function (Faker\Generator $faker) {
         $customer = factory(Customer::class)->create();
         $user = factory(User::class)->create();
@@ -23,7 +23,7 @@ $factory->define(
 
         return [
             'account_id'     => 1,
-            'status_id'      => \App\RecurringQuote::STATUS_DRAFT,
+            'status_id'      => \App\Models\RecurringQuote::STATUS_DRAFT,
             'number'         => '',
             'total'          => $faker->randomFloat(),
             'tax_total'      => $faker->randomFloat(),

@@ -2,8 +2,8 @@
 
 namespace App\Events\Order;
 
-use App\Invoice;
-use App\Order;
+use App\Models\Invoice;
+use App\Models\Order;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,14 +24,14 @@ class OrderWasHeld implements PerformsMetrics
     protected $meter = 'order-held';
 
     /**
-     * @var Order
+     * @var \App\Models\Order
      */
     public Order $order;
 
     /**
      * Create a new event instance.
      *
-     * @param Order $order
+     * @param \App\Models\Order $order
      */
     public function __construct(Order $order)
     {

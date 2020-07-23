@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Account;
-use App\Invoice;
+use App\Models\Account;
+use App\Models\Invoice;
 use App\Repositories\Base\BaseRepositoryInterface;
-use App\Product;
+use App\Models\Product;
 use App\Requests\SearchRequest;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
-use App\Task;
-use App\Brand;
-use App\Category;
-use App\ProductAttribute;
+use App\Models\Task;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
@@ -21,21 +21,21 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param SearchRequest $search_request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return mixed
      */
     public function getAll(SearchRequest $search_request, Account $account);
 
     /**
      * @param $data
-     * @param Product $product
-     * @return Product|null
+     * @param \App\Models\Product $product
+     * @return \App\Models\Product|null
      */
     public function save(array $data, Product $product): ?Product;
 
     /**
      * @param int $id
-     * @return Product
+     * @return \App\Models\Product
      */
     public function findProductById(int $id): Product;
 
@@ -46,7 +46,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param string $slug
-     * @return Product
+     * @return \App\Models\Product
      */
     public function findProductBySlug(string $slug): Product;
 
@@ -67,9 +67,9 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function filterProductsByCategory(Category $objCategory): Support;
 
     /**
-     * @param ProductAttribute $productAttribute
-     * @param Product $product
-     * @return ProductAttribute
+     * @param \App\Models\ProductAttribute $productAttribute
+     * @param \App\Models\Product $product
+     * @return \App\Models\ProductAttribute
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute;
 

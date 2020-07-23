@@ -4,7 +4,7 @@
 namespace App\Traits;
 
 
-use App\Subscription;
+use App\Models\Subscription;
 
 trait SendSubscription
 {

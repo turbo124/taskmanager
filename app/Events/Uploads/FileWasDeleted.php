@@ -2,9 +2,9 @@
 
 namespace App\Events\Uploads;
 
-use App\Account;
-use App\File;
-use App\Lead;
+use App\Models\Account;
+use App\Models\File;
+use App\Models\Lead;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 

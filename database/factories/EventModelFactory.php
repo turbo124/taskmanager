@@ -12,12 +12,12 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Event;
-use App\Customer;
+use App\Models\Event;
+use App\Models\Customer;
 
 $factory->define(Event::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();
-    $user = factory(\App\User::class)->create();
+    $user = factory(\App\Models\User::class)->create();
 
     return [
         'created_by' => $user->id,

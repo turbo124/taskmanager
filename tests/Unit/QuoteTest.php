@@ -9,16 +9,16 @@
 namespace Tests\Unit;
 
 use App\Filters\QuoteFilter;
-use App\Account;
-use App\NumberGenerator;
-use App\Order;
+use App\Models\Account;
+use App\Models\NumberGenerator;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
-use App\Quote;
-use App\User;
-use App\Customer;
-use App\Invoice;
+use App\Models\Quote;
+use App\Models\User;
+use App\Models\Customer;
+use App\Models\Invoice;
 use App\Repositories\QuoteRepository;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

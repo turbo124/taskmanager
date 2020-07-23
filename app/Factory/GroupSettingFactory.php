@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\GroupSetting;
-use App\Account;
-use App\User;
+use App\Models\GroupSetting;
+use App\Models\Account;
+use App\Models\User;
 
 class GroupSettingFactory
 {

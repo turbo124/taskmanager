@@ -2,17 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Account;
-use App\CaseCategory;
+use App\Models\Account;
+use App\Models\CaseCategory;
 use App\Factory\CategoryFactory;
 use App\Repositories\Base\BaseRepository;
-use App\Category;
+use App\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Product;
+use App\Models\Product;
 use App\Transformations\ProductTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -23,7 +23,7 @@ class CaseCategoryRepository extends BaseRepository
 {
     /**
      * CaseCategoryRepository constructor.
-     * @param CaseCategory $category
+     * @param \App\Models\CaseCategory $category
      */
     public function __construct(CaseCategory $category)
     {
@@ -72,7 +72,7 @@ class CaseCategoryRepository extends BaseRepository
 
     /**
      * @param array $params
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return Category
      */
     public function save(array $params, CaseCategory $category): CaseCategory
@@ -90,7 +90,7 @@ class CaseCategoryRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Category
+     * @return \App\Models\Category
      */
     public function findCategoryById(int $id): CaseCategory
     {

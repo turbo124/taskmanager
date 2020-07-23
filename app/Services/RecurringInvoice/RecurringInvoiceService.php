@@ -2,11 +2,11 @@
 
 namespace App\Services\RecurringInvoice;
 
-use App\Invoice;
-use App\RecurringInvoice;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
-use App\Payment;
+use App\Models\Payment;
 use App\Services\Customer\CustomerService;
 use App\Services\Invoice\HandleCancellation;
 use App\Services\Invoice\HandleReversal;
@@ -24,7 +24,7 @@ class RecurringInvoiceService extends ServiceBase
 
     /**
      * RecurringInvoiceService constructor.
-     * @param RecurringInvoice $invoice
+     * @param \App\Models\RecurringInvoice $invoice
      */
     public function __construct(RecurringInvoice $invoice)
     {

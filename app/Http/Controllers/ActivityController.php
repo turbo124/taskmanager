@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\EventRepositoryInterface;
-use App\Notification;
+use App\Models\Notification;
 use App\Transformations\NotificationTransformable;
 use App\Transformations\EventTransformable;
 
 ;
 
 use Illuminate\Support\Facades\Auth;
-use App\Event;
+use App\Models\Event;
 
 class ActivityController extends Controller
 {

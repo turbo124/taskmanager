@@ -13,15 +13,15 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Product;
-use App\User;
+use App\Models\Product;
+use App\Models\User;
 
 $factory->define(
     Product::class,
     function (Faker\Generator $faker) {
         $product = $faker->unique()->sentence;
         $user = factory(User::class)->create();
-        $company = factory(\App\Company::class)->create();
+        $company = factory(\App\Models\Company::class)->create();
 
         return [
             'company_id'    => $company->id,

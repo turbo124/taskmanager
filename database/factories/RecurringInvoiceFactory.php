@@ -1,11 +1,11 @@
 <?php
 
-use App\Invoice;
-use App\Customer;
-use App\User;
+use App\Models\Invoice;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(
-    \App\RecurringInvoice::class,
+    \App\Models\RecurringInvoice::class,
     function (Faker\Generator $faker) {
         $customer = factory(Customer::class)->create();
         $user = factory(User::class)->create();
@@ -25,7 +25,7 @@ $factory->define(
 
         return [
             'account_id'     => 1,
-            'status_id'      => \App\RecurringInvoice::STATUS_DRAFT,
+            'status_id'      => \App\Models\RecurringInvoice::STATUS_DRAFT,
             'number'         => $faker->ean13(),
             'total'          => $total,
             'balance'        => $total,

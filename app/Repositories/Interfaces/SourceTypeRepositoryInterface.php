@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\SourceType;
+use App\Models\SourceType;
 
 interface SourceTypeRepositoryInterface
 {

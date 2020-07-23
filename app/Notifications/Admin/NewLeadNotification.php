@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\LeadCreated;
-use App\Lead;
+use App\Models\Lead;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -26,7 +26,7 @@ class NewLeadNotification extends Notification implements ShouldQueue
 
     /**
      * NewLeadNotification constructor.
-     * @param Lead $lead
+     * @param \App\Models\Lead $lead
      * @param string $message_type
      */
     public function __construct(Lead $lead, string $message_type = '')

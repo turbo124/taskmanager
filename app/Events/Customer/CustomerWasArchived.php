@@ -2,7 +2,7 @@
 
 namespace App\Events\Customer;
 
-use App\Customer;
+use App\Models\Customer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -16,7 +16,7 @@ class CustomerWasArchived
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Customer
+     * @var \App\Models\Customer
      */
     public Customer $customer;
 

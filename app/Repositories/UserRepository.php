@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Events\User\UserEmailChanged;
 use App\Events\User\UserWasDeleted;
-use App\User;
-use App\Department;
+use App\Models\User;
+use App\Models\Department;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Exceptions\CreateUserErrorException;
@@ -15,7 +15,7 @@ use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
-use App\AccountUser;
+use App\Models\AccountUser;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {

@@ -3,7 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\Refunded;
-use App\Payment;
+use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -25,7 +25,7 @@ class RefundNotification extends Notification implements ShouldQueue
 
     /**
      * RefundNotification constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

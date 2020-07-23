@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Email;
+use App\Models\Email;
 use Carbon\Carbon;
 
 class EmailFactory
@@ -10,7 +10,7 @@ class EmailFactory
     /**
      * @param int $user_id
      * @param int $account_id
-     * @return Email
+     * @return \App\Models\Email
      */
     public static function create(int $user_id, int $account_id): Email
     {

@@ -2,7 +2,7 @@
 
 namespace App\Events\Credit;
 
-use App\Credit;
+use App\Models\Credit;
 use Illuminate\Queue\SerializesModels;
 
 /**

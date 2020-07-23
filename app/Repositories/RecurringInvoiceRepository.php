@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Filters\RecurringInvoiceFilter;
-use App\NumberGenerator;
+use App\Models\NumberGenerator;
 use App\Repositories\Base\BaseRepository;
-use App\RecurringInvoice;
+use App\Models\RecurringInvoice;
 use App\Requests\SearchRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +18,7 @@ class RecurringInvoiceRepository extends BaseRepository
 {
     /**
      * RecurringInvoiceRepository constructor.
-     * @param RecurringInvoice $invoice
+     * @param \App\Models\RecurringInvoice $invoice
      */
     public function __construct(RecurringInvoice $invoice)
     {
@@ -29,7 +29,7 @@ class RecurringInvoiceRepository extends BaseRepository
     /**
      * @param $data
      * @param RecurringInvoice $invoice
-     * @return RecurringInvoice|null
+     * @return \App\Models\RecurringInvoice|null
      */
     public function save($data, RecurringInvoice $invoice): ?RecurringInvoice
     {

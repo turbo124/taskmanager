@@ -2,7 +2,7 @@
 
 namespace App\Requests\Customer;
 
-use App\GroupSetting;
+use App\Models\GroupSetting;
 use App\Repositories\Base\BaseFormRequest;
 
 class CreateCustomerRequest extends BaseFormRequest

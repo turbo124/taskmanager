@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Cases;
-use App\Customer;
+use App\Models\Cases;
+use App\Models\Customer;
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\CaseFactory;
 use App\Factory\LeadFactory;
@@ -13,9 +13,9 @@ use App\Filters\CaseFilter;
 use App\Filters\LeadFilter;
 use App\Filters\RecurringInvoiceFilter;
 use App\Filters\RecurringQuoteFilter;
-use App\Lead;
-use App\RecurringInvoice;
-use App\RecurringQuote;
+use App\Models\Lead;
+use App\Models\RecurringInvoice;
+use App\Models\RecurringQuote;
 use App\Repositories\CaseRepository;
 use App\Repositories\LeadRepository;
 use App\Repositories\ProjectRepository;
@@ -26,9 +26,9 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Task;
-use App\User;
-use App\Account;
+use App\Models\Task;
+use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\TaskTransformable;
@@ -39,7 +39,7 @@ class RecurringQuoteTest extends TestCase
     use DatabaseTransactions, WithFaker, TaskTransformable;
 
     /**
-     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var \App\Models\User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
      */
     private User $user;
 
@@ -49,7 +49,7 @@ class RecurringQuoteTest extends TestCase
     private Account $account;
 
     /**
-     * @var Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
      */
     private Customer $customer;
 

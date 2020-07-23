@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\TaskType;
+use App\Models\TaskType;
 use App\Repositories\Interfaces\TaskTypeRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use Exception;

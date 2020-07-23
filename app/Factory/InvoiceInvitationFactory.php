@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\InvoiceInvitation;
+use App\Models\InvoiceInvitation;
 use Illuminate\Support\Str;
 
 class InvoiceInvitationFactory

@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Attribute;
-use App\AttributeValue;
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Repositories\AttributeValueRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

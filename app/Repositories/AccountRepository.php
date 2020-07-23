@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Http\Request;
 
@@ -13,7 +13,7 @@ class AccountRepository extends BaseRepository
 {
     /**
      * AccountRepository constructor.
-     * @param Account $account
+     * @param \App\Models\Account $account
      */
     public function __construct(Account $account)
     {
@@ -44,7 +44,7 @@ class AccountRepository extends BaseRepository
      * Saves the client and its contacts
      *
      * @param array $data The data
-     * @param Account
+     * @param \App\Models\Account
      * $client  The Account
      *
      * @return     Client|Company|null  Company Object

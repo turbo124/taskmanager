@@ -1,6 +1,6 @@
 <?php
-use App\Role;
-use App\Permission;
+use App\Models\Role;
+use App\Models\Permission;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

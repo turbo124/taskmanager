@@ -2,11 +2,11 @@
 
 namespace App\Transformations;
 
-use App\Address;
-use App\ClientContact;
-use App\Customer;
-use App\Email;
-use App\Lead;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\Email;
+use App\Models\Lead;
 
 trait LeadTransformable
 {

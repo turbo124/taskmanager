@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Inventory;
 
-use App\Invoice;
-use App\Order;
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;

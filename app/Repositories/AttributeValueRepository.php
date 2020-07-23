@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Attribute;
-use App\AttributeValue;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Collection;
 
@@ -11,7 +11,7 @@ class AttributeValueRepository extends BaseRepository
 {
     /**
      * AttributeValueRepository constructor.
-     * @param AttributeValue $attributeValue
+     * @param \App\Models\AttributeValue $attributeValue
      */
     public function __construct(AttributeValue $attributeValue)
     {
@@ -34,9 +34,9 @@ class AttributeValueRepository extends BaseRepository
     }
 
     /**
-     * @param Attribute $attribute
+     * @param \App\Models\Attribute $attribute
      * @param array $data
-     * @return AttributeValue
+     * @return \App\Models\AttributeValue
      */
     public function createAttributeValue(Attribute $attribute, array $data): AttributeValue
     {
@@ -49,8 +49,8 @@ class AttributeValueRepository extends BaseRepository
     /**
      * Create the attribute value and associate to the attribute
      *
-     * @param Attribute $attribute
-     * @return AttributeValue
+     * @param \App\Models\Attribute $attribute
+     * @return \App\Models\AttributeValue
      */
     public function associateToAttribute(Attribute $attribute): AttributeValue
     {

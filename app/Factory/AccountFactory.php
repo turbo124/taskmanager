@@ -3,7 +3,7 @@
 namespace App\Factory;
 
 
-use App\Account;
+use App\Models\Account;
 use App\Settings\AccountSettings;
 use Illuminate\Support\Str;
 

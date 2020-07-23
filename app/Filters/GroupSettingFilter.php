@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
-use App\GroupSetting;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\GroupSetting;
 use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\GroupSettingTransformable;

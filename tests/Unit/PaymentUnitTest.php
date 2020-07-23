@@ -9,11 +9,11 @@ use App\Factory\CreditFactory;
 use App\Filters\PaymentFilter;
 use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
-use App\Invoice;
-use App\Payment;
-use App\Customer;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Customer;
 use App\Requests\SearchRequest;
-use App\User;
+use App\Models\User;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Helpers\Currency\CurrencyConverter;
@@ -22,10 +22,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\EventTransformable;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Factory\PaymentFactory;
-use App\Refund;
+use App\Models\Refund;
 use App\Repositories\CreditRepository;
-use App\Credit;
-use App\Account;
+use App\Models\Credit;
+use App\Models\Account;
 
 class PaymentUnitTest extends TestCase
 {
@@ -38,12 +38,12 @@ class PaymentUnitTest extends TestCase
     private User $user;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 
     /**
-     * @var Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
      */
     private Customer $customer;
 

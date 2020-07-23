@@ -7,12 +7,12 @@ use App\Factory\CloneRecurringQuoteToQuoteFactory;
 use App\Factory\RecurringQuoteFactory;
 use App\Filters\RecurringInvoiceFilter;
 use App\Filters\RecurringQuoteFilter;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\RecurringInvoice\SendRecurring;
-use App\RecurringQuote;
-use App\Quote;
-use App\Customer;
+use App\Models\RecurringQuote;
+use App\Models\Quote;
+use App\Models\Customer;
 use App\Repositories\BaseRepository;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
@@ -123,7 +123,7 @@ class RecurringQuoteController extends BaseController
 
     /**
      * @param Request $request
-     * @param RecurringQuote $quote
+     * @param \App\Models\RecurringQuote $quote
      * @param $action
      * @return array|bool|\Illuminate\Http\JsonResponse|string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException

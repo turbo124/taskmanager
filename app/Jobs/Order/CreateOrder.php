@@ -2,23 +2,23 @@
 
 namespace App\Jobs\Order;
 
-use App\Account;
-use App\Address;
-use App\ClientContact;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
 use App\Events\Deal\DealWasCreated;
 use App\Factory\CustomerFactory;
 use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
-use App\Order;
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
-use App\Task;
-use App\User;
+use App\Models\Task;
+use App\Models\User;
 use DateInterval;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +35,7 @@ class CreateOrder implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Order
+     * @var \App\Models\Order
      */
     private Order $order;
 
@@ -45,12 +45,12 @@ class CreateOrder implements ShouldQueue
     private Task $task;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private User $user;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 
@@ -151,7 +151,7 @@ class CreateOrder implements ShouldQueue
 
     /**
      * @param Customer $customer
-     * @return Task|null
+     * @return \App\Models\Task|null
      */
     private function saveTask(Customer $customer): ?Task
     {
@@ -284,8 +284,8 @@ class CreateOrder implements ShouldQueue
     }
 
     /**
-     * @param Customer $customer
-     * @return Order|null
+     * @param \App\Models\Customer $customer
+     * @return \App\Models\Order|null
      */
     private function saveOrder(Customer $customer): ?Order
     {

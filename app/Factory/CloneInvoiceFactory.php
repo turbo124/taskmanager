@@ -2,18 +2,18 @@
 
 namespace App\Factory;
 
-use App\Invoice;
-use App\User;
-use App\Account;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Account;
 use Carbon\Carbon;
 
 class CloneInvoiceFactory
 {
     /**
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @param User $user
      * @param Account $account
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     public static function create(Invoice $invoice, User $user, Account $account)
     {

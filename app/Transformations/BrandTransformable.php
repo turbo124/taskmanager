@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Brand;
-use App\Category;
+use App\Models\Brand;
+use App\Models\Category;
 
 trait BrandTransformable
 {

@@ -2,7 +2,7 @@
 
 namespace App\Services\Credit;
 
-use App\Credit;
+use App\Models\Credit;
 use App\Services\ServiceBase;
 use Carbon\Carbon;
 use App\Events\Credit\CreditWasEmailed;

@@ -2,8 +2,8 @@
 
 namespace App\Events\Payment;
 
-use App\Account;
-use App\Payment;
+use App\Models\Account;
+use App\Models\Payment;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,7 +30,7 @@ class PaymentWasUpdated implements PerformsMetrics
     /**
      * Create a new event instance.
      *
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      */
     public function __construct(Payment $payment)
     {

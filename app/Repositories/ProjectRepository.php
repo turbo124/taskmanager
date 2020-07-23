@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Project;
+use App\Models\Project;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Exceptions\CreateProjectErrorException;

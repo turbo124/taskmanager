@@ -2,21 +2,21 @@
 
 namespace App\Repositories;
 
-use App\Account;
-use App\AttributeValue;
+use App\Models\Account;
+use App\Models\AttributeValue;
 use App\Filters\ProductFilter;
-use App\ProductListingHistory;
+use App\Models\ProductListingHistory;
 use App\Repositories\Base\BaseRepository;
-use App\Product;
+use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
-use App\Task;
-use App\Category;
-use App\ProductImage;
-use App\ProductAttribute;
+use App\Models\Task;
+use App\Models\Category;
+use App\Models\ProductImage;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use App\Traits\UploadableTrait;
@@ -40,7 +40,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * @param SearchRequest $search_request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
@@ -50,7 +50,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * @param int $id
-     * @return Product
+     * @return \App\Models\Product
      */
     public function findProductById(int $id): Product
     {
@@ -146,7 +146,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * Delete the attribute from the product
      *
-     * @param ProductAttribute $productAttribute
+     * @param \App\Models\ProductAttribute $productAttribute
      *
      * @return bool|null
      * @throws Exception
@@ -169,8 +169,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * Associate the product attribute to the product
      *
-     * @param ProductAttribute $productAttribute
-     * @return ProductAttribute
+     * @param \App\Models\ProductAttribute $productAttribute
+     * @return \App\Models\ProductAttribute
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute
     {
@@ -191,8 +191,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * @param ProductAttribute $productAttribute
-     * @param AttributeValue ...$attributeValues
+     * @param \App\Models\ProductAttribute $productAttribute
+     * @param \App\Models\AttributeValue ...$attributeValues
      *
      * @return Collection
      */
@@ -208,7 +208,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * @param ProductAttribute $productAttribute
+     * @param \App\Models\ProductAttribute $productAttribute
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function findProductCombination(ProductAttribute $productAttribute)
@@ -232,7 +232,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      *
-     * @param Category $category
+     * @param \App\Models\Category $category
      * @param type $value
      */
     public function getProductsByDealValueAndCategory(Category $category, Request $request): Support

@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use App\Models\User;
 
 /*
   |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ use App\User;
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Company;
+use App\Models\Company;
 
 $factory->define(Company::class, function (Faker\Generator $faker) {
     $user = factory(User::class)->create();

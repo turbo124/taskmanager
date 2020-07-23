@@ -2,10 +2,10 @@
 
 namespace App\Factory\Lead;
 
-use App\Address;
-use App\ClientContact;
-use App\Customer;
-use App\Lead;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
+use App\Models\Lead;
 
 class CloneLeadToAddressFactory
 {

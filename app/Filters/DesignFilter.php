@@ -2,10 +2,10 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
-use App\Design;
-use App\GroupSetting;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Design;
+use App\Models\GroupSetting;
 use App\Repositories\DesignRepository;
 use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
@@ -33,7 +33,7 @@ class DesignFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

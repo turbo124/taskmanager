@@ -4,11 +4,11 @@ namespace App\Services\Order;
 
 use App\Events\Order\OrderWasBackordered;
 use App\Factory\CloneOrderToInvoiceFactory;
-use App\Invoice;
-use App\Order;
-use App\Product;
-use App\ProductAttribute;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductAttribute;
+use App\Models\Quote;
 use App\Repositories\InvoiceRepository;
 
 class CheckStock
@@ -27,7 +27,7 @@ class CheckStock
 
     /**
      * CheckStock constructor.
-     * @param Order $order
+     * @param \App\Models\Order $order
      */
     public function __construct(Order $order)
     {

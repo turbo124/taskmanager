@@ -2,21 +2,21 @@
 
 namespace Tests\Unit;
 
-use App\ClientContact;
-use App\Company;
-use App\Customer;
-use App\Account;
+use App\Models\ClientContact;
+use App\Models\Company;
+use App\Models\Customer;
+use App\Models\Account;
 use App\Filters\CustomerFilter;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
-use App\User;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\CustomerTransformable;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
-use App\Brand;
+use App\Models\Brand;
 use App\Factory\CustomerFactory;
 
 class CustomerTest extends TestCase

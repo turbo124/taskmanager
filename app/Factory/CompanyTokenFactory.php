@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use Illuminate\Support\Str;
 
 class CompanyTokenFactory

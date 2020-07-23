@@ -4,9 +4,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Customer;
+use App\Models\Customer;
 use App\Helpers\Shipping\ShippoShipment;
-use App\Order;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

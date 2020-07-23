@@ -2,16 +2,16 @@
 
 namespace App\Factory;
 
-use App\Credit;
-use App\User;
-use App\Account;
+use App\Models\Credit;
+use App\Models\User;
+use App\Models\Account;
 use Carbon\Carbon;
 
 class CloneCreditFactory
 {
     /**
      * @param $credit
-     * @param User $user
+     * @param \App\Models\User $user
      * @return Credit
      */
     public static function create($credit, User $user): Credit

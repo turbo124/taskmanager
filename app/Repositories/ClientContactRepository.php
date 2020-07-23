@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Customer;
-use App\ClientContact;
+use App\Models\Customer;
+use App\Models\ClientContact;
 use App\Factory\ClientContactFactory;
 use App\Helpers\Arrays;
-use App\InvoiceInvitation;
+use App\Models\InvoiceInvitation;
 use App\Repositories\Base\BaseRepository;
 use http\Client;
 use Illuminate\Support\Facades\Hash;

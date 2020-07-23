@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Attribute;
+use App\Models\Account;
+use App\Models\Attribute;
 use App\Repositories\AttributeRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Subscription;
+use App\Models\Subscription;
 use App\Transformations\AttributeTransformable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

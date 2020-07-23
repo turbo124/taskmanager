@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyToken;
+use App\Models\CompanyToken;
 use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
 use App\Jobs\Customer\StoreProductAttributes;
 use App\Jobs\Product\CreateProduct;
 use App\Jobs\Product\SaveProductFeatures;
-use App\Order;
-use App\Product;
+use App\Models\Order;
+use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\CategoryRepository;
@@ -24,7 +24,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Repositories\TaskRepository;
-use App\Task;
+use App\Models\Task;
 use App\Requests\SearchRequest;
 use App\Filters\ProductFilter;
 use Illuminate\Http\Response;

@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Invoice;
-use App\RecurringQuote;
+use App\Models\Account;
+use App\Models\Invoice;
+use App\Models\RecurringQuote;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\RecurringQuoteTransformable;

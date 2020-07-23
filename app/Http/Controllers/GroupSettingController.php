@@ -7,7 +7,7 @@ use App\Filters\GroupSettingFilter;
 use App\Http\Requests\SignupRequest;
 use App\Requests\GroupSetting\StoreGroupSettingRequest;
 use App\Requests\GroupSetting\UpdateGroupSettingRequest;
-use App\GroupSetting;
+use App\Models\GroupSetting;
 use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
 use App\Settings\GroupSettings;

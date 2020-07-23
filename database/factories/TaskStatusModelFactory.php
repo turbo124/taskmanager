@@ -10,7 +10,7 @@
 |
 */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\TaskStatus;
+use App\Models\TaskStatus;
 $factory->define(TaskStatus::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->word,

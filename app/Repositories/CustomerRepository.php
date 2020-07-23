@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Filters\CustomerFilter;
-use App\NumberGenerator;
+use App\Models\NumberGenerator;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
-use App\Customer;
+use App\Models\Customer;
 use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection as Support;
@@ -26,7 +26,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * CustomerRepository constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     public function __construct(Customer $customer)
     {
@@ -36,7 +36,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * @param SearchRequest $search_request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Support\Collection
      */
     public function getAll(SearchRequest $search_request, Account $account)
@@ -46,7 +46,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * @param int $id
-     * @return Customer
+     * @return \App\Models\Customer
      */
     public function findCustomerById(int $id): Customer
     {
@@ -108,7 +108,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     /**
      * @param array $data
      * @param Customer $customer
-     * @return Customer|null
+     * @return \App\Models\Customer|null
      * @throws Exception
      */
     public function save(array $data, Customer $customer): ?Customer

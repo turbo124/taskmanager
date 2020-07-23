@@ -5,11 +5,11 @@ namespace Tests\Unit;
 use App\Factory\UserFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\User;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Collection;
-use App\Department;
-use App\Role;
+use App\Models\Department;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\UserTransformable;
 

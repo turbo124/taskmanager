@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\TaxRate;
+use App\Models\TaxRate;
 
 class TaxRateFactory
 {

@@ -2,10 +2,10 @@
 
 namespace App\Helpers\Shipping;
 
-use App\Address;
-use App\Customer;
-use App\Product;
-use App\Order;
+use App\Models\Address;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Support\Collection;
 use Shippo;
 use Shippo_Shipment;
@@ -13,7 +13,7 @@ use Shippo_Shipment;
 class ShippoShipment
 {
     /**
-     * @var Customer
+     * @var \App\Models\Customer
      */
     private Customer $customer;
 
@@ -52,7 +52,7 @@ class ShippoShipment
 
     /**
      * ShippoShipment constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     public function __construct(Customer $customer, $line_items)
     {
@@ -128,7 +128,7 @@ class ShippoShipment
     }
 
     /**
-     * @param Address $address
+     * @param \App\Models\Address $address
      */
     private function setDeliveryAddress(Address $address)
     {

@@ -3,7 +3,7 @@
 namespace App\Rules\Refund;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Payment;
+use App\Models\Payment;
 use App\Paymentables;
 
 class RefundValidation implements Rule

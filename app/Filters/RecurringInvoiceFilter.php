@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Invoice;
-use App\RecurringInvoice;
+use App\Models\Account;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\RecurringInvoiceTransformable;

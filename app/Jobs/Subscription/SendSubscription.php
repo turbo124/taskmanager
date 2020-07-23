@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Subscription;
 
-use App\Subscription;
+use App\Models\Subscription;
 use App\Traits\EntityDataBuilder;
 use App\Repositories\SubscriptionRepository;
 use Illuminate\Foundation\Bus\Dispatchable;

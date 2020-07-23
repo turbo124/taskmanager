@@ -2,7 +2,7 @@
 
 namespace App\Events\Customer;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;

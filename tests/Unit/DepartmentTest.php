@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Department;
-use App\User;
+use App\Models\Department;
+use App\Models\User;
 use App\Repositories\DepartmentRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

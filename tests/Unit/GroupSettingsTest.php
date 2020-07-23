@@ -2,22 +2,22 @@
 
 namespace Tests\Unit;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Factory\GroupSettingFactory;
 use App\Factory\ProjectFactory;
 use App\Filters\GroupSettingFilter;
-use App\GroupSetting;
+use App\Models\GroupSetting;
 use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Project;
-use App\Account;
+use App\Models\Project;
+use App\Models\Account;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
+use App\Models\User;
 
 class GroupSettingsTest extends TestCase
 {
@@ -25,12 +25,12 @@ class GroupSettingsTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 
     /**
-     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var \App\Models\User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
      */
     private User $user;
 

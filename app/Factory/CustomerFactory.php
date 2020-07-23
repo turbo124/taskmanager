@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Account;
-use App\User;
-use App\Customer;
+use App\Models\Account;
+use App\Models\User;
+use App\Models\Customer;
 use App\Settings\CustomerSettings;
 
 class CustomerFactory

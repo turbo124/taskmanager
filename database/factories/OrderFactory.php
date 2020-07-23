@@ -1,8 +1,8 @@
 <?php
 
-use App\Order;
-use App\Customer;
-use App\User;
+use App\Models\Order;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(Order::class, function (Faker\Generator $faker) {
 
@@ -10,7 +10,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
     $user = factory(User::class)->create();
 
     for ($x = 0; $x < 2; $x++) {
-        $product = factory(\App\Product::class)->create();
+        $product = factory(\App\Models\Product::class)->create();
 
         $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
             ->setQuantity(2)

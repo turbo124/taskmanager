@@ -12,9 +12,9 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Message;
-use App\Customer;
-use App\User;
+use App\Models\Message;
+use App\Models\Customer;
+use App\Models\User;
 
 $factory->define(Message::class, function (Faker\Generator $faker) {
     $customer = factory(Customer::class)->create();

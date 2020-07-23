@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Payment;
-use App\User;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,12 +15,12 @@ class PartialPaymentMade extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var Payment
+     * @var \App\Models\Payment
      */
     private Payment $payment;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private User $user;
 
@@ -35,7 +35,7 @@ class PartialPaymentMade extends Mailable
     /**
      * PaymentMade constructor.
      * @param Payment $payment
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(Payment $payment, User $user)
     {

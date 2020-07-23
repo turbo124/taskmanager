@@ -2,7 +2,7 @@
 
 namespace App\Events\Quote;
 
-use App\Quote;
+use App\Models\Quote;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -20,7 +20,7 @@ class QuoteWasMarkedSent
     /**
      * Create a new event instance.
      *
-     * @param Quote $quote
+     * @param \App\Models\Quote $quote
      */
     public function __construct(Quote $quote)
     {

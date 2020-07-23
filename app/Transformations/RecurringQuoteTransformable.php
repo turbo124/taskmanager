@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\Quote;
-use App\RecurringQuote;
+use App\Models\Quote;
+use App\Models\RecurringQuote;
 use App\Repositories\CustomerRepository;
-use App\Customer;
+use App\Models\Customer;
 
 trait RecurringQuoteTransformable
 {

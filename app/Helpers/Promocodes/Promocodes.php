@@ -2,13 +2,13 @@
 
 namespace App\Helpers\Promocodes;
 
-use App\Account;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Exceptions\InvalidPromocodeException;
-use App\Order;
-use App\User;
+use App\Models\Order;
+use App\Models\User;
 use Carbon\Carbon;
-use App\Promocode;
+use App\Models\Promocode;
 use Illuminate\Support\Facades\Log;
 
 class Promocodes
@@ -66,7 +66,7 @@ class Promocodes
      * Save promocodes into database
      * Successful insert returns generated promocodes
      * Fail will return empty collection.
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @param int $amount
      * @param null $reward
      * @param array $data
@@ -168,7 +168,7 @@ class Promocodes
 
     /**
      * @param $data
-     * @param Order $order
+     * @param \App\Models\Order $order
      * @param Customer $customer
      * @return bool
      */

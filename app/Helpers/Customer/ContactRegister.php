@@ -2,13 +2,13 @@
 
 namespace App\Helpers\Customer;
 
-use App\Account;
-use App\Address;
-use App\ClientContact;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
 use App\Factory\ClientContactFactory;
 use App\Factory\CustomerFactory;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class ContactRegister
@@ -19,12 +19,12 @@ class ContactRegister
     private array $data;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private User $user;
 
@@ -32,7 +32,7 @@ class ContactRegister
      * ContactRegister constructor.
      * @param array $data
      * @param Account $account
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(array $data, Account $account, User $user)
     {
@@ -55,7 +55,7 @@ class ContactRegister
     }
 
     /**
-     * @return Customer
+     * @return \App\Models\Customer
      */
     private function createCustomer(): Customer
     {
@@ -69,7 +69,7 @@ class ContactRegister
     }
 
     /**
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     private function createAddress(Customer $customer)
     {
@@ -81,7 +81,7 @@ class ContactRegister
     }
 
     /**
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      * @return bool
      */
     private function createShippingAddress(Customer $customer)
@@ -103,7 +103,7 @@ class ContactRegister
     }
 
     /**
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      * @return ClientContact
      */
     private function createContact(Customer $customer)

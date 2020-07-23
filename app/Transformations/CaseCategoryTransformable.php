@@ -2,13 +2,13 @@
 
 namespace App\Transformations;
 
-use App\CaseCategory;
+use App\Models\CaseCategory;
 
 trait CaseCategoryTransformable
 {
 
     /**
-     * @param CaseCategory $category
+     * @param \App\Models\CaseCategory $category
      * @return array
      */
     protected function transformCategory(CaseCategory $category)

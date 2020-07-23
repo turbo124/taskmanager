@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Customer;
+use App\Models\Customer;
 
 class CustomerSettings extends BaseSettings
 {

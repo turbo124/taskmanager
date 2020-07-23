@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
-use App\User;
-use App\PasswordReset;
+use App\Models\User;
+use App\Models\PasswordReset;
 
 class PasswordResetController extends Controller
 {

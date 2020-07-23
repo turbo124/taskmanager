@@ -3,8 +3,8 @@
 namespace App\Services\Quote;
 
 use App\Factory\CloneQuoteToInvoiceFactory;
-use App\Invoice;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Quote;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 
@@ -36,7 +36,7 @@ class ConvertQuoteToInvoice
     }
 
     /**
-     * @return Invoice|null
+     * @return \App\Models\Invoice|null
      */
     public function execute(): ?Invoice
     {

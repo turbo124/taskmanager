@@ -3,7 +3,7 @@
 namespace App\Services\Payment;
 
 use App\Jobs\Email\SendEmail;
-use App\Payment;
+use App\Models\Payment;
 
 class PaymentEmail
 {

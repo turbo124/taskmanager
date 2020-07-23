@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\CompanyContact;
+use App\Models\CompanyContact;
 
 class CompanyContactFactory
 {

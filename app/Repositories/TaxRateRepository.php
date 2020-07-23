@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Base\BaseRepository;
-use App\TaxRate;
+use App\Models\TaxRate;
 use App\Repositories\Interfaces\TaxRateRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

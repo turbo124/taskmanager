@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\CaseCategory;
-use App\Cases;
+use App\Models\Account;
+use App\Models\CaseCategory;
+use App\Models\Cases;
 use App\Repositories\CaseCategoryRepository;
 use App\Repositories\CaseRepository;
 use App\Repositories\SubscriptionRepository;

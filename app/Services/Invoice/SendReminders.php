@@ -3,7 +3,7 @@
 namespace App\Services\Invoice;
 
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Invoice;
+use App\Models\Invoice;
 use Carbon\Carbon;
 
 class SendReminders
@@ -18,7 +18,7 @@ class SendReminders
     /**
      * SendReminders constructor.
      * @param $settings
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct($settings, Invoice $invoice)
     {

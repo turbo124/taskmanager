@@ -9,8 +9,8 @@
 | database. Just tell the factory how a default model should look.
 |
 */
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Role::class, function (Faker\Generator $faker) {

@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Repositories\Base\BaseRepositoryInterface;
-use App\Department;
+use App\Models\Department;
 use Illuminate\Support\Collection;
 
 interface DepartmentRepositoryInterface extends BaseRepositoryInterface

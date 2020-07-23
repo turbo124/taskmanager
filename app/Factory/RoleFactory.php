@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Role;
+use App\Models\Role;
 
 class RoleFactory
 {

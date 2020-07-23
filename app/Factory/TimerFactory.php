@@ -2,11 +2,11 @@
 
 namespace App\Factory;
 
-use App\Task;
-use App\Timer;
-use App\Account;
-use App\User;
-use App\Customer;
+use App\Models\Task;
+use App\Models\Timer;
+use App\Models\Account;
+use App\Models\User;
+use App\Models\Customer;
 use Carbon\Carbon;
 
 class TimerFactory

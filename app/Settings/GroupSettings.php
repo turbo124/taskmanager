@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\GroupSetting;
+use App\Models\GroupSetting;
 
 class GroupSettings extends BaseSettings
 {

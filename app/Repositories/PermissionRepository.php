@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Permission;
+use App\Models\Permission;
 use Illuminate\Support\Collection;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;

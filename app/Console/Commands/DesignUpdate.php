@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Design;
+use App\Models\Design;
 use Illuminate\Console\Command;
 
 class DesignUpdate extends Command

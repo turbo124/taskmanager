@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Invoice;
 
-use App\Customer;
-use App\Invoice;
-use App\Product;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Product;
 use CleverIt\UBL\Invoice\Address;
 use CleverIt\UBL\Invoice\Contact;
 use CleverIt\UBL\Invoice\Country;
@@ -138,7 +138,7 @@ class CreateUbl implements ShouldQueue
         $caddress->setPostalZone($this->invoice->account->settings->postal_code);
         $country = new Country();
 
-        $account_country = \App\Country::where('id', $this->invoice->account->settings->country_id)->first();
+        $account_country = \App\Models\Country::where('id', $this->invoice->account->settings->country_id)->first();
 
         $country->setIdentificationCode($account_country->iso3);
         $caddress->setCountry($country);
@@ -168,7 +168,7 @@ class CreateUbl implements ShouldQueue
             $caddress->setPostalZone($customer_address->zip);
             $country = new Country();
 
-            $customer_country = \App\Country::where('id', $customer_address->country_id)->first();
+            $customer_country = \App\Models\Country::where('id', $customer_address->country_id)->first();
 
             $country->setIdentificationCode($customer_country->iso3);
             $caddress->setCountry($country);

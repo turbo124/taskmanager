@@ -3,9 +3,9 @@
 namespace App\Rules\Refund;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Invoice;
-use App\Paymentable;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Paymentable;
+use App\Models\Payment;
 
 class InvoiceRefundValidation implements Rule
 {

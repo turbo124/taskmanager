@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Credit;
+use App\Models\Credit;
 use App\Jobs\Email\SendEmail;
-use App\Lead;
-use App\Invoice;
-use App\Order;
-use App\Quote;
+use App\Models\Lead;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Quote;
 use App\Repositories\EmailRepository;
 use App\Requests\Email\SendEmailRequest;
 use App\Traits\MakesInvoiceHtml;
@@ -44,7 +44,7 @@ class EmailController extends Controller
 
         $entity_obj = $entity::find($request->input('entity_id'));
 
-        $contact = $entity !== 'App\\Lead' ? $entity_obj->invitations->first()->contact : null;
+        $contact = $entity !== 'App\\Models\\Lead' ? $entity_obj->invitations->first()->contact : null;
 
         $entity_obj->service()->sendEmail($contact, $request->subject, $request->body);
 

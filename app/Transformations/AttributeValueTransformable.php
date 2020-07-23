@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\AttributeValue;
-use App\ProductAttribute;
+use App\Models\AttributeValue;
+use App\Models\ProductAttribute;
 
 class AttributeValueTransformable
 {
 
     /**
-     * @param AttributeValue $attribute_value
+     * @param \App\Models\AttributeValue $attribute_value
      * @return array
      */
     public function transformAttributeValue(AttributeValue $attribute_value)

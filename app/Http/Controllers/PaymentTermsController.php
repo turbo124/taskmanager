@@ -6,7 +6,7 @@ use App\Factory\PaymentTermsFactory;
 use App\Filters\PaymentTermsFilter;
 use App\Requests\GroupSetting\StoreGroupSettingRequest;
 use App\Requests\GroupSetting\UpdateGroupSettingRequest;
-use App\GroupSetting;
+use App\Models\GroupSetting;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\PaymentTerms\StorePaymentTermsRequest;
 use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;

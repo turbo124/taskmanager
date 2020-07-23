@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\Project;
-use App\Account;
-use App\User;
-use App\Customer;
+use App\Models\Project;
+use App\Models\Account;
+use App\Models\User;
+use App\Models\Customer;
 
 class ProjectFactory
 {

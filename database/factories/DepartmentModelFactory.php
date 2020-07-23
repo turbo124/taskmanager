@@ -11,8 +11,8 @@
   |
  */
 
-use App\Department;
-use App\User;
+use App\Models\Department;
+use App\Models\User;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Department::class, function (Faker\Generator $faker) {

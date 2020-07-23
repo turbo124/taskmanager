@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\ClientContact;
-use App\Customer;
+use App\Models\ClientContact;
+use App\Models\Customer;
 
 class CloneCustomerToContactFactory
 {

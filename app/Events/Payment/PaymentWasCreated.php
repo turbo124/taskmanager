@@ -2,8 +2,8 @@
 
 namespace App\Events\Payment;
 
-use App\Account;
-use App\Payment;
+use App\Models\Account;
+use App\Models\Payment;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;

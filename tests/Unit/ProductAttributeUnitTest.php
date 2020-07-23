@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Attribute;
-use App\AttributeValue;
-use App\ProductAttribute;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
+use App\Models\ProductAttribute;
 use App\Repositories\AttributeRepository;
 use App\Repositories\AttributeValueRepository;
 use App\Repositories\ProductAttributeRepository;
-use App\Product;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Collection;
 use Tests\TestCase;

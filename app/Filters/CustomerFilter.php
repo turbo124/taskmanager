@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CustomerTransformable;
@@ -32,7 +32,7 @@ class CustomerFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

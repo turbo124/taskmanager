@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\EventType;
+use App\Models\EventType;
 
 interface EventTypeRepositoryInterface
 {

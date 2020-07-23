@@ -7,8 +7,8 @@ use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
 use App\Repositories\LeadRepository;
-use App\Lead;
-use App\Task;
+use App\Models\Lead;
+use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 
 /**

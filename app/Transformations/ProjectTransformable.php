@@ -2,12 +2,12 @@
 
 namespace App\Transformations;
 
-use App\Project;
+use App\Models\Project;
 
 trait ProjectTransformable
 {
     /**
-     * @param Project $project
+     * @param \App\Models\Project $project
      * @return array
      */
     protected function transformProject(Project $project)

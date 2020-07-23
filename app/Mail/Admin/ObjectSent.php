@@ -2,7 +2,7 @@
 
 namespace App\Mail\Admin;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +20,7 @@ class ObjectSent extends Mailable
     private $message;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private User $user;
 

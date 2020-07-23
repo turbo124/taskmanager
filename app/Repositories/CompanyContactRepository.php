@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Company;
-use App\CompanyContact;
-use App\Expense;
+use App\Models\Company;
+use App\Models\CompanyContact;
+use App\Models\Expense;
 use App\Factory\CompanyContactFactory;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Facades\Hash;

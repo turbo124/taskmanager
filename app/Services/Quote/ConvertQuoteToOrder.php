@@ -4,9 +4,9 @@ namespace App\Services\Quote;
 
 use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Factory\CloneQuoteToOrderFactory;
-use App\Invoice;
-use App\Order;
-use App\Quote;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Quote;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
@@ -39,7 +39,7 @@ class ConvertQuoteToOrder
     }
 
     /**
-     * @return Order|null
+     * @return \App\Models\Order|null
      */
     public function execute(): ?Order
     {

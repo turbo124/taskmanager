@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
-use App\CompanyToken;
-use App\Customer;
+use App\Models\Account;
+use App\Models\CompanyToken;
+use App\Models\Customer;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Customer\CustomerWasRestored;
 use App\Events\Customer\CustomerWasUpdated;
@@ -20,7 +20,7 @@ use App\Requests\Customer\UpdateCustomerRequest;
 use App\Requests\Customer\CreateCustomerRequest;
 use App\Requests\SearchRequest;
 use App\Repositories\CustomerTypeRepository;
-use App\CustomerType;
+use App\Models\CustomerType;
 use Exception;
 use Illuminate\Http\Request;
 use App\Factory\CustomerFactory;
@@ -96,7 +96,7 @@ class CustomerController extends Controller
 
     /**
      * @param CreateCustomerRequest $request
-     * @return Customer
+     * @return \App\Models\Customer
      */
     public function store(CreateCustomerRequest $request)
     {

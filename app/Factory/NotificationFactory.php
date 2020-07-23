@@ -4,7 +4,7 @@
 namespace App\Factory;
 
 
-use App\Notification;
+use App\Models\Notification;
 
 class NotificationFactory
 {
@@ -17,7 +17,7 @@ class NotificationFactory
     {
         $notification = new Notification();
         $notification->type = '';
-        $notification->notifiable_type = 'App\User';
+        $notification->notifiable_type = 'App\Models\User';
         $notification->notifiable_id = $user_id;
         $notification->account_id = $account_id;
         $notification->data = [];

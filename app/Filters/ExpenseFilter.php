@@ -2,13 +2,13 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
-use App\Expense;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Expense;
 use App\Repositories\CompanyRepository;
 use App\Repositories\ExpenseRepository;
 use App\Requests\SearchRequest;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +36,7 @@ class ExpenseFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

@@ -2,7 +2,7 @@
 
 namespace App\Requests\Payment;
 
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Refund\RefundValidation;
 use App\Rules\Refund\InvoiceRefundValidation;

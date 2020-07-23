@@ -9,8 +9,8 @@
 namespace App\Repositories\Interfaces;
 
 
-use App\Account;
-use App\Credit;
+use App\Models\Account;
+use App\Models\Credit;
 use App\Requests\SearchRequest;
 
 interface CreditRepositoryInterface
@@ -31,7 +31,7 @@ interface CreditRepositoryInterface
     /**
      * @param array $data
      * @param Credit $credit
-     * @return Credit|null
+     * @return \App\Models\Credit|null
      */
     public function createCreditNote(array $data, Credit $credit): ?Credit;
 
@@ -45,7 +45,7 @@ interface CreditRepositoryInterface
     /**
      * @param array $data
      * @param Credit $credit
-     * @return Credit|null
+     * @return \App\Models\Credit|null
      */
     public function save(array $data, Credit $credit): ?Credit;
 

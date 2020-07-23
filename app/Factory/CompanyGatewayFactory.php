@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\CompanyGateway;
+use App\Models\CompanyGateway;
 
 class CompanyGatewayFactory
 {

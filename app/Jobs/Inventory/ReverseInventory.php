@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Inventory;
 
-use App\Credit;
-use App\Invoice;
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Credit;
+use App\Models\Invoice;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;
@@ -22,7 +22,7 @@ class ReverseInventory implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Credit
+     * @var \App\Models\Credit
      */
     private $entity;
 

@@ -4,9 +4,9 @@
 namespace App\Helpers\Payment\Gateways;
 
 
-use App\CompanyGateway;
-use App\Customer;
-use App\Invoice;
+use App\Models\CompanyGateway;
+use App\Models\Customer;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\DB;
 
 class GatewayFactory

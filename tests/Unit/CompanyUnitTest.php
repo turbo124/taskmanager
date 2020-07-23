@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Company;
-use App\CompanyContact;
-use App\Customer;
-use App\Account;
+use App\Models\Company;
+use App\Models\CompanyContact;
+use App\Models\Customer;
+use App\Models\Account;
 use App\Factory\CompanyFactory;
 use App\Filters\CompanyFilter;
 use App\Repositories\CompanyContactRepository;
@@ -13,7 +13,7 @@ use App\Repositories\CompanyRepository;
 use App\Requests\SearchRequest;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -23,7 +23,7 @@ class CompanyUnitTest extends TestCase
     use WithFaker, DatabaseTransactions;
 
     /**
-     * @var Account
+     * @var \App\Models\Account
      */
     private Account $account;
 

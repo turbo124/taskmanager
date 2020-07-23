@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Comment;
-use App\Task;
+use App\Models\Comment;
+use App\Models\Task;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Exceptions\CreateCommentErrorException;
@@ -54,7 +54,7 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
     /**
      * @param int $id
      *
-     * @return Comment
+     * @return \App\Models\Comment
      * @throws Exception
      */
     public function findCommentById(int $id): Comment

@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Project;
+use App\Models\Account;
+use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use App\Transformations\ProjectTransformable;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class ProjectFilter extends QueryFilter
 
     /**
      * @param Request $request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function filter(Request $request, Account $account)

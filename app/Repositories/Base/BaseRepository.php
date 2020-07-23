@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Base;
 
-use App\ClientContact;
+use App\Models\ClientContact;
 use App\Factory\InvoiceInvitationFactory;
-use App\InvoiceInvitation;
+use App\Models\InvoiceInvitation;
 use Illuminate\Support\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -154,7 +154,7 @@ class BaseRepository implements BaseRepositoryInterface
      */
     public function markSent($entity)
     {
-        if (get_class($entity) === 'App\Order') {
+        if (get_class($entity) === 'App\Models\Order') {
             if (!$entity->invoice_id) {
                 return null;
             }
@@ -245,7 +245,7 @@ class BaseRepository implements BaseRepositoryInterface
             return false;
         }
 
-        $invitation_class = sprintf("App\\%sInvitation", ucfirst($resource));
+        $invitation_class = sprintf("App\Models\\%sInvitation", ucfirst($resource));
 
         $invitation = $invitation_class::whereRaw("BINARY `key`= ?", [$invitation['key']])->first();
 
@@ -271,7 +271,7 @@ class BaseRepository implements BaseRepositoryInterface
             return true;
         }
 
-        $invitation_class = sprintf("App\\%sInvitation", ucfirst($key));
+        $invitation_class = sprintf("App\Models\\%sInvitation", ucfirst($key));
 
         $id_key = $key . '_id';
 

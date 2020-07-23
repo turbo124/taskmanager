@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneQuoteFactory;
 use App\Factory\CloneQuoteToOrderFactory;
@@ -10,10 +10,10 @@ use App\Factory\NotificationFactory;
 use App\Jobs\Order\QuoteOrders;
 use App\Jobs\Pdf\Download;
 use App\Jobs\RecurringQuote\SaveRecurringQuote;
-use App\Order;
+use App\Models\Order;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
-use App\Notification;
+use App\Models\Notification;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
@@ -21,14 +21,14 @@ use App\Repositories\TaskRepository;
 use App\Requests\Quote\CreateQuoteRequest;
 use App\Requests\Quote\UpdateQuoteRequest;
 use App\Requests\SearchRequest;
-use App\Task;
+use App\Models\Task;
 use App\Transformations\InvoiceTransformable;
 use App\Factory\QuoteFactory;
 use App\Transformations\QuoteTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
-use App\Quote;
+use App\Models\Quote;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Filters\QuoteFilter;

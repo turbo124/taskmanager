@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\ClientContact;
-use App\RecurringInvoice;
+use App\Models\ClientContact;
+use App\Models\RecurringInvoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

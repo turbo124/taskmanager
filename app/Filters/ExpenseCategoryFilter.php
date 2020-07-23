@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Category;
-use App\ExpenseCategory;
+use App\Models\Account;
+use App\Models\Category;
+use App\Models\ExpenseCategory;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ExpenseCategoryRepository;
 use App\Requests\SearchRequest;

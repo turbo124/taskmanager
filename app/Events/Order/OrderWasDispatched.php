@@ -2,7 +2,7 @@
 
 namespace App\Events\Order;
 
-use App\Order;
+use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
 use robertogallea\LaravelMetrics\Models\Traits\Measurable;

@@ -6,14 +6,14 @@ use App\Helpers\InvoiceCalculator\LineItem;
 use App\Helpers\Payment\Gateways\Authorize;
 use App\Helpers\Payment\Gateways\GatewayFactory;
 use App\Helpers\Payment\Gateways\Stripe;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
 
 class AutoBill
 {
     /**
-     * @var Invoice
+     * @var \App\Models\Invoice
      */
     private Invoice $invoice;
 
@@ -24,7 +24,7 @@ class AutoBill
 
     /**
      * AutoBill constructor.
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct(Invoice $invoice, $invoice_repo)
     {

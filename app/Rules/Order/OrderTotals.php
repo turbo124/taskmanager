@@ -2,8 +2,8 @@
 
 namespace App\Rules\Order;
 
-use App\Product;
-use App\Promocode;
+use App\Models\Product;
+use App\Models\Promocode;
 use Illuminate\Contracts\Validation\Rule;
 
 class OrderTotals implements Rule

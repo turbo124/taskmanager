@@ -2,16 +2,16 @@
 
 namespace App\Factory;
 
-use App\Lead;
-use App\Account;
-use App\User;
+use App\Models\Lead;
+use App\Models\Account;
+use App\Models\User;
 
 class LeadFactory
 {
     /**
      * @param Account $account
      * @param User $user
-     * @return Lead
+     * @return \App\Models\Lead
      */
     public static function create(Account $account, User $user): Lead
     {

@@ -2,9 +2,9 @@
 
 namespace App\Mail\Admin;
 
-use App\Lead;
-use App\Payment;
-use App\User;
+use App\Models\Lead;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,7 +28,7 @@ class LeadCreated extends Mailable
     private array $message_array;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private User $user;
 

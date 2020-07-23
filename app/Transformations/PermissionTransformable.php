@@ -2,7 +2,7 @@
 
 namespace App\Transformations;
 
-use App\Permission;
+use App\Models\Permission;
 use App\Repositories\PermissionRepository;
 use App\Shop\Cities\Exceptions\CityNotFoundException;
 use App\Shop\Countries\Exceptions\CountryNotFoundException;

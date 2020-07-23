@@ -2,7 +2,7 @@
 
 namespace App\Events\Account;
 
-use App\Account;
+use App\Models\Account;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;

@@ -2,21 +2,21 @@
 
 namespace App\Transformations;
 
-use App\Audit;
-use App\Email;
-use App\File;
-use App\Invoice;
-use App\InvoiceInvitation;
-use App\Order;
-use App\OrderInvitation;
-use App\Payment;
+use App\Models\Audit;
+use App\Models\Email;
+use App\Models\File;
+use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
+use App\Models\Order;
+use App\Models\OrderInvitation;
+use App\Models\Payment;
 use App\Repositories\CustomerRepository;
-use App\Customer;
+use App\Models\Customer;
 
 trait OrderTransformable
 {
     /**
-     * @param Order $order
+     * @param \App\Models\Order $order
      * @return array
      */
     protected function transformOrder(Order $order)

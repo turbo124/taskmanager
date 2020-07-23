@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Audit;
-use App\Notification;
+use App\Models\Audit;
+use App\Models\Notification;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Collection;
@@ -35,7 +35,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
 
     /**
      * @param array $data
-     * @return Notification
+     * @return \App\Models\Notification
      */
     public function create(array $data): Notification
     {
@@ -63,14 +63,14 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     }
 
     /**
-     * @param Notification $notification
+     * @param \App\Models\Notification $notification
      * @return bool
      */
     private function audit(Notification $notification)
     {
         $entity_class = $notification->notifiable_type;
 
-        if (in_array($entity_class, ['App\Customer', 'App\Lead'])) {
+        if (in_array($entity_class, ['App\Models\Customer', 'App\Models\Lead'])) {
             $entity = $entity_class::withTrashed()->find($notification->entity_id)->with('account')->first();
         } else {
             $entity = $entity_class::withTrashed()->where('id', '=', $notification->entity_id)->with(

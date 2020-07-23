@@ -2,8 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Payment;
-use App\Paymentable;
+use App\Models\Payment;
+use App\Models\Paymentable;
 
 trait PaymentTransformable
 {

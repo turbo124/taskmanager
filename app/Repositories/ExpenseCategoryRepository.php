@@ -2,18 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Account;
-use App\CaseCategory;
-use App\ExpenseCategory;
+use App\Models\Account;
+use App\Models\CaseCategory;
+use App\Models\ExpenseCategory;
 use App\Factory\CategoryFactory;
 use App\Repositories\Base\BaseRepository;
-use App\Category;
+use App\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Product;
+use App\Models\Product;
 use App\Transformations\ProductTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -24,7 +24,7 @@ class ExpenseCategoryRepository extends BaseRepository
 {
     /**
      * ExpenseCategoryRepository constructor.
-     * @param ExpenseCategory $category
+     * @param \App\Models\ExpenseCategory $category
      */
     public function __construct(ExpenseCategory $category)
     {
@@ -73,8 +73,8 @@ class ExpenseCategoryRepository extends BaseRepository
 
     /**
      * @param array $params
-     * @param Account $account
-     * @return Category
+     * @param \App\Models\Account $account
+     * @return \App\Models\Category
      */
     public function save(array $params, ExpenseCategory $category): ExpenseCategory
     {
@@ -91,7 +91,7 @@ class ExpenseCategoryRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Category
+     * @return \App\Models\Category
      */
     public function findCategoryById(int $id): ExpenseCategory
     {

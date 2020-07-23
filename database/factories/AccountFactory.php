@@ -3,9 +3,9 @@
 use Faker\Generator as Faker;
 
 $factory->define(
-    App\Account::class,
+    \App\Models\Account::class,
     function (Faker $faker) {
-        $domain = \App\Domain::first();
+        $domain = \App\Models\Domain::first();
         $settings = (new \App\Settings\AccountSettings)->getAccountDefaults();
         $settings->phone = $faker->phoneNumber;
         $settings->website = $faker->url;

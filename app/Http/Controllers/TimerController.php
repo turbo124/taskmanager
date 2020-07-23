@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Timer;
+use App\Models\Timer;
 use App\Factory\TimerFactory;
 use App\Repositories\TimerRepository;
 use App\Repositories\TaskRepository;
-use App\Project;
+use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Requests\Timer\CreateTimerRequest;

@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Category;
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Product;
+use App\Models\Product;
 
 class CategoryProductsUnitTest extends TestCase
 {

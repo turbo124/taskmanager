@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Invoice;
+use App\Models\Account;
+use App\Models\Invoice;
 use Carbon\Carbon;
 
 class QueryFilter
@@ -22,7 +22,7 @@ class QueryFilter
     }
 
     /**
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @param string $table
      */
     protected function addAccount(Account $account, $table = '')

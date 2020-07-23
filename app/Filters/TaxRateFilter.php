@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Company;
+use App\Models\Account;
+use App\Models\Company;
 use App\Repositories\CompanyRepository;
 use App\Repositories\TaxRateRepository;
 use App\Requests\SearchRequest;
-use App\TaxRate;
+use App\Models\TaxRate;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 

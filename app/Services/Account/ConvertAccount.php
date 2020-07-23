@@ -7,8 +7,8 @@ use App\Factory\Account\CloneAccountToContactFactory;
 use App\Factory\Account\CloneAccountToCustomerFactory;
 use App\Factory\Account\CloneAccountToUserFactory;
 use App\Repositories\AccountRepository;
-use App\Account;
-use App\Task;
+use App\Models\Account;
+use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -21,7 +21,7 @@ class ConvertAccount
 
     /**
      * ConvertLead constructor.
-     * @param Task $task
+     * @param \App\Models\Task $task
      */
     public function __construct(Account $account)
     {

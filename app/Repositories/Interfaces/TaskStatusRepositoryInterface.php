@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\TaskStatus;
+use App\Models\TaskStatus;
 use Illuminate\Support\Collection;
 
 interface TaskStatusRepositoryInterface

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Attribute;
-use App\AttributeValue;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Repositories\AttributeValueRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;

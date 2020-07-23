@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Factory\CompanyGatewayFactory;
 use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
 use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
-use App\CompanyGateway;
+use App\Models\CompanyGateway;
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyGatewayRepository;
 use App\Settings\GatewaySettings;
@@ -61,7 +61,7 @@ class CompanyGatewayController extends Controller
 
     /**
      * @param UpdateCompanyGatewayRequest $request
-     * @param CompanyGateway $company_gateway
+     * @param \App\Models\CompanyGateway $company_gateway
      * @return mixed
      */
     public function update(UpdateCompanyGatewayRequest $request, int $id)

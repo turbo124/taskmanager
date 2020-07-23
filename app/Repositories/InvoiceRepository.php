@@ -2,28 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Account;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasUpdated;
 use App\Filters\InvoiceFilter;
 use App\Jobs\Order\InvoiceOrders;
 use App\Jobs\RecurringInvoice\SaveRecurringInvoice;
-use App\NumberGenerator;
+use App\Models\NumberGenerator;
 use App\Factory\InvoiceInvitationFactory;
-use App\Invoice;
-use App\ClientContact;
-use App\InvoiceInvitation;
+use App\Models\Invoice;
+use App\Models\ClientContact;
+use App\Models\InvoiceInvitation;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\PaymentRepository;
-use App\Payment;
+use App\Models\Payment;
 use App\Factory\InvoiceToPaymentFactory;
 use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Jobs\Inventory\UpdateInventory;
-use App\Task;
+use App\Models\Task;
 
 class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
 {
@@ -51,7 +51,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * @param SearchRequest $search_request
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return InvoiceFilter|\Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAll(SearchRequest $search_request, Account $account)
@@ -65,7 +65,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     }
 
     /**
-     * @param Task $objTask
+     * @param \App\Models\Task $objTask
      * @return Collection
      */
     public function getInvoiceForTask(Task $objTask): Invoice

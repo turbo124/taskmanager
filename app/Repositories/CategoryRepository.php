@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Account;
+use App\Models\Account;
 use App\Factory\CategoryFactory;
 use App\Repositories\Base\BaseRepository;
-use App\Category;
+use App\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Product;
+use App\Models\Product;
 use App\Transformations\ProductTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -25,7 +25,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * CategoryRepository constructor.
-     * @param Category $category
+     * @param \App\Models\Category $category
      */
     public function __construct(Category $category)
     {
@@ -75,7 +75,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     /**
      * @param array $params
      * @param Account $account
-     * @return Category
+     * @return \App\Models\Category
      */
     public function createCategory(array $params, Category $category): Category
     {
@@ -112,7 +112,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      *
      * @param array $params
      *
-     * @return Category
+     * @return \App\Models\Category
      */
     public function updateCategory(array $params, Category $category): Category
     {
@@ -147,7 +147,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * @param int $id
-     * @return Category
+     * @return \App\Models\Category
      */
     public function findCategoryById(int $id): Category
     {
@@ -215,8 +215,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * @param string $slug
-     * @param Account $account
-     * @return Category
+     * @param \App\Models\Account $account
+     * @return \App\Models\Category
      */
     public function findCategoryBySlug(string $slug, Account $account): Category
     {

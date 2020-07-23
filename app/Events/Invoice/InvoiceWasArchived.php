@@ -2,7 +2,7 @@
 
 namespace App\Events\Invoice;
 
-use App\Invoice;
+use App\Models\Invoice;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
@@ -22,7 +22,7 @@ class InvoiceWasArchived
     /**
      * Create a new event instance.
      *
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {

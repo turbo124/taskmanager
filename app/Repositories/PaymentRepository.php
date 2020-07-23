@@ -2,29 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Account;
-use App\Customer;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Filters\PaymentFilter;
 use App\Helpers\Currency\CurrencyConverter;
 use App\Factory\PaymentFactory;
-use App\NumberGenerator;
-use App\Paymentable;
+use App\Models\NumberGenerator;
+use App\Models\Paymentable;
 use App\Repositories\Base\BaseRepository;
-use App\Payment;
-use App\Credit;
+use App\Models\Payment;
+use App\Models\Credit;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\SearchRequest;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Events\Payment\PaymentWasCreated;
 
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface
 {
     /**
      * PaymentRepository constructor.
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      */
     public function __construct(Payment $payment)
     {

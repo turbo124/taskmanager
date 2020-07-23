@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Brand;
-use App\Product;
+use App\Models\Brand;
+use App\Models\Product;
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -11,14 +11,14 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * @param array $data
-     * @param Brand $brand
-     * @return Brand
+     * @param \App\Models\Brand $brand
+     * @return \App\Models\Brand
      */
     public function save(array $data, Brand $brand): Brand;
 
     /**
      * @param int $id
-     * @return Brand
+     * @return \App\Models\Brand
      */
     public function findBrandById(int $id): Brand;
 
@@ -36,7 +36,7 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
     public function listBrands($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection;
 
     /**
-     * @param Product $product
+     * @param \App\Models\Product $product
      * @return mixed
      */
     public function saveProduct(Product $product);

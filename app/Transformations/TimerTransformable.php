@@ -3,7 +3,7 @@
 namespace App\Transformations;
 
 
-use App\Timer;
+use App\Models\Timer;
 
 class TimerTransformable
 {

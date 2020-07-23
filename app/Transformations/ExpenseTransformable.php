@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\Company;
-use App\Expense;
-use App\File;
+use App\Models\Company;
+use App\Models\Expense;
+use App\Models\File;
 
 trait ExpenseTransformable
 {
     /**
-     * @param Expense $expense
+     * @param \App\Models\Expense $expense
      * @return array
      */
     protected function transformExpense(Expense $expense)

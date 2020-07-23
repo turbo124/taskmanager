@@ -2,9 +2,9 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Product;
-use App\Task;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Task;
 use App\Repositories\ProductRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\ProductTransformable;

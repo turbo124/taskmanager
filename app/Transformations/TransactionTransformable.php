@@ -4,7 +4,7 @@
 namespace App\Transformations;
 
 
-use App\Transaction;
+use App\Models\Transaction;
 
 class TransactionTransformable
 {

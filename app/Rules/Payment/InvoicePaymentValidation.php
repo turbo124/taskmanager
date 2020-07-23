@@ -3,7 +3,7 @@
 namespace App\Rules\Payment;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Invoice;
+use App\Models\Invoice;
 
 class InvoicePaymentValidation implements Rule
 {

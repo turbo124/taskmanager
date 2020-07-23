@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Product;
 
-use App\Product;
-use App\ProductAttribute;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;

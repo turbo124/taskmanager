@@ -14,7 +14,7 @@ trait Balancer
     {
         $this->balance -= floatval($amount);
 
-        if ($this->balance === 0.0 && get_class($this) === 'App\Invoice') {
+        if ($this->balance === 0.0 && get_class($this) === 'App\Models\Invoice') {
             $this->setStatus(self::STATUS_PAID);
         }
 

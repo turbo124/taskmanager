@@ -2,8 +2,8 @@
 
 namespace App\Services\Account;
 
-use App\Account;
-use App\Lead;
+use App\Models\Account;
+use App\Models\Lead;
 use App\Services\Account\ConvertAccount;
 use App\Services\ServiceBase;
 
@@ -20,7 +20,7 @@ class AccountService extends ServiceBase
 
     /**
      * LeadService constructor.
-     * @param Lead $lead
+     * @param \App\Models\Lead $lead
      */
     public function __construct(Account $account)
     {

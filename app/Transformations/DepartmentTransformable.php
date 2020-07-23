@@ -2,9 +2,9 @@
 
 namespace App\Transformations;
 
-use App\Department;
+use App\Models\Department;
 use App\Repositories\UserRepository;
-use App\User;
+use App\Models\User;
 
 trait DepartmentTransformable
 {

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Permission;
+use App\Models\Permission;
 use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Support\ServiceProvider;

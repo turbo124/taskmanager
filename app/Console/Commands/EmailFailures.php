@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Email;
-use App\ClientContact;
+use App\Models\Email;
+use App\Models\ClientContact;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
@@ -60,7 +60,7 @@ class EmailFailures extends Command
                 continue;
             }
 
-            $contact = $entity_string === 'App\\Lead'
+            $contact = $entity_string === 'App\\Models\\Lead'
                 ? $entity
                 : ClientContact::where(
                     'email',

@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\Credit;
-use App\Invoice;
-use App\Payment;
-use App\Paymentable;
+use App\Models\Credit;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Paymentable;
 
 class PaymentableTransformer
 {

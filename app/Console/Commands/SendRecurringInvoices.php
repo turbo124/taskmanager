@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\RecurringInvoice;
+use App\Models\RecurringInvoice;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
-use App\Invoice;
+use App\Models\Invoice;
 use Illuminate\Support\Carbon;
 use App\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;

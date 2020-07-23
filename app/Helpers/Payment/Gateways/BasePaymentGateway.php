@@ -4,11 +4,11 @@
 namespace App\Helpers\Payment\Gateways;
 
 
-use App\CompanyGateway;
-use App\Customer;
-use App\Invoice;
+use App\Models\CompanyGateway;
+use App\Models\Customer;
+use App\Models\Invoice;
 use App\Jobs\Payment\CreatePayment;
-use App\Payment;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +36,7 @@ class BasePaymentGateway
 
     /**
      * BasePaymentGateway constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     public function __construct(Customer $customer, $customer_gateway, $company_gateway)
     {
@@ -47,10 +47,10 @@ class BasePaymentGateway
 
     /**
      * @param $amount
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @param $transaction_id
      * @param int $payment_type
-     * @return Payment|null
+     * @return \App\Models\Payment|null
      */
     protected function completePayment($amount, Invoice $invoice, $transaction_id, $payment_type = 12): ?Payment
     {

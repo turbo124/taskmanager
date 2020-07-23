@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
+use App\Models\File;
 use App\Jobs\Utils\UploadFile;
 use App\Repositories\TaskRepository;
 use App\Requests\UploadRequest;
@@ -10,9 +10,9 @@ use App\Repositories\Interfaces\FileRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\FileRepository;
-use App\Task;
+use App\Models\Task;
 use App\Transformations\FileTransformable;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;

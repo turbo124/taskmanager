@@ -2,15 +2,15 @@
 
 namespace App\Transformations;
 
-use App\Promocode;
-use App\Quote;
-use App\QuoteInvitation;
+use App\Models\Promocode;
+use App\Models\Quote;
+use App\Models\QuoteInvitation;
 
 trait PromocodeTransformable
 {
 
     /**
-     * @param QuoteInvitation $invitation
+     * @param \App\Models\QuoteInvitation $invitation
      * @return array
      */
     public function transformPromocodes(Promocode $promocode)

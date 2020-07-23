@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use App\Shop\Orders\Order;
-use App\TaskStatus;
+use App\Models\TaskStatus;
 use App\Repositories\TaskStatusRepository;
 use Tests\TestCase;
-use App\Task;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 

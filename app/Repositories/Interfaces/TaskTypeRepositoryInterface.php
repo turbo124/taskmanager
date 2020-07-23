@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\TaskType;
+use App\Models\TaskType;
 
 interface TaskTypeRepositoryInterface
 {

@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Attribute;
 
-use App\Attribute;
-use App\AttributeValue;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Repositories\AttributeValueRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +20,7 @@ class SaveAttributeValues implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Attribute
+     * @var \App\Models\Attribute
      */
     private Attribute $attribute;
 

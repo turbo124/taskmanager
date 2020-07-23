@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Brand;
-use App\Product;
+use App\Models\Brand;
+use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\BrandRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,7 +14,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 {
     /**
      * BrandRepository constructor.
-     * @param Brand $brand
+     * @param \App\Models\Brand $brand
      */
     public function __construct(Brand $brand)
     {
@@ -29,7 +29,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     /**
      * @param array $data
-     * @param Brand $brand
+     * @param \App\Models\Brand $brand
      * @return Brand
      */
     public function save(array $data, Brand $brand): Brand
@@ -41,7 +41,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     /**
      * @param int $id
-     * @return Brand
+     * @return \App\Models\Brand
      */
     public function findBrandById(int $id): Brand
     {
@@ -78,7 +78,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     }
 
     /**
-     * @param Product $product
+     * @param \App\Models\Product $product
      */
     public function saveProduct(Product $product)
     {

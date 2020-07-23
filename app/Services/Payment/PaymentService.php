@@ -3,8 +3,8 @@
 namespace App\Services\Payment;
 
 use App\Factory\PaymentFactory;
-use App\Invoice;
-use App\Payment;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Services\ServiceBase;
 
 class PaymentService extends ServiceBase
@@ -23,7 +23,7 @@ class PaymentService extends ServiceBase
     }
 
     /**
-     * @return Payment
+     * @return \App\Models\Payment
      */
     public function reverseInvoicePayment(): Payment
     {
@@ -31,7 +31,7 @@ class PaymentService extends ServiceBase
     }
 
     /**
-     * @return Payment
+     * @return \App\Models\Payment
      */
     public function deletePayment(): Payment
     {

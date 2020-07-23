@@ -6,10 +6,10 @@ use App\Events\Payment\PaymentWasCreated;
 use App\Factory\CreditFactory;
 use App\Factory\PaymentFactory;
 use App\Events\Invoice\InvoiceWasCancelled;
-use App\Customer;
-use App\Invoice;
-use App\Payment;
-use App\Paymentable;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Paymentable;
 use App\Services\Payment\PaymentService;
 
 /**
@@ -31,7 +31,7 @@ class CancelInvoice
 
     /**
      * CancelInvoice constructor.
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {
@@ -40,7 +40,7 @@ class CancelInvoice
     }
 
     /**
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     public function execute(): Invoice
     {
@@ -66,7 +66,7 @@ class CancelInvoice
     }
 
     /**
-     * @return Invoice
+     * @return \App\Models\Invoice
      */
     private function updateInvoice(): Invoice
     {

@@ -3,14 +3,14 @@
 namespace App\Transformations;
 
 
-use App\Cases;
-use App\File;
-use App\Subscription;
+use App\Models\Cases;
+use App\Models\File;
+use App\Models\Subscription;
 
 trait CaseTransformable
 {
     /**
-     * @param Subscription $subscription
+     * @param \App\Models\Subscription $subscription
      * @return array
      */
     public function transform(Cases $cases)

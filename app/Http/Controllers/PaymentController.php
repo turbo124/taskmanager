@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Credit;
-use App\Customer;
+use App\Models\Credit;
+use App\Models\Customer;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\NotificationFactory;
 use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Jobs\Payment\CreatePayment;
-use App\Order;
-use App\Refund;
+use App\Models\Order;
+use App\Models\Refund;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\NotificationRepository;
@@ -23,7 +23,7 @@ use App\Requests\Payment\RefundPaymentRequest;
 use App\Requests\Payment\UpdatePaymentRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\PaymentTransformable;
-use App\Payment;
+use App\Models\Payment;
 use App\Filters\PaymentFilter;
 use App\Factory\PaymentFactory;
 use Illuminate\Http\Request;
@@ -137,7 +137,7 @@ class PaymentController extends Controller
 
     /**
      * @param Request $request
-     * @param Payment $payment
+     * @param \App\Models\Payment $payment
      * @param $action
      * @return \Illuminate\Http\JsonResponse
      */

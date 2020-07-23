@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Factory\TaxRateFactory;
-use App\TaxRate;
+use App\Models\TaxRate;
 use App\Repositories\TaxRateRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\EventTransformable;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\User;
+use App\Models\User;
 
 class TaxRateUnitTest extends TestCase
 {

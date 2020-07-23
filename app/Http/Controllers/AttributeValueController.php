@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AttributeValue;
+use App\Models\AttributeValue;
 use App\Http\Controllers\Controller;
 use App\Repositories\AttributeRepository;
 use App\Repositories\AttributeValueRepository;

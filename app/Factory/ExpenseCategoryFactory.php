@@ -4,16 +4,16 @@
 namespace App\Factory;
 
 
-use App\Account;
-use App\CaseCategory;
-use App\Category;
-use App\ExpenseCategory;
-use App\User;
+use App\Models\Account;
+use App\Models\CaseCategory;
+use App\Models\Category;
+use App\Models\ExpenseCategory;
+use App\Models\User;
 
 class ExpenseCategoryFactory
 {
     /**
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @param User $user
      * @return ExpenseCategory
      */

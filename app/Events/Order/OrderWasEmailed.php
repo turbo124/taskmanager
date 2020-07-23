@@ -2,7 +2,7 @@
 
 namespace App\Events\Order;
 
-use App\OrderInvitation;
+use App\Models\OrderInvitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

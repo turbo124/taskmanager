@@ -2,10 +2,10 @@
 
 namespace App\Transformations;
 
-use App\CompanyContact;
-use App\Company;
+use App\Models\CompanyContact;
+use App\Models\Company;
 use App\Repositories\UserRepository;
-use App\User;
+use App\Models\User;
 
 class CompanyContactTransformable
 {

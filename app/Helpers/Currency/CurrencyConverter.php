@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Currency;
 
-use App\Currency;
+use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;

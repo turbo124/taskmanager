@@ -6,9 +6,9 @@
  * @license MIT
  * @package Laratrust
  */
-use App\User;
-use App\Permission;
-use App\Role;
+use App\Models\User;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Team;
 return [
     /*

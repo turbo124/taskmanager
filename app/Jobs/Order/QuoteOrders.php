@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Order;
 
-use App\Order;
-use App\Quote;
+use App\Models\Order;
+use App\Models\Quote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

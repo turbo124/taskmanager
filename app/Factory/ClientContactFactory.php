@@ -2,9 +2,9 @@
 
 namespace App\Factory;
 
-use App\Account;
-use App\ClientContact;
-use App\User;
+use App\Models\Account;
+use App\Models\ClientContact;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class ClientContactFactory

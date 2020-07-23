@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Design;
+use App\Models\Design;
 use App\Repositories\Base\BaseRepository;
-use App\Customer;
+use App\Models\Customer;
 
 /**
  * Class DesignRepository
@@ -15,7 +15,7 @@ class DesignRepository extends BaseRepository
 
     /**
      * CustomerRepository constructor.
-     * @param Customer $customer
+     * @param \App\Models\Customer $customer
      */
     public function __construct(Design $design)
     {

@@ -4,16 +4,16 @@
 namespace App\Factory;
 
 
-use App\Account;
-use App\Category;
-use App\User;
+use App\Models\Account;
+use App\Models\Category;
+use App\Models\User;
 
 class CategoryFactory
 {
     /**
-     * @param Account $account
-     * @param User $user
-     * @return Category
+     * @param \App\Models\Account $account
+     * @param \App\Models\User $user
+     * @return \App\Models\Category
      */
     public static function create(Account $account, User $user): Category
     {

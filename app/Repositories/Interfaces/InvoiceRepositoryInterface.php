@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Account;
-use App\Invoice;
+use App\Models\Account;
+use App\Models\Invoice;
 use App\Requests\SearchRequest;
-use App\Task;
+use App\Models\Task;
 use Illuminate\Support\Collection;
 
 interface InvoiceRepositoryInterface
@@ -46,13 +46,13 @@ interface InvoiceRepositoryInterface
     /**
      * @param array $data
      * @param Invoice $invoice
-     * @return Invoice|null
+     * @return \App\Models\Invoice|null
      */
     public function createInvoice(array $data, Invoice $invoice): ?Invoice;
 
     /**
      * @param array $data
-     * @param Invoice $invoice
+     * @param \App\Models\Invoice $invoice
      * @return Invoice|null
      */
     public function updateInvoice(array $data, Invoice $invoice): ?Invoice;

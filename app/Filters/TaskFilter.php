@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use App\Account;
-use App\Task;
+use App\Models\Account;
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;

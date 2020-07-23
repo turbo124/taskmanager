@@ -2,7 +2,7 @@
 
 namespace App\Transformations;
 
-use App\File;
+use App\Models\File;
 
 class FileTransformable
 {

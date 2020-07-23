@@ -2,8 +2,8 @@
 
 namespace App\Mail\Admin;
 
-use App\Order;
-use App\User;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -33,7 +33,7 @@ class OrderCreated extends Mailable
     /**
      * OrderCreated constructor.
      * @param Order $order
-     * @param User $user
+     * @param \App\Models\User $user
      */
     public function __construct(Order $order, User $user)
     {

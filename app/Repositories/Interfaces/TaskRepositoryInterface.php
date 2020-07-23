@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Account;
-use App\Invoice;
+use App\Models\Account;
+use App\Models\Invoice;
 use App\Requests\SearchRequest;
-use App\Task;
-use App\User;
-use App\Project;
+use App\Models\Task;
+use App\Models\User;
+use App\Models\Project;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\Base\BaseRepositoryInterface;

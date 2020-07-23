@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\CustomerType;
+use App\Models\CustomerType;
 
 interface CustomerTypeRepositoryInterface
 {

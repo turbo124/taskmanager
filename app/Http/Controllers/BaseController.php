@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Credit;
+use App\Models\Credit;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneCreditFactory;
 use App\Factory\CloneCreditToQuoteFactory;
@@ -17,11 +17,11 @@ use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Factory\CloneQuoteToOrderFactory;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Factory\RecurringQuoteToQuoteFactory;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Jobs\Pdf\Download;
-use App\Order;
-use App\Payment;
-use App\Quote;
+use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Quote;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;

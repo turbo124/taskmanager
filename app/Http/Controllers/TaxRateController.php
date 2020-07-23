@@ -10,7 +10,7 @@ use App\Requests\TaxRate\CreateTaxRateRequest;
 use App\Requests\SearchRequest;
 use App\Requests\TaxRate\UpdateTaxRateRequest;
 use App\Http\Controllers\Controller;
-use App\TaxRate;
+use App\Models\TaxRate;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

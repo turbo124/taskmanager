@@ -2,14 +2,14 @@
 
 namespace App\Transformations;
 
-use App\Account;
+use App\Models\Account;
 use stdClass;
 
 trait AccountTransformable
 {
 
     /**
-     * @param Account $account
+     * @param \App\Models\Account $account
      * @return Address
      */
     public function transformAccount(Account $account)

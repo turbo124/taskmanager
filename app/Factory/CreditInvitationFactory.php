@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\CreditInvitation;
+use App\Models\CreditInvitation;
 use Illuminate\Support\Str;
 
 class CreditInvitationFactory

@@ -13,7 +13,8 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\CompanyContact::class, function (Faker $faker) {
+$factory->define(
+    \App\Models\CompanyContact::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,

@@ -2,12 +2,12 @@
 
 namespace App\Factory\Lead;
 
-use App\Lead;
-use App\Task;
-use App\Customer;
-use App\User;
-use App\Account;
-use App\TaskStatus;
+use App\Models\Lead;
+use App\Models\Task;
+use App\Models\Customer;
+use App\Models\User;
+use App\Models\Account;
+use App\Models\TaskStatus;
 
 class CloneLeadToTaskFactory
 {
