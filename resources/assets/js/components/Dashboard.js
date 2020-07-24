@@ -1884,23 +1884,83 @@ class Dashboard extends Component {
                     </TabPane>
                
                     <TabPane tabId="2">
-                        <MessageContainer/>
+                       <MessageContainer/>
                     </TabPane>
 
                     <TabPane tabId="3">
-                        <MessageContainer/>
+                       <Card>
+                            <CardBody>
+                                  <ListGroup>
+                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                      </ListGroupItem>
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
                     </TabPane>
 
                    <TabPane tabId="4">
-                        <MessageContainer/>
+                         <Card>
+                            <CardBody>
+                                  <ListGroup>
+                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                      </ListGroupItem>
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
                     </TabPane>
 
                     <TabPane tabId="5">
-                        <MessageContainer/>
+                         <Card>
+                            <CardBody>
+                                  <ListGroup>
+                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                      </ListGroupItem>
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
                     </TabPane>
 
                     <TabPane tabId="6">
-                        <MessageContainer/>
+                         <Card>
+                            <CardBody>
+                                  <ListGroup>
+                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                          <div class="d-flex w-100 justify-content-between">
+                                              <h5 class="mb-1">List group item heading</h5>
+                                              <small>3 days ago</small>
+                                          </div>
+                                      </ListGroupItem>
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
                     </TabPane>
                 </TabContent>
             </React.Fragment>
