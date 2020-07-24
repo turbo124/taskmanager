@@ -31,6 +31,7 @@ import MonthPicker from './common/MonthPicker'
 import { icons } from './common/_icons'
 import FormatMoney from './common/FormatMoney'
 import { consts } from './common/_consts'
+import { translations } from './common/_translations'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -1598,6 +1599,46 @@ class Dashboard extends Component {
                             Activity
                         </NavLink>
                     </NavItem>
+
+                   <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('3')
+                            }}>
+                            {translations.invoices}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('4')
+                            }}>
+                            {translations.quotes}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('5')
+                            }}>
+                            {translations.payments}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggle('6')
+                            }}>
+                            {translations.orders}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -1841,10 +1882,24 @@ class Dashboard extends Component {
                         {charts}
 
                     </TabPane>
-                </TabContent>
-
-                <TabContent activeTab={this.state.activeTab}>
+               
                     <TabPane tabId="2">
+                        <MessageContainer/>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <MessageContainer/>
+                    </TabPane>
+
+                   <TabPane tabId="4">
+                        <MessageContainer/>
+                    </TabPane>
+
+                    <TabPane tabId="5">
+                        <MessageContainer/>
+                    </TabPane>
+
+                    <TabPane tabId="6">
                         <MessageContainer/>
                     </TabPane>
                 </TabContent>
