@@ -13,7 +13,13 @@ import {
     CardBody,
     CardTitle,
     CardFooter,
-    Progress
+    Progress,
+    ListGroup,
+    ListGroupItem,
+    Modal,
+    ModalHeader,
+    ModalBody,  
+    ModalFooter
 } from 'reactstrap'
 import { CardModule } from './common/Card.jsx'
 import ReactEcharts from 'echarts-for-react'
@@ -239,6 +245,7 @@ class Dashboard extends Component {
         this.getOption = this.getOption.bind(this)
         this.state = {
             sources: [],
+            modal: false,
             dashboard_filters: {
                 Invoices: {
                     Active: 1,
@@ -313,6 +320,7 @@ class Dashboard extends Component {
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this)
         this.fetchData = this.fetchData.bind(this)
         this.toggleDashboardFilter = this.toggleDashboardFilter.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
     }
 
     componentDidMount () {
@@ -332,6 +340,10 @@ class Dashboard extends Component {
         this.setState({ dashboard_filters: dashboard_filters }, () => {
             console.log('dashboard filters', this.state.dashboard_filters)
         })
+    }
+
+    toggleModal () {
+
     }
 
     fetchData () {
@@ -1876,7 +1888,7 @@ class Dashboard extends Component {
                         </Row>
 
                         <Row>
-                            {dashboardBody}
+                            <Button color="danger" onClick={toggle}>Configure Dashboard</Button>
                         </Row>
 
                         {charts}
@@ -1963,6 +1975,16 @@ class Dashboard extends Component {
                         </Card>
                     </TabPane>
                 </TabContent>
+
+                <Modal isOpen={this.state.modal} toggle={toggle} className={className}>
+                    <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                    <ModalBody>
+                        {dashboardBody}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={toggle}>Close</Button>
+                    </ModalFooter>
+                </Modal>
             </React.Fragment>
         )
     }
