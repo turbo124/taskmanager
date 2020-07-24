@@ -38,7 +38,7 @@ class PreviewController extends Controller
 
             $entity = ucfirst(request()->input('entity'));
 
-            $class = "App\\$entity";
+            $class = "App\Models\\$entity";
 
             $entity_obj = $class::whereId(request()->input('entity_id'))->first();
 

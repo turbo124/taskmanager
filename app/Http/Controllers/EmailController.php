@@ -40,7 +40,7 @@ class EmailController extends Controller
     public function send(SendEmailRequest $request)
     {
         $entity = ucfirst($request->input('entity'));
-        $entity = "App\\$entity";
+        $entity = "App\Models\\$entity";
 
         $entity_obj = $entity::find($request->input('entity_id'));
 

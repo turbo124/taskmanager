@@ -30,7 +30,7 @@ class TemplateController extends Controller
         $subject = request()->has('subject') ? request()->input('subject') : '';
         $body = request()->has('body') ? request()->input('body') : '';
         $template = request()->has('template') ? request()->input('template') : '';
-        $class = 'App\\' . ucfirst($entity);
+        $class = 'App\Models\\' . ucfirst($entity);
 
         $entity_object = !$entity_id ? $class::first() : $class::whereId($entity_id)->first();
 
