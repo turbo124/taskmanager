@@ -93,6 +93,7 @@ class SendReminders
         $line_items[] = (new LineItem)
             ->setQuantity(1)
             ->setNotes('Late fee for invoice')
+            ->setTypeId(Invoice::LATE_FEE_TYPE)
             ->setUnitPrice($amount)
             ->setSubTotal($amount)
             ->toObject();

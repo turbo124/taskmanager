@@ -20,10 +20,12 @@ use App\Repositories\PaymentRepository;
 use App\Models\Payment;
 use App\Factory\InvoiceToPaymentFactory;
 use App\Requests\SearchRequest;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
 use App\Jobs\Inventory\UpdateInventory;
 use App\Models\Task;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
 {
@@ -132,6 +134,17 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
 
         return $invoice->fresh();
+    }
+
+    public function getInvoicesForAutoBilling()
+    {
+        return Invoice::where('is_deleted', 0)
+                      ->whereNull('deleted_at')
+                      ->whereNull('is_recurring')
+                      ->whereNotNull('recurring_invoice_id')
+                      ->where('balance', '>', 0)
+                      ->where('due_date', Carbon::today())
+                      ->get();
     }
 
 }

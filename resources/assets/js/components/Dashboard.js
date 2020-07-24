@@ -3,11 +3,13 @@ import {
     Row, Col, Nav,
     NavItem,
     NavLink,
+    Input,
     TabContent, TabPane,
     Button,
     ButtonGroup,
     ButtonToolbar,
     Card,
+    CardHeader,
     CardBody,
     CardTitle,
     CardFooter,
@@ -236,6 +238,54 @@ class Dashboard extends Component {
         this.getOption = this.getOption.bind(this)
         this.state = {
             sources: [],
+            dashboard_filters: {
+                Invoices: {
+                    Active: 1,
+                    Outstanding: 1,
+                    Cancelled: 1,
+                    Sent: 1,
+                    Overdue: 1,
+                    Paid: 1
+                },
+
+                Orders: {
+                    Draft: 1,
+                    Backordered: 1,
+                    Sent: 1,
+                    Held: 1,
+                    Cancelled: 1,
+                    Overdue: 1,
+                    Completed: 1
+                },
+                Expenses: {
+                    Logged: 1,
+                    Invoiced: 1,
+                    Pending: 1,
+                    Paid: 1
+                },
+                Credits: {
+                    Active: 1,
+                    Completed: 1,
+                    Sent: 1,
+                    Overdue: 1
+                },
+                Tasks: {
+                    Invoiced: 1,
+                    Overdue: 1
+                },
+                Quotes: {
+                    Sent: 1,
+                    Overdue: 1,
+                    Approved: 1,
+                    Unapproved: 1,
+                    Active: 1
+                },
+                Payments: {
+                    Completed: 1,
+                    Active: 1,
+                    Refunded: 1
+                }
+            },
             leadCounts: [],
             start_date: new Date(moment().subtract(1, 'months').format('YYYY-MM-DD hh:mm')),
             end_date: new Date(),
@@ -261,6 +311,7 @@ class Dashboard extends Component {
         this.setDates = this.setDates.bind(this)
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this)
         this.fetchData = this.fetchData.bind(this)
+        this.toggleDashboardFilter = this.toggleDashboardFilter.bind(this)
     }
 
     componentDidMount () {
@@ -269,6 +320,17 @@ class Dashboard extends Component {
         // window.setInterval(() => {
         //     this.fetchData()
         // }, 5000)
+    }
+
+    toggleDashboardFilter (e) {
+        const dashboard_filters = this.state.dashboard_filters
+
+        console.log('dashboard filters', dashboard_filters, e.target.dataset.entity)
+
+        dashboard_filters[e.target.dataset.entity][e.target.dataset.action] = e.target.checked === true ? 1 : 0
+        this.setState({ dashboard_filters: dashboard_filters }, () => {
+            console.log('dashboard filters', this.state.dashboard_filters)
+        })
     }
 
     fetchData () {
@@ -491,6 +553,732 @@ class Dashboard extends Component {
         return array
     }
 
+    getInvoiceChartData (start, end, dates) {
+        const invoiceActive = formatData(this.state.invoices, consts.invoice_status_draft, start, end, 'total', 'status_id')
+        const invoiceOutstanding = formatData(this.state.invoices, consts.invoice_status_sent, start, end, 'total', 'status_id')
+        const invoicePaid = formatData(this.state.invoices, consts.invoice_status_paid, start, end, 'total', 'status_id')
+        const invoiceCancelled = formatData(this.state.invoices, consts.invoice_status_cancelled, start, end, 'total', 'status_id')
+
+        const filterInvoicesByExpiration = filterOverdue(this.state.invoices)
+        const invoiceOverdue = formatData(filterInvoicesByExpiration, consts.invoice_status_sent, start, end, 'total', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Invoices.Active === 1) {
+            buttons.Active = {
+                avg: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.avg : 0,
+                pct: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.pct : 0,
+                value: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Active',
+                    backgroundColor: hexToRgba(brandInfo, 10),
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: invoiceActive && Object.keys(invoiceActive).length ? Object.values(invoiceActive.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Invoices.Outstanding === 1) {
+            buttons.Outstanding = {
+                avg: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.avg : 0,
+                pct: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.pct : 0,
+                value: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Outstanding',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? Object.values(invoiceOutstanding.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Invoices.Paid === 1) {
+            buttons.Paid = {
+                avg: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.avg : 0,
+                pct: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.pct : 0,
+                value: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Paid',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: invoicePaid && Object.keys(invoicePaid).length ? Object.values(invoicePaid.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Invoices.Cancelled === 1) {
+            buttons.Cancelled = {
+                avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
+                pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
+                value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Cancelled',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Invoices.Overdue === 1) {
+            buttons.Overdue = {
+                avg: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.avg : 0,
+                pct: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.pct : 0,
+                value: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Overdue',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: invoiceOverdue && Object.keys(invoiceOverdue).length ? Object.values(invoiceOverdue.data) : []
+                }
+            )
+        }
+
+        const invoices = {
+            name: 'Invoices',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return invoices
+    }
+
+    getQuoteChartData (start, end, dates) {
+        const quoteActive = formatData(this.state.quotes, consts.quote_status_draft, start, end, 'total', 'status_id')
+        const quoteApproved = formatData(this.state.quotes, consts.quote_status_approved, start, end, 'total', 'status_id')
+        const quoteUnapproved = formatData(this.state.quotes, consts.quote_status_sent, start, end, 'total', 'status_id')
+
+        const filterQuotesByExpiration = filterOverdue(this.state.quotes)
+        const quoteOverdue = formatData(filterQuotesByExpiration, consts.quote_status_sent, start, end, 'total', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Quotes.Active === 1) {
+            buttons.Active = {
+                avg: quoteActive && Object.keys(quoteActive).length ? quoteActive.avg : 0,
+                pct: quoteActive && Object.keys(quoteActive).length ? quoteActive.pct : 0,
+                value: quoteActive && Object.keys(quoteActive).length ? quoteActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Active',
+                    backgroundColor: hexToRgba(brandInfo, 10),
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: quoteActive && Object.keys(quoteActive).length ? Object.values(quoteActive.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Quotes.Approved === 1) {
+            buttons.Approved = {
+                avg: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.avg : 0,
+                pct: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.pct : 0,
+                value: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Approved',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: quoteApproved && Object.keys(quoteApproved).length ? Object.values(quoteApproved.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Quotes.Unapproved === 1) {
+            buttons.Unapproved = {
+                avg: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.avg : 0,
+                pct: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.pct : 0,
+                value: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Unapproved',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: quoteUnapproved && Object.keys(quoteUnapproved).length ? Object.values(quoteUnapproved.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Quotes.Overdue === 1) {
+            buttons.Overdue = {
+                avg: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.avg : 0,
+                pct: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.pct : 0,
+                value: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Overdue',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: quoteOverdue && Object.keys(quoteOverdue).length ? Object.values(quoteOverdue.data) : []
+                }
+            )
+        }
+
+        const quotes = {
+            name: 'Quotes',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return quotes
+    }
+
+    getCreditChartData (start, end, dates) {
+        const creditActive = formatData(this.state.credits, consts.credit_status_draft, start, end, 'total', 'status_id')
+        const creditCompleted = formatData(this.state.credits, consts.credit_status_applied, start, end, 'total', 'status_id')
+        const creditSent = formatData(this.state.credits, consts.credit_status_sent, start, end, 'total', 'status_id')
+
+        const filterCreditsByExpiration = filterOverdue(this.state.credits)
+        const creditOverdue = formatData(filterCreditsByExpiration, consts.credit_status_sent, start, end, 'total', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Credits.Active === 1) {
+            buttons.Active = {
+                avg: creditActive && Object.keys(creditActive).length ? creditActive.avg : 0,
+                pct: creditActive && Object.keys(creditActive).length ? creditActive.pct : 0,
+                value: creditActive && Object.keys(creditActive).length ? creditActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Active',
+                    backgroundColor: hexToRgba(brandInfo, 10),
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: creditActive && Object.keys(creditActive).length ? Object.values(creditActive.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Credits.Completed === 1) {
+            buttons.Completed = {
+                avg: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.avg : 0,
+                pct: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.pct : 0,
+                value: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Completed',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: creditCompleted && Object.keys(creditCompleted).length ? Object.values(creditCompleted.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Credits.Sent === 1) {
+            buttons.Sent = {
+                avg: creditSent && Object.keys(creditSent).length ? creditSent.avg : 0,
+                pct: creditSent && Object.keys(creditSent).length ? creditSent.pct : 0,
+                value: creditSent && Object.keys(creditSent).length ? creditSent.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Sent',
+                    backgroundColor: 'transparent',
+                    borderColor: brandWarning,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: creditSent && Object.keys(creditSent).length ? Object.values(creditSent.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Credits.Overdue === 1) {
+            buttons.Overdue = {
+                avg: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.avg : 0,
+                pct: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.pct : 0,
+                value: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Overdue',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: creditOverdue && Object.keys(creditOverdue).length ? Object.values(creditOverdue.data) : []
+                }
+            )
+        }
+
+        const credits = {
+            name: 'Credits',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return credits
+    }
+
+    getOrderChartData (start, end, dates) {
+        const orderHeld = formatData(this.state.orders, consts.order_status_held, start, end, 'total', 'status_id')
+        const orderDraft = formatData(this.state.orders, consts.order_status_draft, start, end, 'total', 'status_id')
+        const orderBackordered = formatData(this.state.orders, consts.order_status_backorder, start, end, 'total', 'status_id')
+        const orderCancelled = formatData(this.state.orders, consts.order_status_cancelled, start, end, 'total', 'status_id')
+        const orderSent = formatData(this.state.orders, consts.order_status_sent, start, end, 'total', 'status_id')
+        const orderCompleted = formatData(this.state.orders, consts.order_status_complete, start, end, 'total', 'status_id')
+
+        const filterOrdersByExpiration = filterOverdue(this.state.orders)
+        const orderOverdue = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Orders.Draft === 1) {
+            buttons.Draft = {
+                avg: orderDraft && Object.keys(orderDraft).length ? orderDraft.avg : 0,
+                pct: orderDraft && Object.keys(orderDraft).length ? orderDraft.pct : 0,
+                value: orderDraft && Object.keys(orderDraft).length ? orderDraft.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Draft',
+                    backgroundColor: hexToRgba(brandInfo, 10),
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: orderDraft && Object.keys(orderDraft).length ? Object.values(orderDraft.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Held === 1) {
+            buttons.Held = {
+                avg: orderHeld && Object.keys(orderHeld).length ? orderHeld.avg : 0,
+                pct: orderHeld && Object.keys(orderHeld).length ? orderHeld.pct : 0,
+                value: orderHeld && Object.keys(orderHeld).length ? orderHeld.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Held',
+                    backgroundColor: 'transparent',
+                    borderColor: brandWarning,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderHeld && Object.keys(orderHeld).length ? Object.values(orderHeld.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Backordered === 1) {
+            buttons.Backordered = {
+                avg: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.avg : 0,
+                pct: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.pct : 0,
+                value: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Backordered',
+                    backgroundColor: 'transparent',
+                    borderColor: brandWarning,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderBackordered && Object.keys(orderBackordered).length ? Object.values(orderBackordered.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Cancelled === 1) {
+            buttons.Cancelled = {
+                avg: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.avg : 0,
+                pct: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.pct : 0,
+                value: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Cancelled',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderCancelled && Object.keys(orderCancelled).length ? Object.values(orderCancelled.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Completed === 1) {
+            buttons.Completed = {
+                avg: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.avg : 0,
+                pct: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.pct : 0,
+                value: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Completed',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderCompleted && Object.keys(orderCompleted).length ? Object.values(orderCompleted.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Sent === 1) {
+            buttons.Sent = {
+                avg: orderSent && Object.keys(orderSent).length ? orderSent.avg : 0,
+                pct: orderSent && Object.keys(orderSent).length ? orderSent.pct : 0,
+                value: orderSent && Object.keys(orderSent).length ? orderSent.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Sent',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderSent && Object.keys(orderSent).length ? Object.values(orderSent.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Orders.Overdue === 1) {
+            buttons.Overdue = {
+                avg: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.avg : 0,
+                pct: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.pct : 0,
+                value: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Overdue',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: orderOverdue && Object.keys(orderOverdue).length ? Object.values(orderOverdue.data) : []
+                }
+            )
+        }
+
+        const orders = {
+            name: 'Orders',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return orders
+    }
+
+    getTaskChartData (start, end, dates) {
+        const taskInvoices = removeNullValues(this.state.invoices, 'task_id')
+        const taskInvoiced = formatData(taskInvoices, null, start, end, 'total', 'status_id')
+
+        const today = new Date()
+        const filterTasksByExpiration = this.state.tasks.filter((item) => {
+            return new Date(item.due_date) > today
+        })
+
+        const taskOverdue = formatData(filterTasksByExpiration, 1, start, end, 'valued_at', 'status_id')
+
+        /* const taskLogged = Object.values(formatData(this.state.tasks, 1, currentMoment, endMoment, 'total', 'status_id'))
+
+        const taskPaid = Object.values(formatData(this.state.tasks, 3, currentMoment, endMoment, 'total', 'status_id')) */
+
+        const buttons = {}
+        const datasets = []
+
+        // TODO Check key name
+        if (this.state.dashboard_filters.Tasks.Invoiced === 1) {
+            buttons.Active = {
+                avg: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.avg : 0,
+                pct: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.pct : 0,
+                value: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Invoiced',
+                    backgroundColor: 'transparent',
+                    borderColor: brandWarning,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: taskInvoiced && Object.keys(taskInvoiced).length ? Object.values(taskInvoiced.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Tasks.Overdue === 1) {
+            buttons.Overdue = {
+                avg: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.avg : 0,
+                pct: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.pct : 0,
+                value: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Overdue',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: taskOverdue && Object.keys(taskOverdue).length ? Object.values(taskOverdue.data) : []
+                }
+            )
+        }
+
+        const tasks = {
+            name: 'Tasks',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return tasks
+    }
+
+    getPaymentChartData (start, end, dates) {
+        const paymentActive = formatData(this.state.payments, consts.payment_status_pending, start, end, 'amount', 'status_id')
+        const paymentRefunded = formatData(this.state.payments, consts.payment_status_refunded, start, end, 'refunded', 'status_id')
+        const paymentCompleted = formatData(this.state.payments, consts.payment_status_completed, start, end, 'amount', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Payments.Active === 1) {
+            buttons.Active = {
+                avg: paymentActive && Object.keys(paymentActive).length ? paymentActive.avg : 0,
+                pct: paymentActive && Object.keys(paymentActive).length ? paymentActive.pct : 0,
+                value: paymentActive && Object.keys(paymentActive).length ? paymentActive.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Active',
+                    backgroundColor: 'transparent',
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: paymentActive && Object.keys(paymentActive).length ? Object.values(paymentActive.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Payments.Refunded === 1) {
+            buttons.Refunded = {
+                avg: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.avg : 0,
+                pct: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.pct : 0,
+                value: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Refunded',
+                    backgroundColor: 'transparent',
+                    borderColor: brandDanger,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: paymentRefunded && Object.keys(paymentRefunded).length ? Object.values(paymentRefunded.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Payments.Completed === 1) {
+            buttons.Completed = {
+                avg: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.avg : 0,
+                pct: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.pct : 0,
+                value: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Completed',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: paymentCompleted && Object.keys(paymentCompleted).length ? Object.values(paymentCompleted.data) : []
+                }
+            )
+        }
+
+        const payments = {
+            name: 'Payments',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return payments
+    }
+
+    getExpenseChartData (start, end, dates) {
+        const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
+
+        const expenseLogged = formatData(this.state.expenses, consts.expense_status_logged, start, end, 'amount', 'status_id')
+        const expensePending = formatData(this.state.expenses, consts.expense_status_pending, start, end, 'amount', 'status_id')
+        const expenseInvoiced = formatData(expenseInvoices, consts.expense_status_invoiced, start, end, 'amount', 'status_id')
+        const expensePaid = formatData(this.state.expenses, consts.expense_status_invoiced, start, end, 'amount', 'status_id')
+
+        const buttons = {}
+        const datasets = []
+
+        if (this.state.dashboard_filters.Expenses.Logged === 1) {
+            buttons.Logged = {
+                avg: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.avg : 0,
+                pct: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.pct : 0,
+                value: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Logged',
+                    backgroundColor: hexToRgba(brandInfo, 10),
+                    borderColor: brandInfo,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: expenseLogged && Object.keys(expenseLogged).length ? Object.values(expenseLogged.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Expenses.Pending === 1) {
+            buttons.Pending = {
+                avg: expensePending && Object.keys(expensePending).length ? expensePending.avg : 0,
+                pct: expensePending && Object.keys(expensePending).length ? expensePending.pct : 0,
+                value: expensePending && Object.keys(expensePending).length ? expensePending.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Pending',
+                    backgroundColor: 'transparent',
+                    borderColor: brandPrimary,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: expensePending && Object.keys(expensePending).length ? Object.values(expensePending.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Expenses.Invoiced === 1) {
+            buttons.Invoiced = {
+                avg: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.avg : 0,
+                pct: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.pct : 0,
+                value: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Invoiced',
+                    backgroundColor: 'transparent',
+                    borderColor: brandWarning,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: expenseInvoiced && Object.keys(expenseInvoiced).length ? Object.values(expenseInvoiced.data) : []
+                }
+            )
+        }
+
+        if (this.state.dashboard_filters.Expenses.Paid === 1) {
+            buttons.Paid = {
+                avg: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.avg : 0,
+                pct: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.pct : 0,
+                value: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.value : 0
+            }
+
+            datasets.push(
+                {
+                    label: 'Paid',
+                    backgroundColor: 'transparent',
+                    borderColor: brandSuccess,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: expensePaid && Object.keys(expensePaid).length ? Object.values(expensePaid.data) : []
+                }
+            )
+        }
+
+        const expenses = {
+            name: 'Expenses',
+            labels: dates,
+            buttons: buttons,
+            datasets: datasets
+        }
+
+        return expenses
+    }
+
     getChartData () {
         var now = new Date()
         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
@@ -511,574 +1299,42 @@ class Dashboard extends Component {
         // const currentMoment = moment('2020-02-03')
         // const endMoment = moment('2020-03-17')
         const dates = makeLabels(currentMoment, endMoment)
-        const invoiceActive = formatData(this.state.invoices, consts.invoice_status_draft, start, end, 'total', 'status_id')
-        const invoiceOutstanding = formatData(this.state.invoices, consts.invoice_status_sent, start, end, 'total', 'status_id')
-        const invoicePaid = formatData(this.state.invoices, consts.invoice_status_paid, start, end, 'total', 'status_id')
-        const invoiceCancelled = formatData(this.state.invoices, consts.invoice_status_cancelled, start, end, 'total', 'status_id')
-
-        const filterInvoicesByExpiration = filterOverdue(this.state.invoices)
-        const invoiceOverdue = formatData(filterInvoicesByExpiration, consts.invoice_status_sent, start, end, 'total', 'status_id')
-
-        console.log('overdue invoices', filterInvoicesByExpiration)
-
-        const paymentActive = formatData(this.state.payments, consts.payment_status_pending, start, end, 'amount', 'status_id')
-        const paymentRefunded = formatData(this.state.payments, consts.payment_status_refunded, start, end, 'refunded', 'status_id')
-        const paymentCompleted = formatData(this.state.payments, consts.payment_status_completed, start, end, 'amount', 'status_id')
-
-        const quoteActive = formatData(this.state.quotes, consts.quote_status_draft, start, end, 'total', 'status_id')
-        const quoteApproved = formatData(this.state.quotes, consts.quote_status_approved, start, end, 'total', 'status_id')
-        const quoteUnapproved = formatData(this.state.quotes, consts.quote_status_sent, start, end, 'total', 'status_id')
-
-        const filterQuotesByExpiration = filterOverdue(this.state.quotes)
-        const quoteOverdue = formatData(filterQuotesByExpiration, consts.quote_status_sent, start, end, 'total', 'status_id')
-
-        const creditActive = formatData(this.state.credits, consts.credit_status_draft, start, end, 'total', 'status_id')
-        const creditCompleted = formatData(this.state.credits, consts.credit_status_applied, start, end, 'total', 'status_id')
-        const creditSent = formatData(this.state.credits, consts.credit_status_sent, start, end, 'total', 'status_id')
-
-        const filterCreditsByExpiration = filterOverdue(this.state.credits)
-        const creditOverdue = formatData(filterCreditsByExpiration, consts.credit_status_sent, start, end, 'total', 'status_id')
-
-        const orderHeld = formatData(this.state.orders, consts.order_status_held, start, end, 'total', 'status_id')
-        const orderDraft = formatData(this.state.orders, consts.order_status_draft, start, end, 'total', 'status_id')
-        const orderBackordered = formatData(this.state.orders, consts.order_status_backorder, start, end, 'total', 'status_id')
-        const orderCancelled = formatData(this.state.orders, consts.order_status_cancelled, start, end, 'total', 'status_id')
-        const orderSent = formatData(this.state.orders, consts.order_status_sent, start, end, 'total', 'status_id')
-        const orderCompleted = formatData(this.state.orders, consts.order_status_complete, start, end, 'total', 'status_id')
-
-        const filterOrdersByExpiration = filterOverdue(this.state.orders)
-        const orderOverdue = formatData(filterOrdersByExpiration, 1, start, end, 'total', 'status_id')
-
-        const expenseInvoices = removeNullValues(this.state.invoices, 'expense_id')
-
-        const expenseLogged = formatData(this.state.expenses, consts.expense_status_logged, start, end, 'amount', 'status_id')
-        const expensePending = formatData(this.state.expenses, consts.expense_status_pending, start, end, 'amount', 'status_id')
-        const expenseInvoiced = formatData(expenseInvoices, consts.expense_status_invoiced, start, end, 'amount', 'status_id')
-        const expensePaid = formatData(this.state.expenses, consts.expense_status_invoiced, start, end, 'amount', 'status_id')
-
-        const taskInvoices = removeNullValues(this.state.invoices, 'task_id')
-        const taskInvoiced = formatData(taskInvoices, null, start, end, 'total', 'status_id')
-
-        const today = new Date()
-        const filterTasksByExpiration = this.state.tasks.filter((item) => {
-            return new Date(item.due_date) > today
-        })
-
-        const taskOverdue = formatData(filterTasksByExpiration, 1, start, end, 'valued_at', 'status_id')
-
-        /* const taskLogged = Object.values(formatData(this.state.tasks, 1, currentMoment, endMoment, 'total', 'status_id'))
-
-        const taskPaid = Object.values(formatData(this.state.tasks, 3, currentMoment, endMoment, 'total', 'status_id')) */
-
-        console.log('active invoices', invoiceOutstanding)
-        console.log('task invoiced', taskInvoiced)
-
         const charts = []
         const modules = JSON.parse(localStorage.getItem('modules'))
 
-        const invoices = {
-            name: 'Invoices',
-            labels: dates,
-            buttons: {
-                Active: {
-                    avg: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.avg : 0,
-                    pct: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.pct : 0,
-                    value: invoiceActive && Object.keys(invoiceActive).length ? invoiceActive.value : 0
-                },
-                Outstanding: {
-                    avg: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.avg : 0,
-                    pct: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.pct : 0,
-                    value: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? invoiceOutstanding.value : 0
-                },
-                Paid: {
-                    avg: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.avg : 0,
-                    pct: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.pct : 0,
-                    value: invoicePaid && Object.keys(invoicePaid).length ? invoicePaid.value : 0
-                },
-                Cancelled: {
-                    avg: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.avg : 0,
-                    pct: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.pct : 0,
-                    value: invoiceCancelled && Object.keys(invoiceCancelled).length ? invoiceCancelled.value : 0
-                },
-                Overdue: {
-                    avg: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.avg : 0,
-                    pct: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.pct : 0,
-                    value: invoiceOverdue && Object.keys(invoiceOverdue).length ? invoiceOverdue.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Active',
-                    backgroundColor: hexToRgba(brandInfo, 10),
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: invoiceActive && Object.keys(invoiceActive).length ? Object.values(invoiceActive.data) : []
-                },
-                {
-                    label: 'Outstanding',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: invoiceOutstanding && Object.keys(invoiceOutstanding).length ? Object.values(invoiceOutstanding.data) : []
-                },
-                {
-                    label: 'Paid',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: invoicePaid && Object.keys(invoicePaid).length ? Object.values(invoicePaid.data) : []
-                },
-                {
-                    label: 'Cancelled',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: invoiceCancelled && Object.keys(invoiceCancelled).length ? Object.values(invoiceCancelled.data) : []
-                },
-                {
-                    label: 'Overdue',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: invoiceOverdue && Object.keys(invoiceOverdue).length ? Object.values(invoiceOverdue.data) : []
-                }
-            ]
-        }
-
         if (modules.invoices) {
-            charts.push(invoices)
-        }
-
-        const orders = {
-            name: 'Orders',
-            labels: dates,
-            buttons: {
-                Draft: {
-                    avg: orderDraft && Object.keys(orderDraft).length ? orderDraft.avg : 0,
-                    pct: orderDraft && Object.keys(orderDraft).length ? orderDraft.pct : 0,
-                    value: orderDraft && Object.keys(orderDraft).length ? orderDraft.value : 0
-                },
-                Held: {
-                    avg: orderHeld && Object.keys(orderHeld).length ? orderHeld.avg : 0,
-                    pct: orderHeld && Object.keys(orderHeld).length ? orderHeld.pct : 0,
-                    value: orderHeld && Object.keys(orderHeld).length ? orderHeld.value : 0
-                },
-                Backordered: {
-                    avg: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.avg : 0,
-                    pct: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.pct : 0,
-                    value: orderBackordered && Object.keys(orderBackordered).length ? orderBackordered.value : 0
-                },
-                Cancelled: {
-                    avg: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.avg : 0,
-                    pct: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.pct : 0,
-                    value: orderCancelled && Object.keys(orderCancelled).length ? orderCancelled.value : 0
-                },
-                Completed: {
-                    avg: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.avg : 0,
-                    pct: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.pct : 0,
-                    value: orderCompleted && Object.keys(orderCompleted).length ? orderCompleted.value : 0
-                },
-                Sent: {
-                    avg: orderSent && Object.keys(orderSent).length ? orderSent.avg : 0,
-                    pct: orderSent && Object.keys(orderSent).length ? orderSent.pct : 0,
-                    value: orderSent && Object.keys(orderSent).length ? orderSent.value : 0
-                },
-                Overdue: {
-                    avg: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.avg : 0,
-                    pct: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.pct : 0,
-                    value: orderOverdue && Object.keys(orderOverdue).length ? orderOverdue.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Draft',
-                    backgroundColor: hexToRgba(brandInfo, 10),
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: orderDraft && Object.keys(orderDraft).length ? Object.values(orderDraft.data) : []
-                },
-                {
-                    label: 'Held',
-                    backgroundColor: 'transparent',
-                    borderColor: brandWarning,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderHeld && Object.keys(orderHeld).length ? Object.values(orderHeld.data) : []
-                },
-                {
-                    label: 'Backordered',
-                    backgroundColor: 'transparent',
-                    borderColor: brandWarning,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderBackordered && Object.keys(orderBackordered).length ? Object.values(orderBackordered.data) : []
-                },
-                {
-                    label: 'Cancelled',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderCancelled && Object.keys(orderCancelled).length ? Object.values(orderCancelled.data) : []
-                },
-                {
-                    label: 'Sent',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderSent && Object.keys(orderSent).length ? Object.values(orderSent.data) : []
-                },
-                {
-                    label: 'Completed',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderCompleted && Object.keys(orderCompleted).length ? Object.values(orderCompleted.data) : []
-                },
-                {
-                    label: 'Overdue',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: orderOverdue && Object.keys(orderOverdue).length ? Object.values(orderOverdue.data) : []
-                }
-            ]
+            const invoiceChartData = this.getInvoiceChartData(start, end, dates)
+            charts.push(invoiceChartData)
         }
 
         if (modules.orders) {
-            charts.push(orders)
-        }
-
-        const payments = {
-            name: 'Payments',
-            labels: dates,
-            buttons: {
-                Active: {
-                    avg: paymentActive && Object.keys(paymentActive).length ? paymentActive.avg : 0,
-                    pct: paymentActive && Object.keys(paymentActive).length ? paymentActive.pct : 0,
-                    value: paymentActive && Object.keys(paymentActive).length ? paymentActive.value : 0
-                },
-                Refunded: {
-                    avg: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.avg : 0,
-                    pct: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.pct : 0,
-                    value: paymentRefunded && Object.keys(paymentRefunded).length ? paymentRefunded.value : 0
-                },
-                Completed: {
-                    avg: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.avg : 0,
-                    pct: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.pct : 0,
-                    value: paymentCompleted && Object.keys(paymentCompleted).length ? paymentCompleted.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Active',
-                    backgroundColor: 'transparent',
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: paymentActive && Object.keys(paymentActive).length ? Object.values(paymentActive.data) : []
-                },
-                {
-                    label: 'Refunded',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: paymentRefunded && Object.keys(paymentRefunded).length ? Object.values(paymentRefunded.data) : []
-                },
-                {
-                    label: 'Completed',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: paymentCompleted && Object.keys(paymentCompleted).length ? Object.values(paymentCompleted.data) : []
-                }
-            ]
+            const orderChartData = this.getOrderChartData(start, end, dates)
+            charts.push(orderChartData)
         }
 
         if (modules.payments) {
-            charts.push(payments)
-        }
-
-        const quotes = {
-            name: 'Quotes',
-            labels: dates,
-            buttons: {
-                Active: {
-                    avg: quoteActive && Object.keys(quoteActive).length ? quoteActive.avg : 0,
-                    pct: quoteActive && Object.keys(quoteActive).length ? quoteActive.pct : 0,
-                    value: quoteActive && Object.keys(quoteActive).length ? quoteActive.value : 0
-                },
-                Approved: {
-                    avg: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.avg : 0,
-                    pct: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.pct : 0,
-                    value: quoteApproved && Object.keys(quoteApproved).length ? quoteActive.value : 0
-                },
-                Unapproved: {
-                    avg: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.avg : 0,
-                    pct: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.pct : 0,
-                    value: quoteUnapproved && Object.keys(quoteUnapproved).length ? quoteActive.value : 0
-                },
-                Overdue: {
-                    avg: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.avg : 0,
-                    pct: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.pct : 0,
-                    value: quoteOverdue && Object.keys(quoteOverdue).length ? quoteOverdue.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Active',
-                    backgroundColor: hexToRgba(brandInfo, 10),
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: quoteActive && Object.keys(quoteActive).length ? Object.values(quoteActive.data) : []
-                },
-                {
-                    label: 'Approved',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: quoteApproved && Object.keys(quoteApproved).length ? Object.values(quoteApproved.data) : []
-                },
-                {
-                    label: 'Unapproved',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: quoteUnapproved && Object.keys(quoteUnapproved).length ? Object.values(quoteUnapproved.data) : []
-                },
-                {
-                    label: 'Overdue',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: quoteOverdue && Object.keys(quoteOverdue).length ? Object.values(quoteOverdue.data) : []
-                }
-            ]
+            const paymentChartData = this.getPaymentChartData(start, end, dates)
+            charts.push(paymentChartData)
         }
 
         if (modules.quotes) {
-            charts.push(quotes)
-        }
-
-        const credits = {
-            name: 'Credits',
-            labels: dates,
-            buttons: {
-                Active: {
-                    avg: creditActive && Object.keys(creditActive).length ? creditActive.avg : 0,
-                    pct: creditActive && Object.keys(creditActive).length ? creditActive.pct : 0,
-                    value: creditActive && Object.keys(creditActive).length ? creditActive.value : 0
-                },
-                Completed: {
-                    avg: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.avg : 0,
-                    pct: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.pct : 0,
-                    value: creditCompleted && Object.keys(creditCompleted).length ? creditCompleted.value : 0
-                },
-                Sent: {
-                    avg: creditSent && Object.keys(creditSent).length ? creditSent.avg : 0,
-                    pct: creditSent && Object.keys(creditSent).length ? creditSent.pct : 0,
-                    value: creditSent && Object.keys(creditSent).length ? creditSent.value : 0
-                },
-                Overdue: {
-                    avg: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.avg : 0,
-                    pct: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.pct : 0,
-                    value: creditOverdue && Object.keys(creditOverdue).length ? creditOverdue.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Active',
-                    backgroundColor: hexToRgba(brandInfo, 10),
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: creditActive && Object.keys(creditActive).length ? Object.values(creditActive.data) : []
-                },
-                {
-                    label: 'Completed',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: creditCompleted && Object.keys(creditCompleted).length ? Object.values(creditCompleted.data) : []
-                },
-                {
-                    label: 'Sent',
-                    backgroundColor: 'transparent',
-                    borderColor: brandWarning,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: creditSent && Object.keys(creditSent).length ? Object.values(creditSent.data) : []
-                },
-                {
-                    label: 'Overdue',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: creditOverdue && Object.keys(creditOverdue).length ? Object.values(creditOverdue.data) : []
-                }
-            ]
+            const quoteChartData = this.getQuoteChartData(start, end, dates)
+            charts.push(quoteChartData)
         }
 
         if (modules.credits) {
-            charts.push(credits)
-        }
-
-        const tasks = {
-            name: 'Tasks',
-            labels: dates,
-            buttons: {
-                // Logged: getAverages(taskInvoiced),
-                // Paid: getAverages(taskPaid)
-                Active: {
-                    avg: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.avg : 0,
-                    pct: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.pct : 0,
-                    value: taskInvoiced && Object.keys(taskInvoiced).length ? taskInvoiced.value : 0
-                },
-                Overdue: {
-                    avg: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.avg : 0,
-                    pct: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.pct : 0,
-                    value: taskOverdue && Object.keys(taskOverdue).length ? taskOverdue.value : 0
-                }
-            },
-            datasets: [
-                // {
-                //     label: 'Logged',
-                //     backgroundColor: hexToRgba(brandInfo, 10),
-                //     borderColor: brandInfo,
-                //     pointHoverBackgroundColor: '#fff',
-                //     borderWidth: 2,
-                //     data: taskLogged
-                // },
-                {
-                    label: 'Invoiced',
-                    backgroundColor: 'transparent',
-                    borderColor: brandWarning,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: taskInvoiced && Object.keys(taskInvoiced).length ? Object.values(taskInvoiced.data) : []
-                },
-                {
-                    label: 'Overdue',
-                    backgroundColor: 'transparent',
-                    borderColor: brandDanger,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: taskOverdue && Object.keys(taskOverdue).length ? Object.values(taskOverdue.data) : []
-                }
-                // {
-                //     label: 'Paid',
-                //     backgroundColor: 'transparent',
-                //     borderColor: brandSuccess,
-                //     pointHoverBackgroundColor: '#fff',
-                //     borderWidth: 2,
-                //     data: taskPaid
-                // }
-            ]
+            const creditChartData = this.getCreditChartData(start, end, dates)
+            charts.push(creditChartData)
         }
 
         if (modules.tasks) {
-            charts.push(tasks)
-        }
-
-        const expenses = {
-            name: 'Expenses',
-            labels: dates,
-            buttons: {
-                Logged: {
-                    avg: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.avg : 0,
-                    pct: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.pct : 0,
-                    value: expenseLogged && Object.keys(expenseLogged).length ? expenseLogged.value : 0
-                },
-                Pending: {
-                    avg: expensePending && Object.keys(expensePending).length ? expensePending.avg : 0,
-                    pct: expensePending && Object.keys(expensePending).length ? expensePending.pct : 0,
-                    value: expensePending && Object.keys(expensePending).length ? expensePending.value : 0
-                },
-                Invoiced: {
-                    avg: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.avg : 0,
-                    pct: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.pct : 0,
-                    value: expenseInvoiced && Object.keys(expenseInvoiced).length ? expenseInvoiced.value : 0
-                },
-                Paid: {
-                    avg: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.avg : 0,
-                    pct: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.pct : 0,
-                    value: expenseLogged && Object.keys(expenseLogged).length ? expensePaid.value : 0
-                }
-            },
-            datasets: [
-                {
-                    label: 'Logged',
-                    backgroundColor: hexToRgba(brandInfo, 10),
-                    borderColor: brandInfo,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: expenseLogged && Object.keys(expenseLogged).length ? Object.values(expenseLogged.data) : []
-                },
-                {
-                    label: 'Pending',
-                    backgroundColor: 'transparent',
-                    borderColor: brandPrimary,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 1,
-                    borderDash: [8, 5],
-                    data: expensePending && Object.keys(expensePending).length ? Object.values(expensePending.data) : []
-                },
-                {
-                    label: 'Invoiced',
-                    backgroundColor: 'transparent',
-                    borderColor: brandWarning,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: expenseInvoiced && Object.keys(expenseInvoiced).length ? Object.values(expenseInvoiced.data) : []
-                },
-                {
-                    label: 'Paid',
-                    backgroundColor: 'transparent',
-                    borderColor: brandSuccess,
-                    pointHoverBackgroundColor: '#fff',
-                    borderWidth: 2,
-                    data: expensePaid && Object.keys(expensePaid).length ? Object.values(expensePaid.data) : []
-                }
-            ]
+            const taskChartData = this.getTaskChartData(start, end, dates)
+            charts.push(taskChartData)
         }
 
         if (modules.expenses) {
-            charts.push(expenses)
+            const expenseChartData = this.getExpenseChartData(start, end, dates)
+            charts.push(expenseChartData)
         }
 
         return charts
@@ -1194,7 +1450,35 @@ class Dashboard extends Component {
         })
     }
 
+    buildCheckboxes (entity) {
+        return Object.keys(this.state.dashboard_filters[entity]).map((action, index) => {
+            const checked = this.state.dashboard_filters[entity][action] === 1
+            return (
+                <li className="list-group-item-dark list-group-item d-flex justify-content-between align-items-center">
+                    <Input checked={checked} onClick={this.toggleDashboardFilter} data-entity={entity} data-action={action}
+                        type="checkbox"/>
+                    <span>{action}</span>
+                </li>
+            )
+        })
+    }
+
     render () {
+        const dashboardFilterEntities = Object.keys(this.state.dashboard_filters)
+
+        const dashboardBody = dashboardFilterEntities.map((entity, index) => {
+            return (
+                <Card className="mr-2 p-0 col-12 col-md-3">
+                    <CardHeader>{entity}</CardHeader>
+                    <CardBody>
+                        <ul className="list-group">
+                            {this.buildCheckboxes(entity)}
+                        </ul>
+                    </CardBody>
+                </Card>
+            )
+        })
+
         const onEvents = {
             click: this.onChartClick,
             legendselectchanged: this.onChartLegendselectchanged
@@ -1205,7 +1489,8 @@ class Dashboard extends Component {
                 return <Button key={value}
                     color="outline-secondary"
                     onClick={() => this.onRadioBtnClick(key, entry.name)}
-                    active={this.state.radioSelected === key}>{key} <FormatMoney amount={entry.buttons[key].value} /></Button>
+                    active={this.state.radioSelected === key}>{key} <FormatMoney
+                        amount={entry.buttons[key].value}/></Button>
             })
 
             const footerButtons = Object.keys(entry.buttons).map((key, value) => {
@@ -1516,9 +1801,9 @@ class Dashboard extends Component {
                         </Row>
 
                         <Row className="match-height">
-                            {/*<Col className="col-xl-8" lg={12}>*/}
-                            {/*    <StatsCard/>*/}
-                            {/*</Col>*/}
+                            {/* <Col className="col-xl-8" lg={12}> */}
+                            {/*    <StatsCard/> */}
+                            {/* </Col> */}
 
                             <Col className="col-xl-4" lg={12}>
                                 <CardModule
@@ -1547,6 +1832,10 @@ class Dashboard extends Component {
                                     }
                                 />
                             </Col>
+                        </Row>
+
+                        <Row>
+                            {dashboardBody}
                         </Row>
 
                         {charts}

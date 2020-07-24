@@ -103,6 +103,7 @@ class Invoice extends Model
     const STATUS_PAID = 3;
     const STATUS_CANCELLED = 5;
     const STATUS_REVERSED = 6;
+    const LATE_FEE_TYPE = 4;
 
     public function service(): InvoiceService
     {
@@ -152,6 +153,11 @@ class Invoice extends Model
     public function emails()
     {
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
+    }
+
+    public function recurring_invoice()
+    {
+        return $this->belongsTo(RecurringInvoice::class, 'recurring_invoice_id', 'id');
     }
 
     public function transactions()

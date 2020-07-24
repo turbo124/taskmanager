@@ -16,7 +16,7 @@ class TransactionTransformable
     {
         return [
             'id'              => (int)$transaction->id,
-            'entity_name'     => str_replace('App\\', '', $transaction->transactionable_type),
+            'entity_name'     => str_replace('App\Models\\', '', $transaction->transactionable_type),
             'notes'           => (string)$transaction->notes ?: '',
             'created_at'      => (string)$transaction->created_at ?: '',
             'updated_balance' => (float)$transaction->updated_balance,

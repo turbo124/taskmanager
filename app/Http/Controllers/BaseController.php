@@ -360,7 +360,7 @@ class BaseController extends Controller
 
         $ids = $request->ids;
 
-        $class = "App\\{$this->entity_string}";
+        $class = "App\Models\\{$this->entity_string}";
 
         $entities = $class::withTrashed()->whereIn('id', $ids)->get();
 
@@ -394,7 +394,7 @@ class BaseController extends Controller
     {
         $ids = request()->input('ids');
 
-        $class = "App\\{$this->entity_string}";
+        $class = "App\Models\\{$this->entity_string}";
 
         $entities = $class::withTrashed()->whereIn('id', $ids)->get();
 
