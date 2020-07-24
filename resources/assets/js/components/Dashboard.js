@@ -343,7 +343,10 @@ class Dashboard extends Component {
     }
 
     toggleModal () {
-
+        this.setState({
+            modal: !this.state.modal,
+            errors: []
+        })
     }
 
     fetchData () {
@@ -1976,8 +1979,8 @@ class Dashboard extends Component {
                     </TabPane>
                 </TabContent>
 
-                <Modal isOpen={this.state.modal} toggle={toggle} className={className}>
-                    <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Configure Dashboard</ModalHeader>
                     <ModalBody>
                         {dashboardBody}
                     </ModalBody>
