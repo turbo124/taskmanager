@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.gb = {
+    comments: 'Comments',
     overdue_invoices: 'Overdue Invoices',
     recent_invoices: 'Recent Invoices',
     overdue_quotes: 'Overdue Quotes',

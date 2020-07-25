@@ -46,7 +46,8 @@ export default class CommentForm extends Component {
         // persist the comments on server
         axios.post('/api/comments', {
             comment: this.state.comment,
-            task_id: this.props.task.id,
+            entity: this.props.entity_type,
+            entity_id: this.props.entity.id,
             user_id: this.props.user_id
         })
             .then((response) => {

@@ -1,9 +1,16 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import {
+    Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import Details from './Details'
 import CaseModel from '../models/CaseModel'
+import Comments from "../comments/Comments";
 
 export default class AddCase extends React.Component {
     constructor (props) {
@@ -69,6 +76,12 @@ export default class AddCase extends React.Component {
         })
     }
 
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
+    }
+
     toggle () {
         this.setState({
             modal: !this.state.modal,
@@ -97,9 +110,37 @@ export default class AddCase extends React.Component {
                         {translations.add_case}
                     </ModalHeader>
                     <ModalBody>
-                        <Details customers={this.props.customers} errors={this.state.errors}
-                            hasErrorFor={this.hasErrorFor} case={this.state}
-                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                        <Nav tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('1')
+                                    }}>
+                                    {translations.details}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('2')
+                                    }}>
+                                    {translations.comments}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+
+                        <TabContent activeTab={this.state.activeTab}>
+                            <TabPane tabId="1">
+                                <Details customers={this.props.customers} errors={this.state.errors}
+                                    hasErrorFor={this.hasErrorFor} case={this.state}
+                                    handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                            </TabPane>
+
+                            <TabPane tabId="2">
+                            </TabPane>
+                        </TabContent>
                     </ModalBody>
 
                     <ModalFooter>
