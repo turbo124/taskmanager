@@ -547,7 +547,7 @@ class CurrenciesTableSeeder extends Seeder {
                        'decimal_mark'=>'.',
                        'thousands_separator'=>',',
                        'iso_numeric'=>'238'],
-                     Yeah ['priority'=>'100',
+                      ['priority'=>'100',
                        'iso_code'=>'GEL',
                        'name'=>'Georgian Lari',
                        'symbol'=>'ლ',
