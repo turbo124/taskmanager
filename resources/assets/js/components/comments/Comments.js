@@ -23,7 +23,7 @@ export default class Comments extends Component {
         this.setState({ loading: true })
 
         // get all the comments
-        axios.get(`/api/comments/${this.props.task.id}`)
+        axios.get(`/api/comments/${this.props.entity_type}/${this.props.entity.id}`)
             .then((r) => {
                 this.setState({
                     comments: r.data,
@@ -61,7 +61,8 @@ export default class Comments extends Component {
                                 {<CommentForm
                                     addComment={this.addComment}
                                     user_id={this.props.user_id}
-                                    task={this.props.task}
+                                    entity_type={this.props.entity_type}
+                                    entity={this.props.entity}
                                 />}
 
                                 <div className="clearfix"/>

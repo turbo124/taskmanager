@@ -52,8 +52,6 @@ class Account extends Model
         'custom_surcharge_taxes2',
         'custom_surcharge_taxes3',
         'custom_surcharge_taxes4',
-        'first_day_of_week',
-        'first_month_of_year',
         'settings'
     ];
 
@@ -65,6 +63,13 @@ class Account extends Model
         'created_at'    => 'timestamp',
         'deleted_at'    => 'timestamp',
     ];
+
+    const SUBSCRIPTION_STANDARD = 1;
+    const SUBSCRIPTION_ADVANCED = 2;
+    const SUBSCRIPTION_FREE = 3;
+
+    const SUBSCRIPTION_PERIOD_YEAR = 2;
+    const SUBSCRIPTION_PERIOD_MONTH = 1;
 
     public function locale()
     {
@@ -100,6 +105,11 @@ class Account extends Model
         }
 
         return null;
+    }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
     public function users()

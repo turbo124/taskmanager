@@ -10,6 +10,7 @@ import EditPayment from './EditPayment'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import Refund from './Refund'
 import PaymentModel from '../models/PaymentModel'
+import { consts } from '../common/_consts'
 
 export default class PaymentItem extends Component {
     constructor (props) {

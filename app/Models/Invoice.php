@@ -104,6 +104,8 @@ class Invoice extends Model
     const STATUS_CANCELLED = 5;
     const STATUS_REVERSED = 6;
     const LATE_FEE_TYPE = 4;
+    const SUBSCRIPTION_TYPE = 5;
+    const COMMISSION_TYPE = 2;
 
     public function service(): InvoiceService
     {

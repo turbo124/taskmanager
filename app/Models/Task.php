@@ -60,6 +60,11 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class);
@@ -103,14 +108,6 @@ class Task extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
-    }
-
-    /**
-     * Get the comments for the blog post.
-     */
-    public function comments()
-    {
-        return $this->belongsToMany(Comment::class);
     }
 
     public function files()

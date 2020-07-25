@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Expense;
 use App\Filters\LeadFilter;
 use App\Models\Invoice;
@@ -52,10 +53,14 @@ class DashboardController extends Controller
         $leadsToday = $this->taskRepository->getRecentTasks(3, 3, auth()->user()->account_user()->account_id);
         $customersToday = $this->customerRepository->getRecentCustomers(3, auth()->user()->account_user()->account_id);
         $newDeals = $this->taskRepository->getNewDeals(3, auth()->user()->account_user()->account_id);
-        $leads = (new LeadFilter(new LeadRepository(new Lead())))->filter(new SearchRequest(), auth()->user()->account_user()->account);
+        $leads = (new LeadFilter(new LeadRepository(new Lead())))->filter(
+            new SearchRequest(),
+            auth()->user()->account_user()->account
+        );
         $totalEarnt = $this->taskRepository->getTotalEarnt(3, auth()->user()->account_user()->account_id);
 
         $arrOutput = [
+            'customers'    => Customer::all(),
             'sources'      => $arrSources->toArray(),
             'leadCounts'   => $arrStatuses->toArray(),
             'totalBudget'  => number_format($totalEarnt, 2),

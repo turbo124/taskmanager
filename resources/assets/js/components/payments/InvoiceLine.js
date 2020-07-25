@@ -251,6 +251,7 @@ export default class InvoiceLine extends Component {
         const status = this.props.status ? this.props.status : null
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
+        const has_invoice = this.paymentModel.hasInvoice(lines)
 
         return (
             <form>
@@ -262,7 +263,7 @@ export default class InvoiceLine extends Component {
                     addLine={this.addLine}/>
                 }
 
-                {(!this.props.refund || this.paymentModel.paymentable_credits.length) &&
+                {has_invoice && (!this.props.refund || this.paymentModel.paymentable_credits.length) &&
                 <CreditLineInputs allowed_credits={this.allowed_credits}
                     payment={this.props.payment} credits={credits}
                     status={status} errors={this.props.errors}

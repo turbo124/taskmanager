@@ -74,7 +74,7 @@ Route::group(
                 Route::put('categories/{category_id}', 'CategoryController@update');
 
 // comments
-                Route::get('comments/{task_id}', 'CommentController@index');
+                Route::get('comments/{entity}/{task_id}', 'CommentController@index');
                 Route::delete('comments/{comment_id}', 'CommentController@destroy');
                 Route::put('comments/{comment_id}', 'CommentController@update');
                 Route::post('comments', 'CommentController@store');

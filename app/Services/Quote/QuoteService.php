@@ -2,12 +2,15 @@
 
 namespace App\Services\Quote;
 
+use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Models\Invoice;
 use App\Models\Quote;
 use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasEmailed;
+use App\Models\RecurringQuote;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\RecurringQuoteRepository;
 use App\Services\Quote\MarkSent;
 use App\Repositories\QuoteRepository;
 use App\Services\ServiceBase;
@@ -100,5 +103,31 @@ class QuoteService extends ServiceBase
     public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {
         return (new ConvertQuoteToInvoice($this->quote, $invoice_repository))->execute();
+    }
+
+    /**
+     * @param array $data
+     * @return RecurringQuote|null
+     */
+    public function createRecurringQuote(array $data): ?RecurringQuote
+    {
+        if (!empty($data['recurring'])) {
+            $recurring = json_decode($data['recurring'], true);
+            $arrRecurring['start_date'] = $recurring['start_date'];
+            $arrRecurring['end_date'] = $recurring['end_date'];
+            $arrRecurring['frequency'] = $recurring['frequency'];
+            $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
+            $recurringQuote = (new RecurringQuoteRepository(new RecurringQuote))->save(
+                $arrRecurring,
+                QuoteToRecurringQuoteFactory::create($this->quote)
+            );
+
+            $this->quote->recurring_quote_id = $recurringQuote->id;
+            $this->quote->save();
+
+            return $recurringQuote;
+        }
+
+        return null;
     }
 }

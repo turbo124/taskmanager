@@ -10,8 +10,10 @@ class MessageDialog extends React.Component {
     }
 
     onChange (e) {
+        const value = e.target.value
+        this.props.setActiveMessage(value)
         this.setState({
-            messageText: e.target.value
+            messageText: value
         })
     }
 
@@ -24,7 +26,7 @@ class MessageDialog extends React.Component {
                 <form className="form-horizontal" role="form">
                     <h4>What's New</h4>
                     <div className="form-group p-2">
-                        <textarea className="form-control" placeholder="Update your status"
+                        <textarea value={this.props.message} className="form-control" placeholder="Update your status"
                             onChange={this.onChange} />
                     </div>
                     <button onClick={() => submitMessage(messageText, mode)} className="btn btn-primary pull-right"

@@ -25,8 +25,6 @@ trait AccountTransformable
         $obj->custom_fields = $account->custom_fields ?: $std;
         $obj->size_id = (string)$account->size_id ?: '';
         $obj->industry_id = (string)$account->industry_id ?: '';
-        $obj->first_month_of_year = (string)$account->first_month_of_year ?: '';
-        $obj->first_day_of_week = (string)$account->first_day_of_week ?: '';
         $obj->subdomain = (string)$account->subdomain ?: '';
         $obj->portal_domain = (string)$account->portal_domain ?: '';
         $obj->settings = $account->settings ?: '';

@@ -21,18 +21,7 @@ class Domain extends Model
      * @var array
      */
     protected $fillable = [
-        'plan',
-        'plan_term',
-        'plan_price',
-        'plan_paid',
-        'plan_started',
-        'plan_expires',
-        'utm_source',
-        'utm_medium',
-        'utm_campaign',
-        'utm_term',
-        'utm_content',
-        'user_agent',
+
     ];
     /**
      * @var array
