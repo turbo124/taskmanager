@@ -151,7 +151,9 @@ class Customer extends Model implements HasLocalePreference
 
     public function locale()
     {
-        return $this->language()->locale ?: 'en';
+        $language = $this->language();
+
+        return !empty($language) ? $this->language()->locale : 'en';
     }
 
     public function preferredLocale()

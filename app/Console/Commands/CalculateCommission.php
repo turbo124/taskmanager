@@ -148,7 +148,7 @@ class CalculateCommission extends Command
         $line_items[] = (new LineItem)
             ->setQuantity(1)
             ->setUnitPrice($total_paid)
-            ->setTypeId(2)
+            ->setTypeId(Invoice::COMMISSION_TYPE)
             ->setNotes("Commission for {$invoice->getNumber()}")
             ->toObject();
 

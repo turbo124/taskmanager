@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'subscription_invoice_created_subject'      => 'A new invoice has been created for your subscription to TamTam CRM',
+    'subscription_invoice_created_message'      => 'Your :term subscription is due on :due_date. Invoice :number has been created for :amount',
     'email_changed_subject'                     => 'Your email address has been changed',
     'email_changed'                             => 'The email address on your user account has been changed to :email',
     'invoice_is_locked'                         => 'The Invoice is Locked',

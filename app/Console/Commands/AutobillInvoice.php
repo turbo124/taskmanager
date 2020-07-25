@@ -47,11 +47,6 @@ class AutobillInvoice extends Command
         }
 
         foreach ($invoices as $invoice) {
-
-            echo '<pre>';
-            print_r($invoice->recurring_invoice);
-            die;
-
             $invoice->service()->autoBill($invoice_repo);
         }
     }
