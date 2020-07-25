@@ -22,6 +22,8 @@ class CreateCommentsTable extends Migration {
 			$table->integer('parent_id')->nullable();
 			$table->integer('parent_type')->default(1);
 			$table->integer('account_id')->unsigned()->index('account_id');
+			$table->string('commentable_type', 100);
+			$table->integer('commentable_id')->unsigned();
 		});
 	}
 

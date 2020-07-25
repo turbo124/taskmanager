@@ -31,8 +31,8 @@ class CreateInvoiceInvitationsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->text('client_signature', 65535)->nullable();
-			$table->unique(['client_contact_id','invoice_id'], 'invoice_invitations_customer_id_invoice_id_unique');
 			$table->index(['deleted_at','invoice_id']);
+			$table->unique(['client_contact_id','invoice_id'], 'invoice_invitations_customer_id_invoice_id_unique');
 		});
 	}
 

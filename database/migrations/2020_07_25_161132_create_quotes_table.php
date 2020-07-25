@@ -20,7 +20,7 @@ class CreateQuotesTable extends Migration {
 			$table->integer('assigned_user_id')->unsigned()->nullable();
 			$table->integer('account_id')->unsigned()->index();
 			$table->integer('status_id')->unsigned();
-			$table->integer('recurring_id')->unsigned()->nullable();
+			$table->integer('recurring_quote_id')->unsigned()->nullable();
 			$table->integer('design_id')->unsigned()->nullable();
 			$table->string('number')->nullable();
 			$table->float('discount')->default(0.00);
