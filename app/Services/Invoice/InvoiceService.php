@@ -2,12 +2,15 @@
 
 namespace App\Services\Invoice;
 
+use App\Factory\InvoiceToRecurringInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\RecurringInvoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Models\Payment;
+use App\Repositories\RecurringInvoiceRepository;
 use App\Services\Invoice\ReverseInvoicePayment;
 use App\Services\Invoice\CreatePayment;
 use Illuminate\Support\Carbon;
@@ -179,5 +182,29 @@ class InvoiceService extends ServiceBase
     public function calculateInvoiceTotals(): Invoice
     {
         return $this->calculateTotals($this->invoice);
+    }
+
+    /**
+     * @param array $data
+     * @return RecurringInvoice|null
+     */
+    public function createRecurringInvoice(array $data): ?RecurringInvoice
+    {
+        if (!empty($data['recurring'])) {
+            $recurring = json_decode($data['recurring'], true);
+            $arrRecurring['start_date'] = $recurring['start_date'];
+            $arrRecurring['end_date'] = $recurring['end_date'];
+            $arrRecurring['frequency'] = $recurring['frequency'];
+            $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
+            $recurringInvoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(
+                $arrRecurring,
+                InvoiceToRecurringInvoiceFactory::create($this->invoice)
+            );
+
+            $this->invoice->recurring_invoice_id = $recurringInvoice->id;
+            $this->invoice->save();
+
+            return $recurringInvoice;
+        }
     }
 }

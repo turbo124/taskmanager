@@ -43,7 +43,7 @@ class RecurringQuoteToQuoteFactory
         $quote->date = date_create()->format('Y-m-d');
         $quote->is_deleted = false;
         $quote->line_items = $recurring_quote->line_items;
-        $quote->recurring_id = $recurring_quote->id;
+        $quote->recurring_quote_id = $recurring_quote->id;
 
         return $quote;
     }

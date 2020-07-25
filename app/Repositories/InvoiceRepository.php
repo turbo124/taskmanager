@@ -8,7 +8,6 @@ use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasUpdated;
 use App\Filters\InvoiceFilter;
 use App\Jobs\Order\InvoiceOrders;
-use App\Jobs\RecurringInvoice\SaveRecurringInvoice;
 use App\Models\NumberGenerator;
 use App\Factory\InvoiceInvitationFactory;
 use App\Models\Invoice;
@@ -103,7 +102,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $invoice = $this->save($data, $invoice);
 
         InvoiceOrders::dispatchNow($invoice);
-        SaveRecurringInvoice::dispatchNow($data, $invoice->account, $invoice);
+        $invoice->service()->createRecurringInvoice($data);
 
         event(new InvoiceWasCreated($invoice));
 

@@ -41,7 +41,7 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->date = date_create()->format('Y-m-d');
         $invoice->is_deleted = false;
         $invoice->line_items = $recurring_invoice->line_items;
-        $invoice->recurring_id = $recurring_invoice->id;
+        $invoice->recurring_invoice_id = $recurring_invoice->id;
 
         return $invoice;
     }
