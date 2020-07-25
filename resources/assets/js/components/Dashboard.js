@@ -18,7 +18,7 @@ import {
     ListGroupItem,
     Modal,
     ModalHeader,
-    ModalBody,  
+    ModalBody,
     ModalFooter
 } from 'reactstrap'
 import { CardModule } from './common/Card.jsx'
@@ -38,6 +38,11 @@ import { icons } from './common/_icons'
 import FormatMoney from './common/FormatMoney'
 import { consts } from './common/_consts'
 import { translations } from './common/_translations'
+import InvoicePresenter from './presenters/InvoicePresenter'
+import FormatDate from './common/FormatDate'
+import QuotePresenter from './presenters/QuotePresenter'
+import OrderPresenter from './presenters/OrderPresenter'
+import PaymentPresenter from './presenters/PaymentPresenter'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -83,7 +88,16 @@ function calculatePercentage (number1, number2) {
 function filterOverdue (array) {
     const today = new Date()
     return array.filter((item) => {
-        return new Date(item.due_date) > today
+        return new Date(item.due_date) < today
+    })
+}
+
+function getLast30Days (array) {
+    const last_date = new Date()
+    last_date.setDate(last_date.getDate() - 30)
+
+    return array.filter((item) => {
+        return new Date(item.created_at) > last_date
     })
 }
 
@@ -245,6 +259,7 @@ class Dashboard extends Component {
         this.getOption = this.getOption.bind(this)
         this.state = {
             sources: [],
+            customers: [],
             modal: false,
             dashboard_filters: {
                 Invoices: {
@@ -321,6 +336,7 @@ class Dashboard extends Component {
         this.fetchData = this.fetchData.bind(this)
         this.toggleDashboardFilter = this.toggleDashboardFilter.bind(this)
         this.toggleModal = this.toggleModal.bind(this)
+        this.getCustomer = this.getCustomer.bind(this)
     }
 
     componentDidMount () {
@@ -368,7 +384,8 @@ class Dashboard extends Component {
                             expenses: r.data.expenses,
                             tasks: r.data.tasks,
                             orders: r.data.orders,
-                            credits: r.data.credits
+                            credits: r.data.credits,
+                            customers: r.data.customers
                         }
                     )
                 }
@@ -1471,12 +1488,18 @@ class Dashboard extends Component {
             const checked = this.state.dashboard_filters[entity][action] === 1
             return (
                 <li className="list-group-item-dark list-group-item d-flex justify-content-between align-items-center">
-                    <Input checked={checked} onClick={this.toggleDashboardFilter} data-entity={entity} data-action={action}
+                    <Input checked={checked} onClick={this.toggleDashboardFilter} data-entity={entity}
+                        data-action={action}
                         type="checkbox"/>
                     <span>{action}</span>
                 </li>
             )
         })
+    }
+
+    getCustomer (customer_id) {
+        const customer = this.state.customers.filter(customer => customer.id === customer_id)
+        return customer[0].name
     }
 
     render () {
@@ -1570,6 +1593,133 @@ class Dashboard extends Component {
         }) : null
 
         let leads = ''
+        // expired
+        const filterQuotesByExpiration = filterOverdue(this.state.quotes)
+        const arrOverdueQuotes = filterQuotesByExpiration.length ? groupByStatus(filterQuotesByExpiration, 2, 'status_id') : []
+
+        const filterOrdersByExpiration = filterOverdue(this.state.orders)
+        const arrOverdueOrders = filterOrdersByExpiration.length ? groupByStatus(filterOrdersByExpiration, 2, 'status_id') : []
+
+        const filterInvociesByExpiration = this.state.invoices.length ? filterOverdue(this.state.invoices) : []
+        const arrOverdueInvoices = filterInvociesByExpiration.length ? groupByStatus(filterInvociesByExpiration, 2, 'status_id') : []
+
+        // last 30 days
+        const filterQuotesLast30Days = getLast30Days(this.state.quotes)
+        const arrRecentQuotes = filterQuotesLast30Days.length ? groupByStatus(filterQuotesLast30Days, 1, 'status_id') : []
+
+        const filterOrdersLast30Days = getLast30Days(this.state.orders)
+        const arrRecentOrders = filterOrdersLast30Days.length ? groupByStatus(filterOrdersLast30Days, 1, 'status_id') : []
+
+        const filterPaymentsLast30Days = getLast30Days(this.state.payments)
+        const arrRecentPayments = filterPaymentsLast30Days.length ? groupByStatus(filterPaymentsLast30Days, 4, 'status_id') : []
+
+        const filterInvoicesLast30Days = getLast30Days(this.state.invoices)
+        const arrRecentInvoices = filterInvoicesLast30Days.length ? groupByStatus(filterInvoicesLast30Days, 1, 'status_id') : []
+
+        const overdue_invoices = arrOverdueInvoices.length ? arrOverdueInvoices.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const recent_invoices = arrRecentInvoices.length ? arrRecentInvoices.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const recent_quotes = arrRecentQuotes.length ? arrRecentQuotes.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const overdue_orders = arrOverdueOrders.length ? arrOverdueOrders.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const recent_orders = arrRecentOrders.length ? arrRecentOrders.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const recent_payments = arrRecentPayments.length ? arrRecentPayments.map((invoice, index) => {
+            return (
+                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span>{<PaymentPresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
 
         if (this.state.deals.length) {
             let count = 1
@@ -1615,7 +1765,7 @@ class Dashboard extends Component {
                         </NavLink>
                     </NavItem>
 
-                   <NavItem>
+                    <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
@@ -1891,101 +2041,96 @@ class Dashboard extends Component {
                         </Row>
 
                         <Row>
-                            <Button color="danger" onClick={toggle}>Configure Dashboard</Button>
+                            <Button color="danger" onClick={this.toggleModal}>Configure Dashboard</Button>
                         </Row>
 
                         {charts}
 
                     </TabPane>
-               
+
                     <TabPane tabId="2">
-                       <MessageContainer/>
+                        <MessageContainer/>
                     </TabPane>
 
                     <TabPane tabId="3">
-                       <Card>
+                        <Card>
+                            <CardHeader>{translations.overdue_invoices}</CardHeader>
                             <CardBody>
-                                  <ListGroup>
-                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                      </ListGroupItem>
+                                <ListGroup>
+                                    {overdue_invoices}
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>{translations.recent_invoices}</CardHeader>
+                            <CardBody>
+                                <ListGroup>
+                                    {recent_invoices}
                                 </ListGroup>
                             </CardBody>
                         </Card>
                     </TabPane>
 
-                   <TabPane tabId="4">
-                         <Card>
+                    <TabPane tabId="4">
+                        <Card>
+                            <CardHeader>{translations.overdue_quotes}</CardHeader>
                             <CardBody>
-                                  <ListGroup>
-                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                      </ListGroupItem>
+                                <ListGroup>
+                                    {overdue_quotes}
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>{translations.recent_quotes}</CardHeader>
+                            <CardBody>
+                                <ListGroup>
+                                    {recent_quotes}
                                 </ListGroup>
                             </CardBody>
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="5">
-                         <Card>
+                        <Card>
+                            <CardHeader>{translations.recent_payments}</CardHeader>
                             <CardBody>
-                                  <ListGroup>
-                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                      </ListGroupItem>
+                                <ListGroup>
+                                    {recent_payments}
                                 </ListGroup>
                             </CardBody>
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="6">
-                         <Card>
+                        <Card>
+                            <CardHeader>{translations.overdue_orders}</CardHeader>
                             <CardBody>
-                                  <ListGroup>
-                                      <ListGroupItem className="list-group-item-action flex-column align-items-start">
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                          <div class="d-flex w-100 justify-content-between">
-                                              <h5 class="mb-1">List group item heading</h5>
-                                              <small>3 days ago</small>
-                                          </div>
-                                      </ListGroupItem>
+                                <ListGroup>
+                                    {overdue_orders}
+                                </ListGroup>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>{translations.recent_orders}</CardHeader>
+                            <CardBody>
+                                <ListGroup>
+                                    {recent_orders}
                                 </ListGroup>
                             </CardBody>
                         </Card>
                     </TabPane>
                 </TabContent>
 
-                <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                <Modal size="lg" isOpen={this.state.modal} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Configure Dashboard</ModalHeader>
                     <ModalBody>
                         {dashboardBody}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onClick={toggle}>Close</Button>
+                        <Button color="secondary" onClick={this.toggleModal}>Close</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

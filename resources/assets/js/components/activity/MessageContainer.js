@@ -96,6 +96,9 @@ class MessageContainer extends React.Component {
     }
 
     newMessage (newMessage) {
+        newMessage.entity = 'App\\Models\\Account'
+        newMessage.entity_id = localStorage.getItem('account_id')
+
         axios.post('/api/comments', newMessage).then(response => {
             this.setState(prevState => ({
                 messages: [...prevState.messages, newMessage]

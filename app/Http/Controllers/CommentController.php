@@ -54,6 +54,10 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request)
     {
+        $class = $request->input('entity');
+
+        $entity = $class::where('id', $request->input('entity_id'))->first();
+
         $validatedData = $request->validated();
 
         $user = Auth::user();
@@ -65,10 +69,9 @@ class CommentController extends Controller
             'user_id'     => $user->id
         ];
 
-        $comment = $this->comment_repo->save(
-            $data,
-            CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id)
-        );
+        $comment =  CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id);
+        $comment->fill($data);
+        $entity->comments()->save($comment);
 
         if (!empty($validatedData['task_id'])) {
             $task = $this->task_repo->findTaskById($validatedData['task_id']);

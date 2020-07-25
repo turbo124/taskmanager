@@ -40,6 +40,11 @@ class Cases extends Model
         return $this->belongsTo('App\Models\Account');
     }
 
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
     /**
      * @return mixed
      */
