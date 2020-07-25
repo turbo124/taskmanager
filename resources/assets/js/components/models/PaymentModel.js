@@ -187,6 +187,14 @@ export default class PaymentModel extends BaseModel {
         })
     }
 
+    hasInvoice (items) {
+        const filtered = items.filter((item) => {
+            return item.amount !== null && item.amount !== 0 && !isNaN(item.amount) && item.amount.toString().length
+        })
+
+        return filtered.length > 0
+    }
+
     filterCreditsByCustomer (customer_id) {
         if (customer_id === '') {
             return this.credits
