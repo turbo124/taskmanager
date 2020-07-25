@@ -1,5 +1,12 @@
 <?php
-[{
+
+use Illuminate\Database\Seeder;
+
+class LanguagesSeeder extends Seeder {
+
+     public function run()
+     {
+    $arrLanguages = '[{
     "code": "en",
     "name": "English",
     "nativeName": "English"
@@ -727,4 +734,6 @@
     "code": "za",
     "name": "Zhuang, Chuang",
     "nativeName": "Saɯ cueŋƅ, Saw cuengh"
-}]
+}]';
+
+}
