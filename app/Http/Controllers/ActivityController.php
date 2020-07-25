@@ -60,7 +60,7 @@ class ActivityController extends Controller
     public function index()
     {
         $currentUser = auth()->user();
-        $comments = $this->comment_repo->getCommentsForActivityFeed(auth()->user()->account_user()->account_id);
+        $comments = auth()->user()->account_user()->account->comments()->with('user')->get();
         $list = $this->notification_repo->listNotifications();
         $userEvents = $this->event_repo->getEventsForUser($currentUser, auth()->user()->account_user()->account_id);
 

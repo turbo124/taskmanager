@@ -14,7 +14,7 @@ class MessageContainer extends React.Component {
         this.state = {
             isDialogOpen: false,
             mode: '',
-            activeMessage: undefined,
+            activeMessage: '',
             messages: [],
             notifications: [],
             events: [],
@@ -102,7 +102,9 @@ class MessageContainer extends React.Component {
         axios.post('/api/comments', newMessage).then(response => {
             this.setState(prevState => ({
                 messages: [...prevState.messages, newMessage]
-            }))
+            }), () => {
+                this.setActiveMessage('')
+            })
         })
             .catch((error) => {
                 console.warn(error)
@@ -183,8 +185,6 @@ class MessageContainer extends React.Component {
     }
 
     render () {
-        console.log('events', this.state.events)
-
         const {
             messages,
             notifications,
@@ -197,6 +197,7 @@ class MessageContainer extends React.Component {
             return (
                 <React.Fragment>
                     <MessageDialog
+                        setActiveMessage={this.setActiveMessage}
                         mode="Create"
                         message={activeMessage}
                         submitMessage={this.submitMessage}
@@ -204,7 +205,7 @@ class MessageContainer extends React.Component {
                         toggleOpenState={this.toggleOpenState}
                     />
 
-                    {this.messages && this.messages.length &&
+                    {messages && messages.length &&
                     <React.Fragment>
                         <h2>Messages</h2>
                         <MessageBoard
