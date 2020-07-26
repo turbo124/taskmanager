@@ -19,9 +19,8 @@ trait Money
         }
 
         $locale = $customer->locale();
-        $country = $customer->getCountryId();
-        $decimal_separator = isset($customer->country->decimal_separator) ? $customer->country->decimal_separator : $currency->decimal_separator;
-        $thousand_separator = isset($customer->country->thousand_separator) ? $customer->country->thousand_separator : $currency->thousand_separator;
+        $decimal_separator = isset($customer->country->decimal_mark) ? $customer->country->decimal_separator : $currency->decimal_mark;
+        $thousand_separator = isset($customer->country->thousand_separator) ? $customer->country->thousand_separator : $currency->thousands_separator;
 
         $fmt = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         //$fmt->setTextAttribute(NumberFormatter::CURRENCY_CODE, 'USD');
@@ -39,10 +38,10 @@ trait Money
 
         if ($no_symbol) {
             $fmt->setPattern(str_replace('¤#', '', $fmt->getPattern()));
-            return $fmt->formatCurrency($value, $currency->code) . ' ' . $currency->code;
+            return $fmt->formatCurrency($value, $currency->iso_code) . ' ' . $currency->iso_code;
         }
 
-        return $fmt->formatCurrency($value, $currency->code);
+        return $fmt->formatCurrency($value, $currency->iso_code);
     }
 
     public function getFormattedTotal()

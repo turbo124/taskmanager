@@ -10,19 +10,19 @@ class SourceTypeSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        DB::table('source_type')->insert([
+        \Illuminate\Support\Facades\DB::table('source_type')->insert([
             'name' => 'Personal Contact',
         ]);
         
-        DB::table('source_type')->insert([
+        \Illuminate\Support\Facades\DB::table('source_type')->insert([
             'name' => 'Call',
         ]);
         
-        DB::table('source_type')->insert([
+        \Illuminate\Support\Facades\DB::table('source_type')->insert([
             'name' => 'Email',
         ]);
         
-        DB::table('source_type')->insert([
+        \Illuminate\Support\Facades\DB::table('source_type')->insert([
             'name' => 'Other',
         ]);
     }

@@ -15,9 +15,9 @@ use App\Models\Permission;
  */
 class Permissions {
 
-    public function test() {
+    public function create() {
         
-        $role = Role::find(3);
+        $role = Role::where('name', 'Admin')->first();
         
         /*for ($x = 1; $x <= 243; $x++) {
                         
@@ -29,28 +29,28 @@ class Permissions {
         $role = Role::find(1810);
         $arrPermissions = [];*/
 
-        // foreach (Route::getRoutes()->getRoutes() as $key => $route) {
-        //     $action = $route->getActionname();
-        //     $_action = explode('@', $action);
+         foreach (Route::getRoutes()->getRoutes() as $key => $route) {
+             $action = $route->getActionname();
+             $_action = explode('@', $action);
 
-        //     $controller = $_action[0];
-        //     $method = end($_action);
+             $controller = $_action[0];
+             $method = end($_action);
 
-        //     $controller = str_replace($route->getAction()['namespace'], '', $controller);
-        //     $controller = str_replace("controller", '', $controller);
+             $controller = str_replace($route->getAction()['namespace'], '', $controller);
+             $controller = str_replace("controller", '', $controller);
 
-        //     $permissionName = strtolower(substr($controller, 1) . '.' . $method);
+             $permissionName = strtolower(substr($controller, 1) . '.' . $method);
 
-        //     $exists = Permission::where('name', '=', $permissionName)->first();
+             $exists = Permission::where('name', '=', $permissionName)->first();
 
-        //     if (!$exists) {
-        //         $flight = Permission::create(['name' => $permissionName]);
-        //         $arrPermissions[] = $flight->id;
-        //     }
-        // }
+             if (!$exists) {
+                 $flight = Permission::create(['name' => $permissionName]);
+                 $arrPermissions[] = $flight->id;
+             }
+         }
 
         foreach(Permission::all() as $permission) {
-           $role->permissions()->attach($permission);
+           $role->permissions()->attach($permission->id);
         }
 
         //

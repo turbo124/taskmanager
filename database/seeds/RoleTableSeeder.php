@@ -4,29 +4,45 @@ use Illuminate\Database\Seeder;
 use App\Models\Permission;
 use App\Models\Role;
 
-class RoleTableSeeder extends Seeder {
+class RoleTableSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
-        $dev_permission = Permission::where('name', 'create-tasks')->first();
-        $manager_permission = Permission::where('name', 'edit-users')->first();
+    public function run()
+    {
+//        $dev_permission = Permission::where('name', 'create-tasks')->first();
+//        $manager_permission = Permission::where('name', 'edit-users')->first();
 
-//RoleTableSeeder.php
-        $dev_role = new Role();
-        $dev_role->name = 'Manager';
-        $dev_role->description = 'Front-end Developer';
-        $dev_role->save();
-        $dev_role->permissions()->attach($manager_permission);
+        $account = \App\Models\Account::first();
+        $user = \App\Models\User::first();
 
-        $manager_role = new Role();
-        $manager_role->name = 'Admin';
-        $manager_role->description = 'Assistant Manager';
-        $manager_role->save();
-        $manager_role->permissions()->attach($dev_permission);
+        $arrRoles = [
+            0 => [
+                'id'           => 3,
+                'name'         => 'Admin',
+                'display_name' => 'Admin',
+                'description'  => 'Admin',
+                'account_id'   => $account->id,
+                'user_id'      => $user->id
+            ],
+            1 => [
+                'id'           => 4,
+                'name'         => 'Manager',
+                'display_name' => 'Manager',
+                'description'  => 'Manager',
+                'account_id'   => $account->id,
+                'user_id'      => $user->id
+            ]
+        ];
+
+        foreach ($arrRoles as $arr_role) {
+            Role::create($arr_role);
+            $user->roles()->attach($arr_role['id']);
+        }
     }
 
 }
