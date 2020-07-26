@@ -257,6 +257,8 @@ class SetupController extends Controller
             $user->notify(new NewAccount($account));
         }
 
+        $account->service()->convertAccount();
+
         return $redirect->route('setup.environment');
     }
 
