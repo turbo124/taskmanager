@@ -46,11 +46,10 @@ export default class FormatMoney extends Component {
 
     render () {
         const currency = this.state.currencies && this.state.currencies.length ? this.state.currencies.filter(currency => currency.id === parseInt(this.state.currency_id)) : []
-
         let decimalCount = currency.length ? currency[0].precision : FormatMoney.defaultProps.decimalCount
         const symbol = currency.length ? currency[0].symbol : FormatMoney.defaultProps.symbol
-        const thousands = currency.length ? currency[0].thousand_separator : FormatMoney.defaultProps.thousands
-        const decimal = currency.length ? currency[0].decimal_separator : FormatMoney.defaultProps.decimal
+        const thousands = currency.length ? currency[0].thousands_separator : FormatMoney.defaultProps.thousands
+        const decimal = currency.length ? currency[0].decimal_mark : FormatMoney.defaultProps.decimal
 
         try {
             let total = this.props.amount

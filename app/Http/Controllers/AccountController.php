@@ -195,6 +195,6 @@ class AccountController extends Controller
 
     public function getDateFormats()
     {
-        return response()->json(\App\Models\DateFormat::get());
+        return response()->json(\App\Models\DatetimeFormat::get());
     }
 }
