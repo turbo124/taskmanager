@@ -38,7 +38,7 @@ class CreateLeadsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->boolean('is_deleted')->default(0);
-			$table->integer('assigned_user_id')->unsigned()->nullable()->index('assigned_user_id');
+			$table->integer('assigned_to')->unsigned()->nullable()->index('assigned_user_id');
 			$table->string('custom_value1')->nullable();
 			$table->string('custom_value2')->nullable();
 			$table->string('custom_value3')->nullable();

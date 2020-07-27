@@ -69,8 +69,8 @@ class CurrencyConverter
 
         $converted_amount = $exchangeRates->convert(
             $this->amount,
-            $this->base_currency->code,
-            $this->exchange_currency->code,
+            $this->base_currency->iso_code,
+            $this->exchange_currency->iso_code,
             Carbon::now()
         );
 

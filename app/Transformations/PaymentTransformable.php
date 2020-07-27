@@ -17,7 +17,7 @@ trait PaymentTransformable
             'id'                    => (int)$payment->id,
             'user_id'               => (int)$payment->user_id,
             'created_at'            => $payment->created_at,
-            'assigned_user_id'      => (int)$payment->assigned_user_id,
+            'assigned_to'           => (int)$payment->assigned_to,
             'number'                => (string)$payment->number ?: '',
             'customer_id'           => (int)$payment->customer_id,
             'date'                  => $payment->date ?: '',

@@ -109,25 +109,24 @@ class QuoteService extends ServiceBase
      * @param array $data
      * @return RecurringQuote|null
      */
-    public function createRecurringQuote(array $data): ?RecurringQuote
+    public function createRecurringQuote(array $recurring): ?RecurringQuote
     {
-        if (!empty($data['recurring'])) {
-            $recurring = json_decode($data['recurring'], true);
-            $arrRecurring['start_date'] = $recurring['start_date'];
-            $arrRecurring['end_date'] = $recurring['end_date'];
-            $arrRecurring['frequency'] = $recurring['frequency'];
-            $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
-            $recurringQuote = (new RecurringQuoteRepository(new RecurringQuote))->save(
-                $arrRecurring,
-                QuoteToRecurringQuoteFactory::create($this->quote)
-            );
-
-            $this->quote->recurring_quote_id = $recurringQuote->id;
-            $this->quote->save();
-
-            return $recurringQuote;
+        if (empty($recurring)) {
+            return null;
         }
 
-        return null;
+        $arrRecurring['start_date'] = $recurring['start_date'];
+        $arrRecurring['end_date'] = $recurring['end_date'];
+        $arrRecurring['frequency'] = $recurring['frequency'];
+        $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
+        $recurringQuote = (new RecurringQuoteRepository(new RecurringQuote))->save(
+            $arrRecurring,
+            QuoteToRecurringQuoteFactory::create($this->quote)
+        );
+
+        $this->quote->recurring_quote_id = $recurringQuote->id;
+        $this->quote->save();
+
+        return $recurringQuote;
     }
 }

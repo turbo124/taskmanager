@@ -26,6 +26,7 @@ export default class InvoiceModel extends BaseModel {
             modalOpen: false,
             is_amount_discount: false,
             deleted_at: null,
+            assigned_to: '',
             invitations: [],
             emails: [],
             customer_id: '',

@@ -9,6 +9,7 @@ import {
 import Datepicker from '../common/Datepicker'
 import CustomerDropdown from '../common/CustomerDropdown'
 import { translations } from '../common/_translations'
+import UserDropdown from "../common/UserDropdown";
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -55,6 +56,16 @@ export default class Details extends React.Component {
                     <Input value={this.props.order.po_number} type="text" id="po_number" name="po_number"
                         onChange={this.props.handleInput}/>
                     {this.renderErrorFor('po_number')}
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="postcode">{translations.assigned_user}:</Label>
+                    <UserDropdown
+                        user_id={this.props.order.assigned_to}
+                        name="assigned_to"
+                        errors={this.props.errors}
+                        handleInputChanges={this.props.handleInput}
+                    />
                 </FormGroup>
 
                 <FormGroup>

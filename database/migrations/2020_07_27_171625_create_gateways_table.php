@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateFrequenciesTable extends Migration {
+class CreateGatewaysTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,13 @@ class CreateFrequenciesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('frequencies', function(Blueprint $table)
+		Schema::create('gateways', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->unsigned();
+			$table->increments('id');
 			$table->string('name');
-			$table->string('date_interval');
+			$table->string('key')->unique();
+			$table->string('provider');
+			$table->integer('default_gateway_type_id')->unsigned()->default(1);
 			$table->timestamps();
 		});
 	}
@@ -29,7 +31,7 @@ class CreateFrequenciesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('frequencies');
+		Schema::drop('gateways');
 	}
 
 }

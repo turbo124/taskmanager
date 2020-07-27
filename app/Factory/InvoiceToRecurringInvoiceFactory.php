@@ -23,7 +23,8 @@ class InvoiceToRecurringInvoiceFactory
         $recurring_invoice->tax_rate_name = $invoice->tax_rate_name;
         $recurring_invoice->tax_rate = $invoice->tax_rate;
         $recurring_invoice->date = date_create()->format('Y-m-d');
-        $recurring_invoice->due_date = $invoice->due_date; //todo calculate based on terms
+        $recurring_invoice->customer_id = $invoice->customer_id;
+        $recurring_invoice->due_date = $recurring_invoice->setDueDate();
         $recurring_invoice->is_deleted = $invoice->is_deleted;
         $recurring_invoice->line_items = $invoice->line_items;
         $recurring_invoice->custom_value1 = $invoice->custom_value1;
@@ -34,7 +35,6 @@ class InvoiceToRecurringInvoiceFactory
         $recurring_invoice->sub_total = $invoice->sub_total;
         $recurring_invoice->balance = $invoice->balance;
         $recurring_invoice->user_id = $invoice->user_id;
-        $recurring_invoice->customer_id = $invoice->customer_id;
         $recurring_invoice->account_id = $invoice->account_id;
         $recurring_invoice->frequency = 30;
         $recurring_invoice->start_date = null;

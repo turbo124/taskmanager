@@ -41,6 +41,7 @@ class Credit extends Model
     protected $fillable = [
         'number',
         'customer_id',
+        'assigned_to',
         'total',
         'balance',
         'sub_total',

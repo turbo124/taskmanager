@@ -188,23 +188,24 @@ class InvoiceService extends ServiceBase
      * @param array $data
      * @return RecurringInvoice|null
      */
-    public function createRecurringInvoice(array $data): ?RecurringInvoice
+    public function createRecurringInvoice(array $recurring): ?RecurringInvoice
     {
-        if (!empty($data['recurring'])) {
-            $recurring = json_decode($data['recurring'], true);
-            $arrRecurring['start_date'] = $recurring['start_date'];
-            $arrRecurring['end_date'] = $recurring['end_date'];
-            $arrRecurring['frequency'] = $recurring['frequency'];
-            $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
-            $recurringInvoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(
-                $arrRecurring,
-                InvoiceToRecurringInvoiceFactory::create($this->invoice)
-            );
-
-            $this->invoice->recurring_invoice_id = $recurringInvoice->id;
-            $this->invoice->save();
-
-            return $recurringInvoice;
+        if (empty($recurring)) {
+            return null;
         }
+
+        $arrRecurring['start_date'] = $recurring['start_date'];
+        $arrRecurring['end_date'] = $recurring['end_date'];
+        $arrRecurring['frequency'] = $recurring['frequency'];
+        $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
+        $recurringInvoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(
+            $arrRecurring,
+            InvoiceToRecurringInvoiceFactory::create($this->invoice)
+        );
+
+        $this->invoice->recurring_invoice_id = $recurringInvoice->id;
+        $this->invoice->save();
+
+        return $recurringInvoice;
     }
 }

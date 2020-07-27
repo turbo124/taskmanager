@@ -29,7 +29,7 @@ class CreateCompaniesTable extends Migration {
 			$table->integer('currency_id')->unsigned()->nullable()->index('currency_id');
 			$table->integer('industry_id')->nullable();
 			$table->text('settings', 65535)->nullable();
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->text('private_notes', 65535)->nullable();
 			$table->integer('user_id')->unsigned()->index();
 			$table->integer('account_id')->unsigned()->index();

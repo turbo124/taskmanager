@@ -31,6 +31,7 @@ class CreateFilesTable extends Migration {
 			$table->string('fileable_type');
 			$table->integer('company_id')->unsigned()->nullable();
 			$table->softDeletes();
+			$table->integer('assigned_to')->nullable();
 		});
 	}
 

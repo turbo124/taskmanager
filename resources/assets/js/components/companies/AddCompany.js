@@ -104,7 +104,7 @@ class AddCompany extends React.Component {
         formData.append('contacts', JSON.stringify(this.state.contacts))
         formData.append('currency_id', this.state.currency_id)
         formData.append('industry_id', this.state.industry_id)
-        formData.append('assigned_user_id', this.state.assigned_user_id)
+        formData.append('assigned_to', this.state.assigned_to)
         formData.append('private_notes', this.state.private_notes)
         formData.append('custom_value1', this.state.custom_value1)
         formData.append('custom_value2', this.state.custom_value2)

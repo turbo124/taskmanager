@@ -19,6 +19,7 @@ export default class PaymentModel extends BaseModel {
             modal: false,
             deleted_at: null,
             is_deleted: false,
+            assigned_to: '',
             customer_id: '',
             invoice_id: null,
             transaction_reference: '',

@@ -27,30 +27,25 @@ export const CalculateTotal = (props) => {
                 // lexieTotal -= discount_total
             }
 
-            // lexieTotal -= discount_total
+            lexieTotal -= discount_total
         }
 
         if (product.unit_tax > 0 && invoice.tax === 0) {
-            let a = lexieTotal
-            if (discount_total > 0) {
-                a -= discount_total
-            }
-
-            const tax_percentage = a * product.unit_tax / 100
+            const tax_percentage = lexieTotal * product.unit_tax / 100
             tax_total += tax_percentage
         }
     })
-
-    if (invoice.tax > 0) {
-        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(invoice.total) : parseFloat(invoice.total)
-        const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax) / 100
-        tax_total += tax_percentage
-    }
 
     if (invoice.discount > 0) {
         const discount_percentage = parseFloat(invoice.total) * parseFloat(invoice.discount) / 100
         discount_total += discount_percentage
         // total -= discount_percentage
+    }
+
+    if (invoice.tax > 0) {
+        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(invoice.total) : parseFloat(invoice.total)
+        const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax) / 100
+        tax_total += tax_percentage
     }
 
     return {
@@ -108,7 +103,6 @@ export const CalculateLineTotals = (props) => {
         total = price * quantity
         lexieTotal += price * quantity
     }
-
     if (unit_discount > 0 && invoice.discount === 0) {
         const n = parseFloat(total)
 

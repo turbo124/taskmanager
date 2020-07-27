@@ -101,6 +101,7 @@ class Order extends Model
         'shipping_label_url',
         'previous_status',
         'voucher_code',
+        'assigned_to'
     ];
 
     protected $table = 'product_task';

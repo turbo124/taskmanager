@@ -17,7 +17,7 @@ class CreateInvoicesTable extends Migration {
 			$table->increments('id');
 			$table->integer('customer_id')->unsigned()->index();
 			$table->integer('user_id')->unsigned()->index('invoices_user_id_foreign');
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->integer('status_id')->unsigned();
 			$table->integer('recurring_invoice_id')->unsigned()->nullable();
 			$table->string('number')->nullable();

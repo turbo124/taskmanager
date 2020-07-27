@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
+import UserDropdown from "../common/UserDropdown";
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -70,6 +71,16 @@ export default class Details extends Component {
                         <Label>{translations.partial_due_date}</Label>
                         <Datepicker name="partial_due_date" date={this.props.invoice.partial_due_date} handleInput={this.props.handleInput}
                             className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="postcode">{translations.assigned_user}:</Label>
+                        <UserDropdown
+                            user_id={this.props.invoice.assigned_to}
+                            name="assigned_to"
+                            errors={this.props.errors}
+                            handleInputChanges={this.props.handleInput}
+                        />
                     </FormGroup>
                 </CardBody>
             </Card>

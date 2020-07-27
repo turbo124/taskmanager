@@ -1,20 +1,31 @@
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
+import { ListGroup, ListGroupItem, Badge } from 'reactstrap'
+import { getEntityIcon } from '../common/_icons'
+import { translations } from '../common/_translations'
 
 export default function Transaction (props) {
     const transactions = props.transactions.length ? props.transactions.map((transaction, index) => {
-        const text_color = transaction.amount <= 0 ? 'text-danger' : 'text-success'
+        const amount = transaction.amount
+        const text_color = amount.toString().includes('-') ? 'danger' : 'success'
 
-        return (<dl key={index} className="row border-bottom">
-            <dt className="col-sm-2">{transaction.entity_name}</dt>
-            <dt className="col-sm-3">{<FormatDate date={transaction.created_at}/>}</dt>
-            <dd className="col-sm-2">{<FormatMoney className={text_color} amount={transaction.amount}/>}<br/><FormatMoney
-                amount={transaction.updated_balance}/>
-            </dd>
-            <dd className="col-sm-5">{transaction.notes}</dd>
-        </dl>)
+        return (<ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+            <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">
+                    <i className={`fa ${getEntityIcon(transaction.entity_name)} mr-4`} />
+                    {translations[transaction.entity_name.toLowerCase()]} > {transaction.entity_number} </h5>
+                <FormatMoney className="lead mb-1" amount={transaction.updated_balance}/>
+            </div>
+
+            <div className="d-flex w-100 justify-content-between">
+                <span style={{ fontSize: '16px' }} className="text-muted"><FormatDate date={transaction.created_at} with_time={true} /></span>
+                <Badge color={text_color}><FormatMoney amount={amount} /></Badge>
+            </div>
+        </ListGroupItem>)
     }) : null
 
-    return transactions
+    return <ListGroup>
+        {transactions}
+    </ListGroup>
 }

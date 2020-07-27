@@ -43,15 +43,10 @@ class Account extends Model
         'deleted' => AccountWasDeleted::class,
     ];
     protected $fillable = [
-        'industry_id',
         'subdomain',
-        'size_id',
         'custom_fields',
         'portal_domain',
-        'custom_surcharge_taxes1',
-        'custom_surcharge_taxes2',
-        'custom_surcharge_taxes3',
-        'custom_surcharge_taxes4',
+        'support_email',
         'settings'
     ];
 

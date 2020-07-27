@@ -59,7 +59,7 @@ export default class ProductList extends Component {
                 'payable_months',
                 'minimum_downpayment',
                 'number_of_years',
-                'assigned_user_id',
+                'assigned_to',
                 'user_id',
                 'notes',
                 'cost',

@@ -29,6 +29,7 @@ export default class QuoteModel extends BaseModel {
             is_amount_discount: false,
             invitations: [],
             customer_id: '',
+            assigned_to: '',
             user_id: null,
             contacts: [],
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),

@@ -17,6 +17,7 @@ use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
 use App\Models\Paymentable;
+use App\Models\RecurringInvoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
@@ -167,6 +168,37 @@ class InvoiceTest extends TestCase
         $invoice = $invoiceRepo->createInvoice($data, $factory);
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals($data['customer_id'], $invoice->customer_id);
+    }
+
+    public function test_it_can_create_a_recurring_invoice()
+    {
+        $user = factory(User::class)->create();
+        $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);
+
+        $total = $this->faker->randomFloat();
+
+        $data = [
+            'account_id'     => $this->main_account->id,
+            'user_id'        => $user->id,
+            'customer_id'    => $this->customer->id,
+            'total'          => $total,
+            'balance'        => $total,
+            'tax_total'      => $this->faker->randomFloat(),
+            'discount_total' => $this->faker->randomFloat(),
+            'status_id'      => 1,
+        ];
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $invoice = $invoiceRepo->createInvoice($data, $factory);
+
+        $arrRecurring = [];
+
+        $arrRecurring['start_date'] = date('Y-m-d');
+        $arrRecurring['end_date'] = date('Y-m-d', strtotime('+1 year'));;
+        $arrRecurring['frequency'] = 30;
+        $arrRecurring['recurring_due_date'] = date('Y-m-d', strtotime('+1 month'));
+        $recurring_invoice = $invoice->service()->createRecurringInvoice($arrRecurring);
+        $this->assertInstanceOf(RecurringInvoice::class, $recurring_invoice);
     }
 
     /**

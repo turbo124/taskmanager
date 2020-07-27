@@ -60,6 +60,7 @@ class CreateProductTaskTable extends Migration {
 			$table->decimal('gateway_fee', 16, 4)->default(0.0000);
 			$table->dateTime('date_cancelled')->nullable();
 			$table->boolean('gateway_percentage')->default(0);
+			$table->integer('assigned_user')->unsigned()->nullable();
 		});
 	}
 

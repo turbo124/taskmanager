@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration {
 			$table->integer('currency_id')->unsigned()->nullable();
 			$table->integer('company_id')->unsigned()->nullable()->index('company_id');
 			$table->integer('default_payment_method')->unsigned()->nullable();
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->integer('status')->unsigned()->default(1);
 			$table->string('name');
 			$table->string('website')->nullable();

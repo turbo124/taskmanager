@@ -20,8 +20,8 @@ class CloneAccountToCustomerFactory
         $customer->account_id = $account->id;
         $customer->user_id = $user->id;
         $customer->name = $account->settings->name;
-        $customer->phone = $account->settings->phone;
-        $customer->website = $account->settings->website;
+        $customer->phone = !empty($account->settings->phone) ? $account->settings->phone : '';
+        $customer->website = !empty($account->settings->website) ? $account->settings->website : '';
         $customer->currency_id = $account->settings->currency_id;
 
         return $customer;

@@ -67,6 +67,20 @@
             @endif
         </div>
 
+        <div class="form-group {{ $errors->has('support_email') ? ' has-error ' : '' }}">
+            <label for="password">
+                {{ trans('texts.user.form.support_email_label') }}
+            </label>
+            <input type="text" name="support_email" id="support_email" value=""
+                   placeholder="{{ trans('texts.user.form.support_email_placeholder') }}"/>
+            @if ($errors->has('support_email'))
+                <span class="error-block">
+                            <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{ $errors->first('support_email') }}
+                        </span>
+            @endif
+        </div>
+
 
         <div class="buttons">
             <button class="button" type="submit">

@@ -22,7 +22,7 @@ export default class Companies extends Component {
             dropdownButtonActions: ['download'],
             error: '',
             view: {
-                ignore: ['assigned_user_id', 'country_id', 'currency_id', 'industry_id', 'user_id'],
+                ignore: ['assigned_to', 'country_id', 'currency_id', 'industry_id', 'user_id'],
                 viewMode: false,
                 viewedId: null,
                 title: null
@@ -49,7 +49,7 @@ export default class Companies extends Component {
                 'industry_id',
                 'country_id',
                 'user_id',
-                'assigned_user_id',
+                'assigned_to',
                 'private_notes',
                 'custom_value1',
                 'custom_value2',

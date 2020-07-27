@@ -49,7 +49,7 @@ export default class ProjectList extends Component {
                 'custom_value3',
                 'custom_value4',
                 'user_id',
-                'assigned_user_id',
+                'assigned_to',
                 'notes'
             ],
             showRestoreButton: false

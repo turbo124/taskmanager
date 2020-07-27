@@ -15,7 +15,7 @@ export default class Payments extends Component {
         this.state = {
             per_page: 5,
             view: {
-                ignore: ['paymentables', 'assigned_user_id', 'id', 'customer', 'invoice_id', 'applied', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
+                ignore: ['paymentables', 'assigned_to', 'id', 'customer', 'invoice_id', 'applied', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
                 viewMode: false,
                 viewedId: null,
                 title: null
@@ -25,7 +25,7 @@ export default class Payments extends Component {
             custom_fields: [],
             dropdownButtonActions: ['download'],
             bulk: [],
-            ignoredColumns: ['customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_user_id', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
+            ignoredColumns: ['customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_to', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',

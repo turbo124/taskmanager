@@ -29,7 +29,7 @@ class CreateProductsTable extends Migration {
 			$table->softDeletes();
 			$table->integer('account_id')->unsigned()->index('products_account_id_foreign');
 			$table->integer('user_id')->unsigned();
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->text('notes', 65535)->nullable();
 			$table->boolean('is_deleted')->default(0);
 			$table->string('custom_value1')->nullable();

@@ -27,7 +27,7 @@ export default class LeadModel extends BaseModel {
             city: '',
             title: '',
             valued_at: '',
-            assigned_user_id: '',
+            assigned_to: '',
             source_type: '',
             values: [],
             loading: false,

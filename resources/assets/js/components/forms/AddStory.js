@@ -77,7 +77,7 @@ class AddStory extends React.Component {
             storyId: this.state.count,
             notes: this.state.notes,
             due_date: this.state.due_date,
-            assigned_user_id: this.state.assigned_user_id,
+            assigned_to: this.state.assigned_to,
             budgeted_hours: this.state.budgeted_hours
         }
 
@@ -144,8 +144,8 @@ class AddStory extends React.Component {
                         <FormGroup>
                             <Label for="postcode">{translations.assigned_user}:</Label>
                             <UserDropdown
-                                user_id={this.state.assigned_user_id}
-                                name="assigned_user_id"
+                                user_id={this.state.assigned_to}
+                                name="assigned_to"
                                 errors={this.state.errors}
                                 handleInputChanges={this.handleInput.bind(this)}
                             />

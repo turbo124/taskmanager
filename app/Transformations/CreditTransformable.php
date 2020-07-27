@@ -27,6 +27,7 @@ trait CreditTransformable
             'id'                  => (int)$credit->id,
             'created_at'          => $credit->created_at,
             'user_id'             => (int)$credit->user_id,
+            'assigned_to'         => (int)$credit->assigned_to,
             'company_id'          => (int)$credit->company_id ?: null,
             'public_notes'        => $credit->public_notes ?: '',
             'private_notes'       => $credit->private_notes ?: '',

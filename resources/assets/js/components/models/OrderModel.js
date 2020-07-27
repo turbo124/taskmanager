@@ -20,6 +20,7 @@ export default class OrderModel extends BaseModel {
             is_mobile: window.innerWidth <= 500,
             modalOpen: false,
             deleted_at: null,
+            assigned_to: '',
             is_amount_discount: false,
             id: null,
             showSuccessMessage: false,

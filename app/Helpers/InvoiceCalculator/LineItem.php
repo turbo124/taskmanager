@@ -293,7 +293,7 @@ class LineItem extends BaseCalculator
      */
     public function calculateTax(): self
     {
-        $this->tax_total += $this->applyTax($this->sub_total, $this->unit_tax, true);
+        $this->tax_total += $this->applyTax($this->total, $this->unit_tax, $this->is_amount_discount);
 
         if ($this->inclusive_taxes) {
             $this->total += $this->tax_total;

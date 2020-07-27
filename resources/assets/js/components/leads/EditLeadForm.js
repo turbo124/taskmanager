@@ -98,7 +98,7 @@ class EditLeadForm extends React.Component {
             description: this.state.description,
             title: this.state.title,
             valued_at: this.state.valued_at,
-            assigned_user_id: this.state.assigned_user_id,
+            assigned_to: this.state.assigned_to,
             source_type: this.state.source_type,
             task_type: this.props.task_type,
             task_status: this.state.task_status

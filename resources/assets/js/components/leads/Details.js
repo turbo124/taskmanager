@@ -87,7 +87,7 @@ export default class Details extends React.Component {
                         </FormGroup>
 
                         <UserDropdown handleInputChanges={this.props.handleInputChanges}
-                            user_id={this.props.lead.assigned_user_id} name="assigned_user_id" users={this.props.users}/>
+                            user_id={this.props.lead.assigned_to} name="assigned_to" users={this.props.users}/>
 
                         {sourceTypeOptions}
                     </CardBody>

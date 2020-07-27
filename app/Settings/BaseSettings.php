@@ -7,8 +7,8 @@ class BaseSettings
 
     protected array $validationFailures = [];
 
-    protected array $account_settings = [ 
-        'should_lock_invoice'           => [
+    protected array $account_settings = [
+        'should_lock_invoice'             => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 'off',
@@ -20,7 +20,7 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
-        'display_quote_terms'            => [
+        'display_quote_terms'             => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,
@@ -752,10 +752,10 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'date_format_id'                  => [
+        'date_format'                     => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => '',
+            'default_value'    => 'DD/MMM/YYYY',
             'type'             => 'string'
         ],
         'language_id'                     => [

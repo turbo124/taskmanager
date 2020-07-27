@@ -15,7 +15,7 @@ export default class Expenses extends Component {
         this.state = {
             per_page: 5,
             view: {
-                ignore: ['user_id', 'assigned_user_id', 'company_id', 'customer_id', 'invoice_id', 'bank_id', 'deleted_at', 'customer_id', 'invoice_currency_id', 'payment_type_id', 'currency_id', 'recurring_expense_id', 'updated_at', 'category_id'],
+                ignore: ['user_id', 'assigned_to', 'company_id', 'customer_id', 'invoice_id', 'bank_id', 'deleted_at', 'customer_id', 'invoice_currency_id', 'payment_type_id', 'currency_id', 'recurring_expense_id', 'updated_at', 'category_id'],
                 viewMode: false,
                 viewedId: null,
                 title: null
@@ -48,7 +48,7 @@ export default class Expenses extends Component {
                     'currency_id',
                     'type_id',
                     'invoice_id',
-                    'assigned_user_id',
+                    'assigned_to',
                     'bank_id',
                     'category_id',
                     'create_invoice',
