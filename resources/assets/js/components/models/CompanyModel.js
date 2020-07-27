@@ -17,7 +17,7 @@ export default class CompanyModel extends BaseModel {
             email: '',
             address_1: '',
             currency_id: null,
-            assigned_user_id: null,
+            assigned_to: null,
             industry_id: '',
             country_id: null,
             company_logo: null,

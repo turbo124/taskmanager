@@ -32,6 +32,7 @@ export default class CreditModel extends BaseModel {
             customerName: '',
             total: 0,
             customer_id: '',
+            assigned_to: '',
             design_id: '',
             file_count: 0,
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),

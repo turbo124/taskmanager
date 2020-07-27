@@ -4,6 +4,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
+import UserDropdown from '../common/UserDropdown'
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -90,25 +91,14 @@ export default class Details extends Component {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label>{translations.customer}</Label>
-                        <CustomerDropdown
-                            handleInputChanges={this.props.handleInput}
-                            customer={this.props.quote.customer_id}
-                            customers={this.props.customers}
+                        <Label for="postcode">{translations.assigned_user}:</Label>
+                        <UserDropdown
+                            user_id={this.props.quote.assigned_to}
+                            name="assigned_to"
                             errors={this.props.errors}
+                            handleInputChanges={this.props.handleInput}
                         />
                     </FormGroup>
-
-                    {/* <FormGroup> */}
-                    {/*    <Label>{translations.company}</Label> */}
-                    {/*    <CompanyDropdown */}
-                    {/*        company_id={this.props.quote.company_id} */}
-                    {/*        name="company_id" */}
-                    {/*        hasErrorFor={this.hasErrorFor} */}
-                    {/*        errors={this.props.errors} */}
-                    {/*        handleInputChanges={this.props.handleInput} */}
-                    {/*    /> */}
-                    {/* </FormGroup> */}
 
                     {customForm}
                 </CardBody>

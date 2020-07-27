@@ -83,7 +83,7 @@ class RecurringInvoice extends Model
 
     public function assigned_user()
     {
-        return $this->belongsTo(User::class, 'assigned_user_id', 'id')->withTrashed();
+        return $this->belongsTo(User::class, 'assigned_to', 'id')->withTrashed();
     }
 
     public function invoices()
@@ -114,5 +114,12 @@ class RecurringInvoice extends Model
 
         $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
         return true;
+    }
+
+    public function setDueDate()
+    {
+        $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $this->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null;
     }
 }

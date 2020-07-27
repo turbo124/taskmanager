@@ -12,6 +12,7 @@ use App\Filters\QuoteFilter;
 use App\Models\Account;
 use App\Models\NumberGenerator;
 use App\Models\Order;
+use App\Models\RecurringQuote;
 use App\Repositories\OrderRepository;
 use App\Requests\SearchRequest;
 use Tests\TestCase;
@@ -91,7 +92,6 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_can_create_a_quote()
     {
-        $total = $this->faker->randomFloat();
         $factory = (new QuoteFactory())->create($this->account, $this->user, $this->customer);
 
         $data = [
@@ -108,6 +108,33 @@ class QuoteTest extends TestCase
         $quote = $quoteRepo->createQuote($data, $factory);
         $this->assertInstanceOf(Quote::class, $quote);
         $this->assertEquals($data['customer_id'], $quote->customer_id);
+    }
+
+    public function test_it_can_create_a_recurring_quote()
+    {
+        $factory = (new QuoteFactory())->create($this->account, $this->user, $this->customer);
+
+        $data = [
+            'account_id'     => $this->account->id,
+            'user_id'        => $this->user->id,
+            'customer_id'    => $this->customer->id,
+            'total'          => $this->faker->randomFloat(),
+            'tax_total'      => $this->faker->randomFloat(),
+            'discount_total' => $this->faker->randomFloat(),
+            'status_id'      => 1,
+        ];
+
+        $quoteRepo = new QuoteRepository(new Quote);
+        $quote = $quoteRepo->createQuote($data, $factory);
+
+        $arrRecurring = [];
+
+        $arrRecurring['start_date'] = date('Y-m-d');
+        $arrRecurring['end_date'] = date('Y-m-d', strtotime('+1 year'));;
+        $arrRecurring['frequency'] = 30;
+        $arrRecurring['recurring_due_date'] = date('Y-m-d', strtotime('+1 month'));
+        $recurring_invoice = $quote->service()->createRecurringQuote($arrRecurring);
+        $this->assertInstanceOf(RecurringQuote::class, $recurring_invoice);
     }
 
     /**

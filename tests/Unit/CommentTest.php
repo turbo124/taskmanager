@@ -78,7 +78,7 @@ class CommentTest extends TestCase
     {
         $task = factory(Task::class)->create();
         $comment = factory(Comment::class)->create();
-        $response = $task->comments()->attach($comment);
+        $response = $task->comments()->create($comment->toArray());
         $this->assertDatabaseHas(
             'comments',
             [

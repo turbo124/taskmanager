@@ -109,7 +109,7 @@ class AddProduct extends React.Component {
         formData.append('brand_id', this.state.brand_id)
         formData.append('category', this.state.selectedCategories)
         formData.append('notes', this.state.notes)
-        formData.append('assigned_user_id', this.state.assigned_user_id)
+        formData.append('assigned_to', this.state.assigned_to)
         formData.append('custom_value1', this.state.custom_value1)
         formData.append('custom_value2', this.state.custom_value2)
         formData.append('custom_value3', this.state.custom_value3)

@@ -20,7 +20,7 @@ export default function Contacts (props) {
             <CardHeader>{translations.customer}</CardHeader>
 
             <CardBody>
-                {this.props.hide_customer === true &&
+                {props.hide_customer === true &&
                 <FormGroup>
                     <Label>{translations.customer}</Label>
                     <CustomerDropdown

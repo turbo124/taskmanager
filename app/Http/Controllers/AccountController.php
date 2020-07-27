@@ -192,9 +192,4 @@ class AccountController extends Controller
         $user = auth()->user();
         CompanyToken::where('token', $user->auth_token)->update(['account_id' => $request->account_id]);
     }
-
-    public function getDateFormats()
-    {
-        return response()->json(\App\Models\DatetimeFormat::get());
-    }
 }

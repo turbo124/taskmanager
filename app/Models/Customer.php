@@ -52,7 +52,7 @@ class Customer extends Model implements HasLocalePreference
         'customer_type',
         'default_payment_method',
         'settings',
-        'assigned_user_id',
+        'assigned_to',
         'custom_value1',
         'custom_value2',
         'custom_value3',

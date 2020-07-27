@@ -61,7 +61,12 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     public function createQuote(array $data, Quote $quote): ?Quote
     {
         $quote = $this->save($data, $quote);
-        $quote->service()->createRecurringQuote($data);
+
+        if (!empty($data['recurring'])) {
+            $recurring = json_decode($data['recurring'], true);
+            $quote->service()->createRecurringQuote($recurring);
+        }
+
         QuoteOrders::dispatchNow($quote);
         event(new QuoteWasCreated($quote));
 

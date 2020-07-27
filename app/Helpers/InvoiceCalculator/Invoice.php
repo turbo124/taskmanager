@@ -81,15 +81,15 @@ class Invoice extends BaseCalculator
     /**
      * @var bool
      */
-    private $is_amount_discount = true;
+    private $is_amount_discount = false;
 
     public function build()
     {
         $this->total = $this->sub_total;
-
         $this->calculateCustomValues();
-        $this->calculateTax();
         $this->calculateDiscount();
+        $this->calculateTax();
+
         $this->getCalculatedBalance();
     }
 
@@ -122,7 +122,7 @@ class Invoice extends BaseCalculator
             $custom_surcharge_total += $this->entity->shipping_cost;
 
             if (!empty($this->entity->shipping_cost_tax)) {
-                $tax_total = $this->applyTax($this->entity->shipping_cost_tax, $this->sub_total, true);
+                $tax_total = $this->applyTax($this->entity->shipping_cost_tax, $this->sub_total, $this->is_amount_discount);
                 $this->setTaxTotal($tax_total);
                 $this->setCustomTax($this->entity->shipping_cost);
             }
@@ -155,7 +155,7 @@ class Invoice extends BaseCalculator
      */
     public function calculateTax(): self
     {
-        $sub_total = $this->custom_tax > 0 ? $this->sub_total + $this->custom_tax : $this->sub_total;
+        $sub_total = $this->custom_tax > 0 ? $this->total + $this->custom_tax : $this->total;
         $this->tax_total += $this->applyTax($sub_total, $this->tax_rate, $this->is_amount_discount);
 
         if ($this->custom_tax > 0) {
@@ -203,6 +203,10 @@ class Invoice extends BaseCalculator
      */
     public function setDiscountTotal(float $discount_total): self
     {
+        if(!empty($this->discount_total)) {
+            return $this;
+        }
+
         $this->discount_total += $discount_total;
         return $this;
     }

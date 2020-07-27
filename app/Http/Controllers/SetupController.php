@@ -234,12 +234,14 @@ class SetupController extends Controller
             return $redirect->route('setup.user')->withInput()->withErrors($validator->errors());
         }
 
+        $data = $request->except('_token');
+
         // create domain
-        $domain = (new DomainRepository(new Domain))->create($request->all());
+        $domain = (new DomainRepository(new Domain))->create($data);
 
         // create account
         $account = AccountFactory::create($domain->id);
-        $account = (new AccountRepository(new Account))->save($request->all(), $account);
+        $account = (new AccountRepository(new Account))->save($data, $account);
 
         // set default account
         $domain->default_account_id = $account->id;
@@ -247,8 +249,11 @@ class SetupController extends Controller
 
         $user_repo = new UserRepository(new User);
 
+        $data['username'] = $data['email'];
+
         // create new user
         $user = $user_repo->save($request->all(), UserFactory::create($domain->id));
+
         $user->attachUserToAccount($account, true);
 
         if ($user) {
@@ -257,7 +262,7 @@ class SetupController extends Controller
             $user->notify(new NewAccount($account));
         }
 
-        $account->service()->convertAccount();
+        //$account->service()->convertAccount();
 
         return $redirect->route('setup.environment');
     }

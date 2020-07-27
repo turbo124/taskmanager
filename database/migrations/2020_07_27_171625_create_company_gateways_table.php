@@ -25,10 +25,6 @@ class CreateCompanyGatewaysTable extends Migration {
 			$table->boolean('update_details')->nullable()->default(0);
 			$table->text('config', 65535);
 			$table->text('fees_and_limits', 65535);
-			$table->string('custom_value1')->nullable();
-			$table->string('custom_value2')->nullable();
-			$table->string('custom_value3')->nullable();
-			$table->string('custom_value4')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			$table->boolean('exclude_from_checkout')->default(0);

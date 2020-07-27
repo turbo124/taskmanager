@@ -237,9 +237,9 @@ class ModuleSettings extends Component {
                         <Card>
                             <CardHeader>{translations.account_management}</CardHeader>
                             <CardBody>
-                                <BlockButton icon={icons.link} button_text={translations.configure_webhooks}
+                                <BlockButton icon={icons.link} button_text={translations.subscriptions}
                                     button_link="/#/subscriptions"/>
-                                <BlockButton icon={icons.token} button_text={translations.configure_tokens}
+                                <BlockButton icon={icons.token} button_text={translations.tokens}
                                     button_link="/#/tokens"/>
 
                                 <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"

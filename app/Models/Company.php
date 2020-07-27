@@ -33,13 +33,13 @@ class Company extends Model
         'town',
         'city',
         'postcode',
-        'assigned_user_id',
+        'assigned_to',
         'country_id',
         'currency_id',
         'settings',
         'industry_id',
         'private_notes',
-        'assigned_user_id',
+        'assigned_to',
         'user_id',
         'account_id',
         'transaction_name',
@@ -92,7 +92,7 @@ class Company extends Model
 
     public function assigned_user()
     {
-        return $this->belongsTo(User::class, 'assigned_user_id', 'id');
+        return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
 
     public function contacts()

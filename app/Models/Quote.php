@@ -48,6 +48,7 @@ class Quote extends Model
     protected $fillable = [
         'account_id',
         'customer_id',
+        'assigned_to',
         'order_id',
         'total',
         'sub_total',

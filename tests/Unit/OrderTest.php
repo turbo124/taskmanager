@@ -183,29 +183,31 @@ class OrderTest extends TestCase
     public function it_can_create_a_web_order()
     {
         $data = [
-            'source_type'   => 1,
-            'title'         => 'New web form request 2020/04/26',
-            'task_type'     => 3,
-            'task_status'   => 9,
-            'line_items'      => [
+            'source_type'        => 1,
+            'title'              => 'New web form request 2020/04/26',
+            'task_type'          => 3,
+            'task_status'        => 9,
+            'line_items'         => [
                 0 => [
-                    'quantity'      => 1,
-                    'product_id'    => $this->product->id,
-                    'unit_price'    => 12.99,
-                    'unit_tax'      => 0,
-                    'unit_discount' => 0,
+                    'is_amount_discount' => false,
+                    'quantity'           => 1,
+                    'product_id'         => $this->product->id,
+                    'unit_price'         => 12.99,
+                    'unit_tax'           => 0,
+                    'unit_discount'      => 0,
                 ]
             ],
-            'sub_total'     => 12.99,
-            'tax_rate'      => 17.5,
-            'total'         => 25.26,
-            'valued_at'     => 12.99,
-            'shipping_cost' => 10,
-            '_token'        => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
-            'first_name'    => 'Lee',
-            'last_name'     => 'Jones',
-            'email'         => 'lee.jones@yahoo.com',
-            'phone'         => '01425 629322'
+            'sub_total'          => 12.99,
+            'is_amount_discount' => false,
+            'tax_rate'           => 17.5,
+            'total'              => 27.01,
+            'valued_at'          => 12.99,
+            'shipping_cost'      => 10,
+            '_token'             => 'IUQkTOykrK1w98wFNjukdck6A4J0z0uERwOgGIBd',
+            'first_name'         => 'Lee',
+            'last_name'          => 'Jones',
+            'email'              => 'lee.jones@yahoo.com',
+            'phone'              => '01425 629322'
         ];
 
         $order = new Order();

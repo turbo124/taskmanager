@@ -43,6 +43,7 @@ class Payment extends Model
         'type_id',
         'amount',
         'customer_id',
+        'assigned_to',
         'status_id',
         'company_gateway_id',
         'refunded',

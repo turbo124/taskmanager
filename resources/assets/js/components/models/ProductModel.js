@@ -18,7 +18,7 @@ export default class ProductModel extends BaseModel {
             quantity: 0,
             cost: 0,
             cover: '',
-            assigned_user_id: null,
+            assigned_to: null,
             custom_value1: '',
             custom_value2: '',
             custom_value3: '',

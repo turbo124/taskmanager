@@ -21,6 +21,7 @@ export default class ExpenseModel extends BaseModel {
         this._fields = {
             modal: false,
             amount: 0,
+            assigned_to: '',
             custom_value1: '',
             custom_value2: '',
             custom_value3: '',

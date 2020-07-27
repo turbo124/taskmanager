@@ -300,7 +300,8 @@ export default class EditCredit extends Component {
 
     getFormData () {
         return {
-            is_amount_discount: true,
+            is_amount_discount: this.state.is_amount_discount,
+            assigned_to: this.state.assigned_to,
             design_id: this.state.design_id,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,

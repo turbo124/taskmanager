@@ -22,7 +22,7 @@ class Project extends Model
         'description',
         'customer_id',
         'account_id',
-        'assigned_user_id',
+        'assigned_to',
         'user_id',
         'account_id',
         'notes',

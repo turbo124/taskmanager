@@ -102,7 +102,11 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $invoice = $this->save($data, $invoice);
 
         InvoiceOrders::dispatchNow($invoice);
-        $invoice->service()->createRecurringInvoice($data);
+
+        if(!empty($data['recurring'])) {
+            $recurring = json_decode($data['recurring'], true);
+            $invoice->service()->createRecurringInvoice($recurring);
+        }
 
         event(new InvoiceWasCreated($invoice));
 

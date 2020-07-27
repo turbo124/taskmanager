@@ -22,7 +22,7 @@ class CreateProjectsTable extends Migration {
 			$table->integer('customer_id')->nullable();
 			$table->integer('account_id')->unsigned()->index();
 			$table->integer('user_id')->unsigned()->index();
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->text('notes', 65535)->nullable();
 			$table->date('due_date')->nullable();
 			$table->float('budgeted_hours', 10, 0)->nullable();

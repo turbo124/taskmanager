@@ -26,6 +26,7 @@ trait InvoiceTransformable
             'id'                  => (int)$invoice->id,
             'created_at'          => $invoice->created_at,
             'user_id'             => (int)$invoice->user_id,
+            'assigned_to'         => (int)$invoice->assigned_to,
             'company_id'          => (int)$invoice->company_id ?: null,
             'public_notes'        => $invoice->public_notes ?: '',
             'private_notes'       => $invoice->private_notes ?: '',

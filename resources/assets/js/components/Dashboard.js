@@ -23,7 +23,6 @@ import {
 } from 'reactstrap'
 import { CardModule } from './common/Card.jsx'
 import ReactEcharts from 'echarts-for-react'
-import { StatsCard } from './common/StatsCard.jsx'
 import axios from 'axios'
 import MessageContainer from './activity/MessageContainer'
 import Line from 'react-chartjs-2'
@@ -1721,6 +1720,8 @@ class Dashboard extends Component {
             )
         }) : null
 
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
         if (this.state.deals.length) {
             let count = 1
 
@@ -1765,6 +1766,7 @@ class Dashboard extends Component {
                         </NavLink>
                     </NavItem>
 
+                    {modules.invoices &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1774,7 +1776,9 @@ class Dashboard extends Component {
                             {translations.invoices}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules.quotes &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1784,7 +1788,9 @@ class Dashboard extends Component {
                             {translations.quotes}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules.payments &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1794,7 +1800,9 @@ class Dashboard extends Component {
                             {translations.payments}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules.orders &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1804,6 +1812,8 @@ class Dashboard extends Component {
                             {translations.orders}
                         </NavLink>
                     </NavItem>
+                    }
+
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>

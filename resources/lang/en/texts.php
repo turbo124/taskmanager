@@ -190,19 +190,22 @@ return [
     ],
 
     'user'        => [
+        'next'  => 'Next',
         'title' => 'User',
         'form'  => [
-            'buttons'               => [
+            'buttons'                   => [
                 'save' => 'Save'
             ],
-            'firstname_label'       => 'First Name',
-            'firstname_placeholder' => 'Enter your First Name',
-            'lastname_label'        => 'Last Name',
-            'lastname_placeholder'  => 'Enter your Last Name',
-            'email_label'           => 'Email',
-            'email_placeholder'     => 'Enter your Email Address',
-            'password_label'        => 'Password',
-            'password_placeholder'  => 'Enter your Password',
+            'firstname_label'           => 'First Name',
+            'firstname_placeholder'     => 'Enter your First Name',
+            'support_email_label'       => 'Company Email',
+            'support_email_placeholder' => 'Enter your Company Email Address',
+            'lastname_label'            => 'Last Name',
+            'lastname_placeholder'      => 'Enter your Last Name',
+            'email_label'               => 'User Email',
+            'email_placeholder'         => 'Enter your Email Address',
+            'password_label'            => 'Password',
+            'password_placeholder'      => 'Enter your Password',
         ]
     ],
 

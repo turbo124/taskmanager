@@ -12,6 +12,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
+import UserDropdown from "../common/UserDropdown";
 
 export default class DetailsForm extends React.Component {
     hasErrorFor (field) {
@@ -46,6 +47,16 @@ export default class DetailsForm extends React.Component {
                     <Datepicker className="form-control" name="date" date={this.props.expense.date}
                         handleInput={this.props.handleInput}/>
                     {this.renderErrorFor('date')}
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="postcode">{translations.assigned_user}:</Label>
+                    <UserDropdown
+                        user_id={this.props.product.assigned_to}
+                        name="assigned_to"
+                        errors={this.props.errors}
+                        handleInputChanges={this.props.handleInput}
+                    />
                 </FormGroup>
 
                 <FormGroup className="mr-2">

@@ -31,7 +31,7 @@ class AccountService extends ServiceBase
     /**
      * @return $this
      */
-    public function convertAccount(): Account
+    public function convertAccount(): ?Account
     {
         $account = (new ConvertAccount($this->account))->execute();
 

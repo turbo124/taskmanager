@@ -42,7 +42,7 @@ class BaseCalculator
             return 0;
         }
 
-        if ($rate) {
+        if (!$rate) {
             $this->line_tax_total = round($total * ($tax / 100), $this->decimals);
             return $this->line_tax_total;
         }

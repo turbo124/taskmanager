@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Generator as Faker;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -10,23 +12,28 @@ use Faker\Generator as Faker;
 | database. Just tell the factory how a default model should look.
 |
 */
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use App\Models\Project;
-$factory->define(Project::class, function (Faker $faker) {
-    $user = factory(\App\Models\User::class)->create();
-    return [
-        'account_id' => 1,
-        'assigned_user_id' => null,
-        'user_id' => $user->id,
-        'customer_id' => null,
-        'title' => $faker->text,
-        'description' => $faker->text,
-        'is_completed' => 0,
-        'customer_id' => null,
-        'notes' => null,
-        'budgeted_hours' => null,
-        'due_date' => null,
-        'deleted_at' => null,
-        'is_deleted' => 0
-    ];
-});
+
+$factory->define(
+    Project::class,
+    function (Faker $faker) {
+        $user = factory(\App\Models\User::class)->create();
+        return [
+            'account_id'     => 1,
+            'assigned_to'    => null,
+            'user_id'        => $user->id,
+            'customer_id'    => null,
+            'title'          => $faker->text,
+            'description'    => $faker->text,
+            'is_completed'   => 0,
+            'notes'          => null,
+            'budgeted_hours' => null,
+            'due_date'       => null,
+            'deleted_at'     => null,
+            'is_deleted'     => 0
+        ];
+    }
+);

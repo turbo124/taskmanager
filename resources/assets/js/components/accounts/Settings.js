@@ -294,91 +294,109 @@ class Settings extends Component {
 
     getDefaultFields () {
         const { settings } = this.state
-        const formFields = [
-            [
-                {
-                    name: 'payment_terms',
-                    label: translations.payment_terms,
-                    type: 'payment_terms',
-                    placeholder: translations.payment_terms,
-                    value: settings.payment_terms,
-                    group: 1
-                },
-                {
-                    name: 'payment_type_id',
-                    label: translations.payment_type,
-                    type: 'payment_type',
-                    placeholder: translations.payment_type,
-                    value: settings.payment_type_id,
-                    group: 1
-                },
-                {
-                    name: 'invoice_terms',
-                    label: translations.invoice_terms,
-                    type: 'textarea',
-                    placeholder: translations.invoice_terms,
-                    value: settings.invoice_terms,
-                    group: 1
-                },
-                {
-                    name: 'invoice_footer',
-                    label: translations.invoice_footer,
-                    type: 'textarea',
-                    placeholder: translations.invoice_footer,
-                    value: settings.invoice_footer,
-                    group: 1
-                },
-                {
-                    name: 'quote_terms',
-                    label: translations.quote_terms,
-                    type: 'textarea',
-                    placeholder: translations.quote_terms,
-                    value: settings.quote_terms,
-                    group: 1
-                },
-                {
-                    name: 'quote_footer',
-                    label: translations.quote_footer,
-                    type: 'textarea',
-                    placeholder: translations.quote_footer,
-                    value: settings.quote_footer,
-                    group: 1
-                },
-                {
-                    name: 'credit_terms',
-                    label: translations.credit_terms,
-                    type: 'textarea',
-                    placeholder: translations.credit_terms,
-                    value: settings.credit_terms,
-                    group: 1
-                },
-                {
-                    name: 'credit_footer',
-                    label: translations.credit_footer,
-                    type: 'textarea',
-                    placeholder: translations.credit_footer,
-                    value: settings.credit_footer,
-                    group: 1
-                },
-                {
-                    name: 'order_terms',
-                    label: translations.order_terms,
-                    type: 'textarea',
-                    placeholder: translations.order_terms,
-                    value: settings.order_terms,
-                    group: 1
-                },
-                {
-                    name: 'order_footer',
-                    label: translations.order_footer,
-                    type: 'textarea',
-                    placeholder: translations.order_footer,
-                    value: settings.order_footer,
-                    group: 1
-                }
-            ]
-        ]
 
+        const defaults = []
+
+        defaults.push({
+            name: 'payment_type_id',
+            label: translations.payment_type,
+            type: 'payment_type',
+            placeholder: translations.payment_type,
+            value: settings.payment_type_id,
+            group: 1
+        })
+        defaults.push({
+            name: 'payment_terms',
+            label: translations.payment_terms,
+            type: 'payment_terms',
+            placeholder: translations.payment_terms,
+            value: settings.payment_terms,
+            group: 1
+        })
+
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
+        if (modules.invoices) {
+            defaults.push({
+                name: 'invoice_terms',
+                label: translations.invoice_terms,
+                type: 'textarea',
+                placeholder: translations.invoice_terms,
+                value: settings.invoice_terms,
+                group: 1
+            })
+            defaults.push({
+                name: 'invoice_footer',
+                label: translations.invoice_footer,
+                type: 'textarea',
+                placeholder: translations.invoice_footer,
+                value: settings.invoice_footer,
+                group: 1
+            })
+        }
+
+        if (modules.quotes) {
+            defaults.push({
+                name: 'quote_terms',
+                label: translations.quote_terms,
+                type: 'textarea',
+                placeholder: translations.quote_terms,
+                value: settings.quote_terms,
+                group: 1
+            })
+
+            defaults.push({
+                name: 'quote_footer',
+                label: translations.quote_footer,
+                type: 'textarea',
+                placeholder: translations.quote_footer,
+                value: settings.quote_footer,
+                group: 1
+            })
+        }
+
+        if (modules.credits) {
+            defaults.push({
+                name: 'credit_terms',
+                label: translations.credit_terms,
+                type: 'textarea',
+                placeholder: translations.credit_terms,
+                value: settings.credit_terms,
+                group: 1
+            })
+
+            defaults.push({
+                name: 'credit_footer',
+                label: translations.credit_footer,
+                type: 'textarea',
+                placeholder: translations.credit_footer,
+                value: settings.credit_footer,
+                group: 1
+            })
+        }
+
+        if (modules.orders) {
+            defaults.push({
+                name: 'order_terms',
+                label: translations.order_terms,
+                type: 'textarea',
+                placeholder: translations.order_terms,
+                value: settings.order_terms,
+                group: 1
+            })
+
+            defaults.push({
+                name: 'order_footer',
+                label: translations.order_footer,
+                type: 'textarea',
+                placeholder: translations.order_footer,
+                value: settings.order_footer,
+                group: 1
+            })
+        }
+
+        const formFields = []
+        formFields.push(defaults)
         return formFields
     }
 

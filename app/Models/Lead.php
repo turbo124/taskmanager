@@ -51,7 +51,7 @@ class Lead extends Model
         'title',
         'valued_at',
         'source_type',
-        'assigned_user_id',
+        'assigned_to',
         'website',
         'industry_id',
         'private_notes',

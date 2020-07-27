@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration {
 			$table->integer('account_id')->unsigned()->index('payments_account_id_foreign');
 			$table->integer('customer_id')->unsigned()->index('payments_customer_id_foreign');
 			$table->integer('user_id')->unsigned()->nullable()->index('payments_user_id_foreign');
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->integer('company_gateway_id')->unsigned()->nullable()->index('payments_company_gateway_id_foreign');
 			$table->integer('type_id')->unsigned()->nullable()->index('payments_payment_type_id_foreign');
 			$table->integer('status_id')->unsigned();

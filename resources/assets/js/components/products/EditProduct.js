@@ -64,7 +64,7 @@ class EditProduct extends React.Component {
         }
 
         formData.append('name', this.state.name)
-        formData.append('assigned_user_id', this.state.assigned_user_id)
+        formData.append('assigned_to', this.state.assigned_to)
         formData.append('variations', JSON.stringify(this.state.variations))
         formData.append('features', JSON.stringify(this.state.features))
         formData.append('notes', this.state.notes)

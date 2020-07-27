@@ -18,7 +18,7 @@ trait ExpenseTransformable
             'id'                    => $expense->id,
             'number'                => $expense->number ?: '',
             'user_id'               => $expense->user_id,
-            'assigned_user_id'      => $expense->assigned_user_id,
+            'assigned_to'           => $expense->assigned_to,
             'company_id'            => $expense->company_id,
             'invoice_id'            => $expense->invoice_id,
             'customer_id'           => $expense->customer_id,

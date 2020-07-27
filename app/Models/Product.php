@@ -68,7 +68,7 @@ class Product extends Model
         'slug',
         'is_featured',
         'account_id',
-        'assigned_user_id',
+        'assigned_to',
         'user_id',
         'notes',
         'custom_value1',

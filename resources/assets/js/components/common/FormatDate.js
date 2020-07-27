@@ -10,7 +10,7 @@ export default class FormatDate extends Component {
         this.state = {
             invoices: [],
             date_formats: null,
-            date_format_id: null
+            date_format: ''
         }
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -19,35 +19,15 @@ export default class FormatDate extends Component {
     }
 
     componentDidMount () {
-        this.setState({ date_format_id: this.settings.date_format_id })
-
-        if (Object.prototype.hasOwnProperty.call(localStorage, 'date_formats')) {
-            this.setState({ date_formats: JSON.parse(localStorage.getItem('date_formats')) })
-        } else {
-            this.getDateFormats()
-        }
-    }
-
-    getDateFormats () {
-        axios.get('api/dates')
-            .then((r) => {
-                console.log('dates', r.data)
-                this.setState({
-                    date_formats: r.data
-                }, () => localStorage.setItem('date_formats', JSON.stringify(r.data)))
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+        this.setState({ date_format: this.settings.date_format })
     }
 
     render () {
         if (!this.props.date.length) {
             return <span />
         }
-        const date_format_object = this.state.date_formats && this.state.date_formats.length ? this.state.date_formats.filter(date_format => date_format.id === parseInt(this.state.date_format_id)) : []
-        const date_format = date_format_object.length ? date_format_object[0].moment_format : null
-        let date = date_format ? moment(this.props.date).format(date_format) : moment(this.props.date).format('DD/MMM/YYYY')
+
+        let date = this.state.date_format.length ? moment(this.props.date).format(this.state.date_format) : moment(this.props.date).format('DD/MMM/YYYY')
 
         if (this.props.with_time && this.props.with_time === true) {
             date += ` ${moment(this.props.date).format('h:mm:ss A')}`

@@ -25,6 +25,7 @@ trait OrderTransformable
             'id'                  => (int)$order->id,
             'created_at'          => $order->created_at,
             'user_id'             => (int)$order->user_id,
+            'assigned_to'         => (int)$order->assigned_to,
             'company_id'          => (int)$order->company_id ?: null,
             'public_notes'        => $order->public_notes ?: '',
             'private_notes'       => $order->private_notes ?: '',

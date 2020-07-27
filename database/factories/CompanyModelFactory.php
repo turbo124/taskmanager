@@ -14,44 +14,44 @@ use App\Models\User;
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use App\Models\Company;
 
-$factory->define(Company::class, function (Faker\Generator $faker) {
-    $user = factory(User::class)->create();
+$factory->define(
+    Company::class,
+    function (Faker\Generator $faker) {
+        $user = factory(User::class)->create();
 
 
-    return [
-        'user_id' => $user->id,
-        'account_id' => 1,
-        'settings' => null,
-        'private_notes' => null,
-        'is_deleted' => false,
-        'assigned_user_id' => null,
-        'industry_id' => 1,
-        'currency_id' => 1,
-        'country_id' => 225,
-        'custom_value1' => $faker->text(20),
-        'custom_value2' => $faker->text(20),
-        'custom_value3' => $faker->text(20),
-        'custom_value4' => $faker->text(20),
-        'name' => $faker->company,
-        'website' => $faker->url,
-        'phone_number' => $faker->phoneNumber,
-        'email' => $faker->email,
-        'address_1' => $faker->streetName,
-        'address_2' => $faker->streetAddress,
-        'town' => $faker->word,
-        'city' => $faker->city,
-        'postcode' => $faker->postcode,
-        'custom_value1' => null,
-        'custom_value2' => null,
-        'custom_value3' => null,
-        'custom_value4' => null,
-        'deleted_at' => null,
-        'vat_number' => null,
-        'transaction_name' => null,
-        'balance' => null,
-        'paid_to_date' => null,
-        'id_number' => null
-    ];
-});
+        return [
+            'user_id'          => $user->id,
+            'account_id'       => 1,
+            'settings'         => null,
+            'private_notes'    => null,
+            'is_deleted'       => false,
+            'assigned_to'      => null,
+            'industry_id'      => 1,
+            'currency_id'      => 1,
+            'country_id'       => 225,
+            'custom_value1'    => $faker->text(20),
+            'custom_value2'    => $faker->text(20),
+            'custom_value3'    => $faker->text(20),
+            'custom_value4'    => $faker->text(20),
+            'name'             => $faker->company,
+            'website'          => $faker->url,
+            'phone_number'     => $faker->phoneNumber,
+            'email'            => $faker->email,
+            'address_1'        => $faker->streetName,
+            'address_2'        => $faker->streetAddress,
+            'town'             => $faker->word,
+            'city'             => $faker->city,
+            'postcode'         => $faker->postcode,
+            'deleted_at'       => null,
+            'vat_number'       => null,
+            'transaction_name' => null,
+            'balance'          => null,
+            'paid_to_date'     => null,
+            'number'           => null
+        ];
+    }
+);

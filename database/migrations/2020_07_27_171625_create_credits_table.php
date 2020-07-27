@@ -17,7 +17,7 @@ class CreateCreditsTable extends Migration {
 			$table->increments('id');
 			$table->integer('customer_id')->unsigned()->index();
 			$table->integer('user_id')->unsigned()->index('credits_user_id_foreign');
-			$table->integer('assigned_user_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned()->nullable();
 			$table->integer('account_id')->unsigned()->index();
 			$table->integer('status_id')->unsigned();
 			$table->string('number')->nullable();

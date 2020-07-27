@@ -10,6 +10,7 @@ use App\Repositories\AccountRepository;
 use App\Models\Account;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ConvertLead
@@ -79,8 +80,8 @@ class ConvertAccount
 
             return $this->account;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             echo $e->getMessage();
-            die('here');
             DB::rollback();
             return null;
         }

@@ -58,7 +58,7 @@ export default class Leads extends Component {
                 'private_notes',
                 'public_notes',
                 'user_id',
-                'assigned_user_id',
+                'assigned_to',
                 'task_status',
                 'id'
             ],

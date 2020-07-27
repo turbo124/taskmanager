@@ -21,15 +21,9 @@ class Domain extends Model
      * @var array
      */
     protected $fillable = [
-
-    ];
-    /**
-     * @var array
-     */
-    protected $dates = [
-        'deleted_at',
-        'promo_expires',
-        'discount_expires',
+        'user_id',
+        'customer_id',
+        'default_account_id'
     ];
 
     /**

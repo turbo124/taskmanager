@@ -57,7 +57,7 @@ class Expense extends Model
 
     public function assigned_user()
     {
-        return $this->belongsTo(Models\User::class, 'assigned_user_id', 'id');
+        return $this->belongsTo(Models\User::class, 'assigned_to', 'id');
     }
 
     public function account()
