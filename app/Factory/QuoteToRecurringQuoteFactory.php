@@ -44,11 +44,13 @@ class QuoteToRecurringQuoteFactory
         $recurring_invoice->balance = $quote->balance;
         $recurring_invoice->user_id = $quote->user_id;
         $recurring_invoice->account_id = $quote->account_id;
+        $recurring_invoice->transaction_fee = $quote->transaction_fee;
+        $recurring_invoice->shipping_cost = $quote->shipping_cost;
+        $recurring_invoice->transaction_fee_tax = $quote->transaction_fee_tax;
+        $recurring_invoice->shipping_cost_tax = $quote->shipping_cost_tax;
+        $recurring_invoice->gateway_fee = $quote->gateway_fee;
+        $recurring_invoice->gateway_percentage = $quote->gateway_percentage;
         $recurring_invoice->frequency = 30;
-        $recurring_invoice->start_date = null;
-        $recurring_invoice->last_sent_date = null;
-        $recurring_invoice->next_send_date = null;
-        $recurring_invoice->remaining_cycles = 0;
         return $recurring_invoice;
     }
 }

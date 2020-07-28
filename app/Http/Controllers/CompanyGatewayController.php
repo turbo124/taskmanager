@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CompanyGatewayFactory;
+use App\Filters\CompanyGatewayFilter;
 use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
 use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\Models\CompanyGateway;
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyGatewayRepository;
+use App\Requests\SearchRequest;
 use App\Settings\GatewaySettings;
 use App\Transformations\CompanyGatewayTransformable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -35,17 +37,15 @@ class CompanyGatewayController extends Controller
         $this->company_gateway_repo = $company_gateway_repo;
     }
 
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $company_gateways =
-            CompanyGateway::whereAccountId(auth()->user()->account_user()->account_id)->get()->keyBy('gateway_key');
-        $company_gateways = $company_gateways->map(
-            function (CompanyGateway $company_gateway) {
-                return $this->transformCompanyGateway($company_gateway);
-            }
-        )->all();
+        $invoices =
+            (new CompanyGatewayFilter($this->company_gateway_repo))->filter(
+                $request,
+                auth()->user()->account_user()->account
+            );
 
-        return response()->json($company_gateways);
+        return response()->json($invoices);
     }
 
     public function store(StoreCompanyGatewayRequest $request)

@@ -36,11 +36,13 @@ class InvoiceToRecurringInvoiceFactory
         $recurring_invoice->balance = $invoice->balance;
         $recurring_invoice->user_id = $invoice->user_id;
         $recurring_invoice->account_id = $invoice->account_id;
+        $recurring_invoice->transaction_fee = $invoice->transaction_fee;
+        $recurring_invoice->shipping_cost = $invoice->shipping_cost;
+        $recurring_invoice->transaction_fee_tax = $invoice->transaction_fee_tax;
+        $recurring_invoice->shipping_cost_tax = $invoice->shipping_cost_tax;
+        $recurring_invoice->gateway_fee = $invoice->gateway_fee;
+        $recurring_invoice->gateway_percentage = $invoice->gateway_percentage;
         $recurring_invoice->frequency = 30;
-        $recurring_invoice->start_date = null;
-        $recurring_invoice->last_sent_date = null;
-        $recurring_invoice->next_send_date = null;
-        $recurring_invoice->remaining_cycles = 0;
         return $recurring_invoice;
     }
 }

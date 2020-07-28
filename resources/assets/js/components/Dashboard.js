@@ -1334,37 +1334,37 @@ class Dashboard extends Component {
         const charts = []
         const modules = JSON.parse(localStorage.getItem('modules'))
 
-        if (modules.invoices) {
+        if (modules && modules.invoices) {
             const invoiceChartData = this.getInvoiceChartData(start, end, dates)
             charts.push(invoiceChartData)
         }
 
-        if (modules.orders) {
+        if (modules && modules.orders) {
             const orderChartData = this.getOrderChartData(start, end, dates)
             charts.push(orderChartData)
         }
 
-        if (modules.payments) {
+        if (modules && modules.payments) {
             const paymentChartData = this.getPaymentChartData(start, end, dates)
             charts.push(paymentChartData)
         }
 
-        if (modules.quotes) {
+        if (modules && modules.quotes) {
             const quoteChartData = this.getQuoteChartData(start, end, dates)
             charts.push(quoteChartData)
         }
 
-        if (modules.credits) {
+        if (modules && modules.credits) {
             const creditChartData = this.getCreditChartData(start, end, dates)
             charts.push(creditChartData)
         }
 
-        if (modules.tasks) {
+        if (modules && modules.tasks) {
             const taskChartData = this.getTaskChartData(start, end, dates)
             charts.push(taskChartData)
         }
 
-        if (modules.expenses) {
+        if (modules && modules.expenses) {
             const expenseChartData = this.getExpenseChartData(start, end, dates)
             charts.push(expenseChartData)
         }
@@ -1766,7 +1766,7 @@ class Dashboard extends Component {
                         </NavLink>
                     </NavItem>
 
-                    {modules.invoices &&
+                    {modules && modules.invoices &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1778,7 +1778,7 @@ class Dashboard extends Component {
                     </NavItem>
                     }
 
-                    {modules.quotes &&
+                    {modules && modules.quotes &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1790,7 +1790,7 @@ class Dashboard extends Component {
                     </NavItem>
                     }
 
-                    {modules.payments &&
+                    {modules && modules.payments &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
@@ -1802,7 +1802,7 @@ class Dashboard extends Component {
                     </NavItem>
                     }
 
-                    {modules.orders &&
+                    {modules && modules.orders &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}

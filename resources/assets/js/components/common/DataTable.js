@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Table, Spinner, UncontrolledTooltip, Collapse } from 'reactstrap'
+import { Table, Spinner, UncontrolledTooltip, Collapse, Progress } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
 import DisplayColumns from './DisplayColumns'
 import BulkActionDropdown from './BulkActionDropdown'
 import { icons } from './_icons'
+import { translations } from './_translations'
 
 export default class DataTable extends Component {
     constructor (props) {
@@ -37,7 +38,8 @@ export default class DataTable extends Component {
             data: [],
             columns: [],
             offset: 4,
-            order: 'asc'
+            order: 'asc',
+            progress: 0
         }
         this.cancel = ''
         this.fetchEntities = this.fetchEntities.bind(this)
@@ -178,6 +180,9 @@ export default class DataTable extends Component {
         axios.get(fetchUrl, {})
             .then(response => {
                 let data = response.data.data && Object.keys(response.data.data).length ? response.data.data : []
+
+                console.log('data', response.data)
+
                 const columns = (this.props.columns && this.props.columns.length) ? (this.props.columns) : ((Object.keys(data).length) ? (Object.keys(data[0])) : null)
 
                 if (this.props.order) {
@@ -264,19 +269,19 @@ export default class DataTable extends Component {
                 {loader}
 
                 <UncontrolledTooltip placement="top" target="refresh">
-                    Refresh
+                    {translations.refresh}
                 </UncontrolledTooltip>
 
                 <UncontrolledTooltip placement="top" target="toggle-checkbox">
-                    Toggle Checkbox
+                    {translations.toggle_checkbox}
                 </UncontrolledTooltip>
 
                 <UncontrolledTooltip placement="top" target="toggle-table">
-                    Toggle Table
+                    {translations.toggle_table}
                 </UncontrolledTooltip>
 
                 <UncontrolledTooltip placement="top" target="toggle-columns">
-                    Toggle Columns
+                    {translations.toggle_columns}
                 </UncontrolledTooltip>
 
                 <Collapse className="pull-left col-8" isOpen={this.state.showColumns}>

@@ -11,7 +11,8 @@ export default class AccountList extends Component {
             errors: [],
             showSuccessMessage: false,
             showErrorMessage: false,
-            message: ''
+            message: '',
+            account_id: Object.prototype.hasOwnProperty.call(localStorage, 'account_id') ? localStorage.getItem('account_id') : ''
         }
 
         this.toggle = this.toggle.bind(this)
@@ -45,16 +46,19 @@ export default class AccountList extends Component {
     }
 
     render () {
-        const accounts = JSON.parse(localStorage.appState).accounts
+        let accounts = false
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'appState')) {
+            accounts = JSON.parse(localStorage.appState).accounts
+        }
 
-        const columnList = accounts.map(account => {
+        const columnList = accounts !== false ? accounts.map(account => {
             return <option key={account.account.id} value={account.account.id}>{account.account.settings.name}</option>
-        })
+        }) : null
 
         return (
             <React.Fragment>
                 <FormGroup style={{ width: '90%' }} className="mt-1 ml-2">
-                    <Input value={localStorage.getItem('account_id')} type="select" onChange={this.handleChange} name="account_id" id="account_id">
+                    <Input value={this.state.account_id} type="select" onChange={this.handleChange} name="account_id" id="account_id">
                         {columnList}
                         <option value="add">Add Account</option>
                     </Input>

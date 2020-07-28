@@ -27,7 +27,7 @@ class GatewaySettings extends BaseSettings
         try {
             $settings = $this->validate($settings, $this->settings);
 
-            $company_gateway->fees_and_limits = $settings;
+            $company_gateway->fees_and_limits = [$settings];
             $company_gateway->save();
 
             if (!$settings) {

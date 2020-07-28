@@ -1,0 +1,103 @@
+import React, { Component } from 'react'
+import AddGateway from './AddGateway'
+import { CardBody, Card } from 'reactstrap'
+import DataTable from '../common/DataTable'
+import GatewayFilters from './GatewayFilters'
+import GatewayItem from './GatewayItem'
+
+export default class Gateways extends Component {
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            dropdownButtonActions: ['download'],
+            gateways: [],
+            cachedData: [],
+            view: {
+                ignore: [],
+                viewMode: false,
+                viewedId: null,
+                title: null
+            },
+            errors: [],
+            ignoredColumns: ['id', 'config', 'fees_and_limits', 'account_id', 'user_id', 'updated_at', 'status', 'deleted_at', 'created_at', 'show_billing_address', 'show_shipping_address', 'require_cvv', 'accepted_credit_cards', 'update_details'],
+            filters: {
+                searchText: '',
+                status: 'active',
+                start_date: '',
+                end_date: ''
+            }
+        }
+
+        this.addUserToState = this.addUserToState.bind(this)
+        this.userList = this.userList.bind(this)
+        this.filterGateways = this.filterGateways.bind(this)
+    }
+
+    addUserToState (gateways) {
+        console.log('gateways', gateways)
+        const cachedData = !this.state.cachedData.length ? gateways : this.state.cachedData
+        this.setState({
+            gateways: gateways,
+            cachedData: cachedData
+        })
+    }
+
+    filterGateways (filters) {
+        this.setState({ filters: filters })
+    }
+
+    resetFilters () {
+        this.props.reset()
+    }
+
+    userList (props) {
+        const { gateways } = this.state
+
+        return <GatewayItem showCheckboxes={props.showCheckboxes} gateways={gateways}
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+            toggleViewedEntity={props.toggleViewedEntity}
+            onChangeBulk={props.onChangeBulk}/>
+    }
+
+    render () {
+        const { searchText, status, start_date, end_date } = this.state.filters
+        const { view, gateways } = this.state
+        const fetchUrl = `/api/company_gateways?search_term=${searchText} `
+
+        return (
+            <div className="data-table">
+                <Card>
+                    <CardBody>
+                        <GatewayFilters gateways={gateways}
+                            updateIgnoredColumns={this.updateIgnoredColumns}
+                            filters={this.state.filters} filter={this.filterGateways}
+                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+
+                        <AddGateway
+                            gateways={gateways}
+                            action={this.addUserToState}
+                        />
+                    </CardBody>
+                </Card>
+
+                <Card>
+                    <CardBody>
+                        <DataTable
+                            columnMapping={{ customer_id: 'CUSTOMER' }}
+                            dropdownButtonActions={this.state.dropdownButtonActions}
+                            entity_type="Gateway"
+                            bulk_save_url="/api/gateways/bulk"
+                            view={view}
+                            ignore={this.state.ignoredColumns}
+                            userList={this.userList}
+                            fetchUrl={fetchUrl}
+                            updateState={this.addUserToState}
+                        />
+                    </CardBody>
+                </Card>
+            </div>
+        )
+    }
+}

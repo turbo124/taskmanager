@@ -19,8 +19,8 @@ class GatewayTransformable
             'name'       => $gateway->name ?: '',
             'key'        => $gateway->key ?: '',
             'provider'   => $gateway->provider ?: '',
-            'updated_at' => (int)$gateway->updated_at,
-            'created_at' => (int)$gateway->created_at,
+            'updated_at' => $gateway->updated_at,
+            'created_at' => $gateway->created_at,
         ];
     }
 }

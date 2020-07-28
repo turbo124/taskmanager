@@ -1,9 +1,14 @@
 import { getSettingsIcon, icons } from './common/_icons'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
-const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
-const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
-const is_admin = user_account && user_account.length && (parseInt(user_account[0].is_owner) === 1 || parseInt(user_account[0].is_admin) === 1)
+
+let is_admin = false
+
+if (Object.prototype.hasOwnProperty.call(localStorage, 'appState')) {
+    const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+    const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+    is_admin = user_account && user_account.length && (parseInt(user_account[0].is_owner) === 1 || parseInt(user_account[0].is_admin) === 1)
+}
 
 const items = [
     {
@@ -127,7 +132,7 @@ const financial = {
     ]
 }
 
-if (modules.invoices) {
+if (modules && modules.invoices) {
     financial.children.push(
         {
             name: 'Invoices',
@@ -137,7 +142,7 @@ if (modules.invoices) {
     )
 }
 
-if (modules.orders) {
+if (modules && modules.orders) {
     financial.children.push(
         {
             name: 'Orders',
@@ -147,7 +152,7 @@ if (modules.orders) {
     )
 }
 
-if (modules.quotes) {
+if (modules && modules.quotes) {
     financial.children.push(
         {
             name: 'Quotes',
@@ -157,7 +162,7 @@ if (modules.quotes) {
     )
 }
 
-if (modules.recurringInvoices) {
+if (modules && modules.recurringInvoices) {
     financial.children.push(
         {
             name: 'Recurring Invoices',
@@ -167,7 +172,7 @@ if (modules.recurringInvoices) {
     )
 }
 
-if (modules.recurringQuotes) {
+if (modules && modules.recurringQuotes) {
     financial.children.push(
         {
             name: 'Recurring Quotes',
@@ -177,7 +182,7 @@ if (modules.recurringQuotes) {
     )
 }
 
-if (modules.payments) {
+if (modules && modules.payments) {
     financial.children.push(
         {
             name: 'Payments',
@@ -187,7 +192,7 @@ if (modules.payments) {
     )
 }
 
-if (modules.expenses) {
+if (modules && modules.expenses) {
     financial.children.push(
         {
             name: 'Expenses',
@@ -206,7 +211,7 @@ const tasks = {
     ]
 }
 
-if (modules.leads) {
+if (modules && modules.leads) {
     tasks.children.push({
         name: 'Leads',
         url: '/leads',
@@ -214,7 +219,7 @@ if (modules.leads) {
     })
 }
 
-if (modules.cases) {
+if (modules && modules.cases) {
     tasks.children.push({
         name: 'Cases',
         url: '/cases',
@@ -222,7 +227,7 @@ if (modules.cases) {
     })
 }
 
-if (modules.projects) {
+if (modules && modules.projects) {
     tasks.children.push({
         name: 'Projects',
         url: 'projects',
@@ -230,7 +235,7 @@ if (modules.projects) {
     })
 }
 
-if (modules.tasks) {
+if (modules && modules.tasks) {
     tasks.children.push({
         name: 'Tasks',
         url: 'tasks',
@@ -246,7 +251,7 @@ if (modules.tasks) {
     )
 }
 
-if (modules.deals) {
+if (modules && modules.deals) {
     tasks.children.push(
         {
             name: 'Deals',
@@ -292,7 +297,7 @@ if (is_admin) {
     items.push(users)
 }
 
-if (modules.companies) {
+if (modules && modules.companies) {
     items.push(
         {
             name: 'Companies',
@@ -329,11 +334,11 @@ const products = {
     ]
 }
 
-if (modules.products) {
+if (modules && modules.products) {
     items.push(products)
 }
 
-if (modules.events) {
+if (modules && modules.events) {
     items.push({
         name: 'Calendar',
         url: '/calendar',

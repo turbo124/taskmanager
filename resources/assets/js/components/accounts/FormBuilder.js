@@ -43,11 +43,14 @@ class FormBuilder extends React.Component {
     }
 
     buildSwitch (field) {
-        return field.icon ? (
-            <a href="#" className="col-md-8 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+        const class_name = field.class_name ? field.class_name : 'col-md-8'
+        return (
+            <a href="#" className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">
+                        {field.icon &&
                         <i style={{ fontSize: '24px', marginRight: '20px' }} className={field.icon} />
+                        }
                         {field.label}
                     </h5>
                     <CustomInput
@@ -58,20 +61,12 @@ class FormBuilder extends React.Component {
                         label=""
                         onChange={this.props.handleChange.bind(this)}/>
                 </div>
-                <small id="passwordHelpBlock" class="form-text text-muted">
-                    help text
-                </small>
+                {field.help_text &&
+                <h6 id="passwordHelpBlock" className="form-text text-muted">
+                    {field.help_text}
+                </h6>
+                }
             </a>
-        ) : (
-            <FormGroup>
-                <CustomInput
-                    checked={field.value}
-                    type="switch"
-                    id={field.name}
-                    name={field.name}
-                    label={field.label}
-                    onChange={this.props.handleChange.bind(this)}/>
-            </FormGroup>
         )
     }
 

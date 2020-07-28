@@ -18,9 +18,9 @@ class GatewayFactory
         $company_gateway = $this->getCompanyGateway($customer_gateway->company_gateway_id);
 
         switch ($company_gateway->gateway_key) {
-            case 'd14dd26a37cecc30fdd65700bfb55b23':
+            case '13bb8d58':
                 return new Stripe($customer, $customer_gateway, $company_gateway);
-            case '3b6621f970ab18887c4f6dca78d3f8bb':
+            case '8ab2dce2':
                 return new Authorize($customer, $customer_gateway, $company_gateway);
         }
     }
