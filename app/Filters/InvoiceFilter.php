@@ -44,7 +44,7 @@ class InvoiceFilter extends QueryFilter
             $this->query = $this->searchFilter($request->search_term);
         }
 
-        if ($request->has('status')) {
+        if ($request->filled('status')) {
             $this->status('invoices', $request->status);
         }
 
@@ -64,6 +64,7 @@ class InvoiceFilter extends QueryFilter
 
         if ($recordsPerPage > 0) {
             $paginatedResults = $this->invoiceRepository->paginateArrayResults($invoices, $recordsPerPage);
+
             return $paginatedResults;
         }
 

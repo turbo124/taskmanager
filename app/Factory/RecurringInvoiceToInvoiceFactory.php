@@ -42,6 +42,12 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->is_deleted = false;
         $invoice->line_items = $recurring_invoice->line_items;
         $invoice->recurring_invoice_id = $recurring_invoice->id;
+        $invoice->transaction_fee = $recurring_invoice->transaction_fee;
+        $invoice->shipping_cost = $recurring_invoice->shipping_cost;
+        $invoice->transaction_fee_tax = $recurring_invoice->transaction_fee_tax;
+        $invoice->shipping_cost_tax = $recurring_invoice->shipping_cost_tax;
+        $invoice->gateway_fee = $recurring_invoice->gateway_fee;
+        $invoice->gateway_percentage = $recurring_invoice->gateway_percentage;
 
         return $invoice;
     }

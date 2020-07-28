@@ -22,6 +22,11 @@ class CompanyGatewayRepository extends BaseRepository
         $this->model = $company_gateway;
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     /**
      * @param int $id
      * @return CompanyGateway

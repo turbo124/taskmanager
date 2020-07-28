@@ -78,6 +78,7 @@ class InvoiceController extends BaseController
     {
         $invoices =
             (new InvoiceFilter($this->invoice_repo))->filter($request, auth()->user()->account_user()->account);
+
         return response()->json($invoices);
     }
 

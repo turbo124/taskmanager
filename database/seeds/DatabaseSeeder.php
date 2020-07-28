@@ -12,10 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
+        //$this->call(GatewaySeeder::class);
         //$this->call(RoleTableSeeder::class);
         //(new Permissions())->create();
-        $this->call(CurrenciesTableSeeder::class);
+        //$this->call(CurrenciesTableSeeder::class);
 //        $this->call(LanguagesSeeder::class);
 //        $this->call(IndustryTableSeeder::class);
 //        $this->call(CountriesTableSeeder::class);

@@ -44,6 +44,12 @@ class RecurringQuoteToQuoteFactory
         $quote->is_deleted = false;
         $quote->line_items = $recurring_quote->line_items;
         $quote->recurring_quote_id = $recurring_quote->id;
+        $quote->transaction_fee = $recurring_quote->transaction_fee;
+        $quote->shipping_cost = $recurring_quote->shipping_cost;
+        $quote->transaction_fee_tax = $recurring_quote->transaction_fee_tax;
+        $quote->shipping_cost_tax = $recurring_quote->shipping_cost_tax;
+        $quote->gateway_fee = $recurring_quote->gateway_fee;
+        $quote->gateway_percentage = $recurring_quote->gateway_percentage;
 
         return $quote;
     }

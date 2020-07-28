@@ -47,3 +47,13 @@
   border-radius: 50px;
   text-align: center;
 }
+
+.nav-tabs {
+  .nav-item {
+    .active.nav-link {
+      border-bottom: 2px solid #005dc1 !important;
+    }
+  }
+}
+
+
