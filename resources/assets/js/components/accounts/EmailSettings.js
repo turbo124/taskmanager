@@ -178,8 +178,14 @@ class EmailSettings extends Component {
 
     render () {
         return this.state.loaded === true ? (
-            <div className="mt-3 mb-3">
+            <React.Fragment>
                 <ToastContainer/>
+                <Card className="mt-3">
+                    <CardBody>
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
+
                 <Card>
                     <CardBody>
                         <FormBuilder
@@ -207,9 +213,7 @@ class EmailSettings extends Component {
                         </FormGroup>
                     </CardBody>
                 </Card>
-
-                <Button color="primary" onClick={this.handleSubmit}>Save</Button>
-            </div>
+            </React.Fragment>
         ) : null
     }
 }

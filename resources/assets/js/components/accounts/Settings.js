@@ -445,118 +445,125 @@ class Settings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav tabs className="setting-tabs">
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('1')
+                                    }}>
+                                    {translations.details}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('2')
+                                    }}>
+                                    {translations.address}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('3')
+                                    }}>
+                                    {translations.logo}
+                                </NavLink>
+                            </NavItem>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            {translations.details}
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            {translations.address}
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('3')
-                            }}>
-                            {translations.logo}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('4')
+                                    }}>
+                                    {translations.defaults}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('4')
-                            }}>
-                            {translations.defaults}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{translations.details}</CardHeader>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getFormFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.address}</CardHeader>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getAddressFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardHeader>{translations.logo}</CardHeader>
-                            <CardBody>
-                                <FormGroup>
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
-                                    <Label>{translations.logo}</Label>
-                                    <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
-                                        type="file"
-                                        id="company_logo" name="company_logo"
-                                        label="Logo"/>
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                <div className="scrollable-settings">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardHeader>{translations.details}</CardHeader>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getFormFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardHeader>{translations.address}</CardHeader>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getAddressFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardHeader>{translations.logo}</CardHeader>
+                                <CardBody>
+                                    <FormGroup>
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentTermFields()}
-                                />
+                                        <Label>{translations.logo}</Label>
+                                        <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                            type="file"
+                                            id="company_logo" name="company_logo"
+                                            label="Logo"/>
+                                    </FormGroup>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                                <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
-                                    button_link="/#/payment_terms"/>
-                            </CardBody>
-                        </Card>
+                        <TabPane tabId="4">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentTermFields()}
+                                    />
 
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentEmailFields()}
-                                />
-                            </CardBody>
-                        </Card>
+                                    <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
+                                        button_link="/#/payment_terms"/>
+                                </CardBody>
+                            </Card>
 
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDefaultFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    <Button color="primary" onClick={this.handleSubmit}>Save</Button>
-                </TabContent>
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentEmailFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getDefaultFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
 
             </React.Fragment>
         ) : null

@@ -3,6 +3,7 @@ import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'rea
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import moment from 'moment'
+import { translations } from "../common/_translations";
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
@@ -111,19 +112,24 @@ export default class LocalisationSettings extends Component {
         return date_formats && date_formats.length ? (
             <React.Fragment>
                 <ToastContainer/>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
                 <Card>
-                    <CardHeader>Settings</CardHeader>
+                    <CardHeader>{translations.settings}</CardHeader>
                     <CardBody>
                         <FormGroup>
                             <Label>Date Format</Label>
-                            <Input type="select" name="date_format_id" onChange={this.handleSettingsChange} >
+                            <Input type="select" name="date_format" onChange={this.handleSettingsChange} >
                                 {date_format_list}
                             </Input>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>First Day of the Week</Label>
-                            <Input type="select" name="first_day_of_week" onChange={this.handleChange} >
+                            <Input type="select" name="first_day_of_week" onChange={this.handleSettingsChange} >
                                 <option value=""/>
                                 {day_list}
                             </Input>
@@ -131,13 +137,11 @@ export default class LocalisationSettings extends Component {
 
                         <FormGroup>
                             <Label>First Month of the Year</Label>
-                            <Input type="select" name="first_month_of_year" onChange={this.handleChange} >
+                            <Input type="select" name="first_month_of_year" onChange={this.handleSettingsChange} >
                                 <option value=""/>
                                 {month_list}
                             </Input>
                         </FormGroup>
-
-                        <Button color="primary" onClick={this.handleSubmit}>Save</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>
