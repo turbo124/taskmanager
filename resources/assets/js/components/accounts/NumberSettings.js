@@ -3,6 +3,7 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabPane, TabContent } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import { translations } from '../common/_translations'
 
 class NumberSettings extends Component {
     constructor (props) {
@@ -305,67 +306,73 @@ class NumberSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            Settings
-                        </NavLink>
-                    </NavItem>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav tabs className="setting-tabs">
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('1')
+                                    }}>
+                                    {translations.settings}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            Invoices
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('2')
+                                    }}>
+                                    {translations.invoices}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('3')
-                            }}>
-                            Quotes
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('3')
+                                    }}>
+                                    {translations.quotes}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('4')
-                            }}>
-                            Payments
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('4')
+                                    }}>
+                                    {translations.payments}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('5')
-                            }}>
-                            Credits
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('5')
+                                    }}>
+                                    {translations.credits}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('6')
-                            }}>
-                            Orders
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '6' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('6')
+                                    }}>
+                                    {translations.orders}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -382,7 +389,7 @@ class NumberSettings extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Invoice Settings</CardHeader>
+                            <CardHeader>{translations.invoices}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -394,7 +401,7 @@ class NumberSettings extends Component {
 
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>Quote Settings</CardHeader>
+                            <CardHeader>{translations.quotes}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -406,7 +413,7 @@ class NumberSettings extends Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>Payment Settings</CardHeader>
+                            <CardHeader>{translations.payments}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -418,7 +425,7 @@ class NumberSettings extends Component {
 
                     <TabPane tabId="5">
                         <Card>
-                            <CardHeader>Credit Settings</CardHeader>
+                            <CardHeader>{translations.credits}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -430,7 +437,7 @@ class NumberSettings extends Component {
 
                     <TabPane tabId="6">
                         <Card>
-                            <CardHeader>Order Settings</CardHeader>
+                            <CardHeader>{translations.orders}</CardHeader>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -439,7 +446,6 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
-                    <Button color="primary" onClick={this.handleSubmit}>Save</Button>
                 </TabContent>
             </React.Fragment>
         ) : null

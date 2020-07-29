@@ -210,27 +210,31 @@ class ModuleSettings extends Component {
     render () {
         return (
             <React.Fragment>
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('1')
-                            }}>
-                            {translations.overview}
-                        </NavLink>
-                    </NavItem>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav tabs className="setting-tabs">
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('1')
+                                    }}>
+                                    {translations.overview}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('2')
-                            }}>
-                            {translations.enable_modules}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('2')
+                                    }}>
+                                    {translations.enable_modules}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                    </CardBody>
+                </Card>
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">

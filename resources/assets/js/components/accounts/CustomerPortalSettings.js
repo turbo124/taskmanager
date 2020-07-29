@@ -156,27 +156,33 @@ export default class CustomerPortalSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            {translations.settings}
-                        </NavLink>
-                    </NavItem>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav tabs className="setting-tabs">
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('1')
+                                    }}>
+                                    {translations.settings}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            {translations.security}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('2')
+                                    }}>
+                                    {translations.security}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -202,7 +208,6 @@ export default class CustomerPortalSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
-                    <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                 </TabContent>
             </React.Fragment>
         ) : null

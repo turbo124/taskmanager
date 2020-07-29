@@ -192,6 +192,12 @@ class ProductSettings extends Component {
         return this.state.loaded === true ? (
             <div className="mt-3 mb-3">
                 <ToastContainer/>
+
+                <Card className="mt-3">
+                    <CardBody>
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
                 <Card>
                     <CardBody>
                         <FormBuilder
@@ -211,8 +217,6 @@ class ProductSettings extends Component {
                         />
                     </CardBody>
                 </Card>
-
-                <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
             </div>
         ) : null
     }

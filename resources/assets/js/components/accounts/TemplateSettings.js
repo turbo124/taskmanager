@@ -12,6 +12,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import EmailFields from './EmailFields'
 import EmailPreview from './EmailPreview'
+import { translations } from '../common/_translations'
 
 class TemplateSettings extends Component {
     constructor (props) {
@@ -178,26 +179,32 @@ class TemplateSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            Edit
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            Preview
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav tabs className="setting-tabs">
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('1')
+                                    }}>
+                                    {translations.edit}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('2')
+                                    }}>
+                                    {translations.preview}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -207,7 +214,6 @@ class TemplateSettings extends Component {
                             <CardBody>
                                 <Form>
                                     {fields}
-                                    <Button color="primary" onClick={this.handleSubmit}>Save</Button>
                                 </Form>
                             </CardBody>
                         </Card>
@@ -215,7 +221,7 @@ class TemplateSettings extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Preview</CardHeader>
+                            <CardHeader>{translations.preview}</CardHeader>
                             <CardBody>
                                 {spinner}
                                 {preview}

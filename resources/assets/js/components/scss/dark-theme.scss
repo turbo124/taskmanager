@@ -2541,3 +2541,36 @@ textarea.form-control {
 input:focus, select:focus {
   border: 1px solid $color_curious_blue_approx;
 }
+
+.setting-tabs {
+  border-bottom: none !important;
+}
+
+.setting-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  //color: #0062cc;
+  background-color: transparent;
+  border-color: transparent transparent #f3f3f3;
+  border-bottom: 3px solid !important;
+  font-size: 16px;
+  font-weight: bold;
+}
+.setting-tabs .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  color: #0062cc;
+  font-size: 16px;
+  font-weight: 600;
+}
+.setting-tabs .nav-link:hover {
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .scrollable-settings {
+    overflow-y: auto;
+    height: 465px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}

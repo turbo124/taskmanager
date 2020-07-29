@@ -505,13 +505,18 @@ class CustomFieldSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Nav tabs>
-                    {tabItems}
-                </Nav>
+                <Card className="mt-3">
+                    <CardBody>
+                        <Nav tabs className="setting-tabs">
+                            {tabItems}
+                        </Nav>
+
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
                 <TabContent activeTab={this.state.activeTab}>
                     {tabContent}
-                    <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                 </TabContent>
             </React.Fragment>
         )

@@ -98,6 +98,11 @@ class IntegrationSettings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
+                <Card className="mt-3">
+                    <CardBody>
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
                 <Card>
                     <CardHeader>{translations.settings}</CardHeader>
                     <CardBody>
@@ -105,8 +110,6 @@ class IntegrationSettings extends Component {
                             handleChange={this.handleSettingsChange}
                             formFieldsRows={this.getFields()}
                         />
-
-                        <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>

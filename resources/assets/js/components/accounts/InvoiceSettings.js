@@ -202,98 +202,103 @@ class InvoiceSettings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
+                <Card className="mt-3">
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <Nav className="setting-tabs" tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('1')
+                                    }}>
+                                    {translations.settings}
+                                </NavLink>
+                            </NavItem>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            {translations.settings}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('2')
+                                    }}>
+                                    {translations.invoice_settings}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            {translations.invoice_settings}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('3')
+                                    }}>
+                                    {translations.customer}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('3')
-                            }}>
-                            {translations.customer}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('4')
+                                    }}>
+                                    {translations.account}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('4')
-                            }}>
-                            {translations.account}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('5')
+                                    }}>
+                                    {translations.invoice}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('5')
-                            }}>
-                            {translations.invoice}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '6' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('6')
+                                    }}>
+                                    {translations.quote}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('6')
-                            }}>
-                            {translations.quote}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '7' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('7')
+                                    }}>
+                                    {translations.credit}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '7' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('7')
-                            }}>
-                            {translations.credit}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '8' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('8')
+                                    }}>
+                                    {translations.product}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '8' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('8')
-                            }}>
-                            {translations.product}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '9' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggle('9')
+                                    }}>
+                                    {translations.task}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
+                    </CardBody>
+                </Card>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '9' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('9')
-                            }}>
-                            {translations.task}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Card>
@@ -384,8 +389,6 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
                 </TabContent>
-
-                <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
 
             </React.Fragment>
         ) : null
