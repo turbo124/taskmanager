@@ -164,14 +164,11 @@ class AddGateway extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <Card>
-                                    <CardBody>
-                                        <Details renderErrorFor={this.renderErrorFor} errors={this.state.errors}
-                                            handleInput={this.handleInput}
-                                            gateway={this.state}
-                                            handleConfig={this.handleConfig}/>
-                                    </CardBody>
-                                </Card>
+                                <Details is_edit={false} renderErrorFor={this.renderErrorFor}
+                                    errors={this.state.errors}
+                                    handleInput={this.handleInput}
+                                    gateway={this.state}
+                                    handleConfig={this.handleConfig}/>
                             </TabPane>
 
                             <TabPane tabId="2">

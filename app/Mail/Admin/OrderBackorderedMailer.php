@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderBackorderedMailer extends Mailable
+class OrderBackorderedMailer extends AdminMailer
 {
     use Queueable, SerializesModels;
 
@@ -19,18 +19,6 @@ class OrderBackorderedMailer extends Mailable
     private Order $order;
 
     /**
-     * @var User
-     */
-    private User $user;
-
-    private $message;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
-
-    /**
      * OrderCreated constructor.
      * @param \App\Models\Order $order
      * @param User $user
@@ -38,6 +26,7 @@ class OrderBackorderedMailer extends Mailable
     public function __construct(Order $order, User $user)
     {
         $this->order = $order;
+        $this->entity = $order;
         $this->user = $user;
     }
 
@@ -51,16 +40,7 @@ class OrderBackorderedMailer extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setSubject()

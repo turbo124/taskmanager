@@ -11,23 +11,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskCreated extends Mailable
+class TaskCreated extends AdminMailer
 {
     use Queueable, SerializesModels, Money;
 
     private Task $task;
-
-    /**
-     * @var User
-     */
-    private User $user;
-
-    private $message;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
 
     /**
      * TaskCreated constructor.
@@ -37,6 +25,7 @@ class TaskCreated extends Mailable
     public function __construct(Task $task, User $user)
     {
         $this->task = $task;
+        $this->entity = $task;
         $this->user = $user;
     }
 
@@ -50,16 +39,7 @@ class TaskCreated extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setMessage()

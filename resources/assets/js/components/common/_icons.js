@@ -5,6 +5,7 @@ export const icons = {
     checkbox: 'fa-check-square',
     checkbox_o: 'fa-check-square-o',
     table: 'fa-table',
+    cog: 'fa-cog',
     columns: 'fa-columns',
     download: 'fa-download',
     email: 'fa-envelope-square',

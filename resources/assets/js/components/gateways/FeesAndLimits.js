@@ -15,7 +15,7 @@ export default class FeesAndLimits extends React.Component {
         super(props)
     }
 
-    getSettingFields () {
+    getSettingFieldsSectionOne () {
         const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
 
         const formFields = [
@@ -35,7 +35,18 @@ export default class FeesAndLimits extends React.Component {
                     placeholder: translations.max_limit,
                     value: settings && settings.max_limit ? settings.max_limit : '',
                     group: 1
-                },
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getSettingFieldsSectionTwo () {
+        const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
+
+        const formFields = [
+            [
                 {
                     name: 'fee_amount',
                     label: translations.fee_amount,
@@ -69,11 +80,19 @@ export default class FeesAndLimits extends React.Component {
     render () {
         return <React.Fragment>
             <Card>
-                <CardHeader>{translations.limits}</CardHeader>
                 <CardBody>
                     <FormBuilder
                         handleChange={this.props.updateFeesAndLimits}
-                        formFieldsRows={this.getSettingFields()}
+                        formFieldsRows={this.getSettingFieldsSectionOne()}
+                    />
+                </CardBody>
+            </Card>
+
+            <Card>
+                <CardBody>
+                    <FormBuilder
+                        handleChange={this.props.updateFeesAndLimits}
+                        formFieldsRows={this.getSettingFieldsSectionTwo()}
                     />
                 </CardBody>
             </Card>

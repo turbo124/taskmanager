@@ -9,25 +9,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
-class ObjectSent extends Mailable
+class ObjectSent extends AdminMailer
 {
     use Queueable, SerializesModels;
 
     private $invitation;
-    private $entity;
     private string $entity_name;
     private $contact;
-    private $message;
-
-    /**
-     * @var \App\Models\User
-     */
-    private User $user;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
 
     /**
      * Create a new message instance.
@@ -53,16 +41,7 @@ class ObjectSent extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setSubject()

@@ -3,6 +3,7 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardHeader, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import { translations } from "../common/_translations";
 
 class ProductSettings extends Component {
     constructor (props) {
@@ -76,18 +77,11 @@ class ProductSettings extends Component {
             })
     }
 
-    getProductFields () {
+    getInventoryFields () {
         const settings = this.state.settings
 
         const formFields = [
             [
-                {
-                    name: 'should_update_products',
-                    label: 'Update Products',
-                    type: 'switch',
-                    placeholder: 'Update Products',
-                    value: settings.should_update_products
-                },
                 {
                     name: 'should_update_inventory',
                     label: 'Update Inventory',
@@ -115,6 +109,31 @@ class ProductSettings extends Component {
                     type: 'switch',
                     placeholder: 'Inventory Enabled',
                     value: settings.inventory_enabled
+                },
+                {
+                    name: 'show_cost',
+                    label: 'Show Cost',
+                    type: 'switch',
+                    placeholder: 'Show Cost',
+                    value: settings.show_cost
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getProductFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_update_products',
+                    label: 'Update Products',
+                    type: 'switch',
+                    placeholder: 'Update Products',
+                    value: settings.should_update_products
                 },
                 {
                     name: 'show_cost',
@@ -171,20 +190,30 @@ class ProductSettings extends Component {
 
     render () {
         return this.state.loaded === true ? (
-            <React.Fragment>
+            <div className="mt-3 mb-3">
                 <ToastContainer/>
                 <Card>
-                    <CardHeader>Product Settings</CardHeader>
                     <CardBody>
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
                             handleChange={this.handleSettingsChange}
                             formFieldsRows={this.getProductFields()}
                         />
-                        <Button color="primary" onClick={this.handleSubmit}>Save</Button>
                     </CardBody>
                 </Card>
-            </React.Fragment>
+
+                <Card>
+                    <CardBody>
+                        <FormBuilder
+                            handleCheckboxChange={this.handleCheckboxChange}
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getInventoryFields()}
+                        />
+                    </CardBody>
+                </Card>
+
+                <Button color="primary" onClick={this.handleSubmit}>{translations.save}</Button>
+            </div>
         ) : null
     }
 }

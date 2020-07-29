@@ -14,6 +14,11 @@
 /*# sourceMappingURL=bootstrap.min.css.map */
   </style>
 
+<?php
+if(!empty($data)) {
+    extract($data);
+}
+?>
 
 <body class="bg-secondary my-4 text-white">
 <div class="row">

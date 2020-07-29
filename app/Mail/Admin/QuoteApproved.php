@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class QuoteApproved extends Mailable
+class QuoteApproved extends AdminMailer
 {
     use Queueable, SerializesModels;
 
@@ -19,18 +19,6 @@ class QuoteApproved extends Mailable
     private Quote $quote;
 
     /**
-     * @var User
-     */
-    private User $user;
-
-    private $message;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
-
-    /**
      * QuoteApproved constructor.
      * @param Quote $quote
      * @param \App\Models\User $user
@@ -38,6 +26,7 @@ class QuoteApproved extends Mailable
     public function __construct(Quote $quote, User $user)
     {
         $this->quote = $quote;
+        $this->entity = $quote;
         $this->user = $user;
     }
 
@@ -51,16 +40,7 @@ class QuoteApproved extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setMessage()
