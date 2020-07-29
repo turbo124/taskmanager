@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentMade extends Mailable
+class PaymentMade extends AdminMailer
 {
     use Queueable, SerializesModels;
 
@@ -18,18 +18,6 @@ class PaymentMade extends Mailable
      * @var \App\Models\Payment
      */
     private Payment $payment;
-
-    /**
-     * @var \App\Models\User
-     */
-    private User $user;
-
-    private $message;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
 
 
     /**
@@ -40,6 +28,7 @@ class PaymentMade extends Mailable
     public function __construct(Payment $payment, User $user)
     {
         $this->payment = $payment;
+        $this->entity = $payment;
         $this->user = $user;
     }
 
@@ -53,16 +42,7 @@ class PaymentMade extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setSubject()

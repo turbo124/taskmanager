@@ -5,6 +5,7 @@ import CurrencyDropdown from '../common/CurrencyDropdown'
 import Switch from '../common/Switch'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
+import { translations } from "../common/_translations";
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -116,7 +117,7 @@ class FormBuilder extends React.Component {
                 break
 
             case 'payment_terms':
-                returnedField = <React.Fragment>
+                returnedField = <React.Fragment><Label>{translations.payment_terms}</Label>
                     <PaymentTermsDropdown
                         name={field.name}
                         payment_term={field.value}
@@ -126,7 +127,7 @@ class FormBuilder extends React.Component {
                 break
 
             case 'payment_type':
-                returnedField = <React.Fragment> <PaymentTypeDropdown
+                returnedField = <React.Fragment><Label>{translations.payment_type}</Label> <PaymentTypeDropdown
                     name={field.name}
                     payment_type={field.value}
                     handleInputChanges={this.props.handleChange}

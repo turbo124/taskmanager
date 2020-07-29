@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
-class LeadCreated extends Mailable
+class LeadCreated extends AdminMailer
 {
     use Queueable, SerializesModels;
 
@@ -19,18 +19,6 @@ class LeadCreated extends Mailable
      * @var Lead
      */
     private Lead $lead;
-
-    private $message;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
-
-    /**
-     * @var \App\Models\User
-     */
-    private User $user;
 
 
     /**
@@ -41,6 +29,7 @@ class LeadCreated extends Mailable
     public function __construct(Lead $lead, User $user)
     {
         $this->lead = $lead;
+        $this->entity = $lead;
         $this->user = $user;
     }
 
@@ -54,16 +43,7 @@ class LeadCreated extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setMessage()

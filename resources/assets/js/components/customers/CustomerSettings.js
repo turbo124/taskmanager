@@ -13,6 +13,7 @@ import {
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import CustomerModel from '../models/CustomerModel'
+import { icons } from "../common/_icons";
 
 class CustomerSettings extends Component {
     constructor (props) {
@@ -116,6 +117,26 @@ class CustomerSettings extends Component {
                             text: translations.no
                         }
                     ]
+                },
+                {
+                    name: 'should_send_email_for_manual_payment',
+                    label: translations.should_send_email_for_manual_payment,
+                    help_text: translations.should_send_email_for_manual_payment_help_text,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    placeholder: translations.should_send_email_for_manual_payment,
+                    value: settings.should_send_email_for_manual_payment,
+                    class_name: 'col-12'
+                },
+                {
+                    name: 'should_send_email_for_online_payment',
+                    label: translations.should_send_email_for_online_payment,
+                    help_text: translations.should_send_email_for_online_payment_help_text,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    placeholder: translations.should_send_email_for_online_payment,
+                    value: settings.should_send_email_for_online_payment,
+                    class_name: 'col-12'
                 }
             ]
         ]

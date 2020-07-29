@@ -14,6 +14,11 @@
 /*# sourceMappingURL=bootstrap.min.css.map */
   </style>
 
+<?php
+if(!empty($data)) {
+    extract($data);
+}
+?>
 
 <body>
 <div class="container">

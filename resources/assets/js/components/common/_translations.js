@@ -85,6 +85,7 @@ _localizedValues.gb = {
     unhold_order: 'Reverse Status',
     code: 'Code',
     add: 'Add',
+    configure_payment_terms: 'Configure Payment Terms',
     add_payment_term: 'Add Payment Term',
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',
@@ -449,7 +450,11 @@ _localizedValues.gb = {
     recurring_expenses: 'Recurring Expenses',
     recurring_tasks: 'Recurring Tasks',
     cases: 'Cases',
-    events: 'Events'
+    events: 'Events',
+    should_send_email_for_manual_payment: 'Send Email for Manual Payments',
+    should_send_email_for_manual_payment_help_text: 'Will send a receipt to the customer when a manual payment is created',
+    should_send_email_for_online_payment: 'Send Email for Online Payments',
+    should_send_email_for_online_payment_help_text: 'Will send a receipt to the customer when an online payment is created',
 }
 
 export const default_language = 'gb'

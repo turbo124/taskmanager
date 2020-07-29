@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
 import {
     Button,
+    Card,
+    CardBody,
+    CardHeader,
     CustomInput,
     FormGroup,
     Label,
-    Card,
-    CardHeader,
-    CardBody,
     Nav,
     NavItem,
     NavLink,
@@ -15,8 +15,10 @@ import {
     TabPane
 } from 'reactstrap'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { translations } from '../common/_translations'
+import { icons } from '../common/_icons'
+import BlockButton from '../common/BlockButton'
 
 class Settings extends Component {
     constructor (props) {
@@ -71,7 +73,7 @@ class Settings extends Component {
 
     handleSettingsChange (event) {
         const name = event.target.name
-        let value = event.target.value
+        let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
         value = value === 'true' ? true : value
         value = value === 'false' ? false : value
 
@@ -292,27 +294,66 @@ class Settings extends Component {
         return formFields
     }
 
+    getPaymentTermFields () {
+        const { settings } = this.state
+
+        return [
+            [
+                {
+                    name: 'payment_type_id',
+                    label: translations.payment_type,
+                    type: 'payment_type',
+                    placeholder: translations.payment_type,
+                    value: settings.payment_type_id,
+                    group: 1
+                },
+                {
+                    name: 'payment_terms',
+                    label: translations.payment_terms,
+                    type: 'payment_terms',
+                    placeholder: translations.payment_terms,
+                    value: settings.payment_terms,
+                    group: 1
+                }
+            ]
+        ]
+    }
+
+    getPaymentEmailFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_send_email_for_manual_payment',
+                    label: translations.should_send_email_for_manual_payment,
+                    help_text: translations.should_send_email_for_manual_payment_help_text,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    placeholder: translations.should_send_email_for_manual_payment,
+                    value: settings.should_send_email_for_manual_payment,
+                    class_name: 'col-12'
+                },
+                {
+                    name: 'should_send_email_for_online_payment',
+                    label: translations.should_send_email_for_online_payment,
+                    help_text: translations.should_send_email_for_online_payment_help_text,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    placeholder: translations.should_send_email_for_online_payment,
+                    value: settings.should_send_email_for_online_payment,
+                    class_name: 'col-12'
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     getDefaultFields () {
         const { settings } = this.state
 
         const defaults = []
-
-        defaults.push({
-            name: 'payment_type_id',
-            label: translations.payment_type,
-            type: 'payment_type',
-            placeholder: translations.payment_type,
-            value: settings.payment_type_id,
-            group: 1
-        })
-        defaults.push({
-            name: 'payment_terms',
-            label: translations.payment_terms,
-            type: 'payment_terms',
-            placeholder: translations.payment_terms,
-            value: settings.payment_terms,
-            group: 1
-        })
 
         const modules = JSON.parse(localStorage.getItem('modules'))
 
@@ -485,7 +526,27 @@ class Settings extends Component {
 
                     <TabPane tabId="4">
                         <Card>
-                            <CardHeader>{translations.defaults}</CardHeader>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentTermFields()}
+                                />
+
+                                <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
+                                    button_link="/#/payment_terms"/>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentEmailFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}

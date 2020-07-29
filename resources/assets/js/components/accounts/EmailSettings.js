@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardBody, CardHeader } from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
@@ -127,7 +127,7 @@ class EmailSettings extends Component {
                     type: 'text',
                     placeholder: translations.bcc_email,
                     value: settings.bcc_email
-                },
+                }
                 /* {
                     name: 'enable_email_markup',
                     label: translations.enable_email_markup,
@@ -135,6 +135,17 @@ class EmailSettings extends Component {
                     placeholder: translations.enable_email_markup,
                     value: settings.enable_email_markup
                 }, */
+            ]
+        ]
+
+        return formFields
+    }
+
+    getAttachmentFormFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
                 {
                     name: 'pdf_email_attachment',
                     label: translations.pdf_email_attachment,
@@ -167,23 +178,38 @@ class EmailSettings extends Component {
 
     render () {
         return this.state.loaded === true ? (
-            <React.Fragment>
+            <div className="mt-3 mb-3">
                 <ToastContainer/>
                 <Card>
-                    <CardHeader>Settings</CardHeader>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
                             formFieldsRows={this.getFormFields()}
                         />
-
-                        <SignatureCanvas canvasProps={{ className: styles.sigPad }}
-                            ref={(ref) => { this.state.sigPad = ref }} />
-
-                        <Button color="primary" onClick={this.handleSubmit}>Save</Button>
                     </CardBody>
                 </Card>
-            </React.Fragment>
+
+                <Card>
+                    <CardBody>
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getAttachmentFormFields()}
+                        />
+                    </CardBody>
+                </Card>
+
+                <Card>
+                    <CardBody>
+                        <FormGroup>
+                            <Label>Email Signature</Label>
+                            <SignatureCanvas canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
+                                ref={(ref) => { this.state.sigPad = ref }} />
+                        </FormGroup>
+                    </CardBody>
+                </Card>
+
+                <Button color="primary" onClick={this.handleSubmit}>Save</Button>
+            </div>
         ) : null
     }
 }

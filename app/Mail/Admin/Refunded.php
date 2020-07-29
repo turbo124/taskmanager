@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Refunded extends Mailable
+class Refunded extends AdminMailer
 {
     use Queueable, SerializesModels;
 
@@ -19,18 +19,6 @@ class Refunded extends Mailable
     private Payment $payment;
 
     /**
-     * @var User
-     */
-    private User $user;
-
-    /**
-     * @var array
-     */
-    private array $message_array;
-
-    private $message;
-
-    /**
      * Refunded constructor.
      * @param Payment $payment
      * @param \App\Models\User $user
@@ -38,6 +26,7 @@ class Refunded extends Mailable
     public function __construct(Payment $payment, User $user)
     {
         $this->payment = $payment;
+        $this->entity = $payment;
         $this->user = $user;
     }
 
@@ -51,16 +40,7 @@ class Refunded extends Mailable
         $this->setSubject();
         $this->setMessage();
         $this->buildMessage();
-
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        'email.admin.new',
-                        [
-                            'data' => $this->message_array
-                        ]
-                    );
+        $this->execute();
     }
 
     private function setSubject()
