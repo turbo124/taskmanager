@@ -1,5 +1,9 @@
 const _localizedValues = []
 _localizedValues.gb = {
+    email_settings: 'Email Settings',
+    integration_settings: 'Integration Settings',
+    localisation_settings: 'Localisation Settings',
+    product_settings: 'Product Settings',
     stripe: 'Stripe',
     provider: 'Provider',
     authorize: 'Authorize',
@@ -258,6 +262,7 @@ _localizedValues.gb = {
     owned: 'Owned',
     payment_success: 'Payment Success',
     payment_successful: 'Payment Successful',
+    payment_refunded: 'Payment Refunded',
     new_lead_created: 'New Lead Created',
     new_deal_created: 'New Deal Created',
     payment_failure: 'Payment Failure',

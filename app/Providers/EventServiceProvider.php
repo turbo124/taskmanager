@@ -81,6 +81,7 @@ use App\Listeners\Order\OrderHeldNotification;
 use App\Listeners\Order\OrderRestoredActivity;
 use App\Listeners\Order\OrderUpdatedActivity;
 use App\Listeners\Payment\PaymentCreatedActivity;
+use App\Listeners\Payment\PaymentRefundedNotification;
 use App\Listeners\Payment\PaymentRestoredActivity;
 use App\Listeners\Payment\PaymentUpdatedActivity;
 use App\Listeners\Payment\PaymentDeletedActivity;
@@ -177,6 +178,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         PaymentWasRefunded::class   => [
             PaymentRefundedActivity::class,
+            PaymentRefundedNotification::class
         ],
         PaymentFailed::class        => [
             PaymentFailedActivity::class,

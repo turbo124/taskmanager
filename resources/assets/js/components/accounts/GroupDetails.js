@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-    CustomInput,
     Input,
     FormGroup,
     Label,

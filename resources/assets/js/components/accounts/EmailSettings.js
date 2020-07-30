@@ -181,7 +181,8 @@ class EmailSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
                 <Card className="mt-3">
-                    <CardBody>
+                    <CardBody className="d-flex justify-content-between align-items-center">
+                        <h6>{translations.email_settings}</h6>
                         <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
                     </CardBody>
                 </Card>
