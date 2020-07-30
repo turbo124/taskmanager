@@ -102,6 +102,7 @@ export const consts = {
     expense_status_pending_text: 'Pending',
     expense_status_invoiced_text: 'Invoiced',
     notification_payment_success: 'payment_success',
+    notification_payment_refunded: 'payment_refunded',
     notification_lead_success: 'lead_success',
     notification_deal_success: 'deal_success',
     notification_payment_failure: 'payment_failure',

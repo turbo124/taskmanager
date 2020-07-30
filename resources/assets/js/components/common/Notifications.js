@@ -18,6 +18,12 @@ export default class Notifications extends Component {
                 },
                 {
                     id: 1,
+                    value: consts.notification_payment_refunded,
+                    label: translations.payment_refunded,
+                    isChecked: false
+                },
+                {
+                    id: 1,
                     value: consts.notification_lead_success,
                     label: translations.new_lead_created,
                     isChecked: false

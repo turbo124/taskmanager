@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'rea
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import moment from 'moment'
-import { translations } from "../common/_translations";
+import { translations } from '../common/_translations'
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
@@ -14,7 +14,7 @@ export default class LocalisationSettings extends Component {
             settings: {},
             first_month_of_year: null,
             first_day_of_week: null,
-            date_formats: null
+            date_formats: ['DD/MMM/YYYY']
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -25,20 +25,6 @@ export default class LocalisationSettings extends Component {
 
     componentDidMount () {
         this.getAccount()
-        this.getDateFormats()
-    }
-
-    getDateFormats () {
-        axios.get('api/dates')
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    date_formats: r.data
-                })
-            })
-            .catch((e) => {
-                toast.error('There was an issue updating the settings')
-            })
     }
 
     getAccount () {
@@ -114,6 +100,7 @@ export default class LocalisationSettings extends Component {
                 <ToastContainer/>
                 <Card className="mt-3">
                     <CardBody className="d-flex justify-content-between align-items-center">
+                        <h6>{translations.localisation_settings}</h6>
                         <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
                     </CardBody>
                 </Card>
