@@ -210,7 +210,7 @@ class InvoiceSettings extends Component {
                                 <h4 className="pl-3 pt-2">{translations.invoice_settings}</h4>
                                 <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
                             </div>
-                            <Nav className="setting-tabs disable-scrollbars" tabs>
+                            <Nav className="nav-justified setting-tabs disable-scrollbars" tabs>
                                 <NavItem>
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}
