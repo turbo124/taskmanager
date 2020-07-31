@@ -13,7 +13,7 @@ import {
     AppSidebarHeader,
     AppSidebarMinimizer,
     AppBreadcrumb2 as AppBreadcrumb,
-    AppSidebarNav2 as AppSidebarNav
+    AppSidebarNav2 as AppSidebarNav, AppSidebarToggler
 } from '@coreui/react'
 // sidebar nav config
 import navigation from '../../_nav'
@@ -24,6 +24,8 @@ import DefaultHeader from './DefaultHeader'
 import AccountList from '../../common/AccountList'
 import Footer from '../../common/Footer'
 import DefaultFooter from './DefaultFooter'
+import SupportModal from '../../common/SupportModal'
+import AboutModal from '../../common/AboutModal'
 
 class DefaultLayout extends Component {
     constructor (props) {
@@ -39,21 +41,25 @@ class DefaultLayout extends Component {
     render () {
         return (
             <div className="app">
-                <AppHeader fixed>
+                 <AppHeader fixed>
                     <Suspense fallback={this.loading}>
                         <DefaultHeader onLogout={e => this.signOut(e)}/>
                     </Suspense>
-                </AppHeader>
+                 </AppHeader>
                 <div className="app-body">
+
                     <AppSidebar fixed display="lg">
                         <AppSidebarHeader/>
                         <AppSidebarForm/>
+
                         <AccountList />
+
                         <Suspense>
                             <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
                         </Suspense>
                         <AppSidebarFooter/>
                         <AppSidebarMinimizer/>
+
                     </AppSidebar>
                     <main className="main">
                         {/* <AppBreadcrumb appRoutes={routes} router={router}/> */}

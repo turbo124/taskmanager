@@ -179,38 +179,40 @@ class TemplateSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav tabs className="setting-tabs">
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('1')
-                                    }}>
-                                    {translations.edit}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('2')
-                                    }}>
-                                    {translations.preview}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.template_settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.edit}
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.preview}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
-
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-
-                        <Card>
-                            <CardHeader>{this.state.template_name}</CardHeader>
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane className="px-0" tabId="1">
+                        <Card className="border-0">
                             <CardBody>
                                 <Form>
                                     {fields}
@@ -219,9 +221,8 @@ class TemplateSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.preview}</CardHeader>
+                    <TabPane className="px-0" tabId="2">
+                        <Card className="border-0">
                             <CardBody>
                                 {spinner}
                                 {preview}

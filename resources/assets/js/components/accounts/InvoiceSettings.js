@@ -202,107 +202,112 @@ class InvoiceSettings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav className="setting-tabs" tabs>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('1')
-                                    }}>
-                                    {translations.settings}
-                                </NavLink>
-                            </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('2')
-                                    }}>
-                                    {translations.invoice_settings}
-                                </NavLink>
-                            </NavItem>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.invoice_settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                            <Nav className="setting-tabs disable-scrollbars" tabs>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.settings}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('3')
-                                    }}>
-                                    {translations.customer}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.invoice}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('4')
-                                    }}>
-                                    {translations.account}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('3')
+                                        }}>
+                                        {translations.customer}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '5' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('5')
-                                    }}>
-                                    {translations.invoice}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '4' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('4')
+                                        }}>
+                                        {translations.account}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '6' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('6')
-                                    }}>
-                                    {translations.quote}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '5' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('5')
+                                        }}>
+                                        {translations.invoice}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '7' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('7')
-                                    }}>
-                                    {translations.credit}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '6' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('6')
+                                        }}>
+                                        {translations.quote}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '8' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('8')
-                                    }}>
-                                    {translations.product}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '7' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('7')
+                                        }}>
+                                        {translations.credit}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '9' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('9')
-                                    }}>
-                                    {translations.task}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '8' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('8')
+                                        }}>
+                                        {translations.product}
+                                    </NavLink>
+                                </NavItem>
 
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{translations.settings}</CardHeader>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '9' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('9')
+                                        }}>
+                                        {translations.task}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
+
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane tabId="1" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -312,16 +317,14 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.invoice}</CardHeader>
+                    <TabPane tabId="2" className="px-0">
+                        <Card className="border-0">
                             <CardBody/>
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardHeader>{translations.customer}</CardHeader>
+                    <TabPane tabId="3" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="client_details" columns={this.getCustomerFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -329,9 +332,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardHeader>{translations.account}</CardHeader>
+                    <TabPane tabId="4" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="company_details" columns={this.getAccountFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -339,9 +341,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="5">
-                        <Card>
-                            <CardHeader>{translations.invoice}</CardHeader>
+                    <TabPane tabId="5" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="invoice_details" columns={this.getInvoiceFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -349,9 +350,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="6">
-                        <Card>
-                            <CardHeader>{translations.quote}</CardHeader>
+                    <TabPane tabId="6" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="quote_details" columns={this.getQuoteFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -359,9 +359,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="7">
-                        <Card>
-                            <CardHeader>{translations.credit}</CardHeader>
+                    <TabPane tabId="7" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="credit_details" columns={this.getCreditFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -369,9 +368,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="8">
-                        <Card>
-                            <CardHeader>{translations.product}</CardHeader>
+                    <TabPane tabId="8" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="product_columns" columns={this.getProductFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
@@ -379,9 +377,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="9">
-                        <Card>
-                            <CardHeader>{translations.task}</CardHeader>
+                    <TabPane tabId="9" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="task_columns" columns={this.getTaskFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>

@@ -3,7 +3,7 @@ import FormBuilder from './FormBuilder'
 import { Button, Card, CardHeader, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
-import { translations } from "../common/_translations";
+import { translations } from '../common/_translations'
 
 class ProductSettings extends Component {
     constructor (props) {
@@ -190,16 +190,21 @@ class ProductSettings extends Component {
 
     render () {
         return this.state.loaded === true ? (
-            <div className="mt-3 mb-3">
+            <React.Fragment>
                 <ToastContainer/>
 
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <h6>{translations.product_settings}</h6>
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
-                <Card>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2 pb-2">{translations.product_settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+
+                <Card className="fixed-margin-extra border-0">
                     <CardBody>
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
@@ -209,7 +214,7 @@ class ProductSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card>
+                <Card className="border-0">
                     <CardBody>
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
@@ -218,7 +223,7 @@ class ProductSettings extends Component {
                         />
                     </CardBody>
                 </Card>
-            </div>
+            </React.Fragment>
         ) : null
     }
 }

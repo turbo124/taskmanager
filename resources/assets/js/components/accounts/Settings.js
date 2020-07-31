@@ -445,126 +445,125 @@ class Settings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav tabs className="setting-tabs">
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('1')
-                                    }}>
-                                    {translations.details}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('2')
-                                    }}>
-                                    {translations.address}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('3')
-                                    }}>
-                                    {translations.logo}
-                                </NavLink>
-                            </NavItem>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('4')
-                                    }}>
-                                    {translations.defaults}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.details}
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.address}
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('3')
+                                        }}>
+                                        {translations.logo}
+                                    </NavLink>
+                                </NavItem>
 
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
-
-                <div className="scrollable-settings">
-                    <TabContent activeTab={this.state.activeTab}>
-                        <TabPane tabId="1">
-                            <Card>
-                                <CardHeader>{translations.details}</CardHeader>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getFormFields()}
-                                    />
-                                </CardBody>
-                            </Card>
-                        </TabPane>
-                        <TabPane tabId="2">
-                            <Card>
-                                <CardHeader>{translations.address}</CardHeader>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getAddressFields()}
-                                    />
-                                </CardBody>
-                            </Card>
-                        </TabPane>
-                        <TabPane tabId="3">
-                            <Card>
-                                <CardHeader>{translations.logo}</CardHeader>
-                                <CardBody>
-                                    <FormGroup>
-
-                                        <Label>{translations.logo}</Label>
-                                        <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
-                                            type="file"
-                                            id="company_logo" name="company_logo"
-                                            label="Logo"/>
-                                    </FormGroup>
-                                </CardBody>
-                            </Card>
-                        </TabPane>
-
-                        <TabPane tabId="4">
-                            <Card>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getPaymentTermFields()}
-                                    />
-
-                                    <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
-                                        button_link="/#/payment_terms"/>
-                                </CardBody>
-                            </Card>
-
-                            <Card>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getPaymentEmailFields()}
-                                    />
-                                </CardBody>
-                            </Card>
-
-                            <Card>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getDefaultFields()}
-                                    />
-                                </CardBody>
-                            </Card>
-                        </TabPane>
-                    </TabContent>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '4' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('4')
+                                        }}>
+                                        {translations.defaults}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
                 </div>
 
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane className="px-0" tabId="1">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getFormFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    <TabPane className="px-0" tabId="2">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getAddressFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    <TabPane className="px-0" tabId="3">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormGroup>
+
+                                    <Label>{translations.logo}</Label>
+                                    <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                        type="file"
+                                        id="company_logo" name="company_logo"
+                                        label="Logo"/>
+                                </FormGroup>
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="px-0" tabId="4">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentTermFields()}
+                                />
+
+                                <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
+                                    button_link="/#/payment_terms"/>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentEmailFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDefaultFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                </TabContent>
             </React.Fragment>
         ) : null
     }
