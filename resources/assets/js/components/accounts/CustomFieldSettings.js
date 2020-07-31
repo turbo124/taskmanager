@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import {
-    Button,
     Card,
-    CardHeader,
     CardBody,
     NavLink,
     NavItem,
@@ -185,9 +183,8 @@ class CustomFieldSettings extends Component {
         const tabItems = []
 
         if (customers && this.modules.customers === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>Customers</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)}className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             customers.map((val, idx) => {
@@ -216,9 +213,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (product && this.modules.products === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.products}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             product.map((val, idx) => {
@@ -248,9 +244,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (invoices && this.modules.invoices === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.invoices}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             invoices.map((val, idx) => {
@@ -280,9 +275,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (payments && this.modules.payments === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.payments}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             payments.map((val, idx) => {
@@ -312,9 +306,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (companies && this.modules.companies === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.companies}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             companies.map((val, idx) => {
@@ -344,9 +337,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (quotes && this.modules.quotes === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.quotes}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             quotes.map((val, idx) => {
@@ -376,9 +368,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (credits && this.modules.credits === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.credits}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             credits.map((val, idx) => {
@@ -408,9 +399,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (tasks && this.modules.tasks === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
                 <Card>
-                    <CardHeader>{translations.tasks}</CardHeader>
                     <CardBody>
                         {
                             tasks.map((val, idx) => {
@@ -440,9 +430,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (expenses && this.modules.expenses === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>{translations.expenses}</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             expenses.map((val, idx) => {
@@ -472,9 +461,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (orders && this.modules.orders === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}>
-                <Card>
-                    <CardHeader>Orders</CardHeader>
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+                <Card className="border-0">
                     <CardBody>
                         {
                             orders.map((val, idx) => {
@@ -505,17 +493,21 @@ class CustomFieldSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Card className="mt-3">
-                    <CardBody>
-                        <Nav tabs className="setting-tabs">
-                            {tabItems}
-                        </Nav>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.custom_fields}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                {tabItems}
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
-
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     {tabContent}
                 </TabContent>
             </React.Fragment>

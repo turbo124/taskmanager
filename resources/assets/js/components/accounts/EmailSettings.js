@@ -180,14 +180,19 @@ class EmailSettings extends Component {
         return this.state.loaded === true ? (
             <React.Fragment>
                 <ToastContainer/>
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <h6>{translations.email_settings}</h6>
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
 
-                <Card>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2 pb-2">{translations.email_settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+
+                <Card className="fixed-margin-extra border-0">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
@@ -196,7 +201,7 @@ class EmailSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card>
+                <Card className="border-0">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}

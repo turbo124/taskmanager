@@ -239,58 +239,61 @@ export default class WorkflowSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav tabs className="setting-tabs">
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('1')
-                                    }}>
-                                    {translations.invoices}
-                                </NavLink>
-                            </NavItem>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.workflow_settings}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.invoices}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('2')
-                                    }}>
-                                    {translations.quotes}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.quotes}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('3')
-                                    }}>
-                                    {translations.leads}
-                                </NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('3')
+                                        }}>
+                                        {translations.leads}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('4')
-                                    }}>
-                                    {translations.orders}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '4' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('4')
+                                        }}>
+                                        {translations.orders}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
-
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{translations.invoice}</CardHeader>
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane className="px-0" tabId="1">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -300,9 +303,8 @@ export default class WorkflowSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.quote}</CardHeader>
+                    <TabPane className="px-0" tabId="2">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -312,9 +314,8 @@ export default class WorkflowSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardHeader>{translations.lead}</CardHeader>
+                    <TabPane className="pr-0 pl-0" tabId="3">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -324,9 +325,8 @@ export default class WorkflowSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardHeader>{translations.order}</CardHeader>
+                    <TabPane className="pr-0 pl-0" tabId="4">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}

@@ -210,36 +210,41 @@ class ModuleSettings extends Component {
     render () {
         return (
             <React.Fragment>
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav tabs className="setting-tabs">
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('1')
-                                    }}>
-                                    {translations.overview}
-                                </NavLink>
-                            </NavItem>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.account_management}</h4>
+                                <a className="pull-right pr-3">{translations.save}</a>
+                            </div>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('1')
+                                        }}>
+                                        {translations.overview}
+                                    </NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('2')
-                                    }}>
-                                    {translations.enable_modules}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-                    </CardBody>
-                </Card>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('2')
+                                        }}>
+                                        {translations.enable_modules}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{translations.account_management}</CardHeader>
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane tabId="1" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <BlockButton icon={icons.link} button_text={translations.subscriptions}
                                     button_link="/#/subscriptions"/>
@@ -254,9 +259,8 @@ class ModuleSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.enable_modules}</CardHeader>
+                    <TabPane tabId="2" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <Form>
                                     <FormGroup>

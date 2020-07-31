@@ -156,38 +156,42 @@ export default class CustomerPortalSettings extends Component {
             <React.Fragment>
                 <ToastContainer/>
 
-                <Card className="mt-3">
-                    <CardBody className="d-flex justify-content-between align-items-center">
-                        <Nav tabs className="setting-tabs">
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('1')
-                                    }}>
-                                    {translations.settings}
-                                </NavLink>
-                            </NavItem>
+                <div className="topbar">
+                    <Card className="m-0">
+                        <CardBody className="p-0">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h4 className="pl-3 pt-2">{translations.customer_portal}</h4>
+                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                            </div>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggle('2')
-                                    }}>
-                                    {translations.security}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                            <Nav tabs className="setting-tabs disable-scrollbars">
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.settings}
+                                    </NavLink>
+                                </NavItem>
 
-                        <a className="pull-right" onClick={this.handleSubmit}>{translations.save}</a>
-                    </CardBody>
-                </Card>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.security}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{translations.settings}</CardHeader>
+                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                    <TabPane tabId="1" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -197,9 +201,8 @@ export default class CustomerPortalSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.security}</CardHeader>
+                    <TabPane tabId="2" className="px-0">
+                        <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
