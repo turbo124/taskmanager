@@ -314,7 +314,7 @@ class NumberSettings extends Component {
                                 <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
                             </div>
 
-                            <Nav tabs className="setting-tabs disable-scrollbars">
+                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                                 <NavItem>
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}
