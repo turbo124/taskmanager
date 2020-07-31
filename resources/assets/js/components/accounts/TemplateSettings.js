@@ -186,7 +186,7 @@ class TemplateSettings extends Component {
                                 <h4 className="pl-3 pt-2">{translations.template_settings}</h4>
                                 <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
                             </div>
-                            <Nav tabs className="setting-tabs disable-scrollbars">
+                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                                 <NavItem>
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}
