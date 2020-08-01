@@ -16,6 +16,8 @@ import PaymentModel from '../models/PaymentModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import Refund from '../payments/Refund'
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
 
 export default class Payment extends Component {
     constructor (props) {
@@ -154,20 +156,14 @@ export default class Payment extends Component {
                 </Alert>
                 }
 
-                <div className="navbar d-flex p-0 view-buttons">
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.toggleTab('2')
-                        }}>
-                        {translations.refund}
-                    </NavLink>
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.triggerAction('archive')
-                        }}>
-                        {translations.archive}
-                    </NavLink>
-                </div>
+                <BottomNavigation showLabels className="bg-dark text-white">
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
+                        this.toggleTab('2')
+                    }} label={translations.refund} value={translations.refund} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
+                        this.triggerAction('archive')
+                    }} label={translations.archive} value={translations.archive} />
+                </BottomNavigation>
             </React.Fragment>
         )
     }

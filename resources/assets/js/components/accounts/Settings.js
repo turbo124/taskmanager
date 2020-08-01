@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
 import {
-    Button,
     Card,
     CardBody,
-    CardHeader,
     CustomInput,
     FormGroup,
     Label,
@@ -12,13 +10,14 @@ import {
     NavItem,
     NavLink,
     TabContent,
-    TabPane
+    TabPane,
+    Alert
 } from 'reactstrap'
 import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
 import { translations } from '../common/_translations'
 import { icons } from '../common/_icons'
 import BlockButton from '../common/BlockButton'
+import Snackbar from '@material-ui/core/Snackbar'
 
 class Settings extends Component {
     constructor (props) {
@@ -29,7 +28,8 @@ class Settings extends Component {
             loaded: false,
             settings: {},
             company_logo: null,
-            activeTab: '1'
+            activeTab: '1',
+            success: false
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -63,7 +63,7 @@ class Settings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -108,11 +108,11 @@ class Settings extends Component {
             }
         })
             .then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             })
             .catch((error) => {
                 console.error(error)
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -441,10 +441,24 @@ class Settings extends Component {
         return formFields
     }
 
+    handleClose () {
+        this.setState({success: false})
+    }
+
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
                 <div className="topbar">
                     <Card className="m-0">
                         <CardBody className="p-0">
@@ -453,7 +467,7 @@ class Settings extends Component {
                                 <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
                             </div>
 
-                            <Nav tabs className="setting-tabs disable-scrollbars">
+                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                                 <NavItem>
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}

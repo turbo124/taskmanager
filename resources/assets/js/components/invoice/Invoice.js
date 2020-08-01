@@ -8,6 +8,13 @@ import {
 import DataTable from '../common/DataTable'
 import InvoiceItem from './InvoiceItem'
 import InvoiceFilters from './InvoiceFilters'
+import Drawer from '@material-ui/core/Drawer'
+import Button from '@material-ui/core/Button'
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -35,7 +42,8 @@ export default class Invoice extends Component {
                 start_date: '',
                 end_date: ''
             },
-            showRestoreButton: false
+            showRestoreButton: false,
+            bottom_drawer_open: false
         }
 
         this.updateInvoice = this.updateInvoice.bind(this)
@@ -98,6 +106,10 @@ export default class Invoice extends Component {
             })
     }
 
+    toggleDrawer () {
+        this.setState({ bottom_drawer_open: !this.state.bottom_drawer_open })
+    }
+
     render () {
         const { invoices, customers, custom_fields, view, filters } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
@@ -144,6 +156,18 @@ export default class Invoice extends Component {
                         </CardBody>
                     </Card>
                 </div>
+
+                <Button onClick={this.toggleDrawer.bind(this)}>bottom</Button>
+                <Drawer anchor="bottom" open={this.state.bottom_drawer_open} onClose={this.toggleDrawer.bind(this)}>
+                    <List>
+                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                            <ListItem button key={text}>
+                                {/*<ListItemIcon></ListItemIcon>*/}
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
             </React.Fragment>
         )
     }

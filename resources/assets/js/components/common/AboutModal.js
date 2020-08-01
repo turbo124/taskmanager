@@ -69,7 +69,7 @@ export default class AboutModal extends Component {
                 </UncontrolledTooltip>
 
                 <i id="contactTooltip" onClick={this.toggle}
-                    style={{ marginLeft: '12px', marginRight: 'auto', color: '#fff', fontSize: '26px', cursor: 'pointer' }}
+                    style={{ marginLeft: '12px', marginRight: 'auto', color: '#fff', fontSize: '20px', cursor: 'pointer' }}
                     className="fa fa-question-circle"/>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}

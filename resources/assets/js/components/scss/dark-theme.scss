@@ -1940,7 +1940,7 @@ mark {
 .app-header {
   position: relative;
   flex-direction: row;
-  height: 55px;
+  height: 32px !important;
   padding: 0;
   margin: 0;
   background-color: $white;
@@ -2868,6 +2868,10 @@ mark {
   transition: width .25s;
 }
 
+.app-body {
+  margin-top: 32px !important;
+}
+
 @media(max-width: 991.98px) {
   .app-header {
     position: fixed;
@@ -2886,9 +2890,6 @@ mark {
       left: 50%;
       margin-left: -77.5px;
     }
-  }
-  .app-body {
-    margin-top: 55px;
   }
   .sidebar {
     position: fixed;

@@ -26,6 +26,8 @@ import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
 
 export default class Quote extends Component {
     constructor (props) {
@@ -207,20 +209,14 @@ export default class Quote extends Component {
                 </Alert>
                 }
 
-                <div className="navbar d-flex p-0 view-buttons">
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.toggleTab('3')
-                        }}>
-                        {translations.view_pdf}
-                    </NavLink>
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.triggerAction('clone_quote_to_invoice')
-                        }}>
-                        {translations.clone_quote_to_invoice}
-                    </NavLink>
-                </div>
+                <BottomNavigation showLabels className="bg-dark text-white">
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
+                        this.toggleTab('3')
+                    }} label={translations.view_pdf} value={translations.view_pdf} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
+                        this.triggerAction('clone_to_invoice')
+                    }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
+                </BottomNavigation>
 
             </React.Fragment>
 

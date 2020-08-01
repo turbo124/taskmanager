@@ -4,6 +4,8 @@ import {
     Button,
     UncontrolledTooltip
 } from 'reactstrap'
+import { translations } from './_translations'
+import { icons } from './_icons'
 
 export default class CsvImporter extends Component {
     constructor (props) {
@@ -64,11 +66,9 @@ export default class CsvImporter extends Component {
         return <React.Fragment>
             <UncontrolledTooltip placement="right"
                 target="exportTooltip">
-                    Export
+                {translations.export}
             </UncontrolledTooltip>
-
-            <Button id="exportTooltip" onClick={this.export}
-                color="primary">Export</Button>
+            <fa style={{ fontSize: '24px', lineHeight: '32px' }} id="exportTooltip" onClick={this.export} className={`fa ${icons.cloud_download}`}/>
         </React.Fragment>
     }
 }

@@ -69,7 +69,7 @@ export default class SupportModal extends Component {
                 </UncontrolledTooltip>
 
                 <i id="aboutTooltip" onClick={this.toggle}
-                    style={{ color: '#fff', fontSize: '26px', cursor: 'pointer' }}
+                    style={{ color: '#fff', fontSize: '20px', cursor: 'pointer' }}
                     className="fa fa-envelope"/>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}

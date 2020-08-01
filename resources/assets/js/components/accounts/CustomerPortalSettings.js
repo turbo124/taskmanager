@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardBody, CardHeader, NavLink, Nav, NavItem, TabContent, TabPane, ListGroup } from 'reactstrap'
+import { Alert, Card, CardBody, NavLink, Nav, NavItem, TabContent, TabPane, ListGroup } from 'reactstrap'
 import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
 import { translations } from '../common/_translations'
 import { icons } from '../common/_icons'
+import Snackbar from '@material-ui/core/Snackbar'
 
 export default class CustomerPortalSettings extends Component {
     constructor (props) {
@@ -13,7 +13,9 @@ export default class CustomerPortalSettings extends Component {
         this.state = {
             id: localStorage.getItem('account_id'),
             activeTab: '1',
-            settings: {}
+            settings: {},
+            success: false,
+            error: false
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -42,7 +44,7 @@ export default class CustomerPortalSettings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -73,10 +75,10 @@ export default class CustomerPortalSettings extends Component {
             }
         })
             .then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             })
             .catch((error) => {
-                toast.error('There was an issue updating the settings ' + error)
+                this.setState({ error: true })
             })
     }
 
@@ -151,10 +153,24 @@ export default class CustomerPortalSettings extends Component {
         ]
     }
 
+    handleClose () {
+        this.setState({ success: false, error: false })
+    }
+
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">
@@ -164,7 +180,7 @@ export default class CustomerPortalSettings extends Component {
                                 <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
                             </div>
 
-                            <Nav tabs className="setting-tabs disable-scrollbars">
+                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                                 <NavItem>
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}

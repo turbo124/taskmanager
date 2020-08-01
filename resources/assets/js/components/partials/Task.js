@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import {
     Row,
-    Card,
-    CardText,
     ListGroup
 } from 'reactstrap'
-import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'

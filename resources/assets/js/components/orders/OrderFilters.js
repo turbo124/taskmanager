@@ -9,6 +9,7 @@ import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class OrderFilters extends Component {
     constructor (props) {
@@ -22,8 +23,38 @@ export default class OrderFilters extends Component {
                 start_date: '',
                 end_date: ''
             }
-
         }
+
+        this.statuses = [
+            {
+                value: consts.order_status_draft,
+                label: translations.pending
+            },
+            {
+                value: consts.order_status_sent,
+                label: translations.sent
+            },
+            {
+                value: consts.order_status_approved,
+                label: translations.dispatched
+            },
+            {
+                value: consts.order_status_complete,
+                label: translations.complete
+            },
+            {
+                value: consts.order_status_cancelled,
+                label: translations.cancelled
+            },
+            {
+                value: consts.order_status_backorder,
+                label: translations.backordered
+            },
+            {
+                value: consts.order_status_held,
+                label: translations.held
+            }
+        ]
 
         this.getFilters = this.getFilters.bind(this)
         this.filterOrders = this.filterOrders.bind(this)
@@ -79,29 +110,13 @@ export default class OrderFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterOrders}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value="active">{translations.active}</option>
-                            <option value="archived">{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                            <option value={consts.order_status_draft}>{translations.pending}</option>
-                            <option value={consts.order_status_sent}>{translations.sent}</option>
-                            <option value={consts.order_status_approved}>{translations.dispatched}</option>
-                            <option value={consts.order_status_complete}>{translations.complete}</option>
-                            <option value={consts.order_status_cancelled}>{translations.cancelled}</option>
-                            <option value={consts.order_status_backorder}>{translations.backordered}</option>
-                            <option value={consts.order_status_held}>{translations.held}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterOrders} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
                 <Col md={2}>
                     <FormGroup>
-                        <DateFilter onChange={this.filterOrders} />
+                        <DateFilter onChange={this.filterOrders}/>
                     </FormGroup>
                 </Col>
 

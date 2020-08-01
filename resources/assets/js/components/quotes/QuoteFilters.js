@@ -9,6 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class QuoteFilters extends Component {
     constructor (props) {
@@ -23,6 +24,33 @@ export default class QuoteFilters extends Component {
                 end_date: ''
             }
         }
+
+        this.statuses = [
+            {
+                value: consts.quote_status_draft,
+                label: translations.draft
+            },
+            {
+                value: consts.quote_status_sent,
+                label: translations.sent
+            },
+            {
+                value: consts.quote_status_approved,
+                label: translations.approved
+            },
+            {
+                value: consts.quote_status_invoiced,
+                label: translations.invoiced
+            },
+            {
+                value: consts.quote_status_on_order,
+                label: translations.on_order
+            },
+            {
+                value: 'overdue',
+                label: translations.expired
+            }
+        ]
 
         this.getFilters = this.getFilters.bind(this)
         this.filterInvoices = this.filterInvoices.bind(this)
@@ -80,23 +108,7 @@ export default class QuoteFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterInvoices}
-                            name="status_id"
-                            id="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value="active">{translations.active}</option>
-                            <option value='archived'>{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                            <option value={consts.quote_status_draft}>{translations.draft}</option>
-                            <option value={consts.quote_status_sent}>{translations.sent}</option>
-                            <option value='active'>{translations.viewed}</option>
-                            <option value={consts.quote_status_approved}>{translations.approved}</option>
-                            <option value={consts.quote_status_invoiced}>{translations.invoiced}</option>
-                            <option value={consts.quote_status_on_order}>{translations.on_order}</option>
-                            <option value='overdue'>{translations.expired}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterInvoices} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
@@ -107,7 +119,7 @@ export default class QuoteFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <DateFilter onChange={this.filterInvoices} />
+                        <DateFilter onChange={this.filterInvoices}/>
                     </FormGroup>
                 </Col>
             </Row>

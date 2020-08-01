@@ -5,6 +5,7 @@ namespace App\Filters;
 use App\Models\Account;
 use App\Models\Invoice;
 use Carbon\Carbon;
+use phpDocumentor\Reflection\Types\Integer;
 
 class QueryFilter
 {
@@ -44,11 +45,31 @@ class QueryFilter
             return $this->query;
         }
 
-        if (is_numeric($filter)) {
-            $this->query->where($table . '.status_id', '=', (int)$filter);
+        $statuses = explode(',', $filter);
+        $filtered_statuses = [];
+
+        foreach ($statuses as $status) {
+            if (is_numeric($status)) {
+                $filtered_statuses[] = $status;
+                continue;
+            }
+
+            $this->doStatusFilter($status, $table);
         }
 
-        if ($filter === 'invoice_overdue') {
+        if (!empty($filtered_statuses)) {
+            $this->query->whereIn(
+                'status_id',
+                $filtered_statuses
+            );
+        }
+
+        return true;
+    }
+
+    private function doStatusFilter($status, $table)
+    {
+        if ($status === 'invoice_overdue') {
             $this->query->whereIn(
                 'status_id',
                 [
@@ -58,15 +79,15 @@ class QueryFilter
             )->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
         }
 
-        if ($filter === 'active') {
+        if ($status === 'active') {
             $this->query->whereNull($table . '.deleted_at');
         }
 
-        if ($filter === 'archived') {
+        if ($status === 'archived') {
             $this->query->whereNotNull($table . '.deleted_at')->withTrashed();
         }
 
-        if ($filter === 'deleted') {
+        if ($status === 'deleted') {
             $this->query->where($table . '.is_deleted', '=', 1)->withTrashed();
         }
     }
