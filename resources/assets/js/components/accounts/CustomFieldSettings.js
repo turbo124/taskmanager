@@ -6,12 +6,13 @@ import {
     NavItem,
     Nav,
     TabPane,
-    TabContent
+    TabContent,
+    Alert
 } from 'reactstrap'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
 import { translations } from '../common/_translations'
+import Snackbar from '@material-ui/core/Snackbar'
 
 class CustomFieldSettings extends Component {
     constructor (props) {
@@ -20,6 +21,8 @@ class CustomFieldSettings extends Component {
         this.modules = JSON.parse(localStorage.getItem('modules'))
 
         this.state = {
+            success: false,
+            error: false,
             activeTab: '1',
             quotes: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
                 name: 'custom_value3',
@@ -104,7 +107,7 @@ class CustomFieldSettings extends Component {
                 }
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -156,7 +159,7 @@ class CustomFieldSettings extends Component {
         axios.post('/api/accounts/fields', {
             fields: JSON.stringify(fields)
         }).then((response) => {
-            toast.success('Settings updated successfully')
+            this.setState({ success: true })
         })
             .catch((error) => {
                 if (error.response.data.errors) {
@@ -174,6 +177,10 @@ class CustomFieldSettings extends Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
         }
+    }
+
+    handleClose () {
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -491,7 +498,11 @@ class CustomFieldSettings extends Component {
 
         return (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">

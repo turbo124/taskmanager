@@ -8,6 +8,8 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_translations'
+import { consts } from '../common/_consts'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class PaymentFilters extends Component {
     constructor (props) {
@@ -21,8 +23,22 @@ export default class PaymentFilters extends Component {
                 start_date: '',
                 end_date: ''
             }
-
         }
+
+        this.statuses = [
+            {
+                value: consts.payment_status_pending,
+                label: translations.pending
+            },
+            {
+                value: consts.payment_status_refunded,
+                label: translations.refunded
+            },
+            {
+                value: consts.payment_status_completed,
+                label: translations.complete
+            }
+        ]
 
         this.getFilters = this.getFilters.bind(this)
         this.filterPayments = this.filterPayments.bind(this)
@@ -78,16 +94,7 @@ export default class PaymentFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterPayments}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value='active'>{translations.active}</option>
-                            <option value='archived'>{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterPayments} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
@@ -98,7 +105,7 @@ export default class PaymentFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <DateFilter onChange={this.filterPayments} />
+                        <DateFilter onChange={this.filterPayments}/>
                     </FormGroup>
                 </Col>
             </Row>

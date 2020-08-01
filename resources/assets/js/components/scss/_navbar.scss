@@ -27,11 +27,11 @@
 }
 
 .fixed-margin-mobile {
-  margin-top: 68px !important;
+  margin-top: 76px !important;
 }
 
 .fixed-margin-extra {
-  margin-top: 48px !important;
+  margin-top: 58px !important;
 }
 
 @media (min-width: 768px) {
@@ -69,7 +69,7 @@
     }
 
     .topbar {
-      padding-left: 228px;
+      padding-left: 232px;
     }
 
     .main {
@@ -96,12 +96,13 @@
 
 .topbar {
   z-index: 9999;
-  top: 52px;
+  top: 32px;
   left: 6px;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-  padding-right: 10px;
+  padding-right: 20px;
+  padding-left: 8px;
   //margin-top: 68px;
   position: fixed;
 }

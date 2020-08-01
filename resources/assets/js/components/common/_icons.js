@@ -56,6 +56,7 @@ export const icons = {
     globe: 'fa-globe',
     double_right: 'fa-angle-double-right',
     cloud: 'fa-cloud',
+    cloud_download: 'fa-cloud-download',
     header: 'fa-header',
     group: 'fa-group',
     pound_sign: 'fa-gbp',

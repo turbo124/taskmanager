@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardBody, FormGroup, Label } from 'reactstrap'
+import { Card, CardBody, FormGroup, Label, Alert } from 'reactstrap'
 import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
 import SignatureCanvas from 'react-signature-canvas'
-import styles from './style.module.css'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
 import { icons } from '../common/_icons'
+import Snackbar from '@material-ui/core/Snackbar'
 
 class EmailSettings extends Component {
     constructor (props) {
@@ -16,7 +15,9 @@ class EmailSettings extends Component {
         this.state = {
             id: localStorage.getItem('account_id'),
             sigPad: {},
-            settings: {}
+            settings: {},
+            success: false,
+            error: false
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -39,7 +40,7 @@ class EmailSettings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -77,9 +78,9 @@ class EmailSettings extends Component {
         this.trim().then(result => {
             axios.put(`/api/accounts/${this.state.id}`, { settings: JSON.stringify(this.state.settings) }, {
             }).then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             }).catch((error) => {
-                toast.error(`There was an issue updating the settings ${error}`)
+                this.setState({ error: true })
             })
         })
     }
@@ -176,10 +177,24 @@ class EmailSettings extends Component {
         return formFields
     }
 
+    handleClose () {
+        this.setState({ success: false, error: false })
+    }
+
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">

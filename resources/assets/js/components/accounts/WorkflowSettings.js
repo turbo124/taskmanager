@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Button, Card, CardHeader, CardBody, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
+import { Alert, Card, CardBody, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
+import Snackbar from '@material-ui/core/Snackbar'
 
 export default class WorkflowSettings extends Component {
     constructor (props) {
@@ -14,7 +14,9 @@ export default class WorkflowSettings extends Component {
         this.state = {
             id: localStorage.getItem('account_id'),
             settings: {},
-            activeTab: '1'
+            activeTab: '1',
+            success: false,
+            error: false
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -43,7 +45,7 @@ export default class WorkflowSettings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -74,11 +76,11 @@ export default class WorkflowSettings extends Component {
             }
         })
             .then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             })
             .catch((error) => {
                 console.error(error)
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -234,10 +236,24 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
+    handleClose () {
+        this.setState({ success: false, error: false })
+    }
+
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">

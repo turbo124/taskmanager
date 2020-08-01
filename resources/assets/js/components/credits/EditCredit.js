@@ -381,7 +381,7 @@ export default class EditCredit extends Component {
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message={this.state.message.length > 0 ? this.state.message : 'Something went wrong'}/> : null
 
-        const tabs = <Nav tabs>
+        const tabs = <Nav tabs className="nav-justified disable-scrollbars">
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}

@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import {
     Card,
-    CardHeader,
     CardBody,
     Nav,
     NavItem,
     NavLink,
-    TabContent, TabPane, Form, Button, Spinner
+    TabContent, TabPane, Form, Button, Spinner, Alert
 } from 'reactstrap'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import EmailFields from './EmailFields'
 import EmailPreview from './EmailPreview'
 import { translations } from '../common/_translations'
+import Snackbar from '@material-ui/core/Snackbar'
 
 class TemplateSettings extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            success: false,
+            error: false,
             showSpinner: false,
             showPreview: false,
             id: localStorage.getItem('account_id'),
@@ -137,7 +138,7 @@ class TemplateSettings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -153,7 +154,7 @@ class TemplateSettings extends Component {
             }
         })
             .then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             })
             .catch((error) => {
                 console.error(error)
@@ -161,6 +162,10 @@ class TemplateSettings extends Component {
                 //     errors: error.response.data.errors
                 // })
             })
+    }
+
+    handleClose () {
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -177,7 +182,17 @@ class TemplateSettings extends Component {
 
         return (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">

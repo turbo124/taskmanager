@@ -9,6 +9,7 @@ import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { consts } from '../common/_consts'
 import { translations } from '../common/_translations'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class InvoiceFilters extends Component {
     constructor (props) {
@@ -27,6 +28,37 @@ export default class InvoiceFilters extends Component {
 
         this.getFilters = this.getFilters.bind(this)
         this.filterInvoices = this.filterInvoices.bind(this)
+
+        this.statuses = [
+            {
+                value: consts.invoice_status_draft,
+                label: translations.draft
+            },
+            {
+                value: consts.invoice_status_sent,
+                label: translations.sent
+            },
+            // {
+            //     value: consts.invoice_status_draft,
+            //     label: translations.viewed
+            // },
+            {
+                value: consts.invoice_status_partial,
+                label: translations.partial
+            },
+            {
+                value: consts.invoice_status_paid,
+                label: translations.paid
+            },
+            {
+                value: consts.invoice_status_cancelled,
+                label: translations.cancelled
+            },
+            {
+                value: consts.invoice_status_reversed,
+                label: translations.reversed
+            }
+        ]
     }
 
     filterInvoices (event) {
@@ -79,29 +111,13 @@ export default class InvoiceFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterInvoices}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>{translations.active}</option>
-                            <option value="archived">{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                            <option value={consts.invoice_status_draft}>{translations.draft}</option>
-                            <option value={consts.invoice_status_sent}>{translations.sent}</option>
-                            <option value='Viewed'>{translations.viewed}</option>
-                            <option value={consts.invoice_status_partial}>{translations.partial}</option>
-                            <option value={consts.invoice_status_paid}>{translations.paid}</option>
-                            <option value={consts.invoice_status_cancelled}>{translations.cancelled}</option>
-                            <option value={consts.invoice_status_reversed}>{translations.reversed}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterInvoices} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={2}>
+                <Col md={3}>
                     <FormGroup>
-                        <DateFilter onChange={this.filterInvoices} />
+                        <DateFilter onChange={this.filterInvoices}/>
                     </FormGroup>
                 </Col>
 

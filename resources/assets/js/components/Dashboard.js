@@ -1746,7 +1746,7 @@ class Dashboard extends Component {
         }
         return (
             <React.Fragment>
-                <Nav className="disable-scrollbars" tabs>
+                <Nav className="tabs-justify disable-scrollbars" tabs>
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}

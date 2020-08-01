@@ -9,6 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class CreditFilters extends Component {
     constructor (props) {
@@ -23,6 +24,25 @@ export default class CreditFilters extends Component {
                 end_date: ''
             }
         }
+
+        this.statuses = [
+            {
+                value: consts.credit_status_draft,
+                label: translations.draft
+            },
+            {
+                value: consts.credit_status_sent,
+                label: translations.sent
+            },
+            {
+                value: consts.credit_status_applied,
+                label: translations.applied
+            },
+            {
+                value: consts.credit_status_partial,
+                label: translations.partial
+            }
+        ]
 
         this.filterCredits = this.filterCredits.bind(this)
         this.getFilters = this.getFilters.bind(this)
@@ -77,20 +97,7 @@ export default class CreditFilters extends Component {
 
                 <Col md={2}>
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterCredits}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value='active'>{translations.active}</option>
-                            <option value='archived'>{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                            <option value={consts.credit_status_draft}>{translations.draft}</option>
-                            <option value={consts.credit_status_sent}>{translations.sent}</option>
-                            <option value='3'>{translations.partial}</option>
-                            <option value='4'>{translations.applied}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterCredits} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 

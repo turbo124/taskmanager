@@ -11,21 +11,22 @@ import {
     NavItem,
     NavLink,
     Card,
-    CardHeader,
     CardBody,
     Button,
-    Modal, ModalBody, ModalFooter, ModalHeader
+    Modal, ModalBody, ModalFooter, ModalHeader, Alert
 
 } from 'reactstrap'
-import { toast } from 'react-toastify'
 import { translations } from '../common/_translations'
 import BlockButton from '../common/BlockButton'
 import { icons } from '../common/_icons'
+import Snackbar from '@material-ui/core/Snackbar'
 
 class ModuleSettings extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            success: false,
+            error: false,
             id: localStorage.getItem('account_id'),
             activeTab: '1',
             showConfirm: false,
@@ -185,7 +186,7 @@ class ModuleSettings extends Component {
                 location.href = '/Login#/login'
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -207,9 +208,25 @@ class ModuleSettings extends Component {
         }), () => localStorage.setItem('modules', JSON.stringify(this.state.modules)))
     }
 
+    handleClose () {
+        this.setState({ success: false, error: false })
+    }
+
     render () {
         return (
             <React.Fragment>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
+
                 <div className="topbar">
                     <Card className="m-0">
                         <CardBody className="p-0">

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
+import { Card, CardBody, FormGroup, Input, Label, Alert } from 'reactstrap'
 import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
 import moment from 'moment'
 import { translations } from '../common/_translations'
+import Snackbar from '@material-ui/core/Snackbar'
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
@@ -14,7 +14,9 @@ export default class LocalisationSettings extends Component {
             settings: {},
             first_month_of_year: null,
             first_day_of_week: null,
-            date_formats: ['DD/MMM/YYYY']
+            date_formats: ['DD/MMM/YYYY'],
+            success: false,
+            error: false
         }
 
         this.handleSettingsChange = this.handleSettingsChange.bind(this)
@@ -36,7 +38,7 @@ export default class LocalisationSettings extends Component {
                 })
             })
             .catch((e) => {
-                toast.error('There was an issue updating the settings')
+                this.setState({ error: true })
             })
     }
 
@@ -65,15 +67,19 @@ export default class LocalisationSettings extends Component {
             }
         })
             .then((response) => {
-                toast.success('Settings updated successfully')
+                this.setState({ success: true })
             })
             .catch((error) => {
-                toast.error('There was an issue updating the settings ' + error)
+                this.setState({ error: true })
             })
     }
 
     handleChange (event) {
         this.setState({ [event.target.name]: event.target.value })
+    }
+
+    handleClose () {
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -97,7 +103,17 @@ export default class LocalisationSettings extends Component {
 
         return date_formats && date_formats.length ? (
             <React.Fragment>
-                <ToastContainer/>
+                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {translations.settings_saved}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.settings_not_saved}
+                    </Alert>
+                </Snackbar>
 
                 <div className="topbar">
                     <Card className="m-0">
