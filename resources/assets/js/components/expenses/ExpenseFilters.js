@@ -16,6 +16,7 @@ export default class ExpenseFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
@@ -30,6 +31,10 @@ export default class ExpenseFilters extends Component {
 
         this.filterExpenses = this.filterExpenses.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterExpenses (event) {
