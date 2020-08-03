@@ -102,6 +102,10 @@ export default class ProductList extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCompanies () {
         axios.get('/api/companies')
             .then((r) => {
