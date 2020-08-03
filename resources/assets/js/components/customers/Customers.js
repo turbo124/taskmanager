@@ -90,6 +90,10 @@ export default class Customers extends Component {
         })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCompanies () {
         axios.get('/api/companies')
             .then((r) => {
