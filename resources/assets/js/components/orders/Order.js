@@ -63,6 +63,10 @@ export default class Order extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { orders, customers, custom_fields } = this.state
         return <OrderItem showCheckboxes={props.showCheckboxes}
