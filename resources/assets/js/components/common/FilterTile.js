@@ -14,22 +14,24 @@ export default class FilterTile extends Component {
     }
 
     toggleFilters () {
-        this.setState({ isOpen: !this.state.isOpen })
+        this.setState({ isOpen: !this.state.isOpen }, () => {
+            localStorage.setItem('datatable_collapsed', !this.state.isOpen)
+        })
     }
 
     render () {
         return (
             <Form>
-                {/* <span */}
-                {/*    style={{ marginBottom: '1rem', fontSize: '18px' }}> */}
-                {/*    <i style={{ display: (this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }} */}
-                {/*        className={`fa fa-fw ${icons.right} pull-left`}/> */}
-                {/*    <i style={{ display: (!this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }} */}
-                {/*        className={`fa fa-fw ${icons.down} pull-left`}/> */}
-                {/* </span> */}
+                <span onClick={this.toggleFilters}
+                    style={{ marginBottom: '1rem', fontSize: '18px' }}>
+                    <i style={{ display: (this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }}
+                        className={`fa fa-fw ${icons.right} pull-left`}/>
+                    <i style={{ display: (!this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }}
+                        className={`fa fa-fw ${icons.down} pull-left`}/>
+                </span>
 
                 <Collapse
-                    isOpen={true}
+                    isOpen={this.state.isOpen}
                 >
                     {this.props.filters}
                 </Collapse>
@@ -37,3 +39,4 @@ export default class FilterTile extends Component {
         )
     }
 }
+
