@@ -75,6 +75,10 @@ export default class ProjectList extends Component {
             cachedData: cachedData
         })
     }
+ 
+    handleClose () {
+        this.setState({ error: '' })
+    }
 
     filterProjects (filters) {
         this.setState({ filters: filters })
