@@ -52,6 +52,10 @@ export default class PaymentTerms extends Component {
         this.props.reset()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { paymentTerms } = this.state
         return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms ={paymentTerms}
