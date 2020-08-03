@@ -51,6 +51,10 @@ export default class Brands extends Component {
         })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCustomers () {
         axios.get('/api/customers')
             .then((r) => {
