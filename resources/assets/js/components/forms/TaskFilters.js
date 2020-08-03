@@ -16,6 +16,7 @@ export default class TaskFilters extends Component {
         super(props)
 
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 start_date: '',
@@ -32,6 +33,10 @@ export default class TaskFilters extends Component {
 
         this.filterTasks = this.filterTasks.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterTasks (event) {
