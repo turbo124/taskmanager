@@ -11,6 +11,7 @@ export default class PaymentTermFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 searchText: '',
@@ -22,6 +23,10 @@ export default class PaymentTermFilters extends Component {
 
         this.filterPaymentTerms = this.filterPaymentTerms.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterPaymentTerms (event) {
