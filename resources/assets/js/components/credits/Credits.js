@@ -53,6 +53,10 @@ export default class Credits extends Component {
     filterCredits (filters) {
         this.setState({ filters: filters })
     }
+ 
+    handleClose () {
+        this.setState({ error: '' })
+    }
 
     getCustomers () {
         axios.get('/api/customers')
