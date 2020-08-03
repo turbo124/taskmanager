@@ -89,6 +89,10 @@ export default class Expenses extends Component {
         this.getCompanies()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCompanies () {
         axios.get('/api/companies')
             .then((r) => {
