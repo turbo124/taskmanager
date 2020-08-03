@@ -54,6 +54,10 @@ export default class GroupSettings extends Component {
         this.props.reset()
     }
 
+    handleClose () {
+        this.setState({ error: false })
+    }
+
     userList (props) {
         const { groups } = this.state
         return <GroupSettingItem showCheckboxes={props.showCheckboxes} groups={groups}
