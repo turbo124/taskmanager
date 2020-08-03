@@ -70,6 +70,10 @@ export default class Invoice extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { invoices, customers, custom_fields } = this.state
         return <InvoiceItem showCheckboxes={props.showCheckboxes}
