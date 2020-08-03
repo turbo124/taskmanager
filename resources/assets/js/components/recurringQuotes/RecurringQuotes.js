@@ -82,6 +82,10 @@ export default class RecurringQuotes extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { invoices, custom_fields, customers, allQuotes } = this.state
         return <RecurringQuoteItem showCheckboxes={props.showCheckboxes} allQuotes={allQuotes} invoices={invoices}
