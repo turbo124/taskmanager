@@ -13,6 +13,7 @@ export default class AttributeFilters extends Component {
         this.state = {
             dropdownButtonActions: ['download'],
             filters: {
+                isOpen: false,
                 searchText: '',
                 status: 'active',
                 start_date: '',
@@ -51,6 +52,10 @@ export default class AttributeFilters extends Component {
                 [column]: value
             }
         }), () => this.props.filter(this.state.filters))
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     getFilters () {
