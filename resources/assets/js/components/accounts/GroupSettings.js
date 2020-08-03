@@ -55,7 +55,7 @@ export default class GroupSettings extends Component {
     }
 
     handleClose () {
-        this.setState({ error: false })
+        this.setState({ error: '' })
     }
 
     userList (props) {
