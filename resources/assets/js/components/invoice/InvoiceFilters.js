@@ -15,6 +15,7 @@ export default class InvoiceFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'Draft',
@@ -59,6 +60,10 @@ export default class InvoiceFilters extends Component {
                 label: translations.reversed
             }
         ]
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterInvoices (event) {
