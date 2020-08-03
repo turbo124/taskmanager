@@ -9,6 +9,7 @@ export default class GatewayFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 searchText: ''
@@ -17,6 +18,10 @@ export default class GatewayFilters extends Component {
 
         this.filterGateways = this.filterGateways.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterGateways (event) {
