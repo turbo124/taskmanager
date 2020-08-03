@@ -169,6 +169,9 @@ export default class Expenses extends Component {
             action={this.updateExpenses}
             expenses={expenses}
         /> : null
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
         return customers.length ? (
             <React.Fragment>
@@ -192,7 +195,7 @@ export default class Expenses extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable-large fixed-margin-datatable-large-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable
