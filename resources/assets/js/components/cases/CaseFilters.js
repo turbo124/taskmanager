@@ -14,6 +14,7 @@ export default class CaseFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 searchText: '',
@@ -28,6 +29,10 @@ export default class CaseFilters extends Component {
 
         this.filterCases = this.filterCases.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterCases (event) {
@@ -115,6 +120,6 @@ export default class CaseFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.setFilterOpen.bind(this)} filters={filters}/>)
     }
 }

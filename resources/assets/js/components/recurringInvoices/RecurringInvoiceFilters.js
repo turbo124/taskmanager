@@ -15,7 +15,7 @@ export default class RecurringInvoiceFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
-
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'Draft',
@@ -29,6 +29,10 @@ export default class RecurringInvoiceFilters extends Component {
 
         this.getFilters = this.getFilters.bind(this)
         this.filterInvoices = this.filterInvoices.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterInvoices (event) {
@@ -104,6 +108,6 @@ export default class RecurringInvoiceFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile  setFilterOpen={this.setFilterOpen.bind(this)} filters={filters}/>)
     }
 }

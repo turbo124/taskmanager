@@ -13,6 +13,7 @@ export default class GroupSettingFilters extends Component {
         this.state = {
             dropdownButtonActions: ['download'],
             filters: {
+                isOpen: false,
                 searchText: '',
                 status: 'active',
                 start_date: '',
@@ -22,6 +23,10 @@ export default class GroupSettingFilters extends Component {
 
         this.filterGroups = this.filterGroups.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterGroups (event) {
@@ -78,6 +83,6 @@ export default class GroupSettingFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.setFilterOpen.bind(this)} filters={filters}/>)
     }
 }

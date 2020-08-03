@@ -16,6 +16,7 @@ export default class FilterTile extends Component {
     toggleFilters () {
         this.setState({ isOpen: !this.state.isOpen }, () => {
             localStorage.setItem('datatable_collapsed', !this.state.isOpen)
+            this.props.setFilterOpen(!this.state.isOpen)
         })
     }
 

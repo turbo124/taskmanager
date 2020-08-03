@@ -15,6 +15,7 @@ export default class CreditFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
@@ -46,6 +47,10 @@ export default class CreditFilters extends Component {
 
         this.filterCredits = this.filterCredits.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterCredits (event) {
@@ -118,6 +123,6 @@ export default class CreditFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.setFilterOpen.bind(this)} filters={filters}/>)
     }
 }

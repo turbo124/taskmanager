@@ -13,6 +13,7 @@ export default class LeadFilters extends Component {
         super(props)
 
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
@@ -25,6 +26,10 @@ export default class LeadFilters extends Component {
 
         this.filterLeads = this.filterLeads.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterLeads (event) {
@@ -90,6 +95,6 @@ export default class LeadFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.setFilterOpen.bind(this)} filters={filters}/>)
     }
 }
