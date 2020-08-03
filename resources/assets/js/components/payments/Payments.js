@@ -2,17 +2,21 @@ import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import AddPayment from './AddPayment'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import axios from 'axios'
 import PaymentItem from './PaymentItem'
 import PaymentFilters from './PaymentFilters'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Payments extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: ['paymentables', 'assigned_to', 'id', 'customer', 'invoice_id', 'applied', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
@@ -63,7 +67,7 @@ export default class Payments extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -76,7 +80,10 @@ export default class Payments extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -88,7 +95,10 @@ export default class Payments extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -100,7 +110,10 @@ export default class Payments extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -124,11 +137,12 @@ export default class Payments extends Component {
             invoices={invoices} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
     render () {
-        const { payments, custom_fields, invoices, credits, view, filters, customers } = this.state
+        const { payments, custom_fields, invoices, credits, view, filters, customers, error } = this.state
         const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
@@ -139,37 +153,48 @@ export default class Payments extends Component {
             payments={payments}
         /> : null
 
-        return <div className="data-table">
+        return <React.Fragment>
+            <div className="topbar">
+                <Card>
+                    <CardBody>
+                        <PaymentFilters customers={customers} payments={payments} invoices={invoices}
+                            updateIgnoredColumns={this.updateIgnoredColumns}
+                            filters={filters} filter={this.filterPayments}
+                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                        {addButton}
+                    </CardBody>
+                </Card>
+            </div>
 
-            <Card>
-                <CardBody>
-                    <PaymentFilters customers={customers} payments={payments} invoices={invoices}
-                        updateIgnoredColumns={this.updateIgnoredColumns}
-                        filters={filters} filter={this.filterPayments}
-                        saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                    {addButton}
-                </CardBody>
-            </Card>
+            {error &&
+            <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                <Alert severity="danger">
+                    {translations.unexpected_error}
+                </Alert>
+            </Snackbar>
+            }
 
-            <Card>
-                <CardBody>
-                    <DataTable
-                        customers={customers}
-                        dropdownButtonActions={this.state.dropdownButtonActions}
-                        entity_type="Payment"
-                        bulk_save_url="/api/payment/bulk"
-                        view={view}
-                        ignore={this.state.ignoredColumns}
-                        columnMapping={{ customer_id: 'CUSTOMER' }}
-                        // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
-                        disableSorting={['id']}
-                        defaultColumn='number'
-                        userList={this.customerList}
-                        fetchUrl={fetchUrl}
-                        updateState={this.updateCustomers}
-                    />
-                </CardBody>
-            </Card>
-        </div>
+            <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <Card>
+                    <CardBody>
+                        <DataTable
+                            customers={customers}
+                            dropdownButtonActions={this.state.dropdownButtonActions}
+                            entity_type="Payment"
+                            bulk_save_url="/api/payment/bulk"
+                            view={view}
+                            ignore={this.state.ignoredColumns}
+                            columnMapping={{ customer_id: 'CUSTOMER' }}
+                            // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
+                            disableSorting={['id']}
+                            defaultColumn='number'
+                            userList={this.customerList}
+                            fetchUrl={fetchUrl}
+                            updateState={this.updateCustomers}
+                        />
+                    </CardBody>
+                </Card>
+            </div>
+        </React.Fragment>
     }
 }

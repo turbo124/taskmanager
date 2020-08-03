@@ -3,6 +3,7 @@ import axios from 'axios'
 import queryString from 'query-string'
 import EditInvoice from './EditInvoice'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
@@ -10,17 +11,18 @@ import InvoiceItem from './InvoiceItem'
 import InvoiceFilters from './InvoiceFilters'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Invoice extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: ['design_id', 'status_id', 'custom_surcharge_tax1', 'custom_surcharge_tax2'],
@@ -76,6 +78,7 @@ export default class Invoice extends Component {
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
             viewId={props.viewId}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -87,7 +90,10 @@ export default class Invoice extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -101,7 +107,7 @@ export default class Invoice extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -111,7 +117,7 @@ export default class Invoice extends Component {
     }
 
     render () {
-        const { invoices, customers, custom_fields, view, filters } = this.state
+        const { invoices, customers, custom_fields, view, filters, error } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditInvoice
@@ -125,8 +131,7 @@ export default class Invoice extends Component {
 
         return (
             <React.Fragment>
-                <div className="data-table">
-
+                <div className="topbar">
                     <Card>
                         <CardBody>
                             <InvoiceFilters invoices={invoices} customers={customers}
@@ -135,7 +140,17 @@ export default class Invoice extends Component {
                             {addButton}
                         </CardBody>
                     </Card>
+                </div>
 
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
+
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
                     <Card>
                         <CardBody>
                             <DataTable
@@ -162,7 +177,7 @@ export default class Invoice extends Component {
                     <List>
                         {['All mail', 'Trash', 'Spam'].map((text, index) => (
                             <ListItem button key={text}>
-                                {/*<ListItemIcon></ListItemIcon>*/}
+                                {/* <ListItemIcon></ListItemIcon> */}
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}

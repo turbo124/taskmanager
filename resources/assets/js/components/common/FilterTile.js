@@ -20,16 +20,16 @@ export default class FilterTile extends Component {
     render () {
         return (
             <Form>
-                <span onClick={this.toggleFilters}
-                    style={{ marginBottom: '1rem', fontSize: '18px' }}>
-                    <i style={{ display: (this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }}
-                        className={`fa fa-fw ${icons.right} pull-left`}/>
-                    <i style={{ display: (!this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }}
-                        className={`fa fa-fw ${icons.down} pull-left`}/>
-                </span>
+                {/* <span */}
+                {/*    style={{ marginBottom: '1rem', fontSize: '18px' }}> */}
+                {/*    <i style={{ display: (this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }} */}
+                {/*        className={`fa fa-fw ${icons.right} pull-left`}/> */}
+                {/*    <i style={{ display: (!this.state.isOpen ? 'none' : 'block'), marginTop: '6px' }} */}
+                {/*        className={`fa fa-fw ${icons.down} pull-left`}/> */}
+                {/* </span> */}
 
                 <Collapse
-                    isOpen={this.state.isOpen}
+                    isOpen={true}
                 >
                     {this.props.filters}
                 </Collapse>

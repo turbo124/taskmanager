@@ -3,11 +3,14 @@ import axios from 'axios'
 import AddProject from './AddStory'
 import DataTable from '../common/DataTable'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import ProjectFilters from './ProjectFilters'
 import ProjectItem from './ProjectItem'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class ProjectList extends Component {
     constructor (props) {
@@ -84,6 +87,7 @@ export default class ProjectList extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -97,7 +101,7 @@ export default class ProjectList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -112,7 +116,7 @@ export default class ProjectList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -123,39 +127,46 @@ export default class ProjectList extends Component {
         const fetchUrl = `/api/projects?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <ProjectFilters projects={projects} updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterProjects}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <AddProject users={users} projects={projects} action={this.addUserToState}
+                                custom_fields={custom_fields}/>
+                        </CardBody>
+                    </Card>
+                </div>
 
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <ProjectFilters projects={projects} updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterProjects}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        <AddProject users={users} projects={projects} action={this.addUserToState}
-                            custom_fields={custom_fields}/>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Project"
-                            bulk_save_url="/api/project/bulk"
-                            view={view}
-                            disableSorting={['id']}
-                            defaultColumn='title'
-                            ignore={ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Project"
+                                bulk_save_url="/api/project/bulk"
+                                view={view}
+                                disableSorting={['id']}
+                                defaultColumn='title'
+                                ignore={ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

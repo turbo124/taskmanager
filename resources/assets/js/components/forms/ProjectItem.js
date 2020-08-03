@@ -65,13 +65,15 @@ export default class ProjectItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(project.id)
                 const selectedRow = this.props.viewId === project.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={project.id}>
                     <td>
-                        <Input className={checkboxClass} value={project.id} type="checkbox" onChange={this.props.onChangeBulk}/>
-                        <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                            restore={restoreButton}/>
+                        <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        {actionMenu}
                     </td>
                     {columnList}
                 </tr>

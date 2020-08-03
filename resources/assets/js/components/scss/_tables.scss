@@ -162,6 +162,11 @@ table.mobile thead {
   width: 1px;
 }
 
+table.mobile tbody {
+  width: 100%;
+  display: table;
+}
+
 @media screen and(min-width: 767px) {
   table.mobile {
     width: 35% !important;
@@ -212,3 +217,16 @@ table.mobile td:last-child {
   background-color: #0069d9 !important;
   color: $white;
 }
+
+.data-table td input[type='checkbox'] {
+  position: absolute;
+  left: 48px;
+  margin-top: 18px;
+}
+
+@media screen and(min-width: 767px) {
+  .data-table td input[type='checkbox'] {
+    left: 50px !important;
+  }
+}
+

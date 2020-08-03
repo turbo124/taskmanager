@@ -8,6 +8,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class UserFilters extends Component {
     constructor (props) {
@@ -70,7 +71,7 @@ export default class UserFilters extends Component {
                     <TableSearch onChange={this.filterUsers}/>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <DepartmentDropdown
                         name="department_id"
                         handleInputChanges={this.filterUsers}
@@ -78,34 +79,25 @@ export default class UserFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <RoleDropdown
                         name="role_id"
                         handleInputChanges={this.filterUsers}
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterUsers}
-                            name="status"
-                            id="status"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterTokens} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="users.csv"
                         url={`/api/users?search_term=${searchText}&status=${status}&role_id=${role_id}&department_id=${department_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterUsers} />
                     </FormGroup>

@@ -3,13 +3,14 @@ import { Button, UncontrolledTooltip } from 'reactstrap'
 import { icons } from './_icons'
 import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
+import { translations } from './_translations'
 
 export default class AddButtons extends Component {
     render () {
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="right" target="addButtonTooltip">
-                    Add Item
+                    {translations.add_item}
                 </UncontrolledTooltip>
 
                 <Button id="addButtonTooltip" style={{ position: 'absolute', top: '20px', right: '30px' }}

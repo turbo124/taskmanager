@@ -7,7 +7,8 @@ export default class StatusDropdown extends Component {
         super(props)
         this.state = {
             allowed_statuses: [],
-            dropdownOpen: false
+            dropdownOpen: false,
+            statuses: this.props.statuses && this.props.statuses.length ? this.props.statuses : []
         }
 
         this.filterStatuses = this.filterStatuses.bind(this)
@@ -15,17 +16,16 @@ export default class StatusDropdown extends Component {
     }
 
     componentDidMount () {
-        if (this.props.statuses && this.props.statuses.length) {
-            this.props.statuses.push({ value: 'active', label: translations.active })
-            this.props.statuses.push({ value: 'active', label: translations.archived })
-            this.props.statuses.push({ value: 'active', label: translations.deleted })
-        }
+        this.state.statuses.push({ value: 'active', label: translations.active })
+        this.state.statuses.push({ value: 'archived', label: translations.archived })
+        this.state.statuses.push({ value: 'deleted', label: translations.deleted })
     }
 
     filterStatuses (event) {
         const allowed_statuses = this.state.allowed_statuses
         const check = event.target.checked
-        const selected_status = parseInt(event.target.value)
+        const selected_status = !isNaN(event.target.value) ? parseInt(event.target.value) : event.target.value
+        const fieldToUpdate = this.props.name && this.props.name.length ? this.props.name : 'status_id'
 
         const e = {}
 
@@ -35,7 +35,7 @@ export default class StatusDropdown extends Component {
             }, () => {
                 console.log('status', this.state.allowed_statuses.join(','))
                 e.target = {
-                    id: 'status_id',
+                    id: fieldToUpdate,
                     value: this.state.allowed_statuses.join(',')
                 }
                 this.props.filterStatus(e)
@@ -52,7 +52,7 @@ export default class StatusDropdown extends Component {
             }, () => {
                 console.log('status', this.state.allowed_statuses.join(','))
                 e.target = {
-                    id: 'status_id',
+                    id: fieldToUpdate,
                     value: this.state.allowed_statuses.join(',')
                 }
 
@@ -69,11 +69,11 @@ export default class StatusDropdown extends Component {
 
     buildDropdownMenu (list) {
         return (
-            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret>
+            <ButtonDropdown style={{ width: '100%' }} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle style={{ textAlign: 'left', paddingLeft: '20px', border: '1px solid #23282c', backgroundColor: '#515b65' }} caret>
                     {translations.select_status}
                 </DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu style={{ width: '100%' }}>
                     {list}
                 </DropdownMenu>
             </ButtonDropdown>
@@ -81,9 +81,9 @@ export default class StatusDropdown extends Component {
     }
 
     render () {
-        const list = this.props.statuses.map((status, index) => {
-            console.log('value', status.value)
-            const isChecked = this.state.allowed_statuses.includes(parseInt(status.value))
+        const list = this.state.statuses.map((status, index) => {
+            const currentValue = !isNaN(status.value) ? parseInt(status.value) : status.value
+            const isChecked = this.state.allowed_statuses.includes(currentValue)
             return (
                 <li className="p-1" style={{ lineHeight: '32px' }} key={index}>
                     <FormGroup check>

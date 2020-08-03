@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import AddRecurringInvoice from './AddRecurringInvoice'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RecurringInvoiceItem from './RecurringInvoiceItem'
 import RecurringInvoiceFilters from './RecurringInvoiceFilters'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class RecurringInvoices extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: [],
@@ -60,7 +64,10 @@ export default class RecurringInvoices extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -83,6 +90,7 @@ export default class RecurringInvoices extends Component {
             customers={customers} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -96,7 +104,7 @@ export default class RecurringInvoices extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -109,12 +117,15 @@ export default class RecurringInvoices extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
     render () {
-        const { invoices, custom_fields, customers, allInvoices, view, filters } = this.state
+        const { invoices, custom_fields, customers, allInvoices, view, filters, error } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
@@ -130,37 +141,48 @@ export default class RecurringInvoices extends Component {
             /> : null
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <RecurringInvoiceFilters invoices={invoices}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterInvoices}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <RecurringInvoiceFilters invoices={invoices}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterInvoices}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={this.state.customers}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="RecurringInvoice"
-                            bulk_save_url="/api/recurring-invoice/bulk"
-                            view={view}
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            ignore={this.state.ignoredColumns}
-                            disableSorting={['id']}
-                            defaultColumn='number'
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.updateInvoice}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={this.state.customers}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="RecurringInvoice"
+                                bulk_save_url="/api/recurring-invoice/bulk"
+                                view={view}
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                ignore={this.state.ignoredColumns}
+                                disableSorting={['id']}
+                                defaultColumn='number'
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.updateInvoice}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

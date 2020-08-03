@@ -6,6 +6,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class TaxRateFilters extends Component {
     constructor (props) {
@@ -68,27 +69,18 @@ export default class TaxRateFilters extends Component {
                     <TableSearch onChange={this.filterTaxRates}/>
                 </Col>
 
-                <Col md={2}>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                        <Input type='select'
-                            onChange={this.filterTaxRates}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
+                    <FormGroup>
+                        <StatusDropdown filterStatus={this.filterTaxRates} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="taxRates.csv"
                         url={`/api/taxRates?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterTaxRates} />
                     </FormGroup>

@@ -11,6 +11,7 @@ export default class PaymentTerms extends Component {
         super(props)
 
         this.state = {
+            error: '',
             dropdownButtonActions: ['download'],
             paymentTerms: [],
             cachedData: [],
@@ -57,6 +58,7 @@ export default class PaymentTerms extends Component {
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -70,48 +72,55 @@ export default class PaymentTerms extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, paymentTerms } = this.state
+        const { view, paymentTerms, error } = this.state
         const fetchUrl = `/api/payment_terms?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <PaymentTermFilters paymentTerms = {paymentTerms}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterPaymentTerms}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                <Card>
-                    <CardBody>
-                        <PaymentTermFilters paymentTerms = {paymentTerms}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterPaymentTerms}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <AddPaymentTerm
+                                payment_terms ={paymentTerms}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <AddPaymentTerm
-                            payment_terms ={paymentTerms}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                {error && <div className="alert alert-danger" role="alert">
+                    {error}
+                </div>}
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Group"
-                            bulk_save_url="/api/payment_terms/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Group"
+                                bulk_save_url="/api/payment_terms/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

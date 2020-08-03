@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddToken from './AddToken'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Alert } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import TokenFilters from './TokenFilters'
 import TokenItem from './TokenItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Tokens extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            error: '',
             dropdownButtonActions: ['download'],
             tokens: [],
             cachedData: [],
@@ -57,6 +60,7 @@ export default class Tokens extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -70,48 +74,59 @@ export default class Tokens extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, tokens } = this.state
+        const { view, tokens, error } = this.state
         const fetchUrl = `/api/tokens?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <TokenFilters tokens={tokens}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterTokens}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                <Card>
-                    <CardBody>
-                        <TokenFilters tokens={tokens}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterTokens}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <AddToken
+                                tokens={tokens}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <AddToken
-                            tokens={tokens}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Token"
-                            bulk_save_url="/api/tokens/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Token"
+                                bulk_save_url="/api/tokens/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddGroupSetting from './AddGroupSetting'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Alert } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import GroupSettingFilters from './GroupSettingFilters'
 import GroupSettingItem from './GroupSettingItem'
+import { translations } from '../common/_translations'
+import Snackbar from '@material-ui/core/Snackbar'
 
 export default class GroupSettings extends Component {
     constructor (props) {
@@ -13,6 +15,7 @@ export default class GroupSettings extends Component {
         this.state = {
             dropdownButtonActions: ['download'],
             groups: [],
+            error: '',
             cachedData: [],
             view: {
                 ignore: [],
@@ -57,6 +60,7 @@ export default class GroupSettings extends Component {
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -70,48 +74,60 @@ export default class GroupSettings extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, groups } = this.state
+        const { view, groups, error } = this.state
         const fetchUrl = `/api/groups?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <GroupSettingFilters groups={groups}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterGroups}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                <Card>
-                    <CardBody>
-                        <GroupSettingFilters groups={groups}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterGroups}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <AddGroupSetting
+                                groups={groups}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <AddGroupSetting
-                            groups={groups}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Group"
-                            bulk_save_url="/api/group/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Group"
+                                bulk_save_url="/api/group/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

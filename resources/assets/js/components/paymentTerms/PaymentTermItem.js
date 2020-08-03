@@ -54,10 +54,11 @@ export default class PaymentTermItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(payment_term.id)
 
                 return <tr key={payment_term.id}>
                     <td>
-                        <Input className={checkboxClass} value={payment_term.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input cheked={isChecked} className={checkboxClass} value={payment_term.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                             restore={restoreButton}/>
                     </td>

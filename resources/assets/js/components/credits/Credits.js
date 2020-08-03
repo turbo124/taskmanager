@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import axios from 'axios'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
 import EditCredit from './EditCredit'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Credits extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: [],
@@ -58,7 +62,10 @@ export default class Credits extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -72,7 +79,7 @@ export default class Credits extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -92,11 +99,12 @@ export default class Credits extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
     render () {
-        const { customers, credits, custom_fields, view, filters } = this.state
+        const { customers, credits, custom_fields, view, filters, error } = this.state
         const fetchUrl = `/api/credits?search_term=${this.state.filters.searchText}&status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}`
         const addButton = customers.length ? <EditCredit
             custom_fields={custom_fields}
@@ -108,36 +116,48 @@ export default class Credits extends Component {
         /> : null
 
         return customers.length ? (
-            <div className="data-table">
-                <Card>
-                    <CardBody>
-                        <CreditFilters credits={credits} customers={customers}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterCredits}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <CreditFilters credits={credits} customers={customers}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterCredits}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={customers}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Credit"
-                            bulk_save_url="/api/credit/bulk"
-                            view={view}
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            ignore={this.state.ignoredColumns}
-                            disableSorting={['id']}
-                            defaultColumn='number'
-                            userList={this.customerList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.updateCustomers}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
+
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={customers}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Credit"
+                                bulk_save_url="/api/credit/bulk"
+                                view={view}
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                ignore={this.state.ignoredColumns}
+                                disableSorting={['id']}
+                                defaultColumn='number'
+                                userList={this.customerList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.updateCustomers}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         ) : null
     }
 }

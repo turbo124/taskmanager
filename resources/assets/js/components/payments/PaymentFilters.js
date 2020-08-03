@@ -83,7 +83,7 @@ export default class PaymentFilters extends Component {
                     <TableSearch onChange={this.filterPayments}/>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CustomerDropdown
                         handleInputChanges={this.filterPayments}
                         customer={this.state.filters.customer_id}
@@ -92,18 +92,18 @@ export default class PaymentFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <StatusDropdown filterStatus={this.filterPayments} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="payments.csv"
                         url={`/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterPayments}/>
                     </FormGroup>

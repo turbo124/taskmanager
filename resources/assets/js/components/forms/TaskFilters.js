@@ -9,6 +9,7 @@ import FilterTile from '../common/FilterTile'
 import UserDropdown from '../common/UserDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import TaskStatusDropdown from '../common/TaskStatusDropdown'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class TaskFilters extends Component {
     constructor (props) {
@@ -82,7 +83,7 @@ export default class TaskFilters extends Component {
                     />
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <UserDropdown
                         handleInputChanges={this.filterTasks}
                         users={this.props.users}
@@ -90,7 +91,7 @@ export default class TaskFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
 
                     <TaskStatusDropdown
                         task_type={1}
@@ -98,27 +99,18 @@ export default class TaskFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterTasks}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterProjects}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="tasks.csv"
                         url={`/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterTasks} />
                     </FormGroup>

@@ -8,6 +8,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class ProductFilters extends Component {
     constructor (props) {
@@ -69,22 +70,13 @@ export default class ProductFilters extends Component {
                     <TableSearch onChange={this.filterProducts}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterProducts}
-                            id="status"
-                            name="status"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterProducts} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CompanyDropdown
                         company_id={this.props.filters.company_id}
                         handleInputChanges={this.filterProducts}
@@ -93,7 +85,7 @@ export default class ProductFilters extends Component {
                     />
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CategoryDropdown
                         name="category_id"
                         handleInputChanges={this.filterProducts}
@@ -101,12 +93,12 @@ export default class ProductFilters extends Component {
                     />
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="products.csv"
                         url={`/api/products?search_term=${searchText}&status=${status}&category_id=${category_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterProducts} />
                     </FormGroup>

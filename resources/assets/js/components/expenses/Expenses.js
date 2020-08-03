@@ -3,16 +3,20 @@ import DataTable from '../common/DataTable'
 import axios from 'axios'
 import AddExpense from './AddExpense'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Expenses extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: ['user_id', 'assigned_to', 'company_id', 'customer_id', 'invoice_id', 'bank_id', 'deleted_at', 'customer_id', 'invoice_currency_id', 'payment_type_id', 'currency_id', 'recurring_expense_id', 'updated_at', 'category_id'],
@@ -93,7 +97,10 @@ export default class Expenses extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -109,7 +116,10 @@ export default class Expenses extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -129,6 +139,7 @@ export default class Expenses extends Component {
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateExpenses={this.updateExpenses}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -142,13 +153,13 @@ export default class Expenses extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
-        const { expenses, customers, custom_fields, view, companies } = this.state
+        const { expenses, customers, custom_fields, view, companies, error } = this.state
         const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id } = this.state.filters
         const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
         const addButton = customers.length ? <AddExpense
@@ -160,37 +171,48 @@ export default class Expenses extends Component {
         /> : null
 
         return customers.length ? (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <ExpenseFilters customers={customers} expenses={expenses} companies={companies}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterExpenses}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <ExpenseFilters customers={customers} expenses={expenses} companies={companies}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterExpenses}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={customers}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Expense"
-                            bulk_save_url="/api/expense/bulk"
-                            view={view}
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            disableSorting={['id']}
-                            defaultColumn='amount'
-                            userList={this.expenseList}
-                            ignore={this.state.ignoredColumns}
-                            fetchUrl={fetchUrl}
-                            updateState={this.updateExpenses}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable-large fixed-margin-datatable-large-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={customers}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Expense"
+                                bulk_save_url="/api/expense/bulk"
+                                view={view}
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                disableSorting={['id']}
+                                defaultColumn='amount'
+                                userList={this.expenseList}
+                                ignore={this.state.ignoredColumns}
+                                fetchUrl={fetchUrl}
+                                updateState={this.updateExpenses}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         ) : null
     }
 }

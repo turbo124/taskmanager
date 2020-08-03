@@ -5,6 +5,7 @@ import {
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class PromocodeFilters extends Component {
     constructor (props) {
@@ -59,22 +60,13 @@ export default class PromocodeFilters extends Component {
                     <TableSearch onChange={this.filterPromocodes}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterPromocodes}
-                            name="status"
-                            id="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterPromocodes} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterPromocodes} />
                     </FormGroup>
