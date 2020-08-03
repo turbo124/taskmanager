@@ -79,10 +79,17 @@ export default class Subscriptions extends Component {
             })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
         const { view, subscriptions, error } = this.state
         const fetchUrl = `/api/subscriptions?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
             <React.Fragment>
@@ -110,7 +117,7 @@ export default class Subscriptions extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable

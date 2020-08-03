@@ -102,6 +102,10 @@ export default class ProductList extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCompanies () {
         axios.get('/api/companies')
             .then((r) => {
@@ -170,6 +174,9 @@ export default class ProductList extends Component {
             products={products}
             action={this.addProductToState}
         /> : null
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
         return (
             <React.Fragment>
@@ -193,7 +200,7 @@ export default class ProductList extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable-large fixed-margin-datatable-large-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable

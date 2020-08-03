@@ -63,6 +63,10 @@ export default class Quotes extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { quotes, custom_fields, customers } = this.state
         return <QuoteItem showCheckboxes={props.showCheckboxes} quotes={quotes} customers={customers}
@@ -117,6 +121,9 @@ export default class Quotes extends Component {
             invoices={quotes}
             modal={true}
         /> : null
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
             <React.Fragment>
@@ -140,7 +147,7 @@ export default class Quotes extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable

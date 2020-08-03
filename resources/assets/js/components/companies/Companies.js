@@ -76,6 +76,10 @@ export default class Companies extends Component {
         this.setState({ brands: brands })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     filterCompanies (filters) {
         this.setState({ filters: filters })
     }
@@ -128,6 +132,9 @@ export default class Companies extends Component {
         const addButton = users.length
             ? <AddCompany brands={brands} users={users} action={this.addUserToState}
                 custom_fields={custom_fields}/> : null
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
             <React.Fragment>
@@ -150,7 +157,7 @@ export default class Companies extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable

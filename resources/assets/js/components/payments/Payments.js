@@ -57,6 +57,10 @@ export default class Payments extends Component {
         this.getCustomFields()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCustomFields () {
         axios.get('api/accounts/fields/Payment')
             .then((r) => {
@@ -152,6 +156,9 @@ export default class Payments extends Component {
             action={this.updateCustomers}
             payments={payments}
         /> : null
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return <React.Fragment>
             <div className="topbar">
@@ -174,7 +181,7 @@ export default class Payments extends Component {
             </Snackbar>
             }
 
-            <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+            <div className={margin_class}>
                 <Card>
                     <CardBody>
                         <DataTable

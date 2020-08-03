@@ -75,6 +75,10 @@ export default class ProjectList extends Component {
             cachedData: cachedData
         })
     }
+ 
+    handleClose () {
+        this.setState({ error: '' })
+    }
 
     filterProjects (filters) {
         this.setState({ filters: filters })
@@ -125,6 +129,9 @@ export default class ProjectList extends Component {
         const { projects, users, custom_fields, ignoredColumns, view, error } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/projects?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
             <React.Fragment>
@@ -148,7 +155,7 @@ export default class ProjectList extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable

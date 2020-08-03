@@ -54,6 +54,10 @@ export default class Promocodes extends Component {
         this.props.reset()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { promocodes } = this.state
         console.log('promocodes', promocodes)
@@ -84,6 +88,9 @@ export default class Promocodes extends Component {
         const { searchText, status, start_date, end_date, error } = this.state.filters
         const { view, promocodes } = this.state
         const fetchUrl = `/api/promocodes?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
             <React.Fragment>
@@ -111,7 +118,7 @@ export default class Promocodes extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             <DataTable
