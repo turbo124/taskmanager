@@ -11,12 +11,17 @@ export default class CategoryFilters extends Component {
         this.state = {
             dropdownButtonActions: ['download'],
             filters: {
+                isOpen: false,
                 searchText: ''
             }
         }
 
         this.filterCategories = this.filterCategories.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterCategories (event) {
