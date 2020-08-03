@@ -14,7 +14,7 @@ export default class UserFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
-
+            isOpen: false,
             dropdownButtonActions: ['download'],
 
             filters: {
@@ -29,6 +29,10 @@ export default class UserFilters extends Component {
 
         this.getFilters = this.getFilters.bind(this)
         this.filterUsers = this.filterUsers.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterUsers (event) {
