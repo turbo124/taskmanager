@@ -79,6 +79,10 @@ export default class Subscriptions extends Component {
             })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
         const { view, subscriptions, error } = this.state
