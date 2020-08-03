@@ -76,6 +76,10 @@ export default class Companies extends Component {
         this.setState({ brands: brands })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     filterCompanies (filters) {
         this.setState({ filters: filters })
     }
