@@ -10,6 +10,7 @@ import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class ExpenseFilters extends Component {
     constructor (props) {
@@ -88,33 +89,24 @@ export default class ExpenseFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterExpenses}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value='active'>{translations.active}</option>
-                            <option value='archived'>{translations.archived}</option>
-                            <option value='deleted'>{translations.deleted}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterExpenses}/>
                     </FormGroup>
                 </Col>
 
-                <Col>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="expenses.csv"
                         url={`/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterExpenses} />
                     </FormGroup>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <ExpenseCategoryDropdown
                             name="category_id"

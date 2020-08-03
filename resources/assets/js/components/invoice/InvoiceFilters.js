@@ -109,7 +109,7 @@ export default class InvoiceFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <StatusDropdown filterStatus={this.filterInvoices} statuses={this.statuses}/>
                     </FormGroup>

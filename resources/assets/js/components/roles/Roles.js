@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import EditRole from './EditRole'
 import AddRole from './AddRole'
-import { Button } from 'reactstrap'
+import { Alert, Button } from 'reactstrap'
 import DataTable from '../common/DataTable'
+import Snackbar from "@material-ui/core/Snackbar";
+import { translations } from "../common/_translations";
 
 export default class Roles extends Component {
     constructor (props) {
@@ -71,9 +73,13 @@ export default class Roles extends Component {
         return (
             <div className="data-table m-md-3 m-0">
 
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
                 <AddRole roles={this.state.roles} action={this.addUserToState}/>
 

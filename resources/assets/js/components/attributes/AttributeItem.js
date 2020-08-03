@@ -58,13 +58,15 @@ export default class AttributeItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(attribute.id)
                 const selectedRow = this.props.viewId === attribute.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={attribute.id}>
                     <td>
-                        <Input className={checkboxClass} value={attribute.id} type="checkbox" onChange={this.props.onChangeBulk}/>
-                        <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                            restore={restoreButton}/>
+                        <Input checked={isChecked} className={checkboxClass} value={attribute.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        {actionMenu}
                     </td>
                     {columnList}
                 </tr>

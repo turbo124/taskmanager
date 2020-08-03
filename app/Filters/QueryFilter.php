@@ -39,9 +39,9 @@ class QueryFilter
      * @param string $filter
      * @return mixed
      */
-    protected function status(string $table, string $filter = '')
+    protected function status(string $table, $filter = '')
     {
-        if (strlen($filter) == 0) {
+        if ($filter === null || strlen($filter) == 0) {
             return $this->query;
         }
 

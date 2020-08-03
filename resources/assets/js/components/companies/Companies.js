@@ -3,11 +3,14 @@ import axios from 'axios'
 import AddCompany from './AddCompany'
 import DataTable from '../common/DataTable'
 import {
+    Alert,
     Card,
     CardBody
 } from 'reactstrap'
 import CompanyFilters from './CompanyFilters'
 import CompanyItem from './CompanyItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Companies extends Component {
     constructor (props) {
@@ -84,6 +87,7 @@ export default class Companies extends Component {
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -97,7 +101,7 @@ export default class Companies extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -112,7 +116,7 @@ export default class Companies extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -126,38 +130,45 @@ export default class Companies extends Component {
                 custom_fields={custom_fields}/> : null
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <CompanyFilters brands={brands} updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterCompanies}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <CompanyFilters brands={brands} updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterCompanies}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Company"
-                            bulk_save_url="/api/company/bulk"
-                            view={view}
-                            disableSorting={['id']}
-                            defaultColumn='name'
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Company"
+                                bulk_save_url="/api/company/bulk"
+                                view={view}
+                                disableSorting={['id']}
+                                defaultColumn='name'
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

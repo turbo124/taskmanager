@@ -8,6 +8,7 @@ import DisplayColumns from './DisplayColumns'
 import BulkActionDropdown from './BulkActionDropdown'
 import { icons } from './_icons'
 import { translations } from './_translations'
+import CheckboxFilterBar from './CheckboxFilterBar'
 
 export default class DataTable extends Component {
     constructor (props) {
@@ -17,6 +18,8 @@ export default class DataTable extends Component {
             showCheckboxes: false,
             displayAsTable: false,
             showColumns: false,
+            showCheckboxFilter: false,
+            allSelected: false,
             width: window.innerWidth,
             view: this.props.view,
             ignoredColumns: this.props.ignore || [],
@@ -48,6 +51,8 @@ export default class DataTable extends Component {
         this.toggleViewedEntity = this.toggleViewedEntity.bind(this)
         this.onChangeBulk = this.onChangeBulk.bind(this)
         this.saveBulk = this.saveBulk.bind(this)
+        this.closeFilterBar = this.closeFilterBar.bind(this)
+        this.checkAll = this.checkAll.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this)
     }
@@ -101,9 +106,16 @@ export default class DataTable extends Component {
             })
     }
 
+    closeFilterBar () {
+        this.setState({ showCheckboxes: false, showCheckboxFilter: false, allSelected: false, bulk: [] })
+    }
+
     handleTableActions (event) {
         if (event.target.id === 'toggle-checkbox') {
-            this.setState({ showCheckboxes: !this.state.showCheckboxes })
+            this.setState({
+                showCheckboxes: !this.state.showCheckboxes,
+                showCheckboxFilter: !this.state.showCheckboxes
+            })
         }
 
         if (event.target.id === 'toggle-table') {
@@ -209,6 +221,28 @@ export default class DataTable extends Component {
             })
     }
 
+    checkAll (e) {
+        const checked = e.target.checked
+        // current array of options
+        const options = this.state.bulk
+        let index
+
+        this.state.data.forEach((element) => {
+            // check if the check box is checked or unchecked
+            if (checked) {
+                // add the numerical value of the checkbox to options array
+                options.push(+element.id)
+            } else {
+                // or remove the value from the unchecked checkbox from the array
+                index = options.indexOf(element.id)
+                options.splice(index, 1)
+            }
+        })
+
+        // update the state with the new array of options
+        this.setState({ bulk: options, allSelected: checked }, () => console.log('bulk', this.state.bulk))
+    }
+
     onChangeBulk (e) {
         // current array of options
         const options = this.state.bulk
@@ -242,16 +276,18 @@ export default class DataTable extends Component {
                 ignored_columns={this.state.ignoredColumns}/> : null
 
         const table_class = this.state.displayAsTable || isMobile ? 'mt-2 data-table mobile' : 'mt-2 data-table'
+        const tableSort = !isMobile ? <TableSort fetchEntities={this.fetchEntities}
+            columnMapping={this.props.columnMapping}
+            columns={this.props.order ? this.props.order : this.state.columns}
+            ignore={this.state.ignoredColumns}
+            disableSorting={this.props.disableSorting} sorted_column={this.state.sorted_column}
+            order={this.state.order}/> : null
 
-        const table = <Table className={table_class} striped bordered hover responsive dark>
-            <TableSort fetchEntities={this.fetchEntities}
-                columnMapping={this.props.columnMapping}
-                columns={this.props.order ? this.props.order : this.state.columns}
-                ignore={this.state.ignoredColumns}
-                disableSorting={this.props.disableSorting} sorted_column={this.state.sorted_column}
-                order={this.state.order}/>
+        const table = <Table className={`table-responsive-md ${table_class}`} striped bordered hover dark>
+            {tableSort}
             <tbody>
                 {this.props.userList({
+                    bulk: this.state.bulk,
                     ignoredColumns: this.state.ignoredColumns,
                     toggleViewedEntity: this.toggleViewedEntity,
                     viewId: this.state.view.viewedId ? this.state.view.viewedId.id : null,
@@ -284,8 +320,14 @@ export default class DataTable extends Component {
                     {translations.toggle_columns}
                 </UncontrolledTooltip>
 
-                <Collapse className="pull-left col-8" isOpen={this.state.showColumns}>
+                <Collapse className="pull-left col-12 col-md-8" isOpen={this.state.showColumns}>
                     {columnFilter}
+                </Collapse>
+
+                <Collapse className="pull-left col-12 col-md-8" isOpen={this.state.showCheckboxFilter}>
+                    <CheckboxFilterBar count={this.state.bulk.length} isChecked={this.state.allSelected}
+                        checkAll={this.checkAll}
+                        cancel={this.closeFilterBar}/>
                 </Collapse>
 
                 <div style={{ lineHeight: '32px' }} className="row justify-content-end">

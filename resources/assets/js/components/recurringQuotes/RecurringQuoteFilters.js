@@ -9,6 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class RecurringQuoteFilters extends Component {
     constructor (props) {
@@ -68,7 +69,7 @@ export default class RecurringQuoteFilters extends Component {
                     <TableSearch onChange={this.filterInvoices}/>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CustomerDropdown
                         customer={this.state.filters.customer_id}
                         handleInputChanges={this.filterInvoices}
@@ -77,32 +78,18 @@ export default class RecurringQuoteFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterInvoices}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">{translations.select_status}</option>
-                            <option value={consts.recurring_quote_status_draft}>{translations.draft}</option>
-                            <option value="active">{translations.active}</option>
-                            <option value="archived">{translations.archived}</option>
-                            <option value="deleted">{translations.deleted}</option>
-                            <option value={consts.recurring_quote_status_pending}>{translations.pending}</option>
-                            <option value='Viewed'>{translations.viewed}</option>
-                            <option value={consts.recurring_quote_status_cancelled}>{translations.cancelled}</option>
-                            <option value={consts.recurring_quote_status_completed}>{translations.complete}</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterInvoices} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="recurringQuotes.csv"
                         url={`/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterInvoices} />
                     </FormGroup>

@@ -77,6 +77,8 @@ _localizedValues.gb = {
     edit_case: 'Edit Case',
     message: 'Message',
     target_url: 'Target URL',
+    select_all: 'Select All',
+    add_item: 'Add Item',
     event: 'Event',
     maximum_5_features: 'You can only add 5 features for a product',
     features: 'Features',
@@ -229,6 +231,7 @@ _localizedValues.gb = {
     reversed_invoices: 'Successfully reversed invoices',
     reverse: 'Reverse',
     cancel: 'Cancel',
+    selected: 'records selected',
     full_name: 'Full Name',
     city_state_postal: 'City/State/Postal',
     postal_city_state: 'Postal/City/State',
@@ -468,6 +471,7 @@ _localizedValues.gb = {
     should_send_email_for_manual_payment_help_text: 'Will send a receipt to the customer when a manual payment is created',
     should_send_email_for_online_payment: 'Send Email for Online Payments',
     should_send_email_for_online_payment_help_text: 'Will send a receipt to the customer when an online payment is created',
+    unexpected_error: 'There was an unexpected error'
 }
 
 export const default_language = 'gb'

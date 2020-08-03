@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-    FormGroup, Input, Row, Col
+    FormGroup, Row, Col
 } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class GroupSettingFilters extends Component {
     constructor (props) {
@@ -59,22 +60,13 @@ export default class GroupSettingFilters extends Component {
                     <TableSearch onChange={this.filterGroups}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterGroups}
-                            name="status"
-                            id="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterGroups}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterGroups} />
                     </FormGroup>

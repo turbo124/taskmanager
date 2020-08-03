@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import AddGateway from './AddGateway'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Alert } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import GatewayFilters from './GatewayFilters'
 import GatewayItem from './GatewayItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Gateways extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            error: '',
             dropdownButtonActions: ['download'],
             gateways: [],
             cachedData: [],
@@ -58,46 +61,59 @@ export default class Gateways extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
     render () {
-        const { searchText, status, start_date, end_date } = this.state.filters
+        const { searchText, status, start_date, end_date, error } = this.state.filters
         const { view, gateways } = this.state
         const fetchUrl = `/api/company_gateways?search_term=${searchText} `
 
         return (
-            <div className="data-table">
-                <Card>
-                    <CardBody>
-                        <GatewayFilters gateways={gateways}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterGateways}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <GatewayFilters gateways={gateways}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterGateways}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                        <AddGateway
-                            gateways={gateways}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                            <AddGateway
+                                gateways={gateways}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Gateway"
-                            bulk_save_url="/api/gateways/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
+
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Gateway"
+                                bulk_save_url="/api/gateways/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

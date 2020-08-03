@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddCase from './AddCase'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Alert } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CaseFilters from './CaseFilters'
 import CaseItem from './CaseItem'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Cases extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            error: '',
             dropdownButtonActions: ['download'],
             customers: [],
             cases: [],
@@ -61,7 +64,10 @@ export default class Cases extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -79,6 +85,7 @@ export default class Cases extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -92,52 +99,63 @@ export default class Cases extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
         const { searchText, status, start_date, end_date, customer_id, category_id, priority_id } = this.state.filters
-        const { view, cases, customers } = this.state
+        const { view, cases, customers, error } = this.state
         const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}&priority_id=${priority_id}`
 
         return customers.length ? (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <CaseFilters cases={cases}
+                                customers={customers}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterCases}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                <Card>
-                    <CardBody>
-                        <CaseFilters cases={cases}
-                            customers={customers}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterCases}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <AddCase
+                                customers={customers}
+                                cases={cases}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                        <AddCase
-                            customers={customers}
-                            cases={cases}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={this.state.customers}
-                            columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Case"
-                            bulk_save_url="/api/cases/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable-large fixed-margin-datatable-large-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={this.state.customers}
+                                columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Case"
+                                bulk_save_url="/api/cases/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         ) : null
     }
 }

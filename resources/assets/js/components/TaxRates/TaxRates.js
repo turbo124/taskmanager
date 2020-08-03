@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import AddTaxRate from './AddTaxRate'
 import DataTable from '../common/DataTable'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import TaxRateFilters from './TaxRateFilters'
 import TaxRateItem from './TaxRateItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class TaxRates extends Component {
     constructor (props) {
@@ -64,6 +67,7 @@ export default class TaxRates extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -74,34 +78,46 @@ export default class TaxRates extends Component {
         const addButton = <AddTaxRate taxRates={taxRates} action={this.addUserToState}/>
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <TaxRateFilters taxRates={taxRates}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterTaxRates}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
-                <Card>
-                    <CardBody>
-                        <TaxRateFilters taxRates={taxRates}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterTaxRates}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Tax Rate"
-                            bulk_save_url="/api/taxRate/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            disableSorting={['id']}
-                            defaultColumn='name'
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Tax Rate"
+                                bulk_save_url="/api/taxRate/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                disableSorting={['id']}
+                                defaultColumn='name'
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

@@ -57,14 +57,16 @@ export default class BrandItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(brand.id)
                 const selectedRow = this.props.viewId === brand.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={brand.id}>
                     <td>
-                        <Input className={checkboxClass} value={brand.id} type="checkbox"
+                        <Input checked={isChecked} className={checkboxClass} value={brand.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
-                        <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                            restore={restoreButton}/>
+                        {actionMenu}
                     </td>
                     {columnList}
                 </tr>

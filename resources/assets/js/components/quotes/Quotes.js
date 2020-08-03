@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import EditQuote from './EditQuote'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import QuoteItem from './QuoteItem'
 import QuoteFilters from './QuoteFilters'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Quotes extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: ['user_id', 'next_send_date', 'updated_at', 'use_inclusive_taxes', 'last_sent_date', 'uses_inclusive_taxes', 'line_items', 'next_sent_date', 'first_name', 'last_name', 'design_id', 'status_id', 'custom_surcharge_tax1', 'custom_surcharge_tax2'],
@@ -66,6 +70,7 @@ export default class Quotes extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -77,7 +82,10 @@ export default class Quotes extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -91,13 +99,13 @@ export default class Quotes extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
-        const { quotes, custom_fields, customers, view, filters } = this.state
+        const { quotes, custom_fields, customers, view, filters, error } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <EditQuote
@@ -111,37 +119,48 @@ export default class Quotes extends Component {
         /> : null
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <QuoteFilters quotes={quotes} customers={customers}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterInvoices}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <QuoteFilters quotes={quotes} customers={customers}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterInvoices}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={customers}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Quote"
-                            bulk_save_url="/api/quote/bulk"
-                            view={view}
-                            columnMapping={{ status_id: 'STATUS', customer_id: 'CUSTOMER' }}
-                            ignore={this.state.ignoredColumns}
-                            disableSorting={['id']}
-                            defaultColumn='number'
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.updateInvoice}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={customers}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Quote"
+                                bulk_save_url="/api/quote/bulk"
+                                view={view}
+                                columnMapping={{ status_id: 'STATUS', customer_id: 'CUSTOMER' }}
+                                ignore={this.state.ignoredColumns}
+                                disableSorting={['id']}
+                                defaultColumn='number'
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.updateInvoice}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

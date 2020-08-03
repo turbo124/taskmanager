@@ -9,6 +9,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class CompanyFilters extends Component {
     constructor (props) {
@@ -68,29 +69,20 @@ export default class CompanyFilters extends Component {
                     <TableSearch onChange={this.filterCompanies}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterCompanies}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterCompanies}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <FormGroup>
                         <CsvImporter filename="companies.csv"
                             url={`/api/companies?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterCompanies}/>
                     </FormGroup>

@@ -96,7 +96,7 @@ export default class QuoteFilters extends Component {
                     <TableSearch onChange={this.filterInvoices}/>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CustomerDropdown
                         customer={this.props.filters.customer_id}
                         renderErrorFor={this.renderErrorFor}
@@ -106,18 +106,18 @@ export default class QuoteFilters extends Component {
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <StatusDropdown filterStatus={this.filterInvoices} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="quotes.csv"
                         url={`/api/quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterInvoices}/>
                     </FormGroup>

@@ -8,6 +8,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class CustomerFilters extends Component {
     constructor (props) {
@@ -70,18 +71,9 @@ export default class CustomerFilters extends Component {
                     <TableSearch onChange={this.filterCustomers}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterCustomers}
-                            name="status"
-                            id="status"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown name="status" filterStatus={this.filterCustomers}/>
                     </FormGroup>
                 </Col>
 

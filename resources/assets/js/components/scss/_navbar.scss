@@ -34,9 +34,25 @@
   margin-top: 58px !important;
 }
 
+.fixed-margin-datatable-mobile {
+  margin-top: 300px !important;
+}
+
+.fixed-margin-datatable-large-mobile {
+  margin-top: 430px !important;
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
+  }
+
+  .fixed-margin-datatable {
+    margin-top: 135px !important;
+  }
+
+  .fixed-margin-datatable-large {
+    margin-top: 190px !important;
   }
 }
 

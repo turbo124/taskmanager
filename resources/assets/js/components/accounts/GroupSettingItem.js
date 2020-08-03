@@ -54,10 +54,11 @@ export default class GroupSettingItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(group.id)
 
                 return <tr key={group.id}>
                     <td>
-                        <Input className={checkboxClass} value={group.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox" onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                             restore={restoreButton}/>
                     </td>

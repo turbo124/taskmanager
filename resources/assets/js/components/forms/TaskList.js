@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import DataTable from '../common/DataTable'
-import { Card, CardBody, Button } from 'reactstrap'
+import { Card, CardBody, Button, Alert } from 'reactstrap'
 import TaskFilters from './TaskFilters'
 import TaskItem from './TaskItem'
 import AddModal from './AddTask'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class TaskList extends Component {
     constructor (props) {
@@ -107,6 +109,7 @@ export default class TaskList extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -120,7 +123,7 @@ export default class TaskList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -135,7 +138,7 @@ export default class TaskList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -150,7 +153,7 @@ export default class TaskList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -185,31 +188,38 @@ export default class TaskList extends Component {
         /> : null
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <TaskFilters users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterTasks}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <Button color="primary" onClick={() => {
+                                location.href = '/#/kanban/projects'
+                            }}>Kanban view </Button>
 
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <TaskFilters users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterTasks}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        <Button color="primary" onClick={() => {
-                            location.href = '/#/kanban/projects'
-                        }}>Kanban view </Button>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                        {addButton}
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardBody>
-                        {table}
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            {table}
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

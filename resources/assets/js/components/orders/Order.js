@@ -2,17 +2,21 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import EditOrder from './EditOrder'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import OrderItem from './OrderItem'
 import OrderFilters from './OrderFilters'
 import queryString from 'query-string'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Order extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: ['design_id', 'status_id', 'custom_surcharge_tax1', 'custom_surcharge_tax2'],
@@ -67,6 +71,7 @@ export default class Order extends Component {
             ignoredColumns={props.ignoredColumns} updateOrder={this.updateOrder}
             viewId={props.viewId}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -78,7 +83,10 @@ export default class Order extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -92,13 +100,13 @@ export default class Order extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
-        const { orders, customers, custom_fields, view, filters } = this.state
+        const { orders, customers, custom_fields, view, filters, error } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditOrder
@@ -112,8 +120,7 @@ export default class Order extends Component {
 
         return (
             <React.Fragment>
-                <div className="data-table">
-
+                <div className="topbar">
                     <Card>
                         <CardBody>
                             <OrderFilters orders={orders} customers={customers}
@@ -122,7 +129,17 @@ export default class Order extends Component {
                             {addButton}
                         </CardBody>
                     </Card>
+                </div>
 
+                {error &&
+                    <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
+                }
+
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
                     <Card>
                         <CardBody>
                             <DataTable

@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddCategory from './AddCategory'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Alert } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CategoryFilters from './CategoryFilters'
 import CategoryItem from './CategoryItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class Categories extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            error: '',
             dropdownButtonActions: ['download'],
             categories: [],
             cachedData: [],
@@ -56,7 +59,10 @@ export default class Categories extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -74,6 +80,7 @@ export default class Categories extends Component {
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
@@ -87,50 +94,62 @@ export default class Categories extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, categories, customers } = this.state
+        const { view, categories, customers, error } = this.state
         const fetchUrl = `/api/case-categories?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
 
         return (
-            <div className="data-table">
-                <Card>
-                    <CardBody>
-                        <CategoryFilters categories={categories}
-                            customers={customers}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={this.state.filters} filter={this.filterCategories}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <CategoryFilters categories={categories}
+                                customers={customers}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={this.state.filters} filter={this.filterCategories}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                        <AddCategory
-                            customers={customers}
-                            categories={categories}
-                            action={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
+                            <AddCategory
+                                customers={customers}
+                                categories={categories}
+                                action={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Category"
-                            bulk_save_url="/api/expense-categories/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addUserToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
+
+                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Category"
+                                bulk_save_url="/api/expense-categories/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addUserToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

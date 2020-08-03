@@ -89,16 +89,17 @@ export default class PaymentItem extends Component {
                         action={this.props.updateCustomers}/> : null
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(payment.id)
                 const selectedRow = this.props.viewId === payment.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={payment.id}>
                         <td>
-                            <Input className={checkboxClass} value={payment.id} type="checkbox"
+                            <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
-                            <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                                refund={refundButton}
-                                restore={restoreButton}/>
+                            {actionMenu}
                         </td>
                         {columnList}
                     </tr>

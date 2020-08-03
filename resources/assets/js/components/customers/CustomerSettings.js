@@ -13,7 +13,8 @@ import {
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import CustomerModel from '../models/CustomerModel'
-import { icons } from "../common/_icons";
+import { icons } from '../common/_icons'
+import { consts } from "../common/_consts";
 
 class CustomerSettings extends Component {
     constructor (props) {
@@ -234,6 +235,351 @@ class CustomerSettings extends Component {
         return formFields
     }
 
+    getInvoiceFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_lock_invoice',
+                    label: translations.lock_invoice,
+                    type: 'select',
+                    value: settings.should_lock_invoice,
+                    options: [
+                        {
+                            value: consts.lock_invoices_off,
+                            text: translations.off
+                        },
+                        {
+                            value: consts.lock_invoices_sent,
+                            text: translations.when_sent
+                        },
+                        {
+                            value: consts.lock_invoices_paid,
+                            text: translations.when_paid
+                        }
+                    ]
+                },
+                {
+                    name: 'should_email_invoice',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_invoice,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_invoice',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_invoice,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getOrderFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_order',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_order,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_order',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_order,
+                    group: 1
+                },
+                {
+                    name: 'should_convert_order',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_order,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getLeadFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_lead',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_lead,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_lead',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_lead,
+                    group: 1
+                },
+                {
+                    name: 'should_convert_lead',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_lead,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getQuoteFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_quote',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_quote,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_quote',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_quote,
+                    group: 1
+                },
+                {
+                    name: 'should_convert_quote',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_quote,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getInvoiceNumberFields () {
+        const settings = this.state.settings
+
+        console.log('settings', settings)
+
+        const formFields = [
+            [
+                {
+                    name: 'invoice_number_pattern',
+                    label: 'Invoice Number Pattern',
+                    type: 'text',
+                    placeholder: 'Invoice Number Pattern',
+                    value: settings.invoice_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'invoice_number_counter',
+                    label: 'Invoice Counter',
+                    type: 'text',
+                    placeholder: 'Invoice Counter',
+                    value: settings.invoice_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getOrderNumberFields () {
+        const settings = this.state.settings
+
+        console.log('settings', settings)
+
+        const formFields = [
+            [
+                {
+                    name: 'order_number_pattern',
+                    label: 'Order Number Pattern',
+                    type: 'text',
+                    placeholder: 'Order Number Pattern',
+                    value: settings.order_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'order_number_counter',
+                    label: 'Order Counter',
+                    type: 'text',
+                    placeholder: 'Order Counter',
+                    value: settings.order_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getQuoteNumberFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'quote_number_pattern',
+                    label: 'Quote Number Pattern',
+                    type: 'text',
+                    placeholder: 'Quote Number Pattern',
+                    value: settings.quote_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'quote_number_counter',
+                    label: 'Quote Counter',
+                    type: 'text',
+                    placeholder: 'Quote Counter',
+                    value: settings.quote_number_counter
+                },
+                {
+                    name: 'quote_design_id',
+                    label: 'Quote Design',
+                    type: 'select',
+                    value: settings.quote_design_id,
+                    options: [
+                        {
+                            value: '1',
+                            text: 'Clean'
+                        },
+                        {
+                            value: '2',
+                            text: 'Bold'
+                        },
+                        {
+                            value: '3',
+                            text: 'Modern'
+                        },
+                        {
+                            value: '4',
+                            text: 'Plain'
+                        }
+                    ],
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getCreditNumberFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'credit_number_pattern',
+                    label: 'Credit Number Pattern',
+                    type: 'text',
+                    placeholder: 'Credit Number Pattern',
+                    value: settings.credit_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'credit_number_counter',
+                    label: 'Credit Counter',
+                    type: 'text',
+                    placeholder: 'Credit Counter',
+                    value: settings.credit_number_counter
+                }
+                // {
+                //     name: 'credit_design_id',
+                //     label: 'Credit Design',
+                //     type: 'select',
+                //     value: settings.credit_design_id,
+                //     options: [
+                //         {
+                //             value: '1',
+                //             text: 'Clean'
+                //         },
+                //         {
+                //             value: '2',
+                //             text: 'Bold'
+                //         },
+                //         {
+                //             value: '3',
+                //             text: 'Modern'
+                //         },
+                //         {
+                //             value: '4',
+                //             text: 'Plain'
+                //         }
+                //     ],
+                //     group: 1
+                // }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getPaymentNumberFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'payment_number_counter',
+                    label: 'Payment Counter',
+                    type: 'text',
+                    placeholder: 'Payment Counter',
+                    value: settings.payment_number_counter
+                },
+                {
+                    name: 'payment_terms',
+                    label: 'Payment Terms',
+                    type: 'select',
+                    placeholder: 'Payment Terms',
+                    value: settings.payment_terms,
+                    options: [
+                        {
+                            value: '1',
+                            text: 'Yes'
+                        },
+                        {
+                            value: '0',
+                            text: 'No'
+                        }
+                    ]
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     handleInput (e) {
         this.setState({
             [e.target.name]: e.target.value,
@@ -271,7 +617,7 @@ class CustomerSettings extends Component {
     render () {
         return (
             <React.Fragment>
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -289,6 +635,66 @@ class CustomerSettings extends Component {
                                 this.toggleTab('2')
                             }}>
                             {translations.defaults}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}>
+                            {translations.invoices}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}>
+                            {translations.quotes}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '5' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('5')
+                            }}>
+                            {translations.leads}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '6' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('6')
+                            }}>
+                            {translations.orders}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '9' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('9')
+                            }}>
+                            {translations.credits}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '10' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('10')
+                            }}>
+                            {translations.payments}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -314,6 +720,99 @@ class CustomerSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getDefaultFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getInvoiceFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getInvoiceNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="4">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getQuoteFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getQuoteNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="5">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getLeadFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="6">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="9">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCreditNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="10">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentNumberFields()}
                                 />
                             </CardBody>
                         </Card>

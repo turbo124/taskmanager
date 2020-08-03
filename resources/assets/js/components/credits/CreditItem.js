@@ -63,14 +63,16 @@ export default class CreditItem extends Component {
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(credit.id)
                 const selectedRow = this.props.viewId === credit.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={credit.id}>
                         <td>
-                            <Input className={checkboxClass} value={credit.id} type="checkbox" onChange={this.props.onChangeBulk}/>
-                            <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                                restore={restoreButton}/>
+                            <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
                         </td>
                         {columnList}
                     </tr>

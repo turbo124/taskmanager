@@ -3,15 +3,19 @@ import axios from 'axios'
 import AddProduct from './AddProduct'
 import DataTable from '../common/DataTable'
 import {
+    Alert,
     Card, CardBody
 } from 'reactstrap'
 import ProductItem from './ProductItem'
 import ProductFilters from './ProductFilters'
+import Snackbar from '@material-ui/core/Snackbar'
+import { translations } from '../common/_translations'
 
 export default class ProductList extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            error: '',
             per_page: 5,
             view: {
                 ignore: [],
@@ -106,7 +110,10 @@ export default class ProductList extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -120,7 +127,7 @@ export default class ProductList extends Component {
             .catch((e) => {
                 this.setState({
                     loading: false,
-                    err: e
+                    error: e
                 })
             })
     }
@@ -133,7 +140,10 @@ export default class ProductList extends Component {
                 })
             })
             .catch((e) => {
-                console.error(e)
+                this.setState({
+                    loading: false,
+                    error: e
+                })
             })
     }
 
@@ -145,11 +155,12 @@ export default class ProductList extends Component {
             companies={companies} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addProductToState={this.addProductToState}
             toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
             onChangeBulk={props.onChangeBulk}/>
     }
 
     render () {
-        const { products, custom_fields, companies, categories, view, filters } = this.state
+        const { products, custom_fields, companies, categories, view, filters, error } = this.state
         const { status, searchText, category_id, company_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/products?search_term=${searchText}&status=${status}&category_id=${category_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = companies.length && categories.length ? <AddProduct
@@ -161,35 +172,46 @@ export default class ProductList extends Component {
         /> : null
 
         return (
-            <div className="data-table">
+            <React.Fragment>
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <ProductFilters companies={companies} products={products}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterProducts}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-                <Card>
-                    <CardBody>
-                        <ProductFilters companies={companies} products={products}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterProducts}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
+                {error &&
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="danger">
+                        {translations.unexpected_error}
+                    </Alert>
+                </Snackbar>
+                }
 
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Product"
-                            bulk_save_url="/api/product/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            disableSorting={['id']}
-                            defaultColumn='name'
-                            userList={this.userList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.addProductToState}
-                        />
-                    </CardBody>
-                </Card>
-            </div>
+                <div className="fixed-margin-datatable-large fixed-margin-datatable-large-mobile">
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Product"
+                                bulk_save_url="/api/product/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                disableSorting={['id']}
+                                defaultColumn='name'
+                                userList={this.userList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.addProductToState}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+            </React.Fragment>
         )
     }
 }

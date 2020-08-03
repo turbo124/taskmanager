@@ -7,6 +7,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
+import StatusDropdown from "../common/StatusDropdown";
 
 export default class ProjectFilters extends Component {
     constructor (props) {
@@ -68,34 +69,25 @@ export default class ProjectFilters extends Component {
                     <TableSearch onChange={this.filterProjects}/>
                 </Col>
 
-                <Col md={3}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CustomerDropdown
                         customer={this.props.filters.customer_id}
                         handleInputChanges={this.filterProjects}
                     />
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <Input type='select'
-                            onChange={this.filterProjects}
-                            id="status_id"
-                            name="status_id"
-                        >
-                            <option value="">Select Status</option>
-                            <option value='active'>Active</option>
-                            <option value='archived'>Archived</option>
-                            <option value='deleted'>Deleted</option>
-                        </Input>
+                        <StatusDropdown filterStatus={this.filterProjects}/>
                     </FormGroup>
                 </Col>
 
-                <Col md={1}>
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="project.csv"
                         url={`/api/projects?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col md={2}>
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterProjects} />
                     </FormGroup>
