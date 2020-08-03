@@ -15,6 +15,7 @@ export default class QuoteFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
@@ -54,6 +55,10 @@ export default class QuoteFilters extends Component {
 
         this.getFilters = this.getFilters.bind(this)
         this.filterInvoices = this.filterInvoices.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterInvoices (event) {
