@@ -77,6 +77,10 @@ export default class UserList extends Component {
 
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCustomFields () {
         axios.get('api/accounts/fields/User')
             .then((r) => {
