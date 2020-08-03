@@ -175,6 +175,9 @@ export default class TaskList extends Component {
             fetchUrl={fetchUrl}
             updateState={this.addUserToState}
         />
+        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+            ? 'fixed-margin-datatable-collapsed'
+            : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
         const addButton = customers.length && users.length ? <AddModal
             custom_fields={custom_fields}
@@ -212,7 +215,7 @@ export default class TaskList extends Component {
                 </Snackbar>
                 }
 
-                <div className="fixed-margin-datatable fixed-margin-datatable-mobile">
+                <div className={margin_class}>
                     <Card>
                         <CardBody>
                             {table}
