@@ -94,6 +94,10 @@ export default class TaskList extends Component {
         this.setState({ tasks: tasks })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     filterTasks (filters) {
         console.log('filters', filters)
         this.setState({ filters: filters })
