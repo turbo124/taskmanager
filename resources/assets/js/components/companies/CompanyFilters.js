@@ -16,6 +16,7 @@ export default class CompanyFilters extends Component {
         super(props)
 
         this.state = {
+            isOpen: false,
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
@@ -27,6 +28,10 @@ export default class CompanyFilters extends Component {
 
         this.filterCompanies = this.filterCompanies.bind(this)
         this.getFilters = this.getFilters.bind(this)
+    }
+
+    setFilterOpen(isOpen) {
+        this.setState({isOpen: isOpen})
     }
 
     filterCompanies (event) {
