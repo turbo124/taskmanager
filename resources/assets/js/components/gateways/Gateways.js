@@ -50,6 +50,10 @@ export default class Gateways extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     resetFilters () {
         this.props.reset()
     }
