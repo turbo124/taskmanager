@@ -49,6 +49,10 @@ export default class Categories extends Component {
             categories: categories,
             cachedData: cachedData
         })
+    } 
+
+    handleClose () {
+        this.setState({ error: '' })
     }
 
     getCustomers () {
