@@ -57,6 +57,10 @@ export default class Payments extends Component {
         this.getCustomFields()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     getCustomFields () {
         axios.get('api/accounts/fields/Payment')
             .then((r) => {
