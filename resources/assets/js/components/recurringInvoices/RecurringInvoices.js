@@ -83,6 +83,10 @@ export default class RecurringInvoices extends Component {
         this.setState({ filters: filters })
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { invoices, custom_fields, customers, allInvoices } = this.state
         return <RecurringInvoiceItem showCheckboxes={props.showCheckboxes} allInvoices={allInvoices} invoices={invoices}
