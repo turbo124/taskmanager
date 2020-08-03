@@ -54,6 +54,10 @@ export default class Promocodes extends Component {
         this.props.reset()
     }
 
+    handleClose () {
+        this.setState({ error: '' })
+    }
+
     userList (props) {
         const { promocodes } = this.state
         console.log('promocodes', promocodes)
