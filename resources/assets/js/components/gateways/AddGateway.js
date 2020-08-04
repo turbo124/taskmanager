@@ -99,6 +99,8 @@ class AddGateway extends React.Component {
         formData.append('config', JSON.stringify(this.state.config))
         formData.append('update_details', this.state.update_details === true ? 1 : 0)
         formData.append('gateway_key', this.state.gateway_key)
+        formData.append('customer_id', this.props.customer_id)
+        formData.append('group_id', this.props.group_id)
         formData.append('show_billing_address', this.state.show_billing_address === true ? 1 : 0)
         formData.append('show_shipping_address', this.state.show_shipping_address === true ? 1 : 0)
         formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)
