@@ -122,6 +122,18 @@ export default class GroupSettings extends Component {
                     </Alert>
                 </Snackbar>
                     }
+     
+                    {customer_id.length &&
+                        <Alert color="info">
+                            Filtered by customer
+                        </Alert> 
+                    }
+                   
+                    {group_id.length &&
+                    <Alert color="info">
+                        Filtered by group
+                    </Alert>
+                    }
 
                     <div className={margin_class}>
 
