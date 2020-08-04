@@ -12,6 +12,8 @@ export default class Gateways extends Component {
         super(props)
 
         this.state = {
+            customer_id: queryString.parse(this.props.location.search).customer_id || '',
+            group_id: queryString.parse(this.props.location.search).group_id || '',
             isOpen: window.innerWidth > 670,
             error: '',
             dropdownButtonActions: ['download'],
@@ -60,10 +62,12 @@ export default class Gateways extends Component {
     }
 
     userList (props) {
-        const { gateways } = this.state
+        const { gateways, customer_id, group_id } = this.state
 
         return <GatewayItem showCheckboxes={props.showCheckboxes} gateways={gateways}
             viewId={props.viewId}
+            customer_id: customer_id,
+            group_id: group_id,
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             bulk={props.bulk}
