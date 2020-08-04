@@ -3,7 +3,7 @@ import DataTable from '../common/DataTable'
 import AddPayment from './AddPayment'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import axios from 'axios'
 import PaymentItem from './PaymentItem'
@@ -16,6 +16,7 @@ export default class Payments extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             per_page: 5,
             view: {
@@ -145,8 +146,12 @@ export default class Payments extends Component {
             onChangeBulk={props.onChangeBulk}/>
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { payments, custom_fields, invoices, credits, view, filters, customers, error } = this.state
+        const { payments, custom_fields, invoices, credits, view, filters, customers, error, isOpen } = this.state
         const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
@@ -156,52 +161,54 @@ export default class Payments extends Component {
             action={this.updateCustomers}
             payments={payments}
         /> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
-        return <React.Fragment>
-            <div className="topbar">
-                <Card>
-                    <CardBody>
-                        <PaymentFilters customers={customers} payments={payments} invoices={invoices}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterPayments}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                        {addButton}
-                    </CardBody>
-                </Card>
-            </div>
+        return <Row>
+            <div className="col-12">
+                <div className="topbar">
+                    <Card>
+                        <CardBody>
+                            <PaymentFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers} payments={payments} invoices={invoices}
+                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                filters={filters} filter={this.filterPayments}
+                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            {addButton}
+                        </CardBody>
+                    </Card>
+                </div>
 
-            {error &&
-            <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                {error &&
+            <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                 <Alert severity="danger">
                     {translations.unexpected_error}
                 </Alert>
             </Snackbar>
-            }
+                }
 
-            <div className={margin_class}>
-                <Card>
-                    <CardBody>
-                        <DataTable
-                            customers={customers}
-                            dropdownButtonActions={this.state.dropdownButtonActions}
-                            entity_type="Payment"
-                            bulk_save_url="/api/payment/bulk"
-                            view={view}
-                            ignore={this.state.ignoredColumns}
-                            columnMapping={{ customer_id: 'CUSTOMER' }}
-                            // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
-                            disableSorting={['id']}
-                            defaultColumn='number'
-                            userList={this.customerList}
-                            fetchUrl={fetchUrl}
-                            updateState={this.updateCustomers}
-                        />
-                    </CardBody>
-                </Card>
+                <div className={margin_class}>
+                    <Card>
+                        <CardBody>
+                            <DataTable
+                                customers={customers}
+                                dropdownButtonActions={this.state.dropdownButtonActions}
+                                entity_type="Payment"
+                                bulk_save_url="/api/payment/bulk"
+                                view={view}
+                                ignore={this.state.ignoredColumns}
+                                columnMapping={{ customer_id: 'CUSTOMER' }}
+                                // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
+                                disableSorting={['id']}
+                                defaultColumn='number'
+                                userList={this.customerList}
+                                fetchUrl={fetchUrl}
+                                updateState={this.updateCustomers}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
             </div>
-        </React.Fragment>
+        </Row>
     }
 }

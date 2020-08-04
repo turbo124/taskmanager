@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import DataTable from '../common/DataTable'
-import { Card, CardBody, Button, Alert } from 'reactstrap'
+import { Card, CardBody, Button, Alert, Row } from 'reactstrap'
 import TaskFilters from './TaskFilters'
 import TaskItem from './TaskItem'
 import AddModal from './AddTask'
@@ -14,6 +14,7 @@ export default class TaskList extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             dropdownButtonActions: ['download'],
             tasks: [],
             users: [],
@@ -162,8 +163,12 @@ export default class TaskList extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { tasks, users, customers, custom_fields } = this.state
+        const { tasks, users, customers, custom_fields, isOpen } = this.state
         const { project_id, task_status, task_type, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
@@ -179,7 +184,7 @@ export default class TaskList extends Component {
             fetchUrl={fetchUrl}
             updateState={this.addUserToState}
         />
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -195,38 +200,40 @@ export default class TaskList extends Component {
         /> : null
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <TaskFilters users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterTasks}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            <Button color="primary" onClick={() => {
-                                location.href = '/#/kanban/projects'
-                            }}>Kanban view </Button>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterTasks}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <Button color="primary" onClick={() => {
+                                    location.href = '/#/kanban/projects'
+                                }}>Kanban view </Button>
 
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            {table}
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                {table}
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

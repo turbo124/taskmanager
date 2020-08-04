@@ -4,7 +4,7 @@ import AddLead from './AddLeadForm'
 import DataTable from '../common/DataTable'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import LeadFilters from './LeadFilters'
 import LeadItem from './LeadItem'
@@ -16,6 +16,7 @@ export default class Leads extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             leads: [],
             cachedData: [],
             errors: [],
@@ -134,56 +135,62 @@ export default class Leads extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { leads, users, custom_fields, ignoredColumns, view } = this.state
+        const { leads, users, custom_fields, ignoredColumns, view, isOpen } = this.state
         const { status_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/leads?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const { error } = this.state
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <LeadFilters leads={leads} updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterLeads}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            <AddLead users={users} leads={leads} action={this.addUserToState}
-                                custom_fields={custom_fields}/>
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <LeadFilters setFilterOpen={this.setFilterOpen.bind(this)} leads={leads} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterLeads}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <AddLead users={users} leads={leads} action={this.addUserToState}
+                                    custom_fields={custom_fields}/>
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Lead"
-                                bulk_save_url="/api/lead/bulk"
-                                view={view}
-                                disableSorting={['id']}
-                                defaultColumn='title'
-                                ignore={ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Lead"
+                                    bulk_save_url="/api/lead/bulk"
+                                    view={view}
+                                    disableSorting={['id']}
+                                    defaultColumn='title'
+                                    ignore={ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

@@ -3,7 +3,7 @@ import axios from 'axios'
 import AddCustomer from './AddCustomer'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CustomerFilters from './CustomerFilters'
@@ -15,6 +15,7 @@ export default class Customers extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: window.innerWidth > 670,
             per_page: 5,
             view: {
                 viewMode: false,
@@ -138,9 +139,13 @@ export default class Customers extends Component {
             onChangeBulk={props.onChangeBulk}/>
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
         const { searchText, status, company_id, group_settings_id, start_date, end_date } = this.state.filters
-        const { custom_fields, customers, companies, error, view, filters } = this.state
+        const { custom_fields, customers, companies, error, view, filters, isOpen } = this.state
         const fetchUrl = `/api/customers?search_term=${searchText}&status=${status}&company_id=${company_id}&group_settings_id=${group_settings_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = companies.length ? <AddCustomer
             custom_fields={custom_fields}
@@ -148,51 +153,53 @@ export default class Customers extends Component {
             customers={customers}
             companies={companies}
         /> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <CustomerFilters companies={companies} customers={customers}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={filters} filter={this.filterCustomers}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <CustomerFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies} customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterCustomers}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Customer"
-                                bulk_save_url="/api/customer/bulk"
-                                view={view}
-                                disableSorting={['id']}
-                                defaultColumn='name'
-                                userList={this.customerList}
-                                ignore={this.state.ignoredColumns}
-                                fetchUrl={fetchUrl}
-                                updateState={this.updateCustomers}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Customer"
+                                    bulk_save_url="/api/customer/bulk"
+                                    view={view}
+                                    disableSorting={['id']}
+                                    defaultColumn='name'
+                                    userList={this.customerList}
+                                    ignore={this.state.ignoredColumns}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.updateCustomers}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

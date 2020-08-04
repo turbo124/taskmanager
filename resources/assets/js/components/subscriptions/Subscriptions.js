@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddSubscription from './AddSubscription'
-import { CardBody, Card, Alert } from 'reactstrap'
+import { CardBody, Card, Alert, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import SubscriptionFilters from './SubscriptionFilters'
 import SubscriptionItem from './SubscriptionItem'
@@ -13,6 +13,7 @@ export default class Subscriptions extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             dropdownButtonActions: ['download'],
             subscriptions: [],
@@ -83,57 +84,63 @@ export default class Subscriptions extends Component {
         this.setState({ error: '' })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, subscriptions, error } = this.state
+        const { view, subscriptions, error, isOpen } = this.state
         const fetchUrl = `/api/subscriptions?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <SubscriptionFilters subscriptions={subscriptions}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterSubscriptions}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <SubscriptionFilters setFilterOpen={this.setFilterOpen.bind(this)} subscriptions={subscriptions}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterSubscriptions}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                            <AddSubscription
-                                subscriptions={subscriptions}
-                                action={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
-                </div>
+                                <AddSubscription
+                                    subscriptions={subscriptions}
+                                    action={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Subscription"
-                                bulk_save_url="/api/subscriptions/bulk"
-                                view={view}
-                                ignore={this.state.ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Subscription"
+                                    bulk_save_url="/api/subscriptions/bulk"
+                                    view={view}
+                                    ignore={this.state.ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

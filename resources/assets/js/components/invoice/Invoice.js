@@ -4,7 +4,7 @@ import queryString from 'query-string'
 import EditInvoice from './EditInvoice'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import InvoiceItem from './InvoiceItem'
@@ -22,6 +22,7 @@ export default class Invoice extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             per_page: 5,
             view: {
@@ -36,7 +37,7 @@ export default class Invoice extends Component {
             bulk: [],
             dropdownButtonActions: ['download', 'cancel', 'archive', 'reverse', 'delete'],
             custom_fields: [],
-            ignoredColumns: ['gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
+            ignoredColumns: ['assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
@@ -120,8 +121,12 @@ export default class Invoice extends Component {
         this.setState({ bottom_drawer_open: !this.state.bottom_drawer_open })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { invoices, customers, custom_fields, view, filters, error } = this.state
+        const { invoices, customers, custom_fields, view, filters, error, isOpen } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditInvoice
@@ -132,65 +137,69 @@ export default class Invoice extends Component {
             invoices={invoices}
             modal={true}
         /> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <InvoiceFilters invoices={invoices} customers={customers}
-                                filters={filters} filter={this.filterInvoices}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <InvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices} customers={customers}
+                                    filters={filters} filter={this.filterInvoices}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
+
+                    {error &&
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    customers={customers}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Invoice"
+                                    bulk_save_url="/api/invoice/bulk"
+                                    view={view}
+                                    ignore={this.state.ignoredColumns}
+                                    columnMapping={{ customer_id: 'CUSTOMER' }}
+                                    // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
+                                    disableSorting={['id']}
+                                    defaultColumn='number'
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.updateInvoice}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
+
+                    <Button onClick={this.toggleDrawer.bind(this)}>bottom</Button>
+                    <Drawer anchor="bottom" open={this.state.bottom_drawer_open} onClose={this.toggleDrawer.bind(this)}>
+                        <List>
+                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                                <ListItem button key={text}>
+                                    {/* <ListItemIcon></ListItemIcon> */}
+                                    <ListItemText primary={text} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Drawer>
                 </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
-                }
-
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                customers={customers}
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Invoice"
-                                bulk_save_url="/api/invoice/bulk"
-                                view={view}
-                                ignore={this.state.ignoredColumns}
-                                columnMapping={{ customer_id: 'CUSTOMER' }}
-                                // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
-                                disableSorting={['id']}
-                                defaultColumn='number'
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.updateInvoice}
-                            />
-                        </CardBody>
-                    </Card>
-                </div>
-
-                <Button onClick={this.toggleDrawer.bind(this)}>bottom</Button>
-                <Drawer anchor="bottom" open={this.state.bottom_drawer_open} onClose={this.toggleDrawer.bind(this)}>
-                    <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                {/* <ListItemIcon></ListItemIcon> */}
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Drawer>
-            </React.Fragment>
+            </Row>
         )
     }
 }

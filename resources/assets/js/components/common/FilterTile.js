@@ -7,7 +7,7 @@ export default class FilterTile extends Component {
         super(props)
 
         this.state = {
-            isOpen: window.innerWidth > 500
+            isOpen: window.innerWidth > 670
         }
 
         this.toggleFilters = this.toggleFilters.bind(this)
@@ -16,7 +16,7 @@ export default class FilterTile extends Component {
     toggleFilters () {
         this.setState({ isOpen: !this.state.isOpen }, () => {
             localStorage.setItem('datatable_collapsed', !this.state.isOpen)
-            this.props.setFilterOpen(!this.state.isOpen)
+            this.props.setFilterOpen(this.state.isOpen)
         })
     }
 

@@ -283,7 +283,7 @@ export default class DataTable extends Component {
             disableSorting={this.props.disableSorting} sorted_column={this.state.sorted_column}
             order={this.state.order}/> : null
 
-        const table = <Table className={`table-responsive-md ${table_class}`} striped bordered hover dark>
+        const table = <Table className={table_class} responsive striped bordered hover dark>
             {tableSort}
             <tbody>
                 {this.props.userList({

@@ -4,7 +4,7 @@ import AddProject from './AddStory'
 import DataTable from '../common/DataTable'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import ProjectFilters from './ProjectFilters'
 import ProjectItem from './ProjectItem'
@@ -17,6 +17,7 @@ export default class ProjectList extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             projects: [],
             cachedData: [],
             errors: [],
@@ -75,7 +76,7 @@ export default class ProjectList extends Component {
             cachedData: cachedData
         })
     }
- 
+
     handleClose () {
         this.setState({ error: '' })
     }
@@ -125,55 +126,61 @@ export default class ProjectList extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { projects, users, custom_fields, ignoredColumns, view, error } = this.state
+        const { projects, users, custom_fields, ignoredColumns, view, error, isOpen } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/projects?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <ProjectFilters projects={projects} updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterProjects}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            <AddProject users={users} projects={projects} action={this.addUserToState}
-                                custom_fields={custom_fields}/>
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <ProjectFilters setFilterOpen={this.setFilterOpen.bind(this)} projects={projects} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterProjects}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <AddProject users={users} projects={projects} action={this.addUserToState}
+                                    custom_fields={custom_fields}/>
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Project"
-                                bulk_save_url="/api/project/bulk"
-                                view={view}
-                                disableSorting={['id']}
-                                defaultColumn='title'
-                                ignore={ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Project"
+                                    bulk_save_url="/api/project/bulk"
+                                    view={view}
+                                    disableSorting={['id']}
+                                    defaultColumn='title'
+                                    ignore={ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

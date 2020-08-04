@@ -5,7 +5,8 @@ import DataTable from '../common/DataTable'
 import {
     Alert,
     Card,
-    CardBody
+    CardBody,
+    Row
 } from 'reactstrap'
 import CompanyFilters from './CompanyFilters'
 import CompanyItem from './CompanyItem'
@@ -17,6 +18,7 @@ export default class Companies extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             users: [],
             brands: [],
             bulk: [],
@@ -125,57 +127,63 @@ export default class Companies extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { custom_fields, users, error, view, brands } = this.state
+        const { custom_fields, users, error, view, brands, isOpen } = this.state
         const { searchText, status_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/companies?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = users.length
             ? <AddCompany brands={brands} users={users} action={this.addUserToState}
                 custom_fields={custom_fields}/> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <CompanyFilters brands={brands} updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterCompanies}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <CompanyFilters setFilterOpen={this.setFilterOpen.bind(this)} brands={brands} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterCompanies}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Company"
-                                bulk_save_url="/api/company/bulk"
-                                view={view}
-                                disableSorting={['id']}
-                                defaultColumn='name'
-                                ignore={this.state.ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Company"
+                                    bulk_save_url="/api/company/bulk"
+                                    view={view}
+                                    disableSorting={['id']}
+                                    defaultColumn='name'
+                                    ignore={this.state.ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

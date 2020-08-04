@@ -3,7 +3,7 @@ import axios from 'axios'
 import AddRecurringQuote from './AddRecurringQuote'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RecurringQuoteItem from './RecurringQuoteItem'
@@ -15,6 +15,7 @@ export default class RecurringQuotes extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             per_page: 5,
             view: {
@@ -131,8 +132,12 @@ export default class RecurringQuotes extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { invoices, custom_fields, customers, allQuotes, view, filters, error } = this.state
+        const { invoices, custom_fields, customers, allQuotes, view, filters, error, isOpen } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <AddRecurringQuote
@@ -145,53 +150,55 @@ export default class RecurringQuotes extends Component {
             invoices={invoices}
             modal={true}
         /> : null
-    const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <RecurringQuoteFilters invoices={invoices}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={filters} filter={this.filterInvoices}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <RecurringQuoteFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterInvoices}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                customers={this.state.customers}
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="RecurringQuote"
-                                bulk_save_url="/api/recurring-quote/bulk"
-                                view={view}
-                                columnMapping={{ customer_id: 'CUSTOMER' }}
-                                ignore={this.state.ignoredColumns}
-                                disableSorting={['id']}
-                                defaultColumn='number'
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.updateInvoice}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    customers={this.state.customers}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="RecurringQuote"
+                                    bulk_save_url="/api/recurring-quote/bulk"
+                                    view={view}
+                                    columnMapping={{ customer_id: 'CUSTOMER' }}
+                                    ignore={this.state.ignoredColumns}
+                                    disableSorting={['id']}
+                                    defaultColumn='number'
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.updateInvoice}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }
