@@ -91,7 +91,7 @@ export default class PaymentItem extends Component {
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(payment.id)
                 const selectedRow = this.props.viewId === payment.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu refund={refundButton} edit={editButton} delete={deleteButton} archive={archiveButton}
                     restore={restoreButton}/> : null
 
                 return (
