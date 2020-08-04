@@ -3,7 +3,7 @@ import DataTable from '../common/DataTable'
 import axios from 'axios'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
@@ -15,6 +15,7 @@ export default class Credits extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             per_page: 5,
             view: {
@@ -53,7 +54,7 @@ export default class Credits extends Component {
     filterCredits (filters) {
         this.setState({ filters: filters })
     }
- 
+
     handleClose () {
         this.setState({ error: '' })
     }
@@ -107,8 +108,12 @@ export default class Credits extends Component {
             onChangeBulk={props.onChangeBulk}/>
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { customers, credits, custom_fields, view, filters, error } = this.state
+        const { customers, credits, custom_fields, view, filters, error, isOpen } = this.state
         const fetchUrl = `/api/credits?search_term=${this.state.filters.searchText}&status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}`
         const addButton = customers.length ? <EditCredit
             custom_fields={custom_fields}
@@ -118,53 +123,55 @@ export default class Credits extends Component {
             credits={credits}
             modal={true}
         /> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return customers.length ? (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <CreditFilters credits={credits} customers={customers}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={filters} filter={this.filterCredits}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <CreditFilters setFilterOpen={this.setFilterOpen.bind(this)} credits={credits} customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterCredits}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                customers={customers}
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Credit"
-                                bulk_save_url="/api/credit/bulk"
-                                view={view}
-                                columnMapping={{ customer_id: 'CUSTOMER' }}
-                                ignore={this.state.ignoredColumns}
-                                disableSorting={['id']}
-                                defaultColumn='number'
-                                userList={this.customerList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.updateCustomers}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    customers={customers}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Credit"
+                                    bulk_save_url="/api/credit/bulk"
+                                    view={view}
+                                    columnMapping={{ customer_id: 'CUSTOMER' }}
+                                    ignore={this.state.ignoredColumns}
+                                    disableSorting={['id']}
+                                    defaultColumn='number'
+                                    userList={this.customerList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.updateCustomers}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         ) : null
     }
 }

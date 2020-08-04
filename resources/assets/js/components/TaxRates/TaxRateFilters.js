@@ -92,6 +92,6 @@ export default class TaxRateFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.props.setFilterOpen} filters={filters}/>)
     }
 }

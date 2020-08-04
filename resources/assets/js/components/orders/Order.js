@@ -3,7 +3,7 @@ import axios from 'axios'
 import EditOrder from './EditOrder'
 import {
     Alert,
-    Card, CardBody
+    Card, CardBody, Row
 } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import OrderItem from './OrderItem'
@@ -16,6 +16,7 @@ export default class Order extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             per_page: 5,
             view: {
@@ -109,8 +110,12 @@ export default class Order extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
-        const { orders, customers, custom_fields, view, filters, error } = this.state
+        const { orders, customers, custom_fields, view, filters, error, isOpen } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditOrder
@@ -121,53 +126,55 @@ export default class Order extends Component {
             orders={orders}
             modal={true}
         /> : null
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <OrderFilters orders={orders} customers={customers}
-                                filters={filters} filter={this.filterOrders}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                            {addButton}
-                        </CardBody>
-                    </Card>
-                </div>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <OrderFilters setFilterOpen={this.setFilterOpen.bind(this)} orders={orders} customers={customers}
+                                    filters={filters} filter={this.filterOrders}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                {addButton}
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                    <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {translations.unexpected_error}
                         </Alert>
                     </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                customers={customers}
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Order"
-                                bulk_save_url="/api/order/bulk"
-                                view={view}
-                                ignore={this.state.ignoredColumns}
-                                columnMapping={{ customer_id: 'CUSTOMER' }}
-                                // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
-                                disableSorting={['id']}
-                                defaultColumn='number'
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.updateOrder}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    customers={customers}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Order"
+                                    bulk_save_url="/api/order/bulk"
+                                    view={view}
+                                    ignore={this.state.ignoredColumns}
+                                    columnMapping={{ customer_id: 'CUSTOMER' }}
+                                    // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
+                                    disableSorting={['id']}
+                                    defaultColumn='number'
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.updateOrder}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

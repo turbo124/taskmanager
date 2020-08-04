@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddPaymentTerm from './AddPaymentTerm'
-import { CardBody, Card } from 'reactstrap'
+import { CardBody, Card, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import PaymentTermFilters from './PaymentTermFilters'
 import PaymentTermItem from './PaymentTermItem'
@@ -11,6 +11,7 @@ export default class PaymentTerms extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             dropdownButtonActions: ['download'],
             paymentTerms: [],
@@ -81,53 +82,59 @@ export default class PaymentTerms extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, paymentTerms, error } = this.state
+        const { view, paymentTerms, error, isOpen } = this.state
         const fetchUrl = `/api/payment_terms?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
         return (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <PaymentTermFilters paymentTerms = {paymentTerms}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterPaymentTerms}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <PaymentTermFilters setFilterOpen={this.setFilterOpen.bind(this)} paymentTerms = {paymentTerms}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterPaymentTerms}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                            <AddPaymentTerm
-                                payment_terms ={paymentTerms}
-                                action={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                                <AddPaymentTerm
+                                    payment_terms ={paymentTerms}
+                                    action={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
+
+                    {error && <div className="alert alert-danger" role="alert">
+                        {error}
+                    </div>}
+
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Group"
+                                    bulk_save_url="/api/payment_terms/bulk"
+                                    view={view}
+                                    ignore={this.state.ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-
-                {error && <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>}
-
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Group"
-                                bulk_save_url="/api/payment_terms/bulk"
-                                view={view}
-                                ignore={this.state.ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
-                </div>
-            </React.Fragment>
+            </Row>
         )
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddCase from './AddCase'
-import { CardBody, Card, Alert } from 'reactstrap'
+import { CardBody, Card, Alert, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CaseFilters from './CaseFilters'
 import CaseItem from './CaseItem'
@@ -14,6 +14,7 @@ export default class Cases extends Component {
         super(props)
 
         this.state = {
+            isOpen: window.innerWidth > 670,
             error: '',
             dropdownButtonActions: ['download'],
             customers: [],
@@ -108,61 +109,67 @@ export default class Cases extends Component {
             })
     }
 
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
+    }
+
     render () {
         const { searchText, status, start_date, end_date, customer_id, category_id, priority_id } = this.state.filters
-        const { view, cases, customers, error } = this.state
+        const { view, cases, customers, error, isOpen } = this.state
         const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}&priority_id=${priority_id}`
-        const margin_class = Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed) === true
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
         return customers.length ? (
-            <React.Fragment>
-                <div className="topbar">
-                    <Card>
-                        <CardBody>
-                            <CaseFilters cases={cases}
-                                customers={customers}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={this.state.filters} filter={this.filterCases}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+            <Row>
+                <div className="col-12">
+                    <div className="topbar">
+                        <Card>
+                            <CardBody>
+                                <CaseFilters setFilterOpen={this.setFilterOpen.bind(this)} cases={cases}
+                                    customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterCases}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                            <AddCase
-                                customers={customers}
-                                cases={cases}
-                                action={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
-                </div>
+                                <AddCase
+                                    customers={customers}
+                                    cases={cases}
+                                    action={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {error &&
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    {error &&
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.unexpected_error}
                     </Alert>
                 </Snackbar>
-                }
+                    }
 
-                <div className={margin_class}>
-                    <Card>
-                        <CardBody>
-                            <DataTable
-                                customers={this.state.customers}
-                                columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
-                                dropdownButtonActions={this.state.dropdownButtonActions}
-                                entity_type="Case"
-                                bulk_save_url="/api/cases/bulk"
-                                view={view}
-                                ignore={this.state.ignoredColumns}
-                                userList={this.userList}
-                                fetchUrl={fetchUrl}
-                                updateState={this.addUserToState}
-                            />
-                        </CardBody>
-                    </Card>
+                    <div className={margin_class}>
+                        <Card>
+                            <CardBody>
+                                <DataTable
+                                    customers={this.state.customers}
+                                    columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Case"
+                                    bulk_save_url="/api/cases/bulk"
+                                    view={view}
+                                    ignore={this.state.ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
-            </React.Fragment>
+            </Row>
         ) : null
     }
 }
