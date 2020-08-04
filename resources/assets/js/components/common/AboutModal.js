@@ -8,6 +8,7 @@ import {
     UncontrolledTooltip
 } from 'reactstrap'
 import axios from 'axios'
+import { translations } from './_translations'
 
 export default class AboutModal extends Component {
     constructor (props) {
@@ -76,7 +77,9 @@ export default class AboutModal extends Component {
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>TamTam CRM</ModalHeader>
                     <ModalBody>
-                        TamTam CRM is an all in one invoicing, accounting and crm system. It was built to prevent the need for multiple subscriptions with data spread across multiple systems. As well as giving you full control over customers, vendors, products, events, tasks and many other features. It also includes financial management including invoices, quotes, expenses, credits and payments. https://michael-hampton.github.io/tamtam
+                         <p>{translations.about_message}</p>
+                         <p>{translations.about_link}</p>
+                         <p>https://michael-hampton.github.io/tamtam</p>
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.toggle} color="secondary">Cancel</Button>
