@@ -30,7 +30,7 @@ export default class GatewayItem extends Component {
     }
 
     render () {
-        const { gateways, ignoredColumns, customers } = this.props
+        const { customer_id, group_id, gateways, ignoredColumns, customers } = this.props
         if (gateways && gateways.length) {
             return gateways.map(gateway => {
                 const restoreButton = gateway.deleted_at
@@ -42,6 +42,8 @@ export default class GatewayItem extends Component {
                     ? <DeleteModal archive={true} deleteFunction={this.deleteGateway} id={gateway.id}/> : null
 
                 const editButton = !gateway.deleted_at ? <EditGateway
+                    customer_id={customer_id}
+                    group_id={group_id}
                     gateways={gateways}
                     customers={customers}
                     gateway={gateway}

@@ -12,6 +12,8 @@ export default class Gateways extends Component {
         super(props)
 
         this.state = {
+            customer_id: queryString.parse(this.props.location.search).customer_id || '',
+            group_id: queryString.parse(this.props.location.search).group_id || '',
             isOpen: window.innerWidth > 670,
             error: '',
             dropdownButtonActions: ['download'],
@@ -60,10 +62,12 @@ export default class Gateways extends Component {
     }
 
     userList (props) {
-        const { gateways } = this.state
+        const { gateways, customer_id, group_id } = this.state
 
         return <GatewayItem showCheckboxes={props.showCheckboxes} gateways={gateways}
             viewId={props.viewId}
+            customer_id: customer_id,
+            group_id: group_id,
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             bulk={props.bulk}
@@ -76,7 +80,7 @@ export default class Gateways extends Component {
 
     render () {
         const { searchText, error } = this.state.filters
-        const { view, gateways, isOpen } = this.state
+        const { view, gateways, isOpen, customer_id, group_id } = this.state
         const fetchUrl = `/api/company_gateways?search_term=${searchText} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
@@ -93,7 +97,9 @@ export default class Gateways extends Component {
                                     filters={this.state.filters} filter={this.filterGateways}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                                <AddGateway
+                                <AddGateway 
+                                    customer_id={customer_id}
+                                    group_id={group_id}
                                     gateways={gateways}
                                     action={this.addUserToState}
                                 />
