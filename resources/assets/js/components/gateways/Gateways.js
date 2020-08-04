@@ -80,7 +80,7 @@ export default class Gateways extends Component {
 
     render () {
         const { searchText, error } = this.state.filters
-        const { view, gateways, isOpen } = this.state
+        const { view, gateways, isOpen, customer_id, group_id } = this.state
         const fetchUrl = `/api/company_gateways?search_term=${searchText} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
@@ -97,7 +97,9 @@ export default class Gateways extends Component {
                                     filters={this.state.filters} filter={this.filterGateways}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                                <AddGateway
+                                <AddGateway 
+                                    customer_id={customer_id}
+                                    group_id={group_id}
                                     gateways={gateways}
                                     action={this.addUserToState}
                                 />
