@@ -4,6 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import FormBuilder from './FormBuilder'
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
