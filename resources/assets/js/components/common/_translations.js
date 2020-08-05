@@ -1,6 +1,7 @@
 const _localizedValues = []
 _localizedValues.gb = {
     about: 'About',
+    no_history: 'No History',
     health_check: 'Health Check',
     filtered_by_customer: 'Filtered by Customer',
     email_settings: 'Email Settings',
