@@ -150,7 +150,7 @@ export default class Invoice extends Component {
                                             </ListGroupItemHeading>
 
                                             <ListGroupItemText>
-                                                <FormatMoney show_code={true} amount={line_item.amount}/> - {line_item.date}
+                                                <FormatMoney amount={line_item.amount}/> - {line_item.date}
                                             </ListGroupItemText>
                                         </ListGroupItem>
                                     </a>
@@ -182,7 +182,7 @@ export default class Invoice extends Component {
                                 }
 
                                 <SimpleSectionItem heading={translations.discount}
-                                    value={<FormatMoney show_code={true} customers={this.props.customers}
+                                    value={<FormatMoney customers={this.props.customers}
                                         amount={this.props.entity.discount_total}/>}/>
                             </ul>
                         </Row>
