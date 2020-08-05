@@ -58,7 +58,7 @@ export default class LocalisationSettings extends Component {
         })
     }
 
-    getQuoteFields () {
+    getCurrencyFields () {
         const settings = this.state.settings
 
         return [
@@ -180,6 +180,15 @@ export default class LocalisationSettings extends Component {
                                 {month_list}
                             </Input>
                         </FormGroup>
+                    </CardBody>
+                </Card>
+
+                 <Card className="fixed-margin-extra border-0">
+                    <CardBody>
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getCurrencyFields()}
+                        />
                     </CardBody>
                 </Card>
             </React.Fragment>
