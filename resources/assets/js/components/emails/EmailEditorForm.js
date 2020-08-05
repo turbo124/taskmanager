@@ -126,6 +126,11 @@ export default class EmailEditorForm extends Component {
         console.log('contacts', contacts)
         console.log('invitations', invitations)
 
+        const contactList = invitations.length && contacts.length ? invitations.map((invitation, index) => {
+            const contact = contacts.filter(contact => contact.id === invitation.client_contact_id)
+            return <li>{contact[0].first_name} {contact[0].last_name} {contact[0].email}</li>
+        }) : null
+
         return (
             <Form>
                 {successMessage}
