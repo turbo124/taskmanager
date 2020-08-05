@@ -9,14 +9,14 @@ export default function ViewEntityHeader (props) {
                 <div
                     className="p-2 flex-fill">
                     <h4 className="text-muted">{props.heading_1}</h4>
-                    {<FormatMoney className="text-value-lg"
+                    {<FormatMoney show_code={true} className="text-value-lg"
                         amount={props.value_1}/>}
                 </div>
 
                 <div
                     className="p-2 flex-fill">
                     <h4 className="text-muted">{props.heading_2}</h4>
-                    {<FormatMoney className="text-value-lg"
+                    {<FormatMoney show_code={true} className="text-value-lg"
                         amount={props.value_2}/>}
                 </div>
             </div>
