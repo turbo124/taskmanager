@@ -336,6 +336,8 @@ Route::group(
         //payment method
         Route::get('paymentType', 'PaymentTypeController@index');
 
+        Route::get('health_check', 'SetupController@healthCheck');
+
 // customers
         Route::get('customers', 'CustomerController@index');
         Route::get(

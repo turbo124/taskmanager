@@ -120,20 +120,37 @@ export default class EmailEditorForm extends Component {
         const errorMessage = this.state.showErrorMessage === true ? <ErrorMessage
             message={translations.failed_to_send}/> : null
 
+        const customer = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.customers.filter(customer => customer.id === this.props.entity_object.customer_id) : []
+        const contacts = customer.length && customer[0] ? customer[0].contacts : []
+        const invitations = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.entity_object.invitations : []
+        console.log('contacts', contacts)
+        console.log('invitations', invitations)
+
         return (
             <Form>
                 {successMessage}
                 {errorMessage}
+
+                {customer.length &&
                 <FormGroup>
-                    <Label for="exampleEmail">Subject</Label>
+                    <Label for="exampleEmail">{translations.to}</Label>
+                    <Input value={customer[0].name} type="text" name="to"
+                        id="to"
+                        placeholder={translations.to} />
+                    {this.renderErrorFor('subject')}
+                </FormGroup>
+                }
+
+                <FormGroup>
+                    <Label for="exampleEmail">{translations.subject}</Label>
                     <Input value={this.props.subject} type="text" onChange={this.handleChange} name="subject"
                         id="subject"
-                        placeholder="Subject"/>
+                        placeholder={translations.subject}/>
                     {this.renderErrorFor('subject')}
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="exampleEmail">Body</Label>
+                    <Label for="exampleEmail">{translations.body}</Label>
                     <Input className="textarea-lg" size="lg" type="textarea" onChange={this.handleChange}
                         value={this.props.body} name="body"/>
                     {this.renderErrorFor('body')}
@@ -146,7 +163,7 @@ export default class EmailEditorForm extends Component {
                     </Label>
                 </FormGroup>
 
-                <Button onClick={this.sendMessage} color="primary">Send</Button>
+                <Button onClick={this.sendMessage} color="primary">{translations.send}</Button>
             </Form>
         )
     }

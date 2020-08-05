@@ -67,6 +67,30 @@ class SetupController extends Controller
         $this->requirements = $requirementsChecker;
     }
 
+    public function healthCheck()
+    {
+        $phpSupportInfo = $this->requirements->checkPHPversion(
+            config('installer.core.minPhpVersion')
+        );
+        $requirements = $this->requirements->check(
+            config('installer.requirements')
+        );
+
+        $can_connect = false;
+
+        try {
+            DB::connection()->getPdo();
+
+           $can_connect = true;
+        } catch (\Exception $e) {
+            $can_connect = false;
+        }
+
+        $requirements['requirements']['php']['db_connection'] = $can_connect;
+
+        return response()->json($requirements['requirements']['php']);
+    }
+
     /**
      * Display the requirements page.
      *

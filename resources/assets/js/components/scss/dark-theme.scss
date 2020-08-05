@@ -818,17 +818,6 @@ mark {
 }
 
 @media(min-width: 1200px) {
-  //.container:not(.sidebar-lg-show) {
-  //  max-width: 1400px !important;
-  //}
-  //
-  //.sidebar-lg-show {
-  //  .container {
-  //    max-width: 1140px !important;
-  //  }
-  //}
-
-
   .navbar-expand-xl {
     flex-flow: row nowrap;
     justify-content: flex-start;

@@ -10,6 +10,7 @@ import CustomerFilters from './CustomerFilters'
 import CustomerItem from './CustomerItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
+import queryString from 'query-string'
 
 export default class Customers extends Component {
     constructor (props) {
@@ -30,7 +31,7 @@ export default class Customers extends Component {
             filters: {
                 status: 'active',
                 company_id: '',
-                group_settings_id: '',
+                group_settings_id: queryString.parse(this.props.location.search).group_settings_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

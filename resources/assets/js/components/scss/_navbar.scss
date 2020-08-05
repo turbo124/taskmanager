@@ -53,15 +53,36 @@
 }
 
 @media (min-width: 768px) {
-  //.container:not(.sidebar-show) {
-  //  max-width: 765px;
-  //}
-  //
-  //.sidebar-show .container {
-  //  max-width: 568px;
-  //}
+  .container:not(.sidebar-show) {
+    max-width: 765px;
+  }
+
+  .sidebar-show .container {
+    max-width: 568px;
+  }
 }
 
+@media (min-width: 1024px) {
+  .container:not(.sidebar-lg-show) {
+    max-width: 1025px !important;
+  }
+
+  .sidebar-lg-show .container {
+    max-width: 795px !important;
+  }
+}
+
+@media(min-width: 1200px) {
+  .container:not(.sidebar-lg-show) {
+    max-width: 1400px !important;
+  }
+
+  .sidebar-lg-show {
+    .container {
+      max-width: 1140px !important;
+    }
+  }
+}
 
 @media (min-width: 768px) {
   //.container {

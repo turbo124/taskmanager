@@ -1,5 +1,8 @@
 const _localizedValues = []
 _localizedValues.gb = {
+    about: 'About',
+    health_check: 'Health Check',
+    filtered_by_customer: 'Filtered by Customer',
     email_settings: 'Email Settings',
     integration_settings: 'Integration Settings',
     localisation_settings: 'Localisation Settings',
@@ -8,6 +11,7 @@ _localizedValues.gb = {
     provider: 'Provider',
     authorize: 'Authorize',
     paypal: 'PayPal',
+    gateways: 'Gateways',
     add_gateway: 'Add Gateway',
     edit_gateway: 'Edit Gatway',
     limits_and_fees: 'Limits / Fees',
@@ -73,9 +77,11 @@ _localizedValues.gb = {
     quote_deleted: 'Quote Deleted',
     lead_created: 'Lead Created',
     subject: 'Subject',
+    to: 'To',
     add_case: 'Add Case',
     edit_case: 'Edit Case',
     message: 'Message',
+    send: 'Send',
     target_url: 'Target URL',
     select_all: 'Select All',
     add_item: 'Add Item',

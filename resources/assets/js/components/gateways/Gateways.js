@@ -6,6 +6,7 @@ import GatewayFilters from './GatewayFilters'
 import GatewayItem from './GatewayItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
+import queryString from 'query-string'
 
 export default class Gateways extends Component {
     constructor (props) {
@@ -66,8 +67,8 @@ export default class Gateways extends Component {
 
         return <GatewayItem showCheckboxes={props.showCheckboxes} gateways={gateways}
             viewId={props.viewId}
-            customer_id: customer_id,
-            group_id: group_id,
+            customer_id={customer_id}
+            group_id={group_id}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             bulk={props.bulk}
@@ -97,7 +98,7 @@ export default class Gateways extends Component {
                                     filters={this.state.filters} filter={this.filterGateways}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
-                                <AddGateway 
+                                <AddGateway
                                     customer_id={customer_id}
                                     group_id={group_id}
                                     gateways={gateways}
@@ -116,6 +117,13 @@ export default class Gateways extends Component {
                     }
 
                     <div className={margin_class}>
+                        {customer_id &&
+                        <Alert color="info">
+                            {translations.filtered_by_customer}
+                        </Alert>
+                        }
+
+
                         <Card>
                             <CardBody>
                                 <DataTable

@@ -5,7 +5,10 @@ import {
     ModalBody,
     ModalFooter,
     Button,
-    UncontrolledTooltip
+    UncontrolledTooltip,
+    ListGroup,
+    ListGroupItem,
+    Badge
 } from 'reactstrap'
 import axios from 'axios'
 import { translations } from './_translations'
@@ -19,11 +22,13 @@ export default class AboutModal extends Component {
             errors: [],
             showSuccessMessage: false,
             showErrorMessage: false,
-            message: ''
+            message: '',
+            health_check: {}
         }
 
         this.toggle = this.toggle.bind(this)
         this.sendMessage = this.sendMessage.bind(this)
+        this.healthCheck = this.healthCheck.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -45,6 +50,21 @@ export default class AboutModal extends Component {
             })
     }
 
+    healthCheck () {
+        axios.get('/api/health_check')
+            .then((r) => {
+                this.setState({
+                    health_check: r.data
+                })
+            })
+            .catch((e) => {
+                this.setState({
+                    loading: false,
+                    error: e
+                })
+            })
+    }
+
     sendMessage () {
         axios.post('/api/support/messages/send', { message: this.state.message, send_logs: this.state.check })
             .then(function (response) {
@@ -63,10 +83,11 @@ export default class AboutModal extends Component {
     }
 
     render () {
+        console.log('health check', this.state.health_check)
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="right" target="contactTooltip">
-                    About
+                    {translations.about}
                 </UncontrolledTooltip>
 
                 <i id="contactTooltip" onClick={this.toggle}
@@ -77,9 +98,28 @@ export default class AboutModal extends Component {
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>TamTam CRM</ModalHeader>
                     <ModalBody>
-                         <p>{translations.about_message}</p>
-                         <p>{translations.about_link}</p>
-                         <p>https://michael-hampton.github.io/tamtam</p>
+                        <div className="text-center">
+                            <p>{translations.about_message}</p>
+                            <p>{translations.about_link}</p>
+                            <p>https://michael-hampton.github.io/tamtam</p>
+                        </div>
+
+                        {Object.keys(this.state.health_check).length &&
+                            <div className="col-8">
+                                <ListGroup className="mt-2 mb-2">
+                                    {Object.keys(this.state.health_check).map((index) => {
+                                        const icon = this.state.health_check[index] === true ? 'text-success fa-check' : 'text-danger fa-times-circle'
+                                        return <ListGroupItem
+                                            className="list-group-item-dark d-flex justify-content-between align-items-center">{index} <i style={{ fontSize: '20px' }} className={`fa ${icon}`} /></ListGroupItem>
+                                    })}
+                                </ListGroup>
+                            </div>
+
+                        }
+
+                        <Button color="primary" block onClick={this.healthCheck}>
+                            {translations.health_check}
+                        </Button>
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.toggle} color="secondary">Cancel</Button>
