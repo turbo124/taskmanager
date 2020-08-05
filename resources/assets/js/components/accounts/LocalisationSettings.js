@@ -65,6 +65,14 @@ export default class LocalisationSettings extends Component {
         return [
             [
                 {
+                    name: 'currency_id',
+                    label: translations.currency,
+                    type: 'currency',
+                    placeholder: translations.currency,
+                    value: settings.currency_id,
+                    group: 3
+                },
+                {
                     name: 'currency_format',
                     label: 'Currency Format',
                     type: 'select',
