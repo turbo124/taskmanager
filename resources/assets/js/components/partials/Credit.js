@@ -159,7 +159,7 @@ export default class Credit extends Component {
                                 }
 
                                 <SimpleSectionItem heading={translations.discount}
-                                    value={<FormatMoney customers={this.props.customers}
+                                    value={<FormatMoney show_code={true} customers={this.props.customers}
                                         amount={this.props.entity.discount_total}/>}/>
                             </ul>
                         </Row>
