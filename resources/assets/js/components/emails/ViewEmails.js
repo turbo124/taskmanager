@@ -5,6 +5,7 @@ import {
     ListGroupItemText,
     ListGroupItemHeading
 } from 'reactstrap'
+import { translations } from '../common/_translations'
 
 export default class Emails extends Component {
     constructor (props) {
