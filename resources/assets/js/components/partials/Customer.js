@@ -160,10 +160,11 @@ export default class Customer extends Component {
                         {translations.settings}
                     </NavLink>
                     <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.triggerAction('clone_to_invoice')
+                        onClick={(e) => {
+                            e.preventDefault()
+                            window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
                         }}>
-                        {translations.clone_to_invoice}
+                        {translations.gateways}
                     </NavLink>
                 </div>
 

@@ -144,6 +144,8 @@ export default class Emails extends Component {
                 template_type={this.state.template_type}/> : null
         const editor = this.state.subject.length && this.state.body.length
             ? <EmailEditorForm
+                entity_object={this.props.entity_object}
+                customers={this.props.customers}
                 subject={this.state.subject}
                 body={this.state.body}
                 handleSettingsChange={this.handleSettingsChange}

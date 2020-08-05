@@ -157,7 +157,8 @@ class EditLeadForm extends React.Component {
     render () {
         const { loading } = this.state
         const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_lead" show_editor={true} entity="lead"
+            ? <Emails emails={this.state.emails} template="email_template_lead" show_editor={true}
+                entity_object={this.state} entity="lead"
                 entity_id={this.state.id}/> : null
         const contact = <Contact handleInputChanges={this.handleInputChanges} errors={this.state.errors}
             lead={this.state}/>
@@ -167,7 +168,8 @@ class EditLeadForm extends React.Component {
             handleInputChanges={this.handleInputChanges} errors={this.state.errors}
             lead={this.state}/>
         const button = this.props.listView && this.props.listView === true
-            ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_lead}</DropdownItem>
+            ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_lead}
+            </DropdownItem>
 
             : <Button className="mr-2 ml-2" color="primary" onClick={this.toggle}>Edit Lead</Button>
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
