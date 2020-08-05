@@ -51,7 +51,37 @@ export default class LocalisationSettings extends Component {
                 ...prevState.settings,
                 [name]: value
             }
-        }))
+        }), () => {
+            if(name === currency_format) {
+                localStorage.setItem('currency_format', value);
+            }
+        })
+    }
+
+    getQuoteFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'currency_format',
+                    label: 'Currency Format',
+                    type: 'select',
+                    value: settings.currency_format,
+                    options: [
+                        {
+                            value: 'code',
+                            text: 'Code: 1000 GBP'
+                        },
+                        {
+                            value: 'symbol',
+                            text: 'Symbol: £1000'
+                        },
+                    ],
+                    group: 1
+                }
+            ]
+        ]
     }
 
     handleSubmit (e) {
