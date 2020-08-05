@@ -5,6 +5,7 @@ import {
     ListGroupItemText,
     ListGroupItemHeading
 } from 'reactstrap'
+import { translations } from '../common/_translations'
 
 export default class Emails extends Component {
     constructor (props) {
@@ -29,6 +30,6 @@ export default class Emails extends Component {
                 </ListGroupItem>
             </ListGroup>
         })
-            : null
+            :  <div className="text-center">{translations.no_history}</div>
     }
 }
