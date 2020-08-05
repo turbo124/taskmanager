@@ -7,7 +7,7 @@ export default class FormatMoney extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            invoices: [],
+            currency_format: localStorage.getItem('currency_format') || 'symbol'
             currencies: null,
             currency_id: null
         }
@@ -65,7 +65,7 @@ export default class FormatMoney extends Component {
 
             const formattedTotal = negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(total - i).toFixed(decimalCount).slice(2) : '')
             
-            if(this.props.show_code && this.props.show_code === true && code.length) {
+            if(this.state.currency_format === 'code') {
                 return <span className={this.props.className ? this.props.className : ''}>{`${formattedTotal} ${code}`}</span>
             }
 
