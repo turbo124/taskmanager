@@ -15,6 +15,7 @@ import EmailEditorForm from '../emails/EmailEditorForm'
 import ViewEmails from '../emails/ViewEmails'
 import EmailFields from '../accounts/EmailFields'
 import EmailPreview from '../accounts/EmailPreview'
+import { translations } from '../common/_translations'
 
 export default class Emails extends Component {
     constructor (props) {
@@ -166,7 +167,7 @@ export default class Emails extends Component {
                             onClick={() => {
                                 this.toggleEmailTab('1')
                             }}>
-                            Preview
+                            {translations.preview}
                         </NavLink>
                     </NavItem>
 
@@ -176,7 +177,7 @@ export default class Emails extends Component {
                             onClick={() => {
                                 this.toggleEmailTab('2')
                             }}>
-                            Customise
+                            {translations.customise}
                         </NavLink>
                     </NavItem>
 
@@ -186,7 +187,7 @@ export default class Emails extends Component {
                             onClick={() => {
                                 this.toggleEmailTab('3')
                             }}>
-                            History
+                            {translations.history}
                         </NavLink>
                     </NavItem>
                 </Nav>
