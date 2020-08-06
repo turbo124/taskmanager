@@ -2,7 +2,9 @@ import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
-import { translations } from "../common/_translations";
+import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddGroupSetting extends React.Component {
     constructor (props) {
@@ -86,9 +88,7 @@ class AddGroupSetting extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        Add Group
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_group} />
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
@@ -99,10 +99,8 @@ class AddGroupSetting extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

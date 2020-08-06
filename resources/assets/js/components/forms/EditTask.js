@@ -24,6 +24,8 @@ import TaskModel from '../models/TaskModel'
 import TaskDetails from './TaskDetails'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditTask extends Component {
     constructor (props) {
@@ -252,17 +254,13 @@ class EditTask extends Component {
             ? <React.Fragment>
                 {button}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_task}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_task} />
 
                     <ModalBody>
                         {form}
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleSave.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment> : form
     }

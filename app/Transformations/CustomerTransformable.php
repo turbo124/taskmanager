@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Address;
 use App\Models\ClientContact;
 use App\Models\Customer;
+use App\Models\File;
 use App\Models\Transaction;
 
 trait CustomerTransformable
@@ -65,6 +66,7 @@ trait CustomerTransformable
             'custom_value4'          => $customer->custom_value4 ?: '',
             'private_notes'          => $customer->private_notes ?: '',
             'public_notes'           => $customer->public_notes ?: '',
+            'files'                  => $this->transformCustomerFiles($customer->files)
         ];
     }
 
@@ -81,6 +83,19 @@ trait CustomerTransformable
         return $transactions->map(
             function (Transaction $transaction) {
                 return (new TransactionTransformable())->transformTransaction($transaction);
+            }
+        )->all();
+    }
+
+    private function transformCustomerFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

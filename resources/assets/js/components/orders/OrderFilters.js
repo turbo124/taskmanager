@@ -61,8 +61,8 @@ export default class OrderFilters extends Component {
         this.filterOrders = this.filterOrders.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterOrders (event) {

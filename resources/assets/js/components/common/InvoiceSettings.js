@@ -79,7 +79,6 @@ export default function InvoiceSettings (props) {
                         <FormGroup>
                             <Label>{translations.discount_type}</Label>
                             <Input
-                                bsSize="sm"
                                 value={props.is_amount_discount}
                                 type='select'
                                 name='is_amount_discount'

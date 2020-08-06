@@ -9,7 +9,7 @@ import FilterTile from '../common/FilterTile'
 import UserDropdown from '../common/UserDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import TaskStatusDropdown from '../common/TaskStatusDropdown'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class TaskFilters extends Component {
     constructor (props) {
@@ -35,8 +35,8 @@ export default class TaskFilters extends Component {
         this.getFilters = this.getFilters.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterTasks (event) {

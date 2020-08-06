@@ -160,7 +160,7 @@ export default class CustomerPortalSettings extends Component {
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
                         {translations.settings_saved}
                     </Alert>

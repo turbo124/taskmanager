@@ -6,8 +6,6 @@ import {
     DropdownItem,
     Modal,
     ModalBody,
-    ModalFooter,
-    ModalHeader,
     Nav,
     NavItem,
     NavLink,
@@ -37,6 +35,8 @@ import NoteTabs from '../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
 import Recurring from '../quotes/Recurring'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -367,7 +367,6 @@ class EditInvoice extends Component {
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
                 localStorage.removeItem('quoteForm')
-                this.setState(this.initialState)
                 return
             }
 
@@ -633,21 +632,13 @@ class EditInvoice extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <ModalHeader toggle={this.toggle}>
-                            Quote
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_quote} />
 
                         <ModalBody>
                             {form}
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                            <Button color="success" onClick={this.saveData}>{translations.save}</Button>
-
-                            {loading &&
-                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                            }
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )

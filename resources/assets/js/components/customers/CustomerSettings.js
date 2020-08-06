@@ -14,7 +14,7 @@ import axios from 'axios'
 import { translations } from '../common/_translations'
 import CustomerModel from '../models/CustomerModel'
 import { icons } from '../common/_icons'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 class CustomerSettings extends Component {
     constructor (props) {

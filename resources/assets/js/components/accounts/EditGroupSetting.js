@@ -23,7 +23,9 @@ import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import { toast } from 'react-toastify'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditGroupSetting extends Component {
     constructor (props) {
@@ -764,9 +766,7 @@ class EditGroupSetting extends Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_group}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_group} />
                     <ModalBody>
                         <Nav tabs className="nav-justified disable-scrollbars">
                             <NavItem>
@@ -1022,10 +1022,8 @@ class EditGroupSetting extends Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

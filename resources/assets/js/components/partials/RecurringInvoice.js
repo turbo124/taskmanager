@@ -28,8 +28,8 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
@@ -40,14 +40,14 @@ export default class RecurringInvoice extends Component {
             show_success: false
         }
 
-        this.recurringInvoiceModel = new RecurringInvoiceModel(this.props.entity)
+        this.invoiceModel = new RecurringInvoiceModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        this.recurringInvoiceModel.completeAction(this.props.entity, action).then(response => {
+        this.invoiceModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -62,7 +62,7 @@ export default class RecurringInvoice extends Component {
 
     loadPdf () {
         axios.post('/api/preview', {
-            entity: 'RecurringInvoice',
+            entity: 'Invoice',
             entity_id: this.props.entity.id
         })
             .then((response) => {
@@ -109,7 +109,7 @@ export default class RecurringInvoice extends Component {
         return (
             <React.Fragment>
 
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -127,7 +127,7 @@ export default class RecurringInvoice extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents}
+                            {translations.documents} ({this.invoiceModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -209,7 +209,7 @@ export default class RecurringInvoice extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="RecurringInvoice" entity={this.props.entity}
+                                        <FileUploads entity_type="Invoice" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
                                     </CardBody>
                                 </Card>

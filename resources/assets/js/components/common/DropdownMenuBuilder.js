@@ -9,7 +9,6 @@ import ErrorMessage from './ErrorMessage'
 import { icons } from './_icons'
 import { translations } from './_translations'
 
-
 export default class DropdownMenuBuilder extends Component {
     constructor (props, context) {
         super(props, context)

@@ -4,6 +4,8 @@ import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import Datepicker from '../common/Datepicker'
 import PromocodeModel from '../models/PromocodeModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class AddPromocode extends React.Component {
     constructor (props) {
@@ -91,9 +93,8 @@ export default class AddPromocode extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_promocode}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_promocode} />
+
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.scope} <span className="text-danger">*</span></Label>
@@ -165,10 +166,8 @@ export default class AddPromocode extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

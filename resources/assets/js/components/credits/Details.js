@@ -9,7 +9,7 @@ import {
 } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
-import UserDropdown from "../common/UserDropdown";
+import UserDropdown from '../common/UserDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {

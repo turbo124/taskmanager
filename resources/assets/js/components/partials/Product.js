@@ -6,13 +6,15 @@ import {
     TabContent,
     TabPane,
     Row,
-    ListGroup
+    ListGroup, Col, Card, CardHeader, CardBody
 } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import InfoItem from '../common/entityContainers/InfoItem'
 import FormatMoney from '../common/FormatMoney'
+import ProductModel from '../models/ProductModel'
+import FileUploads from '../attachments/FileUploads'
 
 export default class Product extends Component {
     constructor (props) {
@@ -23,23 +25,19 @@ export default class Product extends Component {
             show_success: false
         }
 
+        this.productModel = new ProductModel(this.props.entity)
+
         // this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
     }
 
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '3') {
-                    this.loadPdf()
-                }
-            })
+            this.setState({ activeTab: tab })
         }
     }
 
     render () {
-        console.log('attributes', this.props.entity.attributes)
-
         const variations = this.props.entity.attributes.length ? this.props.entity.attributes.map((attribute, index) => {
             const values = attribute.values.length ? Array.prototype.map.call(attribute.values, function (value) {
                 return value.value
@@ -59,7 +57,7 @@ export default class Product extends Component {
 
         return (
             <React.Fragment>
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -78,6 +76,17 @@ export default class Product extends Component {
                             }}
                         >
                             {translations.variations}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}
+                        >
+                            {translations.documents} ({this.productModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -110,6 +119,20 @@ export default class Product extends Component {
                     <TabPane tabId="2">
                         <Row>
                             {variations}
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader> {translations.documents} </CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Product" entity={this.props.entity}
+                                            user_id={this.props.entity.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
                         </Row>
                     </TabPane>
                 </TabContent>

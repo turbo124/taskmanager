@@ -57,8 +57,8 @@ export default class QuoteFilters extends Component {
         this.filterInvoices = this.filterInvoices.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterInvoices (event) {

@@ -6,8 +6,6 @@ import {
     DropdownItem,
     Modal,
     ModalBody,
-    ModalFooter,
-    ModalHeader,
     Nav,
     NavItem,
     NavLink,
@@ -37,6 +35,9 @@ import NoteTabs from '../common/NoteTabs'
 import Contactsm from './Contactsm'
 import Detailsm from './Detailsm'
 import Recurring from './Recurring'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultFooter from '../containers/DefaultLayout/DefaultFooter'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -667,29 +668,21 @@ class EditInvoice extends Component {
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_invoice}
             </DropdownItem>
 
+        const showSuccessButton = this.invoiceModel.isEditable
+
         if (this.props.modal) {
             return (
                 <React.Fragment>
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <ModalHeader toggle={this.toggle}>
-                            {translations.edit_invoice}
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_invoice}/>
 
                         <ModalBody>
                             {form}
                         </ModalBody>
-                        <ModalFooter>
-                            {this.invoiceModel.isEditable &&
-                            <Button color="success" onClick={this.saveData}>{translations.save}</Button>
-                            }
-                            <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-
-                            {loading &&
-                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                            }
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={showSuccessButton} toggle={this.toggle} saveData={this.saveData}
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )

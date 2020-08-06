@@ -23,6 +23,8 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import { translations } from '../common/_translations'
 import CompanyModel from '../models/CompanyModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddCompany extends React.Component {
     constructor (props) {
@@ -141,9 +143,8 @@ class AddCompany extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_company}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_company} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -229,10 +230,8 @@ class AddCompany extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

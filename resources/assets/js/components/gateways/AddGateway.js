@@ -16,6 +16,8 @@ import Details from './Details'
 import GatewayModel from '../models/GatewayModel'
 import Settings from './Settings'
 import FeesAndLimits from './FeesAndLimits'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddGateway extends React.Component {
     constructor (props) {
@@ -129,9 +131,8 @@ class AddGateway extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_gateway}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_gateway} />
+
                     <ModalBody>
                         <Nav tabs className="pl-3">
                             <NavItem>
@@ -189,10 +190,8 @@ class AddGateway extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

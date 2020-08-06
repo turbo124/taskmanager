@@ -49,8 +49,8 @@ export default class CreditFilters extends Component {
         this.getFilters = this.getFilters.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterCredits (event) {

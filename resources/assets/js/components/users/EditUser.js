@@ -27,6 +27,8 @@ import UserDropdownMenu from './UserDropdownMenu'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditUser extends React.Component {
     constructor (props) {
@@ -226,9 +228,8 @@ class EditUser extends React.Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_user}</DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_user}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_user} />
+
                     <ModalBody>
 
                         <UserDropdownMenu id={this.state.user.id} formData={this.getFormData()} />
@@ -329,10 +330,8 @@ class EditUser extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

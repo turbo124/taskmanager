@@ -9,7 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class RecurringInvoiceFilters extends Component {
     constructor (props) {
@@ -31,8 +31,8 @@ export default class RecurringInvoiceFilters extends Component {
         this.filterInvoices = this.filterInvoices.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterInvoices (event) {
@@ -108,6 +108,6 @@ export default class RecurringInvoiceFilters extends Component {
     render () {
         const filters = this.getFilters()
 
-        return (<FilterTile  setFilterOpen={this.props.setFilterOpen} filters={filters}/>)
+        return (<FilterTile setFilterOpen={this.props.setFilterOpen} filters={filters}/>)
     }
 }

@@ -24,6 +24,8 @@ import Features from './Features'
 import ProductAttribute from './ProductAttribute'
 import FileUploads from '../attachments/FileUploads'
 import ProductModel from '../models/ProductModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddProduct extends React.Component {
     constructor (props) {
@@ -171,9 +173,8 @@ class AddProduct extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_product}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_product} />
+
                     <ModalBody>
                         <Nav tabs>
                             <NavItem>
@@ -291,10 +292,8 @@ class AddProduct extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

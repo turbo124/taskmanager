@@ -27,6 +27,8 @@ import Notes from '../common/Notes'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import CompanyModel from '../models/CompanyModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditCompany extends React.Component {
     constructor (props) {
@@ -142,9 +144,8 @@ class EditCompany extends React.Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_company}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_company} />
+
                     <ModalBody>
 
                         <CompanyDropdown formData={this.getFormData()} id={this.state.id}/>
@@ -234,10 +235,8 @@ class EditCompany extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

@@ -125,5 +125,5 @@ export const consts = {
     email_design_custom: 'custom',
     reminder_schedule_after_invoice_date: 'after_invoice_date',
     reminder_schedule_before_due_date: 'before_due_date',
-    reminder_schedule_after_due_date: 'after_due_date',
+    reminder_schedule_after_due_date: 'after_due_date'
 }

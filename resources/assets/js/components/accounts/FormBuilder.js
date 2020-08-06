@@ -5,7 +5,7 @@ import CurrencyDropdown from '../common/CurrencyDropdown'
 import Switch from '../common/Switch'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
-import { translations } from "../common/_translations";
+import { translations } from '../common/_translations'
 
 /**
  * A component which renders a form based on a given list of fields.

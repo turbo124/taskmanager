@@ -123,18 +123,17 @@ export default class EmailEditorForm extends Component {
         const customer = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.customers.filter(customer => customer.id === this.props.entity_object.customer_id) : []
         const contacts = customer.length && customer[0] ? customer[0].contacts : []
         const invitations = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.entity_object.invitations : []
-        console.log('contacts', contacts)
-        console.log('invitations', invitations)
 
         const contactList = invitations.length && contacts.length ? invitations.map((invitation, index) => {
             const contact = contacts.filter(contact => contact.id === invitation.client_contact_id)
-            return <li>{contact[0].first_name} {contact[0].last_name} {contact[0].email}</li>
+            return <li>{`${contact[0].first_name} ${contact[0].last_name} <${contact[0].email}>`}</li>
         }) : null
 
         return (
             <Form>
                 {successMessage}
                 {errorMessage}
+                {contactList}
 
                 {customer.length &&
                 <FormGroup>

@@ -176,7 +176,7 @@ export default class InvoiceModel extends BaseModel {
         if (this.isCancelled || this.isReversed) {
             actions.push('reverse_status')
         }
-      
+
         if ((this.isSent || this.isPartial) && !this.isPaid && this.isEditable) {
             actions.push('markPaid')
         }

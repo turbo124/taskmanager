@@ -8,7 +8,7 @@ export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_numbe
     '$invoice.invoice4', '$invoice.surcharge1', '$invoice.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
 ]
 
-export default class RecurringInvoiceModel extends BaseModel {
+export default class InvoiceModel extends BaseModel {
     constructor (data = null, customers = null) {
         super()
         this.customers = customers
@@ -22,21 +22,67 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
 
         this._fields = {
-            modal: false,
-            errors: [],
-            is_recurring: false,
-            invoice_id: null,
-            customer_id: null,
-            public_notes: '',
-            private_notes: '',
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             end_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             frequency: 1,
+            is_mobile: window.innerWidth <= 500,
+            modalOpen: false,
+            is_amount_discount: false,
+            deleted_at: null,
+            assigned_to: '',
+            invitations: [],
+            emails: [],
+            customer_id: '',
+            user_id: null,
+            contacts: [],
+            quantity: '',
+            id: null,
+            line_items: [],
+            address: {},
+            customerName: '',
+            tax_rate_name: '',
+            tax_rate: 0,
+            company_id: '',
+            status_id: null,
+            tasks: [],
+            errors: [],
+            total: 0,
+            discount_total: 0,
+            tax_total: 0,
+            sub_total: 0,
+            data: [],
+            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            partial: 0,
+            partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            has_partial: false,
+            public_notes: '',
+            private_notes: '',
+            terms: '',
+            footer: '',
+            visible: 'collapse',
             custom_value1: '',
             custom_value2: '',
             custom_value3: '',
-            custom_value4: ''
+            custom_value4: '',
+            transaction_fee_tax: false,
+            shipping_cost_tax: false,
+            transaction_fee: 0,
+            shipping_cost: 0,
+            gateway_fee: 0,
+            gateway_percentage: false,
+            tax: 0,
+            total_custom_values: 0,
+            total_custom_tax: 0,
+            discount: 0,
+            recurring: '',
+            activeTab: '1',
+            po_number: '',
+            design_id: '',
+            success: false,
+            showSuccessMessage: false,
+            showErrorMessage: false,
+            loading: false
         }
 
         this.approved = 4
@@ -44,6 +90,7 @@ export default class RecurringInvoiceModel extends BaseModel {
         this.cancelled = consts.invoice_status_cancelled
         this.paid = consts.invoice_status_paid
         this.sent = consts.invoice_status_sent
+        this.partial = consts.invoice_status_partial
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -90,6 +137,10 @@ export default class RecurringInvoiceModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.sent
     }
 
+    get isPartial () {
+        return parseInt(this.fields.status_id) === this.partial
+    }
+
     get isDeleted () {
         return this.fields.deleted_at && this.fields.deleted_at.length > 0
     }
@@ -109,13 +160,29 @@ export default class RecurringInvoiceModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        // if (this.fields.invitations.length) {
-        //     actions.push('pdf')
-        // }
+        if (this.fields.invitations.length) {
+            actions.push('pdf')
+        }
 
         if (this.fields.customer_id !== '') {
             actions.push('email')
         }
+
+        // if (!this.isPaid) {
+        //     actions.push('newPayment')
+        // }
+        //
+        // if (!this.isSent && this.isEditable) {
+        //     actions.push('markSent')
+        // }
+        //
+        // if (this.isCancelled || this.isReversed) {
+        //     actions.push('reverse_status')
+        // }
+        //
+        // if ((this.isSent || this.isPartial) && !this.isPaid && this.isEditable) {
+        //     actions.push('markPaid')
+        // }
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -126,6 +193,30 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
 
         actions.push('cloneRecurringToInvoice')
+
+        // if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
+        //     actions.push('cancel')
+        // }
+
+        // if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {
+        //     actions.push('reverse')
+        // }
+
+        // if (this.fields.task_id && this.fields.task_id !== '' && this.isEditable) {
+        //     actions.push('getProducts')
+        // }
+        //
+        // if (this.isEditable) {
+        //     actions.push('cloneToInvoice')
+        // }
+        //
+        // if (this.isModuleEnabled('quotes') && this.isEditable) {
+        //     actions.push('cloneInvoiceToQuote')
+        // }
+        //
+        // if (this.isModuleEnabled('credits') && this.isEditable) {
+        //     actions.push('cloneToCredit')
+        // }
 
         return actions
     }

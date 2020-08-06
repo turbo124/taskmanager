@@ -8,6 +8,12 @@ export default class CustomerModel extends BaseModel {
         this._url = '/api/customers'
         this.entity = 'Customer'
 
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+
         this._fields = {
             id: null,
             modal: false,
@@ -43,6 +49,14 @@ export default class CustomerModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     buildDropdownMenu () {

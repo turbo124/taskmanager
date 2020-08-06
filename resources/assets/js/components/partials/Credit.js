@@ -26,8 +26,8 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -107,7 +107,7 @@ export default class Credit extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         return (
             <React.Fragment>
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}

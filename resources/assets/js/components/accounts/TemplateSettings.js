@@ -182,7 +182,7 @@ class TemplateSettings extends Component {
 
         return (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
                         {translations.settings_saved}
                     </Alert>

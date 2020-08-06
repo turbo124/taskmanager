@@ -11,6 +11,8 @@ import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditCustomer extends React.Component {
     constructor (props) {
@@ -103,9 +105,7 @@ class EditCustomer extends React.Component {
                 <React.Fragment>
                     <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                     <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>
-                            {translations.edit_customer}
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_customer} />
 
                         <ModalBody>
                             {submitSuccess && (
@@ -122,12 +122,8 @@ class EditCustomer extends React.Component {
                                 customer={this.props.customer} action={this.props.action}/>
 
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="secondary" onClick={this.toggle}>Close</Button>
-                            {loading &&
-                            <span className="fa fa-circle-o-notch fa-spin"/>
-                            }
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={false} toggle={this.toggle}
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )

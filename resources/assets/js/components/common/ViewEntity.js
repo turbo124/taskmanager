@@ -28,8 +28,8 @@ import Case from '../partials/Case'
 import Subscription from '../partials/Subscription'
 import Task from '../partials/Task'
 import TaxRate from '../partials/TaxRate'
-import Token from "../partials/Token";
-import Group from "../partials/Group";
+import Token from '../partials/Token'
+import Group from '../partials/Group'
 
 export default class ViewEntity extends Component {
     constructor (props) {

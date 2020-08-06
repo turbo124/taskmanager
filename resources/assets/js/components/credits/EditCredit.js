@@ -35,6 +35,8 @@ import { translations } from '../common/_translations'
 import NoteTabs from '../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -619,21 +621,13 @@ export default class EditCredit extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <ModalHeader toggle={this.toggle}>
-                            {translations.edit_credit}
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_credit} />
 
                         <ModalBody>
                             {form}
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={this.saveData}>Save</Button>
-                            <Button color="secondary" onClick={this.toggle}>Close</Button>
-
-                            {loading &&
-                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                            }
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )

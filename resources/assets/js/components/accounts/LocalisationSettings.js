@@ -53,8 +53,15 @@ export default class LocalisationSettings extends Component {
                 [name]: value
             }
         }), () => {
-            if(name === currency_format) {
-                localStorage.setItem('currency_format', value);
+            if (name === 'currency_format') {
+                localStorage.setItem('currency_format', value)
+
+                this.setState(prevState => ({
+                    settings: {
+                        ...prevState.settings,
+                        show_currency_code: value === 'code'
+                    }
+                }))
             }
         })
     }
@@ -85,7 +92,7 @@ export default class LocalisationSettings extends Component {
                         {
                             value: 'symbol',
                             text: 'Symbol: £1000'
-                        },
+                        }
                     ],
                     group: 1
                 }
@@ -142,7 +149,7 @@ export default class LocalisationSettings extends Component {
 
         return date_formats && date_formats.length ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
                         {translations.settings_saved}
                     </Alert>
@@ -192,7 +199,7 @@ export default class LocalisationSettings extends Component {
                     </CardBody>
                 </Card>
 
-                 <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra border-0">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}

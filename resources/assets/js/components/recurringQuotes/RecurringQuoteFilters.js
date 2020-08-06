@@ -9,7 +9,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class RecurringQuoteFilters extends Component {
     constructor (props) {
@@ -30,8 +30,8 @@ export default class RecurringQuoteFilters extends Component {
         this.filterInvoices = this.filterInvoices.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterInvoices (event) {

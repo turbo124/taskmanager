@@ -9,27 +9,25 @@ import {
     NavLink,
     Row,
     Card,
-    CardBody,
-    ListGroupItemText,
-    ListGroupItemHeading,
-    ListGroupItem,
+    CardHeader,
     ListGroup,
+    ListGroupItem,
+    ListGroupItemHeading,
     Col,
-    CardHeader
+    CardBody
 } from 'reactstrap'
 import RecurringQuotePresenter from '../presenters/RecurringQuotePresenter'
-import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import axios from 'axios'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
-import RecurringQuoteModel from '../models/RecurringQuoteModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
+import FormatMoney from '../common/FormatMoney'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import RecurringQuoteModel from '../models/RecurringQuoteModel'
 
 export default class RecurringQuote extends Component {
     constructor (props) {
@@ -40,14 +38,14 @@ export default class RecurringQuote extends Component {
             show_success: false
         }
 
-        this.recurringQuoteModel = new RecurringQuoteModel(this.props.entity)
+        this.quoteModel = new RecurringQuoteModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        this.recurringQuoteModel.completeAction(this.props.entity, action).then(response => {
+        this.quoteModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -62,7 +60,7 @@ export default class RecurringQuote extends Component {
 
     loadPdf () {
         axios.post('/api/preview', {
-            entity: 'RecurringQuote',
+            entity: 'Quote',
             entity_id: this.props.entity.id
         })
             .then((response) => {
@@ -106,10 +104,11 @@ export default class RecurringQuote extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+
         return (
             <React.Fragment>
 
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -127,7 +126,7 @@ export default class RecurringQuote extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents}
+                            {translations.documents} ({this.quoteModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -138,38 +137,15 @@ export default class RecurringQuote extends Component {
 
                         <RecurringQuotePresenter entity={this.props.entity} field="status_field"/>
 
-                        {this.props.entity.paymentables && this.props.entity.paymentables.length &&
-                        <Row>
-                            <ListGroup className="col-12 mt-4">
-                                {this.props.entity.paymentables.map((line_item, index) => (
-                                    <a key={index} href={`/#/payments?number=${line_item.number}`}>
-                                        <ListGroupItem className="list-group-item-dark">
-                                            <ListGroupItemHeading
-                                                className="">
-                                                <i className={`fa ${icons.credit_card} mr-4`}/>{line_item.number}
-                                            </ListGroupItemHeading>
-
-                                            <ListGroupItemText>
-                                                <FormatMoney amount={line_item.amount}/> - {line_item.date}
-                                            </ListGroupItemText>
-                                        </ListGroupItem>
-                                    </a>
-                                ))}
-                            </ListGroup>
-                        </Row>
-                        }
-
                         <Row>
                             <ListGroup className="mt-4 col-12">
                                 <ListGroupItem className="list-group-item-dark">
                                     <ListGroupItemHeading><i
-                                        className={`fa ${icons.customer} mr-4`}/>{customer[0].name}
+                                        className="fa fa-user-circle-o mr-2"/>{customer[0].name}
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
-                        </Row>
 
-                        <Row>
                             <ul className="mt-4 col-12">
                                 <SimpleSectionItem heading={translations.date}
                                     value={<FormatDate date={this.props.entity.date}/>}/>
@@ -209,7 +185,7 @@ export default class RecurringQuote extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="RecurringQuote" entity={this.props.entity}
+                                        <FileUploads entity_type="Quote" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
                                     </CardBody>
                                 </Card>
@@ -245,6 +221,7 @@ export default class RecurringQuote extends Component {
                         this.triggerAction('clone_to_invoice')
                     }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
                 </BottomNavigation>
+
             </React.Fragment>
 
         )

@@ -16,6 +16,8 @@ import Notes from '../common/Notes'
 import TaskModel from '../models/TaskModel'
 import TaskDetails from './TaskDetails'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddModal extends React.Component {
     constructor (props) {
@@ -172,19 +174,15 @@ class AddModal extends React.Component {
                 <div>
                     <AddButtons toggle={this.toggle}/>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>
-                            Create a New Task to {this.changeColumnTitle(this.props.status)}
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.add_task} />
 
                         <ModalBody>
                             {form}
                             {leadForm}
                         </ModalBody>
 
-                        <ModalFooter>
-                            {saveButton}
-                            <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                            loading={false}/>
                     </Modal>
                 </div>
             )

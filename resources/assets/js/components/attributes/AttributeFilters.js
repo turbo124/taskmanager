@@ -5,7 +5,7 @@ import {
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class AttributeFilters extends Component {
     constructor (props) {
@@ -54,8 +54,8 @@ export default class AttributeFilters extends Component {
         }), () => this.props.filter(this.state.filters))
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     getFilters () {

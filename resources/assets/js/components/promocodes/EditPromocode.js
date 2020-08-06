@@ -4,6 +4,8 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Datepicker from '../common/Datepicker'
 import PromocodeModel from '../models/PromocodeModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class EditPromocode extends React.Component {
     constructor (props) {
@@ -93,9 +95,8 @@ export default class EditPromocode extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_promocode}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_promocode}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_promocode} />
+
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.scope} <span className="text-danger">*</span></Label>
@@ -167,10 +168,8 @@ export default class EditPromocode extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

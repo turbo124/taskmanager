@@ -25,6 +25,8 @@ import { translations } from '../common/_translations'
 import NoteTabs from '../common/NoteTabs'
 import Detailsm from '../orders/Detailsm'
 import Contactsm from './Contactsm'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class EditOrder extends Component {
     constructor (props) {
@@ -597,23 +599,14 @@ export default class EditOrder extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <ModalHeader toggle={this.toggle}>
-                            Order
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_order} />
 
                         <ModalBody>
                             {form}
                         </ModalBody>
-                        <ModalFooter>
-                            {this.orderModel.isEditable &&
-                            <Button color="success" onClick={this.saveData}>{translations.save}</Button>
-                            }
-                            <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
 
-                            {loading &&
-                            <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                            }
-                        </ModalFooter>
+                        <DefaultModalFooter show_success={this.orderModel.isEditable} toggle={this.toggle} saveData={this.saveData}
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )

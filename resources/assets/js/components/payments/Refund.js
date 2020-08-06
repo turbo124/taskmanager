@@ -7,6 +7,8 @@ import axios from 'axios'
 import InvoiceLine from './InvoiceLine'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class Refund extends React.Component {
     constructor (props) {
@@ -204,9 +206,8 @@ class Refund extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.refund}`}/>{translations.refund}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader autoFocus={false} toggle={this.toggle}>
-                        {translations.refund}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.refund} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -216,10 +217,8 @@ class Refund extends React.Component {
                         {this.getForm()}
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.refund}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.cancel}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         ) : this.getForm()

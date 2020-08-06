@@ -22,6 +22,8 @@ import DetailsForm from './DetailsForm'
 import PermissionsForm from './PermissionsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddUser extends React.Component {
     constructor (props) {
@@ -166,9 +168,8 @@ class AddUser extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_user}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_user} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -242,10 +243,8 @@ class AddUser extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )
