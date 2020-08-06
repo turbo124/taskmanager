@@ -6,7 +6,7 @@ import {
     NavItem,
     NavLink,
     Row,
-    ListGroup
+    ListGroup, Col, Card, CardHeader, CardBody
 } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -16,6 +16,10 @@ import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
 import Transaction from '../customers/Transaction'
 import CustomerSettings from '../customers/CustomerSettings'
+import CustomerModel from '../models/CustomerModel'
+import FileUploads from '../attachments/FileUploads'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -25,6 +29,8 @@ export default class Customer extends Component {
             activeTab: '1',
             show_success: false
         }
+
+        this.customerModel = new CustomerModel(this.props.entity)
 
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
@@ -91,6 +97,17 @@ export default class Customer extends Component {
                             {translations.transactions}
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
+                            {translations.documents} ({this.customerModel.fileCount})
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -148,25 +165,33 @@ export default class Customer extends Component {
                     </TabPane>
 
                     <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader> {translations.documents} </CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Customer" entity={this.props.entity}
+                                            user_id={this.props.entity.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="5">
                         <CustomerSettings customer={this.props.entity} />
                     </TabPane>
                 </TabContent>
 
-                <div className="navbar d-flex p-0 view-buttons">
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={() => {
-                            this.toggleTab('4')
-                        }}>
-                        {translations.settings}
-                    </NavLink>
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
-                        }}>
-                        {translations.gateways}
-                    </NavLink>
-                </div>
+                <BottomNavigation showLabels className="bg-dark text-white">
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
+                        this.toggleTab('5')
+                    }} label={translations.settings} value={translations.settings} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={(e) => {
+                        e.preventDefault()
+                        window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
+                    }} label={translations.gateways} value={translations.gateways} />
+                </BottomNavigation>
 
             </React.Fragment>
 

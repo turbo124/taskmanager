@@ -58,9 +58,10 @@ export default class TaxRateDropdown extends Component {
 
         const name = this.props.name && this.props.name ? this.props.name : 'tax_id'
         const lineId = this.props.lineId ? this.props.lineId : 0
+        const class_name = this.props.className ? this.props.className : ''
 
         return (
-            <FormGroup className="ml-2">
+            <FormGroup className={class_name}>
                 <Input data-line={lineId} value={this.props.taxRate} onChange={this.props.handleInputChanges}
                     type="select"
                     name={name} id={name}>

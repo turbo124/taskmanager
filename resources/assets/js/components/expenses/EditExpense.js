@@ -23,6 +23,8 @@ import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditExpense extends React.Component {
     constructor (props) {
@@ -146,9 +148,8 @@ class EditExpense extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_expense}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_expense}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_expense} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -239,14 +240,8 @@ class EditExpense extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
-
-                        {loading &&
-                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                        }
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

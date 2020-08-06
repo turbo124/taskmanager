@@ -7,6 +7,8 @@ import AddButtons from '../common/AddButtons'
 import moment from 'moment'
 import { translations } from '../common/_translations'
 import ProjectModel from '../models/ProjectModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddStory extends React.Component {
     constructor (props) {
@@ -110,9 +112,7 @@ class AddStory extends React.Component {
             <div>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_project}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_project} />
 
                     <ModalBody>
                         <FormGroup>
@@ -184,10 +184,8 @@ class AddStory extends React.Component {
                             />
                         </FormGroup>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </div>
         )

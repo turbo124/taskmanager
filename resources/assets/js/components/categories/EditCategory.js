@@ -11,6 +11,8 @@ import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditCategory extends React.Component {
     constructor (props) {
@@ -96,19 +98,16 @@ class EditCategory extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_category}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_category}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_category} />
+
                     <ModalBody>
                         <Details categories={this.props.categories} category={this.state} hasErrorFor={this.hasErrorFor}
                             handleInput={this.handleInput}
                             renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

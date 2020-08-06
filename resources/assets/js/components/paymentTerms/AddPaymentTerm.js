@@ -3,6 +3,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, L
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddPaymentTerm extends React.Component {
     constructor (props) {
@@ -89,9 +91,8 @@ class AddPaymentTerm extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_payment_term}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment_term} />
+
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
@@ -110,10 +111,8 @@ class AddPaymentTerm extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

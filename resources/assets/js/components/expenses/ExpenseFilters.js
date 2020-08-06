@@ -10,7 +10,7 @@ import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class ExpenseFilters extends Component {
     constructor (props) {
@@ -33,8 +33,8 @@ export default class ExpenseFilters extends Component {
         this.getFilters = this.getFilters.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterExpenses (event) {

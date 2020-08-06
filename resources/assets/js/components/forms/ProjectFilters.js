@@ -7,7 +7,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class ProjectFilters extends Component {
     constructor (props) {
@@ -30,8 +30,8 @@ export default class ProjectFilters extends Component {
         this.getFilters = this.getFilters.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterProjects (event) {

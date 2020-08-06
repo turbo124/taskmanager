@@ -67,7 +67,8 @@ export const icons = {
     word_file: 'fa-file-word-o',
     excel_file: 'fa-file-excel-o',
     powerpoint_file: 'fa-file-powerpoint-o',
-    image_file: 'fa-file-image-o'
+    image_file: 'fa-file-image-o',
+    desktop: 'fa-desktop'
 }
 
 export function getEntityIcon (entity) {
@@ -129,6 +130,8 @@ export function getSettingsIcon (section) {
             return icons.globe
         case 'workflow-settings':
             return icons.double_right
+        case 'device-settings':
+            return icons.desktop
         case 'portal-settings':
             return icons.cloud
         case 'field-settings':

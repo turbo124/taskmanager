@@ -7,7 +7,9 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import { translations } from '../common/_translations'
 import RecurringQuoteModel from '../models/RecurringQuoteModel'
-import Details from './Details'
+import Recurring from './Recurring'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddRecurringQuote extends Component {
     constructor (props, context) {
@@ -117,7 +119,7 @@ class AddRecurringQuote extends Component {
 
         const form = (
             <div className={inlineClass}>
-                <Details recurring_quote={this.state} hasErrorFor={this.hasErrorFor}
+                <Recurring recurring_quote={this.state} hasErrorFor={this.hasErrorFor}
                     renderErrorFor={this.renderErrorFor} handleInput={this.handleInput}/>
 
                 <CustomFieldsForm handleInput={this.handleInput} custom_fields={this.props.custom_fields}
@@ -131,9 +133,7 @@ class AddRecurringQuote extends Component {
             ? <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_recurring_quote}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_quote} />
 
                     <ModalBody>
                         {form}
@@ -162,10 +162,8 @@ class AddRecurringQuote extends Component {
                         <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                             handleInput={this.handleInput}/>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
             : form

@@ -15,6 +15,8 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditDepartment extends React.Component {
     constructor (props) {
@@ -162,9 +164,8 @@ class EditDepartment extends React.Component {
             <React.Fragment>
                 <Button className="ml-2" color="success" onClick={this.toggle}>{translations.edit_department}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_department}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_department} />
+
                     <ModalBody>
                         <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
@@ -185,10 +186,8 @@ class EditDepartment extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

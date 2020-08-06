@@ -12,6 +12,8 @@ import Details from './Details'
 import CaseModel from '../models/CaseModel'
 import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import Comments from '../comments/Comments'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -108,9 +110,8 @@ export default class EditCase extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_case}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_case} />
+
                     <ModalBody>
                         <Nav tabs>
                             <NavItem>
@@ -151,10 +152,8 @@ export default class EditCase extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Col, Row, Button, FormGroup, Label, Input, Collapse, CardBody, Card, CardHeader } from 'reactstrap'
 import { translations } from './_translations'
-import { icons } from "./_icons";
+import { icons } from './_icons'
 
 export default class ContactInputs extends Component {
     constructor (props) {

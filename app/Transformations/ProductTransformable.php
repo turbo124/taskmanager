@@ -2,6 +2,7 @@
 
 namespace App\Transformations;
 
+use App\Models\File;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 
@@ -53,7 +54,8 @@ trait ProductTransformable
             'custom_value1'  => $product->custom_value1 ?: '',
             'custom_value2'  => $product->custom_value2 ?: '',
             'custom_value3'  => $product->custom_value3 ?: '',
-            'custom_value4'  => $product->custom_value4 ?: ''
+            'custom_value4'  => $product->custom_value4 ?: '',
+            'files'          => $this->transformProductFiles($product->files)
         ];
     }
 
@@ -70,4 +72,16 @@ trait ProductTransformable
         )->all();
     }
 
+    private function transformProductFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
 }

@@ -30,6 +30,8 @@ import Features from './Features'
 import ProductAttribute from './ProductAttribute'
 import FileUploads from '../attachments/FileUploads'
 import ProductModel from '../models/ProductModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditProduct extends React.Component {
     constructor (props) {
@@ -222,9 +224,8 @@ class EditProduct extends React.Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_product}</DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_product}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_product} />
+
                     <ModalBody>
 
                         <ProductListDropdown id={this.state.id} formData={this.getFormData()}/>
@@ -356,10 +357,8 @@ class EditProduct extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

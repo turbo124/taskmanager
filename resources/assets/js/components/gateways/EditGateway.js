@@ -22,6 +22,8 @@ import Details from './Details'
 import Settings from './Settings'
 import GatewayModel from '../models/GatewayModel'
 import FeesAndLimits from './FeesAndLimits'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditGateway extends React.Component {
     constructor (props) {
@@ -143,9 +145,8 @@ class EditGateway extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_gateway}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_gateway}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_gateway} />
+
                     <ModalBody>
                         <Nav tabs className="pl-3">
                             <NavItem>
@@ -203,10 +204,8 @@ class EditGateway extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

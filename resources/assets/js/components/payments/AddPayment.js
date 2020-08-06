@@ -9,6 +9,8 @@ import PaymentModel from '../models/PaymentModel'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Documents from './Documents'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddPayment extends React.Component {
     constructor (props) {
@@ -126,9 +128,8 @@ class AddPayment extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_payment}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -157,14 +158,8 @@ class AddPayment extends React.Component {
 
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-
-                        {loading &&
-                        <span style={{ fontSize: '36px' }} className={`fa ${icons.spinner}`}/>
-                        }
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

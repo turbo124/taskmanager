@@ -25,8 +25,8 @@ export default class GroupSettingFilters extends Component {
         this.getFilters = this.getFilters.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterGroups (event) {

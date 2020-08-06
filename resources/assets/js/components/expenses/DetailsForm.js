@@ -12,7 +12,7 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
-import UserDropdown from "../common/UserDropdown";
+import UserDropdown from '../common/UserDropdown'
 
 export default class DetailsForm extends React.Component {
     hasErrorFor (field) {

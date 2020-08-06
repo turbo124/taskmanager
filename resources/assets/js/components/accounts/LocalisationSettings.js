@@ -4,6 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import FormBuilder from './FormBuilder'
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
@@ -51,7 +52,52 @@ export default class LocalisationSettings extends Component {
                 ...prevState.settings,
                 [name]: value
             }
-        }))
+        }), () => {
+            if (name === 'currency_format') {
+                localStorage.setItem('currency_format', value)
+
+                this.setState(prevState => ({
+                    settings: {
+                        ...prevState.settings,
+                        show_currency_code: value === 'code'
+                    }
+                }))
+            }
+        })
+    }
+
+    getCurrencyFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'currency_id',
+                    label: translations.currency,
+                    type: 'currency',
+                    placeholder: translations.currency,
+                    value: settings.currency_id,
+                    group: 3
+                },
+                {
+                    name: 'currency_format',
+                    label: 'Currency Format',
+                    type: 'select',
+                    value: settings.currency_format,
+                    options: [
+                        {
+                            value: 'code',
+                            text: 'Code: 1000 GBP'
+                        },
+                        {
+                            value: 'symbol',
+                            text: 'Symbol: £1000'
+                        }
+                    ],
+                    group: 1
+                }
+            ]
+        ]
     }
 
     handleSubmit (e) {
@@ -103,7 +149,7 @@ export default class LocalisationSettings extends Component {
 
         return date_formats && date_formats.length ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000}  onClose={this.handleClose.bind(this)}>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
                         {translations.settings_saved}
                     </Alert>
@@ -150,6 +196,15 @@ export default class LocalisationSettings extends Component {
                                 {month_list}
                             </Input>
                         </FormGroup>
+                    </CardBody>
+                </Card>
+
+                <Card className="fixed-margin-extra border-0">
+                    <CardBody>
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getCurrencyFields()}
+                        />
                     </CardBody>
                 </Card>
             </React.Fragment>

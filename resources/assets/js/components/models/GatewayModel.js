@@ -8,6 +8,10 @@ export default class GatewayModel extends BaseModel {
         this._url = '/api/company_gateways'
         this.entity = 'Gateway'
 
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
+
         this._fields = {
             modal: false,
             gateway_key: '',
@@ -21,7 +25,7 @@ export default class GatewayModel extends BaseModel {
             fees_and_limits: [],
             loading: false,
             errors: [],
-            activeTab: '1',
+            activeTab: '1'
         }
 
         if (data !== null) {
@@ -49,6 +53,10 @@ export default class GatewayModel extends BaseModel {
         }
 
         return actions
+    }
+
+    get gateway_ids () {
+        return this.settings.company_gateway_ids || ''
     }
 
     performAction () {

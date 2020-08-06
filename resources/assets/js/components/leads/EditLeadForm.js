@@ -16,6 +16,8 @@ import Notes from '../common/Notes'
 import Emails from '../emails/Emails'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditLeadForm extends React.Component {
     constructor (props) {
@@ -179,9 +181,7 @@ class EditLeadForm extends React.Component {
             <React.Fragment>
                 {button}
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_lead}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_lead}/>
 
                     <ModalBody>
 
@@ -262,15 +262,11 @@ class EditLeadForm extends React.Component {
                         </React.Fragment>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="success" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                        <Button color="success" onClick={this.convertLead}>{translations.convert_lead}</Button>
-
-                        {loading &&
-                        <span className="fa fa-circle-o-notch fa-spin"/>
-                        }
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
+                        extra_button={<Button color="success"
+                            onClick={this.convertLead}>{translations.convert_lead}</Button>
+                        } loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

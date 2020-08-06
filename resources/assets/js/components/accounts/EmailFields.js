@@ -6,7 +6,7 @@ import {
 } from 'reactstrap'
 import FormBuilder from './FormBuilder'
 import { translations } from '../common/_translations'
-import { consts } from "../common/_consts";
+import { consts } from '../common/_consts'
 
 class EmailFields extends Component {
     constructor (props) {

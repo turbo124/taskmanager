@@ -12,6 +12,8 @@ import ErrorMessage from '../common/ErrorMessage'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import ProjectModel from '../models/ProjectModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditProject extends React.Component {
     constructor (props) {
@@ -184,9 +186,7 @@ class EditProject extends React.Component {
             <div>
                 {button}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_project}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_project} />
 
                     <ModalBody>
                         {dropdownMenu}
@@ -269,10 +269,8 @@ class EditProject extends React.Component {
                             />
                         </FormGroup>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </div>
         )

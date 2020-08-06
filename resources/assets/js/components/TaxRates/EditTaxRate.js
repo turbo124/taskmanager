@@ -7,6 +7,8 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
 import TaxRateModel from '../models/TaxRateModel'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class EditTaxRate extends React.Component {
     constructor (props) {
@@ -88,9 +90,8 @@ class EditTaxRate extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_tax_rate}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_tax_rate}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_tax_rate} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -101,10 +102,8 @@ class EditTaxRate extends React.Component {
                             renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

@@ -49,6 +49,7 @@ import Integrations from './accounts/IntegrationSettings'
 import Notifications from './accounts/Notifications'
 import Modules from './accounts/ModuleSettings'
 import Localisation from './accounts/LocalisationSettings'
+import DeviceSettings from './accounts/DeviceSettings'
 import WorkflowSettings from './accounts/WorkflowSettings'
 import Cases from './cases/Cases'
 
@@ -251,6 +252,11 @@ const routes = [
         path: '/workflow-settings',
         name: 'Workflow Settings',
         component: WorkflowSettings
+    },
+    {
+        path: '/device-settings',
+        name: 'Device Settings',
+        component: DeviceSettings
     },
     {
         path: '/field-settings',

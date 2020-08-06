@@ -13,6 +13,8 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddDepartment extends React.Component {
     constructor (props) {
@@ -159,9 +161,8 @@ class AddDepartment extends React.Component {
             <React.Fragment>
                 <Button className="pull-right" color="success" onClick={this.toggle}>{translations.add_department}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_department}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_department} />
+
                     <ModalBody>
 
                         {message && <div className="alert alert-danger" role="alert">
@@ -185,10 +186,8 @@ class AddDepartment extends React.Component {
                         {userOptions}
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

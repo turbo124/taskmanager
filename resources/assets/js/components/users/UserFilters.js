@@ -8,7 +8,7 @@ import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import StatusDropdown from "../common/StatusDropdown";
+import StatusDropdown from '../common/StatusDropdown'
 
 export default class UserFilters extends Component {
     constructor (props) {
@@ -31,8 +31,8 @@ export default class UserFilters extends Component {
         this.filterUsers = this.filterUsers.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterUsers (event) {

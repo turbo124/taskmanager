@@ -11,21 +11,21 @@ export default function ProductPresenter (props) {
         case 'status_field':
             return status
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Status">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} data-label="Status">{status}</td>
         case 'company_id': {
             const index = props.companies.findIndex(company => company.id === entity[field])
             const company = props.companies[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)}
                 data-label="Company">{company.name}</td>
         }
         case 'is_featured': {
             const icon = parseInt(entity.is_featured) === 1 ? 'fa-check' : 'fa-times-circle'
             const icon_class = parseInt(entity.is_featured) === 1 ? 'text-success' : 'text-danger'
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.id)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
                 data-label={field}><i className={`fa ${icon} ${icon_class}`} /> </td>
         }
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.id)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

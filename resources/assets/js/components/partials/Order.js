@@ -106,7 +106,7 @@ export default class Order extends Component {
 
         return (
             <React.Fragment>
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}

@@ -4,6 +4,8 @@ import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import AttributeValues from './AttributeValues'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 export default class EditAttribute extends React.Component {
     constructor (props) {
@@ -90,9 +92,8 @@ export default class EditAttribute extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_attribute}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.edit_attribute}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_attribute} />
+
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
@@ -108,10 +109,8 @@ export default class EditAttribute extends React.Component {
                         <AttributeValues values={this.state.values} onChange={this.handleVariations}/>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

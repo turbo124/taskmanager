@@ -4,6 +4,8 @@ import axios from 'axios'
 import CustomerTabs from './CustomerTabs'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddCustomer extends React.Component {
     constructor (props) {
@@ -91,9 +93,7 @@ class AddCustomer extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle} />
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_customer}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_customer} />
 
                     <ModalBody>
 
@@ -108,13 +108,8 @@ class AddCustomer extends React.Component {
                             type="add"/>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-
-                        {loading &&
-                        <span className="fa fa-circle-o-notch fa-spin"/>
-                        }
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={false} toggle={this.toggle}
+                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

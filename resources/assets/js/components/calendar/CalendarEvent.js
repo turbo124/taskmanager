@@ -10,6 +10,7 @@ import FormBuilder from '../accounts/FormBuilder'
 import DeleteModal from '../common/DeleteModal'
 import RestoreModal from '../common/RestoreModal'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
 
 const Label2 = styled.span`
   display: flex;
@@ -239,9 +240,7 @@ class CalendarEvent extends React.Component {
                 {editLabel}
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.update_event}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.update_event} />
 
                     <ModalBody>
                         <FormGroup>

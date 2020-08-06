@@ -54,7 +54,7 @@ export default class RecurringInvoiceItem extends Component {
                     custom_fields={custom_fields}
                     customers={customers}
                     modal={true}
-                    add={true}
+                    add={false}
                     invoice={user}
                     invoice_id={user.id}
                     action={this.props.updateInvoice}

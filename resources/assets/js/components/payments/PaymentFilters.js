@@ -45,8 +45,8 @@ export default class PaymentFilters extends Component {
         this.filterPayments = this.filterPayments.bind(this)
     }
 
-    setFilterOpen(isOpen) {
-        this.setState({isOpen: isOpen})
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
     filterPayments (event) {

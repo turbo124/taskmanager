@@ -6,6 +6,7 @@ import EventTypeDropdown from '../common/EventTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import FormBuilder from '../accounts/FormBuilder'
 import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
 
 class CreateEvent extends React.Component {
     constructor (props) {
@@ -266,9 +267,7 @@ class CreateEvent extends React.Component {
                     <Button color="success" onClick={this.toggle}>Add Event</Button>
 
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>
-                            {translations.create_event}
-                        </ModalHeader>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.create_event} />
 
                         <ModalBody>
                             {form}

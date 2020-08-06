@@ -105,6 +105,11 @@ const items = [
                 name: 'Workflow Settings',
                 url: '/workflow-settings',
                 icon: `fa ${getSettingsIcon('workflow-settings')}`
+            },
+            {
+                name: 'Device Settings',
+                url: '/device-settings',
+                icon: `fa ${getSettingsIcon('device-settings')}`
             }
             // {
             //     name: 'Subscriptions',

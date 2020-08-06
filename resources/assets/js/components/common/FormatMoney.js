@@ -7,7 +7,7 @@ export default class FormatMoney extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            invoices: [],
+            currency_format: localStorage.getItem('currency_format') || 'symbol',
             currencies: null,
             currency_id: null
         }
@@ -48,6 +48,7 @@ export default class FormatMoney extends Component {
         const currency = this.state.currencies && this.state.currencies.length ? this.state.currencies.filter(currency => currency.id === parseInt(this.state.currency_id)) : []
         let decimalCount = currency.length ? currency[0].precision : FormatMoney.defaultProps.decimalCount
         const symbol = currency.length ? currency[0].symbol : FormatMoney.defaultProps.symbol
+        const code = currency.length ? currency[0].iso_code : ''
         const thousands = currency.length ? currency[0].thousands_separator : FormatMoney.defaultProps.thousands
         const decimal = currency.length ? currency[0].decimal_mark : FormatMoney.defaultProps.decimal
 
@@ -63,6 +64,11 @@ export default class FormatMoney extends Component {
             const j = (i.length > 3) ? i.length % 3 : 0
 
             const formattedTotal = negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(total - i).toFixed(decimalCount).slice(2) : '')
+
+            if (this.state.currency_format === 'code') {
+                return <span className={this.props.className ? this.props.className : ''}>{`${formattedTotal} ${code}`}</span>
+            }
+
             return <span className={this.props.className ? this.props.className : ''}>{`${symbol}${formattedTotal}`}</span>
         } catch (e) {
             console.log(e)

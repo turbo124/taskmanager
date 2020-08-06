@@ -16,8 +16,8 @@ import PaymentModel from '../models/PaymentModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import Refund from '../payments/Refund'
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
 
 export default class Payment extends Component {
     constructor (props) {
@@ -60,7 +60,7 @@ export default class Payment extends Component {
 
         return (
             <React.Fragment>
-                <Nav tabs>
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}

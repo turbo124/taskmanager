@@ -758,12 +758,6 @@ class BaseSettings
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'timezone_id'                          => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => '',
-            'type'             => 'string'
-        ],
         'date_format'                          => [
             'required'         => false,
             'translated_value' => '',

@@ -7,12 +7,16 @@ import GatewayItem from './GatewayItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
 import queryString from 'query-string'
+import GatewayModel from '../models/GatewayModel'
 
 export default class Gateways extends Component {
     constructor (props) {
         super(props)
 
+        this.gatewayModel = new GatewayModel()
+
         this.state = {
+            gateway_ids: this.gatewayModel.gateway_ids,
             customer_id: queryString.parse(this.props.location.search).customer_id || '',
             group_id: queryString.parse(this.props.location.search).group_id || '',
             isOpen: window.innerWidth > 670,
@@ -42,7 +46,6 @@ export default class Gateways extends Component {
     }
 
     addUserToState (gateways) {
-        console.log('gateways', gateways)
         const cachedData = !this.state.cachedData.length ? gateways : this.state.cachedData
         this.setState({
             gateways: gateways,
@@ -122,7 +125,6 @@ export default class Gateways extends Component {
                             {translations.filtered_by_customer}
                         </Alert>
                         }
-
 
                         <Card>
                             <CardBody>

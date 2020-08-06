@@ -8,6 +8,9 @@ import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_translations'
 import RecurringInvoiceModel from '../models/RecurringInvoiceModel'
 import Details from './Details'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
+import Recurring from './Recurring'
 
 class AddRecurringInvoice extends Component {
     constructor (props, context) {
@@ -116,7 +119,7 @@ class AddRecurringInvoice extends Component {
 
         const form = (
             <div className={inlineClass}>
-                <Details recurring_invoice={this.state} hasErrorFor={this.hasErrorFor}
+                <Recurring recurring_invoice={this.state} hasErrorFor={this.hasErrorFor}
                     renderErrorFor={this.renderErrorFor} handleInput={this.handleInput}/>
 
                 <CustomFieldsForm handleInput={this.handleInput} custom_fields={this.props.custom_fields}
@@ -129,9 +132,7 @@ class AddRecurringInvoice extends Component {
             ? <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        {translations.add_recurring_invoice}
-                    </ModalHeader>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_invoice} />
 
                     <ModalBody>
                         {form}
@@ -159,10 +160,8 @@ class AddRecurringInvoice extends Component {
                         <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                             handleInput={this.handleInput}/>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
-                        <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
             : form

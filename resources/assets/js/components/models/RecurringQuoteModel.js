@@ -24,21 +24,65 @@ export default class RecurringQuoteModel extends BaseModel {
         }
 
         this._fields = {
-            modal: false,
-            errors: [],
-            is_recurring: false,
-            invoice_id: null,
-            customer_id: null,
-            public_notes: '',
-            private_notes: '',
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             end_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             frequency: 1,
+            is_mobile: window.innerWidth <= 500,
+            modalOpen: false,
+            is_amount_discount: false,
+            invitations: [],
+            customer_id: '',
+            assigned_to: '',
+            user_id: null,
+            contacts: [],
+            quantity: '',
+            id: null,
+            lines: [],
+            address: {},
+            customerName: '',
+            tax_rate_name: '',
+            tax_rate: 0,
+            company_id: '',
+            status_id: null,
+            tasks: [],
+            errors: [],
+            total: 0,
+            discount_total: 0,
+            tax_total: 0,
+            sub_total: 0,
+            line_items: [],
+            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            partial: 0,
+            has_partial: false,
+            partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            public_notes: '',
+            private_notes: '',
+            terms: '',
+            footer: '',
+            visible: 'collapse',
             custom_value1: '',
             custom_value2: '',
             custom_value3: '',
-            custom_value4: ''
+            custom_value4: '',
+            transaction_fee_tax: false,
+            shipping_cost_tax: false,
+            transaction_fee: 0,
+            shipping_cost: 0,
+            gateway_fee: 0,
+            gateway_percentage: false,
+            tax: 0,
+            discount: 0,
+            total_custom_values: 0,
+            total_custom_tax: 0,
+            recurring: '',
+            activeTab: '1',
+            po_number: '',
+            design_id: '',
+            success: false,
+            showSuccessMessage: false,
+            showErrorMessage: false,
+            loading: false
         }
 
         this.sent = 2
@@ -76,9 +120,9 @@ export default class RecurringQuoteModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        // if (this.fields.invitations.length) {
-        //     actions.push('pdf')
-        // }
+        if (this.fields.invitations.length) {
+            actions.push('pdf')
+        }
 
         if (this.fields.customer_id !== '') {
             actions.push('email')
@@ -96,7 +140,23 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('archive')
         }
 
-        actions.push('cloneRecurringToQuote')
+        // if (!this.isApproved) {
+        //     actions.push('approve')
+        // }
+        //
+        // actions.push('cloneToQuote')
+        //
+        // if (this.isModuleEnabled('orders')) {
+        //     actions.push('clone_to_order')
+        // }
+        //
+        // if (this.isModuleEnabled('credits')) {
+        //     actions.push('cloneToCredit')
+        // }
+        //
+        // if (this.isModuleEnabled('invoices')) {
+        //     actions.push('cloneQuoteToInvoice')
+        // }
 
         return actions
     }

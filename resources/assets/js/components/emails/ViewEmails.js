@@ -30,6 +30,6 @@ export default class Emails extends Component {
                 </ListGroupItem>
             </ListGroup>
         })
-            :  <div className="text-center">{translations.no_history}</div>
+            : <div className="text-center">{translations.no_history}</div>
     }
 }

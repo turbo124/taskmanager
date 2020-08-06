@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
-import UserDropdown from "../common/UserDropdown";
+import UserDropdown from '../common/UserDropdown'
 
 export default class Details extends Component {
     constructor (props, context) {
