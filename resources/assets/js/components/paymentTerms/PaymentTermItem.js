@@ -42,14 +42,15 @@ export default class PaymentTermItem extends Component {
 
                 const editButton = !payment_term.deleted_at ? <EditPaymentTerm
                     payment_terms={paymentTerms}
-                    payment_term ={payment_term}
+                    payment_term={payment_term}
                     action={this.props.addUserToState}
                 /> : null
 
                 const columnList = Object.keys(payment_term).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(payment_term, payment_term.name)} data-label={key}
+                    return <td onClick={() => this.props.toggleViewedEntity(payment_term, payment_term.name)}
+                        data-label={key}
                         key={key}>{payment_term[key]}</td>
                 })
 
@@ -58,7 +59,8 @@ export default class PaymentTermItem extends Component {
 
                 return <tr key={payment_term.id}>
                     <td>
-                        <Input cheked={isChecked} className={checkboxClass} value={payment_term.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input cheked={isChecked} className={checkboxClass} value={payment_term.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                             restore={restoreButton}/>
                     </td>

@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Row,
-    Card,
-    CardText,
-    ListGroup
-} from 'reactstrap'
+import { Card, CardText, ListGroup, Row } from 'reactstrap'
 import FormatMoney from '../common/FormatMoney'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -13,8 +8,8 @@ import InfoItem from '../common/entityContainers/InfoItem'
 export default class Lead extends Component {
     render () {
         const address = <React.Fragment>
-            {this.props.entity.address_1} <br />
-            {this.props.entity.address_2} <br />
+            {this.props.entity.address_1} <br/>
+            {this.props.entity.address_2} <br/>
             {this.props.entity.city} {this.props.entity.zip}
         </React.Fragment>
 

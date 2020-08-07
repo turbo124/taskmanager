@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import queryString from 'query-string'
 import EditInvoice from './EditInvoice'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import InvoiceItem from './InvoiceItem'
 import InvoiceFilters from './InvoiceFilters'
@@ -148,7 +145,8 @@ export default class Invoice extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <InvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices} customers={customers}
+                                <InvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices}
+                                    customers={customers}
                                     filters={filters} filter={this.filterInvoices}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
@@ -187,12 +185,13 @@ export default class Invoice extends Component {
                     </div>
 
                     <Button onClick={this.toggleDrawer.bind(this)}>bottom</Button>
-                    <Drawer anchor="bottom" open={this.state.bottom_drawer_open} onClose={this.toggleDrawer.bind(this)}>
+                    <Drawer anchor="bottom" open={this.state.bottom_drawer_open}
+                        onClose={this.toggleDrawer.bind(this)}>
                         <List>
                             {['All mail', 'Trash', 'Spam'].map((text, index) => (
                                 <ListItem button key={text}>
                                     {/* <ListItemIcon></ListItemIcon> */}
-                                    <ListItemText primary={text} />
+                                    <ListItemText primary={text}/>
                                 </ListItem>
                             ))}
                         </List>

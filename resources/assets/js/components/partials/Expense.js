@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import {
-    TabContent,
     Alert,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
     Card,
     CardBody,
-    Row,
+    CardHeader,
+    Col,
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    Col, CardHeader
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import ExpenseModel from '../models/ExpenseModel'
 import ExpensePresenter from '../presenters/ExpensePresenter'
@@ -72,7 +73,9 @@ export default class Expense extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('1') }}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
                         >
                             {translations.details}
                         </NavLink>
@@ -80,7 +83,9 @@ export default class Expense extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('2') }}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
                         >
                             {translations.documents} ({this.expenseModel.fileCount})
                         </NavLink>
@@ -91,7 +96,7 @@ export default class Expense extends Component {
                         <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.amount}
                             heading_2={translations.converted} value_2={convertedAmount}/>
 
-                        <ExpensePresenter entity={this.props.entity} field="status_field" />
+                        <ExpensePresenter entity={this.props.entity} field="status_field"/>
 
                         <Row>
                             <ListGroup className="mt-4 col-12">
@@ -140,12 +145,15 @@ export default class Expense extends Component {
                 }
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('3')
-                    }} label={translations.view_pdf} value={translations.view_pdf} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('4')
-                    }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('3')
+                        }} label={translations.view_pdf} value={translations.view_pdf}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('4')
+                        }} label={translations.clone_to_invoice}
+                        value={translations.clone_to_invoice}/>
                 </BottomNavigation>
             </React.Fragment>
 

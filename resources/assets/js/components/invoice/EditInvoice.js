@@ -36,7 +36,6 @@ import Contactsm from './Contactsm'
 import Detailsm from './Detailsm'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../common/ModalHeader'
-import DefaultFooter from '../containers/DefaultLayout/DefaultFooter'
 import DefaultModalFooter from '../common/ModalFooter'
 
 class EditInvoice extends Component {
@@ -681,7 +680,8 @@ class EditInvoice extends Component {
                         <ModalBody>
                             {form}
                         </ModalBody>
-                        <DefaultModalFooter show_success={showSuccessButton} toggle={this.toggle} saveData={this.saveData}
+                        <DefaultModalFooter show_success={showSuccessButton} toggle={this.toggle}
+                            saveData={this.saveData}
                             loading={loading}/>
                     </Modal>
                 </React.Fragment>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Table, Spinner, UncontrolledTooltip, Collapse, Progress } from 'reactstrap'
+import { Collapse, Spinner, Table, UncontrolledTooltip } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -280,7 +280,8 @@ export default class DataTable extends Component {
             columnMapping={this.props.columnMapping}
             columns={this.props.order ? this.props.order : this.state.columns}
             ignore={this.state.ignoredColumns}
-            disableSorting={this.props.disableSorting} sorted_column={this.state.sorted_column}
+            disableSorting={this.props.disableSorting}
+            sorted_column={this.state.sorted_column}
             order={this.state.order}/> : null
 
         const table = <Table className={table_class} responsive striped bordered hover dark>

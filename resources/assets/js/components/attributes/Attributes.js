@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddAttribute from './AddAttribute'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import AttributeFilters from './AttributeFilters'
 import AttributeItem from './AttributeItem'
@@ -103,7 +103,8 @@ export default class Attributes extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <AttributeFilters setFilterOpen={this.setFilterOpen.bind(this)} attributes={attributes}
+                                <AttributeFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    attributes={attributes}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterAttributes}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -117,11 +118,11 @@ export default class Attributes extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

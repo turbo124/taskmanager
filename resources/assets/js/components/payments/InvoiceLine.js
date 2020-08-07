@@ -108,8 +108,12 @@ export default class InvoiceLine extends Component {
             lines[idx].amount = parseFloat(invoice_total)
             lines[idx].invoice_id = invoice_id
 
-            const invoice_sum = this.state.lines.reduce(function (a, b) { return a + parseFloat(b.amount) }, 0)
-            const credit_sum = this.state.credit_lines.reduce(function (a, b) { return a + parseFloat(b.amount) }, 0)
+            const invoice_sum = this.state.lines.reduce(function (a, b) {
+                return a + parseFloat(b.amount)
+            }, 0)
+            const credit_sum = this.state.credit_lines.reduce(function (a, b) {
+                return a + parseFloat(b.amount)
+            }, 0)
 
             // if (sum <= 0 && this.props.allInvoices && this.props.allInvoices.length === 1) {
             //     amount = invoice_total
@@ -159,8 +163,12 @@ export default class InvoiceLine extends Component {
             credit_lines[idx].amount = parseFloat(credit_total)
             credit_lines[idx].credit_id = credit_id
 
-            const invoice_sum = this.state.lines.reduce(function (a, b) { return a + parseFloat(b.amount) }, 0)
-            const credit_sum = this.state.credit_lines.reduce(function (a, b) { return a + parseFloat(b.amount) }, 0)
+            const invoice_sum = this.state.lines.reduce(function (a, b) {
+                return a + parseFloat(b.amount)
+            }, 0)
+            const credit_sum = this.state.credit_lines.reduce(function (a, b) {
+                return a + parseFloat(b.amount)
+            }, 0)
 
             // if (invoice_sum <= 0 && this.props.allCredits && this.props.allCredits.length === 1) {
             //     amount = credit_total
@@ -177,7 +185,11 @@ export default class InvoiceLine extends Component {
             credit_lines[e.target.dataset.id][e.target.name] = e.target.value
         }
 
-        this.setState({ amount: parseInt('' + (amount * 100)) / 100, lines: lines, credit_lines: credit_lines }, () => {
+        this.setState({
+            amount: parseInt('' + (amount * 100)) / 100,
+            lines: lines,
+            credit_lines: credit_lines
+        }, () => {
             if (is_invoice === true) {
                 this.props.onChange(this.state.lines)
                 this.addLine()

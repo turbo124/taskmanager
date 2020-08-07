@@ -47,7 +47,8 @@ export default function CreditPresenter (props) {
         case 'tax_total':
         case 'sub_total':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/></td>
+                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
+            </td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
                 data-label={field}>{entity[field]}</td>

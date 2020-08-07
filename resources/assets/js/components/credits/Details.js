@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
 import UserDropdown from '../common/UserDropdown'
@@ -63,7 +56,8 @@ export default class Details extends React.Component {
 
                 <FormGroup className={this.props.credit.has_partial === true ? '' : 'd-none'}>
                     <Label>{translations.partial_due_date}</Label>
-                    <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date} handleInput={this.props.handleInput}
+                    <Datepicker name="partial_due_date" date={this.props.credit.partial_due_date}
+                        handleInput={this.props.handleInput}
                         className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                 </FormGroup>
 

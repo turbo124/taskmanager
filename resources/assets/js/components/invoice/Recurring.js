@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import AddRecurringInvoice from '../recurringInvoices/AddRecurringInvoice'
 import { translations } from '../common/_translations'
 

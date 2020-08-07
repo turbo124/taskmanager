@@ -8,8 +8,8 @@ export default class GatewayModel extends BaseModel {
         this._url = '/api/company_gateways'
         this.entity = 'Gateway'
 
-        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
-        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(this.account_id))
         this.settings = user_account[0].account.settings
 
         this._fields = {
@@ -78,6 +78,26 @@ export default class GatewayModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async getGateways () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this.url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
             // Don't forget to return something
             return res.data
         } catch (e) {

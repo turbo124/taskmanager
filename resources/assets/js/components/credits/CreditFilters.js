@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import CustomerDropdown from '../common/CustomerDropdown'
-import {
-    FormGroup, Input, Col, Row
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'

@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import FileUploads from '../attachments/FileUploads'
 import {
-    TabContent,
-    TabPane,
-    Nav,
     Alert,
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    ListGroup,
+    ListGroupItem,
+    ListGroupItemHeading,
+    ListGroupItemText,
+    Nav,
     NavItem,
     NavLink,
     Row,
-    Card,
-    CardBody,
-    ListGroupItemText,
-    ListGroupItemHeading,
-    ListGroupItem,
-    ListGroup,
-    Col,
-    CardHeader
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import RecurringInvoicePresenter from '../presenters/RecurringInvoicePresenter'
 import FormatMoney from '../common/FormatMoney'
@@ -238,12 +238,15 @@ export default class RecurringInvoice extends Component {
                 }
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.toggleTab('3')
-                    }} label={translations.view_pdf} value={translations.view_pdf} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('clone_to_invoice')
-                    }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.toggleTab('3')
+                        }} label={translations.view_pdf} value={translations.view_pdf}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('clone_to_invoice')
+                        }} label={translations.clone_to_invoice}
+                        value={translations.clone_to_invoice}/>
                 </BottomNavigation>
             </React.Fragment>
 

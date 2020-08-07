@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Button
-} from 'reactstrap'
+import { Button } from 'reactstrap'
 import AttributeValueInputs from './AttributeValueInputs'
 
 export default class AttributeValues extends Component {

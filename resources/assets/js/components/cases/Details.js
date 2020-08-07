@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Input, FormGroup, Label
-} from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
@@ -14,7 +12,8 @@ export default class Details extends Component {
             <React.Fragment>
                 <FormGroup>
                     <Label for="subject">{translations.subject} <span className="text-danger">*</span></Label>
-                    <Input className={this.props.hasErrorFor('subject') ? 'is-invalid' : ''} type="text" name="subject"
+                    <Input className={this.props.hasErrorFor('subject') ? 'is-invalid' : ''} type="text"
+                        name="subject"
                         id="subject" value={this.props.case.subject} placeholder={translations.subject}
                         onChange={this.props.handleInput}/>
                     {this.props.renderErrorFor('subject')}
@@ -22,7 +21,8 @@ export default class Details extends Component {
 
                 <FormGroup>
                     <Label for="message">{translations.message}<span className="text-danger">*</span></Label>
-                    <Input className={this.props.hasErrorFor('message') ? 'is-invalid textarea-lg' : 'textarea-lg'} type="textarea" name="message"
+                    <Input className={this.props.hasErrorFor('message') ? 'is-invalid textarea-lg' : 'textarea-lg'}
+                        type="textarea" name="message"
                         id="message" value={this.props.case.message} placeholder={translations.message}
                         onChange={this.props.handleInput}/>
                     {this.props.renderErrorFor('message')}

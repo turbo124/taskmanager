@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-    DropdownItem,
-    Dropdown,
-    DropdownToggle, DropdownMenu
-} from 'reactstrap'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
@@ -111,7 +107,8 @@ export default class QuoteDropdownMenu extends Component {
             Invoice</DropdownItem>
 
         const cloneButton = <DropdownItem className="primary"
-            onClick={() => this.changeStatus('clone_to_quote').bind(this)}>Clone Quote
+            onClick={() => this.changeStatus('clone_to_quote').bind(this)}>Clone
+            Quote
         </DropdownItem>
 
         const deleteButton = this.props.status_id === 1

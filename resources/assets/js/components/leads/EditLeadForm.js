@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    DropdownItem, Nav, NavItem, NavLink, TabPane, TabContent
-} from 'reactstrap'
+import { Button, DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import LeadModel from '../models/LeadModel'
 import Contact from './Contact'

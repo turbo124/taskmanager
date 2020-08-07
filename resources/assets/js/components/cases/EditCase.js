@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, DropdownItem, Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -110,7 +104,7 @@ export default class EditCase extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_case} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_case}/>
 
                     <ModalBody>
                         <Nav tabs>
@@ -152,7 +146,8 @@ export default class EditCase extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

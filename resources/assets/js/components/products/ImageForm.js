@@ -1,21 +1,11 @@
 import React from 'react'
-import {
-    Button,
-    CustomInput,
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 
 export default class ImageForm extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-        }
+        this.state = {}
     }
 
     hasErrorFor (field) {
@@ -39,12 +29,12 @@ export default class ImageForm extends React.Component {
 
                 <FormGroup>
                     {this.props.product && this.props.product.cover &&
-                    <div className="col-md-3">
-                        <div className="row">
-                            <img src={`/storage/${this.props.product.cover}`} alt=""
-                                className="img-responsive img-thumbnail"/>
+                        <div className="col-md-3">
+                            <div className="row">
+                                <img src={`/storage/${this.props.product.cover}`} alt=""
+                                    className="img-responsive img-thumbnail"/>
+                            </div>
                         </div>
-                    </div>
                     }
 
                 </FormGroup>
@@ -58,8 +48,8 @@ export default class ImageForm extends React.Component {
                                         className="img-responsive img-thumbnail"/>
                                     <br/> <br/>
                                     {this.props.deleteImage &&
-                                    <Button data-src={image.src} color="danger"
-                                        onClick={this.props.deleteImage}>Remove</Button>
+                                        <Button data-src={image.src} color="danger"
+                                            onClick={this.props.deleteImage}>Remove</Button>
                                     }
                                     <br/>
                                 </div>

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Card, Row, CardBody, Col, ListGroup } from 'reactstrap'
 import Friend from './Friend'
 import ChatMessage from './ChatMessage'
 import ChatInput from './ChatInput'
@@ -93,7 +92,8 @@ class ChatPage extends Component {
                                     <div className="stylish-input-group">
                                         <input type="text" className="search-bar" placeholder="Search"/>
                                         <span className="input-group-addon">
-                                            <button type="button"> <i className="fa fa-search" aria-hidden="true" /> </button>
+                                            <button type="button"> <i className="fa fa-search"
+                                                aria-hidden="true"/> </button>
                                         </span>
                                     </div>
                                 </div>

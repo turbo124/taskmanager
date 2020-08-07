@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-    DropdownItem,
-    Dropdown,
-    DropdownToggle, DropdownMenu
-} from 'reactstrap'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
 import { icons } from './_icons'
@@ -219,7 +215,8 @@ export default class DropdownMenuBuilder extends Component {
                 </DropdownItem>
 
             case 'cloneCreditToQuote':
-                return <DropdownItem key={7} className="primary" onClick={() => this.changeStatus('clone_credit_to_quote')}>
+                return <DropdownItem key={7} className="primary"
+                    onClick={() => this.changeStatus('clone_credit_to_quote')}>
                     <i className={`fa ${icons.clone} mr-2`}/> Clone Credit To Quote
                 </DropdownItem>
 

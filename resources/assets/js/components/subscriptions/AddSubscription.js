@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import SubscriptionModel from '../models/SubscriptionModel'
@@ -59,7 +59,10 @@ export default class AddSubscription extends React.Component {
 
         this.subscriptionModel.save(data).then(response => {
             if (!response) {
-                this.setState({ errors: this.subscriptionModel.errors, message: this.subscriptionModel.error_message })
+                this.setState({
+                    errors: this.subscriptionModel.errors,
+                    message: this.subscriptionModel.error_message
+                })
                 return
             }
 
@@ -89,14 +92,15 @@ export default class AddSubscription extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_subscription} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_subscription}/>
 
                     <ModalBody>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
                             renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

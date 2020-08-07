@@ -1,14 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent, TabPane,
-    Spinner
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, Spinner, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import EmailEditorForm from '../emails/EmailEditorForm'

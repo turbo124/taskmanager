@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-    CustomInput,
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
 import { translations } from '../common/_translations'
 

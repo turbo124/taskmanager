@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import TokenModel from '../models/TokenModel'
@@ -82,7 +82,7 @@ export default class AddToken extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_token} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_token}/>
 
                     <ModalBody>
                         <FormGroup>
@@ -94,7 +94,8 @@ export default class AddToken extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Input,
-    FormGroup,
-    Label
-} from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import FormBuilder from './FormBuilder'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'

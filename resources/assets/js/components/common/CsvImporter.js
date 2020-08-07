@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {
-    Button,
-    UncontrolledTooltip
-} from 'reactstrap'
+import { UncontrolledTooltip } from 'reactstrap'
 import { translations } from './_translations'
 import { icons } from './_icons'
 
@@ -68,7 +65,8 @@ export default class CsvImporter extends Component {
                 target="exportTooltip">
                 {translations.export}
             </UncontrolledTooltip>
-            <fa style={{ fontSize: '24px', lineHeight: '32px' }} id="exportTooltip" onClick={this.export} className={`fa ${icons.cloud_download}`}/>
+            <fa style={{ fontSize: '24px', lineHeight: '32px' }} id="exportTooltip" onClick={this.export}
+                className={`fa ${icons.cloud_download}`}/>
         </React.Fragment>
     }
 }

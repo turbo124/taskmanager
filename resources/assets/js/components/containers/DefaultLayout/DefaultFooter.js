@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { UncontrolledTooltip } from 'reactstrap'
 
 const propTypes = {
     children: PropTypes.node
@@ -11,7 +10,7 @@ const defaultProps = {}
 class DefaultFooter extends Component {
     render () {
         // eslint-disable-next-line
-        const {children, ...attributes} = this.props
+        const { children, ...attributes } = this.props
 
         return (
             <React.Fragment>

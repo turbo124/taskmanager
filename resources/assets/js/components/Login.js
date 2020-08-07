@@ -70,6 +70,8 @@ class Login extends Component {
 
                     // save app state with user date in local storage
                     localStorage.appState = JSON.stringify(appState)
+                    localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
+                    localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
                     localStorage.setItem('access_token', userData.auth_token)
                     localStorage.setItem('account_id', response.data.data.account_id)
                     this.setState({
@@ -115,7 +117,7 @@ class Login extends Component {
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-user" />
+                                                        <i className="icon-user"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" name="email" placeholder="Email"
@@ -124,7 +126,7 @@ class Login extends Component {
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-lock" />
+                                                        <i className="icon-lock"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" name="password" placeholder="Password"

@@ -27,15 +27,15 @@ class MessageDialog extends React.Component {
                     <h4>What's New</h4>
                     <div className="form-group p-2">
                         <textarea value={this.props.message} className="form-control" placeholder="Update your status"
-                            onChange={this.onChange} />
+                            onChange={this.onChange}/>
                     </div>
                     <button onClick={() => submitMessage(messageText, mode)} className="btn btn-primary pull-right"
                         type="button">Post
                     </button>
                     <ul className="list-inline">
-                        <li><a href=""><i className="glyphicon glyphicon-upload" /></a></li>
-                        <li><a href=""><i className="glyphicon glyphicon-camera" /></a></li>
-                        <li><a href=""><i className="glyphicon glyphicon-map-marker" /></a></li>
+                        <li><a href=""><i className="glyphicon glyphicon-upload"/></a></li>
+                        <li><a href=""><i className="glyphicon glyphicon-camera"/></a></li>
+                        <li><a href=""><i className="glyphicon glyphicon-map-marker"/></a></li>
                     </ul>
                 </form>
             </div>

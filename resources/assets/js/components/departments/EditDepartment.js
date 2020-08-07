@@ -1,18 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Input,
-    FormGroup,
-    Label,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup
-} from 'reactstrap'
+import { Button, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
@@ -76,7 +64,7 @@ class EditDepartment extends React.Component {
                 <Label>Department Manager</Label>
                 <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
-                        <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                        <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                     </InputGroupAddon>
                     <Input className={this.hasErrorFor('department_manager') ? 'is-invalid' : ''}
                         type="select"
@@ -108,7 +96,7 @@ class EditDepartment extends React.Component {
                 <Label>Parent</Label>
                 <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
-                        <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                        <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                     </InputGroupAddon>
                     <Input className={this.hasErrorFor('parent') ? 'is-invalid' : ''}
                         value={this.state.parent}
@@ -164,13 +152,13 @@ class EditDepartment extends React.Component {
             <React.Fragment>
                 <Button className="ml-2" color="success" onClick={this.toggle}>{translations.edit_department}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_department} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_department}/>
 
                     <ModalBody>
                         <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                                 placeholder="Name"
@@ -186,7 +174,8 @@ class EditDepartment extends React.Component {
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

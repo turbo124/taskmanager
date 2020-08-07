@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import {
-    TabContent,
-    TabPane,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    ListGroup,
     Nav,
     NavItem,
     NavLink,
     Row,
-    ListGroup, Col, Card, CardHeader, CardBody
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -20,6 +25,7 @@ import CustomerModel from '../models/CustomerModel'
 import FileUploads from '../attachments/FileUploads'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import CustomerGateways from '../gateways/CustomerGateways'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -27,10 +33,12 @@ export default class Customer extends Component {
 
         this.state = {
             activeTab: '1',
-            show_success: false
+            show_success: false,
+            gateways: []
         }
 
         this.customerModel = new CustomerModel(this.props.entity)
+        this.gateways = this.customerModel.gateways
 
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
@@ -161,7 +169,7 @@ export default class Customer extends Component {
                     </TabPane>
 
                     <TabPane tabId="3">
-                        <Transaction transactions={this.props.entity.transactions} />
+                        <Transaction transactions={this.props.entity.transactions}/>
                     </TabPane>
 
                     <TabPane tabId="4">
@@ -179,18 +187,28 @@ export default class Customer extends Component {
                     </TabPane>
 
                     <TabPane tabId="5">
-                        <CustomerSettings customer={this.props.entity} />
+                        <CustomerSettings customer={this.props.entity}/>
+                    </TabPane>
+
+                    <TabPane tabId="6">
+                        <CustomerGateways model={this.customerModel}/>
+
+                        <Button block onClick={(e) => {
+                            e.preventDefault()
+                            window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
+                        }}>{translations.gateways} </Button>
                     </TabPane>
                 </TabContent>
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.toggleTab('5')
-                    }} label={translations.settings} value={translations.settings} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={(e) => {
-                        e.preventDefault()
-                        window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
-                    }} label={translations.gateways} value={translations.gateways} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.toggleTab('5')
+                        }} label={translations.settings} value={translations.settings}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={(e) => {
+                            this.toggleTab('6')
+                        }} label={translations.gateways} value={translations.gateways}/>
                 </BottomNavigation>
 
             </React.Fragment>

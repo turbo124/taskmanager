@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import FileUploads from '../attachments/FileUploads'
 import {
-    TabContent,
-    TabPane,
     Alert,
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    ListGroup,
+    ListGroupItem,
+    ListGroupItemHeading,
     Nav,
     NavItem,
     NavLink,
     Row,
-    Card,
-    CardBody,
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
-    CardHeader,
-    Col
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import CreditPresenter from '../presenters/CreditPresenter'
 import FormatDate from '../common/FormatDate'
@@ -125,14 +125,15 @@ export default class Credit extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents} ({ this.creditModel.fileCount })
+                            {translations.documents} ({this.creditModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <ViewEntityHeader heading_1={translations.total} value_1={this.props.entity.total}
-                            heading_2={translations.credit_remaining} value_2={this.props.entity.balance}/>
+                            heading_2={translations.credit_remaining}
+                            value_2={this.props.entity.balance}/>
 
                         <CreditPresenter entity={this.props.entity} field="status_field"/>
 
@@ -211,12 +212,15 @@ export default class Credit extends Component {
                 }
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.toggleTab('3')
-                    }} label={translations.view_pdf} value={translations.view_pdf} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('clone_to_invoice')
-                    }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.toggleTab('3')
+                        }} label={translations.view_pdf} value={translations.view_pdf}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('clone_to_invoice')
+                        }} label={translations.clone_to_invoice}
+                        value={translations.clone_to_invoice}/>
                 </BottomNavigation>
 
             </React.Fragment>

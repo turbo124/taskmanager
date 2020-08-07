@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, FormGroup, Input, Label } from 'reactstrap'
+import { ButtonDropdown, DropdownMenu, DropdownToggle, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from './_translations'
 
 export default class StatusDropdown extends Component {
@@ -70,7 +70,12 @@ export default class StatusDropdown extends Component {
     buildDropdownMenu (list) {
         return (
             <ButtonDropdown style={{ width: '100%' }} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle style={{ textAlign: 'left', paddingLeft: '20px', border: '1px solid #23282c', backgroundColor: '#515b65' }} caret>
+                <DropdownToggle style={{
+                    textAlign: 'left',
+                    paddingLeft: '20px',
+                    border: '1px solid #23282c',
+                    backgroundColor: '#515b65'
+                }} caret>
                     {translations.select_status}
                 </DropdownToggle>
                 <DropdownMenu style={{ width: '100%' }}>
@@ -88,7 +93,8 @@ export default class StatusDropdown extends Component {
                 <li className="p-1" style={{ lineHeight: '32px' }} key={index}>
                     <FormGroup check>
                         <Label check>
-                            <Input className="mt-2" checked={isChecked} onClick={this.filterStatuses} type="checkbox" value={status.value} />
+                            <Input className="mt-2" checked={isChecked} onClick={this.filterStatuses} type="checkbox"
+                                value={status.value}/>
                             {status.label}
                         </Label>
                     </FormGroup>

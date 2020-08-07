@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Row, Col
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
@@ -73,7 +71,7 @@ export default class GroupSettingFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterGroups} />
+                        <DateFilter onChange={this.filterGroups}/>
                     </FormGroup>
                 </Col>
             </Row>

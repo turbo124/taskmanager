@@ -1,13 +1,6 @@
 import React from 'react'
 import { DateRangePicker } from 'react-dates'
-import {
-    Button,
-    Form,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader, FormGroup, Label
-} from 'reactstrap'
+import { Button, Form, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import moment from 'moment'
 import AddLead from './AddLead'
 import AddButtons from '../common/AddButtons'
@@ -174,14 +167,15 @@ class AddModal extends React.Component {
                 <div>
                     <AddButtons toggle={this.toggle}/>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <DefaultModalHeader toggle={this.toggle} title={translations.add_task} />
+                        <DefaultModalHeader toggle={this.toggle} title={translations.add_task}/>
 
                         <ModalBody>
                             {form}
                             {leadForm}
                         </ModalBody>
 
-                        <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                        <DefaultModalFooter show_success={true} toggle={this.toggle}
+                            saveData={this.handleClick.bind(this)}
                             loading={false}/>
                     </Modal>
                 </div>

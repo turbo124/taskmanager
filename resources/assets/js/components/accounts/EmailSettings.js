@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Card, CardBody, FormGroup, Label, Alert } from 'reactstrap'
+import { Alert, Card, CardBody, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 import SignatureCanvas from 'react-signature-canvas'
 import { translations } from '../common/_translations'
@@ -76,8 +76,7 @@ class EmailSettings extends Component {
 
     handleSubmit (e) {
         this.trim().then(result => {
-            axios.put(`/api/accounts/${this.state.id}`, { settings: JSON.stringify(this.state.settings) }, {
-            }).then((response) => {
+            axios.put(`/api/accounts/${this.state.id}`, { settings: JSON.stringify(this.state.settings) }, {}).then((response) => {
                 this.setState({ success: true })
             }).catch((error) => {
                 this.setState({ error: true })
@@ -229,8 +228,11 @@ class EmailSettings extends Component {
                     <CardBody>
                         <FormGroup>
                             <Label>Email Signature</Label>
-                            <SignatureCanvas canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
-                                ref={(ref) => { this.state.sigPad = ref }} />
+                            <SignatureCanvas
+                                canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
+                                ref={(ref) => {
+                                    this.state.sigPad = ref
+                                }}/>
                         </FormGroup>
                     </CardBody>
                 </Card>

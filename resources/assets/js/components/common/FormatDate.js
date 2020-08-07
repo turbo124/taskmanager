@@ -1,7 +1,6 @@
 // https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-string
 
 import React, { Component } from 'react'
-import axios from 'axios'
 import moment from 'moment'
 
 export default class FormatDate extends Component {
@@ -24,7 +23,7 @@ export default class FormatDate extends Component {
 
     render () {
         if (!this.props.date.length) {
-            return <span />
+            return <span/>
         }
 
         let date = this.state.date_format.length ? moment(this.props.date).format(this.state.date_format) : moment(this.props.date).format('DD/MMM/YYYY')

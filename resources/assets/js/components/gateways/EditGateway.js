@@ -1,21 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    DropdownItem,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane,
-    Card,
-    CardHeader,
-    CardBody
-} from 'reactstrap'
-import axios from 'axios'
+import { DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -145,7 +129,7 @@ class EditGateway extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_gateway}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_gateway} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_gateway}/>
 
                     <ModalBody>
                         <Nav tabs className="pl-3">
@@ -204,7 +188,8 @@ class EditGateway extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

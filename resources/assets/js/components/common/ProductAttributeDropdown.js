@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 import { translations } from './_translations'
 
 export default class ProductAttributeDropdown extends Component {
@@ -57,8 +57,11 @@ export default class ProductAttributeDropdown extends Component {
         } else {
             valueList = this.state.values.map(value => {
                 console.log('values', value.values)
-                const attribute_values = Array.prototype.map.call(value.values, function (item) { return item.value }).join(',')
-                return <option data-price={value.price} key={value.id} value={value.id}>{attribute_values} {value.price}</option>
+                const attribute_values = Array.prototype.map.call(value.values, function (item) {
+                    return item.value
+                }).join(',')
+                return <option data-price={value.price} key={value.id}
+                    value={value.id}>{attribute_values} {value.price}</option>
             })
         }
 

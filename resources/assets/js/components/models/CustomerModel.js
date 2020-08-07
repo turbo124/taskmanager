@@ -15,6 +15,7 @@ export default class CustomerModel extends BaseModel {
         }
 
         this._fields = {
+            settings: {},
             id: null,
             modal: false,
             name: '',
@@ -121,6 +122,43 @@ export default class CustomerModel extends BaseModel {
             this.handleError(e)
             return false
         }
+    }
+
+    get gateways () {
+        if (!this.fields.settings) {
+            return []
+        }
+
+        if (this.fields.settings.company_gateway_ids && typeof this.fields.settings.company_gateway_ids === 'string') {
+            return this.fields.settings.company_gateway_ids.split(',').map(Number)
+        }
+
+        return this.fields.settings.company_gateway_ids || []
+    }
+
+    addGateway (gateway) {
+        const company_gateway_ids = this.gateways
+        company_gateway_ids.push(parseInt(gateway))
+        this.fields.settings.company_gateway_ids = company_gateway_ids
+
+        return company_gateway_ids
+    }
+
+    removeGateway (gateway) {
+        let company_gateway_ids = this.gateways
+        company_gateway_ids = company_gateway_ids.filter(item => item !== parseInt(gateway))
+        this.fields.settings.company_gateway_ids = company_gateway_ids
+        return company_gateway_ids
+    }
+
+    async saveSettings () {
+        if (this.fields.settings.company_gateway_ids && this.fields.settings.company_gateway_ids.length) {
+            this.fields.settings.company_gateway_ids = this.fields.settings.company_gateway_ids.join(',')
+        }
+
+        this.save({ name: this.fields.name, settings: this.fields.settings }).then(response => {
+            return response
+        })
     }
 
     async save (data) {

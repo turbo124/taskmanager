@@ -16,7 +16,8 @@ export default function CustomerPresenter (props) {
         case 'balance':
             const text_color = entity[field] <= 0 ? 'text-danger' : 'text-success'
             return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} className={text_color} customers={props.customers} amount={entity[field]}/></td>
+                <FormatMoney customer_id={entity.customer_id} className={text_color} customers={props.customers}
+                    amount={entity[field]}/></td>
         case 'paid_to_date':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} data-label={field}>
                 <FormatMoney customer_id={entity.id} customers={props.customers} amount={entity[field]}/></td>

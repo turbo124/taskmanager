@@ -1,11 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
-} from 'reactstrap'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 
@@ -52,12 +47,15 @@ export default class CompanyDropdown extends React.Component {
         const sendEmailButton = <DropdownItem className="primary" onClick={() => this.changeStatus('email')}>Send
             Email</DropdownItem>
 
-        const deleteButton = <DropdownItem className="primary" onClick={() => this.changeStatus('delete')}>Delete</DropdownItem>
+        const deleteButton = <DropdownItem className="primary"
+            onClick={() => this.changeStatus('delete')}>Delete</DropdownItem>
 
-        const archiveButton = <DropdownItem className="primary" onClick={() => this.changeStatus('archive')}>Archive</DropdownItem>
+        const archiveButton = <DropdownItem className="primary"
+            onClick={() => this.changeStatus('archive')}>Archive</DropdownItem>
 
         const cloneButton =
-            <DropdownItem className="primary" onClick={() => this.changeStatus('clone_to_company')}>Clone</DropdownItem>
+            <DropdownItem className="primary"
+                onClick={() => this.changeStatus('clone_to_company')}>Clone</DropdownItem>
 
         const dropdownMenu = <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
             <DropdownToggle caret>

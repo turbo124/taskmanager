@@ -1,19 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Card,
-    CardBody,
-    CardHeader,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import Contact from '../common/Contact'
 import AddButtons from '../common/AddButtons'
 import SettingsForm from './SettingsForm'
@@ -143,7 +129,7 @@ class AddCompany extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_company} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_company}/>
 
                     <ModalBody>
 
@@ -197,7 +183,8 @@ class AddCompany extends React.Component {
                                     company={this.state}
                                     handleFileChange={this.handleFileChange}/>
 
-                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                <CustomFieldsForm handleInput={this.handleInput}
+                                    custom_value1={this.state.custom_value1}
                                     custom_value2={this.state.custom_value2}
                                     custom_value3={this.state.custom_value3}
                                     custom_value4={this.state.custom_value4}
@@ -217,7 +204,7 @@ class AddCompany extends React.Component {
 
                             <TabPane tabId="3">
                                 <AddressForm errors={this.state.errors}
-                                    company={this.state} handleInput={this.handleInput} />
+                                    company={this.state} handleInput={this.handleInput}/>
                             </TabPane>
 
                             <TabPane tabId="4">
@@ -230,7 +217,8 @@ class AddCompany extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

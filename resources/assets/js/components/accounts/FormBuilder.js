@@ -1,11 +1,12 @@
 import React from 'react'
-import { Input, FormGroup, Label, CustomInput } from 'reactstrap'
+import { CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import CountryDropdown from '../common/CountryDropdown'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import Switch from '../common/Switch'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import PaymentTermsDropdown from '../common/PaymentTermsDropdown'
 import { translations } from '../common/_translations'
+import LanguageDropdown from '../common/LanguageDropdown'
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -46,11 +47,12 @@ class FormBuilder extends React.Component {
     buildSwitch (field) {
         const class_name = field.class_name ? field.class_name : 'col-md-8'
         return (
-            <a href="#" className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>
+            <a href="#"
+                className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">
                         {field.icon &&
-                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={field.icon} />
+                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={field.icon}/>
                         }
                         {field.label}
                     </h5>
@@ -109,6 +111,19 @@ class FormBuilder extends React.Component {
                         <Label>{field.label}</Label>
                         <CurrencyDropdown key={field.id}
                             currency_id={field.value}
+                            errors={{}}
+                            handleInputChanges={this.props.handleChange}
+                        />
+                    </FormGroup>
+                </React.Fragment>
+                break
+
+            case 'language':
+                returnedField = <React.Fragment>
+                    <FormGroup>
+                        <Label>{field.label}</Label>
+                        <LanguageDropdown key={field.id}
+                            language_id={field.value}
                             errors={{}}
                             handleInputChanges={this.props.handleChange}
                         />

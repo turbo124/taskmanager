@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 import { translations } from './_translations'
 
 export default class AttributeValueDropdown extends Component {
@@ -62,7 +62,8 @@ export default class AttributeValueDropdown extends Component {
 
         return (
             <FormGroup className="mr-2">
-                <Input multiple value={this.props.attribute_value_id} onChange={this.props.handleInputChanges} type="select"
+                <Input multiple value={this.props.attribute_value_id} onChange={this.props.handleInputChanges}
+                    type="select"
                     data-id={data_id}
                     name={name} id={name}>
                     <option value="">{translations.select_option}</option>

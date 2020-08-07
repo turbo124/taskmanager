@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import { Badge, ListGroupItem } from 'reactstrap'
+import { Badge } from 'reactstrap'
 import Avatar from '../common/Avatar'
 
 class Friend extends Component {

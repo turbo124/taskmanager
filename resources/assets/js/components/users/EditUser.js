@@ -1,15 +1,12 @@
 import React from 'react'
 import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup,
     Card,
     CardBody,
     CardHeader,
     DropdownItem,
+    FormGroup,
+    Modal,
+    ModalBody,
     Nav,
     NavItem,
     NavLink,
@@ -226,13 +223,14 @@ class EditUser extends React.Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_user}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_user}
+                </DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_user} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_user}/>
 
                     <ModalBody>
 
-                        <UserDropdownMenu id={this.state.user.id} formData={this.getFormData()} />
+                        <UserDropdownMenu id={this.state.user.id} formData={this.getFormData()}/>
                         {successMessage}
                         {errorMessage}
 
@@ -280,16 +278,17 @@ class EditUser extends React.Component {
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
                                 {Object.keys(this.state.user).length &&
-                                    <React.Fragment>
-                                        <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
-                                            handleInput={this.handleInput} />
+                                <React.Fragment>
+                                    <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
+                                        handleInput={this.handleInput}/>
 
-                                        <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                                            custom_value2={this.state.custom_value2}
-                                            custom_value3={this.state.custom_value3}
-                                            custom_value4={this.state.custom_value4}
-                                            custom_fields={this.props.custom_fields}/>
-                                    </React.Fragment>
+                                    <CustomFieldsForm handleInput={this.handleInput}
+                                        custom_value1={this.state.custom_value1}
+                                        custom_value2={this.state.custom_value2}
+                                        custom_value3={this.state.custom_value3}
+                                        custom_value4={this.state.custom_value4}
+                                        custom_fields={this.props.custom_fields}/>
+                                </React.Fragment>
 
                                 }
 
@@ -313,7 +312,8 @@ class EditUser extends React.Component {
                                     <CardHeader>{translations.notifications}</CardHeader>
                                     <CardBody>
                                         <FormGroup>
-                                            <Notifications notifications={notifications} onChange={this.setNotifications}/>
+                                            <Notifications notifications={notifications}
+                                                onChange={this.setNotifications}/>
                                         </FormGroup>
                                     </CardBody>
                                 </Card>
@@ -330,7 +330,8 @@ class EditUser extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

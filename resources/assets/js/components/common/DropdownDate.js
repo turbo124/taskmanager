@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { monthByNumber, numberByMonth, daysInMonth, unit } from './helper'
+import { daysInMonth, monthByNumber, unit } from './helper'
 import { Input, Label } from 'reactstrap'
 
 export default class DropdownDate extends React.Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 
 export default class TaxRateDropdown extends Component {
     constructor (props) {
@@ -52,7 +52,8 @@ export default class TaxRateDropdown extends Component {
             taxRateList = <option value="">Loading...</option>
         } else {
             taxRateList = this.state.taxRates.map((taxRate, index) => (
-                <option key={index} data-name={taxRate.name} data-rate={taxRate.rate} value={taxRate.id}>{`${taxRate.name} (${taxRate.rate})`}</option>
+                <option key={index} data-name={taxRate.name} data-rate={taxRate.rate}
+                    value={taxRate.id}>{`${taxRate.name} (${taxRate.rate})`}</option>
             ))
         }
 

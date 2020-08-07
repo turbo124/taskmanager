@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    DropdownItem
-} from 'reactstrap'
+import { DropdownItem, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -97,14 +90,15 @@ class EditBrand extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_brand}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_brand} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_brand}/>
 
                     <ModalBody>
                         <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
                             renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

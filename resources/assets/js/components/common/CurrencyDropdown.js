@@ -14,7 +14,11 @@ export default class CurrencyDropdown extends Component {
     }
 
     componentDidMount () {
-        this.getCurrencies()
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'currencies')) {
+            this.setState({ currencies: JSON.parse(localStorage.getItem('currencies')) })
+        } else {
+            this.getCurrencies()
+        }
     }
 
     renderErrorFor (field) {

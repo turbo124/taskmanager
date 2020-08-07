@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import { Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import DateTime from 'react-datetime'
 import EventTypeDropdown from '../common/EventTypeDropdown'
@@ -240,7 +240,7 @@ class CalendarEvent extends React.Component {
                 {editLabel}
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.update_event} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.update_event}/>
 
                     <ModalBody>
                         <FormGroup>

@@ -1,15 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup,
-    Input,
-    Card,
-    CardHeader,
-    InputGroup,
-    InputGroupAddon,
-    CardBody,
-    Button,
-    Form
-} from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Form, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap'
 
 import './PasswordReset.css'
 import axios from 'axios'
@@ -75,7 +65,7 @@ export default class ResetPassword extends Component {
     renderRequestCodeForm () {
         return (
             <div className="col-md-6 offset-md-3">
-                <span className="anchor" id="formResetPassword" />
+                <span className="anchor" id="formResetPassword"/>
 
                 <Card>
                     <CardHeader>
@@ -88,7 +78,7 @@ export default class ResetPassword extends Component {
                             {this.renderErrorMessage()}
                             {this.renderSuccessMessage()}
 
-                            <h3><i className="fa fa-lock fa-4x" /></h3>
+                            <h3><i className="fa fa-lock fa-4x"/></h3>
                             <h2 className="text-center">Forgotten Your Password?</h2>
                             <p>You can reset your password here.</p>
 
@@ -96,7 +86,7 @@ export default class ResetPassword extends Component {
                                 <FormGroup>
                                     <InputGroup>
                                         <InputGroupAddon addonType="prepend">
-                                            <i className="glyphicon glyphicon-envelope color-blue" />
+                                            <i className="glyphicon glyphicon-envelope color-blue"/>
                                         </InputGroupAddon>
                                         <Input id="email" name="email" placeholder="email address"
                                             type="email" value={this.state.email} onChange={this.handleChange}/>

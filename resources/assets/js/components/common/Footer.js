@@ -1,8 +1,4 @@
 import React, { Component } from 'react'
-import {
-    Card,
-    CardText
-} from 'reactstrap'
 
 export default class Footer extends Component {
     render () {
@@ -11,7 +7,7 @@ export default class Footer extends Component {
                 <a className="navbar-brand" href="#">Bottom navbar</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon" />
+                    <span className="navbar-toggler-icon"/>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
                     <ul className="navbar-nav mr-auto">

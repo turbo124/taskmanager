@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddRecurringInvoice from './AddRecurringInvoice'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RecurringInvoiceItem from './RecurringInvoiceItem'
 import RecurringInvoiceFilters from './RecurringInvoiceFilters'
@@ -158,21 +155,23 @@ export default class RecurringInvoices extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <RecurringInvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices}
+                                <RecurringInvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    invoices={invoices}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

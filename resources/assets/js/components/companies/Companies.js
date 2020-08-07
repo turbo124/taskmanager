@@ -2,12 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import AddCompany from './AddCompany'
 import DataTable from '../common/DataTable'
-import {
-    Alert,
-    Card,
-    CardBody,
-    Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CompanyFilters from './CompanyFilters'
 import CompanyItem from './CompanyItem'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -148,7 +143,8 @@ export default class Companies extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CompanyFilters setFilterOpen={this.setFilterOpen.bind(this)} brands={brands} updateIgnoredColumns={this.updateIgnoredColumns}
+                                <CompanyFilters setFilterOpen={this.setFilterOpen.bind(this)} brands={brands}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCompanies}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
@@ -157,11 +153,11 @@ export default class Companies extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

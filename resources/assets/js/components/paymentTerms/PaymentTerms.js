@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddPaymentTerm from './AddPaymentTerm'
-import { CardBody, Card, Row } from 'reactstrap'
+import { Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import PaymentTermFilters from './PaymentTermFilters'
 import PaymentTermItem from './PaymentTermItem'
@@ -59,7 +59,7 @@ export default class PaymentTerms extends Component {
 
     userList (props) {
         const { paymentTerms } = this.state
-        return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms ={paymentTerms}
+        return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms={paymentTerms}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
@@ -100,13 +100,15 @@ export default class PaymentTerms extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <PaymentTermFilters setFilterOpen={this.setFilterOpen.bind(this)} paymentTerms = {paymentTerms}
+                                <PaymentTermFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    paymentTerms={paymentTerms}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterPaymentTerms}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddPaymentTerm
-                                    payment_terms ={paymentTerms}
+                                    payment_terms={paymentTerms}
                                     action={this.addUserToState}
                                 />
                             </CardBody>

@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader, Row, Col
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import DepartmentDropdown from '../common/DepartmentDropdown'
 import RoleDropdown from '../common/RoleDropdown'
 
@@ -64,7 +57,8 @@ export default class PermissionsForm extends React.Component {
                 <div>
                     <FormGroup check inline>
                         <Label check>
-                            <Input name="is_admin" checked={is_admin} value={account[0].id} onChange={this.handleCheck}
+                            <Input name="is_admin" checked={is_admin} value={account[0].id}
+                                onChange={this.handleCheck}
                                 type="checkbox"/>
                             Administrator
                         </Label>

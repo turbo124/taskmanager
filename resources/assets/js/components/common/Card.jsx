@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card, CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 
 export class CardModule extends Component {
     render () {

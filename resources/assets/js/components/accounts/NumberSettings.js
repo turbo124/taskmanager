@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Card, CardBody, Nav, NavItem, NavLink, TabPane, TabContent, Alert } from 'reactstrap'
+import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'

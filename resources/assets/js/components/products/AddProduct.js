@@ -1,19 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane,
-    Card,
-    CardHeader,
-    CardBody
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import ImageForm from './ImageForm'
 import DetailsForm from './DetailsForm'
@@ -173,7 +159,7 @@ class AddProduct extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_product} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_product}/>
 
                     <ModalBody>
                         <Nav tabs>
@@ -292,7 +278,8 @@ class AddProduct extends React.Component {
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

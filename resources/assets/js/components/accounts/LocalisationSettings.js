@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, FormGroup, Input, Label, Alert } from 'reactstrap'
+import { Alert, Card, CardBody, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import moment from 'moment'
 import { translations } from '../common/_translations'
@@ -47,23 +47,56 @@ export default class LocalisationSettings extends Component {
         const name = event.target.name
         const value = event.target.value
 
+        if (name === 'currency_format') {
+            this.setState(prevState => ({
+                settings: {
+                    ...prevState.settings,
+                    show_currency_code: value === 'code'
+                }
+            }), () => {
+                const appState = JSON.parse(localStorage.getItem('appState'))
+                const account_id = appState.user.account_id
+                const index = appState.accounts.findIndex(account => account.account_id === parseInt(account_id))
+                appState.accounts[index].account.settings.show_currency_code = value === 'code'
+                localStorage.setItem('appState', JSON.stringify(appState))
+                console.log('user account', appState.accounts[index].account.settings.show_currency_code)
+            })
+
+            return
+        }
+
         this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
                 [name]: value
             }
         }), () => {
-            if (name === 'currency_format') {
-                localStorage.setItem('currency_format', value)
-
-                this.setState(prevState => ({
-                    settings: {
-                        ...prevState.settings,
-                        show_currency_code: value === 'code'
-                    }
-                }))
+            if (name === 'language_id') {
+                const appState = JSON.parse(localStorage.getItem('appState'))
+                const account_id = appState.user.account_id
+                const index = appState.accounts.findIndex(account => account.account_id === parseInt(account_id))
+                appState.accounts[index].account.settings.language_id = value
+                localStorage.setItem('appState', JSON.stringify(appState))
+                console.log('user account', appState.accounts[index].account.settings.language_id)
             }
         })
+    }
+
+    getLanguageFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'language_id',
+                    label: translations.language,
+                    type: 'language',
+                    placeholder: translations.language,
+                    value: settings.language_id,
+                    group: 3
+                }
+            ]
+        ]
     }
 
     getCurrencyFields () {
@@ -83,7 +116,7 @@ export default class LocalisationSettings extends Component {
                     name: 'currency_format',
                     label: 'Currency Format',
                     type: 'select',
-                    value: settings.currency_format,
+                    value: settings.show_currency_code === true ? 'code' : 'symbol',
                     options: [
                         {
                             value: 'code',
@@ -144,7 +177,8 @@ export default class LocalisationSettings extends Component {
         })
 
         const date_format_list = date_formats && date_formats.length ? date_formats.map(date_format => {
-            return <option key={date_format.id} value={date_format.id}>{moment().format(date_format.format_moment)}</option>
+            return <option key={date_format.id}
+                value={date_format.id}>{moment().format(date_format.format_moment)}</option>
         }) : null
 
         return date_formats && date_formats.length ? (
@@ -175,27 +209,32 @@ export default class LocalisationSettings extends Component {
                 <Card className="fixed-margin-mobile border-0">
                     <CardBody>
                         <FormGroup>
-                            <Label>Date Format</Label>
-                            <Input type="select" name="date_format" onChange={this.handleSettingsChange} >
+                            <Label>{translations.date_format}</Label>
+                            <Input type="select" name="date_format" onChange={this.handleSettingsChange}>
                                 {date_format_list}
                             </Input>
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>First Day of the Week</Label>
-                            <Input type="select" name="first_day_of_week" onChange={this.handleSettingsChange} >
+                            <Label>{translations.first_day_of_week}</Label>
+                            <Input type="select" name="first_day_of_week" onChange={this.handleSettingsChange}>
                                 <option value=""/>
                                 {day_list}
                             </Input>
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>First Month of the Year</Label>
-                            <Input type="select" name="first_month_of_year" onChange={this.handleSettingsChange} >
+                            <Label>{translations.first_month_of_year}</Label>
+                            <Input type="select" name="first_month_of_year" onChange={this.handleSettingsChange}>
                                 <option value=""/>
                                 {month_list}
                             </Input>
                         </FormGroup>
+
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getLanguageFields()}
+                        />
                     </CardBody>
                 </Card>
 

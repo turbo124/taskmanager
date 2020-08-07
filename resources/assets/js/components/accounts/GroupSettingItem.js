@@ -58,7 +58,8 @@ export default class GroupSettingItem extends Component {
 
                 return <tr key={group.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                             restore={restoreButton}/>
                     </td>

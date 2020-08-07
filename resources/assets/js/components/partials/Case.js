@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import {
-    TabContent,
     Alert,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
     Card,
     CardBody,
-    Row,
+    CardHeader,
+    Col,
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    Col, CardHeader
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
@@ -69,7 +70,9 @@ export default class Case extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('1') }}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
                         >
                             {translations.details}
                         </NavLink>
@@ -77,7 +80,9 @@ export default class Case extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => { this.toggleTab('2') }}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
                         >
                             {translations.documents} ({this.expenseModel.fileCount})
                         </NavLink>
@@ -88,7 +93,7 @@ export default class Case extends Component {
                         <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.amount}
                             heading_2={translations.converted} value_2={0}/>
 
-                        <CasePresenter entity={this.props.entity} field="status_field" />
+                        <CasePresenter entity={this.props.entity} field="status_field"/>
 
                         <Row>
                             <ListGroup className="mt-4 col-12">
@@ -107,7 +112,8 @@ export default class Case extends Component {
                                     value={this.props.entity.subject}/>
 
                                 <SimpleSectionItem heading={translations.priority}
-                                    value={<CasePresenter entity={this.props.entity} field="priority_field" />}/>
+                                    value={<CasePresenter entity={this.props.entity}
+                                        field="priority_field"/>}/>
 
                                 <SimpleSectionItem heading={translations.due_date}
                                     value={this.props.entity.due_date}/>

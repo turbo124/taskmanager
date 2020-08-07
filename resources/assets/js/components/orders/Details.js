@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader, Input
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import CustomerDropdown from '../common/CustomerDropdown'
 import { translations } from '../common/_translations'
@@ -46,7 +40,8 @@ export default class Details extends React.Component {
 
                 <FormGroup>
                     <Label for="due_date">{translations.due_date}(*):</Label>
-                    <Datepicker name="due_date" date={this.props.order.due_date} handleInput={this.props.handleInput}
+                    <Datepicker name="due_date" date={this.props.order.due_date}
+                        handleInput={this.props.handleInput}
                         className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {this.renderErrorFor('due_date')}
                 </FormGroup>

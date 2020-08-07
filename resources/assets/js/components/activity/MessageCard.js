@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Card, CardFooter, CardBody, CardHeader } from 'reactstrap'
+import { Button, Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import Avatar from '../common/Avatar'
 import TimeAgo from 'react-timeago/lib'
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Row, Button, FormGroup, Label, Input, Collapse, CardBody, Card, CardHeader } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Col, Collapse, FormGroup, Input, Label, Row } from 'reactstrap'
 import { translations } from './_translations'
 import { icons } from './_icons'
 
@@ -36,7 +36,7 @@ export default class ContactInputs extends Component {
                             <CardHeader onClick={this.toggle} data-event={idx}>
                                 <h5 className="mb-1 d-flex justify-content-between align-items-center">
                                     {`${contact.first_name} ${contact.last_name}`}
-                                    <i className={`fa ${icon}`} />
+                                    <i className={`fa ${icon}`}/>
                                 </h5>
 
                                 <h6 className="text-muted">

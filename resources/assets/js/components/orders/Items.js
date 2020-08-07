@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardBody } from 'reactstrap'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 import LineItemEditor from '../common/LineItemEditor'
 
 export default function Items (props) {

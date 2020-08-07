@@ -1,8 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, InputGroup,
-    InputGroupAddon, InputGroupText
+    Button,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
 } from 'reactstrap'
 import axios from 'axios'
 
@@ -98,7 +106,7 @@ class EditPermission extends React.Component {
                         <Label>Name</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
                                 value={this.state.name} onChange={this.handleInput.bind(this)}/>
@@ -108,7 +116,7 @@ class EditPermission extends React.Component {
                         <Label>Description</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
                                 name="description" value={this.state.description}

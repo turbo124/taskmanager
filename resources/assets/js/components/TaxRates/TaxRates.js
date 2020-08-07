@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import AddTaxRate from './AddTaxRate'
 import DataTable from '../common/DataTable'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import TaxRateFilters from './TaxRateFilters'
 import TaxRateItem from './TaxRateItem'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -101,11 +98,11 @@ export default class TaxRates extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

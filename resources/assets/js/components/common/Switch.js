@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Switch.css'
-import { FormGroup, Label, Row, Col } from 'reactstrap'
+import { Col, FormGroup, Label, Row } from 'reactstrap'
 
 class Switch extends Component {
     render () {

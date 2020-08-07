@@ -11,9 +11,9 @@ export default function InfoItem (props) {
         <Col sm={11}>
             <ListGroupItemHeading>
                 {props.first_value && props.first_value.length &&
-                    <React.Fragment>
-                        {props.first_value} <br />
-                    </React.Fragment>
+                <React.Fragment>
+                    {props.first_value} <br/>
+                </React.Fragment>
 
                 }
 

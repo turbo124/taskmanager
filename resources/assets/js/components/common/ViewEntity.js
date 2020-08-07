@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Button,
     ListGroupItem,
     ListGroupItemHeading,
-    ListGroupItemText
+    ListGroupItemText,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
 } from 'reactstrap'
 import Invoice from '../partials/Invoice'
 import RecurringInvoice from '../partials/RecurringInvoice'

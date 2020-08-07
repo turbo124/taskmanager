@@ -212,8 +212,7 @@ items.push(financial)
 const tasks = {
     name: 'Tasks',
     icon: `fa ${icons.task}`,
-    children: [
-    ]
+    children: []
 }
 
 if (modules && modules.leads) {

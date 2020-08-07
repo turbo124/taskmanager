@@ -1,14 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card,
-    CardBody,
-    NavLink,
-    NavItem,
-    Nav,
-    TabPane,
-    TabContent,
-    Alert
-} from 'reactstrap'
+import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
 import { translations } from '../common/_translations'
@@ -29,12 +20,20 @@ class CustomFieldSettings extends Component {
                 label: '',
                 type: ''
             }, { name: 'custom_value4', label: '', type: '' }],
-            companies: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+            companies: [{ name: 'custom_value1', label: '', type: '' }, {
+                name: 'custom_value2',
+                label: '',
+                type: ''
+            }, {
                 name: 'custom_value3',
                 label: '',
                 type: ''
             }, { name: 'custom_value4', label: '', type: '' }],
-            customers: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+            customers: [{ name: 'custom_value1', label: '', type: '' }, {
+                name: 'custom_value2',
+                label: '',
+                type: ''
+            }, {
                 name: 'custom_value3',
                 label: '',
                 type: ''
@@ -190,7 +189,7 @@ class CustomFieldSettings extends Component {
         const tabItems = []
 
         if (customers && this.modules.customers === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)}className="px-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
                 <Card className="border-0">
                     <CardBody>
                         {

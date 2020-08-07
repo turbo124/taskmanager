@@ -1,20 +1,23 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {
+    Alert,
+    Button,
+    Card,
+    CardBody,
+    CustomInput,
     Form,
     FormGroup,
     Label,
-    CustomInput,
-    TabContent,
-    TabPane,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
     Nav,
     NavItem,
     NavLink,
-    Card,
-    CardBody,
-    Button,
-    Modal, ModalBody, ModalFooter, ModalHeader, Alert
-
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import { translations } from '../common/_translations'
 import BlockButton from '../common/BlockButton'

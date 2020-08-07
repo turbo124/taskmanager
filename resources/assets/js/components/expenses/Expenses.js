@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import axios from 'axios'
 import AddExpense from './AddExpense'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'
 import queryString from 'query-string'
@@ -188,7 +185,8 @@ export default class Expenses extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ExpenseFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers} expenses={expenses} companies={companies}
+                                <ExpenseFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
+                                    expenses={expenses} companies={companies}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterExpenses}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -198,11 +196,11 @@ export default class Expenses extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

@@ -1,5 +1,5 @@
 const _localizedValues = []
-_localizedValues.gb = {
+_localizedValues.en = {
     about: 'About',
     history: 'History',
     customise: 'Customise',
@@ -487,8 +487,18 @@ _localizedValues.gb = {
     should_send_email_for_online_payment_help_text: 'Will send a receipt to the customer when an online payment is created',
     unexpected_error: 'There was an unexpected error',
     about_message: 'Thankyou for using our app',
-    about_link: 'If you like it please click here'
+    about_link: 'If you like it please click here',
+    language: 'Language',
+    date_format: 'Date Format',
+    first_day_of_week: 'First Day of Week',
+    first_month_of_year: 'First Month of Year'
 }
 
-export const default_language = 'gb'
+const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+const settings = user_account[0].account.settings
+const languages = JSON.parse(localStorage.getItem('languages'))
+const language = settings.language_id ? languages.filter(language => language.id === parseInt(settings.language_id)) : []
+
+export const default_language = language.length ? language[0].locale : 'en'
 export const translations = _localizedValues[default_language]

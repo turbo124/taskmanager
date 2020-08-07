@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Input, FormGroup, Label
-} from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import DecoratedFormField from '../common/DecoratedFormField'

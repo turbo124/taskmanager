@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Form
-} from 'reactstrap'
+import { Form, FormGroup, Input } from 'reactstrap'
 import FilterTile from '../common/FilterTile'
 import TaskDropdown from '../common/TaskDropdown'
 import UserDropdown from '../common/UserDropdown'

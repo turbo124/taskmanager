@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import DataTable from '../common/DataTable'
-import { Card, CardBody, Button, Alert, Row } from 'reactstrap'
+import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
 import TaskFilters from './TaskFilters'
 import TaskItem from './TaskItem'
 import AddModal from './AddTask'
@@ -205,7 +205,8 @@ export default class TaskList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users} tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
+                                    tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterTasks}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 <Button color="primary" onClick={() => {
@@ -218,11 +219,11 @@ export default class TaskList extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

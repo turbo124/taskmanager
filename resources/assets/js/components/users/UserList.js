@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddUser from './AddUser'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import UserItem from './UserItem'
 import UserFilters from './UserFilters'
@@ -169,7 +166,8 @@ export default class UserList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <UserFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users} departments={departments}
+                                <UserFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
+                                    departments={departments}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterUsers}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -179,11 +177,11 @@ export default class UserList extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

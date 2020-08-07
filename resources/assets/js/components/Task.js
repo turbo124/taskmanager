@@ -139,8 +139,10 @@ class Task extends Component {
                                 <p className="mb-1">{description}</p>
 
                                 <div>
-                                    <span className="task-due">Start: {moment(i.startDate).format('DD.MM.YYYY')}</span>
-                                    <span className="task-due">Due: {moment(i.dueDate).format('DD.MM.YYYY')}</span>
+                                    <span
+                                        className="task-due">Start: {moment(i.startDate).format('DD.MM.YYYY')}</span>
+                                    <span
+                                        className="task-due">Due: {moment(i.dueDate).format('DD.MM.YYYY')}</span>
                                     <span className="task-contributors">
                                         {contributors}
                                     </span>

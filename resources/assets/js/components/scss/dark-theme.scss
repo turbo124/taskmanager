@@ -3056,7 +3056,7 @@ input:focus, select:focus {
 
 .disable-scrollbars {
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+  -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
     width: 0px;
     background: transparent; /* Chrome/Safari/Webkit */
@@ -3064,7 +3064,7 @@ input:focus, select:focus {
 }
 
 .disable-scrollbars::-webkit-scrollbar {
-  display:none;
+  display: none;
 }
 
 .setting-tabs {

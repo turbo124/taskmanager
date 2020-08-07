@@ -1,12 +1,16 @@
 import React from 'react'
 import {
-    Input, FormGroup, Label, Card,
-    CardHeader,
+    Card,
     CardBody,
+    CardHeader,
+    FormGroup,
+    Input,
+    Label,
     Nav,
     NavItem,
     NavLink,
-    TabContent, TabPane
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import axios from 'axios'
 import DesignDropdown from '../common/DesignDropdown'
@@ -206,7 +210,13 @@ class Designs extends React.Component {
     }
 
     resetCounters () {
-        this.setState({ name: '', id: null, design: { header: '', body: '', footer: '' }, obj_url: null, is_custom: true })
+        this.setState({
+            name: '',
+            id: null,
+            design: { header: '', body: '', footer: '' },
+            obj_url: null,
+            is_custom: true
+        })
     }
 
     switchDesign (design) {
@@ -238,7 +248,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('1') }}>
+                            onClick={() => {
+                                this.toggleTabs('1')
+                            }}>
                             {translations.settings}
                         </NavLink>
                     </NavItem>
@@ -246,7 +258,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('2') }}>
+                            onClick={() => {
+                                this.toggleTabs('2')
+                            }}>
                             {translations.preview}
                         </NavLink>
                     </NavItem>
@@ -254,7 +268,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('3') }}>
+                            onClick={() => {
+                                this.toggleTabs('3')
+                            }}>
                             {translations.header}
                         </NavLink>
                     </NavItem>
@@ -262,7 +278,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('4') }}>
+                            onClick={() => {
+                                this.toggleTabs('4')
+                            }}>
                             {translations.body}
                         </NavLink>
                     </NavItem>
@@ -270,7 +288,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('5') }}>
+                            onClick={() => {
+                                this.toggleTabs('5')
+                            }}>
                             {translations.footer}
                         </NavLink>
                     </NavItem>
@@ -278,7 +298,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('6') }}>
+                            onClick={() => {
+                                this.toggleTabs('6')
+                            }}>
                             {translations.product}
                         </NavLink>
                     </NavItem>
@@ -286,7 +308,9 @@ class Designs extends React.Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => { this.toggleTabs('6') }}>
+                            onClick={() => {
+                                this.toggleTabs('6')
+                            }}>
                             {translations.task}
                         </NavLink>
                     </NavItem>
@@ -301,7 +325,8 @@ class Designs extends React.Component {
 
                                 <FormGroup>
                                     <Label for="name">Design <span className="text-danger">*</span></Label>
-                                    <DesignDropdown resetCounters={this.resetCounters} handleInputChanges={this.switchDesign}/>
+                                    <DesignDropdown resetCounters={this.resetCounters}
+                                        handleInputChanges={this.switchDesign}/>
                                 </FormGroup>
                             </CardBody>
                         </Card>
@@ -324,7 +349,8 @@ class Designs extends React.Component {
                             <CardBody>
 
                                 <FormGroup>
-                                    <Label for="name">{translations.header} <span className="text-danger">*</span></Label>
+                                    <Label for="name">{translations.header} <span
+                                        className="text-danger">*</span></Label>
                                     <CKEditor
                                         data={this.state.design.header}
                                         editor={ClassicEditor}
@@ -388,7 +414,8 @@ class Designs extends React.Component {
                             <CardHeader>{translations.footer}</CardHeader>
                             <CardBody>
                                 <FormGroup>
-                                    <Label for="name">{translations.footer} <span className="text-danger">*</span></Label>
+                                    <Label for="name">{translations.footer} <span
+                                        className="text-danger">*</span></Label>
                                     <CKEditor
                                         data={this.state.design.footer}
                                         editor={ClassicEditor}
@@ -418,14 +445,14 @@ class Designs extends React.Component {
                     <TabPane tabId="6">
                         <Card>
                             <CardHeader>{translations.product}</CardHeader>
-                            <CardBody />
+                            <CardBody/>
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="7">
                         <Card>
                             <CardHeader>{translations.task}</CardHeader>
-                            <CardBody />
+                            <CardBody/>
                         </Card>
                     </TabPane>
                 </TabContent>

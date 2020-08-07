@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import {
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    ListGroup
-} from 'reactstrap'
+import { ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import PaymentModel from '../models/PaymentModel'

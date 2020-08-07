@@ -37,7 +37,12 @@ export default class PdfFields extends Component {
             }
         })
 
-        this.setState({ pdf_variables: this.props.ignored_columns, values: arrTest, initialState: arrTest, selected: arrSelected }, function () {
+        this.setState({
+            pdf_variables: this.props.ignored_columns,
+            values: arrTest,
+            initialState: arrTest,
+            selected: arrSelected
+        }, function () {
             // console.log('columns', this.state.values)
             // console.log('selected', this.state.selected)
         })

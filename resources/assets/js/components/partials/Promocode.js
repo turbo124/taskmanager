@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Row,
-    ListGroup
-} from 'reactstrap'
+import { ListGroup, Row } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
@@ -29,7 +26,7 @@ export default class Promocode extends Component {
                             title={translations.amount_type}/>
                         <InfoItem icon={icons.list} value={this.props.entity.quantity}
                             title={translations.quantity}/>
-                        <InfoItem icon={icons.calendar} value={<FormatDate date={this.props.entity.expires_at} />}
+                        <InfoItem icon={icons.calendar} value={<FormatDate date={this.props.entity.expires_at}/>}
                             title={translations.expiry_date}/>
                     </ListGroup>
                 </Row>

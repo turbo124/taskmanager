@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Form,
-    FormGroup
-} from 'reactstrap'
+import { Form, FormGroup } from 'reactstrap'
 
 class Notifications extends Component {
     constructor (props) {
@@ -24,7 +21,7 @@ class Notifications extends Component {
                 <p>Start editing to see some magic happen :)</p>
                 <Form>
                     <FormGroup>
-                        <Notifications onChange={this.setNotifications} />
+                        <Notifications onChange={this.setNotifications}/>
                     </FormGroup>
                 </Form>
             </div>

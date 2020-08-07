@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddCategory from './AddCategory'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CategoryFilters from './CategoryFilters'
 import CategoryItem from './CategoryItem'
@@ -121,7 +121,8 @@ export default class Categories extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CategoryFilters setFilterOpen={this.setFilterOpen.bind(this)} categories={categories}
+                                <CategoryFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    categories={categories}
                                     customers={customers}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCategories}
@@ -137,11 +138,11 @@ export default class Categories extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

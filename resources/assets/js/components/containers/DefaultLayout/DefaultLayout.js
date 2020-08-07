@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from 'react'
-import { Redirect, Switch } from 'react-router-dom'
 import * as router from 'react-router-dom'
+import { Redirect, Switch } from 'react-router-dom'
 import { Container } from 'reactstrap'
 import PrivateRoute from '../../PrivateRoute'
 
@@ -12,8 +12,7 @@ import {
     AppSidebarForm,
     AppSidebarHeader,
     AppSidebarMinimizer,
-    AppBreadcrumb2 as AppBreadcrumb,
-    AppSidebarNav2 as AppSidebarNav, AppSidebarToggler
+    AppSidebarNav2 as AppSidebarNav
 } from '@coreui/react'
 // sidebar nav config
 import navigation from '../../_nav'
@@ -22,10 +21,6 @@ import routes from '../../routes'
 import DefaultAside from './DefaultAside'
 import DefaultHeader from './DefaultHeader'
 import AccountList from '../../common/AccountList'
-import Footer from '../../common/Footer'
-import DefaultFooter from './DefaultFooter'
-import SupportModal from '../../common/SupportModal'
-import AboutModal from '../../common/AboutModal'
 
 class DefaultLayout extends Component {
     constructor (props) {
@@ -52,7 +47,7 @@ class DefaultLayout extends Component {
                         <AppSidebarHeader/>
                         <AppSidebarForm/>
 
-                        <AccountList />
+                        <AccountList/>
 
                         <Suspense>
                             <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>

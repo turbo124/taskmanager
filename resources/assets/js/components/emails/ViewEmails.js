@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemText,
-    ListGroupItemHeading
-} from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap'
 import { translations } from '../common/_translations'
 
 export default class Emails extends Component {

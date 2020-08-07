@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane,
-    Card,
-    CardHeader,
-    CardBody
-} from 'reactstrap'
-import axios from 'axios'
+import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -131,7 +121,7 @@ class AddGateway extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_gateway} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_gateway}/>
 
                     <ModalBody>
                         <Nav tabs className="pl-3">
@@ -190,7 +180,8 @@ class AddGateway extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

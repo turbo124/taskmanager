@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React from 'react'
-import { FormGroup, Label, Form } from 'reactstrap'
+import { Form, FormGroup, Label } from 'reactstrap'
 
 class ViewCustomer extends React.Component {
     constructor (props) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, FormGroup, Label, Row, Col } from 'reactstrap'
+import { Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import { translations } from '../common/_translations'
 import { consts } from '../common/_consts'
 

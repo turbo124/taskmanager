@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, FormGroup, Label, Input } from 'reactstrap'
+import { Button, FormGroup, Input, Label } from 'reactstrap'
 
 const FeatureInputs = (props) => {
     return (

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import LeadModel from '../models/LeadModel'
@@ -13,7 +7,6 @@ import Contact from './Contact'
 import Address from './Address'
 import Details from './Details'
 import Notes from '../common/Notes'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
@@ -128,7 +121,7 @@ class AddLeadForm extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_lead} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_lead}/>
 
                     <ModalBody>
 
@@ -195,7 +188,8 @@ class AddLeadForm extends React.Component {
                         </React.Fragment>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={loading}/>
                 </Modal>
             </React.Fragment>

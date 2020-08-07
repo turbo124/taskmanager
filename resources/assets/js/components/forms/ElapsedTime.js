@@ -1,9 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-import ViewTask from './ViewTask'
-import Avatar from '../common/Avatar'
-import axios from 'axios'
 import moment from 'moment'
 
 class ElapsedTime extends React.Component {
@@ -34,7 +30,8 @@ class ElapsedTime extends React.Component {
     }
 
     render () {
-        return Object.keys(this.state.secondsElapsed).length ? <small>{moment.utc(this.state.secondsElapsed.as('milliseconds')).format('HH:mm:ss')}</small> : null
+        return Object.keys(this.state.secondsElapsed).length
+            ? <small>{moment.utc(this.state.secondsElapsed.as('milliseconds')).format('HH:mm:ss')}</small> : null
     }
 }
 
