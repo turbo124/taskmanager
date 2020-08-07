@@ -1,9 +1,7 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
-import axios from 'axios'
+import { DropdownItem, Modal, ModalBody } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
-import { consts } from '../common/_consts'
 import SubscriptionModel from '../models/SubscriptionModel'
 import Details from './Details'
 import DefaultModalHeader from '../common/ModalHeader'
@@ -52,7 +50,10 @@ export default class EditSubscription extends React.Component {
 
         this.subscriptionModel.save(data).then(response => {
             if (!response) {
-                this.setState({ errors: this.subscriptionModel.errors, message: this.subscriptionModel.error_message })
+                this.setState({
+                    errors: this.subscriptionModel.errors,
+                    message: this.subscriptionModel.error_message
+                })
                 return
             }
 
@@ -85,16 +86,18 @@ export default class EditSubscription extends React.Component {
     render () {
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_subscription}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_subscription}
+                </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_subscription} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_subscription}/>
 
                     <ModalBody>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
                             renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

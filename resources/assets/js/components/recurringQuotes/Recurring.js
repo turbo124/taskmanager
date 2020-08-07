@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Label, Input } from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 import Datepicker from '../common/Datepicker'
 

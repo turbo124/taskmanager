@@ -7,6 +7,7 @@ export const icons = {
     table: 'fa-table',
     cog: 'fa-cog',
     columns: 'fa-columns',
+    tick: 'fa-check',
     download: 'fa-download',
     email: 'fa-envelope-square',
     mark_sent: 'fa-share-square',

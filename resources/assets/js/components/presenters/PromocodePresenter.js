@@ -19,16 +19,19 @@ export default function PromocodePresenter (props) {
         case 'reward':
         case 'scope_value':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/></td>
+                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
+            </td>
         case 'amount_type': {
             const icon = entity.amount_type === 'pct' ? 'fa-percent' : 'fa-gbp'
-            return <td className="text-center" onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
-                data-label={field}><span className={`fa ${icon}`} /> </td>
+            return <td className="text-center" onClick={() => props.toggleViewedEntity(entity, entity.number)}
+                key={field}
+                data-label={field}><span className={`fa ${icon}`}/></td>
         }
         case 'is_disposable': {
             const icon = parseInt(entity.is_disposable) === 1 ? 'fa-check' : 'fa-times-circle'
-            return <td className="text-center" onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
-                data-label={field}><i className={`fa ${icon}`} /> </td>
+            return <td className="text-center" onClick={() => props.toggleViewedEntity(entity, entity.number)}
+                key={field}
+                data-label={field}><i className={`fa ${icon}`}/></td>
         }
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}

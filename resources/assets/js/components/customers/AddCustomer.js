@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import CustomerTabs from './CustomerTabs'
 import AddButtons from '../common/AddButtons'
@@ -91,9 +91,9 @@ class AddCustomer extends React.Component {
 
         return (
             <React.Fragment>
-                <AddButtons toggle={this.toggle} />
+                <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_customer} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_customer}/>
 
                     <ModalBody>
 

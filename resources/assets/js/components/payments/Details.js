@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
@@ -41,7 +34,8 @@ export default class Details extends React.Component {
             <CardBody>
                 <FormGroup className="mb-3">
                     <Label>{translations.amount}(*):</Label>
-                    <Input value={this.props.payment.amount} className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
+                    <Input value={this.props.payment.amount}
+                        className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
                         type="text" name="amount"
                         onChange={this.props.handleInput}/>
                     {this.renderErrorFor('amount')}
@@ -92,7 +86,8 @@ export default class Details extends React.Component {
 
                 <FormGroup check>
                     <Label check>
-                        <Input value={this.props.payment.send_email} onChange={this.props.handleCheck} type="checkbox"/>
+                        <Input value={this.props.payment.send_email} onChange={this.props.handleCheck}
+                            type="checkbox"/>
                         {translations.send_email}
                     </Label>
                 </FormGroup>

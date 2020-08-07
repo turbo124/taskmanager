@@ -1,16 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from '../accounts/FormBuilder'
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane, Button
-} from 'reactstrap'
-import axios from 'axios'
+import { Button, Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { translations } from '../common/_translations'
 import CustomerModel from '../models/CustomerModel'
 import { icons } from '../common/_icons'
@@ -60,6 +50,14 @@ class CustomerSettings extends Component {
 
         const formFields = [
             [
+                {
+                    name: 'language_id',
+                    label: translations.language,
+                    type: 'language',
+                    placeholder: translations.language,
+                    value: settings.language_id,
+                    group: 3
+                },
                 {
                     name: 'email_style',
                     label: translations.email_style,

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import VariationInputs from './VariationInputs'
-import {
-    Button
-} from 'reactstrap'
+import { Button } from 'reactstrap'
 
 export default class Variations extends Component {
     constructor (props) {

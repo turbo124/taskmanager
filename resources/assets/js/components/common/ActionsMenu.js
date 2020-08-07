@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown, DropdownToggle, DropdownMenu, UncontrolledTooltip } from 'reactstrap'
+import { Dropdown, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap'
 import { icons } from './_icons'
 
 export default class ActionsMenu extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, Card, CardBody, CardTitle, Col, Row } from 'reactstrap'
+import { Button, Card, CardBody, CardTitle, Col, Form, Input, Row } from 'reactstrap'
 import axios from 'axios'
 import AddStory from './forms/AddStory'
 import EditProject from './forms/EditProject'
@@ -108,7 +108,8 @@ export default class KanbanFilter extends Component {
         }
 
         return (
-            <Input id="project_id" name="project_id" type="select" onChange={this.handleProjectChange} value={this.props.project_id}>
+            <Input id="project_id" name="project_id" type="select" onChange={this.handleProjectChange}
+                value={this.props.project_id}>
                 <option>Choose Project</option>
                 {storyTable}
             </Input>

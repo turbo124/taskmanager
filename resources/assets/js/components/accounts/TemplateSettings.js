@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card,
-    CardBody,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent, TabPane, Form, Button, Spinner, Alert
-} from 'reactstrap'
+import { Alert, Card, CardBody, Form, Nav, NavItem, NavLink, Spinner, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import EmailFields from './EmailFields'
 import EmailPreview from './EmailPreview'
@@ -169,7 +162,8 @@ class TemplateSettings extends Component {
     }
 
     render () {
-        const fields = <EmailFields return_form={true} settings={this.state.settings} template_type={this.state.template_type}
+        const fields = <EmailFields return_form={true} settings={this.state.settings}
+            template_type={this.state.template_type}
             handleSettingsChange={this.handleSettingsChange}
             handleChange={this.handleChange}/>
 

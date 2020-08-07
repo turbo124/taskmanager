@@ -1,12 +1,11 @@
 import React from 'react'
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import InvoiceLine from './InvoiceLine'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import Details from './Details'
 import PaymentModel from '../models/PaymentModel'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Documents from './Documents'
 import DefaultModalHeader from '../common/ModalHeader'
@@ -128,7 +127,7 @@ class AddPayment extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
 
                     <ModalBody>
 
@@ -136,10 +135,12 @@ class AddPayment extends React.Component {
                             {message}
                         </div>}
 
-                        <Details hide_customer={false} payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
+                        <Details hide_customer={false} payment={this.state} errors={this.state.errors}
+                            handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
-                        <InvoiceLine payment={this.state} status={2} handleAmountChange={this.setAmount} errors={this.state.errors}
+                        <InvoiceLine payment={this.state} status={2} handleAmountChange={this.setAmount}
+                            errors={this.state.errors}
                             invoices={this.props.invoices} credits={this.props.credits}
                             payment={this.state}
                             customerChange={this.handleCustomerChange}
@@ -148,7 +149,7 @@ class AddPayment extends React.Component {
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
-                        <Documents payment={this.state} />
+                        <Documents payment={this.state}/>
 
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}
@@ -158,7 +159,8 @@ class AddPayment extends React.Component {
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={loading}/>
                 </Modal>
             </React.Fragment>

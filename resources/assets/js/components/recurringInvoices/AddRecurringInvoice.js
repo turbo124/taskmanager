@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, FormGroup, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
+import { FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import InvoiceDropdown from '../common/InvoiceDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import AddButtons from '../common/AddButtons'
@@ -7,7 +7,6 @@ import Notes from '../common/Notes'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import { translations } from '../common/_translations'
 import RecurringInvoiceModel from '../models/RecurringInvoiceModel'
-import Details from './Details'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import Recurring from './Recurring'
@@ -132,7 +131,7 @@ class AddRecurringInvoice extends Component {
             ? <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_invoice} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_invoice}/>
 
                     <ModalBody>
                         {form}
@@ -160,7 +159,8 @@ class AddRecurringInvoice extends Component {
                         <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                             handleInput={this.handleInput}/>
                     </ModalBody>
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Form } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import DateTime from 'react-datetime'
 import EventTypeDropdown from '../common/EventTypeDropdown'
@@ -267,7 +267,7 @@ class CreateEvent extends React.Component {
                     <Button color="success" onClick={this.toggle}>Add Event</Button>
 
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <DefaultModalHeader toggle={this.toggle} title={translations.create_event} />
+                        <DefaultModalHeader toggle={this.toggle} title={translations.create_event}/>
 
                         <ModalBody>
                             {form}

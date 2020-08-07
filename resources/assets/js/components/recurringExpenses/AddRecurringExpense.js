@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, FormGroup, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
+import { Button, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import InvoiceDropdown from '../common/ExpenseDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import AddButtons from '../common/AddButtons'

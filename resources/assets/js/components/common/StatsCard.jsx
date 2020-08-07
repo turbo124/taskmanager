@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card, CardImg, CardText, CardBody,
-    CardHeader,
-    CardTitle, CardSubtitle, Button
-} from 'reactstrap'
+import { Card, CardHeader, CardText } from 'reactstrap'
 
 export class StatsCard extends Component {
     render () {
@@ -35,7 +31,7 @@ export class StatsCard extends Component {
                                                 style={{ left: '1020px' }}>15 Sep</a></li>
                                         </ol>
                                         <span className="filling-line" aria-hidden="true"
-                                            style={{ transform: 'scaleX(0.12794)' }} />
+                                            style={{ transform: 'scaleX(0.12794)' }}/>
                                     </div>
                                 </div>
                                 <ul className="cd-timeline-navigation list-unstyled">
@@ -68,7 +64,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
 
@@ -95,7 +91,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
 
@@ -122,7 +118,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
 
@@ -149,7 +145,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
 
@@ -176,7 +172,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
 
                                     </li>
@@ -204,7 +200,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
 
@@ -231,7 +227,7 @@ export class StatsCard extends Component {
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium
                                             officia, fugit recusandae ipsa</p>
                                         <button type="button" className="btn btn-outline-primary float-right mt-1"><i
-                                            className="ft-calendar" /> Add to Calender
+                                            className="ft-calendar"/> Add to Calender
                                         </button>
                                     </li>
                                 </ol>

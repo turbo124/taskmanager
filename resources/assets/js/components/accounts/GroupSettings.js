@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddGroupSetting from './AddGroupSetting'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import GroupSettingFilters from './GroupSettingFilters'
 import GroupSettingItem from './GroupSettingItem'
@@ -105,7 +105,8 @@ export default class GroupSettings extends Component {
                                 <GroupSettingFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterGroups}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddGroupSetting
                                     groups={groups}
@@ -116,11 +117,11 @@ export default class GroupSettings extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

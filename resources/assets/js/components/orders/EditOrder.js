@@ -2,8 +2,16 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import {
     Button,
-    Col, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink,
-    Row, TabContent, TabPane
+    Col,
+    DropdownItem,
+    Modal,
+    ModalBody,
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import 'react-dates/lib/css/_datepicker.css'
 import SuccessMessage from '../common/SucessMessage'
@@ -599,13 +607,14 @@ export default class EditOrder extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_order} />
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_order}/>
 
                         <ModalBody>
                             {form}
                         </ModalBody>
 
-                        <DefaultModalFooter show_success={this.orderModel.isEditable} toggle={this.toggle} saveData={this.saveData}
+                        <DefaultModalFooter show_success={this.orderModel.isEditable} toggle={this.toggle}
+                            saveData={this.saveData}
                             loading={loading}/>
                     </Modal>
                 </React.Fragment>

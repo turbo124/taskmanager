@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    ListGroup, Row
-} from 'reactstrap'
+import { ListGroup, Row } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'

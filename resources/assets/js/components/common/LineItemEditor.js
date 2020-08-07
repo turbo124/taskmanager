@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LineItem from './LineItem'
-import { Button, FormGroup, Label, Input } from 'reactstrap'
+import { Button, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import FormatMoney from './FormatMoney'
 

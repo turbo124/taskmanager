@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, FormGroup, Label, Form, Row, Col } from 'reactstrap'
+import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import DynamicOptionList from './DynamicOptionList'
 
 export default class CustomFieldSettingsForm extends React.Component {
@@ -55,8 +55,11 @@ export default class CustomFieldSettingsForm extends React.Component {
                             // data={this.props.preview.state.data}
                             updateElement={this.props.handleOptionChange}
                             // preview={this.props.preview}
-                            element={Object.assign(this.props.obj, { data_id: this.props.idx, data_entity: this.props.entity })}
-                            key={this.props.obj.options.length} />
+                            element={Object.assign(this.props.obj, {
+                                data_id: this.props.idx,
+                                data_entity: this.props.entity
+                            })}
+                            key={this.props.obj.options.length}/>
                     </div>
                     }
                 </Form>

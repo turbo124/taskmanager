@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Button,
-    FormGroup,
-    Form,
-    Input,
-    Label
-} from 'reactstrap'
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
@@ -140,7 +134,7 @@ export default class EmailEditorForm extends Component {
                     <Label for="exampleEmail">{translations.to}</Label>
                     <Input value={customer[0].name} type="text" name="to"
                         id="to"
-                        placeholder={translations.to} />
+                        placeholder={translations.to}/>
                     {this.renderErrorFor('subject')}
                 </FormGroup>
                 }

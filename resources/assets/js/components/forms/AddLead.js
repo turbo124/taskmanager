@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { Input, FormGroup, Label } from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 
 class AddLead extends React.Component {

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Row,
-    ListGroup
-} from 'reactstrap'
+import { ListGroup, Row } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'
@@ -17,7 +14,8 @@ export default class User extends Component {
 
                 <Row>
                     <ListGroup className="col-12">
-                        <InfoItem icon={icons.user} value={`${this.props.entity.first_name} ${this.props.entity.last_name}`}
+                        <InfoItem icon={icons.user}
+                            value={`${this.props.entity.first_name} ${this.props.entity.last_name}`}
                             title={translations.name}/>
                         <InfoItem icon={icons.email} value={this.props.entity.email}
                             title={translations.email}/>

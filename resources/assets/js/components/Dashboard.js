@@ -1,25 +1,28 @@
 import React, { Component } from 'react'
 import {
-    Row, Col, Nav,
-    NavItem,
-    NavLink,
-    Input,
-    TabContent, TabPane,
     Button,
     ButtonGroup,
     ButtonToolbar,
     Card,
-    CardHeader,
     CardBody,
-    CardTitle,
     CardFooter,
-    Progress,
+    CardHeader,
+    CardTitle,
+    Col,
+    Input,
     ListGroup,
     ListGroupItem,
     Modal,
-    ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
+    ModalHeader,
+    Nav,
+    NavItem,
+    NavLink,
+    Progress,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import { CardModule } from './common/Card.jsx'
 import ReactEcharts from 'echarts-for-react'
@@ -28,10 +31,7 @@ import MessageContainer from './activity/MessageContainer'
 import Line from 'react-chartjs-2'
 import moment from 'moment'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
-import {
-    getStyle,
-    hexToRgba
-} from '@coreui/coreui/dist/js/coreui-utilities'
+import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 import MonthPicker from './common/MonthPicker'
 import { icons } from './common/_icons'
 import FormatMoney from './common/FormatMoney'
@@ -1623,7 +1623,8 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
+                            date={invoice.due_date}/></span>
                         <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1638,7 +1639,7 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
                         <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1653,7 +1654,8 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
+                            date={invoice.due_date}/></span>
                         <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1668,7 +1670,7 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
                         <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1683,7 +1685,8 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.due_date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
+                            date={invoice.due_date}/></span>
                         <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1698,7 +1701,7 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
                         <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
@@ -1713,7 +1716,7 @@ class Dashboard extends Component {
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date} /></span>
+                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
                         <span>{<PaymentPresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>

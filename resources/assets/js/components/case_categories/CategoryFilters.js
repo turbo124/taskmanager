@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Row, Col
-} from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 

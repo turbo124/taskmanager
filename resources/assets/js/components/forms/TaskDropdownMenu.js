@@ -1,11 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
-} from 'reactstrap'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 
@@ -53,10 +48,12 @@ export default class TaskDropdownMenu extends React.Component {
             Email</DropdownItem>
 
         const deleteButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
 
         const archiveButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
 
         const cloneButton =
             <DropdownItem className="primary" onClick={() => this.changeStatus('clone_to_task')}>Clone</DropdownItem>

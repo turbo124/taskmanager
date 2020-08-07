@@ -1,14 +1,11 @@
 import React from 'react'
 import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup,
     Card,
     CardBody,
     CardHeader,
+    FormGroup,
+    Modal,
+    ModalBody,
     Nav,
     NavItem,
     NavLink,
@@ -168,7 +165,7 @@ class AddUser extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_user} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_user}/>
 
                     <ModalBody>
 
@@ -243,7 +240,8 @@ class AddUser extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

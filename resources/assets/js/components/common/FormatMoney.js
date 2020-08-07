@@ -26,9 +26,11 @@ export default class FormatMoney extends Component {
 
         if (this.props.customers && this.props.customers.length && this.props.customer_id) {
             const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.customer_id))
-            this.setState({ currency_id: customer[0].currency_id }, () => {})
+            this.setState({ currency_id: customer[0].currency_id }, () => {
+            })
         } else {
-            this.setState({ currency_id: this.settings.currency_id }, () => {})
+            this.setState({ currency_id: this.settings.currency_id }, () => {
+            })
         }
     }
 
@@ -65,11 +67,13 @@ export default class FormatMoney extends Component {
 
             const formattedTotal = negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(total - i).toFixed(decimalCount).slice(2) : '')
 
-            if (this.state.currency_format === 'code') {
-                return <span className={this.props.className ? this.props.className : ''}>{`${formattedTotal} ${code}`}</span>
+            if (this.settings.show_currency_code === true) {
+                return <span
+                    className={this.props.className ? this.props.className : ''}>{`${formattedTotal} ${code}`}</span>
             }
 
-            return <span className={this.props.className ? this.props.className : ''}>{`${symbol}${formattedTotal}`}</span>
+            return <span
+                className={this.props.className ? this.props.className : ''}>{`${symbol}${formattedTotal}`}</span>
         } catch (e) {
             console.log(e)
         }

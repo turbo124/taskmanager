@@ -1,16 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup,
-    Label,
-    Input,
-    Card,
-    CardBody,
-    Nav,
-    NavItem,
-    NavLink,
-    TabPane,
-    TabContent
-} from 'reactstrap'
+import { Card, CardBody, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { translations } from './_translations'
 
 export default class NoteTabs extends Component {

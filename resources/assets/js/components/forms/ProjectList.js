@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import AddProject from './AddStory'
 import DataTable from '../common/DataTable'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ProjectFilters from './ProjectFilters'
 import ProjectItem from './ProjectItem'
 import queryString from 'query-string'
@@ -144,7 +141,8 @@ export default class ProjectList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ProjectFilters setFilterOpen={this.setFilterOpen.bind(this)} projects={projects} updateIgnoredColumns={this.updateIgnoredColumns}
+                                <ProjectFilters setFilterOpen={this.setFilterOpen.bind(this)} projects={projects}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterProjects}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 <AddProject users={users} projects={projects} action={this.addUserToState}
@@ -154,11 +152,11 @@ export default class ProjectList extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

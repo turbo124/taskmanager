@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccountUser;
 use App\Models\CompanyToken;
 use App\Factory\AccountFactory;
 use App\Jobs\Domain\CreateDomain;
+use App\Models\Currency;
+use App\Models\Language;
 use App\Notifications\NewAccountCreated;
 use App\Requests\Account\StoreAccountRequest;
 use App\Models\Account;
@@ -191,5 +194,31 @@ class AccountController extends Controller
     {
         $user = auth()->user();
         CompanyToken::where('token', $user->auth_token)->update(['account_id' => $request->account_id]);
+    }
+
+    public function refresh()
+    {
+        $user = auth()->user();
+
+        $default_account = $user->accounts->first()->domains->default_company;
+        //$user->setAccount($default_account);
+
+        $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
+
+        $response = [
+            'success' => true,
+            'data'    => [
+                'account_id' => $default_account->id,
+                'id'         => $user->id,
+                'auth_token' => $user->auth_token,
+                'name'       => $user->name,
+                'email'      => $user->email,
+                'accounts'   => $accounts,
+                'currencies' => Currency::all(),
+                'languages'  => Language::all()
+            ]
+        ];
+
+        return response()->json($response, 201);
     }
 }

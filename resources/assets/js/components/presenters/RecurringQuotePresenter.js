@@ -30,20 +30,23 @@ export default function RecurringQuotePresenter (props) {
 
     switch (field) {
         case 'total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{<FormatMoney
-                customers={props.customers} customer_id={entity.customer_id}
-                amount={entity.total}/>}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
+                <FormatMoney
+                    customers={props.customers} customer_id={entity.customer_id}
+                    amount={entity.total}/>}</td>
         case 'date':
         case 'due_date':
         case 'start_date':
         case 'end_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+                field={field} date={entity[field]}/></td>
         }
 
         case 'status_field':
             return status
         case 'status_id':
-            return <td onClick={() => this.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
+            return <td onClick={() => this.toggleViewedEntity(entity, entity.number)}
+                data-label="Status">{status}</td>
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])

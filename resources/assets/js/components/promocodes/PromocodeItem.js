@@ -50,19 +50,22 @@ export default class PromocodeItem extends Component {
                 const columnList = Object.keys(promocode).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <PromocodePresenter key={key} customers={this.props.customers} toggleViewedEntity={this.props.toggleViewedEntity}
+                    return <PromocodePresenter key={key} customers={this.props.customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={promocode}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(promocode.id)
                 const selectedRow = this.props.viewId === promocode.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                    restore={restoreButton}/> : null
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={promocode.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={promocode.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={promocode.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}

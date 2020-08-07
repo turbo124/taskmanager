@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import EditOrder from './EditOrder'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import OrderItem from './OrderItem'
 import OrderFilters from './OrderFilters'
@@ -136,7 +133,8 @@ export default class Order extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <OrderFilters setFilterOpen={this.setFilterOpen.bind(this)} orders={orders} customers={customers}
+                                <OrderFilters setFilterOpen={this.setFilterOpen.bind(this)} orders={orders}
+                                    customers={customers}
                                     filters={filters} filter={this.filterOrders}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddSubscription from './AddSubscription'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import SubscriptionFilters from './SubscriptionFilters'
 import SubscriptionItem from './SubscriptionItem'
@@ -102,10 +102,12 @@ export default class Subscriptions extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <SubscriptionFilters setFilterOpen={this.setFilterOpen.bind(this)} subscriptions={subscriptions}
+                                <SubscriptionFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    subscriptions={subscriptions}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterSubscriptions}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddSubscription
                                     subscriptions={subscriptions}
@@ -116,11 +118,11 @@ export default class Subscriptions extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

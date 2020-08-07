@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, FormGroup, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
+import { FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import QuoteDropdown from '../common/QuoteDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
 import AddButtons from '../common/AddButtons'
@@ -133,7 +133,7 @@ class AddRecurringQuote extends Component {
             ? <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_quote} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_quote}/>
 
                     <ModalBody>
                         {form}
@@ -162,7 +162,8 @@ class AddRecurringQuote extends Component {
                         <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                             handleInput={this.handleInput}/>
                     </ModalBody>
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

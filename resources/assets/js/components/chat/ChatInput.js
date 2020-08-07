@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Card, Row, CardBody, Col, ListGroup } from 'reactstrap'
 
 class ChatInput extends Component {
     constructor (props) {
@@ -40,7 +39,7 @@ class ChatInput extends Component {
                             onChange={this.handleInputChanges.bind(this)}
                             value={this.state.message}/>
                         <button className="msg_send_btn" type="submit">
-                            <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                            <i className="fa fa-paper-plane-o" aria-hidden="true"/>
                         </button>
                     </div>
                 </div>

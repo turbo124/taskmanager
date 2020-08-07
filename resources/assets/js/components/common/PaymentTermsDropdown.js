@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 import { translations } from './_translations'
 
 export default class PaymentTermsDropdown extends Component {
@@ -60,7 +60,8 @@ export default class PaymentTermsDropdown extends Component {
 
         return (
             <FormGroup>
-                <Input data-namespace="settings" value={this.props.payment_term} onChange={this.props.handleInputChanges} type="select"
+                <Input data-namespace="settings" value={this.props.payment_term}
+                    onChange={this.props.handleInputChanges} type="select"
                     name={name} id={name}>
                     <option value="">{translations.select_option}</option>
                     {paymentList}

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Col, Row
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
@@ -117,7 +115,7 @@ export default class TaskFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterTasks} />
+                        <DateFilter onChange={this.filterTasks}/>
                     </FormGroup>
                 </Col>
             </Row>

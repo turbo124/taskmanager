@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import AttributeValueDropdown from '../common/AttributeValueDropdown'
 
 const VariationInputs = (props) => {
@@ -62,7 +62,8 @@ const VariationInputs = (props) => {
                         <Col md={1}>
                             <FormGroup check>
                                 <Label check>
-                                    <Input name="is_default" value={props.variations[idx].is_default} onChange={props.onChange}
+                                    <Input name="is_default" value={props.variations[idx].is_default}
+                                        onChange={props.onChange}
                                         type="checkbox"/>
                                     Is Default
                                 </Label>

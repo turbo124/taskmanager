@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 
 export default class Address extends React.Component {

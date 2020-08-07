@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
-import { Nav, NavItem, NavLink, TabContent, TabPane, Button } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddressForm from './AddressForm'
 import { toast } from 'react-toastify'
 import CustomerForm from './CustomerForm'
 import SettingsForm from './SettingsForm'
-import {
-    Card, CardBody, CardHeader
-} from 'reactstrap'
 import Contact from '../common/Contact'
 import NotesForm from './NotesForm'
 import Notes from '../common/Notes'
@@ -339,7 +336,8 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.billing_address}</CardHeader>
                         <CardBody>
                             <AddressForm errors={errors} onChange={setBilling} customer={billing}/>
-                            <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>Copy Shipping</Button>
+                            <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>Copy
+                                Shipping</Button>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -348,7 +346,8 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.shipping_address}</CardHeader>
                         <CardBody>
                             <AddressForm onChange={setShipping} customer={shipping}/>
-                            <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>Copy Billing</Button>
+                            <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>Copy
+                                Billing</Button>
                         </CardBody>
                     </Card>
                 </TabPane>

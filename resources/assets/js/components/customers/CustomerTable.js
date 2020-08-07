@@ -50,15 +50,16 @@ export default class Customers extends Component {
                                 <label className="name lead">{customer.name}</label>
                                 <br/>
                                 <span className="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title=""
-                                    data-original-title={this.displayCustomerAddress(customer.address)} />
+                                    data-original-title={this.displayCustomerAddress(customer.address)}/>
                                 <span className="text-muted">{this.displayCustomerAddress(customer.address)}</span>
                                 <br/>
                                 <span className="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title=""
-                                    data-original-title={this.displayCustomerPhone(customer.address)} />
-                                <span className="text-muted small">{this.displayCustomerPhone(customer.address)}</span>
+                                    data-original-title={this.displayCustomerPhone(customer.address)}/>
+                                <span
+                                    className="text-muted small">{this.displayCustomerPhone(customer.address)}</span>
                                 <br/>
                                 <span className="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"
-                                    data-original-title="" title="" />
+                                    data-original-title="" title=""/>
                                 <span className="text-muted small text-truncate">{customer.email}</span>
                             </div>
                         </div>

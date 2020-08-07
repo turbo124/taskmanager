@@ -1,16 +1,9 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import Details from './Details'
 import CaseModel from '../models/CaseModel'
-import Comments from '../comments/Comments'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 
@@ -108,7 +101,7 @@ export default class AddCase extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_case} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_case}/>
 
                     <ModalBody>
                         <Nav tabs>
@@ -139,11 +132,12 @@ export default class AddCase extends React.Component {
                                     handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                             </TabPane>
 
-                            <TabPane tabId="2" />
+                            <TabPane tabId="2"/>
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

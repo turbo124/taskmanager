@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader,
-    Collapse,
-    Col,
-    Row, CustomInput
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, Collapse, CustomInput, FormGroup, Input, Label, Row } from 'reactstrap'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import Datepicker from '../common/Datepicker'
@@ -100,7 +90,8 @@ export default class SettingsForm extends React.Component {
                         <Col md={4}>
                             <FormGroup>
                                 <Label for="examplePassword">{translations.date}</Label>
-                                <Datepicker className="form-control" name="payment_date" date={this.props.expense.payment_date}
+                                <Datepicker className="form-control" name="payment_date"
+                                    date={this.props.expense.payment_date}
                                     handleInput={this.props.handleInput}/>
                             </FormGroup>
                         </Col>

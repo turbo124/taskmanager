@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import CalendarEvent from './CalendarEvent'
 
@@ -42,11 +41,11 @@ class CalendarWeekRow extends React.Component {
                             date => date.valueOf() === beginDate.valueOf()
                         ) + 1 || 1
                     const colSpan =
-                            (dates.findIndex(
-                                date => date.valueOf() === endDate.valueOf()
-                            ) + 1 || 7) -
-                            col +
-                            1
+                        (dates.findIndex(
+                            date => date.valueOf() === endDate.valueOf()
+                        ) + 1 || 7) -
+                        col +
+                        1
                     return (
                         <CalendarEvent
                             custom_fields={this.props.custom_fields}

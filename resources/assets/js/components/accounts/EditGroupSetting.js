@@ -1,47 +1,37 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
 import {
+    Card,
+    CardBody,
+    CardHeader,
+    CustomInput,
     DropdownItem,
+    FormGroup,
+    Input,
+    Label,
     Modal,
     ModalBody,
-    ModalHeader,
-    ModalFooter,
-    Button,
-    CustomInput,
-    FormGroup,
-    Label,
-    Card,
-    CardHeader,
-    CardBody,
     Nav,
     NavItem,
     NavLink,
     TabContent,
-    TabPane, Input
+    TabPane
 } from 'reactstrap'
-import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
-import { toast } from 'react-toastify'
 import { consts } from '../common/_consts'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import GroupModel from '../models/GroupModel'
 
 class EditGroupSetting extends Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            id: this.props.group.id,
-            name: this.props.group.name,
-            activeTab: '1',
-            settings: this.props.group.settings,
-            loading: false,
-            changesMade: false,
-            errors: []
-        }
 
-        this.initialState = this.state
+        this.groupModel = new GroupModel(this.props.group)
+        this.initialState = this.groupModel.fields
+        this.state = this.initialState
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -170,7 +160,14 @@ class EditGroupSetting extends Component {
                     value: settings.vat_number,
                     group: 1
                 },
-
+                {
+                    name: 'language_id',
+                    label: translations.language,
+                    type: 'language',
+                    placeholder: translations.language,
+                    value: settings.language_id,
+                    group: 3
+                },
                 {
                     name: 'currency_id',
                     label: translations.currency,
@@ -721,29 +718,26 @@ class EditGroupSetting extends Component {
     }
 
     handleClick () {
-        const formData = new FormData()
-        formData.append('name', this.state.name)
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('company_logo', this.state.company_logo)
-        formData.append('_method', 'PUT')
+        const formData = {
+            name: this.state.name,
+            settings: this.state.settings
+        }
 
-        axios.post(`/api/groups/${this.state.id}`, formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        this.groupModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.groupModel.errors, message: this.groupModel.error_message })
+                return
             }
+
+            const index = this.props.groups.findIndex(group => group.id === this.state.id)
+            this.props.groups[index] = response
+            this.props.action(this.props.groups)
+            this.setState({
+                editMode: false,
+                changesMade: false
+            })
+            this.toggle()
         })
-            .then((response) => {
-                const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index].name = this.state.name
-                this.props.action(this.props.groups)
-                this.setState({ changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
@@ -766,7 +760,7 @@ class EditGroupSetting extends Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_group} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_group}/>
                     <ModalBody>
                         <Nav tabs className="nav-justified disable-scrollbars">
                             <NavItem>
@@ -787,15 +781,15 @@ class EditGroupSetting extends Component {
                                     {translations.address}
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('3')
-                                    }}>
-                                    {translations.logo}
-                                </NavLink>
-                            </NavItem>
+                            {/* <NavItem> */}
+                            {/*    <NavLink */}
+                            {/*        className={this.state.activeTab === '3' ? 'active' : ''} */}
+                            {/*        onClick={() => { */}
+                            {/*            this.toggleTab('3') */}
+                            {/*        }}> */}
+                            {/*        {translations.logo} */}
+                            {/*    </NavLink> */}
+                            {/* </NavItem> */}
 
                             <NavItem>
                                 <NavLink
@@ -875,7 +869,8 @@ class EditGroupSetting extends Component {
                                     <CardBody>
                                         <FormGroup>
                                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
-                                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
+                                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                                type="text" name="name"
                                                 id="name" value={this.state.name} placeholder={translations.name}
                                                 onChange={this.handleInput.bind(this)}/>
                                             {this.renderErrorFor('name')}
@@ -906,7 +901,8 @@ class EditGroupSetting extends Component {
                                         <FormGroup>
 
                                             <Label>{translations.logo}</Label>
-                                            <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                            <CustomInput className="mt-4 mb-4"
+                                                onChange={this.handleFileChange.bind(this)}
                                                 type="file"
                                                 id="company_logo" name="company_logo"
                                                 label="Logo"/>
@@ -1022,7 +1018,8 @@ class EditGroupSetting extends Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

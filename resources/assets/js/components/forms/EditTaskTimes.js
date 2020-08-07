@@ -1,15 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import {
-    Button,
-    FormGroup,
-    Input,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
@@ -114,7 +106,7 @@ class EditTaskTimes extends Component {
 
                     {time.end_time && <small>{model.calculateDuration(time.start_time, time.end_time)}</small>}
 
-                    {!time.end_time.length && <ElapsedTime date={time.date} currentStartTime={time.start_time} />}
+                    {!time.end_time.length && <ElapsedTime date={time.date} currentStartTime={time.start_time}/>}
 
                     <i onClick={() => this.handleSlideClick(index)} className="fa fa-arrow-right"/>
                 </div>

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Button } from 'reactstrap'
 import ViewTask from './ViewTask'
 import Avatar from '../common/Avatar'
 import axios from 'axios'

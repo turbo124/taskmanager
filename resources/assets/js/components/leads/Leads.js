@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import AddLead from './AddLeadForm'
 import DataTable from '../common/DataTable'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import LeadFilters from './LeadFilters'
 import LeadItem from './LeadItem'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -154,7 +151,8 @@ export default class Leads extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <LeadFilters setFilterOpen={this.setFilterOpen.bind(this)} leads={leads} updateIgnoredColumns={this.updateIgnoredColumns}
+                                <LeadFilters setFilterOpen={this.setFilterOpen.bind(this)} leads={leads}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterLeads}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 <AddLead users={users} leads={leads} action={this.addUserToState}
@@ -164,11 +162,11 @@ export default class Leads extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

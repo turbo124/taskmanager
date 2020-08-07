@@ -21,10 +21,7 @@ import {
     Table
 } from 'reactstrap'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
-import {
-    getStyle,
-    hexToRgba
-} from '@coreui/coreui/dist/js/coreui-utilities'
+import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 import axios from 'axios'
 import config from '../../config'
 

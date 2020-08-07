@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardBody } from 'reactstrap'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 import FileUploads from '../attachments/FileUploads'
 import { translations } from '../common/_translations'
 

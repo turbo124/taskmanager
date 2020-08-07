@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane,
-    Row,
-    ListGroup, Col, Card, CardHeader, CardBody
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'

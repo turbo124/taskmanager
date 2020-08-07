@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import {
     Alert,
-    Row,
-    ListGroupItemText,
-    ListGroupItemHeading,
+    ListGroup,
     ListGroupItem,
-    ListGroup, NavLink, NavItem, Nav, TabContent, TabPane
+    ListGroupItemHeading,
+    ListGroupItemText,
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import PaymentPresenter from '../presenters/PaymentPresenter'
 import FormatMoney from '../common/FormatMoney'
@@ -157,12 +162,14 @@ export default class Payment extends Component {
                 }
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.toggleTab('2')
-                    }} label={translations.refund} value={translations.refund} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('archive')
-                    }} label={translations.archive} value={translations.archive} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.toggleTab('2')
+                        }} label={translations.refund} value={translations.refund}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('archive')
+                        }} label={translations.archive} value={translations.archive}/>
                 </BottomNavigation>
             </React.Fragment>
         )

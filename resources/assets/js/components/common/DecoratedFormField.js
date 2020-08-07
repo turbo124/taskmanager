@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Input
-} from 'reactstrap'
+import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 export default class DecoratedFormField extends Component {
     render () {

@@ -46,26 +46,31 @@ export default class AttributeItem extends Component {
                     action={this.props.addUserToState}
                 /> : null
 
-                const attribute_values = Array.prototype.map.call(attribute.values, function (item) { return item.value }).join(',')
+                const attribute_values = Array.prototype.map.call(attribute.values, function (item) {
+                    return item.value
+                }).join(',')
 
                 console.log('attributes', attribute_values)
 
                 const columnList = Object.keys(attribute).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td onClick={() => this.props.toggleViewedEntity(attribute, attribute.name)} data-label={key}
+                    return <td onClick={() => this.props.toggleViewedEntity(attribute, attribute.name)}
+                        data-label={key}
                         key={key}>{key === 'name' ? `${attribute[key]} (${attribute_values})` : attribute[key]}</td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(attribute.id)
                 const selectedRow = this.props.viewId === attribute.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                    restore={restoreButton}/> : null
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={attribute.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={attribute.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={attribute.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}

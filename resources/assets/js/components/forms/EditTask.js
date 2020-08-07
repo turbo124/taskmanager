@@ -3,18 +3,21 @@ import 'react-dates/initialize' // necessary for latest version
 import 'react-dates/lib/css/_datepicker.css'
 import { DateRangePicker } from 'react-dates'
 import {
-    Card, CardBody,
-    CardHeader, Button,
-    Modal, ModalHeader, ModalBody, ModalFooter, Nav,
+    Card,
+    CardBody,
+    CardHeader,
+    DropdownItem,
+    FormGroup,
+    Label,
+    Modal,
+    ModalBody,
+    Nav,
     NavItem,
     NavLink,
     TabContent,
-    TabPane,
-    DropdownItem,
-    FormGroup, Label
+    TabPane
 } from 'reactstrap'
 import AddLead from './AddLead'
-import 'react-dates/initialize' // necessary for latest version
 import moment from 'moment'
 import EditTaskTimes from './EditTaskTimes'
 import TaskDropdownMenu from './TaskDropdownMenu'
@@ -200,7 +203,8 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>Details</CardHeader>
                         <CardBody>
-                            <TaskDetails task={this.state} setTimeRange={this.setTimeRange} customers={this.props.customers}
+                            <TaskDetails task={this.state} setTimeRange={this.setTimeRange}
+                                customers={this.props.customers}
                                 errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
                                 users={this.props.users} handleInput={this.handleChange}/>
 
@@ -239,7 +243,8 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>Details</CardHeader>
                         <CardBody>
-                            <EditTaskTimes timers={this.props.task.timers} model={this.taskModel} task_id={this.props.task.id}/>
+                            <EditTaskTimes timers={this.props.task.timers} model={this.taskModel}
+                                task_id={this.props.task.id}/>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -254,12 +259,13 @@ class EditTask extends Component {
             ? <React.Fragment>
                 {button}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_task} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_task}/>
 
                     <ModalBody>
                         {form}
                     </ModalBody>
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment> : form

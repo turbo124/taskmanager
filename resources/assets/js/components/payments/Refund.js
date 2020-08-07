@@ -1,7 +1,16 @@
 import React from 'react'
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, InputGroup,
-    InputGroupAddon, InputGroupText, DropdownItem, FormGroup, Card, CardBody
+    Card,
+    CardBody,
+    DropdownItem,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
+    Label,
+    Modal,
+    ModalBody
 } from 'reactstrap'
 import axios from 'axios'
 import InvoiceLine from './InvoiceLine'
@@ -206,7 +215,7 @@ class Refund extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.refund}`}/>{translations.refund}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.refund} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.refund}/>
 
                     <ModalBody>
 
@@ -217,7 +226,8 @@ class Refund extends React.Component {
                         {this.getForm()}
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

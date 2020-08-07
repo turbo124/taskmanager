@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Alert, Card, CardBody, NavLink, Nav, NavItem, TabContent, TabPane } from 'reactstrap'
+import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { credit_pdf_fields } from '../models/CreditModel'
 import { quote_pdf_fields } from '../models/QuoteModel'
@@ -342,7 +342,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="3" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="client_details" columns={this.getCustomerFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="client_details" columns={this.getCustomerFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -351,7 +352,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="4" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="company_details" columns={this.getAccountFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="company_details" columns={this.getAccountFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -360,7 +362,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="5" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="invoice_details" columns={this.getInvoiceFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="invoice_details" columns={this.getInvoiceFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -369,7 +372,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="6" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="quote_details" columns={this.getQuoteFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="quote_details" columns={this.getQuoteFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -378,7 +382,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="7" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="credit_details" columns={this.getCreditFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="credit_details" columns={this.getCreditFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -387,7 +392,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="8" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="product_columns" columns={this.getProductFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="product_columns" columns={this.getProductFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -396,7 +402,8 @@ class InvoiceSettings extends Component {
                     <TabPane tabId="9" className="px-0">
                         <Card className="border-0">
                             <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings} section="task_columns" columns={this.getTaskFields()}
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="task_columns" columns={this.getTaskFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>

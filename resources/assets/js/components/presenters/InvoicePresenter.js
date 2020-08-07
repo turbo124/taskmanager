@@ -46,7 +46,8 @@ export default function InvoicePresenter (props) {
         case 'tax_total':
         case 'sub_total':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/></td>
+                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
+            </td>
         case 'status_field':
             return status
         case 'date':

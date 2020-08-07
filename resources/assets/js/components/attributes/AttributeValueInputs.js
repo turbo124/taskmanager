@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 
 const AttributeValueInputs = (props) => {
     return (

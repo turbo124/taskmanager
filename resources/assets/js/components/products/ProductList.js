@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import AddProduct from './AddProduct'
 import DataTable from '../common/DataTable'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ProductItem from './ProductItem'
 import ProductFilters from './ProductFilters'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -189,7 +186,8 @@ export default class ProductList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ProductFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies} products={products}
+                                <ProductFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies}
+                                    products={products}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterProducts}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -199,11 +197,11 @@ export default class ProductList extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Col, Row
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import CustomerDropdown from '../common/CustomerDropdown'
 import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import { translations } from '../common/_translations'
-import { consts } from '../common/_consts'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class RecurringInvoiceFilters extends Component {
@@ -98,7 +94,7 @@ export default class RecurringInvoiceFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterInvoices} />
+                        <DateFilter onChange={this.filterInvoices}/>
                     </FormGroup>
                 </Col>
             </Row>

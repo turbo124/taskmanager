@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AddGateway from './AddGateway'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import GatewayFilters from './GatewayFilters'
 import GatewayItem from './GatewayItem'
@@ -112,11 +112,11 @@ export default class Gateways extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Row, Col
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import CustomerDropdown from '../common/CustomerDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
 import StatusDropdown from '../common/StatusDropdown'
 
@@ -107,7 +104,7 @@ export default class ExpenseFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterExpenses} />
+                        <DateFilter onChange={this.filterExpenses}/>
                     </FormGroup>
                 </Col>
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Col, Row
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import CategoryDropdown from '../common/CategoryDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import TableSearch from '../common/TableSearch'
@@ -104,7 +102,7 @@ export default class ProductFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterProducts} />
+                        <DateFilter onChange={this.filterProducts}/>
                     </FormGroup>
                 </Col>
             </Row>

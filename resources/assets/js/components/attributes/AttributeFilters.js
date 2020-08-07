@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Row, Col
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
@@ -73,7 +71,7 @@ export default class AttributeFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterAttributes} />
+                        <DateFilter onChange={this.filterAttributes}/>
                     </FormGroup>
                 </Col>
             </Row>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
 import {
+    Alert,
     Card,
     CardBody,
     CustomInput,
@@ -10,8 +11,7 @@ import {
     NavItem,
     NavLink,
     TabContent,
-    TabPane,
-    Alert
+    TabPane
 } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'

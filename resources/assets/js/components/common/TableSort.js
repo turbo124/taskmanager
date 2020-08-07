@@ -38,7 +38,7 @@ export default class TableSort extends Component {
 
         return (<thead>
             <tr>
-                <th />
+                <th/>
                 {tableHeads}
             </tr>
         </thead>)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddToken from './AddToken'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import TokenFilters from './TokenFilters'
 import TokenItem from './TokenItem'
@@ -116,11 +116,11 @@ export default class Tokens extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

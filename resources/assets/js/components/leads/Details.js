@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Input, Label, CardHeader, Card, CardBody } from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import UserDropdown from '../common/UserDropdown'
 import { translations } from '../common/_translations'
 
@@ -39,7 +39,8 @@ export default class Details extends React.Component {
         return (
             <FormGroup>
                 <Label for="source_type">Source Type:</Label>
-                <Input value={this.props.lead.source_type} className={this.hasErrorFor('source_type') ? 'is-invalid' : ''} type="select"
+                <Input value={this.props.lead.source_type}
+                    className={this.hasErrorFor('source_type') ? 'is-invalid' : ''} type="select"
                     name="source_type" id="source_type" onChange={this.props.handleInputChanges}>
                     <option value="">Choose:</option>
                     {sourceTypeContent}
@@ -87,7 +88,8 @@ export default class Details extends React.Component {
                         </FormGroup>
 
                         <UserDropdown handleInputChanges={this.props.handleInputChanges}
-                            user_id={this.props.lead.assigned_to} name="assigned_to" users={this.props.users}/>
+                            user_id={this.props.lead.assigned_to} name="assigned_to"
+                            users={this.props.users}/>
 
                         {sourceTypeOptions}
                     </CardBody>

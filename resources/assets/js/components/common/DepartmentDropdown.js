@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 
 export default class DepartmentDropdown extends Component {
     constructor (props) {

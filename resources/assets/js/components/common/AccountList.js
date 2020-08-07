@@ -58,7 +58,8 @@ export default class AccountList extends Component {
         return (
             <React.Fragment>
                 <FormGroup style={{ width: '90%' }} className="mt-1 ml-2">
-                    <Input value={this.state.account_id} type="select" onChange={this.handleChange} name="account_id" id="account_id">
+                    <Input value={this.state.account_id} type="select" onChange={this.handleChange} name="account_id"
+                        id="account_id">
                         {columnList}
                         <option value="add">Add Account</option>
                     </Input>

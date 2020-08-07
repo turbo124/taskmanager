@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Label, Input, Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import TaxRateDropdown from '../common/TaxRateDropdown'
 import DesignDropdown from '../common/DesignDropdown'
 import { translations } from './_translations'
@@ -14,13 +14,15 @@ export default function InvoiceSettings (props) {
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.transaction_fee}</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="transaction_fee" id="transaction_fee" value={props.settings.transaction_fee} />
+                            <Input onChange={props.handleSurcharge} type="text" name="transaction_fee"
+                                id="transaction_fee" value={props.settings.transaction_fee}/>
                         </FormGroup>
                     </Col>
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.shipping_cost}</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="shipping_cost" id="shipping_cost" value={props.settings.shipping_cost} />
+                            <Input onChange={props.handleSurcharge} type="text" name="shipping_cost" id="shipping_cost"
+                                value={props.settings.shipping_cost}/>
                         </FormGroup>
                         {/* <FormGroup check> */}
                         {/*    <Label check for="examplePassword"> */}
@@ -35,14 +37,16 @@ export default function InvoiceSettings (props) {
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.gateway_fee}</Label>
-                            <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee" value={props.settings.gateway_fee} />
+                            <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee"
+                                value={props.settings.gateway_fee}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={6}>
                         <FormGroup check>
                             <Label check for="examplePassword">
-                                <Input onChange={props.handleSurcharge} type="checkbox" name="gateway_percentage" id="examplePassword" checked={props.settings.gateway_percentage} />
+                                <Input onChange={props.handleSurcharge} type="checkbox" name="gateway_percentage"
+                                    id="examplePassword" checked={props.settings.gateway_percentage}/>
                                 {translations.is_percentage}
                             </Label>
                         </FormGroup>

@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Button,
-    UncontrolledTooltip,
     ListGroup,
     ListGroupItem,
-    Badge
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    UncontrolledTooltip
 } from 'reactstrap'
 import axios from 'axios'
 import { translations } from './_translations'
@@ -91,7 +90,13 @@ export default class AboutModal extends Component {
                 </UncontrolledTooltip>
 
                 <i id="contactTooltip" onClick={this.toggle}
-                    style={{ marginLeft: '12px', marginRight: 'auto', color: '#fff', fontSize: '20px', cursor: 'pointer' }}
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: 'auto',
+                        color: '#fff',
+                        fontSize: '20px',
+                        cursor: 'pointer'
+                    }}
                     className="fa fa-question-circle"/>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
@@ -105,15 +110,16 @@ export default class AboutModal extends Component {
                         </div>
 
                         {Object.keys(this.state.health_check).length &&
-                            <div className="col-8">
-                                <ListGroup className="mt-2 mb-2">
-                                    {Object.keys(this.state.health_check).map((index) => {
-                                        const icon = this.state.health_check[index] === true ? 'text-success fa-check' : 'text-danger fa-times-circle'
-                                        return <ListGroupItem
-                                            className="list-group-item-dark d-flex justify-content-between align-items-center">{index} <i style={{ fontSize: '20px' }} className={`fa ${icon}`} /></ListGroupItem>
-                                    })}
-                                </ListGroup>
-                            </div>
+                        <div className="col-8">
+                            <ListGroup className="mt-2 mb-2">
+                                {Object.keys(this.state.health_check).map((index) => {
+                                    const icon = this.state.health_check[index] === true ? 'text-success fa-check' : 'text-danger fa-times-circle'
+                                    return <ListGroupItem
+                                        className="list-group-item-dark d-flex justify-content-between align-items-center">{index}
+                                        <i style={{ fontSize: '20px' }} className={`fa ${icon}`}/></ListGroupItem>
+                                })}
+                            </ListGroup>
+                        </div>
 
                         }
 

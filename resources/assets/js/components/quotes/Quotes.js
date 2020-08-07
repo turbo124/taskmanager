@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import EditQuote from './EditQuote'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import QuoteItem from './QuoteItem'
 import QuoteFilters from './QuoteFilters'
@@ -136,7 +133,8 @@ export default class Quotes extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <QuoteFilters setFilterOpen={this.setFilterOpen.bind(this)} quotes={quotes} customers={customers}
+                                <QuoteFilters setFilterOpen={this.setFilterOpen.bind(this)} quotes={quotes}
+                                    customers={customers}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -146,11 +144,11 @@ export default class Quotes extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

@@ -276,6 +276,7 @@ Route::group(
             'AccountController@saveCustomFields'
         )->middleware('role:null,invoicecontroller.store');
         Route::put('accounts/{id}', 'AccountController@update')->middleware('role:null,invoicecontroller.store');
+        Route::get('accounts/refresh', 'AccountController@refresh');
         Route::get(
             'accounts/fields/getAllCustomFields',
             'AccountController@getAllCustomFields'
@@ -285,6 +286,7 @@ Route::group(
         Route::get('accounts/{id}', 'AccountController@show');
         Route::get('dates', 'AccountController@getDateFormats');
         Route::delete('account/{account_id}', 'AccountController@destroy');
+
 
         // email
         Route::post('emails', 'EmailController@send')->name('email.send');

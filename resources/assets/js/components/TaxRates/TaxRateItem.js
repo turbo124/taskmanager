@@ -61,12 +61,14 @@ export default class TaxRateItem extends Component {
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(taxRate.id)
                 const selectedRow = this.props.viewId === taxRate.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                    restore={restoreButton}/> : null
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={taxRate.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox" onChange={this.props.onChangeBulk} />
+                        <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}

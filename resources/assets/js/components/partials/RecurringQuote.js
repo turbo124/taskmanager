@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import FileUploads from '../attachments/FileUploads'
 import {
-    TabContent,
-    TabPane,
-    Nav,
     Alert,
-    NavItem,
-    NavLink,
-    Row,
     Card,
+    CardBody,
     CardHeader,
+    Col,
     ListGroup,
     ListGroupItem,
     ListGroupItemHeading,
-    Col,
-    CardBody
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
 } from 'reactstrap'
 import RecurringQuotePresenter from '../presenters/RecurringQuotePresenter'
 import FormatDate from '../common/FormatDate'
@@ -214,12 +214,15 @@ export default class RecurringQuote extends Component {
                 }
 
                 <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.toggleTab('3')
-                    }} label={translations.view_pdf} value={translations.view_pdf} />
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white" onClick={() => {
-                        this.triggerAction('clone_to_invoice')
-                    }} label={translations.clone_to_invoice} value={translations.clone_to_invoice} />
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.toggleTab('3')
+                        }} label={translations.view_pdf} value={translations.view_pdf}/>
+                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
+                        onClick={() => {
+                            this.triggerAction('clone_to_invoice')
+                        }} label={translations.clone_to_invoice}
+                        value={translations.clone_to_invoice}/>
                 </BottomNavigation>
 
             </React.Fragment>

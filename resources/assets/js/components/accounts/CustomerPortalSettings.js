@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Alert, Card, CardBody, NavLink, Nav, NavItem, TabContent, TabPane, ListGroup } from 'reactstrap'
+import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import { icons } from '../common/_icons'

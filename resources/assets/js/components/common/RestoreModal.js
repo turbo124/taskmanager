@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem } from 'reactstrap'
+import { Button, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import axios from 'axios'
 import { icons } from './_icons'
 

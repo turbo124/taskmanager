@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
+import { DropdownItem, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -85,7 +85,7 @@ class EditPaymentTerm extends React.Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_payment_term} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_payment_term}/>
 
                     <ModalBody>
                         <FormGroup>
@@ -100,15 +100,19 @@ class EditPaymentTerm extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="name">{translations.number_of_days} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="number_of_days"
-                                id="number_of_days" value={this.state.number_of_days} placeholder={translations.number_of_days}
+                            <Label for="name">{translations.number_of_days} <span
+                                className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text"
+                                name="number_of_days"
+                                id="number_of_days" value={this.state.number_of_days}
+                                placeholder={translations.number_of_days}
                                 onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('number_of_days')}
                         </FormGroup>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

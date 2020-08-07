@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, DropdownItem } from 'reactstrap'
+import { DropdownItem, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
@@ -92,7 +92,7 @@ export default class EditAttribute extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_attribute}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_attribute} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_attribute}/>
 
                     <ModalBody>
                         <FormGroup>
@@ -109,7 +109,8 @@ export default class EditAttribute extends React.Component {
                         <AttributeValues values={this.state.values} onChange={this.handleVariations}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

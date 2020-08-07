@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Label } from 'reactstrap'
 import CurrencyDropdown from '../common/CurrencyDropdown'
 import IndustryDropdown from '../common/IndustryDropdown'
 import UserDropdown from '../common/UserDropdown'
@@ -14,8 +8,7 @@ import { translations } from '../common/_translations'
 export default class SettingsForm extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-        }
+        this.state = {}
     }
 
     hasErrorFor (field) {

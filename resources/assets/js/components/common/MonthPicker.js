@@ -9,7 +9,10 @@ export default class MonthPicker extends Component {
         this.state = {
             mvalue: { year: 2014, month: 11 },
             mvalue2: { year: 2016, month: 7 },
-            mrange: { from: { year: this.props.start_year, month: this.props.start_month }, to: { year: this.props.end_year, month: this.props.end_month } },
+            mrange: {
+                from: { year: this.props.start_year, month: this.props.start_month },
+                to: { year: this.props.end_year, month: this.props.end_month }
+            },
             mrange2: { from: { year: 2013, month: 11 }, to: { year: 2016, month: 3 } }
         }
 

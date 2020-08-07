@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import { Card, CardBody } from 'reactstrap'
 
 class ChatMessage extends Component {
     outgoingMessage (message, formattedDate) {

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Input, FormGroup, Label, CustomInput
-} from 'reactstrap'
+import { CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 
 export default class Details extends Component {

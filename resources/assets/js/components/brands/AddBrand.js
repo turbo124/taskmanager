@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
@@ -90,14 +90,15 @@ class AddBrand extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_brand} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_brand}/>
 
                     <ModalBody>
                         <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
                             renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

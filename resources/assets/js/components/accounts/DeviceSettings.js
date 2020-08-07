@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, FormGroup, Label, Alert, Row } from 'reactstrap'
+import { Alert, Button, Card, CardBody, FormGroup, Label, Row } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -21,6 +21,7 @@ export default class DeviceSettings extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleHeaderColor = this.handleHeaderColor.bind(this)
         this.handleFooterColor = this.handleFooterColor.bind(this)
+        this.refresh = this.refresh.bind(this)
     }
 
     componentDidMount () {
@@ -79,6 +80,34 @@ export default class DeviceSettings extends Component {
         }
 
         localStorage.setItem('device_settings', JSON.stringify(device_settings))
+    }
+
+    refresh () {
+        axios.get('/api/accounts/refresh')
+            .then((response) => {
+                if (response.data.success === true) {
+                    const userData = {
+                        name: response.data.data.name,
+                        id: response.data.data.id,
+                        email: response.data.data.email,
+                        account_id: response.data.data.account_id,
+                        auth_token: response.data.data.auth_token,
+                        timestamp: new Date().toString()
+                    }
+
+                    const appState = {
+                        isLoggedIn: true,
+                        user: userData,
+                        accounts: response.data.data.accounts
+                    }
+
+                    // save app state with user date in local storage
+                    localStorage.appState = JSON.stringify(appState)
+                    localStorage.setItem('account_id', response.data.data.account_id)
+                    localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
+                    localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
+                }
+            })
     }
 
     handleSettingsChange (event) {
@@ -170,7 +199,9 @@ export default class DeviceSettings extends Component {
                                 <div className="col-4 d-flex justify-content-between align-items-center">
                                     {colors.map((color, idx) => {
                                         const selected = color.value === header_background_color ? 'border border-danger' : ''
-                                        return <span style={{ borderWidth: '3px !important' }} data-text={color.text_color} data-name={color.value} onClick={this.handleHeaderColor}
+                                        return <span style={{ borderWidth: '3px !important' }}
+                                            data-text={color.text_color} data-name={color.value}
+                                            onClick={this.handleHeaderColor}
                                             className={`${color.value} ${color.text_color} p-1 m-1 ${selected}`}>{color.label}</span>
                                     })}
                                 </div>
@@ -183,13 +214,21 @@ export default class DeviceSettings extends Component {
                                 <div className="col-4 d-flex justify-content-between align-items-center">
                                     {colors.map((color, idx) => {
                                         const selected = color.value === header_background_color ? 'border border-danger' : ''
-                                        return <span style={{ borderWidth: '3px !important' }} data-text={color.text_color} data-name={color.value} onClick={this.handleFooterColor}
+                                        return <span style={{ borderWidth: '3px !important' }}
+                                            data-text={color.text_color} data-name={color.value}
+                                            onClick={this.handleFooterColor}
                                             className={`${color.value} ${color.text_color} p-1 m-1 ${selected}`}>{color.label}</span>
                                     })}
                                 </div>
                             </FormGroup>
                         </Row>
 
+                    </CardBody>
+                </Card>
+
+                <Card>
+                    <CardBody>
+                        <Button onClick={this.refresh} color="primary" block>Refresh</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>

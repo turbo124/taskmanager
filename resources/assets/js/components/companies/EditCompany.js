@@ -1,19 +1,16 @@
 import React from 'react'
 import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Card,
     CardBody,
     CardHeader,
+    DropdownItem,
+    Modal,
+    ModalBody,
     Nav,
     NavItem,
     NavLink,
     TabContent,
-    TabPane,
-    DropdownItem
+    TabPane
 } from 'reactstrap'
 import Contact from '../common/Contact'
 import SuccessMessage from '../common/SucessMessage'
@@ -144,7 +141,7 @@ class EditCompany extends React.Component {
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_company} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_company}/>
 
                     <ModalBody>
 
@@ -199,7 +196,8 @@ class EditCompany extends React.Component {
                                     company={this.state}
                                     handleFileChange={this.handleFileChange}/>
 
-                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                <CustomFieldsForm handleInput={this.handleInput}
+                                    custom_value1={this.state.custom_value1}
                                     custom_value2={this.state.custom_value2}
                                     custom_value3={this.state.custom_value3}
                                     custom_value4={this.state.custom_value4}
@@ -221,7 +219,7 @@ class EditCompany extends React.Component {
                             <TabPane tabId="3">
                                 <AddressForm errors={this.state.errors}
                                     handleInput={this.handleInput}
-                                    company={this.state} />
+                                    company={this.state}/>
                             </TabPane>
 
                             <TabPane tabId="4">
@@ -235,7 +233,8 @@ class EditCompany extends React.Component {
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

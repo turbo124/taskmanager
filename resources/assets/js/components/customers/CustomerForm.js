@@ -1,8 +1,5 @@
 import React from 'react'
-import { FormGroup, Label, Input } from 'reactstrap'
-import {
-    Card, CardBody, CardHeader
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 
 export default function CustomerForm (props) {

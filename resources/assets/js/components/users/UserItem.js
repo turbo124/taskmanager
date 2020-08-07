@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {
-    Input
-} from 'reactstrap'
+import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -62,12 +60,14 @@ export default class UserItem extends Component {
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(user.id)
                 const selectedRow = this.props.viewId === user.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                    restore={restoreButton}/> : null
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={user.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}

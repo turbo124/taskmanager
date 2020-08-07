@@ -1,14 +1,7 @@
 import React from 'react'
-import {
-    Card,
-    CardBody,
-    CardHeader, Col,
-    FormGroup,
-    Row
-} from 'reactstrap'
+import { Card, CardBody } from 'reactstrap'
 import { translations } from '../common/_translations'
 import FormBuilder from '../accounts/FormBuilder'
-import Checkbox from '../common/Checkbox'
 
 export default class FeesAndLimits extends React.Component {
     constructor (props) {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input, Table } from 'reactstrap'
+import { Input } from 'reactstrap'
 
 export default class Directory extends Component {
     constructor (props) {

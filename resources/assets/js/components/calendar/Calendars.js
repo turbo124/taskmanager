@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Calendar from './Calendar'
 import axios from 'axios'
-import { Card, CardHeader, CardBody, FormGroup } from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup } from 'reactstrap'
 import WeekCalendar from './WeekCalendar'
 import CalendarEvent from './CalendarEvent'
 import CreateEvent from './CreateEvent'
@@ -182,7 +182,8 @@ class Calendars extends React.Component {
             <div>
                 <Card>
                     <CardHeader>
-                        <h2>Calendar</h2> <a data-type="week" onClick={this.setCalendarType.bind(this)}> Week </a> | <a
+                        <h2>Calendar</h2> <a data-type="week"
+                            onClick={this.setCalendarType.bind(this)}> Week </a> | <a
                             data-type="month" onClick={this.setCalendarType.bind(this)}> Month </a>
 
                         <CalendarFilter events={events}

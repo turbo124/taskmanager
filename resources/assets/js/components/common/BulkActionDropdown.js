@@ -26,9 +26,11 @@ export default class BulkActionDropdown extends Component {
                     Bulk Actions
                 </UncontrolledTooltip>
 
-                <ButtonDropdown className="mr-2" isOpen={this.state.dropdownButtonOpen} toggle={this.toggleDropdownButton}>
+                <ButtonDropdown className="mr-2" isOpen={this.state.dropdownButtonOpen}
+                    toggle={this.toggleDropdownButton}>
                     <DropdownToggle caret color="primary">
-                        <i id="bulkActionTooltip" className={`fa ${icons.ellipsis}`} aria-hidden="true" type="ellipsis"/> Bulk Action
+                        <i id="bulkActionTooltip" className={`fa ${icons.ellipsis}`} aria-hidden="true"
+                            type="ellipsis"/> Bulk Action
                     </DropdownToggle>
                     <DropdownMenu className="bulk-options-menu">
                         {this.props.dropdownButtonActions.map(e => {
@@ -39,7 +41,8 @@ export default class BulkActionDropdown extends Component {
                                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
                                 }
                             )
-                            return <DropdownItem id={e} key={e} onClick={this.props.saveBulk}>{column_name}</DropdownItem>
+                            return <DropdownItem id={e} key={e}
+                                onClick={this.props.saveBulk}>{column_name}</DropdownItem>
                         })}
                     </DropdownMenu>
                 </ButtonDropdown>

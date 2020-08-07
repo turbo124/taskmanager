@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader, Row, Col
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import UserDropdown from '../common/UserDropdown'
 import CompanyDropdown from '../common/CompanyDropdown'
 import CategoryDropdown from '../common/CategoryDropdown'

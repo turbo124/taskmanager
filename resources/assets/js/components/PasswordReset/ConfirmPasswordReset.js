@@ -1,14 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup,
-    Input,
-    Label,
-    Card,
-    CardHeader,
-    CardBody,
-    Button,
-    Form
-} from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Form, FormGroup, Input, Label } from 'reactstrap'
 
 import './PasswordReset.css'
 import axios from 'axios'
@@ -80,7 +71,7 @@ export default class ResetPassword extends Component {
     renderConfirmationForm () {
         return (
             <div className="col-md-6 offset-md-3">
-                <span className="anchor" id="formResetPassword" />
+                <span className="anchor" id="formResetPassword"/>
 
                 <Card>
                     <CardHeader>
@@ -93,7 +84,7 @@ export default class ResetPassword extends Component {
                             {this.renderErrorMessage()}
                             {this.renderSuccessMessage()}
 
-                            <h3><i className="fa fa-lock fa-4x" /></h3>
+                            <h3><i className="fa fa-lock fa-4x"/></h3>
                             <h2 className="text-center">Reset Password</h2>
                             <p>You can reset your password here.</p>
 

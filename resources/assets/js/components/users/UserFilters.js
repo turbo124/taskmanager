@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    FormGroup, Input, Row, Col
-} from 'reactstrap'
+import { Col, FormGroup, Row } from 'reactstrap'
 import DepartmentDropdown from '../common/DepartmentDropdown'
 import RoleDropdown from '../common/RoleDropdown'
 import TableSearch from '../common/TableSearch'
@@ -103,7 +101,7 @@ export default class UserFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterUsers} />
+                        <DateFilter onChange={this.filterUsers}/>
                     </FormGroup>
                 </Col>
             </Row>

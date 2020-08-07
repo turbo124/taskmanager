@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {
-    Input
-} from 'reactstrap'
+import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -60,19 +58,22 @@ export default class ProjectItem extends Component {
                 const columnList = Object.keys(project).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ProjectPresenter key={key} customers={this.props.customers} toggleViewedEntity={this.props.toggleViewedEntity}
+                    return <ProjectPresenter key={key} customers={this.props.customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={project}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(project.id)
                 const selectedRow = this.props.viewId === project.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                    restore={restoreButton}/> : null
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={project.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox" onChange={this.props.onChangeBulk}/>
+                        <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}

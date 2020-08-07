@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    FormGroup, Input, Label, Card, CardBody
-} from 'reactstrap'
+import { Card, CardBody, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 import Config from './Config'
 
@@ -33,15 +31,15 @@ export default class Details extends React.Component {
             <Card>
                 <CardBody>
                     {!this.props.is_edit &&
-                   <FormGroup>
-                       <Label for="name">{translations.provider} <span className="text-danger">*</span></Label>
-                       <Input value={this.props.gateway.gateway_key} onChange={this.props.handleInput} type="select"
-                           name="gateway_key" id="gateway_key">
-                           <option value="">{translations.select_option}</option>
-                           {options}
-                       </Input>
-                       {this.props.renderErrorFor('name')}
-                   </FormGroup>
+                    <FormGroup>
+                        <Label for="name">{translations.provider} <span className="text-danger">*</span></Label>
+                        <Input value={this.props.gateway.gateway_key} onChange={this.props.handleInput} type="select"
+                            name="gateway_key" id="gateway_key">
+                            <option value="">{translations.select_option}</option>
+                            {options}
+                        </Input>
+                        {this.props.renderErrorFor('name')}
+                    </FormGroup>
                     }
 
                     <Config gateway={this.props.gateway} handleConfig={this.props.handleConfig}/>

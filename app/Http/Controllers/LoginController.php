@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountUser;
 use App\Models\CompanyToken;
+use App\Models\Currency;
+use App\Models\Language;
 use App\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -84,7 +86,9 @@ class LoginController extends Controller
                     'auth_token' => $user->auth_token,
                     'name'       => $user->name,
                     'email'      => $user->email,
-                    'accounts'   => $accounts
+                    'accounts'   => $accounts,
+                    'currencies' => Currency::all()->toArray(),
+                    'languages' => Language::all()->toArray()
                 ]
             ];
 

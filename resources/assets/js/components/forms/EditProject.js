@@ -1,8 +1,15 @@
 import React from 'react'
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Dropdown,
+    Button,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
     DropdownToggle,
-    DropdownMenu, DropdownItem
+    FormGroup,
+    Input,
+    Label,
+    Modal,
+    ModalBody
 } from 'reactstrap'
 import axios from 'axios'
 import CustomerDropdown from '../common/CustomerDropdown'
@@ -152,16 +159,20 @@ class EditProject extends React.Component {
             Email</DropdownItem>
 
         const deleteButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
 
         const archiveButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
 
         const cloneButton =
-            <DropdownItem className="primary" onClick={() => this.changeStatus('clone_to_project')}>Clone</DropdownItem>
+            <DropdownItem className="primary"
+                onClick={() => this.changeStatus('clone_to_project')}>Clone</DropdownItem>
 
         const button = this.props.listView && this.props.listView === true
-            ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_project}</DropdownItem>
+            ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_project}
+            </DropdownItem>
             : <Button className="mr-2 ml-2" color="primary" onClick={this.toggle}>Edit Project</Button>
 
         const dropdownMenu = <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
@@ -186,7 +197,7 @@ class EditProject extends React.Component {
             <div>
                 {button}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_project} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_project}/>
 
                     <ModalBody>
                         {dropdownMenu}
@@ -269,7 +280,8 @@ class EditProject extends React.Component {
                             />
                         </FormGroup>
                     </ModalBody>
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </div>

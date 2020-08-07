@@ -1,14 +1,6 @@
 import React from 'react'
-import {
-    Card,
-    CardBody,
-    CardHeader, Col,
-    FormGroup,
-    Row
-} from 'reactstrap'
-import AddButtons from '../common/AddButtons'
+import { Card, CardBody, CardHeader, Col, FormGroup, Row } from 'reactstrap'
 import { translations } from '../common/_translations'
-import Details from './Details'
 import FormBuilder from '../accounts/FormBuilder'
 import Checkbox from '../common/Checkbox'
 

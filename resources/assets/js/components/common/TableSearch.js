@@ -47,7 +47,8 @@ export default class TableSearch extends Component {
                 </UncontrolledTooltip>
 
                 <InputGroup className="mb-3">
-                    <Input id="searchText" name="searchText" type="text" placeholder="Search..." value={query} onChange={this.handleSearchChange}/>
+                    <Input id="searchText" name="searchText" type="text" placeholder="Search..." value={query}
+                        onChange={this.handleSearchChange}/>
                     <Button color="link" className="bg-transparent"
                         style={{ marginLeft: '-40px', zIndex: 100, color: '#e4e7ea' }}
                         onClick={() => this.reset()}>

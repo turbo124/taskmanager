@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Input, Col, Row, FormGroup, Label } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import ProductAttributeDropdown from '../common/ProductAttributeDropdown'
 import ProductDropdown from '../common/ProductDropdown'
 import TaskDropdown from '../common/TaskDropdown'
@@ -114,7 +114,8 @@ class LineItem extends Component {
                     <Col md={1} data-id={index}>
                         <FormGroup>
                             <Label>Quantity</Label>
-                            <Input key={`b-${index}`} name="quantity" data-line={index} type='text' value={lineItem.quantity}
+                            <Input key={`b-${index}`} name="quantity" data-line={index} type='text'
+                                value={lineItem.quantity}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
@@ -131,7 +132,8 @@ class LineItem extends Component {
                     <Col md={2} data-id={index}>
                         <FormGroup>
                             <Label>Tax</Label>
-                            <Input key={`d_${index}`} name="unit_tax" data-line={index} type='select' value={lineItem.tax_rate_id}
+                            <Input key={`d_${index}`} name="unit_tax" data-line={index} type='select'
+                                value={lineItem.tax_rate_id}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'>
                                 <option value="0">No Tax</option>
                                 {this.props.tax_rates.map(tax_rate =>

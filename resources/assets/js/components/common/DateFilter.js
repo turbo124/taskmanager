@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
-import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates'
+import { DateRangePicker } from 'react-dates'
 
 export default class DateFilter extends Component {
     constructor (props) {
@@ -47,7 +47,9 @@ export default class DateFilter extends Component {
                 endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
                 onDatesChange={this.onDatesChange}
                 focusedInput={this.state.focusedInput}
-                onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
+                onFocusChange={(focusedInput) => {
+                    this.setState({ focusedInput })
+                }}
             />
         )
     }

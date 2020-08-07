@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Button
-} from 'reactstrap'
+import { Button } from 'reactstrap'
 import FeatureInputs from './FeatureInputs'
 import { translations } from '../common/_translations'
 

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter
-} from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -89,7 +83,7 @@ class AddTaxRate extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_tax_rate} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_tax_rate}/>
 
                     <ModalBody>
 
@@ -102,7 +96,8 @@ class AddTaxRate extends React.Component {
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

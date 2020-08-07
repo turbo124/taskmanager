@@ -1,23 +1,11 @@
 import React from 'react'
-import {
-    Button,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import SettingsForm from './SettingsForm'
 import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
 import ExpenseModel from '../models/ExpenseModel'
-import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
@@ -130,7 +118,7 @@ class AddExpense extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_expense} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_expense}/>
 
                     <ModalBody>
 
@@ -176,7 +164,8 @@ class AddExpense extends React.Component {
                                     handleInput={this.handleInput}
                                     customers={this.props.customers} companies={this.props.companies}/>
 
-                                <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                                <CustomFieldsForm handleInput={this.handleInput}
+                                    custom_value1={this.state.custom_value1}
                                     custom_value2={this.state.custom_value2}
                                     custom_value3={this.state.custom_value3}
                                     custom_value4={this.state.custom_value4}
@@ -196,7 +185,8 @@ class AddExpense extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={loading}/>
                 </Modal>
             </React.Fragment>

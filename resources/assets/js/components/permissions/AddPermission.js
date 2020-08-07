@@ -2,16 +2,15 @@
 import React from 'react'
 import {
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Input,
-    FormGroup,
-    Label,
+    InputGroup,
     InputGroupAddon,
     InputGroupText,
-    InputGroup
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
 } from 'reactstrap'
 import axios from 'axios'
 
@@ -103,7 +102,7 @@ class AddPermission extends React.Component {
                         <Label>Name</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
                                 onChange={this.handleInput.bind(this)}/>
@@ -113,7 +112,7 @@ class AddPermission extends React.Component {
                         <Label>Description</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
                                 name="description" onChange={this.handleInput.bind(this)}/>

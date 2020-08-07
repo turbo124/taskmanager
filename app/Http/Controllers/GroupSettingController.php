@@ -87,7 +87,7 @@ class GroupSettingController extends Controller
     {
         $group_setting = $this->group_setting_repo->findGroupSettingById($id);
         $group_setting = $this->group_setting_repo->save($request->except('settings'), $group_setting);
-        $settings = json_decode($request->input('settings'));
+        $settings = json_decode(json_encode($request->input('settings')));
 
         if ($request->company_logo !== null && $request->company_logo !== 'null') {
             $logo_path = $this->uploadLogo($request->file('company_logo'));

@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import axios from 'axios'
-import {
-    Alert,
-    Card, CardBody, Row
-} from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
 import EditCredit from './EditCredit'
@@ -133,7 +130,8 @@ export default class Credits extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CreditFilters setFilterOpen={this.setFilterOpen.bind(this)} credits={credits} customers={customers}
+                                <CreditFilters setFilterOpen={this.setFilterOpen.bind(this)} credits={credits}
+                                    customers={customers}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterCredits}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
@@ -143,11 +141,11 @@ export default class Credits extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>

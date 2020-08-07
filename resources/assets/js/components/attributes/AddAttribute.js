@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
@@ -98,7 +98,7 @@ export default class AddAttribute extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_attribute} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_attribute}/>
 
                     <ModalBody>
                         <FormGroup>
@@ -109,11 +109,12 @@ export default class AddAttribute extends React.Component {
                             {this.renderErrorFor('name')}
                         </FormGroup>
 
-                        <AttributeValues values={this.state.values} onChange={this.handleVariations} />
+                        <AttributeValues values={this.state.values} onChange={this.handleVariations}/>
 
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
 
                 </Modal>

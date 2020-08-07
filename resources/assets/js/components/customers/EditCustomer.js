@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
-} from 'reactstrap'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody } from 'reactstrap'
 import CustomerTabs from './CustomerTabs'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
@@ -73,10 +68,12 @@ class EditCustomer extends React.Component {
             Email</DropdownItem>
 
         const deleteButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
 
         const archiveButton = this.state.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+            ? <DropdownItem className="primary"
+                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
 
         const cloneButton =
             <DropdownItem className="primary"
@@ -105,7 +102,7 @@ class EditCustomer extends React.Component {
                 <React.Fragment>
                     <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                     <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_customer} />
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_customer}/>
 
                         <ModalBody>
                             {submitSuccess && (

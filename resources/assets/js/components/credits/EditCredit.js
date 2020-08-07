@@ -6,8 +6,6 @@ import {
     DropdownItem,
     Modal,
     ModalBody,
-    ModalFooter,
-    ModalHeader,
     Nav,
     NavItem,
     NavLink,
@@ -621,7 +619,7 @@ export default class EditCredit extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_credit} />
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_credit}/>
 
                         <ModalBody>
                             {form}

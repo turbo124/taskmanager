@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Row,
-    ListGroup
-} from 'reactstrap'
+import { ListGroup, Row } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import InfoItem from '../common/entityContainers/InfoItem'
@@ -16,7 +13,8 @@ export default class Task extends Component {
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.duration} value_1={this.props.entity.duration}
-                    heading_2={translations.amount} value_2={taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}/>
+                    heading_2={translations.amount}
+                    value_2={taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}/>
 
                 <Row>
                     <ListGroup className="col-12">

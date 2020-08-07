@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Input,
-    FormGroup,
-    Label,
-    Card,
-    CardBody,
-    CardHeader, Row, Col
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import FormBuilder from '../accounts/FormBuilder'
 import DropdownDate from '../common/DropdownDate'
 import { translations } from '../common/_translations'
@@ -146,7 +139,8 @@ export default class DetailsForm extends React.Component {
                     </Col>
 
                     <Col md={6}>
-                        <DropdownDate selectedDate={this.props.user.dob} classes={this.classes} defaultValues={this.defaultValues}
+                        <DropdownDate selectedDate={this.props.user.dob} classes={this.classes}
+                            defaultValues={this.defaultValues}
                             onDateChange={this.props.setDate}/>
                     </Col>
                 </Row>

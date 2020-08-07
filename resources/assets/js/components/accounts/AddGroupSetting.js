@@ -1,20 +1,18 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import axios from 'axios'
+import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../common/AddButtons'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import GroupModel from '../models/GroupModel'
 
 class AddGroupSetting extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: '',
-            loading: false,
-            errors: []
-        }
+
+        this.groupModel = new GroupModel(null)
+        this.initialState = this.groupModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -49,24 +47,20 @@ class AddGroupSetting extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/groups', {
+        const formData = {
             name: this.state.name
+        }
+
+        this.groupModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.groupModel.errors, message: this.groupModel.error_message })
+                return
+            }
+            this.props.groups.push(response)
+            this.props.action(this.props.groups)
+            this.setState(this.initialState)
+            localStorage.removeItem('groupForm')
         })
-            .then((response) => {
-                const newUser = response.data
-                this.props.groups.push(newUser)
-                this.props.action(this.props.groups)
-                localStorage.removeItem('groupForm')
-                this.setState({
-                    name: null
-                })
-                this.toggle()
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
     }
 
     toggle () {
@@ -88,7 +82,7 @@ class AddGroupSetting extends React.Component {
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_group} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_group}/>
                     <ModalBody>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
@@ -99,7 +93,8 @@ class AddGroupSetting extends React.Component {
                         </FormGroup>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment>

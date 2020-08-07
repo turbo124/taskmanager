@@ -1,15 +1,15 @@
 import React from 'react'
 import {
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Input,
+    InputGroup,
     InputGroupAddon,
     InputGroupText,
-    InputGroup,
-    Label
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
 } from 'reactstrap'
 
 import axios from 'axios'
@@ -148,7 +148,7 @@ class AddRole extends React.Component {
                         <Label>{translations.name}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
                                 placeholder="Name"
@@ -161,7 +161,7 @@ class AddRole extends React.Component {
                         <Label>{translations.description}</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 placeholder="Description"
@@ -174,7 +174,7 @@ class AddRole extends React.Component {
                         <Label>Assign Permissions</Label>
                         <InputGroup className="mb-3">
                             <InputGroupAddon addonType="prepend">
-                                <InputGroupText><i className="fa fa-user-o" /></InputGroupText>
+                                <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
 
                             <Select

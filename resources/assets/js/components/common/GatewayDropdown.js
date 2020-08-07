@@ -54,7 +54,8 @@ export default class GatewayDropdown extends Component {
             groupList = <option value="">Loading...</option>
         } else {
             groupList = Object.keys(this.state.gateways).map((index) => {
-                return <option key={index} value={this.state.gateways[index].gateway.key}>{this.state.gateways[index].gateway.name}</option>
+                return <option key={index}
+                    value={this.state.gateways[index].gateway.key}>{this.state.gateways[index].gateway.name}</option>
             })
         }
 

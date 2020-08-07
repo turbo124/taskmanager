@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import AddCase from './AddCase'
-import { CardBody, Card, Alert, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CaseFilters from './CaseFilters'
 import CaseItem from './CaseItem'
@@ -143,11 +143,11 @@ export default class Cases extends Component {
                     </div>
 
                     {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.unexpected_error}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="danger">
+                            {translations.unexpected_error}
+                        </Alert>
+                    </Snackbar>
                     }
 
                     <div className={margin_class}>
@@ -155,7 +155,11 @@ export default class Cases extends Component {
                             <CardBody>
                                 <DataTable
                                     customers={this.state.customers}
-                                    columnMapping={{ customer_id: 'CUSTOMER', priority_id: 'PRIORITY', status_id: 'STATUS' }}
+                                    columnMapping={{
+                                        customer_id: 'CUSTOMER',
+                                        priority_id: 'PRIORITY',
+                                        status_id: 'STATUS'
+                                    }}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Case"
                                     bulk_save_url="/api/cases/bulk"

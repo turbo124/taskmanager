@@ -42,16 +42,19 @@ export default function QuotePresenter (props) {
         case 'tax_total':
         case 'sub_total':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/></td>
+                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
+            </td>
         case 'status_field':
             return status
         case 'date':
         case 'due_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate field={field} date={entity[field]} /></td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+                field={field} date={entity[field]}/></td>
         }
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Status">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+                data-label="Status">{status}</td>
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])

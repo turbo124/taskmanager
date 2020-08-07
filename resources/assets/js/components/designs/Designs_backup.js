@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Designs from './AddDesign'
-import { CardBody, Card, FormGroup, Input, Col, Row } from 'reactstrap'
+import { Card, CardBody, Col, FormGroup, Input, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'

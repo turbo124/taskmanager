@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, DropdownItem
-} from 'reactstrap'
+import { DropdownItem, Modal, ModalBody } from 'reactstrap'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import InvoiceLine from './InvoiceLine'
@@ -182,7 +180,7 @@ class EditPayment extends React.Component {
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_payment}
                 </DropdownItem>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_payment} />
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_payment}/>
 
                     <ModalBody>
 
@@ -197,7 +195,8 @@ class EditPayment extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details hide_customer={true} payment={this.state} errors={this.state.errors} handleInput={this.handleInput}
+                        <Details hide_customer={true} payment={this.state} errors={this.state.errors}
+                            handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
                         <InvoiceLine payment={this.state} credit_lines={this.state.payable_credits}
@@ -221,7 +220,8 @@ class EditPayment extends React.Component {
                             custom_fields={this.props.custom_fields}/>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.handleClick.bind(this)}
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
                         loading={loading}/>
                 </Modal>
             </React.Fragment>
