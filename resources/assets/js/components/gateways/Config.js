@@ -26,7 +26,7 @@ export default class Config extends Component {
                 {
                     name: 'transactionKey',
                     label: 'Transaction Key',
-                    type: 'text',
+                    type: 'password',
                     placeholder: 'Transaction Key',
                     value: settings.transactionKey
                 }
@@ -76,14 +76,14 @@ export default class Config extends Component {
                 {
                     name: 'apiKey',
                     label: 'Secret Key',
-                    type: 'text',
+                    type: 'password',
                     placeholder: 'Secret Key',
                     value: settings.apiKey
                 },
                 {
                     name: 'publishable_key',
                     label: 'Publishable Key',
-                    type: 'text',
+                    type: 'password',
                     placeholder: 'Publishable Key',
                     value: settings.publishable_key
                 }

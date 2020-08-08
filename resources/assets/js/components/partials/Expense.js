@@ -24,6 +24,7 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -144,17 +145,9 @@ export default class Expense extends Component {
                 </Alert>
                 }
 
-                <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.triggerAction('3')
-                        }} label={translations.view_pdf} value={translations.view_pdf}/>
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.triggerAction('4')
-                        }} label={translations.clone_to_invoice}
-                        value={translations.clone_to_invoice}/>
-                </BottomNavigation>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')} button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')} button2={{ label: translations.clone_to_invoice }}/>
+
             </React.Fragment>
 
         )

@@ -23,6 +23,7 @@ import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import Refund from '../payments/Refund'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
 
 export default class Payment extends Component {
     constructor (props) {
@@ -104,6 +105,12 @@ export default class Payment extends Component {
                                 ))}
                             </ListGroup>
 
+                            {this.props.entity.private_notes.length &&
+                            <Alert color="dark col-12">
+                                {this.props.entity.private_notes}
+                            </Alert>
+                            }
+
                             <ListGroup className="col-12 mt-4">
                                 {paymentableCredits && paymentableCredits.map((line_item, index) => (
                                     <a key={index} href={`/#/credits?number=${line_item.number}`}>
@@ -161,16 +168,8 @@ export default class Payment extends Component {
                 </Alert>
                 }
 
-                <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.toggleTab('2')
-                        }} label={translations.refund} value={translations.refund}/>
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.triggerAction('archive')
-                        }} label={translations.archive} value={translations.archive}/>
-                </BottomNavigation>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('2')} button1={{ label: translations.refund }}
+                    button2_click={(e) => this.triggerAction('archive')} button2={{ label: translations.archive }}/>
             </React.Fragment>
         )
     }
