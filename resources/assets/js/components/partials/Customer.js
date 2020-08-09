@@ -23,9 +23,8 @@ import Transaction from '../customers/Transaction'
 import CustomerSettings from '../customers/CustomerSettings'
 import CustomerModel from '../models/CustomerModel'
 import FileUploads from '../attachments/FileUploads'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import CustomerGateways from '../gateways/CustomerGateways'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -39,6 +38,7 @@ export default class Customer extends Component {
 
         this.customerModel = new CustomerModel(this.props.entity)
         this.gateways = this.customerModel.gateways
+        this.modules = JSON.parse(localStorage.getItem('modules'))
 
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
@@ -125,18 +125,37 @@ export default class Customer extends Component {
 
                         <Row>
                             <ListGroup className="col-12">
+                                {this.modules && this.modules.invoices &&
                                 <SectionItem link={`/#/invoice?customer_id=${this.props.entity.id}`}
                                     icon={icons.document} title={translations.invoices}/>
+                                }
+
+                                {this.modules && this.modules.payments &&
                                 <SectionItem link={`/#/payments?customer_id=${this.props.entity.id}`}
                                     icon={icons.credit_card} title={translations.payments}/>
+                                }
+
+                                {this.modules && this.modules.invoices &&
                                 <SectionItem link={`/#/projects?customer_id=${this.props.entity.id}`}
                                     icon={icons.project} title={translations.projects}/>
+
+                                }
+
+                                {this.modules && this.modules.tasks &&
                                 <SectionItem link={`/#/tasks?customer_id=${this.props.entity.id}`} icon={icons.task}
                                     title={translations.tasks}/>
+                                }
+
+                                {this.modules && this.modules.expenses &&
                                 <SectionItem link={`/#/expenses?customer_id=${this.props.entity.id}`}
                                     icon={icons.expense} title={translations.expenses}/>
+                                }
+
+                                {this.modules && this.modules.orders &&
                                 <SectionItem link={`/#/orders?customer_id=${this.props.entity.id}`} icon={icons.order}
                                     title={translations.orders}/>
+                                }
+
                             </ListGroup>
                         </Row>
                     </TabPane>
@@ -200,16 +219,8 @@ export default class Customer extends Component {
                     </TabPane>
                 </TabContent>
 
-                <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.toggleTab('5')
-                        }} label={translations.settings} value={translations.settings}/>
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={(e) => {
-                            this.toggleTab('6')
-                        }} label={translations.gateways} value={translations.gateways}/>
-                </BottomNavigation>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')} button1={{ label: translations.settings }}
+                    button2_click={(e) => this.toggleTab('6')} button2={{ label: translations.gateways }}/>
 
             </React.Fragment>
 

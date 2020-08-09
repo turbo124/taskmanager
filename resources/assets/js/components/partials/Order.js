@@ -28,6 +28,7 @@ import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
 
 export default class Order extends Component {
     constructor (props) {
@@ -167,6 +168,12 @@ export default class Order extends Component {
                             </ul>
                         </Row>
 
+                        {this.props.entity.private_notes.length &&
+                        <Alert color="dark col-12">
+                            {this.props.entity.private_notes}
+                        </Alert>
+                        }
+
                         <Row>
                             <ListGroup className="col-12 mt-4">
                                 {this.props.entity.line_items.map((line_item, index) => (
@@ -213,17 +220,9 @@ export default class Order extends Component {
                 </Alert>
                 }
 
-                <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.toggleTab('3')
-                        }} label={translations.view_pdf} value={translations.view_pdf}/>
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.triggerAction('clone_to_invoice')
-                        }} label={translations.clone_to_invoice}
-                        value={translations.clone_to_invoice}/>
-                </BottomNavigation>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')} button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')} button2={{ label: translations.clone_to_invoice }}/>
+
             </React.Fragment>
 
         )
