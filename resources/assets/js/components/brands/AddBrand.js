@@ -86,13 +86,15 @@ class AddBrand extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_brand}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
                             renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>

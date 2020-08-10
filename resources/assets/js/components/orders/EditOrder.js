@@ -460,7 +460,7 @@ export default class EditOrder extends Component {
 
                 {tabs}
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         {details}
                         {custom}
@@ -512,7 +512,7 @@ export default class EditOrder extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
@@ -600,6 +600,7 @@ export default class EditOrder extends Component {
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_order}
             </DropdownItem>
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -609,7 +610,7 @@ export default class EditOrder extends Component {
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_order}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
 

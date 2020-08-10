@@ -88,13 +88,15 @@ export default class AddSubscription extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_subscription}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
                             renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>

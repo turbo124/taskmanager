@@ -84,6 +84,8 @@ export default class EditSubscription extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_subscription}
@@ -91,7 +93,7 @@ export default class EditSubscription extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_subscription}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
                             renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>

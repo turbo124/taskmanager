@@ -88,6 +88,7 @@ class AddCustomer extends React.Component {
 
     render () {
         const { submitSuccess, loading } = this.state
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -95,7 +96,7 @@ class AddCustomer extends React.Component {
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_customer}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {submitSuccess && (
                             <div className="alert alert-info" role="alert">

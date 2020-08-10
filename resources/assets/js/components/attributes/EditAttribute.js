@@ -87,6 +87,8 @@ export default class EditAttribute extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_attribute}
@@ -94,7 +96,7 @@ export default class EditAttribute extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_attribute}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}

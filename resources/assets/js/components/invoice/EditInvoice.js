@@ -561,7 +561,7 @@ class EditInvoice extends Component {
 
                 {tabs}
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         {details}
                         {recurring}
@@ -613,7 +613,7 @@ class EditInvoice extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
@@ -668,6 +668,7 @@ class EditInvoice extends Component {
             </DropdownItem>
 
         const showSuccessButton = this.invoiceModel.isEditable
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -677,7 +678,7 @@ class EditInvoice extends Component {
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_invoice}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={showSuccessButton} toggle={this.toggle}

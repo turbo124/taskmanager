@@ -647,6 +647,7 @@ class EditInvoice extends Component {
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_recurring_quote}
             </DropdownItem>
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -656,7 +657,7 @@ class EditInvoice extends Component {
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_recurring_quote}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}

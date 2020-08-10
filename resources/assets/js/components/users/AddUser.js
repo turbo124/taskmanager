@@ -160,6 +160,7 @@ class AddUser extends React.Component {
 
     render () {
         const { message } = this.state
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -167,7 +168,7 @@ class AddUser extends React.Component {
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_user}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {message && <div className="alert alert-danger" role="alert">
                             {message}
@@ -204,7 +205,7 @@ class AddUser extends React.Component {
                             </NavItem>
                         </Nav>
 
-                        <TabContent activeTab={this.state.activeTab}>
+                        <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
                                 <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
                                     handleInput={this.handleInput}/>

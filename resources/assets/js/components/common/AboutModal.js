@@ -82,7 +82,9 @@ export default class AboutModal extends Component {
     }
 
     render () {
-        console.log('health check', this.state.health_check)
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? '#fff' : '#000'
+
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="right" target="contactTooltip">
@@ -93,7 +95,7 @@ export default class AboutModal extends Component {
                     style={{
                         marginLeft: '12px',
                         marginRight: 'auto',
-                        color: '#fff',
+                        color: color,
                         fontSize: '20px',
                         cursor: 'pointer'
                     }}
@@ -102,7 +104,7 @@ export default class AboutModal extends Component {
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>TamTam CRM</ModalHeader>
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <div className="text-center">
                             <p>{translations.about_message}</p>
                             <p>{translations.about_link}</p>

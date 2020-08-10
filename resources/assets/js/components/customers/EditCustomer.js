@@ -96,6 +96,7 @@ class EditCustomer extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -104,7 +105,7 @@ class EditCustomer extends React.Component {
                     <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_customer}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {submitSuccess && (
                                 <div className="alert alert-info" role="alert">
                                     Customer's details has been edited successfully </div>

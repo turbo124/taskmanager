@@ -122,6 +122,7 @@ class AddPayment extends React.Component {
 
     render () {
         const { message, loading } = this.state
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -129,7 +130,7 @@ class AddPayment extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {message && <div className="alert alert-danger" role="alert">
                             {message}

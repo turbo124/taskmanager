@@ -169,6 +169,7 @@ class EditLeadForm extends React.Component {
             : <Button className="mr-2 ml-2" color="primary" onClick={this.toggle}>Edit Lead</Button>
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
             public_notes={this.state.public_notes}/>
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -176,7 +177,7 @@ class EditLeadForm extends React.Component {
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_lead}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         <React.Fragment>
                             <Nav tabs>

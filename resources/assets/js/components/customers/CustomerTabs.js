@@ -294,7 +294,7 @@ export default function CustomerTabs (props) {
                 </NavItem>
             </Nav>
 
-            <TabContent activeTab={activeTab}>
+            <TabContent activeTab={activeTab} className="bg-transparent">
                 <TabPane tabId="1">
                     <CustomerForm errors={errors} onChange={setCustomer}
                         customer={customer}/>

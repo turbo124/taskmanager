@@ -155,13 +155,15 @@ class AddProduct extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_product}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <Nav tabs>
                             <NavItem>
                                 <NavLink

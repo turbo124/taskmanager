@@ -68,14 +68,10 @@ export default class StatusDropdown extends Component {
     }
 
     buildDropdownMenu (list) {
+
         return (
-            <ButtonDropdown style={{ width: '100%' }} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle style={{
-                    textAlign: 'left',
-                    paddingLeft: '20px',
-                    border: '1px solid #23282c',
-                    backgroundColor: '#515b65'
-                }} caret>
+            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret className="status-dropdown">
                     {translations.select_status}
                 </DropdownToggle>
                 <DropdownMenu style={{ width: '100%' }}>

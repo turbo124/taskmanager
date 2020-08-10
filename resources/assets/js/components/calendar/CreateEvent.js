@@ -262,6 +262,8 @@ class CreateEvent extends React.Component {
         const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
 
         if (this.props.modal) {
+            const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
             return (
                 <React.Fragment>
                     <Button color="success" onClick={this.toggle}>Add Event</Button>
@@ -269,7 +271,7 @@ class CreateEvent extends React.Component {
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <DefaultModalHeader toggle={this.toggle} title={translations.create_event}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
 

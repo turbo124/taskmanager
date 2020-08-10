@@ -124,6 +124,8 @@ class EditGateway extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_gateway}
@@ -131,7 +133,7 @@ class EditGateway extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_gateway}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <Nav tabs className="pl-3">
                             <NavItem>
                                 <NavLink

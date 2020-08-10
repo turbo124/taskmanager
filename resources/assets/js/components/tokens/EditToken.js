@@ -84,6 +84,8 @@ export default class EditToken extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_token}
@@ -91,7 +93,7 @@ export default class EditToken extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_token}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <DropdownMenuBuilder invoices={this.props.tokens} formData={this.getFormData()}
                             model={this.tokenModel}
                             action={this.props.action}/>

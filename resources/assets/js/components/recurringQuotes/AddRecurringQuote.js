@@ -128,6 +128,8 @@ class AddRecurringQuote extends Component {
 
             </div>
         )
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
 
         return this.props.modal === true
             ? <React.Fragment>
@@ -135,7 +137,7 @@ class AddRecurringQuote extends Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_quote}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         {form}
                         <FormGroup>
                             <Label>{translations.quote}</Label>

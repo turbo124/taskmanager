@@ -81,6 +81,7 @@ class EditTaxRate extends React.Component {
 
     render () {
         const { message } = this.state
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -89,7 +90,7 @@ class EditTaxRate extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_tax_rate}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {message && <div className="alert alert-danger" role="alert">
                             {message}

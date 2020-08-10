@@ -216,6 +216,7 @@ class EditProduct extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -224,7 +225,7 @@ class EditProduct extends React.Component {
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_product}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         <ProductListDropdown id={this.state.id} formData={this.getFormData()}/>
                         {successMessage}

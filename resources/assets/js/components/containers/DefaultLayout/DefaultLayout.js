@@ -34,8 +34,9 @@ class DefaultLayout extends Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
         return (
-            <div className="app">
+            <div className={`app ${theme}`}>
                 <AppHeader fixed>
                     <Suspense fallback={this.loading}>
                         <DefaultHeader onLogout={e => this.signOut(e)}/>

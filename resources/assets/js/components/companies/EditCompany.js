@@ -136,6 +136,7 @@ class EditCompany extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -143,7 +144,7 @@ class EditCompany extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_company}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         <CompanyDropdown formData={this.getFormData()} id={this.state.id}/>
                         {successMessage}
@@ -189,7 +190,7 @@ class EditCompany extends React.Component {
                                 </NavLink>
                             </NavItem>
                         </Nav>
-                        <TabContent activeTab={this.state.activeTab}>
+                        <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
                                 <DetailsForm errors={this.state.errors}
                                     handleInput={this.handleInput}

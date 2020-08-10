@@ -235,6 +235,8 @@ class CalendarEvent extends React.Component {
             ? <DeleteModal archive={false} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
         const archiveButton = !this.props.event.deleted_at
             ? <DeleteModal archive={true} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 {editLabel}
@@ -242,7 +244,7 @@ class CalendarEvent extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.update_event}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         <FormGroup>
                             <Label for="title">{translations.title}(*):</Label>
                             <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''}

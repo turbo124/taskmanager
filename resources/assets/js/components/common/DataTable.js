@@ -284,7 +284,9 @@ export default class DataTable extends Component {
             sorted_column={this.state.sorted_column}
             order={this.state.order}/> : null
 
-        const table = <Table className={table_class} responsive striped bordered hover dark>
+        const table_dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' || false
+
+        const table = <Table className={table_class} responsive striped bordered hover dark={table_dark}>
             {tableSort}
             <tbody>
                 {this.props.userList({
