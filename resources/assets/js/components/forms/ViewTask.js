@@ -41,6 +41,8 @@ class ViewTask extends React.Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <div>
                 <a href='#' onClick={this.toggle}><h4 className="mb-1">{this.props.task.title}</h4></a>
@@ -49,7 +51,7 @@ class ViewTask extends React.Component {
                         Task
                     </ModalHeader>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         <Button color="success" onClick={this.convertLead}>Convert to Deal</Button>
 

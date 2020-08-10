@@ -57,10 +57,13 @@ export default class SupportModal extends Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Your message has been sent successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true ? <ErrorMessage
             message="Your message could not be sent"/> : null
+        const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? '#fff' : '#000'
 
         return (
             <React.Fragment>
@@ -69,13 +72,13 @@ export default class SupportModal extends Component {
                 </UncontrolledTooltip>
 
                 <i id="aboutTooltip" onClick={this.toggle}
-                    style={{ color: '#fff', fontSize: '20px', cursor: 'pointer' }}
+                    style={{ color: color, fontSize: '20px', cursor: 'pointer' }}
                     className="fa fa-envelope"/>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Contact us</ModalHeader>
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         {successMessage}
                         {errorMessage}
                         <Form>

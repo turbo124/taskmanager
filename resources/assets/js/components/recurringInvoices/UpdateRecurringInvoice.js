@@ -690,6 +690,7 @@ class EditInvoice extends Component {
             </DropdownItem>
 
         const showSuccessButton = this.invoiceModel.isEditable
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -699,7 +700,7 @@ class EditInvoice extends Component {
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_recurring_invoice}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={showSuccessButton} toggle={this.toggle}

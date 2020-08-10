@@ -3,6 +3,7 @@ import { Alert, Button, Card, CardBody, FormGroup, Label, Row } from 'reactstrap
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import FormBuilder from './FormBuilder'
 
 export default class DeviceSettings extends Component {
     constructor (props) {
@@ -112,7 +113,7 @@ export default class DeviceSettings extends Component {
 
     handleSettingsChange (event) {
         const name = event.target.name
-        const value = event.target.value
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
         this.setState(prevState => ({
             settings: {
@@ -123,7 +124,29 @@ export default class DeviceSettings extends Component {
             if (name === 'currency_format') {
                 localStorage.setItem('currency_format', value)
             }
+
+            if (name === 'dark_theme') {
+                localStorage.setItem('dark_theme', value)
+            }
         })
+    }
+
+    getInventoryFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'dark_theme',
+                    label: translations.dark_theme,
+                    type: 'switch',
+                    placeholder: translations.dark_theme,
+                    value: settings.dark_theme
+                }
+            ]
+        ]
+
+        return formFields
     }
 
     handleSubmit (e) {
@@ -226,9 +249,18 @@ export default class DeviceSettings extends Component {
                     </CardBody>
                 </Card>
 
+                <Card className="border-0">
+                    <CardBody>
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getInventoryFields()}
+                        />
+                    </CardBody>
+                </Card>
+
                 <Card>
                     <CardBody>
-                        <Button onClick={this.refresh} color="primary" block>Refresh</Button>
+                        <Button onClick={this.refresh} color="primary" block>{translations.refresh}</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>

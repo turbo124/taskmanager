@@ -161,6 +161,7 @@ class AddModal extends React.Component {
         const leadForm = this.props.task_type === 2 || this.props.task_type === 3 ? this.getFormForLead() : ''
         const form = this.buildForm()
         const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}> Add</Button>
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -169,7 +170,7 @@ class AddModal extends React.Component {
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <DefaultModalHeader toggle={this.toggle} title={translations.add_task}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                             {leadForm}
                         </ModalBody>

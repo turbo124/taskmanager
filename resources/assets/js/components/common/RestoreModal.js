@@ -38,6 +38,8 @@ export default class RestoreModal extends Component {
     }
 
     render () {
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.restore}`}/>Restore</DropdownItem>
@@ -45,7 +47,7 @@ export default class RestoreModal extends Component {
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>RESTORE</ModalHeader>
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         Do you want to restore this?
                     </ModalBody>
                     <ModalFooter>

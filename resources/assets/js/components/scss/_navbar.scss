@@ -6,10 +6,13 @@
   font-size: 16px !important;
 
   .nav-icon {
-    color: $white !important;
     font-size: 20px !important;
     margin-right: 20px !important;
   }
+}
+
+.sidebar .nav-dropdown.open .nav-link {
+  color: $dark_grey;
 }
 
 .float {
@@ -43,7 +46,7 @@
 }
 
 .fixed-margin-datatable-collapsed {
-  margin-top: 75px;
+  margin-top: 82px;
 }
 
 @media (min-width: 576px) and (max-width: 668px) {
@@ -90,13 +93,29 @@
   //}
 
   .fixed-margin-datatable {
-    margin-top: 135px !important;
+    margin-top: 120px !important;
   }
 
   .fixed-margin-datatable-large {
     margin-top: 190px !important;
   }
 }
+
+.light-theme {
+  .sidebar {
+    background-color: $white;
+  }
+
+  .sidebar .nav-link {
+    color: $dark_grey;
+  }
+
+  .nav-dropdown.open {
+    background: $white !important;
+    color: $dark_grey !important;
+  }
+}
+
 
 @media (max-width: 575.98px) {
   .sidebar-show .topbar {
@@ -141,7 +160,6 @@
 }
 
 .navbar {
-  background-color: #2f353a !important;
   border-bottom: none !important;
   box-shadow: none !important;
 }
@@ -154,7 +172,7 @@
 
 .topbar {
   z-index: 999;
-  top: 32px;
+  top: 36px;
   left: 6px;
   width: 100%;
   margin-right: auto;

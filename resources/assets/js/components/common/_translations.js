@@ -264,6 +264,7 @@ _localizedValues.en = {
     delete_message: 'Do you want to delete this?',
     archive_message: 'Do you want to archive this?',
     refresh: 'Refresh',
+    dark_theme: 'Dark Theme',
     saved_design: 'Successfully saved design',
     client_details: 'Client Details',
     company_address: 'Company Address',

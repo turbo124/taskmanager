@@ -508,7 +508,7 @@ export default class EditCredit extends Component {
 
                 {tabs}
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         {details}
                         {custom}
@@ -560,7 +560,7 @@ export default class EditCredit extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
@@ -612,6 +612,7 @@ export default class EditCredit extends Component {
         const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (
@@ -621,7 +622,7 @@ export default class EditCredit extends Component {
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_credit}/>
 
-                        <ModalBody>
+                        <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}

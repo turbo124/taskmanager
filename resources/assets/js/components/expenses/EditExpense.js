@@ -130,6 +130,7 @@ class EditExpense extends React.Component {
             ? <ErrorMessage message="Something went wrong"/> : null
 
         const { message, loading } = this.state
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -138,7 +139,7 @@ class EditExpense extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_expense}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {message && <div className="alert alert-danger" role="alert">
                             {message}

@@ -183,7 +183,7 @@ export default class Emails extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.active_email_tab}>
+                <TabContent activeTab={this.state.active_email_tab} className="bg-transparent">
 
                     <TabPane tabId="1">
                         <Card>

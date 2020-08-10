@@ -115,6 +115,7 @@ class AddRecurringInvoice extends Component {
 
     render () {
         const inlineClass = this.props ? 'mb-4' : 'form-inline mb-4'
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         const form = (
             <div className={inlineClass}>
@@ -133,7 +134,7 @@ class AddRecurringInvoice extends Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_recurring_invoice}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
                         {form}
                         <FormGroup>
                             <Label>{translations.invoice}</Label>

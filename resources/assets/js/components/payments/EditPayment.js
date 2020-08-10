@@ -174,6 +174,7 @@ class EditPayment extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -182,7 +183,7 @@ class EditPayment extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_payment}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         {message && <div className="alert alert-danger" role="alert">
                             {message}

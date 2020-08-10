@@ -220,6 +220,7 @@ class EditUser extends React.Component {
             ? <ErrorMessage message="Something went wrong"/> : null
 
         const notifications = this.state.selectedAccounts && Object.keys(this.state.selectedAccounts).length && this.state.selectedAccounts.notifications ? this.state.selectedAccounts.notifications.email : []
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -228,7 +229,7 @@ class EditUser extends React.Component {
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_user}/>
 
-                    <ModalBody>
+                    <ModalBody className={theme}>
 
                         <UserDropdownMenu id={this.state.user.id} formData={this.getFormData()}/>
                         {successMessage}
@@ -275,7 +276,7 @@ class EditUser extends React.Component {
                             </NavItem>
                         </Nav>
 
-                        <TabContent activeTab={this.state.activeTab}>
+                        <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
                                 {Object.keys(this.state.user).length &&
                                 <React.Fragment>
