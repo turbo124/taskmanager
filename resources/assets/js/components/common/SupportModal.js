@@ -14,6 +14,7 @@ import {
 import axios from 'axios'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
+import { translations } from "./_translations";
 
 export default class SupportModal extends Component {
     constructor (props) {
@@ -68,7 +69,7 @@ export default class SupportModal extends Component {
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="right" target="aboutTooltip">
-                    Contact Us
+                    {translations.contact_us}
                 </UncontrolledTooltip>
 
                 <i id="aboutTooltip" onClick={this.toggle}
@@ -77,13 +78,13 @@ export default class SupportModal extends Component {
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Contact us</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{translations.contact_us}</ModalHeader>
                     <ModalBody className={theme}>
                         {successMessage}
                         {errorMessage}
                         <Form>
                             <FormGroup>
-                                <Label for="exampleEmail">Message</Label>
+                                <Label for="exampleEmail">{translations.message}</Label>
                                 <Input type="textarea" onChange={this.handleChange} name="message" id="message"
                                     placeholder="Message"/>
                             </FormGroup>
@@ -105,8 +106,8 @@ export default class SupportModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.sendMessage}
-                            color="primary">Send</Button>{' '}
-                        <Button onClick={this.toggle} color="secondary">Cancel</Button>
+                            color="primary">{translations.send}</Button>
+                        <Button onClick={this.toggle} color="secondary">{translations.cancel}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

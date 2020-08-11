@@ -50,34 +50,14 @@ export default class ViewEntity extends Component {
     }
 
     render () {
-        const columnList = this.props.entity ? Object.keys(this.props.entity).filter(key => {
-            return this.props.ignore && !this.props.ignore.includes(key) && typeof this.props.entity[key] !== 'object'
-        }).map(key => {
-            let column_name = key.replace(/_/g, ' ')
-            column_name = column_name.replace(
-                /\w\S*/g,
-                function (txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                }
-            )
-
-            return <ListGroupItem className="col-md-6 col-12 pull-left" color="dark" key={key}>
-                <ListGroupItemHeading>
-                    {this.props.entity[key]}
-                </ListGroupItemHeading>
-
-                <ListGroupItemText>
-                    {column_name}
-                </ListGroupItemText>
-            </ListGroupItem>
-        }) : null
+        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
                 <Modal centered={true} backdrop="static" isOpen={this.props.viewed} toggle={this.toggle}
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>{this.props.title ? this.props.title : 'Details'}</ModalHeader>
-                    <ModalBody>
+                    <ModalBody className={`${theme} view-entity`}>
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
                         <Invoice customers={this.props.customers} entity={this.props.entity}/>}
 

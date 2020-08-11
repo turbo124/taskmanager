@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap'
 import { icons } from './_icons'
+import { translations } from "./_translations";
 
 export default class BulkActionDropdown extends Component {
     constructor (props) {
@@ -23,14 +24,14 @@ export default class BulkActionDropdown extends Component {
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="top" target="bulkActionTooltip">
-                    Bulk Actions
+                    {translations.bulk_actions}
                 </UncontrolledTooltip>
 
                 <ButtonDropdown className="mr-2" isOpen={this.state.dropdownButtonOpen}
                     toggle={this.toggleDropdownButton}>
                     <DropdownToggle caret color="primary">
                         <i id="bulkActionTooltip" className={`fa ${icons.ellipsis}`} aria-hidden="true"
-                            type="ellipsis"/> Bulk Action
+                            type="ellipsis"/> {translations.bulk_action}
                     </DropdownToggle>
                     <DropdownMenu className="bulk-options-menu">
                         {this.props.dropdownButtonActions.map(e => {

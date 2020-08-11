@@ -83,6 +83,7 @@ export default function CustomerTabs (props) {
     })
 
     const [customer, setCustomerValues] = useState({
+        id: props.customer ? props.customer.id : null,
         name: props.customer ? props.customer.name : '',
         company_id: props.customer ? props.customer.company_id : '',
         phone: props.customer ? props.customer.phone : '',
@@ -173,7 +174,7 @@ export default function CustomerTabs (props) {
             return false
         }
 
-        const customerModel = new CustomerModel(formdata)
+        const customerModel = new CustomerModel(customer)
         customerModel.save(formdata).then(response => {
             if (!response) {
                 this.setState({ errors: customerModel.errors, message: customerModel.error_message })

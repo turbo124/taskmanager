@@ -15,10 +15,10 @@ export default class CountryDropdown extends Component {
     }
 
     componentDidMount () {
-        if (!this.props.countries || !this.props.countries.length) {
-            this.getCountries()
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'countries')) {
+            this.setState({ countries: JSON.parse(localStorage.getItem('countries')) })
         } else {
-            this.setState({ countries: this.props.countries })
+            this.getCountries()
         }
     }
 

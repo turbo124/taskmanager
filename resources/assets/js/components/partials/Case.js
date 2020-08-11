@@ -63,6 +63,9 @@ export default class Case extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+        const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
+
 
         return (
             <React.Fragment>
@@ -97,7 +100,7 @@ export default class Case extends Component {
 
                         <Row>
                             <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className="list-group-item-dark">
+                                <ListGroupItem className={listClass}>
                                     <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/>
                                         {customer[0].name}
                                     </ListGroupItemHeading>
@@ -143,13 +146,13 @@ export default class Case extends Component {
                 }
 
                 <div className="navbar d-flex p-0 view-buttons">
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
                         onClick={() => {
                             this.triggerAction('3')
                         }}>
                         {translations.pdf}
                     </NavLink>
-                    <NavLink className="flex-fill border border-secondary btn btn-dark"
+                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
                         onClick={() => {
                             this.triggerAction('4')
                         }}>

@@ -28,7 +28,7 @@ export default class RecurringQuoteModel extends BaseModel {
             end_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             frequency: 1,
-            is_mobile: window.innerWidth <= 500,
+            is_mobile: window.innerWidth <= 768,
             modalOpen: false,
             is_amount_discount: false,
             invitations: [],

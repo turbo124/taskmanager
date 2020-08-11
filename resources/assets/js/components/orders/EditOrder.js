@@ -105,7 +105,7 @@ export default class EditOrder extends Component {
     }
 
     handleWindowSizeChange () {
-        this.setState({ is_mobile: window.innerWidth <= 500 })
+        this.setState({ is_mobile: window.innerWidth <= 768 })
     }
 
     handleClick () {

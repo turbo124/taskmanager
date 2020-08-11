@@ -63,6 +63,7 @@ export default class Payment extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const paymentableInvoices = this.paymentModel.paymentable_invoices
         const paymentableCredits = this.paymentModel.paymentable_credits
+        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
 
         return (
             <React.Fragment>
@@ -90,7 +91,7 @@ export default class Payment extends Component {
                             <ListGroup className="col-12 mt-4 mb-2">
                                 {paymentableInvoices && paymentableInvoices.map((line_item, index) => (
                                     <a key={index} href={`/#/invoice?number=${line_item.number}`}>
-                                        <ListGroupItem className="list-group-item-dark">
+                                        <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
                                                 <i className={`fa ${icons.document} mr-4`}/> {translations.invoice} > {line_item.number}
 
@@ -114,7 +115,7 @@ export default class Payment extends Component {
                             <ListGroup className="col-12 mt-4">
                                 {paymentableCredits && paymentableCredits.map((line_item, index) => (
                                     <a key={index} href={`/#/credits?number=${line_item.number}`}>
-                                        <ListGroupItem className="list-group-item-dark">
+                                        <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
                                                 <i className={`fa ${icons.document} mr-4`}/> {translations.credit} > {line_item.number}
 
@@ -132,7 +133,7 @@ export default class Payment extends Component {
 
                         <Row>
                             <ListGroup className="mt-4 mb-4 col-12">
-                                <ListGroupItem className="list-group-item-dark">
+                                <ListGroupItem className={listClass}>
                                     <ListGroupItemHeading><i className={`fa ${icons.customer} mr-4`}/>
                                         {customer[0].name}
                                     </ListGroupItemHeading>

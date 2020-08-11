@@ -105,6 +105,7 @@ export default class Quote extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
 
         return (
             <React.Fragment>
@@ -140,7 +141,7 @@ export default class Quote extends Component {
 
                         <Row>
                             <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className="list-group-item-dark">
+                                <ListGroupItem className={listClass}>
                                     <ListGroupItemHeading><i
                                         className="fa fa-user-circle-o mr-2"/>{customer[0].name}
                                     </ListGroupItemHeading>

@@ -11,7 +11,10 @@ export default class DeviceSettings extends Component {
 
         this.state = {
             id: localStorage.getItem('account_id'),
-            settings: {},
+            settings: {
+                dark_theme: !!(localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true'),
+                number_of_rows: localStorage.getItem('number_of_rows') || 10
+            },
             success: false,
             error: false
         }
@@ -26,7 +29,7 @@ export default class DeviceSettings extends Component {
     }
 
     componentDidMount () {
-        this.getAccount()
+        // this.getAccount()
     }
 
     getAccount () {
@@ -107,6 +110,7 @@ export default class DeviceSettings extends Component {
                     localStorage.setItem('account_id', response.data.data.account_id)
                     localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
+                    localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                 }
             })
     }
@@ -121,12 +125,18 @@ export default class DeviceSettings extends Component {
                 [name]: value
             }
         }), () => {
-            if (name === 'currency_format') {
-                localStorage.setItem('currency_format', value)
-            }
+            switch (name) {
+                case 'currency_format':
+                    localStorage.setItem('currency_format', value)
+                    break
 
-            if (name === 'dark_theme') {
-                localStorage.setItem('dark_theme', value)
+                case 'dark_theme':
+                    localStorage.setItem('dark_theme', value)
+                    break
+
+                case 'number_of_rows':
+                    localStorage.setItem('number_of_rows', value)
+                    break
             }
         })
     }
@@ -142,6 +152,27 @@ export default class DeviceSettings extends Component {
                     type: 'switch',
                     placeholder: translations.dark_theme,
                     value: settings.dark_theme
+                },
+                {
+                    name: 'number_of_rows',
+                    label: translations.number_of_rows,
+                    type: 'select',
+                    placeholder: translations.number_of_rows,
+                    value: settings.number_of_rows,
+                    options: [
+                        {
+                            value: 10,
+                            text: 10
+                        },
+                        {
+                            value: 25,
+                            text: 25
+                        },
+                        {
+                            value: 50,
+                            text: 50
+                        }
+                    ]
                 }
             ]
         ]
@@ -208,7 +239,7 @@ export default class DeviceSettings extends Component {
                         <CardBody className="p-0">
                             <div className="d-flex justify-content-between align-items-center">
                                 <h4 className="pl-3 pt-2 pb-2">{translations.device_settings}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
+                                {/* <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a> */}
                             </div>
                         </CardBody>
                     </Card>

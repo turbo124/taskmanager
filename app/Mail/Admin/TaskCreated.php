@@ -2,13 +2,10 @@
 
 namespace App\Mail\Admin;
 
-use App\Models\Order;
 use App\Models\Task;
-use App\Traits\Money;
 use App\Models\User;
+use App\Traits\Money;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class TaskCreated extends AdminMailer
@@ -63,7 +60,7 @@ class TaskCreated extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->task->id,
             'button_text' => trans('texts.view_deal'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',

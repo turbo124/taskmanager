@@ -28,7 +28,7 @@
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+{{--        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>--}}
     </head>
     <body>
     <div id="root">
@@ -37,7 +37,7 @@
 
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+{{--        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>--}}
         <script src="{{ asset('js/popper.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>

@@ -84,6 +84,7 @@ export default class AboutModal extends Component {
     render () {
         const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
         const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? '#fff' : '#000'
+        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
 
         return (
             <React.Fragment>
@@ -117,7 +118,7 @@ export default class AboutModal extends Component {
                                 {Object.keys(this.state.health_check).map((index) => {
                                     const icon = this.state.health_check[index] === true ? 'text-success fa-check' : 'text-danger fa-times-circle'
                                     return <ListGroupItem
-                                        className="list-group-item-dark d-flex justify-content-between align-items-center">{index}
+                                        className={`${listClass} d-flex justify-content-between align-items-center`}>{index}
                                         <i style={{ fontSize: '20px' }} className={`fa ${icon}`}/></ListGroupItem>
                                 })}
                             </ListGroup>

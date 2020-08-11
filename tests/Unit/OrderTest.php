@@ -277,6 +277,7 @@ class OrderTest extends TestCase
             $order->customer, json_decode(json_encode($order->line_items), true)
         );
         $shipping = $objShipping->createShippingProcess();
+
         $this->assertArrayHasKey('rates', $shipping);
 
         $rates = $objShipping->getRates();

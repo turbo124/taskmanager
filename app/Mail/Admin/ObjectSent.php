@@ -4,9 +4,6 @@ namespace App\Mail\Admin;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
 class ObjectSent extends AdminMailer
@@ -58,7 +55,7 @@ class ObjectSent extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => $this->invitation->getLink() . '?silent=true',
             'button_text' => trans("texts.view_{$this->entity_name}"),
             'signature'   => $this->invitation->account->settings->email_signature,

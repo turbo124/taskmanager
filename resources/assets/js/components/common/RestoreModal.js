@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import axios from 'axios'
 import { icons } from './_icons'
+import { translations } from "./_translations";
 
 export default class RestoreModal extends Component {
     constructor (props) {
@@ -42,18 +43,18 @@ export default class RestoreModal extends Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.restore}`}/>Restore</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.restore}`}/>{translations.restore}</DropdownItem>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>RESTORE</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{translations.restore.toUpperCase()}</ModalHeader>
                     <ModalBody className={theme}>
-                        Do you want to restore this?
+                        {translations.restore_message}
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={() => this.restoreFunction(this.props.id)}
-                            color="danger">Yes</Button>{' '}
-                        <Button onClick={this.toggle} color="secondary">No</Button>
+                            color="danger">{translations.yes}</Button>{' '}
+                        <Button onClick={this.toggle} color="secondary">{translations.no}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

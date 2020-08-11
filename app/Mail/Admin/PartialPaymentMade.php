@@ -5,9 +5,6 @@ namespace App\Mail\Admin;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
 class PartialPaymentMade extends AdminMailer
@@ -62,7 +59,7 @@ class PartialPaymentMade extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . '/payments/' . $this->payment->id,
             'button_text' => trans('texts.view_payment'),
             'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
