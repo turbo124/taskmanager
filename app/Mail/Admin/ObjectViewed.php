@@ -4,9 +4,6 @@ namespace App\Mail\Admin;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
 class ObjectViewed extends AdminMailer
@@ -65,7 +62,7 @@ class ObjectViewed extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => config(
                     'taskmanager.site_url'
                 ) . "/portal/{$this->entity_name}/" . $this->invitation->key .

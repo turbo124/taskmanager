@@ -5,10 +5,9 @@ import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
 import DisplayColumns from './DisplayColumns'
-import BulkActionDropdown from './BulkActionDropdown'
-import { icons } from './_icons'
 import { translations } from './_translations'
 import CheckboxFilterBar from './CheckboxFilterBar'
+import TableToolbar from './TableToolbar'
 
 export default class DataTable extends Component {
     constructor (props) {
@@ -185,16 +184,13 @@ export default class DataTable extends Component {
         pageNumber = !pageNumber || typeof pageNumber === 'object' ? this.state.current_page : pageNumber
         order = !order ? this.state.order : order
         sorted_column = !sorted_column ? this.state.sorted_column : sorted_column
-        const noPerPage = !this.state.perPage ? Math.ceil(window.innerHeight / 90) : this.state.perPage
+        const noPerPage = !localStorage.getItem('number_of_rows') ? Math.ceil(window.innerHeight / 90) : localStorage.getItem('number_of_rows')
         this.cancel = axios.CancelToken.source()
         const fetchUrl = `${this.props.fetchUrl}${this.props.fetchUrl.includes('?') ? '&' : '?'}page=${pageNumber}&column=${sorted_column}&order=${order}&per_page=${noPerPage}`
 
         axios.get(fetchUrl, {})
             .then(response => {
                 let data = response.data.data && Object.keys(response.data.data).length ? response.data.data : []
-
-                console.log('data', response.data)
-
                 const columns = (this.props.columns && this.props.columns.length) ? (this.props.columns) : ((Object.keys(data).length) ? (Object.keys(data[0])) : null)
 
                 if (this.props.order) {
@@ -333,19 +329,9 @@ export default class DataTable extends Component {
                         cancel={this.closeFilterBar}/>
                 </Collapse>
 
-                <div style={{ lineHeight: '32px' }} className="row justify-content-end">
-                    {this.props.dropdownButtonActions && <BulkActionDropdown
-                        dropdownButtonActions={this.props.dropdownButtonActions}
-                        saveBulk={this.saveBulk}/>}
-                    <i onClick={this.fetchEntities} id="refresh" className={`fa ${icons.refresh}`}
-                        style={{ fontSize: '28px', color: '#fff', cursor: 'pointer', marginRight: '6px' }}/>
-                    <i onClick={this.handleTableActions} id="toggle-checkbox" className={`fa ${icons.checkbox} mr-2`}
-                        style={{ fontSize: '28px' }}/>
-                    <i onClick={this.handleTableActions} id="toggle-table" className={`fa ${icons.table} mr-2`}
-                        style={{ fontSize: '28px' }}/>
-                    <i onClick={this.handleTableActions} id="toggle-columns" className={`fa ${icons.columns} mr-4`}
-                        style={{ fontSize: '28px' }}/>
-                </div>
+                <TableToolbar dropdownButtonActions={this.props.dropdownButtonActions}
+                    fetchEntities={this.fetchEntities} saveBulk={this.saveBulk}
+                    handleTableActions={this.handleTableActions}/>
 
                 {table}
 

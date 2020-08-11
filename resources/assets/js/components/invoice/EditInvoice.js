@@ -109,7 +109,7 @@ class EditInvoice extends Component {
     }
 
     handleWindowSizeChange () {
-        this.setState({ is_mobile: window.innerWidth <= 500 })
+        this.setState({ is_mobile: window.innerWidth <= 768 })
     }
 
     handleInput (e) {

@@ -81,7 +81,7 @@ body {
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .topbar {
-   top: 36px !important;
+    top: 36px !important;
   }
 
   .app-body {
@@ -228,6 +228,33 @@ body {
     border: 1px solid #e4e7ea;
     color: #5c6873;
     background-color: #fff;
+  }
+
+  td .dropdown .dropdown-menu .dropdown-item i, td .dropdown .dropdown-menu .dropdown-item a {
+    color: $dark_grey !important;
+  }
+
+  .view-entity {
+    .list-group-item {
+      color: #43464B !important;
+    }
+  }
+
+  .sidebar {
+    .nav-link.active {
+      color: #000;
+      background: #17a2b8;
+    }
+  }
+}
+
+.tab-content {
+  background-color: transparent !important;
+}
+
+.view-entity {
+  .list-group-item {
+    background-color: transparent;
   }
 }
 

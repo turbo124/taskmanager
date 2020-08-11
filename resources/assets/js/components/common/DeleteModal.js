@@ -45,8 +45,8 @@ export default class DeleteModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.delete}
-                            color="danger">Yes</Button>
-                        <Button onClick={this.toggle} color="secondary">No</Button>
+                            color="danger">{translations.yes}</Button>
+                        <Button onClick={this.toggle} color="secondary">{translations.no}</Button>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

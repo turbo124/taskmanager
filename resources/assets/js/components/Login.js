@@ -72,6 +72,7 @@ class Login extends Component {
                     localStorage.appState = JSON.stringify(appState)
                     localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
+                    localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('access_token', userData.auth_token)
                     localStorage.setItem('account_id', response.data.data.account_id)
                     this.setState({

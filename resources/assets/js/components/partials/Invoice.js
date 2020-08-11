@@ -107,6 +107,8 @@ export default class Invoice extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+
         return (
             <React.Fragment>
 
@@ -144,7 +146,7 @@ export default class Invoice extends Component {
                             <ListGroup className="col-12 mt-4">
                                 {this.props.entity.paymentables.map((line_item, index) => (
                                     <a key={index} href={`/#/payments?number=${line_item.number}`}>
-                                        <ListGroupItem className="list-group-item-dark">
+                                        <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading
                                                 className="">
                                                 <i className={`fa ${icons.credit_card} mr-4`}/>{line_item.number}
@@ -162,7 +164,7 @@ export default class Invoice extends Component {
 
                         <Row>
                             <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className="list-group-item-dark">
+                                <ListGroupItem className={listClass}>
                                     <ListGroupItemHeading><i
                                         className={`fa ${icons.customer} mr-4`}/>{customer[0].name}
                                     </ListGroupItemHeading>

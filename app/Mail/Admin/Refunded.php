@@ -5,8 +5,6 @@ namespace App\Mail\Admin;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class Refunded extends AdminMailer
@@ -60,7 +58,7 @@ class Refunded extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
             'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
             'button_text' => trans('texts.view_payment'),

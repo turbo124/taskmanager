@@ -3,12 +3,8 @@
 namespace App\Mail\Admin;
 
 use App\Models\Lead;
-use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
 class LeadCreated extends AdminMailer
@@ -67,7 +63,7 @@ class LeadCreated extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
             'button_text' => trans('texts.view_deal'),
             'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',

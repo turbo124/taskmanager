@@ -20,7 +20,7 @@ export default class CreditModel extends BaseModel {
         }
 
         this._fields = {
-            is_mobile: window.innerWidth <= 500,
+            is_mobile: window.innerWidth <= 768,
             modalOpen: false,
             is_amount_discount: false,
             id: null,

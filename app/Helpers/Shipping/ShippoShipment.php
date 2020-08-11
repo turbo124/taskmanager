@@ -66,6 +66,7 @@ class ShippoShipment
         if ($this->customer->addresses()->count() > 0 && count($this->line_items) > 0) {
             $this->setPickupAddress();
             $deliveryAddress = $this->customer->addresses->where('address_type', '=', 2)->first();
+
             $this->setDeliveryAddress($deliveryAddress);
             $this->readyParcel($this->line_items);
 

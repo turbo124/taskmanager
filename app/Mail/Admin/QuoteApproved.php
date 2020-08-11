@@ -5,8 +5,6 @@ namespace App\Mail\Admin;
 use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class QuoteApproved extends AdminMailer
@@ -64,7 +62,7 @@ class QuoteApproved extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
+            'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . 'portal/quotes/' . $this->quote->id,
             'button_text' => trans('texts.view_quote'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',

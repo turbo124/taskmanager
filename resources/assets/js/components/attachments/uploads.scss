@@ -6,6 +6,18 @@
   overflow-y: auto;
 }
 
+.dark-theme {
+  .Filename {
+    color: #fff;
+  }
+}
+
+.light-theme {
+  .Filename {
+    color: #000;
+  }
+}
+
 .Filename {
   margin-bottom: 8px;
   font-size: 16px;

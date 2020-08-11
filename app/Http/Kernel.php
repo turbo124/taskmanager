@@ -14,6 +14,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
@@ -76,17 +77,18 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'          => Authenticate::class,
-        'auth.basic'    => AuthenticateWithBasicAuth::class,
-        'bindings'      => SubstituteBindings::class,
-        'cache.headers' => SetCacheHeaders::class,
-        'can'           => Authorize::class,
-        'guest'         => RedirectIfAuthenticated::class,
-        'throttle'      => ThrottleRequests::class,
-        'user'          => RedirectIfNotUser::class,
-        'jwt-auth'      => jwtMiddleware::class,
-        'api-header'    => API::class,
-        'role'          => RoleMiddleware::class,
+        'auth'             => Authenticate::class,
+        'auth.basic'       => AuthenticateWithBasicAuth::class,
+        'bindings'         => SubstituteBindings::class,
+        'cache.headers'    => SetCacheHeaders::class,
+        'can'              => Authorize::class,
+        'guest'            => RedirectIfAuthenticated::class,
+        'throttle'         => ThrottleRequests::class,
+        'user'             => RedirectIfNotUser::class,
+        'jwt-auth'         => jwtMiddleware::class,
+        'api-header'       => API::class,
+        'role'             => RoleMiddleware::class,
+        'password.confirm' => RequirePassword::class,
     ];
 
 }

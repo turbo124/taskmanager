@@ -2,7 +2,9 @@ import React from 'react'
 import { Col, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap'
 
 export default function InfoItem (props) {
-    return <ListGroupItem className="list-group-item-dark">
+    const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+
+    return <ListGroupItem className={listClass}>
         <Col className="p-0" sm={1}>
             <ListGroupItemHeading><i
                 className={`fa ${props.icon} mr-4`}/></ListGroupItemHeading>

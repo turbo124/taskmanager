@@ -20,7 +20,7 @@
         "intervention/image": "^2.5",
         "kalnoy/nestedset": "^5.0",
         "laracasts/presenter": "^0.2.2",
-        "laravel/framework": "^6.0",
+        "laravel/framework": "6.17.*",
         "laravel/horizon": "3.7.2",
         "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "~1.0",

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Input, InputGroup, UncontrolledTooltip } from 'reactstrap'
 import { icons } from './_icons'
+import { translations } from './_translations'
 
 export default class TableSearch extends Component {
     constructor (props) {
@@ -39,11 +40,11 @@ export default class TableSearch extends Component {
         return (
             <React.Fragment>
                 <UncontrolledTooltip placement="right" target="clearSearch">
-                    Clear Search
+                    {translations.clear_search}
                 </UncontrolledTooltip>
 
                 <UncontrolledTooltip placement="top" target="searchText">
-                    Search
+                    {translations.search}
                 </UncontrolledTooltip>
 
                 <InputGroup className="mb-3">

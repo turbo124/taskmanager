@@ -5,8 +5,6 @@ namespace App\Mail\Admin;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class OrderHeldMailer extends AdminMailer
@@ -57,7 +55,6 @@ class OrderHeldMailer extends AdminMailer
     {
         $this->message_array = [
             'title'       => $this->subject,
-            'message'     => $this->message,
             'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
             'button_text' => trans('texts.view_invoice'),

@@ -17,7 +17,7 @@ export default class OrderModel extends BaseModel {
         }
 
         this._fields = {
-            is_mobile: window.innerWidth <= 500,
+            is_mobile: window.innerWidth <= 768,
             modalOpen: false,
             deleted_at: null,
             assigned_to: '',

@@ -42,7 +42,7 @@ class CreateOrder implements ShouldQueue
     /**
      * @var Task
      */
-    private Task $task;
+    private ?Task $task;
 
     /**
      * @var \App\Models\User
@@ -184,6 +184,7 @@ class CreateOrder implements ShouldQueue
 
             return $task;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             DB::rollback();
             return null;
         }
@@ -237,6 +238,7 @@ class CreateOrder implements ShouldQueue
 
             return $this->customer;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             DB::rollback();
             return null;
         }
@@ -334,6 +336,7 @@ class CreateOrder implements ShouldQueue
 
             return $this->order;
         } catch (\Exception $e) {
+            Log::emergency($e->getMessage());
             DB::rollback();
             return null;
         }

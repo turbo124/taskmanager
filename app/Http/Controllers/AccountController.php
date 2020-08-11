@@ -6,6 +6,7 @@ use App\Models\AccountUser;
 use App\Models\CompanyToken;
 use App\Factory\AccountFactory;
 use App\Jobs\Domain\CreateDomain;
+use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Language;
 use App\Notifications\NewAccountCreated;
@@ -215,7 +216,8 @@ class AccountController extends Controller
                 'email'      => $user->email,
                 'accounts'   => $accounts,
                 'currencies' => Currency::all(),
-                'languages'  => Language::all()
+                'languages'  => Language::all(),
+                'countries' => Country::all()
             ]
         ];
 

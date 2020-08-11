@@ -3,8 +3,10 @@ import { Card, CardBody } from 'reactstrap'
 import FormatMoney from '../FormatMoney'
 
 export default function ViewEntityHeader (props) {
+    const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'
+
     return <Card body outline color="primary">
-        <CardBody className="text-white">
+        <CardBody className={text_color}>
             <div className="d-flex">
                 <div
                     className="p-2 flex-fill">
