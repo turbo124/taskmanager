@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\Credit\CreditWasRestored;
 use App\Events\Customer\CustomerWasRestored;
+use App\Events\EmailFailedToSend;
 use App\Events\Invoice\InvoiceWasDeleted;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Events\Invoice\InvoiceWasRestored;
@@ -24,6 +25,7 @@ use App\Events\User\UserEmailChanged;
 use App\Listeners\Credit\CreditRestoredActivity;
 use App\Listeners\Credit\CreditUpdatedActivity;
 use App\Listeners\Customer\CustomerRestoredActivity;
+use App\Listeners\Entity\EntityEmailFailedToSend;
 use App\Listeners\Invoice\InvoiceCancelledActivity;
 use App\Listeners\Invoice\InvoiceDeletedActivity;
 use App\Events\Customer\CustomerWasCreated;
@@ -305,6 +307,9 @@ class EventServiceProvider extends ServiceProvider
         FileWasUploaded::class      => [
         ],
         FileWasDeleted::class       => [
+        ],
+        EmailFailedToSend::class       => [
+            EntityEmailFailedToSend::class
         ]
     ];
 

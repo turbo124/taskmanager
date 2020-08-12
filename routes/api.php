@@ -128,7 +128,7 @@ Route::group(
 // uploads
                 Route::post('uploads', 'UploadController@store');
                 Route::get('uploads/{entity}/{entity_id}', 'UploadController@index');
-                Route::delete('uploads/{file_id}', 'UploadController@destroy')->middleware('password.confirm');
+                Route::delete('uploads/{file_id}', 'UploadController@destroy');
 
 // task status
                 Route::get('taskStatus/search', 'TaskStatusController@search');

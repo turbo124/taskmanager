@@ -15,12 +15,10 @@ class CommentList extends React.Component {
     }
 
     deleteFile (id) {
-        axios.delete(`/api/uploads/${id}`).then(data => {
-            const arrFiles = [...this.state.files]
-            const index = arrFiles.findIndex(file => file.id === id)
-            arrFiles.splice(index, 1)
-            this.setState({ files: arrFiles })
-        })
+        const arrFiles = [...this.state.files]
+        const index = arrFiles.findIndex(file => file.id === id)
+        arrFiles.splice(index, 1)
+        this.setState({ files: arrFiles })
     }
 
     render () {

@@ -120,6 +120,7 @@ _localizedValues.en = {
     pending: 'Pending',
     invoiced: 'Invoiced',
     complete: 'Complete',
+    unapplied: 'Unapplied',
     dispatch: 'Dispatch',
     clone_order: 'Clone Order',
     clone_quote: 'Clone Quote',
@@ -501,7 +502,9 @@ _localizedValues.en = {
     language: 'Language',
     date_format: 'Date Format',
     first_day_of_week: 'First Day of Week',
-    first_month_of_year: 'First Month of Year'
+    first_month_of_year: 'First Month of Year',
+    confirm_password: 'Please confirm your password',
+    confirm_password_title: 'Confirm Password'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Jobs\Utils\UploadFile;
 use App\Repositories\TaskRepository;
+use App\Requests\Upload\DeleteFile;
 use App\Requests\UploadRequest;
 use App\Repositories\Interfaces\FileRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
@@ -79,7 +80,7 @@ class UploadController extends Controller
      * @return Response
      * @throws Exception
      */
-    public function destroy($id)
+    public function destroy($id, DeleteFile $request)
     {
         $file = $this->fileRepository->findFileById($id);
         $fileRepo = new FileRepository($file);
