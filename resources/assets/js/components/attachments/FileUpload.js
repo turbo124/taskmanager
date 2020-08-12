@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import ConfirmPassword from '../common/ConfirmPassword'
 
 export default function FileUpload (props) {
     const file = props.file
@@ -16,7 +17,7 @@ export default function FileUpload (props) {
             {file.name}<br/>
             {`${file.user.first_name} ${file.user.last_name}`}
             <br/>
-            <button className="btn btn-danger" onClick={() => props.delete(file.id)}>Delete</button>
+            <ConfirmPassword id={file.id} callback={props.delete} url={`/api/uploads/${file.id}`}/>
         </div>
     )
 }

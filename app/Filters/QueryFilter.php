@@ -79,6 +79,10 @@ class QueryFilter
             )->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
         }
 
+        if($status === 'unapplied') {
+            $this->query->whereRaw("{$table}.applied < {$table}.amount");
+        }
+
         if ($status === 'active') {
             $this->query->whereNull($table . '.deleted_at');
         }
@@ -90,5 +94,12 @@ class QueryFilter
         if ($status === 'deleted') {
             $this->query->where($table . '.is_deleted', '=', 1)->withTrashed();
         }
+    }
+
+    protected function getEloquentSqlWithBindings($query)
+    {
+        return vsprintf(str_replace('?', '%s', $query->toSql()), collect($query->getBindings())->map(function ($binding) {
+            return is_numeric($binding) ? $binding : "'{$binding}'";
+        })->toArray());
     }
 }

@@ -3,7 +3,7 @@
 
 namespace App\Mail\Admin;
 
-
+use App\Events\EmailFailedToSend;
 use App\Models\User;
 use Illuminate\Mail\Mailable;
 
@@ -32,14 +32,18 @@ class AdminMailer extends Mailable
             'email_style'
         ) : $this->entity->account->settings->email_style;
 
-        return $this->to($this->user->email)
-                    ->from('tamtamcrm@support.com')
-                    ->subject($this->subject)
-                    ->markdown(
-                        empty($template) ? 'email.admin.new' : 'email.template.' . $template,
-                        [
-                            'data' => $this->message_array,
-                        ]
-                    );
+        try {
+            return $this->to($this->user->email)
+                        ->from('tamtamcrm@support.com')
+                        ->subject($this->subject)
+                        ->markdown(
+                            empty($template) ? 'email.admin.new' : 'email.template.' . $template,
+                            [
+                                'data' => $this->message_array,
+                            ]
+                        );
+        } catch (\Exception $exception) {
+            event(new EmailFailedToSend($this->entity, $exception->getMessage()));
+        }
     }
 }

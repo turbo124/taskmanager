@@ -36,6 +36,10 @@ export default class PaymentFilters extends Component {
             {
                 value: consts.payment_status_completed,
                 label: translations.complete
+            },
+            {
+                value: consts.payment_status_unapplied,
+                label: translations.unapplied
             }
         ]
 

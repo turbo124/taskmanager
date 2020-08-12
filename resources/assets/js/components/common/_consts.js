@@ -89,6 +89,7 @@ export const consts = {
     payment_status_completed: 4,
     payment_status_partial_refund: 5,
     payment_status_refunded: 6,
+    payment_status_unapplied: 'unapplied',
     payment_status_pending_text: 'Pending',
     payment_status_voided_text: 'Voided',
     payment_status_failed_text: 'Failed',
