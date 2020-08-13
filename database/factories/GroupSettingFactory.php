@@ -16,7 +16,7 @@ use App\Models\User;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(
-    \App\Models\GroupSetting::class, function (Faker\Generator $faker) {
+    \App\Models\Group::class, function (Faker\Generator $faker) {
     $user = factory(User::class)->create();
     return [
         'account_id' => 1,

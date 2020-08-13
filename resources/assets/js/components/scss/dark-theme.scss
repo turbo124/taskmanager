@@ -3021,4 +3021,13 @@ $color_iron_approx: #d6d6d6;
   .dropdown-item i {
     color: #ffffff !important;
   }
+
+  .select__option {
+    color: $color_mystic_approx !important;
+    background-color: $color_scarpa_flow_approx !important;
+
+    &:hover {
+      background-color: $color_science_blue_approx !important;
+    }
+  }
 }

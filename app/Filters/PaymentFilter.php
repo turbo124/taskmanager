@@ -47,6 +47,10 @@ class PaymentFilter extends QueryFilter
             $this->query->whereCustomerId($request->customer_id);
         }
 
+        if ($request->filled('gateway_id')) {
+            $this->query->whereCompanyGatewayId($request->gateway_id);
+        }
+
         if ($request->filled('search_term')) {
             $this->query = $this->searchFilter($request->search_term);
         }

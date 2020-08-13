@@ -33,6 +33,7 @@ class CreateInvoiceRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
+            'number'         => 'nullable|unique:invoices,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
         ];
     }
 

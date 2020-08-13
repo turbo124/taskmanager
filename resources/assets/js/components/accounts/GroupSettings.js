@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddGroupSetting from './AddGroupSetting'
+import AddGroup from './AddGroup'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
-import GroupSettingFilters from './GroupSettingFilters'
-import GroupSettingItem from './GroupSettingItem'
+import GroupFilters from './GroupFilters'
+import GroupItem from './GroupItem'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 
@@ -61,12 +61,12 @@ export default class GroupSettings extends Component {
 
     userList (props) {
         const { groups } = this.state
-        return <GroupSettingItem showCheckboxes={props.showCheckboxes} groups={groups}
-            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-            toggleViewedEntity={props.toggleViewedEntity}
-            viewId={props.viewId}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+        return <GroupItem showCheckboxes={props.showCheckboxes} groups={groups}
+                          ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+                          toggleViewedEntity={props.toggleViewedEntity}
+                          viewId={props.viewId}
+                          bulk={props.bulk}
+                          onChangeBulk={props.onChangeBulk}/>
     }
 
     getUsers () {
@@ -102,13 +102,13 @@ export default class GroupSettings extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <GroupSettingFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={this.state.filters} filter={this.filterGroups}
-                                    saveBulk={this.saveBulk}
-                                    ignoredColumns={this.state.ignoredColumns}/>
+                                <GroupFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
+                                              updateIgnoredColumns={this.updateIgnoredColumns}
+                                              filters={this.state.filters} filter={this.filterGroups}
+                                              saveBulk={this.saveBulk}
+                                              ignoredColumns={this.state.ignoredColumns}/>
 
-                                <AddGroupSetting
+                                <AddGroup
                                     groups={groups}
                                     action={this.addUserToState}
                                 />

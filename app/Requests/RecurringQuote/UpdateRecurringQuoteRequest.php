@@ -21,6 +21,7 @@ class UpdateRecurringQuoteRequest extends BaseFormRequest
             'end_date'                        => 'required',
             'customer_id'                     => 'required|exists:customers,id,account_id,' . auth()->user(
                 )->account_user()->account_id,
+            'number' => 'nullable|unique:recurring_quotes,number,' . $this->id . ',id,account_id,' . $this->account_id,
         ];
     }
 

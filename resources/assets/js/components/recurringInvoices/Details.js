@@ -76,6 +76,18 @@ export default class Details extends Component {
                     </FormGroup>
 
                     <FormGroup>
+                        <Label>{translations.number}</Label>
+                        <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                            value={this.props.invoice.number}
+                            type='text'
+                            name='number'
+                            id='number'
+                            onChange={this.props.handleInput}
+                        />
+                        {this.renderErrorFor('number')}
+                    </FormGroup>
+
+                    <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
                             user_id={this.props.invoice.assigned_to}

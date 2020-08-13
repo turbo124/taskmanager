@@ -7,7 +7,7 @@ export default function GatewayPresenter (props) {
         case 'gateway':
             return <td>{entity.gateway.name}</td>
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, `Gateway ${entity.gateway.name}`)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

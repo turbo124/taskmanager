@@ -64,6 +64,18 @@ export default class Details extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
+                    <Label>{translations.number}</Label>
+                    <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                        value={this.props.order.number}
+                        type='text'
+                        name='number'
+                        id='number'
+                        onChange={this.props.handleInput}
+                    />
+                    {this.renderErrorFor('number')}
+                </FormGroup>
+
+                <FormGroup>
                     <Label>{translations.customer}</Label>
                     <CustomerDropdown
                         handleInputChanges={this.props.handleInput}

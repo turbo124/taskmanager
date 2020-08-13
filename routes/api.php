@@ -296,13 +296,13 @@ Route::group(
             'AccountController@changeAccount'
         )->middleware('role:null,invoicecontroller.store');
 
-        // group settings
-        Route::get('groups', 'GroupSettingController@index');
-        Route::delete('groups/archive/{group_id}', 'GroupSettingController@archive');
-        Route::delete('groups/{group_id}', 'GroupSettingController@destroy');
-        Route::put('groups/{group_id}', 'GroupSettingController@update');
-        Route::post('groups', 'GroupSettingController@store');
-        Route::post('groups/restore/{id}', 'GroupSettingController@restore');
+        // groups
+        Route::get('groups', 'GroupController@index');
+        Route::delete('groups/archive/{group_id}', 'GroupController@archive');
+        Route::delete('groups/{group_id}', 'GroupController@destroy');
+        Route::put('groups/{group_id}', 'GroupController@update');
+        Route::post('groups', 'GroupController@store');
+        Route::post('groups/restore/{id}', 'GroupController@restore');
 
         //template
         Route::post('template', 'TemplateController@show');

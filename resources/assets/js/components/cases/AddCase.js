@@ -56,7 +56,8 @@ export default class AddCase extends React.Component {
             due_date: this.state.due_date,
             priority_id: this.state.priority_id,
             private_notes: this.state.private_notes,
-            category_id: this.state.category_id
+            category_id: this.state.category_id,
+            assigned_to: this.state.assigned_to
         }
 
         this.caseModel.save(data).then(response => {
@@ -129,7 +130,8 @@ export default class AddCase extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <Details customers={this.props.customers} errors={this.state.errors}
+                                <Details cases={this.props.cases} customers={this.props.customers}
+                                    errors={this.state.errors}
                                     hasErrorFor={this.hasErrorFor} case={this.state}
                                     handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                             </TabPane>

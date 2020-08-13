@@ -37,6 +37,7 @@ export default class RecurringQuoteModel extends BaseModel {
             user_id: null,
             contacts: [],
             quantity: '',
+            number: null,
             id: null,
             lines: [],
             address: {},

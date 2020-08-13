@@ -302,6 +302,8 @@ export default class EditCredit extends Component {
         return {
             is_amount_discount: this.state.is_amount_discount,
             assigned_to: this.state.assigned_to,
+            number: this.state.number,
+            account_id: this.state.account_id,
             design_id: this.state.design_id,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,

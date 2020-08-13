@@ -5,11 +5,8 @@ namespace App\Filters;
 use App\Models\Account;
 use App\Models\Company;
 use App\Models\Design;
-use App\Models\GroupSetting;
 use App\Repositories\DesignRepository;
-use App\Repositories\GroupSettingRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\GroupSettingTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Transformations\DesignTransformable;
 
@@ -22,7 +19,7 @@ class DesignFilter extends QueryFilter
     private $model;
 
     /**
-     * GroupSettingFilter constructor.
+     * GroupFilter constructor.
      * @param GroupSettingRepository $group_setting_repo
      */
     public function __construct(DesignRepository $design_repo)

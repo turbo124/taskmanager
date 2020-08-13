@@ -27,13 +27,14 @@ export default class Payments extends Component {
             custom_fields: [],
             dropdownButtonActions: ['download'],
             bulk: [],
-            ignoredColumns: ['customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_to', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
+            ignoredColumns: ['company_gateway_id', 'account_id', 'customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_to', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
-                end_date: ''
+                end_date: '',
+                gateway_id: queryString.parse(this.props.location.search).gateway_id || ''
             },
             invoices: [],
             credits: [],
@@ -149,8 +150,8 @@ export default class Payments extends Component {
 
     render () {
         const { payments, custom_fields, invoices, credits, view, filters, customers, error, isOpen } = this.state
-        const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, searchText, customer_id, gateway_id, start_date, end_date } = this.state.filters
+        const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&gateway_id=${gateway_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
             custom_fields={custom_fields}
             invoices={invoices}

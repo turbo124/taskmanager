@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Models\GroupSetting;
+use App\Models\Group;
 
 class GroupSettings extends BaseSettings
 {
@@ -10,7 +10,7 @@ class GroupSettings extends BaseSettings
 
     ];
 
-    public function save(GroupSetting $group_setting, $settings): ?GroupSetting
+    public function save(Group $group_setting, $settings): ?Group
     {
         try {
             if (empty($settings)) {

@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CompanyToken;
 use App\Models\Customer;
-use App\Filters\GroupSettingFilter;
+use App\Filters\GroupFilter;
 use App\Filters\PromocodeFilter;
 use App\Helpers\Promocodes\Promocodes;
 use App\Models\Order;

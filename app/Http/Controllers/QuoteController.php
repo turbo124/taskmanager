@@ -18,7 +18,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\Quote\CreateQuoteRequest;
-use App\Requests\Quote\UpdateQuoteRequest;
+use App\Requests\Quote\UpdateOrderRequest;
 use App\Requests\SearchRequest;
 use App\Models\Task;
 use App\Transformations\InvoiceTransformable;
@@ -110,7 +110,7 @@ class QuoteController extends BaseController
      * @param Request $request
      * @return mixed
      */
-    public function update(UpdateQuoteRequest $request, int $id)
+    public function update(UpdateOrderRequest $request, int $id)
     {
         $quote = $this->quote_repo->findQuoteById($id);
 

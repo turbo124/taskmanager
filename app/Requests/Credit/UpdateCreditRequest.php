@@ -23,6 +23,7 @@ class UpdateCreditRequest extends BaseFormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
+            'number' => 'nullable|unique:credits,number,' . $this->credit_id . ',id,account_id,' . $this->account_id,
         ];
     }
 

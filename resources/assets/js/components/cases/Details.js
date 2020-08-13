@@ -5,6 +5,8 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
 import CasePriorityDropdown from '../common/CasePriorityDropdown'
+import UserDropdown from "../common/UserDropdown";
+import CaseDropdown from "../common/CaseDropdown";
 
 export default class Details extends Component {
     render () {
@@ -70,6 +72,27 @@ export default class Details extends Component {
                         category={this.props.case.category_id}
                         errors={this.props.errors}
                         renderErrorFor={this.props.renderErrorFor}
+                        handleInputChanges={this.props.handleInput}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="postcode">{translations.assigned_user}:</Label>
+                    <UserDropdown
+                        user_id={this.props.case.assigned_to}
+                        name="assigned_to"
+                        errors={this.props.errors}
+                        handleInputChanges={this.props.handleInput}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="postcode">{translations.parent}:</Label>
+                    <CaseDropdown
+                        cases={this.props.cases}
+                        case_id={this.props.case.parent_id}
+                        name="parent_id"
+                        errors={this.props.errors}
                         handleInputChanges={this.props.handleInput}
                     />
                 </FormGroup>

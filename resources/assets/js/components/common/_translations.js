@@ -148,6 +148,7 @@ _localizedValues.en = {
     billing_address: 'Billing Address',
     shipping_address: 'Shipping Address',
     number: 'Number',
+    processed: 'Processed',
     amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',

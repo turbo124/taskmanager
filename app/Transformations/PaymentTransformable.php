@@ -16,6 +16,8 @@ trait PaymentTransformable
         return [
             'id'                    => (int)$payment->id,
             'user_id'               => (int)$payment->user_id,
+            'account_id'            => (int)$payment->account_id,
+            'company_gateway_id'    => (int)$payment->company_gateway_id,
             'created_at'            => $payment->created_at,
             'assigned_to'           => (int)$payment->assigned_to,
             'number'                => (string)$payment->number ?: '',

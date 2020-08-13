@@ -370,6 +370,7 @@ class EditInvoice extends Component {
             end_date: this.state.end_date,
             frequency: this.state.frequency,
             is_amount_discount: this.state.is_amount_discount,
+            number: this.state.number,
             design_id: this.state.design_id,
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
