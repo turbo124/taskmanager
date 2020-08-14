@@ -3,10 +3,10 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditGroupSetting from './EditGroupSetting'
+import EditGroup from './EditGroup'
 import { Input } from 'reactstrap'
 
-export default class GroupSettingItem extends Component {
+export default class GroupItem extends Component {
     constructor (props) {
         super(props)
 
@@ -40,7 +40,7 @@ export default class GroupSettingItem extends Component {
                 const archiveButton = !group.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteGroup} id={group.id}/> : null
 
-                const editButton = !group.deleted_at ? <EditGroupSetting
+                const editButton = !group.deleted_at ? <EditGroup
                     groups={groups}
                     group={group}
                     action={this.props.addUserToState}

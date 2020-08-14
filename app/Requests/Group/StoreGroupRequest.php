@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Requests\GroupSetting;
+namespace App\Requests\Group;
 
 use App\Repositories\Base\BaseFormRequest;
 
-class StoreGroupSettingRequest extends BaseFormRequest
+class StoreGroupRequest extends BaseFormRequest
 {
 
     public function rules()

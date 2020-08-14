@@ -14,6 +14,9 @@ export default class RecurringInvoices extends Component {
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             per_page: 5,
             view: {
                 ignore: [],
@@ -82,7 +85,7 @@ export default class RecurringInvoices extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     userList (props) {
@@ -130,8 +133,16 @@ export default class RecurringInvoices extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { invoices, custom_fields, customers, allInvoices, view, filters, error, isOpen } = this.state
+        const { invoices, custom_fields, customers, allInvoices, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
@@ -169,7 +180,15 @@ export default class RecurringInvoices extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -178,6 +197,8 @@ export default class RecurringInvoices extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={this.state.customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="RecurringInvoice"

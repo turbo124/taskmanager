@@ -32,7 +32,7 @@ class CreateCustomersTable extends Migration {
 			$table->dateTime('last_login')->nullable();
 			$table->text('settings', 65535)->nullable();
 			$table->boolean('is_deleted')->default(0);
-			$table->integer('group_settings_id')->unsigned()->nullable();
+			$table->integer('group_id')->unsigned()->nullable();
 			$table->string('vat_number')->nullable();
 			$table->timestamps();
 			$table->softDeletes();

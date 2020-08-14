@@ -148,6 +148,7 @@ _localizedValues.en = {
     billing_address: 'Billing Address',
     shipping_address: 'Shipping Address',
     number: 'Number',
+    processed: 'Processed',
     amount_type: 'Amount Type',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',
@@ -497,6 +498,7 @@ _localizedValues.en = {
     should_send_email_for_online_payment: 'Send Email for Online Payments',
     should_send_email_for_online_payment_help_text: 'Will send a receipt to the customer when an online payment is created',
     unexpected_error: 'There was an unexpected error',
+    success_message: 'Action completed successfully',
     about_message: 'Thankyou for using our app',
     about_link: 'If you like it please click here',
     language: 'Language',
@@ -504,7 +506,10 @@ _localizedValues.en = {
     first_day_of_week: 'First Day of Week',
     first_month_of_year: 'First Month of Year',
     confirm_password: 'Please confirm your password',
-    confirm_password_title: 'Confirm Password'
+    confirm_password_title: 'Confirm Password',
+    no_email: 'No Email Address Set',
+    email_sent_successfully: 'Email was sent successfully',
+    emails_sent_successfully: 'Emails were sent successfully'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

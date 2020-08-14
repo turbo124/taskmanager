@@ -352,6 +352,8 @@ class EditInvoice extends Component {
         return {
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,
+            account_id: this.state.account_id,
+            number: this.state.number,
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,

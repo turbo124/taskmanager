@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddForeignKeysToGroupSettingsTable extends Migration {
+class AddForeignKeysToGroupsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,9 @@ class AddForeignKeysToGroupSettingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('group_settings', function(Blueprint $table)
+		Schema::table('groups', function(Blueprint $table)
 		{
-			$table->foreign('account_id')->references('id')->on('accounts')->onUpdate('RESTRICT')->onDelete('CASCADE');
+			$table->foreign('account_id', 'group_settings_account_id_foreign')->references('id')->on('accounts')->onUpdate('RESTRICT')->onDelete('CASCADE');
 		});
 	}
 
@@ -26,7 +26,7 @@ class AddForeignKeysToGroupSettingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('group_settings', function(Blueprint $table)
+		Schema::table('groups', function(Blueprint $table)
 		{
 			$table->dropForeign('group_settings_account_id_foreign');
 		});

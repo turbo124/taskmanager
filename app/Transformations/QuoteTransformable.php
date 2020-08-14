@@ -7,8 +7,6 @@ use App\Models\Email;
 use App\Models\File;
 use App\Models\Quote;
 use App\Models\QuoteInvitation;
-use App\Repositories\CustomerRepository;
-use App\Models\Customer;
 
 trait QuoteTransformable
 {
@@ -22,6 +20,7 @@ trait QuoteTransformable
             'id'                  => (int)$quote->id,
             'created_at'          => $quote->created_at,
             'user_id'             => (int)$quote->user_id,
+            'account_id'          => (int)$quote->account_id,
             'assigned_to'         => (int)$quote->assigned_to,
             'company_id'          => (int)$quote->company_id ?: null,
             'public_notes'        => $quote->public_notes ?: '',

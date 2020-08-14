@@ -26,7 +26,9 @@ class Cases extends Model
         'message',
         'user_id',
         'account_id',
-        'customer_id'
+        'customer_id',
+        'assigned_to',
+        'parent_id'
     ];
 
     const STATUS_DRAFT = 1;

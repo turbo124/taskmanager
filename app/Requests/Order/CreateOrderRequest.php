@@ -5,7 +5,6 @@ namespace App\Requests\Order;
 use App\Rules\Order\OrderTotals;
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class CreateOrderRequest extends FormRequest
 {
@@ -40,7 +39,8 @@ class CreateOrderRequest extends FormRequest
                 'required',
                 'array',
                 new OrderTotals($input)
-            ]
+            ],
+            'number'         => 'nullable|unique:product_task,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
         ];
     }
 

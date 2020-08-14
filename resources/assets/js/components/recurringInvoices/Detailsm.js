@@ -86,6 +86,18 @@ export default class Detailsm extends Component {
                         />
                     </FormGroup>
 
+                    <FormGroup>
+                        <Label>{translations.number}</Label>
+                        <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                            value={this.props.invoice.number}
+                            type='text'
+                            name='number'
+                            id='number'
+                            onChange={this.props.handleInput}
+                        />
+                        {this.renderErrorFor('number')}
+                    </FormGroup>
+
                     {this.props.hide_customer === true &&
                     <FormGroup>
                         <Label>{translations.customer}</Label>

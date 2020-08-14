@@ -19,6 +19,9 @@ export default class Companies extends Component {
             bulk: [],
             cachedData: [],
             errors: [],
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             dropdownButtonActions: ['download'],
             error: '',
             view: {
@@ -74,7 +77,7 @@ export default class Companies extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     filterCompanies (filters) {
@@ -126,8 +129,16 @@ export default class Companies extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { custom_fields, users, error, view, brands, isOpen } = this.state
+        const { custom_fields, users, error, view, brands, isOpen, error_message, success_message, show_success } = this.state
         const { searchText, status_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/companies?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = users.length
@@ -155,7 +166,15 @@ export default class Companies extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -164,6 +183,8 @@ export default class Companies extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Company"
                                     bulk_save_url="/api/company/bulk"

@@ -35,12 +35,16 @@ export default class TaxRates extends Component {
             ],
             errors: [],
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             showRestoreButton: false
         }
 
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
         this.filterTaxRates = this.filterTaxRates.bind(this)
+        this.handleClose = this.handleClose.bind(this)
     }
 
     addUserToState (taxRates) {
@@ -73,8 +77,20 @@ export default class TaxRates extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    handleClose () {
+        this.setState({ error: '', show_success: false })
+    }
+
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { taxRates, error, view, filters, isOpen } = this.state
+        const { taxRates, error, view, filters, isOpen, error_message, success_message, show_success } = this.state
         const { searchText, status_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/taxRates?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = <AddTaxRate taxRates={taxRates} action={this.addUserToState}/>
@@ -100,7 +116,15 @@ export default class TaxRates extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -109,6 +133,8 @@ export default class TaxRates extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Tax Rate"
                                     bulk_save_url="/api/taxRate/bulk"

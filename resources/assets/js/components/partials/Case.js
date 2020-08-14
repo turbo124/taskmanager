@@ -66,7 +66,6 @@ export default class Case extends Component {
         const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
         const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
 
-
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">

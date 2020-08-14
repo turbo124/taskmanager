@@ -265,6 +265,8 @@ export default class EditOrder extends Component {
         return {
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,
+            account_id: this.state.account_id,
+            number: this.state.number,
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,
@@ -320,9 +322,9 @@ export default class EditOrder extends Component {
                 return
             }
 
-            const index = this.props.credits.findIndex(credit => credit.id === this.state.id)
-            this.props.credits[index] = response
-            this.props.action(this.props.credits)
+            const index = this.props.orders.findIndex(order => order.id === this.state.id)
+            this.props.orders[index] = response
+            this.props.action(this.props.orders)
             this.setState({ loading: false })
         })
     }

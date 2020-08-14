@@ -33,6 +33,7 @@ class UpdateQuoteRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
+            'number' => 'nullable|unique:quotes,number,' . $this->quote_id . ',id,account_id,' . $this->account_id,
         ];
     }
 

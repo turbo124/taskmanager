@@ -30,6 +30,7 @@ class CreateCasesTable extends Migration {
 			$table->integer('priority_id')->nullable();
 			$table->date('due_date')->nullable();
 			$table->integer('parent_id')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned();
 		});
 	}
 

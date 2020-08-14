@@ -2,7 +2,7 @@
 
 namespace App\Requests\Customer;
 
-use App\Models\GroupSetting;
+use App\Models\Group;
 use App\Repositories\Base\BaseFormRequest;
 
 class CreateCustomerRequest extends BaseFormRequest
@@ -38,7 +38,7 @@ class CreateCustomerRequest extends BaseFormRequest
 
         //is no settings->currency_id is set then lets dive in and find either a group or company currency all the below may be redundant!!
         if (empty($input['currency']) && !empty($input['group_settings_id'])) {
-            $group_settings = GroupSetting::find($input['group_settings_id']);
+            $group_settings = Group::find($input['group_settings_id']);
 
             if ($group_settings && property_exists($group_settings->settings, 'currency_id') &&
                 isset($group_settings->settings->currency_id)) {

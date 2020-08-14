@@ -118,7 +118,6 @@ class AddLeadForm extends React.Component {
             public_notes={this.state.public_notes}/>
         const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
-
         return (
             <React.Fragment>
                 <AddButtons toggle={this.toggle}/>

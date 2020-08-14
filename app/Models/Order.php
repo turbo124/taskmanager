@@ -147,7 +147,7 @@ class Order extends Model
             'entity_class',
             '=',
             get_class($this)
-        );
+        )->orderBy('created_at', 'desc');
     }
 
     /**

@@ -20,6 +20,7 @@ export default class CaseModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            assigned_to: '',
             subject: '',
             message: '',
             customer_id: '',

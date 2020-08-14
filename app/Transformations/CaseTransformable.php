@@ -5,7 +5,6 @@ namespace App\Transformations;
 
 use App\Models\Cases;
 use App\Models\File;
-use App\Models\Subscription;
 
 trait CaseTransformable
 {
@@ -28,6 +27,8 @@ trait CaseTransformable
             'customer_id'   => (int)$cases->customer_id,
             'customer_name' => $customer->name,
             'user_id'       => (int)$cases->user_id,
+            'assigned_to'   => (int)$cases->assigned_to,
+            'parent_id'     => (int)$cases->parent_id,
             'status_id'     => (int)$cases->status_id,
             'category_id'   => (int)$cases->category_id,
             'priority_id'   => (int)$cases->priority_id,

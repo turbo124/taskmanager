@@ -19,7 +19,7 @@ class PaymentTermsFilter extends QueryFilter
     private $model;
 
     /**
-     * GroupSettingFilter constructor.
+     * GroupFilter constructor.
      * @param GroupSettingRepository $group_setting_repo
      */
     public function __construct(PaymentTermsRepository $payment_terms_repo)

@@ -33,6 +33,7 @@ export default class CustomerModel extends BaseModel {
             city: '',
             description: '',
             values: [],
+            contacts: [],
             loading: false,
             submitSuccess: false,
             count: 2,
@@ -58,6 +59,13 @@ export default class CustomerModel extends BaseModel {
 
     set fileCount (files) {
         this._file_count = files ? files.length : 0
+    }
+
+    hasEmailAddress () {
+        console.log('contacts', this.fields.contacts)
+        const has_email = this.fields.contacts && this.fields.contacts.length ? this.fields.contacts.filter(contact => contact.email && contact.email.length) : []
+        console.log('has email', has_email)
+        return has_email.length > 0
     }
 
     buildDropdownMenu () {

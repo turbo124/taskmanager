@@ -30,6 +30,7 @@ import Task from '../partials/Task'
 import TaxRate from '../partials/TaxRate'
 import Token from '../partials/Token'
 import Group from '../partials/Group'
+import Gateway from '../partials/Gateway'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -120,6 +121,9 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && this.props.entity_type && ['Group'].includes(this.props.entity_type) &&
                         <Group entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Gateway'].includes(this.props.entity_type) &&
+                        <Gateway entity={this.props.entity}/>}
 
                     </ModalBody>
                     <ModalFooter>

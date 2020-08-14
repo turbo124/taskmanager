@@ -18,6 +18,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\Quote\CreateQuoteRequest;
+use App\Requests\Quote\UpdateOrderRequest;
 use App\Requests\Quote\UpdateQuoteRequest;
 use App\Requests\SearchRequest;
 use App\Models\Task;

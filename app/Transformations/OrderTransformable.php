@@ -5,13 +5,8 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
-use App\Models\Invoice;
-use App\Models\InvoiceInvitation;
 use App\Models\Order;
 use App\Models\OrderInvitation;
-use App\Models\Payment;
-use App\Repositories\CustomerRepository;
-use App\Models\Customer;
 
 trait OrderTransformable
 {
@@ -25,6 +20,7 @@ trait OrderTransformable
             'id'                  => (int)$order->id,
             'created_at'          => $order->created_at,
             'user_id'             => (int)$order->user_id,
+            'account_id'          => (int)$order->account_id,
             'assigned_to'         => (int)$order->assigned_to,
             'company_id'          => (int)$order->company_id ?: null,
             'public_notes'        => $order->public_notes ?: '',

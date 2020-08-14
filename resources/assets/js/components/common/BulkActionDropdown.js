@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledTooltip } from 'reactstrap'
 import { icons } from './_icons'
-import { translations } from "./_translations";
+import { translations } from './_translations'
 
 export default class BulkActionDropdown extends Component {
     constructor (props) {

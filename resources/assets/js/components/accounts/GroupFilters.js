@@ -5,7 +5,7 @@ import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
 import StatusDropdown from '../common/StatusDropdown'
 
-export default class GroupSettingFilters extends Component {
+export default class GroupFilters extends Component {
     constructor (props) {
         super(props)
         this.state = {

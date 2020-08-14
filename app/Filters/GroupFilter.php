@@ -4,25 +4,25 @@ namespace App\Filters;
 
 use App\Models\Account;
 use App\Models\Company;
-use App\Models\GroupSetting;
-use App\Repositories\GroupSettingRepository;
+use App\Models\Group;
+use App\Repositories\GroupRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\GroupSettingTransformable;
+use App\Transformations\GroupTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class GroupSettingFilter extends QueryFilter
+class GroupFilter extends QueryFilter
 {
-    use GroupSettingTransformable;
+    use GroupTransformable;
 
     private $group_setting_repo;
 
     private $model;
 
     /**
-     * GroupSettingFilter constructor.
-     * @param GroupSettingRepository $group_setting_repo
+     * GroupFilter constructor.
+     * @param GroupRepository $group_setting_repo
      */
-    public function __construct(GroupSettingRepository $group_setting_repo)
+    public function __construct(GroupRepository $group_setting_repo)
     {
         $this->group_setting_repo = $group_setting_repo;
         $this->model = $group_setting_repo->getModel();
@@ -42,7 +42,7 @@ class GroupSettingFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status('group_settings', $request->status);
+            $this->status('groups', $request->status);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
@@ -84,8 +84,8 @@ class GroupSettingFilter extends QueryFilter
     {
         $list = $this->query->get();
         $groups = $list->map(
-            function (GroupSetting $group) {
-                return $this->transformGroupSetting($group);
+            function (Group $group) {
+                return $this->transformGroup($group);
             }
         )->all();
 

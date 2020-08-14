@@ -21,6 +21,9 @@ export default class Gateways extends Component {
             group_id: queryString.parse(this.props.location.search).group_id || '',
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             dropdownButtonActions: ['download'],
             gateways: [],
             cachedData: [],
@@ -58,7 +61,7 @@ export default class Gateways extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     resetFilters () {
@@ -82,9 +85,17 @@ export default class Gateways extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
         const { searchText, error } = this.state.filters
-        const { view, gateways, isOpen, customer_id, group_id } = this.state
+        const { view, gateways, isOpen, customer_id, group_id, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/company_gateways?search_term=${searchText} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
@@ -114,7 +125,15 @@ export default class Gateways extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -129,6 +148,8 @@ export default class Gateways extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Gateway"

@@ -93,6 +93,18 @@ export default class Detailsm extends Component {
                     </FormGroup>
 
                     <FormGroup>
+                        <Label>{translations.number}</Label>
+                        <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                            value={this.props.quote.number}
+                            type='text'
+                            name='number'
+                            id='number'
+                            onChange={this.props.handleInput}
+                        />
+                        {this.renderErrorFor('number')}
+                    </FormGroup>
+
+                    <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
                             user_id={this.props.quote.assigned_to}

@@ -174,7 +174,7 @@ class Invoice extends Model
             'entity_class',
             '=',
             get_class($this)
-        );
+        )->orderBy('created_at', 'desc');
     }
 
     public function files()

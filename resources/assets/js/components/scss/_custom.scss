@@ -246,6 +246,19 @@ body {
       background: #17a2b8;
     }
   }
+
+  .select__single-value {
+    color: #000 !important;
+  }
+
+  .select__option {
+    color: #000 !important;
+    background-color: #fff !important;
+
+    &:hover {
+      background-color: $color_science_blue_approx !important;
+    }
+  }
 }
 
 .tab-content {

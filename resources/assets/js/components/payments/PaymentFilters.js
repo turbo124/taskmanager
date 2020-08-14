@@ -20,7 +20,8 @@ export default class PaymentFilters extends Component {
                 customer_id: '',
                 searchText: '',
                 start_date: '',
-                end_date: ''
+                end_date: '',
+                gateway_id: ''
             }
         }
 
@@ -83,7 +84,7 @@ export default class PaymentFilters extends Component {
     }
 
     getFilters () {
-        const { status_id, searchText, customer_id, start_date, end_date } = this.state.filters
+        const { status_id, searchText, customer_id, gateway_id, start_date, end_date } = this.state.filters
         return (
             <Row form>
                 <Col md={3}>
@@ -107,7 +108,7 @@ export default class PaymentFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="payments.csv"
-                        url={`/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                        url={`/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&gateway_id=${gateway_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRecurringQuotesTable extends Migration {
+class CreateRecurringInvoicesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,20 +12,20 @@ class CreateRecurringQuotesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('recurring_quotes', function(Blueprint $table)
+		Schema::create('recurring_invoices', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('customer_id')->unsigned()->index();
-			$table->integer('user_id')->unsigned()->index('recurring_quotes_user_id_foreign');
+			$table->integer('user_id')->unsigned()->index('recurring_invoices_user_id_foreign');
 			$table->integer('assigned_user_id')->unsigned()->nullable();
 			$table->integer('account_id')->unsigned()->index();
 			$table->integer('status_id')->unsigned()->index();
+			$table->text('number', 65535)->nullable();
 			$table->float('discount')->default(0.00);
 			$table->decimal('sub_total', 16, 4)->default(0.0000);
 			$table->decimal('tax_total', 16, 4)->default(0.0000);
 			$table->decimal('discount_total', 16, 4)->default(0.0000);
 			$table->boolean('is_amount_discount')->default(0);
-			$table->string('number')->nullable();
 			$table->string('po_number')->nullable();
 			$table->date('date')->nullable();
 			$table->dateTime('due_date')->nullable();
@@ -34,11 +34,12 @@ class CreateRecurringQuotesTable extends Migration {
 			$table->text('footer', 65535)->nullable();
 			$table->text('public_notes', 65535)->nullable();
 			$table->text('terms', 65535)->nullable();
-			$table->decimal('total', 16, 4)->default(0.0000);
-			$table->decimal('balance', 16, 4)->default(0.0000);
+			$table->decimal('total', 16, 4);
+			$table->decimal('balance', 16, 4);
+			$table->decimal('partial', 16, 4)->nullable();
 			$table->dateTime('last_viewed')->nullable();
 			$table->integer('frequency')->unsigned();
-			$table->date('start_date')->nullable();
+			$table->dateTime('start_date')->nullable();
 			$table->dateTime('last_sent_date')->nullable();
 			$table->dateTime('next_send_date')->nullable();
 			$table->integer('remaining_cycles')->unsigned()->nullable();
@@ -51,10 +52,15 @@ class CreateRecurringQuotesTable extends Migration {
 			$table->string('custom_value3')->nullable();
 			$table->string('custom_value4')->nullable();
 			$table->text('private_notes', 65535)->nullable();
-			$table->string('tax_rate_name')->nullable();
 			$table->decimal('tax_rate', 13, 3)->default(0.000);
-			$table->decimal('partial', 16, 4)->nullable();
+			$table->string('tax_rate_name')->nullable();
 			$table->date('end_date')->nullable();
+			$table->decimal('shipping_cost', 16, 4)->nullable();
+			$table->decimal('transaction_fee', 16, 4)->nullable();
+			$table->boolean('transaction_fee_tax')->default(0);
+			$table->boolean('shipping_cost_tax')->default(0);
+			$table->decimal('gateway_fee', 16, 4)->nullable();
+			$table->boolean('gateway_percentage')->default(0);
 		});
 	}
 
@@ -66,7 +72,7 @@ class CreateRecurringQuotesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('recurring_quotes');
+		Schema::drop('recurring_invoices');
 	}
 
 }

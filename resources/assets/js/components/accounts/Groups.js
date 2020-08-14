@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddGroupSetting from './AddGroupSetting'
+import AddGroup from './AddGroup'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
-import GroupSettingFilters from './GroupSettingFilters'
-import GroupSettingItem from './GroupSettingItem'
+import GroupFilters from './GroupFilters'
+import GroupItem from './GroupItem'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 
-export default class GroupSettings extends Component {
+export default class Groups extends Component {
     constructor (props) {
         super(props)
 
@@ -25,6 +25,9 @@ export default class GroupSettings extends Component {
                 title: null
             },
             errors: [],
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             ignoredColumns: ['settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
@@ -56,12 +59,20 @@ export default class GroupSettings extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
+    }
+
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
     }
 
     userList (props) {
         const { groups } = this.state
-        return <GroupSettingItem showCheckboxes={props.showCheckboxes} groups={groups}
+        return <GroupItem showCheckboxes={props.showCheckboxes} groups={groups}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
@@ -90,7 +101,7 @@ export default class GroupSettings extends Component {
 
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, groups, error, isOpen } = this.state
+        const { view, groups, error, isOpen, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/groups?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
@@ -102,13 +113,13 @@ export default class GroupSettings extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <GroupSettingFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
+                                <GroupFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterGroups}
                                     saveBulk={this.saveBulk}
                                     ignoredColumns={this.state.ignoredColumns}/>
 
-                                <AddGroupSetting
+                                <AddGroup
                                     groups={groups}
                                     action={this.addUserToState}
                                 />
@@ -119,7 +130,15 @@ export default class GroupSettings extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -129,6 +148,8 @@ export default class GroupSettings extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Group"
                                     bulk_save_url="/api/group/bulk"

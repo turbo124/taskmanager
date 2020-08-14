@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\GroupSetting;
+use App\Models\Group;
 use App\Repositories\Base\BaseRepository;
 
-class GroupSettingRepository extends BaseRepository
+class GroupRepository extends BaseRepository
 {
     /**
-     * GroupSettingRepository constructor.
-     * @param GroupSetting $group_setting
+     * GroupRepository constructor.
+     * @param Group $group_setting
      */
-    public function __construct(GroupSetting $group_setting)
+    public function __construct(Group $group_setting)
     {
         parent::__construct($group_setting);
     }
@@ -28,14 +28,14 @@ class GroupSettingRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return GroupSetting
+     * @return Group
      */
-    public function findGroupSettingById(int $id): GroupSetting
+    public function findGroupById(int $id): Group
     {
         return $this->findOneOrFail($id);
     }
 
-    public function save($data, GroupSetting $group_setting): ?GroupSetting
+    public function save($data, Group $group_setting): ?Group
     {
         $group_setting->fill($data);
         $group_setting->save();

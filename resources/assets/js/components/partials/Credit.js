@@ -26,9 +26,8 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import Audit from './Audit'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -107,7 +106,6 @@ export default class Credit extends Component {
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
-        const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
 
         return (
             <React.Fragment>
@@ -130,6 +128,17 @@ export default class Credit extends Component {
                             }}
                         >
                             {translations.documents} ({this.creditModel.fileCount})
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
+                            {translations.history}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -210,6 +219,14 @@ export default class Credit extends Component {
                                             className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Audit entity="Credit" audits={this.props.entity.audits} />
                             </Col>
                         </Row>
                     </TabPane>

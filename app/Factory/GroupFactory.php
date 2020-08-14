@@ -2,15 +2,15 @@
 
 namespace App\Factory;
 
-use App\Models\GroupSetting;
+use App\Models\Group;
 use App\Models\Account;
 use App\Models\User;
 
-class GroupSettingFactory
+class GroupFactory
 {
-    public static function create(Account $account, User $user): GroupSetting
+    public static function create(Account $account, User $user): Group
     {
-        $gs = new GroupSetting;
+        $gs = new Group;
         $gs->name = '';
         $gs->account_id = $account->id;
         $gs->user_id = $user->id;

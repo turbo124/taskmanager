@@ -24,7 +24,7 @@ import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import GroupModel from '../models/GroupModel'
 
-class EditGroupSetting extends Component {
+class EditGroup extends Component {
     constructor (props) {
         super(props)
 
@@ -1027,4 +1027,4 @@ class EditGroupSetting extends Component {
     }
 }
 
-export default EditGroupSetting
+export default EditGroup

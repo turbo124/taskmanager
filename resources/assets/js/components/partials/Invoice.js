@@ -28,9 +28,8 @@ import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import Audit from './Audit'
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -133,6 +132,17 @@ export default class Invoice extends Component {
                             {translations.documents} ({this.invoiceModel.fileCount})
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
+                            {translations.history}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -231,6 +241,14 @@ export default class Invoice extends Component {
                                             className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Audit entity="Invoice" audits={this.props.entity.audits} />
                             </Col>
                         </Row>
                     </TabPane>

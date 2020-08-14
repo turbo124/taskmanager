@@ -41,7 +41,7 @@ import GatewaySettings from './gateways/Gateways'
 import InvoiceSettings from './accounts/InvoiceSettings'
 import ProductSettings from './accounts/ProductSettings'
 import NumberSettings from './accounts/NumberSettings'
-import GroupSettings from './accounts/GroupSettings'
+import Groups from './accounts/Groups'
 import Expenses from './expenses/Expenses'
 import Designs_backup from './designs/Designs'
 import Integrations from './accounts/IntegrationSettings'
@@ -230,7 +230,7 @@ const routes = [
     {
         path: '/group-settings',
         name: 'Group Settings',
-        component: GroupSettings
+        component: Groups
     },
     {
         path: '/subscriptions',
@@ -332,7 +332,7 @@ const routes = [
         name: 'Dashboard',
         component: Dashboard
     }
-    // {path: '/base/list-groups', name: 'List Groups', component: ListGroups},
+    // {path: '/base/list-groups', name: 'List Group', component: ListGroups},
     // {path: '/base/navbars', name: 'Navbars', component: Navbars},
     // {path: '/base/navs', name: 'Navs', component: Navs},
     // {path: '/base/paginations', name: 'Paginations', component: Paginations},
@@ -342,7 +342,7 @@ const routes = [
     // {path: '/buttons', exact: true, name: 'Buttons', component: Buttons},
     // {path: '/buttons/buttons', name: 'Buttons', component: Buttons},
     // {path: '/buttons/button-dropdowns', name: 'Button Dropdowns', component: ButtonDropdowns},
-    // {path: '/buttons/button-groups', name: 'Button Groups', component: ButtonGroups},
+    // {path: '/buttons/button-groups', name: 'Button Group', component: ButtonGroups},
     // {path: '/buttons/brand-buttons', name: 'Brand Buttons', component: BrandButtons},
     // {path: '/icons', exact: true, name: 'Icons', component: CoreUIIcons},
     // {path: '/icons/coreui-icons', name: 'CoreUI Icons', component: CoreUIIcons},

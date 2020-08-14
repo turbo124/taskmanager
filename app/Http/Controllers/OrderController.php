@@ -20,6 +20,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\Order\CreateOrderRequest;
+use App\Requests\Order\UpdateOrderRequest;
 use App\Requests\SearchRequest;
 use Illuminate\Http\Request;
 use App\Transformations\OrderTransformable;
@@ -74,7 +75,7 @@ class OrderController extends BaseController
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function update(int $id, Request $request)
+    public function update(int $id, UpdateOrderRequest $request)
     {
         $order = $this->order_repo->findOrderById($id);
         $this->order_repo->updateOrder($request->all(), $order);

@@ -37,6 +37,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             user_id: null,
             contacts: [],
             quantity: '',
+            number: null,
             id: null,
             line_items: [],
             address: {},

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Factory\PaymentTermsFactory;
 use App\Filters\PaymentTermsFilter;
-use App\Requests\GroupSetting\StoreGroupSettingRequest;
-use App\Requests\GroupSetting\UpdateGroupSettingRequest;
-use App\Models\GroupSetting;
+use App\Requests\Group\StoreGroupRequest;
+use App\Requests\Group\UpdateGroupRequest;
+use App\Models\Group;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\PaymentTerms\StorePaymentTermsRequest;
 use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\File;
-use App\Models\GroupSetting;
+use App\Models\Group;
 use App\Models\Language;
 use App\Models\Message;
 use App\Models\Account;
@@ -141,7 +141,7 @@ class Customer extends Model implements HasLocalePreference
 
     public function group_settings()
     {
-        return $this->belongsTo(GroupSetting::class);
+        return $this->belongsTo(Group::class);
     }
 
     public function language()

@@ -8,7 +8,7 @@ use App\Repositories\Base\BaseRepository;
 class PaymentTermsRepository extends BaseRepository
 {
     /**
-     * GroupSettingRepository constructor.
+     * GroupRepository constructor.
      * @param GroupSetting $group_setting
      */
     public function __construct(PaymentTerms $payment_terms)

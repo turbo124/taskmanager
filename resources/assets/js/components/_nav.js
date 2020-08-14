@@ -62,7 +62,7 @@ const items = [
                 icon: `fa ${getSettingsIcon('number-settings')}`
             },
             {
-                name: 'Groups',
+                name: 'Group',
                 url: '/group-settings',
                 icon: `fa ${getSettingsIcon('group-settings')}`
             },

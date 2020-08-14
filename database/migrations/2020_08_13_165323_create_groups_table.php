@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateGroupSettingsTable extends Migration {
+class CreateGroupsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateGroupSettingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('group_settings', function(Blueprint $table)
+		Schema::create('groups', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('account_id')->unsigned()->index('group_settings_account_id_foreign');
@@ -32,7 +32,7 @@ class CreateGroupSettingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('group_settings');
+		Schema::drop('groups');
 	}
 
 }

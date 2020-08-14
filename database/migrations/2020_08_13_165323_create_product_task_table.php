@@ -61,6 +61,7 @@ class CreateProductTaskTable extends Migration {
 			$table->dateTime('date_cancelled')->nullable();
 			$table->boolean('gateway_percentage')->default(0);
 			$table->integer('assigned_user')->unsigned()->nullable();
+			$table->integer('assigned_to')->unsigned();
 		});
 	}
 

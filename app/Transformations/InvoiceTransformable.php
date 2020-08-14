@@ -8,9 +8,6 @@ use App\Models\File;
 use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
 use App\Models\Payment;
-use App\Models\Paymentable;
-use App\Repositories\CustomerRepository;
-use App\Models\Customer;
 
 trait InvoiceTransformable
 {
@@ -26,6 +23,7 @@ trait InvoiceTransformable
             'id'                  => (int)$invoice->id,
             'created_at'          => $invoice->created_at,
             'user_id'             => (int)$invoice->user_id,
+            'account_id'          => (int)$invoice->account_id,
             'assigned_to'         => (int)$invoice->assigned_to,
             'company_id'          => (int)$invoice->company_id ?: null,
             'public_notes'        => $invoice->public_notes ?: '',

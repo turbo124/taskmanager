@@ -8,6 +8,7 @@ import DisplayColumns from './DisplayColumns'
 import { translations } from './_translations'
 import CheckboxFilterBar from './CheckboxFilterBar'
 import TableToolbar from './TableToolbar'
+import CustomerModel from '../models/CustomerModel'
 
 export default class DataTable extends Component {
     constructor (props) {
@@ -90,18 +91,36 @@ export default class DataTable extends Component {
             return false
         }
 
+        if (action === 'email') {
+            let is_valid = true
+            this.state.data.map((entity) => {
+                const customer = this.props.customers.filter(customer => customer.id === parseInt(entity.customer_id))
+                const customerModel = new CustomerModel(customer[0])
+                const has_email = customerModel.hasEmailAddress()
+
+                if (!has_email) {
+                    is_valid = false
+                }
+            })
+
+            if (!is_valid) {
+                this.props.setError(translations.no_email)
+                return false
+            }
+        }
+
         axios.post(this.props.bulk_save_url, { ids: this.state.bulk, action: action }).then(function (response) {
-            // const arrQuotes = [...self.state.invoices]
-            // const index = arrQuotes.findIndex(payment => payment.id === id)
-            // arrQuotes.splice(index, 1)
-            // self.updateInvoice(arrQuotes)
+            let message = `${action} was completed successfully`
+
+            if (action === 'email') {
+                message = self.state.bulk.length === 1 ? translations.email_sent_successfully : translations.emails_sent_successfully
+            }
+
+            self.props.setSuccess(message)
         })
             .catch(function (error) {
-                self.setState(
-                    {
-                        error: error.response.data
-                    }
-                )
+                console.log('error', error)
+                self.props.setError(`${action} could not complete.`)
             })
     }
 
@@ -209,11 +228,7 @@ export default class DataTable extends Component {
                 }, () => this.props.updateState(data))
             })
             .catch(error => {
-                alert(error)
-                this.setState({
-                    loading: false,
-                    message: 'Failed to fetch the data. Please check network'
-                })
+                this.props.setError('Failed to fetch the data. Please check network')
             })
     }
 

@@ -24,6 +24,7 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'customer_id'    => 'required',
             'date'           => 'required',
@@ -32,7 +33,8 @@ class UpdateInvoiceRequest extends FormRequest
             'sub_total'      => 'required',
             'total'          => 'required',
             'tax_total'      => 'required',
-            'line_items'     => 'required|array'
+            'line_items'     => 'required|array',
+            'number' => 'nullable|unique:invoices,number,' . $this->invoice_id . ',id,account_id,' . $this->account_id,
         ];
     }
 

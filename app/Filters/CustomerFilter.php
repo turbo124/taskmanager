@@ -52,7 +52,7 @@ class CustomerFilter extends QueryFilter
         }
 
         if ($request->filled('group_settings_id')) {
-            $this->query->whereGroupSettingsId($request->group_settings_id);
+            $this->query->whereGroupId($request->group_settings_id);
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {

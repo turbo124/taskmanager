@@ -6,7 +6,7 @@ import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import GroupModel from '../models/GroupModel'
 
-class AddGroupSetting extends React.Component {
+class AddGroup extends React.Component {
     constructor (props) {
         super(props)
 
@@ -102,4 +102,4 @@ class AddGroupSetting extends React.Component {
     }
 }
 
-export default AddGroupSetting
+export default AddGroup
