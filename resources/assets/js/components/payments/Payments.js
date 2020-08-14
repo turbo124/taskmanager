@@ -15,6 +15,9 @@ export default class Payments extends Component {
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             per_page: 5,
             view: {
                 ignore: ['paymentables', 'assigned_to', 'id', 'customer', 'invoice_id', 'applied', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
@@ -57,7 +60,7 @@ export default class Payments extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     getCustomFields () {
@@ -148,8 +151,16 @@ export default class Payments extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { payments, custom_fields, invoices, credits, view, filters, customers, error, isOpen } = this.state
+        const { payments, custom_fields, invoices, credits, view, filters, customers, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, searchText, customer_id, gateway_id, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/payments?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&gateway_id=${gateway_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = invoices.length ? <AddPayment
@@ -181,7 +192,15 @@ export default class Payments extends Component {
                 {error &&
                 <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
-                        {translations.unexpected_error}
+                        {error_message}
+                    </Alert>
+                </Snackbar>
+                }
+
+                {show_success &&
+                <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Alert severity="success">
+                        {success_message}
                     </Alert>
                 </Snackbar>
                 }
@@ -190,6 +209,8 @@ export default class Payments extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
+                                setSuccess={this.setSuccess.bind(this)}
+                                setError={this.setError.bind(this)}
                                 customers={customers}
                                 dropdownButtonActions={this.state.dropdownButtonActions}
                                 entity_type="Payment"

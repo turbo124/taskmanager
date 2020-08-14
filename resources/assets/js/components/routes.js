@@ -41,7 +41,7 @@ import GatewaySettings from './gateways/Gateways'
 import InvoiceSettings from './accounts/InvoiceSettings'
 import ProductSettings from './accounts/ProductSettings'
 import NumberSettings from './accounts/NumberSettings'
-import GroupSettings from './accounts/GroupSettings'
+import Groups from './accounts/Groups'
 import Expenses from './expenses/Expenses'
 import Designs_backup from './designs/Designs'
 import Integrations from './accounts/IntegrationSettings'
@@ -230,7 +230,7 @@ const routes = [
     {
         path: '/group-settings',
         name: 'Group Settings',
-        component: GroupSettings
+        component: Groups
     },
     {
         path: '/subscriptions',

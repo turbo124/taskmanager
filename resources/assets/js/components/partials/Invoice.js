@@ -29,7 +29,7 @@ import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
-import Audit from "./Audit";
+import Audit from './Audit'
 
 export default class Invoice extends Component {
     constructor (props) {

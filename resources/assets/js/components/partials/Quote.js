@@ -29,7 +29,7 @@ import FormatMoney from '../common/FormatMoney'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
-import Audit from "./Audit";
+import Audit from './Audit'
 
 export default class Quote extends Component {
     constructor (props) {

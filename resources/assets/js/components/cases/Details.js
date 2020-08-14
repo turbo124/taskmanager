@@ -5,8 +5,8 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
 import CasePriorityDropdown from '../common/CasePriorityDropdown'
-import UserDropdown from "../common/UserDropdown";
-import CaseDropdown from "../common/CaseDropdown";
+import UserDropdown from '../common/UserDropdown'
+import CaseDropdown from '../common/CaseDropdown'
 
 export default class Details extends Component {
     render () {

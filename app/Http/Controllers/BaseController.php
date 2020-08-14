@@ -248,7 +248,7 @@ class BaseController extends Controller
                 $subject = $entity->customer->getSetting('email_subject_' . $template);
                 $body = $entity->customer->getSetting('email_template_' . $template);
                 $entity->service()->sendEmail(null, $subject, $body);
-                $response = 'email sent';
+                $response = $this->transformEntity($entity);
                 break;
             case 'clone_to_invoice': // done
                 $invoice = CloneInvoiceFactory::create(

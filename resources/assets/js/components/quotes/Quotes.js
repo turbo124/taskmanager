@@ -14,6 +14,9 @@ export default class Quotes extends Component {
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             per_page: 5,
             view: {
                 ignore: ['user_id', 'next_send_date', 'updated_at', 'use_inclusive_taxes', 'last_sent_date', 'uses_inclusive_taxes', 'line_items', 'next_sent_date', 'first_name', 'last_name', 'design_id', 'status_id', 'custom_surcharge_tax1', 'custom_surcharge_tax2'],
@@ -26,7 +29,7 @@ export default class Quotes extends Component {
             customers: [],
             custom_fields: [],
             bulk: [],
-            dropdownButtonActions: ['download', 'clone_quote_to_invoice'],
+            dropdownButtonActions: ['email', 'download', 'clone_quote_to_invoice'],
             filters: {
                 status_id: 'active',
                 customer_id: '',
@@ -62,7 +65,7 @@ export default class Quotes extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     userList (props) {
@@ -110,8 +113,16 @@ export default class Quotes extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { quotes, custom_fields, customers, view, filters, error, isOpen } = this.state
+        const { quotes, custom_fields, customers, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <EditQuote
@@ -146,7 +157,15 @@ export default class Quotes extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -155,6 +174,8 @@ export default class Quotes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Quote"

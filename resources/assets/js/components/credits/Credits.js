@@ -14,6 +14,9 @@ export default class Credits extends Component {
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             per_page: 5,
             view: {
                 ignore: [],
@@ -25,7 +28,7 @@ export default class Credits extends Component {
             cachedData: [],
             customers: [],
             custom_fields: [],
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['download', 'email'],
             bulk: [],
             ignoredColumns: ['account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'customer_name', 'emails', 'due_date', 'assigned_to', 'invoice_id', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
@@ -53,7 +56,7 @@ export default class Credits extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     getCustomers () {
@@ -109,8 +112,16 @@ export default class Credits extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
-        const { customers, credits, custom_fields, view, filters, error, isOpen } = this.state
+        const { customers, credits, custom_fields, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/credits?search_term=${this.state.filters.searchText}&status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}`
         const addButton = customers.length ? <EditCredit
             custom_fields={custom_fields}
@@ -143,7 +154,15 @@ export default class Credits extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -152,6 +171,8 @@ export default class Credits extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Credit"

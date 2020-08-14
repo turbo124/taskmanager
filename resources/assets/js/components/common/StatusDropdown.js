@@ -68,7 +68,6 @@ export default class StatusDropdown extends Component {
     }
 
     buildDropdownMenu (list) {
-
         return (
             <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret className="status-dropdown">

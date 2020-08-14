@@ -27,7 +27,7 @@ import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
-import Audit from "./Audit";
+import Audit from './Audit'
 
 export default class Credit extends Component {
     constructor (props) {

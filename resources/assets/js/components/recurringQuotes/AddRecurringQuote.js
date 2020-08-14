@@ -130,7 +130,6 @@ class AddRecurringQuote extends Component {
         )
         const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
 
-
         return this.props.modal === true
             ? <React.Fragment>
                 <AddButtons toggle={this.toggle}/>

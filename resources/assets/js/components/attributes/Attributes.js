@@ -15,6 +15,9 @@ export default class Attributes extends Component {
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
+            show_success: false,
+            error_message: translations.unexpected_error,
+            success_message: translations.success_message,
             dropdownButtonActions: ['download'],
             attributes: [],
             cachedData: [],
@@ -52,7 +55,7 @@ export default class Attributes extends Component {
     }
 
     handleClose () {
-        this.setState({ error: '' })
+        this.setState({ error: '', show_success: false })
     }
 
     resetFilters () {
@@ -89,9 +92,17 @@ export default class Attributes extends Component {
         this.setState({ isOpen: isOpen })
     }
 
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    }
+
+    setSuccess (message = null) {
+        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+    }
+
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
-        const { view, attributes, error, isOpen } = this.state
+        const { view, attributes, error, isOpen, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/attributes?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
@@ -120,7 +131,15 @@ export default class Attributes extends Component {
                     {error &&
                     <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
-                            {translations.unexpected_error}
+                            {error_message}
+                        </Alert>
+                    </Snackbar>
+                    }
+
+                    {show_success &&
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                        <Alert severity="success">
+                            {success_message}
                         </Alert>
                     </Snackbar>
                     }
@@ -129,6 +148,8 @@ export default class Attributes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Attribute"
                                     bulk_save_url="/api/attributes/bulk"
