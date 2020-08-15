@@ -31,7 +31,7 @@ export default class DeleteModal extends Component {
         const text = this.props.archive === true ? translations.archive : translations.delete
         const message = this.props.archive === true ? translations.archive_message : translations.delete_message
         const icon = this.props.archive === true ? `${icons.archive}` : `${icons.delete}`
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>

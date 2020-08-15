@@ -2,8 +2,10 @@ import React from 'react'
 import { Card, CardText } from 'reactstrap'
 
 export default function PlainEntityHeader (props) {
+    const text_color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'text-white' : 'text-dark'
+
     return <Card body outline color="primary">
-        <CardText className="text-white">
+        <CardText className={text_color}>
             <div className="d-flex">
                 <div
                     className="p-2 flex-fill">

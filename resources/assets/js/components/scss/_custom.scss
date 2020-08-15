@@ -231,7 +231,11 @@ body {
   }
 
   td .dropdown .dropdown-menu .dropdown-item i, td .dropdown .dropdown-menu .dropdown-item a {
-    color: $dark_grey !important;
+    color: #005dc1 !important;
+  }
+
+  .dropdown-item i {
+    color: #005dc1 !important;
   }
 
   .view-entity {
@@ -240,7 +244,19 @@ body {
     }
   }
 
+  table.mobile td {
+    background-color: #fff !important;
+
+    &:hover {
+      background-color: #dee2e6 !important;
+    }
+  }
+
   .sidebar {
+    .nav-link {
+      color: #000 !important;
+    }
+
     .nav-link.active {
       color: #000;
       background: #17a2b8;

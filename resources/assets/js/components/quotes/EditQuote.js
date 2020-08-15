@@ -627,7 +627,7 @@ class EditInvoice extends Component {
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
             : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_quote}
             </DropdownItem>
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (

@@ -169,12 +169,13 @@ table.mobile tbody {
 
 @media screen and(min-width: 767px) {
   table.mobile {
-    width: 35% !important;
+    width: 60% !important;
+    margin-left: 25px;
   }
 }
 
 table.mobile tr {
-  //border-bottom: 3px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
   display: block;
   margin-bottom: 0.625em;
 }
@@ -184,7 +185,7 @@ table.mobile td {
   padding: 25px;
   //border-bottom: 1px solid #dddddd;
   display: block;
-  font-size: 0.8em;
+  font-size: 14px;
   text-align: right;
 
   &:hover {

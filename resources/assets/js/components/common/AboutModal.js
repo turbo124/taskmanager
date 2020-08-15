@@ -82,7 +82,7 @@ export default class AboutModal extends Component {
     }
 
     render () {
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
         const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? '#fff' : '#000'
         const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
 

@@ -10,12 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyToken extends Model
 {
 
-    protected $casts = [
-        'updated_at' => 'timestamp',
-        'created_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
-    ];
-
     protected $fillable = [
         'account_id',
         'user_id',

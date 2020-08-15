@@ -116,7 +116,7 @@ class AddLeadForm extends React.Component {
 
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
             public_notes={this.state.public_notes}/>
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>

@@ -3,7 +3,7 @@ import { ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import { icons } from '../_icons'
 
 export default function SectionItem (props) {
-    const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
     return <a className="mb-2" href={props.link}>
         <ListGroupItem

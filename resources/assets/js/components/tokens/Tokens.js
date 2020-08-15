@@ -20,6 +20,7 @@ export default class Tokens extends Component {
             success_message: translations.success_message,
             dropdownButtonActions: ['download'],
             tokens: [],
+            users: [],
             cachedData: [],
             view: {
                 ignore: [],
@@ -40,6 +41,11 @@ export default class Tokens extends Component {
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
         this.filterTokens = this.filterTokens.bind(this)
+        this.getUsers = this.getUsers.bind(this)
+    }
+
+    componentDidMount () {
+        this.getUsers()
     }
 
     addUserToState (tokens) {
@@ -59,8 +65,8 @@ export default class Tokens extends Component {
     }
 
     userList (props) {
-        const { tokens } = this.state
-        return <TokenItem showCheckboxes={props.showCheckboxes} tokens={tokens}
+        const { tokens, users } = this.state
+        return <TokenItem showCheckboxes={props.showCheckboxes} tokens={tokens} users={users}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
@@ -96,7 +102,10 @@ export default class Tokens extends Component {
     }
 
     setSuccess (message = null) {
-        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+        this.setState({
+            show_success: true,
+            success_message: message === null ? translations.success_message : message
+        })
     }
 
     render () {

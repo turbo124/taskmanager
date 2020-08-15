@@ -4,7 +4,7 @@ import React from 'react'
 import FormatMoney from '../FormatMoney'
 
 export default function LineItem (props) {
-    const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
     return <ListGroupItem className={listClass}>
         <ListGroupItemHeading

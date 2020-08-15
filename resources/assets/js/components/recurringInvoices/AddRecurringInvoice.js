@@ -115,7 +115,7 @@ class AddRecurringInvoice extends Component {
 
     render () {
         const inlineClass = this.props ? 'mb-4' : 'form-inline mb-4'
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         const form = (
             <div className={inlineClass}>

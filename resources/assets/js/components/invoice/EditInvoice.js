@@ -670,7 +670,7 @@ class EditInvoice extends Component {
             </DropdownItem>
 
         const showSuccessButton = this.invoiceModel.isEditable
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (

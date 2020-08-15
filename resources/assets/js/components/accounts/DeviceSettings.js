@@ -12,7 +12,7 @@ export default class DeviceSettings extends Component {
         this.state = {
             id: localStorage.getItem('account_id'),
             settings: {
-                dark_theme: !!(localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true'),
+                dark_theme: !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme',
                 number_of_rows: localStorage.getItem('number_of_rows') || 10
             },
             success: false,
