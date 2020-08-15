@@ -161,7 +161,7 @@ class AddModal extends React.Component {
         const leadForm = this.props.task_type === 2 || this.props.task_type === 3 ? this.getFormForLead() : ''
         const form = this.buildForm()
         const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}> Add</Button>
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         if (this.props.modal) {
             return (

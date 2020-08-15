@@ -4,7 +4,6 @@ namespace App\Transformations;
 
 
 use App\Models\CompanyToken;
-use App\Models\Subscription;
 
 trait TokenTransformable
 {
@@ -17,6 +16,7 @@ trait TokenTransformable
     {
         return [
             'id'          => (int)$company_token->id,
+            'user_id'     => (int)$company_token->user_id,
             'name'        => $company_token->name ?: '',
             'token'       => $company_token->token ?: '',
             'updated_at'  => $company_token->updated_at,

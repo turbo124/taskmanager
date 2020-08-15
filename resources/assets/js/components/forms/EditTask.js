@@ -254,7 +254,7 @@ class EditTask extends Component {
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
             : null
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return this.props.modal && this.props.modal === true
             ? <React.Fragment>
@@ -266,7 +266,7 @@ class EditTask extends Component {
                         {form}
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
+                        saveData={this.handleSave.bind(this)}
                         loading={false}/>
                 </Modal>
             </React.Fragment> : form

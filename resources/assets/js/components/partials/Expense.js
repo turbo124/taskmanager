@@ -67,7 +67,7 @@ export default class Expense extends Component {
     render () {
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
-        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         return (
             <React.Fragment>

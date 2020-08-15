@@ -63,7 +63,7 @@ export default class Payment extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const paymentableInvoices = this.paymentModel.paymentable_invoices
         const paymentableCredits = this.paymentModel.paymentable_credits
-        const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         return (
             <React.Fragment>

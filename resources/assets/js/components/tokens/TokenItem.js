@@ -51,6 +51,7 @@ export default class TokenItem extends Component {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <TokenPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        users={this.props.users}
                         field={key} entity={token}/>
                 })
 

@@ -84,7 +84,7 @@ import { translations } from '../common/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function Audit (props) {
-    const listClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
     const audits = props.audits.map((array, i) => {
         const previous = props.audits[i === 0 ? props.audits.length - 1 : i - 1]

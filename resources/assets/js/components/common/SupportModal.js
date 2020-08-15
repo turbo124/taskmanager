@@ -58,7 +58,7 @@ export default class SupportModal extends Component {
     }
 
     render () {
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Your message has been sent successfully"/> : null

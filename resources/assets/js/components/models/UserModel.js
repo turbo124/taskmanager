@@ -1,17 +1,19 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
-export default class TokenModel extends BaseModel {
+export default class UserModel extends BaseModel {
     constructor (data = null) {
         super()
 
-        this._url = '/api/tokens'
-        this.entity = 'Token'
+        this._url = '/api/users'
+        this.entity = 'User'
+        this.users = []
 
         this._fields = {
             modal: false,
-            token: '',
             name: '',
+            target_url: 'http://',
+            event_id: '',
             loading: false,
             errors: []
         }
@@ -31,8 +33,6 @@ export default class TokenModel extends BaseModel {
 
     buildDropdownMenu () {
         const actions = []
-
-        actions.push('copy')
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -72,25 +72,7 @@ export default class TokenModel extends BaseModel {
         }
     }
 
-    copyToken () {
-        const mark = document.createElement('textarea')
-        mark.setAttribute('readonly', 'readonly')
-        mark.value = this._fields.token
-        mark.style.position = 'fixed'
-        mark.style.top = 0
-        mark.style.clip = 'rect(0, 0, 0, 0)'
-        document.body.appendChild(mark)
-        mark.select()
-        document.execCommand('copy')
-        document.body.removeChild(mark)
-        return true
-    }
-
     async completeAction (data, action) {
-        if (action === 'copy') {
-            return this.copyToken()
-        }
-
         if (!this.fields.id) {
             return false
         }
@@ -127,6 +109,27 @@ export default class TokenModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async getUsers () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this.url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            this.users = res.data
             // Don't forget to return something
             return res.data
         } catch (e) {

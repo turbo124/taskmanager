@@ -235,7 +235,7 @@ class CalendarEvent extends React.Component {
             ? <DeleteModal archive={false} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
         const archiveButton = !this.props.event.deleted_at
             ? <DeleteModal archive={true} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>

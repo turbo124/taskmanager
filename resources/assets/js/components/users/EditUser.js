@@ -220,7 +220,7 @@ class EditUser extends React.Component {
             ? <ErrorMessage message="Something went wrong"/> : null
 
         const notifications = this.state.selectedAccounts && Object.keys(this.state.selectedAccounts).length && this.state.selectedAccounts.notifications ? this.state.selectedAccounts.notifications.email : []
-        const theme = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
