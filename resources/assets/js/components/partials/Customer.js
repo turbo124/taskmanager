@@ -78,8 +78,8 @@ export default class Customer extends Component {
         const gatewayMap = []
         const linkMap = {}
 
-        this.customerModel.gateway_tokens.map((gatewayToken) => {
-            const companyGateway = this.state.gateways.filter(gatewayToken.companyGatewayId);
+        const gateway_tokens = this.state.gateways.length ? this.customerModel.gateway_tokens.map((gatewayToken) => {
+            const companyGateway = this.state.gateways.filter(gateway => gateway.id === parseInt(gatewayToken.company_gateway_id));
            
             const link = this.gatewayModel.getClientUrl(
                 gatewayId: companyGateway.gatewayId,
@@ -88,7 +88,7 @@ export default class Customer extends Component {
              return <SectionItem link={link}
                                     icon={icons.credit_card} title={`${translations.token} > ${companyGateway.gateway.name}`} />
                                 }
-        })
+        }) : null
 
         const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
             ? <React.Fragment>
