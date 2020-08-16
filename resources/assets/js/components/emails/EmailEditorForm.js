@@ -11,7 +11,7 @@ export default class EmailEditorForm extends Component {
         this.state = {
             modal: false,
             check: false,
-            mark_sent: false,
+            mark_sent: true,
             errors: [],
             showSuccessMessage: false,
             showErrorMessage: false,
@@ -70,6 +70,7 @@ export default class EmailEditorForm extends Component {
         this.setState({ showSuccessMessage: false, showErrorMessage: false })
 
         axios.post('/api/emails', {
+            to: this.state.to,
             subject: this.state.subject,
             body: this.state.body,
             template: this.props.template_type,
