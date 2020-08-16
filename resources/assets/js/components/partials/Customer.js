@@ -56,6 +56,29 @@ export default class Customer extends Component {
     }
 
     render () {
+        const tokenMap = []
+        const gatewayMap = []
+        const linkMap = {}
+
+        this.customerModel.gateway_tokens.map((gatewayToken) => {
+            const companyGateway = state.companyGatewayState.get(gatewayToken.companyGatewayId);
+           
+            if (!companyGateway.deleted_at.length) {
+                const customerReference = gatewayToken.customerReference;
+                gatewayMap[customerReference].push(companyGateway);
+                linkMap[customerReference] = this.gatewayModel.getClientUrl(
+                    gatewayId: companyGateway.gateway_id,
+                    customerReference: customerReference,
+                )
+        
+                if (tokenMap.keys.includes(customerReference)) {
+                    tokenMap[customerReference].push(gatewayToken);
+                } else {
+                    tokenMap[customerReference] = [gatewayToken];
+                }
+            }
+        })
+
         const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
             ? <React.Fragment>
                 {this.props.entity.billing.address_1} <br/>
