@@ -86,7 +86,7 @@ export default class Customer extends Component {
                 customerReference: gatewayToken.customer_reference,
             )
              return <SectionItem link={link}
-                                    icon={icons.credit_card} title={`${translations.token} > ${companyGateway.gateway.name}`} />
+                                    icon={icons.credit_card} title={`${translations.token} > ${companyGateway.gateway.name}`} subtitle={gatewayToken.customer_reference} />
                                 }
         }) : null
 
