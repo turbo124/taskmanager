@@ -45,4 +45,50 @@ export default class BaseModel {
                 return value;
         }
     }
+
+    String getCustomFieldLabel(String field) {
+    if (customFields.containsKey(field)) {
+      return customFields[field].split('|').first;
+    } else {
+      return '';
+    }
+  }
+
+  getCustomFieldType(field) {
+    if ((customFields[field] ?? '').contains('|')) {
+      final value = customFields[field].split('|').last;
+      if ([kFieldTypeSingleLineText, kFieldTypeDate, kFieldTypeSwitch]
+          .contains(value)) {
+        return value;
+      } else {
+        return kFieldTypeDropdown;
+      }
+    } else {
+      return kFieldTypeMultiLineText;
+    }
+  }
+
+  getCustomFieldValues(field, excludeBlank = false) {
+    final values = customFields[field];
+
+    if (values == null || !values.contains('|')) {
+      return [];
+    } else {
+      final parts = values.split('|');
+      final data = parts.last.split(',');
+
+      if (parts.length == 2) {
+        if ([kFieldTypeDate, kFieldTypeSwitch, kFieldTypeSingleLineText]
+            .contains(parts[1])) {
+          return [];
+        }
+      }
+
+      if (excludeBlank) {
+        return data.where((data) => data.isNotEmpty).toList();
+      } else {
+        return data;
+      }
+    }
+  }
 }
