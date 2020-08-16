@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
+import { Alert, ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import PaymentModel from '../models/PaymentModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
+import CompanyModel from '../models/CompanyModel'
+import FieldGrid from '../common/entityContainers/FieldGrid'
 
 export default class Company extends Component {
     constructor (props) {
@@ -16,6 +18,7 @@ export default class Company extends Component {
             show_success: false
         }
 
+        this.companyModel = new CompanyModel(this.props.entity)
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
     }
@@ -36,6 +39,49 @@ export default class Company extends Component {
     }
 
     render () {
+        const fields = []
+
+        if (this.companyModel.hasCurrency) {
+            fields.currency =
+                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.companyModel.currencyId)[0].name
+        }
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.companyModel.getCustomFieldLabel('Company', 'custom_value1')
+            fields[label1] = this.companyModel.formatCustomValue(
+                'Company',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.companyModel.getCustomFieldLabel('Company', 'custom_value2')
+            fields[label2] = this.companyModel.formatCustomValue(
+                'Company',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.companyModel.getCustomFieldLabel('Company', 'custom_value3')
+            fields[label3] = this.companyModel.formatCustomValue(
+                'Company',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.companyModel.getCustomFieldLabel('Company', 'custom_value4')
+            fields[label4] = this.companyModel.formatCustomValue(
+                'Company',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
         const address = <React.Fragment>
             {this.props.entity.address_1} <br/>
             {this.props.entity.address_2} <br/>
@@ -72,6 +118,14 @@ export default class Company extends Component {
                     <TabPane tabId="1">
                         <ViewEntityHeader heading_1={translations.paid_to_date} value_1={this.props.entity.paid_to_date}
                             heading_2={translations.balance} value_2={this.props.entity.balance}/>
+
+                        {this.props.entity.private_notes.length &&
+                        <Alert color="dark col-12 mt-2">
+                            {this.props.entity.private_notes}
+                        </Alert>
+                        }
+
+                        <FieldGrid fields={fields}/>
 
                         <Row>
                             <ListGroup className="col-12">

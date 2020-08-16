@@ -4,6 +4,7 @@ import axios from 'axios'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import { consts } from '../common/_consts'
 
 class CustomFieldSettings extends Component {
     constructor (props) {
@@ -15,64 +16,96 @@ class CustomFieldSettings extends Component {
             success: false,
             error: false,
             activeTab: '1',
-            quotes: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
-                name: 'custom_value3',
-                label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            companies: [{ name: 'custom_value1', label: '', type: '' }, {
+            quotes: [{ name: 'custom_value1', label: '', type: consts.text }, {
                 name: 'custom_value2',
                 label: '',
-                type: ''
+                type: consts.text
             }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            customers: [{ name: 'custom_value1', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            companies: [{ name: 'custom_value1', label: '', type: consts.text }, {
                 name: 'custom_value2',
                 label: '',
-                type: ''
+                type: consts.text
             }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            product: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            customers: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            invoices: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            product: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            payments: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            invoices: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            tasks: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            payments: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            credits: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            tasks: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            expenses: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            credits: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }],
-            orders: [{ name: 'custom_value1', label: '', type: '' }, { name: 'custom_value2', label: '', type: '' }, {
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            expenses: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
                 name: 'custom_value3',
                 label: '',
-                type: ''
-            }, { name: 'custom_value4', label: '', type: '' }]
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
+            orders: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
+                name: 'custom_value3',
+                label: '',
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }]
         }
 
         this.handleChange = this.handleChange.bind(this)

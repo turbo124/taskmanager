@@ -19,11 +19,11 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import PaymentModel from '../models/PaymentModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import Refund from '../payments/Refund'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import FieldGrid from '../common/entityContainers/FieldGrid'
+import GatewayModel from '../models/GatewayModel'
+import SectionItem from '../common/entityContainers/SectionItem'
 
 export default class Payment extends Component {
     constructor (props) {
@@ -31,12 +31,30 @@ export default class Payment extends Component {
 
         this.state = {
             activeTab: '1',
-            show_success: false
+            show_success: false,
+            gateways: []
         }
 
+        this.gatewayModel = new GatewayModel()
         this.paymentModel = new PaymentModel(this.props.entity.invoices, this.props.entity, this.props.entity.credits)
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
+    }
+
+    componentDidMount () {
+        this.getGateways()
+    }
+
+    getGateways () {
+        this.gatewayModel.getGateways().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ gateways: response }, () => {
+                console.log('gateways', this.state.gateways)
+            })
+        })
     }
 
     toggleTab (tab) {
@@ -65,6 +83,70 @@ export default class Payment extends Component {
         const paymentableCredits = this.paymentModel.paymentable_credits
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+        const companyGateway = this.state.gateways.length ? this.state.gateways.filter(gateway => gateway.id === parseInt(this.props.entity.company_gateway_id)) : []
+        let gateway = null
+
+        if (companyGateway.length) {
+            const link = this.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, this.props.entity.transaction_reference)
+            gateway = <SectionItem link={link}
+                icon={icons.credit_card}
+                title={`${translations.token} > ${companyGateway[0].gateway.name}`}/>
+        }
+
+        const fields = []
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.paymentModel.getCustomFieldLabel('Payment', 'custom_value1')
+            fields[label1] = this.paymentModel.formatCustomValue(
+                'Payment',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.paymentModel.getCustomFieldLabel('Payment', 'custom_value2')
+            fields[label2] = this.paymentModel.formatCustomValue(
+                'Payment',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.paymentModel.getCustomFieldLabel('Payment', 'custom_value3')
+            fields[label3] = this.paymentModel.formatCustomValue(
+                'Payment',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.paymentModel.getCustomFieldLabel('Payment', 'custom_value4')
+            fields[label4] = this.paymentModel.formatCustomValue(
+                'Payment',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        if (this.props.entity.date.length) {
+            fields.date = <FormatDate date={this.props.entity.date}/>
+        }
+        if (this.props.entity.type_id.toString().length) {
+            const paymentType = JSON.parse(localStorage.getItem('payment_types')).filter(payment_type => payment_type.id === parseInt(this.props.entity.type_id))
+            if (paymentType.length) {
+                fields.payment_type = paymentType[0].name
+            }
+        }
+        if (this.props.entity.transaction_reference.length) {
+            fields.transaction_reference = this.props.entity.transaction_reference
+        }
+        if (this.props.entity.refunded !== 0) {
+            fields.refunded = <FormatMoney amount={this.props.entity.refunded} customers={this.props.customers}/>
+        }
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -88,9 +170,9 @@ export default class Payment extends Component {
                         <PaymentPresenter entity={this.props.entity} field="status_field"/>
 
                         <Row>
-                            <ListGroup className="col-12 mt-4 mb-2">
+                            <ListGroup className="col-12 mt-2 mb-2">
                                 {paymentableInvoices && paymentableInvoices.map((line_item, index) => (
-                                    <a key={index} href={`/#/invoice?number=${line_item.number}`}>
+                                    <a className="mb-2" key={index} href={`/#/invoice?number=${line_item.number}`}>
                                         <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
                                                 <i className={`fa ${icons.document} mr-4`}/> {translations.invoice} > {line_item.number}
@@ -105,16 +187,12 @@ export default class Payment extends Component {
                                     </a>
                                 ))}
                             </ListGroup>
+                        </Row>
 
-                            {this.props.entity.private_notes.length &&
-                            <Alert color="dark col-12">
-                                {this.props.entity.private_notes}
-                            </Alert>
-                            }
-
-                            <ListGroup className="col-12 mt-4">
+                        <Row className="mb-2">
+                            <ListGroup className="col-12 mt-2">
                                 {paymentableCredits && paymentableCredits.map((line_item, index) => (
-                                    <a key={index} href={`/#/credits?number=${line_item.number}`}>
+                                    <a className="mb-2" key={index} href={`/#/credits?number=${line_item.number}`}>
                                         <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
                                                 <i className={`fa ${icons.document} mr-4`}/> {translations.credit} > {line_item.number}
@@ -132,6 +210,22 @@ export default class Payment extends Component {
                         </Row>
 
                         <Row>
+                            <ListGroup className="col-12 mt-2">
+                                {gateway}
+                            </ListGroup>
+                        </Row>
+
+                        <Row>
+                            {this.props.entity.private_notes.length &&
+                            <Alert color="dark col-12 mt-2">
+                                {this.props.entity.private_notes}
+                            </Alert>
+                            }
+                        </Row>
+
+                        <FieldGrid fields={fields}/>
+
+                        <Row>
                             <ListGroup className="mt-4 mb-4 col-12">
                                 <ListGroupItem className={listClass}>
                                     <ListGroupItemHeading><i className={`fa ${icons.customer} mr-4`}/>
@@ -139,15 +233,6 @@ export default class Payment extends Component {
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
-                        </Row>
-
-                        <Row>
-                            <ul className="col-12">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.date}/>}/>
-                                <SimpleSectionItem heading={translations.transaction_reference}
-                                    value={this.props.entity.transaction_reference}/>
-                            </ul>
                         </Row>
                     </TabPane>
 
@@ -169,8 +254,10 @@ export default class Payment extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('2')} button1={{ label: translations.refund }}
-                    button2_click={(e) => this.triggerAction('archive')} button2={{ label: translations.archive }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('2')}
+                    button1={{ label: translations.refund }}
+                    button2_click={(e) => this.triggerAction('archive')}
+                    button2={{ label: translations.archive }}/>
             </React.Fragment>
         )
     }

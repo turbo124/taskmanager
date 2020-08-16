@@ -237,6 +237,26 @@ export default class InvoiceModel extends BaseModel {
         return customer.contacts ? customer.contacts : []
     }
 
+    async getInvoices () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this._url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
     async completeAction (data, action) {
         if (!this.fields.id) {
             return false

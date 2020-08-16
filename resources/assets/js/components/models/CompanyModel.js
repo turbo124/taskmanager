@@ -65,6 +65,18 @@ export default class CompanyModel extends BaseModel {
         return actions
     }
 
+    get hasCurrency () {
+        return this.fields.currency_id != null && this.fields.currency_id.toString().length
+    }
+
+    get currencyId () {
+        if (!this.fields.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.currency_id)
+    }
+
     performAction () {
 
     }
@@ -129,6 +141,26 @@ export default class CompanyModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async getCompanies () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this._url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
             // Don't forget to return something
             return res.data
         } catch (e) {

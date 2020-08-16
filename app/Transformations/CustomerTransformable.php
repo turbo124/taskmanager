@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Address;
 use App\Models\ClientContact;
 use App\Models\Customer;
+use App\Models\CustomerGateway;
 use App\Models\File;
 use App\Models\Transaction;
 
@@ -66,7 +67,8 @@ trait CustomerTransformable
             'custom_value4'          => $customer->custom_value4 ?: '',
             'private_notes'          => $customer->private_notes ?: '',
             'public_notes'           => $customer->public_notes ?: '',
-            'files'                  => $this->transformCustomerFiles($customer->files)
+            'files'                  => $this->transformCustomerFiles($customer->files),
+            'gateway_tokens'         => $this->transformGatewayTokens($customer->gateways)
         ];
     }
 
@@ -130,6 +132,23 @@ trait CustomerTransformable
         return $addresses->map(
             function (Address $address) {
                 return (new AddressTransformable())->transformAddress($address);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $gateway_tokens
+     * @return array
+     */
+    private function transformGatewayTokens($gateway_tokens)
+    {
+        if (empty($gateway_tokens)) {
+            return [];
+        }
+
+        return $gateway_tokens->map(
+            function (CustomerGateway $gateway) {
+                return (new CustomerGatewayTransformable())->transformGateway($gateway);
             }
         )->all();
     }

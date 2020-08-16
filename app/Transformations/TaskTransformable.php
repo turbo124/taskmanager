@@ -33,7 +33,7 @@ trait TaskTransformable
             'due_date'               => $task->due_date,
             'start_date'             => $task->start_date ?: '',
             'is_completed'           => $task->is_completed,
-            'task_status'            => $task->task_status,
+            'task_status'            => (int)$task->task_status,
             'status_name'            => !empty($task->taskStatus) ? $task->taskStatus->title : '',
             'task_type'              => $task->task_type,
             'deleted_at'             => $task->deleted_at,

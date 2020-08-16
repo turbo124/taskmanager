@@ -1,3 +1,7 @@
+import { consts } from '../common/_consts'
+import { translations } from '../common/_translations'
+import FormatDate from '../common/FormatDate'
+
 export const LineItem = {
     unit_discount: 0,
     unit_tax: 0,
@@ -14,6 +18,11 @@ export default class BaseModel {
     constructor () {
         this.errors = []
         this.error_message = ''
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        this.user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = this.user_account[0].account.settings
+        this.custom_fields = this.user_account[0].account.custom_fields
     }
 
     handleError (error) {
@@ -30,65 +39,36 @@ export default class BaseModel {
         return JSON.parse(localStorage.getItem('modules'))[module]
     }
 
-    formatCustomValue (value, field}) {
-        // need to get custom field settings here
-        final CompanyEntity company = state.company;
+    getCustomFieldLabel (entity, field) {
+        const custom_fields = this.custom_fields[entity]
+        const custom_field = custom_fields.filter(current_field => current_field.name === field)
 
-        switch (company.getCustomFieldType(field)) {
-            case kFieldTypeSwitch:
-                return value == 'yes' ? translations.yes : translations.no;
-            break;
-            case kFieldTypeDate:
-                return <FormatDate date={value} />
-            break;
+        if (custom_field.length && custom_field[0].label.length && custom_field[0].type.length) {
+            return custom_field[0].label
+        }
+
+        return ''
+    }
+
+    getCustomFieldType (field, entity) {
+        const custom_fields = this.custom_fields[entity]
+        const custom_field = custom_fields.filter(current_field => current_field.name === field)
+
+        if (!custom_field.length || !custom_field[0].label.length || !custom_field[0].type.length) {
+            return consts.text
+        }
+
+        return custom_field[0].type
+    }
+
+    formatCustomValue (entity, field, value) {
+        switch (this.getCustomFieldType(field, entity)) {
+            case consts.switch:
+                return value === 'yes' || value === 'true' || value === true ? translations.yes : translations.no
+            case consts.date:
+                return <FormatDate date={value}/>
             default:
-                return value;
+                return value
         }
     }
-
-    String getCustomFieldLabel(String field) {
-    if (customFields.containsKey(field)) {
-      return customFields[field].split('|').first;
-    } else {
-      return '';
-    }
-  }
-
-  getCustomFieldType(field) {
-    if ((customFields[field] ?? '').contains('|')) {
-      final value = customFields[field].split('|').last;
-      if ([kFieldTypeSingleLineText, kFieldTypeDate, kFieldTypeSwitch]
-          .contains(value)) {
-        return value;
-      } else {
-        return kFieldTypeDropdown;
-      }
-    } else {
-      return kFieldTypeMultiLineText;
-    }
-  }
-
-  getCustomFieldValues(field, excludeBlank = false) {
-    final values = customFields[field];
-
-    if (values == null || !values.contains('|')) {
-      return [];
-    } else {
-      final parts = values.split('|');
-      final data = parts.last.split(',');
-
-      if (parts.length == 2) {
-        if ([kFieldTypeDate, kFieldTypeSwitch, kFieldTypeSingleLineText]
-            .contains(parts[1])) {
-          return [];
-        }
-      }
-
-      if (excludeBlank) {
-        return data.where((data) => data.isNotEmpty).toList();
-      } else {
-        return data;
-      }
-    }
-  }
 }

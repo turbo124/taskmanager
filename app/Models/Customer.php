@@ -161,6 +161,11 @@ class Customer extends Model implements HasLocalePreference
         return $this->locale();
     }
 
+    public function gateways()
+    {
+        return $this->hasMany(CustomerGateway::class);
+    }
+
     /**
      * @param $setting
      * @return bool

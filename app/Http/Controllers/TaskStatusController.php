@@ -24,7 +24,7 @@ class TaskStatusController extends Controller
         $this->taskStatusRepository = $taskStatusRepository;
     }
 
-    public function index(int $task_type)
+    public function index(int $task_type = 1)
     {
         $statuses = $this->taskStatusRepository->getAllStatusForTaskType($task_type);
 

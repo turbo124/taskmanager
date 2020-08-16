@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import FileUpload from './FileUpload'
-import axios from 'axios'
 
 class CommentList extends React.Component {
     constructor (props) {

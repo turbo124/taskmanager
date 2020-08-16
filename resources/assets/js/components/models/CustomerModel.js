@@ -143,7 +143,32 @@ export default class CustomerModel extends BaseModel {
         return this.fields.settings.company_gateway_ids || []
     }
 
+    get hasLanguage () {
+        return this.fields.settings && this.fields.settings.language_id != null && this.fields.settings.language_id.toString().length
+    }
+
+    get languageId () {
+        if (!this.fields.settings || !this.fields.settings.language_id) {
+            return null
+        }
+
+        return parseInt(this.fields.settings.language_id)
+    }
+
+    get hasCurrency () {
+        return this.fields.settings && this.fields.settings.currency_id != null && this.fields.settings.currency_id.toString().length
+    }
+
+    get currencyId () {
+        if (!this.fields.settings || !this.fields.settings.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.settings.currency_id)
+    }
+
     get gateway_tokens () {
+        console.log('fields', this.fields)
         return this.fields.gateway_tokens
     }
 

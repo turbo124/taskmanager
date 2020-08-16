@@ -80,7 +80,6 @@ var deepDiffMapper = (function () {
 
 import React from 'react'
 import { Card, CardBody, ListGroup, ListGroupItem } from 'reactstrap'
-import { translations } from '../common/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function Audit (props) {
@@ -94,7 +93,7 @@ export default function Audit (props) {
         return <ListGroupItem key={i} className={`${listClass} list-group-item-action flex-column align-items-start`}>
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{type} - {array.notification.author}</h5>
-                <small>{<FormatDate with_time={true} date={array.created_at} />}</small>
+                <small>{<FormatDate with_time={true} date={array.created_at}/>}</small>
             </div>
             {/* <p className="mb-1">{JSON.stringify(diff)}</p> */}
             {/* <small>Donec id elit non mi porta.</small> */}

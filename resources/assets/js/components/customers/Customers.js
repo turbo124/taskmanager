@@ -34,6 +34,7 @@ export default class Customers extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'gateway_tokens',
                 'transactions',
                 'vat_number',
                 'public_notes',
@@ -149,7 +150,10 @@ export default class Customers extends Component {
     }
 
     setSuccess (message = null) {
-        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+        this.setState({
+            show_success: true,
+            success_message: message === null ? translations.success_message : message
+        })
     }
 
     render () {

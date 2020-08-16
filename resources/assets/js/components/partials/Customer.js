@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    Alert,
     Button,
     Card,
     CardBody,
@@ -26,6 +27,7 @@ import GatewayModel from '../models/GatewayModel'
 import FileUploads from '../attachments/FileUploads'
 import CustomerGateways from '../gateways/CustomerGateways'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import FieldGrid from '../common/entityContainers/FieldGrid'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -41,6 +43,10 @@ export default class Customer extends Component {
         this.gatewayModel = new GatewayModel()
         this.gateways = this.customerModel.gateways
         this.modules = JSON.parse(localStorage.getItem('modules'))
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        this.user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = this.user_account[0].account.settings
 
         this.triggerAction = this.triggerAction.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
@@ -74,21 +80,67 @@ export default class Customer extends Component {
     }
 
     render () {
-        const tokenMap = []
-        const gatewayMap = []
-        const linkMap = {}
-
         const gateway_tokens = this.state.gateways.length ? this.customerModel.gateway_tokens.map((gatewayToken) => {
-            const companyGateway = this.state.gateways.filter(gateway => gateway.id === parseInt(gatewayToken.company_gateway_id));
-           
+            const companyGateway = this.state.gateways.filter(gateway => gateway.id === parseInt(gatewayToken.company_gateway_id))
+
             const link = this.gatewayModel.getClientUrl(
-                gatewayId: companyGateway.gatewayId,
-                customerReference: gatewayToken.customer_reference,
+                companyGateway[0].gateway_key,
+                gatewayToken.customer_reference
             )
-             return <SectionItem link={link}
-                                    icon={icons.credit_card} title={`${translations.token} > ${companyGateway.gateway.name}`} subtitle={gatewayToken.customer_reference} />
-                                }
+
+            return <SectionItem link={link}
+                icon={icons.credit_card}
+                title={`${translations.token} > ${companyGateway[0].gateway.name}`}
+                subtitle={gatewayToken.customer_reference}/>
         }) : null
+
+        const fields = []
+
+        if (this.customerModel.hasLanguage && this.customerModel.languageId !== parseInt(this.settings.language_id)) {
+            fields.language =
+                JSON.parse(localStorage.getItem('languages')).filter(language => language.id === this.customerModel.languageId)[0].name
+        }
+
+        if (this.customerModel.hasCurrency && this.customerModel.currencyId !== parseInt(this.settings.currency_id)) {
+            fields.currency =
+                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customerModel.currencyId)[0].name
+        }
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value1')
+            fields[label1] = this.customerModel.formatCustomValue(
+                'Customer',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value2')
+            fields[label2] = this.customerModel.formatCustomValue(
+                'Customer',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value3')
+            fields[label3] = this.customerModel.formatCustomValue(
+                'Customer',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value4')
+            fields[label4] = this.customerModel.formatCustomValue(
+                'Customer',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
 
         const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
             ? <React.Fragment>
@@ -163,7 +215,13 @@ export default class Customer extends Component {
                         </Alert>
                         }
 
+                        <FieldGrid fields={fields}/>
+
                         <Row>
+                            <ListGroup className="col-12 mb-2">
+                                {gateway_tokens}
+                            </ListGroup>
+
                             <ListGroup className="col-12">
                                 {this.modules && this.modules.invoices &&
                                 <SectionItem link={`/#/invoice?customer_id=${this.props.entity.id}`}
@@ -259,8 +317,10 @@ export default class Customer extends Component {
                     </TabPane>
                 </TabContent>
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')} button1={{ label: translations.settings }}
-                    button2_click={(e) => this.toggleTab('6')} button2={{ label: translations.gateways }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
+                    button1={{ label: translations.settings }}
+                    button2_click={(e) => this.toggleTab('6')}
+                    button2={{ label: translations.gateways }}/>
 
             </React.Fragment>
 

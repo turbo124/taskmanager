@@ -10,6 +10,7 @@ export default class ExpenseModel extends BaseModel {
         this.error_message = ''
         this.currencies = JSON.parse(localStorage.getItem('currencies'))
         this._url = '/api/expense'
+        this._category_url = '/api/expense-categories'
         this.entity = 'Expense'
 
         this._file_count = 0
@@ -90,6 +91,14 @@ export default class ExpenseModel extends BaseModel {
         return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
     }
 
+    get currencyId () {
+        if (!this.fields.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.currency_id)
+    }
+
     get fileCount () {
         return this._file_count || 0
     }
@@ -136,6 +145,26 @@ export default class ExpenseModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async getCategories () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this._category_url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
             // Don't forget to return something
             return res.data
         } catch (e) {

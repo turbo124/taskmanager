@@ -23,11 +23,11 @@ import { translations } from '../common/_translations'
 import CreditModel from '../models/CreditModel'
 import LineItem from '../common/entityContainers/LineItem'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import Audit from './Audit'
+import FieldGrid from '../common/entityContainers/FieldGrid'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -107,6 +107,55 @@ export default class Credit extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+        const fields = []
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value1')
+            fields[label1] = this.creditModel.formatCustomValue(
+                'Credit',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value2')
+            fields[label2] = this.creditModel.formatCustomValue(
+                'Credit',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value3')
+            fields[label3] = this.creditModel.formatCustomValue(
+                'Credit',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value4')
+            fields[label4] = this.creditModel.formatCustomValue(
+                'Credit',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        fields.date = <FormatDate date={this.props.entity.date}/>
+
+        if (this.props.entity.po_number && this.props.entity.po_number.length) {
+            fields.po_number = this.props.entity.po_number
+        }
+
+        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+            fields.discount = <FormatMoney customers={this.props.customers}
+                amount={this.props.entity.discount_total}/>
+        }
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -160,29 +209,13 @@ export default class Credit extends Component {
                             </ListGroup>
                         </Row>
 
-                        <Row>
-                            <ul className="mt-4 col-12">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.date}/>}/>
-                                <SimpleSectionItem heading={translations.due_date}
-                                    value={<FormatDate date={this.props.entity.due_date}/>}/>
-
-                                {this.props.entity.po_number && this.props.entity.po_number.length &&
-                                <SimpleSectionItem heading={translations.po_number}
-                                    value={this.props.entity.po_number}/>
-                                }
-
-                                <SimpleSectionItem heading={translations.discount}
-                                    value={<FormatMoney show_code={true} customers={this.props.customers}
-                                        amount={this.props.entity.discount_total}/>}/>
-                            </ul>
-                        </Row>
-
                         {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12">
+                        <Alert color="dark col-12 mt-2">
                             {this.props.entity.private_notes}
                         </Alert>
                         }
+
+                        <FieldGrid fields={fields}/>
 
                         <Row>
                             <ListGroup className="col-12 mt-4">
@@ -226,7 +259,7 @@ export default class Credit extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Audit entity="Credit" audits={this.props.entity.audits} />
+                                <Audit entity="Credit" audits={this.props.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -238,8 +271,10 @@ export default class Credit extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')} button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')} button2={{ label: translations.clone_to_invoice }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
+                    button2={{ label: translations.clone_to_invoice }}/>
 
             </React.Fragment>
 

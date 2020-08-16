@@ -25,11 +25,11 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import InvoiceModel from '../models/InvoiceModel'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import Audit from './Audit'
+import FieldGrid from '../common/entityContainers/FieldGrid'
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -108,6 +108,56 @@ export default class Invoice extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+        const fields = []
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value1')
+            fields[label1] = this.invoiceModel.formatCustomValue(
+                'Invoice',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value2')
+            fields[label2] = this.invoiceModel.formatCustomValue(
+                'Invoice',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value3')
+            fields[label3] = this.invoiceModel.formatCustomValue(
+                'Invoice',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value4')
+            fields[label4] = this.invoiceModel.formatCustomValue(
+                'Invoice',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        fields.date = <FormatDate date={this.props.entity.date}/>
+        fields.due_date = <FormatDate date={this.props.entity.due_date}/>
+
+        if (this.props.entity.po_number && this.props.entity.po_number.length) {
+            fields.po_number = this.props.entity.po_number
+        }
+
+        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+            fields.discount = <FormatMoney customers={this.props.customers}
+                amount={this.props.entity.discount_total}/>
+        }
+
         return (
             <React.Fragment>
 
@@ -182,29 +232,13 @@ export default class Invoice extends Component {
                             </ListGroup>
                         </Row>
 
-                        <Row>
-                            <ul className="mt-4 col-12">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.date}/>}/>
-                                <SimpleSectionItem heading={translations.due_date}
-                                    value={<FormatDate date={this.props.entity.due_date}/>}/>
-
-                                {this.props.entity.po_number && this.props.entity.po_number.length &&
-                                <SimpleSectionItem heading={translations.po_number}
-                                    value={this.props.entity.po_number}/>
-                                }
-
-                                <SimpleSectionItem heading={translations.discount}
-                                    value={<FormatMoney customers={this.props.customers}
-                                        amount={this.props.entity.discount_total}/>}/>
-                            </ul>
-                        </Row>
-
                         {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12">
+                        <Alert color="dark col-12 mt-2">
                             {this.props.entity.private_notes}
                         </Alert>
                         }
+
+                        <FieldGrid fields={fields}/>
 
                         <Row>
                             <ListGroup className="col-12 mt-4">
@@ -238,7 +272,8 @@ export default class Invoice extends Component {
                                     <CardHeader> {translations.pdf} </CardHeader>
                                     <CardBody>
                                         <iframe style={{ width: '400px', height: '400px' }}
-                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                                            className="embed-responsive-item" id="viewer"
+                                            src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -248,7 +283,7 @@ export default class Invoice extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Audit entity="Invoice" audits={this.props.entity.audits} />
+                                <Audit entity="Invoice" audits={this.props.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -260,8 +295,10 @@ export default class Invoice extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')} button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')} button2={{ label: translations.clone_to_invoice }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
+                    button2={{ label: translations.clone_to_invoice }}/>
             </React.Fragment>
 
         )

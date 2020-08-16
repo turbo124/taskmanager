@@ -28,6 +28,10 @@ export default class FormatDate extends Component {
 
         let date = this.state.date_format.length ? moment(this.props.date).format(this.state.date_format) : moment(this.props.date).format('DD/MMM/YYYY')
 
+        if (this.props.show_date && this.props.show_date === false && this.props.with_time === true) {
+            return ` ${moment(this.props.date).format('h:mm:ss A')}`
+        }
+
         if (this.props.with_time && this.props.with_time === true) {
             date += ` ${moment(this.props.date).format('h:mm:ss A')}`
         }

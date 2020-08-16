@@ -9,6 +9,7 @@ use App\Jobs\Domain\CreateDomain;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Language;
+use App\Models\PaymentMethod;
 use App\Notifications\NewAccountCreated;
 use App\Requests\Account\StoreAccountRequest;
 use App\Models\Account;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Requests\Account\UpdateAccountRequest;
 use App\Traits\UploadableTrait;
+use net\authorize\api\contract\v1\PaymentType;
 
 /**
  * Class AccountController
@@ -217,7 +219,8 @@ class AccountController extends Controller
                 'accounts'   => $accounts,
                 'currencies' => Currency::all(),
                 'languages'  => Language::all(),
-                'countries' => Country::all()
+                'countries' => Country::all(),
+                'payment_types' => PaymentMethod::all()
             ]
         ];
 

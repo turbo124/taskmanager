@@ -43,7 +43,8 @@ export default class RestoreModal extends Component {
 
         return (
             <React.Fragment>
-                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.restore}`}/>{translations.restore}</DropdownItem>
+                <DropdownItem onClick={this.toggle}><i className={`fa ${icons.restore}`}/>{translations.restore}
+                </DropdownItem>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
                     className={this.props.className}>

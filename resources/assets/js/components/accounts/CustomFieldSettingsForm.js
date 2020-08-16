@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import DynamicOptionList from './DynamicOptionList'
+import { consts } from '../common/_consts'
 
 export default class CustomFieldSettingsForm extends React.Component {
     render () {
@@ -36,10 +37,10 @@ export default class CustomFieldSettingsForm extends React.Component {
                                     onChange={this.props.handleChange}
                                     value={this.props.type}
                                 >
-                                    <option value='text'>Text</option>
-                                    <option value='textarea'>Textarea</option>
-                                    <option value='select'>Select List</option>
-                                    <option value='switch'>Switch</option>
+                                    <option value={consts.text}>Text</option>
+                                    <option value={consts.textarea}>Textarea</option>
+                                    <option value={consts.select}>Select List</option>
+                                    <option value={consts.switch}>Switch</option>
                                 </Input>
                             </FormGroup>
                         </Col>

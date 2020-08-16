@@ -7,6 +7,7 @@ use App\Models\CompanyToken;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Language;
+use App\Models\PaymentMethod;
 use App\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -90,7 +91,8 @@ class LoginController extends Controller
                     'accounts'   => $accounts,
                     'currencies' => Currency::all()->toArray(),
                     'languages' => Language::all()->toArray(),
-                    'countries' => Country::all()->toArray()
+                    'countries' => Country::all()->toArray(),
+                    'payment_types' => PaymentMethod::all()->toArray()
                 ]
             ];
 
