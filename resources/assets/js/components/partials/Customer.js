@@ -81,20 +81,13 @@ export default class Customer extends Component {
         this.customerModel.gateway_tokens.map((gatewayToken) => {
             const companyGateway = this.state.gateways.filter(gatewayToken.companyGatewayId);
            
-            if (!companyGateway.deleted_at.length) {
-                const customerReference = gatewayToken.customerReference;
-                gatewayMap[customerReference].push(companyGateway);
-                linkMap[customerReference] = this.gatewayModel.getClientUrl(
-                    gatewayId: companyGateway.gateway_id,
-                    customerReference: customerReference,
-                )
-        
-                if (tokenMap.keys.includes(customerReference)) {
-                    tokenMap[customerReference].push(gatewayToken);
-                } else {
-                    tokenMap[customerReference] = [gatewayToken];
-                }
-            }
+            const link = this.gatewayModel.getClientUrl(
+                gatewayId: companyGateway.gatewayId,
+                customerReference: gatewayToken.customer_reference,
+            )
+             return <SectionItem link={link}
+                                    icon={icons.credit_card} title={`${translations.token} > ${companyGateway.gateway.name}`} />
+                                }
         })
 
         const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
