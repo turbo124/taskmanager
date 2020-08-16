@@ -164,6 +164,12 @@ export default class Customer extends Component {
                         <ViewEntityHeader heading_1={translations.paid_to_date} value_1={this.props.entity.paid_to_date}
                             heading_2={translations.balance} value_2={this.props.entity.balance}/>
 
+                        {this.props.entity.private_notes.length &&
+                        <Alert color="dark col-12">
+                            {this.props.entity.private_notes}
+                        </Alert>
+                        }
+
                         <Row>
                             <ListGroup className="col-12">
                                 {this.modules && this.modules.invoices &&
