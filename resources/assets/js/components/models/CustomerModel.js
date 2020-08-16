@@ -34,6 +34,7 @@ export default class CustomerModel extends BaseModel {
             description: '',
             values: [],
             contacts: [],
+            gateway_tokens: [],
             loading: false,
             submitSuccess: false,
             count: 2,
@@ -62,9 +63,7 @@ export default class CustomerModel extends BaseModel {
     }
 
     hasEmailAddress () {
-        console.log('contacts', this.fields.contacts)
         const has_email = this.fields.contacts && this.fields.contacts.length ? this.fields.contacts.filter(contact => contact.email && contact.email.length) : []
-        console.log('has email', has_email)
         return has_email.length > 0
     }
 
@@ -142,6 +141,35 @@ export default class CustomerModel extends BaseModel {
         }
 
         return this.fields.settings.company_gateway_ids || []
+    }
+
+    get hasLanguage () {
+        return this.fields.settings && this.fields.settings.language_id != null && this.fields.settings.language_id.toString().length
+    }
+
+    get languageId () {
+        if (!this.fields.settings || !this.fields.settings.language_id) {
+            return null
+        }
+
+        return parseInt(this.fields.settings.language_id)
+    }
+
+    get hasCurrency () {
+        return this.fields.settings && this.fields.settings.currency_id != null && this.fields.settings.currency_id.toString().length
+    }
+
+    get currencyId () {
+        if (!this.fields.settings || !this.fields.settings.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.settings.currency_id)
+    }
+
+    get gateway_tokens () {
+        console.log('fields', this.fields)
+        return this.fields.gateway_tokens
     }
 
     addGateway (gateway) {

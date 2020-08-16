@@ -14,6 +14,7 @@ export default class TaskModel extends BaseModel {
         this.customers = customers
         this.entity = 'Task'
         this._url = '/api/tasks'
+        this._status_url = 'api/taskStatus'
         this._timerUrl = '/api/timer'
         this._time_log = []
 
@@ -102,13 +103,14 @@ export default class TaskModel extends BaseModel {
         const startTime = moment(currentStartTime, 'hh:mm:ss a')
         let endTime = ''
 
-        if (endTime.length) {
+        if (currentEndTime.length) {
             endTime = moment(currentEndTime, 'hh:mm:ss a')
             let totalHours = (endTime.diff(startTime, 'hours'))
             totalHours = ('0' + totalHours).slice(-2)
             const totalMinutes = endTime.diff(startTime, 'minutes')
             let clearMinutes = totalMinutes % 60
             clearMinutes = ('0' + clearMinutes).slice(-2)
+
             return `${totalHours}:${clearMinutes}`
         }
 
@@ -213,5 +215,36 @@ export default class TaskModel extends BaseModel {
             this.handleError(e)
             return false
         }
+    }
+
+    async getStatuses () {
+        this.errors = []
+        this.error_message = ''
+
+        try {
+            const res = await axios.get(this._status_url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    formatDuration (duration, showSeconds = true) {
+        const time = duration.toString().split('.')[0]
+
+        if (showSeconds) {
+            return time
+        }
+
+        const parts = time.split(':')
+        return `${parts[0]}:${parts[1]}`
     }
 }

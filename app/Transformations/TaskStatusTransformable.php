@@ -25,7 +25,7 @@ trait TaskStatusTransformable
     public function transformTaskStatus(TaskStatus $taskStatus)
     {
         $obj = new TaskStatus;
-        $obj->id = $taskStatus->id;
+        $obj->id = (int)$taskStatus->id;
         $obj->title = $taskStatus->title;
         $obj->description = $taskStatus->description;
         $obj->icon = $taskStatus->icon;

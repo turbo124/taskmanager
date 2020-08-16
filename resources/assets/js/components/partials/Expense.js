@@ -25,19 +25,65 @@ import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import FieldGrid from '../common/entityContainers/FieldGrid'
+import CompanyModel from '../models/CompanyModel'
+import InvoiceModel from '../models/InvoiceModel'
 
 export default class Expense extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            categories: [],
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
         this.expenseModel = new ExpenseModel(this.props.entity)
+        this.companyModel = new CompanyModel()
+        this.invoiceModel = new InvoiceModel()
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    componentDidMount () {
+        this.getCategories()
+    }
+
+    getCategories () {
+        this.expenseModel.getGateways().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ categories: response }, () => {
+                console.log('categories', this.state.categories)
+            })
+        })
+    }
+
+    getCompanies () {
+        this.companyModel.getCompanies().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
+            })
+        })
+    }
+
+    getInvoices () {
+        this.invoiceModel.getInvoices().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ invoices: response }, () => {
+                console.log('invoices', this.state.invoices)
+            })
+        })
     }
 
     triggerAction (action) {
@@ -65,9 +111,71 @@ export default class Expense extends Component {
     }
 
     render () {
+        const category = this.state.categories.length ? this.state.categories.filter(category => category.id === parseInt(this.props.entity.category_id)) : []
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
+        const fields = []
+
+        if (this.props.entity.date.length) {
+            fields.date = <FormatDate date={this.props.entity.date} />
+        }
+
+        if (this.props.entity.transaction_reference.length) {
+            fields.transaction_reference = this.props.entity.transaction_reference
+        }
+
+        fields.currency =
+            JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.expenseModel.currencyId)[0].name
+
+        if (this.props.entity.exchange_rate.length) {
+            fields.exchange_rate = this.props.entity.exchange_rate
+        }
+
+        if (this.props.entity.payment_date.length) {
+            fields.payment_date = <FormatDate date={this.props.entity.payment_date} />
+        }
+
+        if (category.length) {
+            fields.category = category[0].name
+        }
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value1')
+            fields[label1] = this.expenseModel.formatCustomValue(
+                'Expense',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value2')
+            fields[label2] = this.expenseModel.formatCustomValue(
+                'Expense',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value3')
+            fields[label3] = this.expenseModel.formatCustomValue(
+                'Expense',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value4')
+            fields[label4] = this.expenseModel.formatCustomValue(
+                'Expense',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
 
         return (
             <React.Fragment>
@@ -100,6 +208,12 @@ export default class Expense extends Component {
 
                         <ExpensePresenter entity={this.props.entity} field="status_field"/>
 
+                        {this.props.entity.private_notes.length &&
+                        <Alert color="dark col-12 mt-2">
+                            {this.props.entity.private_notes}
+                        </Alert>
+                        }
+
                         <Row>
                             <ListGroup className="mt-4 col-12">
                                 <ListGroupItem className={listClass}>
@@ -108,21 +222,9 @@ export default class Expense extends Component {
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
-
-                            <ul className="col-12 mt-4">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.date}/>}/>
-
-                                <SimpleSectionItem heading={translations.transaction_reference}
-                                    value={this.props.entity.transaction_reference}/>
-
-                                <SimpleSectionItem heading={translations.exchange_rate}
-                                    value={this.props.entity.exchange_rate}/>
-
-                                <SimpleSectionItem heading={translations.payment_date}
-                                    value={this.props.entity.payment_date}/>
-                            </ul>
                         </Row>
+
+                        <FieldGrid fields={fields} />
                     </TabPane>
 
                     <TabPane tabId="2">

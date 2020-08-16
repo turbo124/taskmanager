@@ -1,5 +1,6 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
+import { consts } from '../common/_consts'
 
 export default class GatewayModel extends BaseModel {
     constructor (data = null) {
@@ -149,5 +150,31 @@ export default class GatewayModel extends BaseModel {
             this.handleError(e)
             return false
         }
+    }
+
+    getClientUrl (gateway_key, customer_reference) {
+        switch (gateway_key) {
+            case consts.stripe_gateway:
+                return `https://dashboard.stripe.com/customers/${customer_reference}`
+            default:
+                return null
+        }
+    }
+
+    getPaymentUrl (gateway_key, transaction_reference) {
+        switch (gateway_key) {
+            case consts.stripe_gateway:
+                return `https://dashboard.stripe.com/payments/${transaction_reference}`
+            default:
+                return null
+        }
+    }
+
+    get supportsTokenBilling () {
+        return [
+            kGatewayStripe,
+            kGatewayAuthorizeNet,
+            kGatewayCheckoutCom
+        ].includes(id)
     }
 }

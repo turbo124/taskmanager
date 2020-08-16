@@ -67,7 +67,10 @@ export default class Groups extends Component {
     }
 
     setSuccess (message = null) {
-        this.setState({ show_success: true, success_message: message === null ? translations.success_message : message })
+        this.setState({
+            show_success: true,
+            success_message: message === null ? translations.success_message : message
+        })
     }
 
     userList (props) {

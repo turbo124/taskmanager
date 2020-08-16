@@ -1,34 +1,102 @@
 import React, { Component } from 'react'
-import { ListGroup, Row } from 'reactstrap'
-import { icons } from '../common/_icons'
+import { Alert, ListGroup, Row } from 'reactstrap'
 import { translations } from '../common/_translations'
-import InfoItem from '../common/entityContainers/InfoItem'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import TaskModel from '../models/TaskModel'
-import FormatDate from '../common/FormatDate'
+import FieldGrid from '../common/entityContainers/FieldGrid'
+import TaskTimeItem from '../common/entityContainers/TaskTimeItem'
 
 export default class Task extends Component {
+    constructor (props) {
+        super(props)
+        this.state = {
+            statuses: [],
+            activeTab: '1',
+            obj_url: null,
+            show_success: false
+        }
+
+        this.taskModel = new TaskModel(this.props.entity)
+    }
+
     render () {
-        const taskModel = new TaskModel(this.props.entity)
+        const fields = []
+
+        if (this.props.entity.status_name.length) {
+            fields.status = this.props.entity.status_name
+        }
+
+        if (this.props.entity.start_date.length) {
+            fields.start_date = this.props.entity.start_date
+        }
+
+        if (this.props.entity.due_date.length) {
+            fields.due_date = this.props.entity.due_date
+        }
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.taskModel.getCustomFieldLabel('Task', 'custom_value1')
+            fields[label1] = this.taskModel.formatCustomValue(
+                'Task',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.taskModel.getCustomFieldLabel('Task', 'custom_value2')
+            fields[label2] = this.taskModel.formatCustomValue(
+                'Task',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.taskModel.getCustomFieldLabel('Task', 'custom_value3')
+            fields[label3] = this.taskModel.formatCustomValue(
+                'Task',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.taskModel.getCustomFieldLabel('Task', 'custom_value4')
+            fields[label4] = this.taskModel.formatCustomValue(
+                'Task',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        const task_times = this.props.entity.timers && this.props.entity.timers.length ? this.props.entity.timers.map((timer, index) => {
+            return <TaskTimeItem taskTime={timer}/>
+        }) : null
+
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.duration} value_1={this.props.entity.duration}
                     heading_2={translations.amount}
-                    value_2={taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}/>
+                    value_2={this.taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}/>
+
+                {this.props.entity.title.length &&
+                <Alert color="dark col-12 mt-2">
+                    {this.props.entity.title}
+                </Alert>
+                }
+
+                {this.props.entity.private_notes.length &&
+                <Alert color="dark col-12 mt-2">
+                    {this.props.entity.private_notes}
+                </Alert>
+                }
+
+                <FieldGrid fields={fields}/>
 
                 <Row>
                     <ListGroup className="col-12">
-                        <InfoItem icon={icons.building} value={this.props.entity.title}
-                            title={translations.name}/>
-
-                        {this.props.entity.start_date &&
-                        <InfoItem icon={icons.calendar} value={<FormatDate date={this.props.entity.start_date}/>}
-                            title={translations.start_date}/>
-                        }
-
-                        <InfoItem icon={icons.calendar} value={<FormatDate date={this.props.entity.due_date}/>}
-                            title={translations.due_date}/>
-
+                        {task_times}
                     </ListGroup>
                 </Row>
             </React.Fragment>

@@ -21,13 +21,12 @@ import FormatDate from '../common/FormatDate'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FormatMoney from '../common/FormatMoney'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
 import RecurringQuoteModel from '../models/RecurringQuoteModel'
+import FieldGrid from '../common/entityContainers/FieldGrid'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
 
 export default class RecurringQuote extends Component {
     constructor (props) {
@@ -106,6 +105,59 @@ export default class RecurringQuote extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+        const fields = []
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value1')
+            fields[label1] = this.quoteModel.formatCustomValue(
+                'RecurringQuote',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value2')
+            fields[label2] = this.quoteModel.formatCustomValue(
+                'RecurringQuote',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value3')
+            fields[label3] = this.quoteModel.formatCustomValue(
+                'RecurringQuote',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value4')
+            fields[label4] = this.quoteModel.formatCustomValue(
+                'RecurringQuote',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        fields.date = <FormatDate date={this.props.entity.date}/>
+
+        if (this.props.entity.po_number && this.props.entity.po_number.length) {
+            fields.po_number = this.props.entity.po_number
+        }
+
+        if (this.props.entity.due_date && this.props.entity.due_date.length) {
+            fields.expiry_date = <FormatDate date={this.props.entity.due_date}/>
+        }
+
+        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+            fields.discount = <FormatMoney customers={this.props.customers}
+                amount={this.props.entity.discount_total}/>
+        }
+
         return (
             <React.Fragment>
 
@@ -146,27 +198,15 @@ export default class RecurringQuote extends Component {
                                     </ListGroupItemHeading>
                                 </ListGroupItem>
                             </ListGroup>
-
-                            <ul className="mt-4 col-12">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.date}/>}/>
-                                <SimpleSectionItem heading={translations.start_date}
-                                    value={<FormatDate date={this.props.entity.start_date}/>}/>
-                                <SimpleSectionItem heading={translations.end_date}
-                                    value={<FormatDate date={this.props.entity.end_date}/>}/>
-                                <SimpleSectionItem heading={translations.due_date}
-                                    value={<FormatDate date={this.props.entity.due_date}/>}/>
-
-                                {this.props.entity.po_number && this.props.entity.po_number.length &&
-                                <SimpleSectionItem heading={translations.po_number}
-                                    value={this.props.entity.po_number}/>
-                                }
-
-                                <SimpleSectionItem heading={translations.discount}
-                                    value={<FormatMoney customers={this.props.customers}
-                                        amount={this.props.entity.discount_total}/>}/>
-                            </ul>
                         </Row>
+
+                        {this.props.entity.private_notes.length &&
+                        <Alert color="dark col-12 mt-2">
+                            {this.props.entity.private_notes}
+                        </Alert>
+                        }
+
+                        <FieldGrid fields={fields}/>
 
                         <Row>
                             <ListGroup className="col-12 mt-4">
@@ -214,17 +254,10 @@ export default class RecurringQuote extends Component {
                 </Alert>
                 }
 
-                <BottomNavigation showLabels className="bg-dark text-white">
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.toggleTab('3')
-                        }} label={translations.view_pdf} value={translations.view_pdf}/>
-                    <BottomNavigationAction style={{ fontSize: '14px !important' }} className="text-white"
-                        onClick={() => {
-                            this.triggerAction('clone_to_invoice')
-                        }} label={translations.clone_to_invoice}
-                        value={translations.clone_to_invoice}/>
-                </BottomNavigation>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
+                    button2={{ label: translations.clone_to_invoice }}/>
 
             </React.Fragment>
 

@@ -11,9 +11,11 @@ export default class BottomNavigationButtons extends Component {
             <React.Fragment>
                 <BottomNavigation showLabels className={`${bg_color} ${text_color}`}>
                     <BottomNavigationAction style={{ fontSize: '14px !important' }} className={text_color}
-                        onClick={this.props.button1_click} label={this.props.button1.label} value={this.props.button1.label}/>
+                        onClick={this.props.button1_click} label={this.props.button1.label}
+                        value={this.props.button1.label}/>
                     <BottomNavigationAction style={{ fontSize: '14px !important' }} className={text_color}
-                        onClick={this.props.button2_click} label={this.props.button2.label} value={this.props.button2.label}/>
+                        onClick={this.props.button2_click} label={this.props.button2.label}
+                        value={this.props.button2.label}/>
                 </BottomNavigation>
             </React.Fragment>
         )

@@ -8,7 +8,7 @@ export default function TokenPresenter (props) {
         case 'token':
             return <td data-label={field}
                 onClick={() => props.toggleViewedEntity(entity, entity.name)}>
-                {`${entity.token.substring(0, 10)}xxxxxxxxxx`} <br />
+                {`${entity.token.substring(0, 10)}xxxxxxxxxx`} <br/>
                 {user.length &&
                 `${user[0].first_name} ${user[0].last_name}`
                 }
