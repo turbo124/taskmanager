@@ -6,6 +6,7 @@ use App\Models\Credit;
 use App\Jobs\Email\SendEmail;
 use App\Models\Lead;
 use App\Models\Invoice;
+use App\Models\ClientContact;
 use App\Models\Order;
 use App\Models\Quote;
 use App\Repositories\EmailRepository;
@@ -39,13 +40,18 @@ class EmailController extends Controller
      */
     public function send(SendEmailRequest $request)
     {
+        $to = $request->input('to');
         $entity = ucfirst($request->input('entity'));
         $entity = "App\Models\\$entity";
 
         $entity_obj = $entity::find($request->input('entity_id'));
+        $contact = null;
 
-        $contact = $entity !== 'App\\Models\\Lead' ? $entity_obj->invitations->first()->contact : null;
-
+        if(!empty($to)) {
+            $contact = ClientContact::where('id', '=', $to)->get();
+        } elseif ($entity !== 'App\\Models\\Lead') {
+            $contact = $entity_obj->invitations->first()->contact;
+        }
         $entity_obj->service()->sendEmail($contact, $request->subject, $request->body);
 
         if ($request->mark_sent === true) {
