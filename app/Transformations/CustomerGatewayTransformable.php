@@ -19,7 +19,7 @@ class CustomerGatewayTransformable
             'token'              => $gateway->token,
             'customer_reference' => $gateway->gateway_customer_reference,
             'gateway_type_id'    => $gateway->gateway_type_id,
-            'meta'               => $gateway->meta
+            'meta'               => !empty($gateway->meta) ? json_decode($gateway->meta) : []
         ];
     }
 }

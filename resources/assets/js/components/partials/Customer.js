@@ -28,6 +28,7 @@ import FileUploads from '../attachments/FileUploads'
 import CustomerGateways from '../gateways/CustomerGateways'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import FieldGrid from '../common/entityContainers/FieldGrid'
+import MetaItem from "../common/entityContainers/MetaItem";
 
 export default class Customer extends Component {
     constructor (props) {
@@ -83,6 +84,8 @@ export default class Customer extends Component {
         const gateway_tokens = this.state.gateways.length ? this.customerModel.gateway_tokens.map((gatewayToken) => {
             const companyGateway = this.state.gateways.filter(gateway => gateway.id === parseInt(gatewayToken.company_gateway_id))
 
+            console.log('meta', gatewayToken.meta)
+
             const link = this.gatewayModel.getClientUrl(
                 companyGateway[0].gateway_key,
                 gatewayToken.customer_reference
@@ -91,7 +94,7 @@ export default class Customer extends Component {
             return <SectionItem link={link}
                 icon={icons.credit_card}
                 title={`${translations.token} > ${companyGateway[0].gateway.name}`}
-                subtitle={gatewayToken.customer_reference}/>
+                subtitle={<MetaItem meta={gatewayToken.meta} />}/>
         }) : null
 
         const fields = []
