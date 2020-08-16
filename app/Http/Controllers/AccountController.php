@@ -22,8 +22,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Requests\Account\UpdateAccountRequest;
 use App\Traits\UploadableTrait;
-use net\authorize\api\contract\v1\PaymentType;
-
 /**
  * Class AccountController
  * @package App\Http\Controllers
