@@ -150,4 +150,30 @@ export default class GatewayModel extends BaseModel {
             return false
         }
     }
+
+    getClientUrl(gatewayId, customerReference) {
+        switch (gatewayId) {
+            case kGatewayStripe:
+                return 'https://dashboard.stripe.com/customers/$customerReference}';
+            default:
+                return null;
+        }
+    }
+
+    getPaymentUrl(gatewayId, transactionReference) {
+        switch (gatewayId) {
+            case kGatewayStripe:
+                return 'https://dashboard.stripe.com/payments/$transactionReference}';
+            default:
+                return null;
+        }
+    }
+
+    get supportsTokenBilling () {
+        return [
+            kGatewayStripe,
+            kGatewayAuthorizeNet,
+            kGatewayCheckoutCom,
+        ].includes(id);
+    }    
 }
