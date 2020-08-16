@@ -17,7 +17,8 @@ export default class EmailEditorForm extends Component {
             showErrorMessage: false,
             subject: this.props.subject,
             design: '',
-            body: this.props.body
+            body: this.props.body,  
+            to: ''
         }
 
         this.editor = null
@@ -120,28 +121,28 @@ export default class EmailEditorForm extends Component {
 
         const contactList = invitations.length && contacts.length ? invitations.map((invitation, index) => {
             const contact = contacts.filter(contact => contact.id === invitation.client_contact_id)
-            return <li>{`${contact[0].first_name} ${contact[0].last_name} <${contact[0].email}>`}</li>
+            return <option value={contact[0].id}>{`${contact[0].first_name} ${contact[0].last_name} <${contact[0].email}>`}</option>
         }) : null
 
         return (
             <Form>
                 {successMessage}
                 {errorMessage}
-                {contactList}
-
+                
                 {customer.length &&
                 <FormGroup>
                     <Label for="exampleEmail">{translations.to}</Label>
-                    <Input value={customer[0].name} type="text" name="to"
-                        id="to"
-                        placeholder={translations.to}/>
+                    <Input value={this.state.to} type="select" name="to"
+                        id="to" onChange={this.handleChange}>
+                        {contactList}
+                    </Input>
                     {this.renderErrorFor('subject')}
                 </FormGroup>
                 }
 
                 <FormGroup>
                     <Label for="exampleEmail">{translations.subject}</Label>
-                    <Input value={this.props.subject} type="text" onChange={this.handleChange} name="subject"
+                    <Input value={this.state.subject} type="text" onChange={this.handleChange} name="subject"
                         id="subject"
                         placeholder={translations.subject}/>
                     {this.renderErrorFor('subject')}
@@ -150,7 +151,7 @@ export default class EmailEditorForm extends Component {
                 <FormGroup>
                     <Label for="exampleEmail">{translations.body}</Label>
                     <Input className="textarea-lg" size="lg" type="textarea" onChange={this.handleChange}
-                        value={this.props.body} name="body"/>
+                        value={this.state.body} name="body"/>
                     {this.renderErrorFor('body')}
                 </FormGroup>
 
