@@ -22,6 +22,7 @@ import InfoItem from '../common/entityContainers/InfoItem'
 import Transaction from '../customers/Transaction'
 import CustomerSettings from '../customers/CustomerSettings'
 import CustomerModel from '../models/CustomerModel'
+import GatewayModel from '../models/GatewayModel'
 import FileUploads from '../attachments/FileUploads'
 import CustomerGateways from '../gateways/CustomerGateways'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
@@ -37,6 +38,7 @@ export default class Customer extends Component {
         }
 
         this.customerModel = new CustomerModel(this.props.entity)
+        this.gatewayModel = new GatewayModel()
         this.gateways = this.customerModel.gateways
         this.modules = JSON.parse(localStorage.getItem('modules'))
 
@@ -61,7 +63,7 @@ export default class Customer extends Component {
         const linkMap = {}
 
         this.customerModel.gateway_tokens.map((gatewayToken) => {
-            const companyGateway = state.companyGatewayState.get(gatewayToken.companyGatewayId);
+            const companyGateway = this.state.gateways.filter(gatewayToken.companyGatewayId);
            
             if (!companyGateway.deleted_at.length) {
                 const customerReference = gatewayToken.customerReference;
