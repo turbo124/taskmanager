@@ -29,4 +29,20 @@ export default class BaseModel {
     isModuleEnabled (module) {
         return JSON.parse(localStorage.getItem('modules'))[module]
     }
+
+    formatCustomValue (value, field}) {
+        // need to get custom field settings here
+        final CompanyEntity company = state.company;
+
+        switch (company.getCustomFieldType(field)) {
+            case kFieldTypeSwitch:
+                return value == 'yes' ? translations.yes : translations.no;
+            break;
+            case kFieldTypeDate:
+                return <FormatDate date={value} />
+            break;
+            default:
+                return value;
+        }
+    }
 }
