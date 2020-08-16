@@ -46,6 +46,22 @@ export default class Customer extends Component {
         this.toggleTab = this.toggleTab.bind(this)
     }
 
+    componentDidMount () {
+        this.getGateways()
+    }
+
+    getGateways () {
+        this.gatewayModel.getGateways().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ gateways: response }, () => {
+                console.log('gateways', this.state.gateways)
+            })
+        })
+    }
+
     triggerAction (action) {
         const paymentModel = new PaymentModel(null, this.props.entity)
         paymentModel.completeAction(this.props.entity, action)
