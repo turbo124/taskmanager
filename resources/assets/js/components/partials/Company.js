@@ -8,6 +8,8 @@ import SectionItem from '../common/entityContainers/SectionItem'
 import InfoItem from '../common/entityContainers/InfoItem'
 import CompanyModel from '../models/CompanyModel'
 import FieldGrid from '../common/entityContainers/FieldGrid'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import InfoMessage from '../common/entityContainers/InfoMessage'
 
 export default class Company extends Component {
     constructor (props) {
@@ -39,6 +41,13 @@ export default class Company extends Component {
     }
 
     render () {
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
+
         const fields = []
 
         if (this.companyModel.hasCurrency) {
@@ -120,10 +129,14 @@ export default class Company extends Component {
                             heading_2={translations.balance} value_2={this.props.entity.balance}/>
 
                         {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12 mt-2">
-                            {this.props.entity.private_notes}
-                        </Alert>
+                        <Row>
+                            <InfoMessage message={this.props.entity.private_notes} />
+                        </Row>
                         }
+
+                        <Row>
+                            {user}
+                        </Row>
 
                         <FieldGrid fields={fields}/>
 

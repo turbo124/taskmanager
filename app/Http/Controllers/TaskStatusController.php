@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Factory\TaskStatusFactory;
+use App\Filters\TaskStatusFilter;
+use App\Models\CompanyToken;
 use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use App\Repositories\TaskStatusRepository;
-use App\Requests\CreateTaskStatusRequest;
-use App\Requests\UpdateTaskStatusRequest;
-use Illuminate\Http\Request;
-use App\Transformations\TaskStatusTransformable;
-use App\Models\TaskStatus;
 use App\Requests\SearchRequest;
+use App\Requests\TaskStatus\CreateTaskStatusRequest;
+use App\Requests\TaskStatus\UpdateTaskStatusRequest;
+use App\Transformations\TaskStatusTransformable;
 use Illuminate\Http\Response;
 
 class TaskStatusController extends Controller
@@ -17,79 +18,51 @@ class TaskStatusController extends Controller
 
     use TaskStatusTransformable;
 
-    private $taskStatusRepository;
+    private $task_status_repo;
 
-    public function __construct(TaskStatusRepositoryInterface $taskStatusRepository)
+    public function __construct(TaskStatusRepositoryInterface $task_status_repo)
     {
-        $this->taskStatusRepository = $taskStatusRepository;
+        $this->task_status_repo = $task_status_repo;
     }
 
-    public function index(int $task_type = 1)
+    public function index(SearchRequest $request)
     {
-        $statuses = $this->taskStatusRepository->getAllStatusForTaskType($task_type);
+        $token_sent = \request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
 
-        return $statuses->toJson();
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @return type
-     */
-    public function search(SearchRequest $request)
-    {
-        $orderBy = !$request->column ? 'title' : $request->column;
-        $orderDir = !$request->order ? 'asc' : $request->order;
-        $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-
-        if (request()->has('search_term') && !empty($request->search_term)) {
-            $list = $this->taskStatusRepository->searchTaskStatus(request()->input('search_term'));
-        } else {
-            $list = $this->taskStatusRepository->listTaskStatuses($orderBy, $orderDir);
-        }
-
-        $statuses = $list->map(
-            function (TaskStatus $taskStatus) {
-                return $this->transformTaskStatus($taskStatus);
-            }
-        )->all();
-
-        if ($recordsPerPage > 0) {
-            $paginatedResults = $this->taskStatusRepository->paginateArrayResults($statuses, $recordsPerPage);
-            return $paginatedResults->toJson();
-        }
-
+        $statuses = (new TaskStatusFilter($this->task_status_repo))->filter(
+            $request,
+            $account
+        );
         return response()->json($statuses);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param CreateTaskStatusRequest $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateTaskStatusRequest $request)
     {
-        $status = $this->taskStatusRepository->createTaskStatus($request->except('_token', '_method'));
-        return response()->json($status);
+        $status = $this->task_status_repo->save(
+            $request->all(),
+            TaskStatusFactory::create(auth()->user()->account_user()->account, auth()->user())
+        );
+
+        return response()->json($this->transformTaskStatus($status));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param UpdateTaskStatusRequest $request
      * @param int $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateTaskStatusRequest $request, int $id)
     {
-        $status = $this->taskStatusRepository->findTaskStatusById($id);
+        $status = $this->task_status_repo->findTaskStatusById($id);
         $update = new TaskStatusRepository($status);
-        $update->updateTaskStatus($request->all());
-
-        $status = $this->taskStatusRepository->findTaskStatusById($id);
-
-        return response()->json($status);
+        $status = $update->save($request->all(), $status);
+        return response()->json($this->transformTaskStatus($status));
     }
 
     /**

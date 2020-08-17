@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\ClientContact;
 use App\Models\Order;
 use App\Models\Quote;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\EmailRepository;
 use App\Requests\Email\SendEmailRequest;
 use App\Traits\MakesInvoiceHtml;
@@ -48,14 +49,14 @@ class EmailController extends Controller
         $contact = null;
 
         if(!empty($to)) {
-            $contact = ClientContact::where('id', '=', $to)->get();
+            $contact = ClientContact::where('id', '=', $to)->first();
         } elseif ($entity !== 'App\\Models\\Lead') {
             $contact = $entity_obj->invitations->first()->contact;
         }
         $entity_obj->service()->sendEmail($contact, $request->subject, $request->body);
 
         if ($request->mark_sent === true) {
-            $entity_obj->service()->markSent()->save();
+            (new BaseRepository($entity_obj))->markSent($entity_obj);
         }
 
         $transformed_obj = $this->transformObject($entity_obj);

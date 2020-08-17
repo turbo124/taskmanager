@@ -4,7 +4,6 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Credit;
 use App\Events\Misc\InvitationWasViewed;
 use App\Factory\CloneCreditFactory;
 use App\Factory\CloneCreditToQuoteFactory;
@@ -13,15 +12,20 @@ use App\Factory\CloneInvoiceToQuoteFactory;
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\CloneQuoteFactory;
-use App\Factory\CloneQuoteToInvoiceFactory;
-use App\Factory\CloneQuoteToOrderFactory;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Factory\RecurringQuoteToQuoteFactory;
-use App\Models\Invoice;
 use App\Jobs\Pdf\Download;
+use App\Models\AccountUser;
+use App\Models\Country;
+use App\Models\Credit;
+use App\Models\Currency;
+use App\Models\Invoice;
+use App\Models\Language;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\Quote;
+use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -84,6 +88,32 @@ class BaseController extends Controller
         $this->quote_repo = $quote_repo;
         $this->credit_repo = $credit_repo;
         $this->entity_string = $entity_string;
+    }
+
+    protected function getIncludes()
+    {
+        $user = auth()->user();
+
+        $default_account = $user->accounts->first()->domains->default_company;
+        //$user->setAccount($default_account);
+
+        $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
+
+        return [
+            'account_id' => $default_account->id,
+            'id' => $user->id,
+            'auth_token' => $user->auth_token,
+            'name' => $user->name,
+            'email' => $user->email,
+            'accounts' => $accounts,
+            'currencies' => Currency::all(),
+            'languages' => Language::all(),
+            'countries' => Country::all(),
+            'payment_types' => PaymentMethod::all(),
+            'users' => User::where('is_active', '=', 1)->get(
+                ['first_name', 'last_name', 'phone_number', 'id']
+            )
+        ];
     }
 
     /**

@@ -47,9 +47,9 @@ class DownloadCurrencies extends Command
         $currency_converter = new CurrencyConverter;
 
         foreach ($currencies as $currency) {
-            $exchange_rate = $currency_converter->getExchangeRate($currency->code);
+            $exchange_rate = $currency_converter->getExchangeRate($currency->iso_code);
 
-            echo $exchange_rate . ' ' . $currency->code;
+            echo $exchange_rate . ' ' . $currency->iso_code;
 
             if (!$exchange_rate) {
                 continue;

@@ -17,7 +17,7 @@ export default class EmailEditorForm extends Component {
             showErrorMessage: false,
             subject: this.props.subject,
             design: '',
-            body: this.props.body,  
+            body: this.props.body,
             to: ''
         }
 
@@ -129,12 +129,13 @@ export default class EmailEditorForm extends Component {
             <Form>
                 {successMessage}
                 {errorMessage}
-                
+
                 {customer.length &&
                 <FormGroup>
                     <Label for="exampleEmail">{translations.to}</Label>
                     <Input value={this.state.to} type="select" name="to"
                         id="to" onChange={this.handleChange}>
+                        <option value="">{translations.send_to_all}</option>
                         {contactList}
                     </Input>
                     {this.renderErrorFor('subject')}

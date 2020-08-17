@@ -159,18 +159,25 @@ class ProductSettings extends Component {
                     value: settings.fill_products
                 },
                 {
-                    name: 'convert_products',
-                    label: 'Convert Products',
+                    name: 'convert_product_currency',
+                    label: 'Convert Currency',
                     type: 'switch',
                     placeholder: 'Convert Products',
-                    value: settings.convert_products
+                    value: settings.convert_product_currency
                 },
                 {
-                    name: 'default_quantity',
+                    name: 'has_minimum_quantity',
                     label: 'Default Quantity',
                     type: 'switch',
                     placeholder: 'Default Quantity',
-                    value: settings.default_quantity
+                    value: settings.has_minimum_quantity
+                },
+                {
+                    name: 'quantity_can_be_changed',
+                    label: 'Quantity can be Changed',
+                    type: 'switch',
+                    placeholder: 'Quantity can be Changed',
+                    value: settings.quantity_can_be_changed
                 }
             ]
         ]

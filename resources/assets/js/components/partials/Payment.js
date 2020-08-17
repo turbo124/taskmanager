@@ -24,6 +24,8 @@ import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import GatewayModel from '../models/GatewayModel'
 import SectionItem from '../common/entityContainers/SectionItem'
+import InfoMessage from '../common/entityContainers/InfoMessage'
+import EntityListTile from '../common/entityContainers/EntityListTile'
 
 export default class Payment extends Component {
     constructor (props) {
@@ -147,6 +149,13 @@ export default class Payment extends Component {
             fields.refunded = <FormatMoney amount={this.props.entity.refunded} customers={this.props.customers}/>
         }
 
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -171,7 +180,7 @@ export default class Payment extends Component {
 
                         <Row>
                             <ListGroup className="col-12 mt-2 mb-2">
-                                {paymentableInvoices && paymentableInvoices.map((line_item, index) => (
+                                {!!paymentableInvoices && paymentableInvoices.map((line_item, index) => (
                                     <a className="mb-2" key={index} href={`/#/invoice?number=${line_item.number}`}>
                                         <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
@@ -191,7 +200,7 @@ export default class Payment extends Component {
 
                         <Row className="mb-2">
                             <ListGroup className="col-12 mt-2">
-                                {paymentableCredits && paymentableCredits.map((line_item, index) => (
+                                {!!paymentableCredits && paymentableCredits.map((line_item, index) => (
                                     <a className="mb-2" key={index} href={`/#/credits?number=${line_item.number}`}>
                                         <ListGroupItem className={listClass}>
                                             <ListGroupItemHeading>
@@ -215,25 +224,23 @@ export default class Payment extends Component {
                             </ListGroup>
                         </Row>
 
+                        {!!this.props.entity.private_notes.length &&
                         <Row>
-                            {this.props.entity.private_notes.length &&
-                            <Alert color="dark col-12 mt-2">
-                                {this.props.entity.private_notes}
-                            </Alert>
-                            }
+                            <InfoMessage message={this.props.entity.private_notes} />
                         </Row>
+                        }
+
+                        <Row>
+                            <EntityListTile title={customer[0].name} icon={icons.customer} />
+                        </Row>
+
+                        {!!user &&
+                        <Row>
+                            {user}
+                        </Row>
+                        }
 
                         <FieldGrid fields={fields}/>
-
-                        <Row>
-                            <ListGroup className="mt-4 mb-4 col-12">
-                                <ListGroupItem className={listClass}>
-                                    <ListGroupItemHeading><i className={`fa ${icons.customer} mr-4`}/>
-                                        {customer[0].name}
-                                    </ListGroupItemHeading>
-                                </ListGroupItem>
-                            </ListGroup>
-                        </Row>
                     </TabPane>
 
                     <TabPane tabId="2">

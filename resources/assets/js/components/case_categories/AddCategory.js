@@ -19,7 +19,6 @@ class AddCategory extends React.Component {
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.buildParentOptions = this.buildParentOptions.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
     }
 

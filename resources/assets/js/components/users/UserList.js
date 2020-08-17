@@ -133,6 +133,8 @@ export default class UserList extends Component {
         this.setState({
             users: users,
             cachedData: cachedData
+        }, () => {
+            localStorage.setItem('users', JSON.stringify(users))
         })
     }
 

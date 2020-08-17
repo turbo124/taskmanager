@@ -8,12 +8,10 @@ use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Language;
 use App\Models\PaymentMethod;
+use App\Models\User;
 use App\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use App\Models\User;
 use JWTAuth;
 use JWTAuthException;
 
@@ -83,16 +81,19 @@ class LoginController extends Controller
             $response = [
                 'success' => true,
                 'data'    => [
-                    'account_id' => $default_account->id,
-                    'id'         => $user->id,
-                    'auth_token' => $user->auth_token,
-                    'name'       => $user->name,
-                    'email'      => $user->email,
-                    'accounts'   => $accounts,
-                    'currencies' => Currency::all()->toArray(),
-                    'languages' => Language::all()->toArray(),
-                    'countries' => Country::all()->toArray(),
-                    'payment_types' => PaymentMethod::all()->toArray()
+                    'account_id'    => $default_account->id,
+                    'id'            => $user->id,
+                    'auth_token'    => $user->auth_token,
+                    'name'          => $user->name,
+                    'email'         => $user->email,
+                    'accounts'      => $accounts,
+                    'currencies'    => Currency::all()->toArray(),
+                    'languages'     => Language::all()->toArray(),
+                    'countries'     => Country::all()->toArray(),
+                    'payment_types' => PaymentMethod::all()->toArray(),
+                    'users'         => User::where('is_active', '=', 1)->get(
+                        ['first_name', 'last_name', 'phone_number']
+                    )->toArray()
                 ]
             ];
 

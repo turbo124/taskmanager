@@ -3,6 +3,8 @@ import LineItem from './LineItem'
 import { Button, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import FormatMoney from './FormatMoney'
+import CustomerModel from '../models/CustomerModel'
+import { getExchangeRateWithMap } from './_money'
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -16,6 +18,10 @@ class LineItemEditor extends Component {
             line_type: 1,
             total: this.props.invoice.total
         }
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
 
         this.handleRowChange = this.handleRowChange.bind(this)
         this.handleRowDelete = this.handleRowDelete.bind(this)
@@ -89,13 +95,12 @@ class LineItemEditor extends Component {
         }
 
         if (e.target.name === 'product_id') {
-            const index = this.state.products.findIndex(product => product.id === parseInt(e.target.value))
-            const product = this.state.products[index]
-            rows[row].unit_price = product.price
+            const product = this.convertProductToInvoiceItem(e.target.value, rows[row])
+            rows[row].unit_price = product.cost
             rows[row].product_id = e.target.value
             rows[row].type_id = 1
+            rows[row].quantity = product.quantity
             this.props.update(rows, row)
-
             return
         }
 
@@ -123,6 +128,40 @@ class LineItemEditor extends Component {
 
         rows[row][e.target.name] = e.target.value
         this.props.update(rows, row)
+    }
+
+    convertProductToInvoiceItem (product_id, row) {
+        const index = this.state.products.findIndex(product => product.id === parseInt(product_id))
+        const product = this.state.products[index]
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
+
+        if (customer.length && this.settings.fill_products) {
+            const customerModel = new CustomerModel(customer[0])
+            let cost = product.price
+            const client_currency = customerModel.currencyId
+
+            if (this.settings.convert_product_currency &&
+                client_currency !== parseInt(this.settings.currency_id)) {
+                const currencies = JSON.parse(localStorage.getItem('currencies'))
+                const currency = currencies.filter(currency => currency.id === client_currency)
+
+                cost = cost *
+                    getExchangeRateWithMap(currencies, this.settings.currency_id, client_currency)
+                cost = Math.round(cost, currency[0].precision)
+            }
+
+            return {
+                cost: cost,
+                quantity: (this.settings.quantity_can_be_changed === true && row.quantity) ? row.quantity : (this.settings.has_minimum_quantity === true) ? 1 : null,
+                description: product.description
+            }
+        }
+
+        return {
+            cost: product.price,
+            quantity: (this.settings.quantity_can_be_changed === true && row.quantity) ? row.quantity : (this.settings.has_minimum_quantity === true) ? 1 : null,
+            description: product.description
+        }
     }
 
     handleRowDelete (index) {
