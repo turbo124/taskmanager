@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\CaseCategory;
 use App\Models\TaskStatus;
 use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
@@ -20,6 +21,11 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
     {
         parent::__construct($taskStatus);
         $this->model = $taskStatus;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     public function getAll()
@@ -47,6 +53,18 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
     public function createTaskStatus(array $params): TaskStatus
     {
         return $this->create($params);
+    }
+
+    /**
+     * @param array $data
+     * @param TaskStatus $task_status
+     * @return TaskStatus|null
+     */
+    public function save(array $data, TaskStatus $task_status) :?TaskStatus
+    {
+        $task_status->fill($data);
+        $task_status->save();
+        return $task_status;
     }
 
     /**
@@ -114,5 +132,4 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
         }
         return $this->model->searchTaskStatus($text)->get();
     }
-
 }

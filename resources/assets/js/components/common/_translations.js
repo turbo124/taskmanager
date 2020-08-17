@@ -13,6 +13,7 @@ _localizedValues.en = {
     device_settings: 'Device Settings',
     localisation_settings: 'Localisation Settings',
     product_settings: 'Product Settings',
+    edit_task_status: 'Edit Task Status',
     stripe: 'Stripe',
     provider: 'Provider',
     authorize: 'Authorize',
@@ -511,7 +512,8 @@ _localizedValues.en = {
     confirm_password_title: 'Confirm Password',
     no_email: 'No Email Address Set',
     email_sent_successfully: 'Email was sent successfully',
-    emails_sent_successfully: 'Emails were sent successfully'
+    emails_sent_successfully: 'Emails were sent successfully',
+    send_to_all: 'Send to all contacts'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

@@ -10,7 +10,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "lint": "eslint  resources/assets/js/components/*.js resources/assets/js/components/**/*.js",
-    "stylelint": "stylelint resources/assets/js/components/scss/_custom.scss resources/assets/js/components/scss/_buttons.scss resources/assets/js/components/scss/_tables.scss resources/assets/js/components/scss/_list.scss resources/assets/js/components/scss/_navbar.scss resources/assets/js/components/scss/_multiselect.scss resources/assets/js/components/scss/_dropdown.scss",
+    "stylelint": "stylelint resources/assets/js/components/scss/_light-theme.scss resources/assets/js/components/scss/_buttons.scss resources/assets/js/components/scss/_tables.scss resources/assets/js/components/scss/_list.scss resources/assets/js/components/scss/_navbar.scss resources/assets/js/components/scss/_multiselect.scss resources/assets/js/components/scss/_dropdown.scss",
     "lint:watch": "watch 'npm run lint' ."
   },
   "dependencies": {

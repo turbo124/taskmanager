@@ -29,6 +29,8 @@ import LineItem from '../common/entityContainers/LineItem'
 import TotalsBox from '../common/entityContainers/TotalsBox'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import InfoMessage from '../common/entityContainers/InfoMessage'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
@@ -106,6 +108,13 @@ export default class RecurringInvoice extends Component {
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
 
         const fields = []
 
@@ -210,20 +219,20 @@ export default class RecurringInvoice extends Component {
                         </Row>
                         }
 
+                        {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className={listClass}>
-                                    <ListGroupItemHeading><i
-                                        className={`fa ${icons.customer} mr-4`}/>{customer[0].name}
-                                    </ListGroupItemHeading>
-                                </ListGroupItem>
-                            </ListGroup>
+                            <InfoMessage message={this.props.entity.private_notes} />
+                        </Row>
+                        }
+
+                        <Row>
+                            <EntityListTile title={customer[0].name} icon={icons.customer} />
                         </Row>
 
-                        {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12 mt-2">
-                            {this.props.entity.private_notes}
-                        </Alert>
+                        {!!user &&
+                        <Row>
+                            {user}
+                        </Row>
                         }
 
                         <FieldGrid fields={fields}/>

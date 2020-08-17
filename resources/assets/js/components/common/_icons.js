@@ -69,7 +69,8 @@ export const icons = {
     excel_file: 'fa-file-excel-o',
     powerpoint_file: 'fa-file-powerpoint-o',
     image_file: 'fa-file-image-o',
-    desktop: 'fa-desktop'
+    desktop: 'fa-desktop',
+    info: 'fa-info-circle'
 }
 
 export function getEntityIcon (entity) {

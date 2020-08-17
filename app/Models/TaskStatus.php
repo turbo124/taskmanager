@@ -18,7 +18,7 @@ class TaskStatus extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'icon',
         'column_color',
@@ -34,7 +34,7 @@ class TaskStatus extends Model
          * @var array
          */
         'columns' => [
-            'task_statuses.title' => 10
+            'task_statuses.name' => 10
         ]
     ];
 

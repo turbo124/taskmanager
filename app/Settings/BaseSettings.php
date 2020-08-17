@@ -818,6 +818,30 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'has_minimum_quantity'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'quantity_can_be_changed'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'convert_product_currency'             => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'fill_products'                        => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'should_update_inventory'              => [
             'required'         => false,
             'translated_value' => '',
@@ -1063,7 +1087,6 @@ class BaseSettings
             if ($actual_setting['type'] === 'bool' && isset($saved_settings->{$key}) && is_string(
                     $saved_settings->{$key}
                 )) {
-
                 if (in_array($saved_settings->{$key}, ['on', 'off'])) {
                     $saved_settings->{$key} = $saved_settings->{$key} === 'on';
                 }

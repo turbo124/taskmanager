@@ -10,9 +10,10 @@ export default class DeviceSettings extends Component {
         super(props)
 
         this.state = {
+            success_message: translations.settings_saved,
             id: localStorage.getItem('account_id'),
             settings: {
-                dark_theme: !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme',
+                dark_theme: !!(!Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')),
                 number_of_rows: localStorage.getItem('number_of_rows') || 10
             },
             success: false,
@@ -112,6 +113,9 @@ export default class DeviceSettings extends Component {
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
                     localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
+                    localStorage.setItem('users', JSON.stringify(response.data.data.users))
+
+                    this.setState({ success_message: 'Refresh completed', success: true })
                 }
             })
     }
@@ -225,7 +229,7 @@ export default class DeviceSettings extends Component {
             <React.Fragment>
                 <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
-                        {translations.settings_saved}
+                        {this.state.success_message}
                     </Alert>
                 </Snackbar>
 

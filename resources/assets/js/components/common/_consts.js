@@ -132,5 +132,6 @@ export const consts = {
     text: 'text',
     textarea: 'textarea',
     select: 'select',
-    date: 'date'
+    date: 'date',
+    currency_pound: 2
 }

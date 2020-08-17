@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccountUser;
 use App\Models\CompanyToken;
 use App\Factory\AccountFactory;
-use App\Jobs\Domain\CreateDomain;
-use App\Models\Country;
-use App\Models\Currency;
-use App\Models\Language;
-use App\Models\PaymentMethod;
 use App\Notifications\NewAccountCreated;
 use App\Requests\Account\StoreAccountRequest;
 use App\Models\Account;
@@ -26,7 +20,7 @@ use App\Traits\UploadableTrait;
  * Class AccountController
  * @package App\Http\Controllers
  */
-class AccountController extends Controller
+class AccountController extends BaseController
 {
     use DispatchesJobs, AccountTransformable, UploadableTrait;
 
@@ -199,27 +193,9 @@ class AccountController extends Controller
 
     public function refresh()
     {
-        $user = auth()->user();
-
-        $default_account = $user->accounts->first()->domains->default_company;
-        //$user->setAccount($default_account);
-
-        $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
-
         $response = [
             'success' => true,
-            'data'    => [
-                'account_id' => $default_account->id,
-                'id'         => $user->id,
-                'auth_token' => $user->auth_token,
-                'name'       => $user->name,
-                'email'      => $user->email,
-                'accounts'   => $accounts,
-                'currencies' => Currency::all(),
-                'languages'  => Language::all(),
-                'countries' => Country::all(),
-                'payment_types' => PaymentMethod::all()
-            ]
+            'data'    => $this->getIncludes()
         ];
 
         return response()->json($response, 201);

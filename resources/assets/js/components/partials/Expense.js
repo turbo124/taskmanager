@@ -21,13 +21,13 @@ import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import CompanyModel from '../models/CompanyModel'
 import InvoiceModel from '../models/InvoiceModel'
+import InfoMessage from '../common/entityContainers/InfoMessage'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import { icons } from '../common/_icons'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -115,6 +115,13 @@ export default class Expense extends Component {
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
 
         const fields = []
 
@@ -208,10 +215,20 @@ export default class Expense extends Component {
 
                         <ExpensePresenter entity={this.props.entity} field="status_field"/>
 
-                        {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12 mt-2">
-                            {this.props.entity.private_notes}
-                        </Alert>
+                        {!!this.props.entity.private_notes.length &&
+                        <Row>
+                            <InfoMessage message={this.props.entity.private_notes} />
+                        </Row>
+                        }
+
+                        <Row>
+                            <EntityListTile title={customer[0].name} icon={icons.customer} />
+                        </Row>
+
+                        {!!user &&
+                        <Row>
+                            {user}
+                        </Row>
                         }
 
                         <Row>

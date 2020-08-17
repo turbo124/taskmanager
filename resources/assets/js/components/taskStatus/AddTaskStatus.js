@@ -1,23 +1,32 @@
 import React from 'react'
-import { Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
+import AddButtons from '../common/AddButtons'
+import { translations } from '../common/_translations'
+import DefaultModalHeader from '../common/ModalHeader'
+import DefaultModalFooter from '../common/ModalFooter'
 
 class AddTaskStatus extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             modal: false,
-            title: '',
+            name: '',
             description: '',
-            icon: '',
-            task_type: 0,
-            color: '',
             loading: false,
             errors: []
         }
+
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+    }
+
+    handleFileChange (e) {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
     }
 
     handleInput (e) {
@@ -41,13 +50,7 @@ class AddTaskStatus extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/taskStatus', {
-            title: this.state.title,
-            description: this.state.description,
-            column_color: this.state.column_color,
-            task_type: this.state.task_type,
-            icon: this.state.icon
-        })
+        axios.post('/api/taskStatus', { name: this.state.name, description: this.state.description })
             .then((response) => {
                 this.toggle()
                 const newUser = response.data
@@ -55,7 +58,7 @@ class AddTaskStatus extends React.Component {
                 this.props.action(this.props.statuses)
                 this.setState({
                     name: null,
-                    color: null
+                    description: null
                 })
             })
             .catch((error) => {
@@ -74,61 +77,33 @@ class AddTaskStatus extends React.Component {
     }
 
     render () {
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+
         return (
             <React.Fragment>
-                <Button color="success" onClick={this.toggle}>Add Role</Button>
+                <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>
-                        Add Status
-                    </ModalHeader>
-                    <ModalBody>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_category}/>
+
+                    <ModalBody className={theme}>
                         <FormGroup>
-                            <Label for="title">Name(*):</Label>
-                            <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''} type="text" name="title"
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('title')}
+                            <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
+                                id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">Description(*):</Label>
-                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
-                                name="description" value={this.state.description}
-                                onChange={this.handleInput.bind(this)}/>
+                            <Label for="name">{translations.description} <span className="text-danger">*</span></Label>
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text" name="description"
+                                id="name" placeholder={translations.description} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('description')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="column_color">Color(*):</Label>
-                            <Input className={this.hasErrorFor('column_color') ? 'is-invalid' : ''} type="text"
-                                name="column_color" onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('column_color')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="task_type">Task Type(*):</Label>
-                            <Input className={this.hasErrorFor('task_type') ? 'is-invalid' : ''} type="select"
-                                name="task_type" value={this.state.task_type}
-                                onChange={this.handleInput.bind(this)}>
-                                <option value="">Select...</option>
-                                <option value="1">Task</option>
-                                <option value="2">Lead</option>
-                                <option value="3">Deal</option>
-                            </Input>
-                            {this.renderErrorFor('task_type')}
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="icon">Icon(*):</Label>
-                            <Input className={this.hasErrorFor('icon') ? 'is-invalid' : ''} type="text"
-                                name="icon" onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('icon')}
                         </FormGroup>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Add</Button>
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
-                    </ModalFooter>
+                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

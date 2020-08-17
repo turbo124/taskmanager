@@ -28,6 +28,9 @@ import FormatMoney from '../common/FormatMoney'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import Audit from './Audit'
 import FieldGrid from '../common/entityContainers/FieldGrid'
+import InfoMessage from '../common/entityContainers/InfoMessage'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import { icons } from '../common/_icons'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -106,6 +109,13 @@ export default class Credit extends Component {
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
 
         const fields = []
 
@@ -199,20 +209,20 @@ export default class Credit extends Component {
 
                         <CreditPresenter entity={this.props.entity} field="status_field"/>
 
+                        {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className={listClass}>
-                                    <ListGroupItemHeading><i
-                                        className="fa fa-user-circle-o mr-2"/>{customer[0].name}
-                                    </ListGroupItemHeading>
-                                </ListGroupItem>
-                            </ListGroup>
+                            <InfoMessage message={this.props.entity.private_notes} />
+                        </Row>
+                        }
+
+                        <Row>
+                            <EntityListTile title={customer[0].name} icon={icons.customer} />
                         </Row>
 
-                        {this.props.entity.private_notes.length &&
-                        <Alert color="dark col-12 mt-2">
-                            {this.props.entity.private_notes}
-                        </Alert>
+                        {!!user &&
+                        <Row>
+                            {user}
+                        </Row>
                         }
 
                         <FieldGrid fields={fields}/>
