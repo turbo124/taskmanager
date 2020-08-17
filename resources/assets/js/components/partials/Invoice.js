@@ -114,7 +114,7 @@ export default class Invoice extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
         }
 
         const fields = []
@@ -238,7 +238,7 @@ export default class Invoice extends Component {
                         }
 
                         <Row>
-                            <EntityListTile title={customer[0].name} icon={icons.customer} />
+                            <EntityListTile entity={translations.customer} title={customer[0].name} icon={icons.customer} />
                         </Row>
 
                         {!!user &&

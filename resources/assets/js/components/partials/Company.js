@@ -45,7 +45,7 @@ export default class Company extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
         }
 
         const fields = []
