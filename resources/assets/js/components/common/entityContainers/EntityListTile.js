@@ -7,7 +7,7 @@ export default function EntityListTile (props) {
     return <ListGroup className="mt-4 col-12">
         <ListGroupItem className={listClass}>
             <ListGroupItemHeading><i
-                className={`fa ${props.icon} mr-4`}/>{props.title}
+                className={`fa ${props.icon} mr-4`}/>{`${props.entity} > ${props.title}`}
             </ListGroupItemHeading>
         </ListGroupItem>
     </ListGroup>
