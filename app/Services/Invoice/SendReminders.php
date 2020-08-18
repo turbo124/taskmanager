@@ -48,6 +48,7 @@ class SendReminders
         }
 
         $this->invoice->next_send_date = $next_send_date;
+        $this->invoice->date_reminder_last_sent = Carbon::now();
         $this->invoice->save();
         return true;
     }

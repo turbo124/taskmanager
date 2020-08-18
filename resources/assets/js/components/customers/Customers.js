@@ -34,6 +34,7 @@ export default class Customers extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'files',
                 'gateway_tokens',
                 'transactions',
                 'vat_number',

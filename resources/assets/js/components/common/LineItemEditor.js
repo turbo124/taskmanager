@@ -97,6 +97,7 @@ class LineItemEditor extends Component {
         if (e.target.name === 'product_id') {
             const product = this.convertProductToInvoiceItem(e.target.value, rows[row])
             rows[row].unit_price = product.cost
+            rows[row].description = product.description
             rows[row].product_id = e.target.value
             rows[row].type_id = 1
             rows[row].quantity = product.quantity
@@ -160,7 +161,7 @@ class LineItemEditor extends Component {
         return {
             cost: product.price,
             quantity: (this.settings.quantity_can_be_changed === true && row.quantity) ? row.quantity : (this.settings.has_minimum_quantity === true) ? 1 : null,
-            description: product.description
+            description: this.settings.fill_products ? product.description : ''
         }
     }
 

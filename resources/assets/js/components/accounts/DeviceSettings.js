@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Alert, Button, Card, CardBody, FormGroup, Label, Row } from 'reactstrap'
+import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import FormBuilder from './FormBuilder'
+import ColorPicker from '../common/ColorPicker'
 
 export default class DeviceSettings extends Component {
     constructor (props) {
@@ -215,15 +216,7 @@ export default class DeviceSettings extends Component {
 
     render () {
         const header_background_color = this.state.settings && this.state.settings.header_background_color ? this.state.settings.header_background_color : ''
-        const colors = [
-            { value: 'bg-success', label: 'Success', text_color: 'text-light' },
-            { value: 'bg-secondary', label: 'Secondary', text_color: 'text-dark' },
-            { value: 'bg-primary', label: 'Primary', text_color: 'text-light' },
-            { value: 'bg-danger', label: 'Danger', text_color: 'text-light' },
-            { value: 'bg-light', label: 'Light', text_color: 'text-dark' },
-            { value: 'bg-info', label: 'Info', text_color: 'text-light' },
-            { value: 'bg-dark', label: 'Dark', text_color: 'text-light' }
-        ]
+        const footer_background_color = this.state.settings && this.state.settings.footer_background_color ? this.state.settings.footer_background_color : ''
 
         return (
             <React.Fragment>
@@ -252,35 +245,11 @@ export default class DeviceSettings extends Component {
 
                 <Card className="fixed-margin-extra border-0">
                     <CardBody>
-                        <Row>
-                            <FormGroup className="col-4 d-flex justify-content-between align-items-center">
-                                <Label>{translations.header_background_color}</Label>
-                                <div className="col-4 d-flex justify-content-between align-items-center">
-                                    {colors.map((color, idx) => {
-                                        const selected = color.value === header_background_color ? 'border border-danger' : ''
-                                        return <span style={{ borderWidth: '3px !important' }}
-                                            data-text={color.text_color} data-name={color.value}
-                                            onClick={this.handleHeaderColor}
-                                            className={`${color.value} ${color.text_color} p-1 m-1 ${selected}`}>{color.label}</span>
-                                    })}
-                                </div>
-                            </FormGroup>
-                        </Row>
+                        <ColorPicker label={translations.header_background_color} value={header_background_color}
+                            handleChange={this.handleHeaderColor}/>
 
-                        <Row>
-                            <FormGroup className="mt-2 col-4 d-flex justify-content-between align-items-center">
-                                <Label>{translations.footer_background_color}</Label>
-                                <div className="col-4 d-flex justify-content-between align-items-center">
-                                    {colors.map((color, idx) => {
-                                        const selected = color.value === header_background_color ? 'border border-danger' : ''
-                                        return <span style={{ borderWidth: '3px !important' }}
-                                            data-text={color.text_color} data-name={color.value}
-                                            onClick={this.handleFooterColor}
-                                            className={`${color.value} ${color.text_color} p-1 m-1 ${selected}`}>{color.label}</span>
-                                    })}
-                                </div>
-                            </FormGroup>
-                        </Row>
+                        <ColorPicker label={translations.footer_background_color} value={footer_background_color}
+                            handleChange={this.handleFooterColor}/>
 
                     </CardBody>
                 </Card>
