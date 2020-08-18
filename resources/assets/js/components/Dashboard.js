@@ -42,6 +42,7 @@ import FormatDate from './common/FormatDate'
 import QuotePresenter from './presenters/QuotePresenter'
 import OrderPresenter from './presenters/OrderPresenter'
 import PaymentPresenter from './presenters/PaymentPresenter'
+import SettingsWizard from './accounts/settings_wizard/SettingsWizard'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -260,6 +261,7 @@ class Dashboard extends Component {
             sources: [],
             customers: [],
             modal: false,
+            modal2: false,
             dashboard_filters: {
                 Invoices: {
                     Active: 1,
@@ -327,6 +329,10 @@ class Dashboard extends Component {
             activeTab: '1'
         }
 
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
+
         this.toggle = this.toggle.bind(this)
         this.getChartData = this.getChartData.bind(this)
         this.doExport = this.doExport.bind(this)
@@ -335,11 +341,22 @@ class Dashboard extends Component {
         this.fetchData = this.fetchData.bind(this)
         this.toggleDashboardFilter = this.toggleDashboardFilter.bind(this)
         this.toggleModal = this.toggleModal.bind(this)
+        this.toggleModal2 = this.toggleModal2.bind(this)
         this.getCustomer = this.getCustomer.bind(this)
     }
 
     componentDidMount () {
         this.fetchData()
+
+        if (!this.settings.name.length) {
+            setTimeout(
+                function () {
+                    this.setState({ modal2: true })
+                }
+                    .bind(this),
+                3000
+            )
+        }
 
         // window.setInterval(() => {
         //     this.fetchData()
@@ -360,6 +377,13 @@ class Dashboard extends Component {
     toggleModal () {
         this.setState({
             modal: !this.state.modal,
+            errors: []
+        })
+    }
+
+    toggleModal2 () {
+        this.setState({
+            modal2: !this.state.modal2,
             errors: []
         })
     }
@@ -2141,6 +2165,16 @@ class Dashboard extends Component {
                     <ModalHeader toggle={this.toggleModal}>Configure Dashboard</ModalHeader>
                     <ModalBody>
                         {dashboardBody}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={this.toggleModal}>Close</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
+                    <ModalHeader toggle={this.toggleModal2}>Configure Dashboard</ModalHeader>
+                    <ModalBody>
+                        <SettingsWizard />
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggleModal}>Close</Button>

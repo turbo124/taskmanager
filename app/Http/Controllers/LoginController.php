@@ -92,7 +92,7 @@ class LoginController extends Controller
                     'countries'     => Country::all()->toArray(),
                     'payment_types' => PaymentMethod::all()->toArray(),
                     'users'         => User::where('is_active', '=', 1)->get(
-                        ['first_name', 'last_name', 'phone_number']
+                        ['first_name', 'last_name', 'phone_number', 'id']
                     )->toArray()
                 ]
             ];

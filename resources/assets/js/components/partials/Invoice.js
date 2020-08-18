@@ -113,6 +113,7 @@ export default class Invoice extends Component {
         let user = null
 
         if (this.props.entity.assigned_to) {
+            console.log('users', JSON.parse(localStorage.getItem('users')))
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
             user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
         }

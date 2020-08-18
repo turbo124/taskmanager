@@ -231,16 +231,6 @@ export default class Expense extends Component {
                         </Row>
                         }
 
-                        <Row>
-                            <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className={listClass}>
-                                    <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/>
-                                        {customer[0].name}
-                                    </ListGroupItemHeading>
-                                </ListGroupItem>
-                            </ListGroup>
-                        </Row>
-
                         <FieldGrid fields={fields} />
                     </TabPane>
 

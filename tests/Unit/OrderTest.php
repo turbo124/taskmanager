@@ -43,15 +43,15 @@ class OrderTest extends TestCase
 
     use DatabaseTransactions, DepartmentTransformable, WithFaker;
 
-    private $account;
+    private Account $account;
 
-    private $customer;
+    private Customer $customer;
 
-    private $user;
+    private User $user;
 
-    private $product;
+    private Product $product;
 
-    private $objNumberGenerator;
+    private NumberGenerator $objNumberGenerator;
 
     public function setUp(): void
     {
@@ -97,7 +97,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_invoice()
+    public function it_can_create_a_order()
     {
         $customerId = $this->customer->id;
 

@@ -1,6 +1,5 @@
 const _localizedValues = []
 _localizedValues.en = {
-    user: 'User',
     about: 'About',
     history: 'History',
     customise: 'Customise',
