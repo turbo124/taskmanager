@@ -86,17 +86,19 @@ class ProductSettings extends Component {
             [
                 {
                     name: 'should_update_inventory',
-                    label: 'Update Inventory',
+                    label: translations.should_update_inventory,
                     type: 'switch',
                     placeholder: 'Update Inventory',
-                    value: settings.should_update_inventory
+                    value: settings.should_update_inventory,
+                    help_text: translations.  should_update_inventory_help_text
                 },
                 {
                     name: 'allow_backorders',
-                    label: 'Allow Backorders',
+                    label: translations.allow_backorders,
                     type: 'switch',
                     placeholder: 'Allow Backorders',
-                    value: settings.allow_backorders
+                    value: settings.allow_backorders,  
+                    help_text: translations.allow_backorders_help_text
                 },
                 {
                     name: 'allow_partial_orders',
@@ -139,35 +141,40 @@ class ProductSettings extends Component {
                 },
                 {
                     name: 'show_cost',
-                    label: 'Show Cost',
+                    label: translations.show_cost, 
+                    help_text: translations.show_cost_help_text,
                     type: 'switch',
                     placeholder: 'Show Cost',
                     value: settings.show_cost
                 },
                 {
                     name: 'show_product_quantity',
-                    label: 'Show Product Quantity',
+                    label: translations.show_product_quantity,
+                    help_text: translations.show_product_quantity_help_text,
                     type: 'switch',
                     placeholder: 'Show Product Quantity',
                     value: settings.show_product_quantity
                 },
                 {
                     name: 'fill_products',
-                    label: 'Fill Products',
+                    label: translations.fill_products,
+                    help_text: translations.fill_products_help_text,
                     type: 'switch',
                     placeholder: 'Fill Products',
                     value: settings.fill_products
                 },
                 {
                     name: 'convert_product_currency',
-                    label: 'Convert Currency',
+                    label: translations.convert_product_currency,
+                    help_text: translations.convert_product_currency_help_text,
                     type: 'switch',
                     placeholder: 'Convert Products',
                     value: settings.convert_product_currency
                 },
                 {
                     name: 'has_minimum_quantity',
-                    label: 'Default Quantity',
+                    label: translations.has_minimum_quantity,
+                    help_text: translations.has_minimum_quantity_help_text,
                     type: 'switch',
                     placeholder: 'Default Quantity',
                     value: settings.has_minimum_quantity
