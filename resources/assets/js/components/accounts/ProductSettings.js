@@ -88,15 +88,15 @@ class ProductSettings extends Component {
                     name: 'should_update_inventory',
                     label: translations.should_update_inventory,
                     type: 'switch',
-                    placeholder: 'Update Inventory',
+                    placeholder: translations.should_update_inventory,
                     value: settings.should_update_inventory,
-                    help_text: translations.  should_update_inventory_help_text
+                    help_text: translations.should_update_inventory_help_text
                 },
                 {
                     name: 'allow_backorders',
                     label: translations.allow_backorders,
                     type: 'switch',
-                    placeholder: 'Allow Backorders',
+                    placeholder: translations.allow_backorders,
                     value: settings.allow_backorders,  
                     help_text: translations.allow_backorders_help_text
                 },
@@ -114,13 +114,13 @@ class ProductSettings extends Component {
                     placeholder: 'Inventory Enabled',
                     value: settings.inventory_enabled
                 },
-                {
+                /* {
                     name: 'show_cost',
                     label: 'Show Cost',
                     type: 'switch',
                     placeholder: 'Show Cost',
                     value: settings.show_cost
-                }
+                } */
             ]
         ]
 
