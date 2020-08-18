@@ -109,9 +109,10 @@ class ProductSettings extends Component {
                 },
                 {
                     name: 'inventory_enabled',
-                    label: 'Inventory Enabled',
+                    label: translations.inventory_enabled,
                     type: 'switch',
-                    placeholder: 'Inventory Enabled',
+                    placeholder: translations.inventory_enabled,
+                    help_text: translations.inventory_enabled_help_text,
                     value: settings.inventory_enabled
                 },
                 /* {
