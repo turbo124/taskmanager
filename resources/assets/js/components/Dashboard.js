@@ -327,7 +327,8 @@ export default class Dashboard extends Component {
             orders: [],
             credits: [],
             activeTab: '1',
-            activeTab2: '1'
+            activeTab2: '1',
+            isMobile: window.innerWidth <= 768,
 
         }
 
@@ -346,6 +347,7 @@ export default class Dashboard extends Component {
         this.toggleModal = this.toggleModal.bind(this)
         this.toggleModal2 = this.toggleModal2.bind(this)
         this.getCustomer = this.getCustomer.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
     }
 
     componentDidMount () {
@@ -364,6 +366,18 @@ export default class Dashboard extends Component {
         // window.setInterval(() => {
         //     this.fetchData()
         // }, 5000)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ isMobile: window.innerWidth <= 768 })
     }
 
     toggleDashboardFilter (e) {
@@ -1805,6 +1819,54 @@ export default class Dashboard extends Component {
                                         {translations.activity}
                                     </NavLink>
                                 </NavItem>
+
+                                {this.state.isMobile && modules && modules.invoices &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('3')
+                                        }}>
+                                        {translations.invoices}
+                                    </NavLink>
+                                </NavItem>
+                                }
+
+                                {this.state.isMobile && modules && modules.quotes &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '4' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('4')
+                                        }}>
+                                        {translations.quotes}
+                                    </NavLink>
+                                </NavItem>
+                                }
+
+                                {this.state.isMobile && modules && modules.payments &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '5' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('5')
+                                        }}>
+                                        {translations.payments}
+                                    </NavLink>
+                                </NavItem>
+                                }
+
+                                {this.state.isMobile && this.state.isMobile && modules && modules.orders &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '6' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('6')
+                                        }}>
+                                        {translations.orders}
+                                    </NavLink>
+                                </NavItem>
+                                }
                             </Nav>
 
                             <Row>
@@ -2058,6 +2120,7 @@ export default class Dashboard extends Component {
                 <Col lg={5}>
                     <Card className="dashboard-border">
                         <CardBody>
+                            {!this.state.isMobile && 
                             <Nav className="tabs-justify disable-scrollbars" tabs>
                                 {modules && modules.invoices &&
                                 <NavItem>
@@ -2107,9 +2170,10 @@ export default class Dashboard extends Component {
                                 </NavItem>
                                 }
                             </Nav>
+                            }
 
-                            <TabContent activeTab={this.state.activeTab2}>
-                                <TabPane tabId="1">
+                            <TabContent activeTab={this.state.activeTab}>
+                                <TabPane tabId="3">
                                     <Card>
                                         <CardHeader>{translations.overdue_invoices}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
@@ -2129,7 +2193,7 @@ export default class Dashboard extends Component {
                                     </Card>
                                 </TabPane>
 
-                                <TabPane tabId="2">
+                                <TabPane tabId="4">
                                     <Card>
                                         <CardHeader>{translations.overdue_quotes}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
@@ -2149,7 +2213,7 @@ export default class Dashboard extends Component {
                                     </Card>
                                 </TabPane>
 
-                                <TabPane tabId="3">
+                                <TabPane tabId="5">
                                     <Card>
                                         <CardHeader>{translations.recent_payments}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
@@ -2160,7 +2224,7 @@ export default class Dashboard extends Component {
                                     </Card>
                                 </TabPane>
 
-                                <TabPane tabId="4">
+                                <TabPane tabId="6">
                                     <Card>
                                         <CardHeader>{translations.overdue_orders}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
