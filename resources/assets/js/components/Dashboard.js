@@ -2125,9 +2125,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.invoices &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab2 === '1' ? 'active' : ''}
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab2('1')
+                                            this.toggleTab('3')
                                         }}>
                                         {translations.invoices}
                                     </NavLink>
@@ -2137,9 +2137,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.quotes &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab2 === '2' ? 'active' : ''}
+                                        className={this.state.activeTab === '4' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab2('2')
+                                            this.toggleTab('4')
                                         }}>
                                         {translations.quotes}
                                     </NavLink>
@@ -2149,9 +2149,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.payments &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab2 === '3' ? 'active' : ''}
+                                        className={this.state.activeTab === '5' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab2('3')
+                                            this.toggleTab('5')
                                         }}>
                                         {translations.payments}
                                     </NavLink>
@@ -2161,9 +2161,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.orders &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab2 === '4' ? 'active' : ''}
+                                        className={this.state.activeTab === '6' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab2('4')
+                                            this.toggleTab('6')
                                         }}>
                                         {translations.orders}
                                     </NavLink>
