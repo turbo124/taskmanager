@@ -30,7 +30,7 @@ export default class Cases extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['customer_name', 'files', 'private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'customer_name', 'files', 'private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',

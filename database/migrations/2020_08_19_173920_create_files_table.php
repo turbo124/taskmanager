@@ -32,6 +32,7 @@ class CreateFilesTable extends Migration {
 			$table->integer('company_id')->unsigned()->nullable();
 			$table->softDeletes();
 			$table->integer('assigned_to')->nullable();
+			$table->boolean('uploaded_by_customer')->default(0);
 		});
 	}
 

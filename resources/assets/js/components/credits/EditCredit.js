@@ -231,7 +231,8 @@ export default class EditCredit extends Component {
                     company_id: null,
                     status_id: null,
                     line_items: [],
-                    invitations: []
+                    invitations: [], 
+                    return_to_stock: false,
                 }, () => localStorage.removeItem('creditForm'))
             }
         })
@@ -300,6 +301,7 @@ export default class EditCredit extends Component {
 
     getFormData () {
         return {
+            return_to_stock: this.state.return_to_stock,
             is_amount_discount: this.state.is_amount_discount,
             assigned_to: this.state.assigned_to,
             number: this.state.number,

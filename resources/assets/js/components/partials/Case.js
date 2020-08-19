@@ -19,9 +19,12 @@ import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import CaseModel from '../models/CaseModel'
 import CasePresenter from '../presenters/CasePresenter'
+import FieldGrid from '../common/entityContainers/FieldGrid'
+import InfoMessage from '../common/entityContainers/InfoMessage'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import { icons } from "../common/_icons";
 
 export default class Case extends Component {
     constructor (props) {
@@ -32,13 +35,13 @@ export default class Case extends Component {
             show_success: false
         }
 
-        this.expenseModel = new CaseModel(this.props.entity)
+        this.caseModel = new CaseModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        this.expenseModel.completeAction(this.props.entity, action).then(response => {
+        this.caseModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -66,6 +69,63 @@ export default class Case extends Component {
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
         const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
 
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            console.log('users', JSON.parse(localStorage.getItem('users')))
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+        }
+
+        const fields = []
+
+        if (this.props.entity.custom_value1.length) {
+            const label1 = this.caseModel.getCustomFieldLabel('Case', 'custom_value1')
+            fields[label1] = this.caseModel.formatCustomValue(
+                'Case',
+                'custom_value1',
+                this.props.entity.custom_value1
+            )
+        }
+
+        if (this.props.entity.custom_value2.length) {
+            const label2 = this.caseModel.getCustomFieldLabel('Case', 'custom_value2')
+            fields[label2] = this.caseModel.formatCustomValue(
+                'Case',
+                'custom_value2',
+                this.props.entity.custom_value2
+            )
+        }
+
+        if (this.props.entity.custom_value3.length) {
+            const label3 = this.caseModel.getCustomFieldLabel('Case', 'custom_value3')
+            fields[label3] = this.caseModel.formatCustomValue(
+                'Case',
+                'custom_value3',
+                this.props.entity.custom_value3
+            )
+        }
+
+        if (this.props.entity.custom_value4.length) {
+            const label4 = this.caseModel.getCustomFieldLabel('Case', 'custom_value4')
+            fields[label4] = this.caseModel.formatCustomValue(
+                'Case',
+                'custom_value4',
+                this.props.entity.custom_value4
+            )
+        }
+
+        fields.date = <FormatDate date={this.props.entity.created_at}/>
+        fields.due_date = <FormatDate date={this.props.entity.due_date}/>
+
+        if (this.props.entity.subject && this.props.entity.subject.length) {
+            fields.subject = this.props.entity.subject
+        }
+
+        if (this.props.entity.priority && this.props.entity.priority.toString().length) {
+            fields.priority = this.props.priority
+        }
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -86,7 +146,7 @@ export default class Case extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents} ({this.expenseModel.fileCount})
+                            {translations.documents} ({this.caseModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -97,30 +157,24 @@ export default class Case extends Component {
 
                         <CasePresenter entity={this.props.entity} field="status_field"/>
 
+                       {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <ListGroup className="mt-4 col-12">
-                                <ListGroupItem className={listClass}>
-                                    <ListGroupItemHeading><i className="fa fa-user-circle-o mr-2"/>
-                                        {customer[0].name}
-                                    </ListGroupItemHeading>
-                                </ListGroupItem>
-                            </ListGroup>
-
-                            <ul className="col-12 mt-4">
-                                <SimpleSectionItem heading={translations.date}
-                                    value={<FormatDate date={this.props.entity.created_at}/>}/>
-
-                                <SimpleSectionItem heading={translations.subject}
-                                    value={this.props.entity.subject}/>
-
-                                <SimpleSectionItem heading={translations.priority}
-                                    value={<CasePresenter entity={this.props.entity}
-                                        field="priority_field"/>}/>
-
-                                <SimpleSectionItem heading={translations.due_date}
-                                    value={this.props.entity.due_date}/>
-                            </ul>
+                            <InfoMessage message={this.props.entity.private_notes} />
                         </Row>
+                        }
+
+                        <Row>
+                            <EntityListTile entity={translations.customer} title={customer[0].name} icon={icons.customer} />
+                        </Row>
+
+                        {!!user &&
+                        <Row>
+                            {user}
+                        </Row>
+                        }
+
+                        <FieldGrid fields={fields}/>
+
                     </TabPane>
 
                     <TabPane tabId="2">

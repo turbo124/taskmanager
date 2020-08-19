@@ -103,6 +103,10 @@ $color_iron_approx: #d6d6d6;
     }
   }
 
+  .app-body {
+    background-color: $black;
+  }
+
   caption {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -753,7 +757,7 @@ $color_iron_approx: #d6d6d6;
     border-bottom: 1px solid $color_shark_approx;
 
     .nav-link {
-      color: $color_slate_gray_approx;
+      color: #ddd;
 
       &:hover {
         border-color: $color_shark_approx $color_shark_approx $color_shark_approx;
@@ -2935,8 +2939,8 @@ $color_iron_approx: #d6d6d6;
   }
 
   .nav-fill .nav-link {
-    background-color: $white;
-    border-color: $color_shark_approx;
+    background-color: transparent !important;
+    border: none !important;
 
     &.active {
       margin-top: -1px;
@@ -3033,5 +3037,9 @@ $color_iron_approx: #d6d6d6;
     &:hover {
       background-color: $color_science_blue_approx !important;
     }
+  }
+
+  .dashboard-border {
+    border-left: 2px solid #9f9f9f;
   }
 }

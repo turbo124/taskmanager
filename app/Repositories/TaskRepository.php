@@ -156,11 +156,11 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     {
         return $this->model->join('task_statuses', 'task_statuses.id', '=', 'tasks.task_status')
                            ->select(
-                               'task_statuses.title AS name',
+                               'task_statuses.name',
                                DB::raw('CEILING(count(*) * 100 / (select count(*) from tasks)) as value')
                            )
                            ->where('tasks.task_type', $task_type)->where('tasks.account_id', $account_id)
-                           ->groupBy('task_statuses.title')->get();
+                           ->groupBy('task_statuses.name')->get();
     }
 
     /**

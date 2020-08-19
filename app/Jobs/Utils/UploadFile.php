@@ -6,7 +6,9 @@ namespace App\Jobs\Utils;
 use App\Events\Uploads\FileWasDeleted;
 use App\Events\Uploads\FileWasUploaded;
 use App\Factory\NotificationFactory;
+use App\Models\Account;
 use App\Models\File;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,12 +21,27 @@ class UploadFile implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $file;
-    protected $user;
-    protected $account;
+
+    /**
+     * @var User
+     */
+    protected User $user;
+
+    /**
+     * @var Account
+     */
+    protected Account $account;
 
     public $entity;
 
-    public function __construct($file, $user, $account, $entity)
+    /**
+     * UploadFile constructor.
+     * @param $file
+     * @param User $user
+     * @param Account $account
+     * @param $entity
+     */
+    public function __construct($file, User $user, Account $account, $entity)
     {
         $this->file = $file;
         $this->user = $user;

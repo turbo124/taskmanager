@@ -178,6 +178,8 @@ _localizedValues.en = {
     private_notes: 'Private Notes',
     edit_group: 'Edit Group',
     add_group: 'Add Group',
+    dashboard: 'Dashboard',
+    activity: 'Activity',
     dashboard_message: 'Dashboard Message',
     add_lead: 'Add Lead',
     edit_lead: 'Edit Lead',
@@ -513,7 +515,24 @@ _localizedValues.en = {
     no_email: 'No Email Address Set',
     email_sent_successfully: 'Email was sent successfully',
     emails_sent_successfully: 'Emails were sent successfully',
-    send_to_all: 'Send to all contacts'
+    send_to_all: 'Send to all contacts',
+    inventory_enabled: 'Manage Stock',
+    inventory_enabled_help_text: 'Manage Stock',
+    should_update_inventory: 'Update Inventory Automatically',
+    should_update_inventory_help_text: 'Reduces stock when order received',
+    allow_backorders: 'Allow Backorders',
+    allow_backorders_help_text: 'Allow orders when stock below 0',
+    fill_products: 'Fill Products',
+    fill_products_help_text: 'Selecting a product will automatically populate the cost and description fields',
+    show_cost: 'Show Cost',
+    show_cost_help_text: 'Show a product cost field to track profit',
+    show_product_quantity: 'Show Product Quantity',
+    show_product_quantity_help_text: 'Show quantity field otherwise default to 1',
+    convert_product_currency: 'Convert to customer currency',
+    convert_product_currency_help_text: 'Automatically convert product prices to customer currency',
+    has_minimum_quantity: 'Has minimum line item quantity',
+    has_minimum_quantity_help_text: 'Automatically set the line item quantity to 1',
+    return_to_stock: 'Return to Stock'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

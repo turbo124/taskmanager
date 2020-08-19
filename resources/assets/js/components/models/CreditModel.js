@@ -70,6 +70,7 @@ export default class CreditModel extends BaseModel {
             partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             activeTab: '1',
             po_number: '',
+            return_to_stock: false,
             loading: false,
             dropdownOpen: false,
             changesMade: false,

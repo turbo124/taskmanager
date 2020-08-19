@@ -26,6 +26,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'autobilling_enabled'                  => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'display_invoice_terms'                => [
             'required'         => false,
             'translated_value' => '',

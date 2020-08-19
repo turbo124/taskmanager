@@ -28,7 +28,11 @@ class Cases extends Model
         'account_id',
         'customer_id',
         'assigned_to',
-        'parent_id'
+        'parent_id',
+        'custom_value1',
+        'custom_value2',
+        'custom_value3',
+        'custom_value4'
     ];
 
     const STATUS_DRAFT = 1;
