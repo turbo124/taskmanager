@@ -253,7 +253,7 @@ const mainChartOpts = {
     }
 }
 
-class Dashboard extends Component {
+export default class Dashboard extends Component {
     constructor (props) {
         super(props)
         this.getOption = this.getOption.bind(this)
@@ -326,7 +326,9 @@ class Dashboard extends Component {
             tasks: [],
             orders: [],
             credits: [],
-            activeTab: '1'
+            activeTab: '1',
+            activeTab2: '1'
+
         }
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -334,6 +336,7 @@ class Dashboard extends Component {
         this.settings = user_account[0].account.settings
 
         this.toggle = this.toggle.bind(this)
+        this.toggleTab2 = this.toggleTab2.bind(this)
         this.getChartData = this.getChartData.bind(this)
         this.doExport = this.doExport.bind(this)
         this.setDates = this.setDates.bind(this)
@@ -1473,6 +1476,12 @@ class Dashboard extends Component {
         }
     }
 
+    toggleTab2 (tab) {
+        if (this.state.activeTab2 !== tab) {
+            this.setState({ activeTab2: tab })
+        }
+    }
+
     doExport () {
         const array = this.getArrayToExport(this.state.entity, this.state.radioSelected)
 
@@ -1530,7 +1539,7 @@ class Dashboard extends Component {
 
         const dashboardBody = dashboardFilterEntities.map((entity, index) => {
             return (
-                <Card className="mr-2 p-0 col-12 col-md-3">
+                <Card key={index} className="mr-2 p-0 col-12 col-md-3">
                     <CardHeader>{entity}</CardHeader>
                     <CardBody>
                         <ul className="list-group">
@@ -1641,7 +1650,7 @@ class Dashboard extends Component {
 
         const overdue_invoices = arrOverdueInvoices.length ? arrOverdueInvoices.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1657,7 +1666,7 @@ class Dashboard extends Component {
 
         const recent_invoices = arrRecentInvoices.length ? arrRecentInvoices.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1672,7 +1681,7 @@ class Dashboard extends Component {
 
         const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1688,7 +1697,7 @@ class Dashboard extends Component {
 
         const recent_quotes = arrRecentQuotes.length ? arrRecentQuotes.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1703,7 +1712,7 @@ class Dashboard extends Component {
 
         const overdue_orders = arrOverdueOrders.length ? arrOverdueOrders.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1719,7 +1728,7 @@ class Dashboard extends Component {
 
         const recent_orders = arrRecentOrders.length ? arrRecentOrders.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1734,7 +1743,7 @@ class Dashboard extends Component {
 
         const recent_payments = arrRecentPayments.length ? arrRecentPayments.map((invoice, index) => {
             return (
-                <ListGroupItem className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
@@ -1771,418 +1780,436 @@ class Dashboard extends Component {
                 )
             })
         }
-        return (
-            <React.Fragment>
-                <Nav className="tabs-justify disable-scrollbars" tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('1')
-                            }}>
-                            Dashboard
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('2')
-                            }}>
-                            Activity
-                        </NavLink>
-                    </NavItem>
 
-                    {modules && modules.invoices &&
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('3')
-                            }}>
-                            {translations.invoices}
-                        </NavLink>
-                    </NavItem>
-                    }
+        return <React.Fragment>
+            <Row className="mt-4">
+                <Col lg={7}>
+                    <Card className="pb-0">
+                        <CardBody>
+                            <Nav className="tabs-justify disable-scrollbars nav-fill" tabs>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('1')
+                                        }}>
+                                        {translations.overview}
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('2')
+                                        }}>
+                                        {translations.activity}
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
 
-                    {modules && modules.quotes &&
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('4')
-                            }}>
-                            {translations.quotes}
-                        </NavLink>
-                    </NavItem>
-                    }
+                            <Row>
+                                <Col lg={6} className="d-flex justify-content-between align-items-center">
+                                    <i className={`ml-4 fa ${icons.left}`}/>
+                                    <i className={`fa ${icons.right}`}/>
+                                    <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
+                                        start_month={moment(this.state.start_date).format('M')}
+                                        end_year={moment(this.state.end_date).format('YYYY')}
+                                        end_month={moment(this.state.end_date).format('M')}
+                                        onChange={this.setDates}/>
+                                </Col>
+                            </Row>
+                        </CardBody>
+                    </Card>
 
-                    {modules && modules.payments &&
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('5')
-                            }}>
-                            {translations.payments}
-                        </NavLink>
-                    </NavItem>
-                    }
-
-                    {modules && modules.orders &&
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggle('6')
-                            }}>
-                            {translations.orders}
-                        </NavLink>
-                    </NavItem>
-                    }
-
-                </Nav>
-
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Row>
-                            <Col md={4} className="d-flex justify-content-between align-items-center">
-                                <i className={`ml-4 fa ${icons.left}`}/>
-                                <i className={`fa ${icons.right}`}/>
-                                <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
-                                    start_month={moment(this.state.start_date).format('M')}
-                                    end_year={moment(this.state.end_date).format('YYYY')}
-                                    end_month={moment(this.state.end_date).format('M')}
-                                    onChange={this.setDates}/>
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col className="col-xl-4" lg={6} md={12}>
-                                <CardModule
-                                    body={true}
-                                    hCenter={true}
-                                    header={
-                                        <React.Fragment>
-                                            <span className="success darken-1">Total Budget</span>
-                                            <h3 className="font-large-2 grey darken-1 text-bold-200">{this.state.totalBudget}</h3>
-                                        </React.Fragment>
-                                    }
-                                    content={
-                                        <React.Fragment>
-                                            <input type="text" value="75"
-                                                className="knob hide-value responsive angle-offset"
-                                                data-angleOffset="0" data-thickness=".15"
-                                                data-linecap="round" data-width="150"
-                                                data-height="150" data-inputColor="#e1e1e1"
-                                                data-readOnly="true" data-fgColor="#37BC9B"
-                                                data-knob-icon="ft-trending-up"/>
-
-                                            <ul className="list-inline clearfix mt-2 mb-0">
-                                                <li className="border-right-grey border-right-lighten-2 pr-2">
-                                                    <h2 className="grey darken-1 text-bold-400">75%</h2>
-                                                    <span className="success">Completed</span>
-                                                </li>
-                                                <li className="pl-2">
-                                                    <h2 className="grey darken-1 text-bold-400">25%</h2>
-                                                    <span className="danger">Remaining</span>
-                                                </li>
-                                            </ul>
-                                        </React.Fragment>
-                                    }
-                                />
-                            </Col>
-                            <Col className="col-xl-4" lg={6} md={12}>
-                                <CardModule
-                                    body={false}
-                                    content={
-                                        <div className="earning-chart position-relative">
-                                            <div className="chart-title position-absolute mt-2 ml-2">
-                                                <h1 className="font-large-2 grey darken-1 text-bold-200">{this.state.totalEarnt}</h1>
-                                                <span className="text-muted">Total Earning</span>
-                                            </div>
-                                            <div className="chartjs height-400">
-                                                <canvas id="earning-chart" className="height-400 block"/>
-                                            </div>
-                                            <div
-                                                className="chart-stats position-absolute position-bottom-0 position-right-0 mb-2 mr-3">
-                                                <a href="#" className="btn bg-info mr-1 white">Statistics <i
-                                                    className="ft-bar-chart"/></a> <span
-                                                    className="text-muted">for the <a
-                                                        href="#">last year.</a></span>
-                                            </div>
-                                        </div>
-                                    }
-                                />
-                            </Col>
-                            <Col className="col-xl-4" lg={12} md={12}>
-                                <CardModule
-                                    body={true}
-                                    content={
-                                        <div>
-                                            <div className="media">
-                                                <div className="media-body text-left">
-                                                    <h3 className="success">{this.state.leadsToday}</h3>
-                                                    <span>Today's Leads</span>
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1" className="p-0">
+                            <Row>
+                                <Col md={6}>
+                                    <CardModule
+                                        body={true}
+                                        content={
+                                            <div>
+                                                <div className="media">
+                                                    <div className="media-body text-left">
+                                                        <h3 className="success">{this.state.leadsToday}</h3>
+                                                        <span>Today's Leads</span>
+                                                    </div>
+                                                    <div className="media-right media-middle">
+                                                        <i className="ft-award success font-large-2 float-right"/>
+                                                    </div>
                                                 </div>
-                                                <div className="media-right media-middle">
-                                                    <i className="ft-award success font-large-2 float-right"/>
+
+                                                <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
+                                                    <div className="progress-bar bg-success" role="progressbar"
+                                                        style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0"
+                                                        aria-valuemax="100"/>
                                                 </div>
                                             </div>
+                                        }
+                                    />
 
-                                            <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
-                                                <div className="progress-bar bg-success" role="progressbar"
-                                                    style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0"
-                                                    aria-valuemax="100"/>
-                                            </div>
-                                        </div>
-                                    }
-                                />
-
-                                <CardModule
-                                    body={true}
-                                    content={
-                                        <div>
-                                            <div className="media">
-                                                <div className="media-body text-left">
-                                                    <h3 className="deep-orange">{this.state.newDeals}</h3>
-                                                    <span>New Deal</span>
+                                    <CardModule
+                                        body={true}
+                                        content={
+                                            <div>
+                                                <div className="media">
+                                                    <div className="media-body text-left">
+                                                        <h3 className="deep-orange">{this.state.newDeals}</h3>
+                                                        <span>New Deal</span>
+                                                    </div>
+                                                    <div className="media-right media-middle">
+                                                        <i className="ft-package deep-orange font-large-2 float-right"/>
+                                                    </div>
                                                 </div>
-                                                <div className="media-right media-middle">
-                                                    <i className="ft-package deep-orange font-large-2 float-right"/>
-                                                </div>
-                                            </div>
 
-                                            <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
-                                                <div className="progress-bar bg-deep-orange" role="progressbar"
-                                                    style={{ width: '35%' }} aria-valuenow="35" aria-valuemin="0"
-                                                    aria-valuemax="100"/>
-                                            </div>
-                                        </div>
-                                    }
-                                />
-
-                                <CardModule
-                                    body={true}
-                                    content={
-                                        <div>
-                                            <div className="media">
-                                                <div className="media-body text-left">
-                                                    <h3 className="info">{this.state.newCustomers}</h3>
-                                                    <span>New Customers</span>
-                                                </div>
-                                                <div className="media-right media-middle">
-                                                    <i className="ft-users info font-large-2 float-right"/>
+                                                <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
+                                                    <div className="progress-bar bg-deep-orange" role="progressbar"
+                                                        style={{ width: '35%' }} aria-valuenow="35" aria-valuemin="0"
+                                                        aria-valuemax="100"/>
                                                 </div>
                                             </div>
+                                        }
+                                    />
 
-                                            <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
-                                                <div className="progress-bar bg-success" role="progressbar"
-                                                    style={{ width: '35%' }} aria-valuenow="35" aria-valuemin="0"
-                                                    aria-valuemax="100"/>
+                                    <CardModule
+                                        body={true}
+                                        content={
+                                            <div>
+                                                <div className="media">
+                                                    <div className="media-body text-left">
+                                                        <h3 className="info">{this.state.newCustomers}</h3>
+                                                        <span>New Customers</span>
+                                                    </div>
+                                                    <div className="media-right media-middle">
+                                                        <i className="ft-users info font-large-2 float-right"/>
+                                                    </div>
+                                                </div>
+
+                                                <div className="progress mt-1 mb-0" style={{ height: '7px' }}>
+                                                    <div className="progress-bar bg-success" role="progressbar"
+                                                        style={{ width: '35%' }} aria-valuenow="35" aria-valuemin="0"
+                                                        aria-valuemax="100"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                    }
-                                />
-                            </Col>
-                        </Row>
+                                        }
+                                    />
+                                </Col>
+                                <Col md={6}>
+                                    <CardModule
+                                        body={true}
+                                        hCenter={true}
+                                        header={
+                                            <React.Fragment>
+                                                <span className="success darken-1">Total Budget</span>
+                                                <h3 className="font-large-2 grey darken-1 text-bold-200">{this.state.totalBudget}</h3>
+                                            </React.Fragment>
+                                        }
+                                        content={
+                                            <React.Fragment>
+                                                <input type="text" value="75"
+                                                    className="knob hide-value responsive angle-offset"
+                                                    data-angleOffset="0" data-thickness=".15"
+                                                    data-linecap="round" data-width="150"
+                                                    data-height="150" data-inputColor="#e1e1e1"
+                                                    data-readOnly="true" data-fgColor="#37BC9B"
+                                                    data-knob-icon="ft-trending-up"/>
 
-                        <Row className="match-height">
-                            <Col className="col-xl-6" lg={12}>
-                                <CardModule
-                                    body={true}
-                                    header={
-                                        <React.Fragment>
-                                            <h4 className="card-title">Deals Funnel <span
-                                                className="text-muted text-bold-400">This Month</span></h4>
-                                            <a className="heading-elements-toggle"><i
-                                                className="ft-more-horizontal font-medium-3"/></a>
-                                            <div className="heading-elements">
-                                                <ul className="list-inline mb-0">
-                                                    <li><a data-action="reload"><i className="ft-rotate-cw"/></a>
+                                                <ul className="list-inline clearfix mt-2 mb-0">
+                                                    <li className="border-right-grey border-right-lighten-2 pr-2">
+                                                        <h2 className="grey darken-1 text-bold-400">75%</h2>
+                                                        <span className="success">Completed</span>
+                                                    </li>
+                                                    <li className="pl-2">
+                                                        <h2 className="grey darken-1 text-bold-400">25%</h2>
+                                                        <span className="danger">Remaining</span>
                                                     </li>
                                                 </ul>
-                                            </div>
-                                        </React.Fragment>
-                                    }
-                                    content={
-                                        <ReactEcharts option={this.getOption()}/>
-                                    }
-                                />
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </Col>
+                                {/* <Col md={6}> */}
+                                {/*    <CardModule */}
+                                {/*        body={false} */}
+                                {/*        content={ */}
+                                {/*            <div className="earning-chart position-relative"> */}
+                                {/*                <div className="chart-title position-absolute mt-2 ml-2"> */}
+                                {/*                    <h1 className="font-large-2 grey darken-1 text-bold-200">{this.state.totalEarnt}</h1> */}
+                                {/*                    <span className="text-muted">Total Earning</span> */}
+                                {/*                </div> */}
+                                {/*                <div className="chartjs height-400"> */}
+                                {/*                    <canvas id="earning-chart" className="height-400 block"/> */}
+                                {/*                </div> */}
+                                {/*                <div */}
+                                {/*                    className="chart-stats position-absolute position-bottom-0 position-right-0 mb-2 mr-3"> */}
+                                {/*                    <a href="#" className="btn bg-info mr-1 white">Statistics <i */}
+                                {/*                        className="ft-bar-chart"/></a> <span */}
+                                {/*                        className="text-muted">for the <a */}
+                                {/*                            href="#">last year.</a></span> */}
+                                {/*                </div> */}
+                                {/*            </div> */}
+                                {/*        } */}
+                                {/*    /> */}
+                                {/* </Col> */}
+                            </Row>
 
-                            </Col>
-                            <Col className="col-xl-6" lg={12}>
-                                <CardModule
-                                    cardHeight='410px'
-                                    body={true}
-                                    header={
-                                        <React.Fragment>
-                                            <h4 className="card-title">Deals <span className="text-muted text-bold-400">- Won 5</span>
-                                            </h4>
-                                            <a className="heading-elements-toggle"><i
-                                                className="ft-more-horizontal font-medium-3"/></a>
-                                            <div className="heading-elements">
-                                                <ul className="list-inline mb-0">
-                                                    <li><a data-action="reload"><i className="ft-rotate-cw"/></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </React.Fragment>
-                                    }
-                                    content={
-                                        <div style={{
-                                            height: '300px',
-                                            overflowY: 'auto'
-                                        }} id="deals-list-scroll"
-                                        className="card-body height-350 position-relative ps-container ps-theme-default"
-                                        data-ps-id="6205b797-6d0d-611f-25fd-16195eadda29">
-                                            {leads}
-                                        </div>
-                                    }
-                                />
-                            </Col>
-                        </Row>
+                            {/* <Row className="match-height"> */}
+                            {/*    <Col className="col-xl-6" lg={12}> */}
+                            {/*        <CardModule */}
+                            {/*            body={true} */}
+                            {/*            header={ */}
+                            {/*                <React.Fragment> */}
+                            {/*                    <h4 className="card-title">Deals Funnel <span */}
+                            {/*                        className="text-muted text-bold-400">This Month</span></h4> */}
+                            {/*                    <a className="heading-elements-toggle"><i */}
+                            {/*                        className="ft-more-horizontal font-medium-3"/></a> */}
+                            {/*                    <div className="heading-elements"> */}
+                            {/*                        <ul className="list-inline mb-0"> */}
+                            {/*                            <li><a data-action="reload"><i className="ft-rotate-cw"/></a> */}
+                            {/*                            </li> */}
+                            {/*                        </ul> */}
+                            {/*                    </div> */}
+                            {/*                </React.Fragment> */}
+                            {/*            } */}
+                            {/*            content={ */}
+                            {/*                <ReactEcharts option={this.getOption()}/> */}
+                            {/*            } */}
+                            {/*        /> */}
 
-                        <Row className="match-height">
-                            {/* <Col className="col-xl-8" lg={12}> */}
-                            {/*    <StatsCard/> */}
-                            {/* </Col> */}
+                            {/*    </Col> */}
+                            {/*    <Col className="col-xl-6" lg={12}> */}
+                            {/*        <CardModule */}
+                            {/*            cardHeight='410px' */}
+                            {/*            body={true} */}
+                            {/*            header={ */}
+                            {/*                <React.Fragment> */}
+                            {/*                    <h4 className="card-title">Deals <span className="text-muted text-bold-400">- Won 5</span> */}
+                            {/*                    </h4> */}
+                            {/*                    <a className="heading-elements-toggle"><i */}
+                            {/*                        className="ft-more-horizontal font-medium-3"/></a> */}
+                            {/*                    <div className="heading-elements"> */}
+                            {/*                        <ul className="list-inline mb-0"> */}
+                            {/*                            <li><a data-action="reload"><i className="ft-rotate-cw"/></a> */}
+                            {/*                            </li> */}
+                            {/*                        </ul> */}
+                            {/*                    </div> */}
+                            {/*                </React.Fragment> */}
+                            {/*            } */}
+                            {/*            content={ */}
+                            {/*                <div style={{ */}
+                            {/*                    height: '300px', */}
+                            {/*                    overflowY: 'auto' */}
+                            {/*                }} id="deals-list-scroll" */}
+                            {/*                className="card-body height-350 position-relative ps-container ps-theme-default" */}
+                            {/*                data-ps-id="6205b797-6d0d-611f-25fd-16195eadda29"> */}
+                            {/*                    {leads} */}
+                            {/*                </div> */}
+                            {/*            } */}
+                            {/*        /> */}
+                            {/*    </Col> */}
+                            {/* </Row> */}
 
-                            <Col className="col-xl-4" lg={12}>
-                                <CardModule
-                                    body={true}
-                                    header={
-                                        <React.Fragment>
-                                            <h4 className="card-title">Sources <span
-                                                className="text-muted text-bold-400">This Month</span></h4>
-                                            <a className="heading-elements-toggle"><i
-                                                className="ft-more-horizontal font-medium-3"/></a>
-                                            <div className="heading-elements">
-                                                <ul className="list-inline mb-0">
-                                                    <li><a data-action="reload"><i className="ft-rotate-cw"/></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </React.Fragment>
-                                    }
-                                    content={
-                                        <ReactEcharts
-                                            option={this.getPieOptions()}
-                                            style={{ height: 300 }}
-                                            onChartReady={this.onChartReady}
-                                            onEvents={onEvents}
-                                        />
-                                    }
-                                />
-                            </Col>
-                        </Row>
+                            <Row className="match-height">
+                                {/* <Col className="col-xl-8" lg={12}> */}
+                                {/*    <StatsCard/> */}
+                                {/* </Col> */}
 
-                        <Row>
-                            <Button color="danger" onClick={this.toggleModal}>Configure Dashboard</Button>
-                        </Row>
+                                <Col md={12}>
+                                    <CardModule
+                                        body={true}
+                                        header={
+                                            <React.Fragment>
+                                                <h4 className="card-title">Sources <span
+                                                    className="text-muted text-bold-400">This Month</span></h4>
+                                                <a className="heading-elements-toggle"><i
+                                                    className="ft-more-horizontal font-medium-3"/></a>
+                                                <div className="heading-elements">
+                                                    <ul className="list-inline mb-0">
+                                                        <li><a data-action="reload"><i className="ft-rotate-cw"/></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </React.Fragment>
+                                        }
+                                        content={
+                                            <ReactEcharts
+                                                option={this.getPieOptions()}
+                                                style={{ height: 150 }}
+                                                onChartReady={this.onChartReady}
+                                                onEvents={onEvents}
+                                            />
+                                        }
+                                    />
+                                </Col>
+                            </Row>
 
-                        {charts}
+                            <Row>
+                                <Button color="danger" onClick={this.toggleModal}>Configure Dashboard</Button>
+                            </Row>
 
-                    </TabPane>
+                        </TabPane>
 
-                    <TabPane tabId="2">
-                        <MessageContainer/>
-                    </TabPane>
+                        <TabPane tabId="2">
+                            <MessageContainer/>
+                        </TabPane>
+                    </TabContent>
+                </Col>
 
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardHeader>{translations.overdue_invoices}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {overdue_invoices}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
+                <Col lg={5}>
+                    <Card className="dashboard-border">
+                        <CardBody>
+                            <Nav className="tabs-justify disable-scrollbars" tabs>
+                                {modules && modules.invoices &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '1' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('1')
+                                        }}>
+                                        {translations.invoices}
+                                    </NavLink>
+                                </NavItem>
+                                }
 
-                        <Card>
-                            <CardHeader>{translations.recent_invoices}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {recent_invoices}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                {modules && modules.quotes &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '2' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('2')
+                                        }}>
+                                        {translations.quotes}
+                                    </NavLink>
+                                </NavItem>
+                                }
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardHeader>{translations.overdue_quotes}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {overdue_quotes}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
+                                {modules && modules.payments &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('3')
+                                        }}>
+                                        {translations.payments}
+                                    </NavLink>
+                                </NavItem>
+                                }
 
-                        <Card>
-                            <CardHeader>{translations.recent_quotes}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {recent_quotes}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                {modules && modules.orders &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '4' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('4')
+                                        }}>
+                                        {translations.orders}
+                                    </NavLink>
+                                </NavItem>
+                                }
+                            </Nav>
 
-                    <TabPane tabId="5">
-                        <Card>
-                            <CardHeader>{translations.recent_payments}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {recent_payments}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                            <TabContent activeTab={this.state.activeTab2}>
+                                <TabPane tabId="1">
+                                    <Card>
+                                        <CardHeader>{translations.overdue_invoices}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {overdue_invoices}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
 
-                    <TabPane tabId="6">
-                        <Card>
-                            <CardHeader>{translations.overdue_orders}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {overdue_orders}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
+                                    <Card>
+                                        <CardHeader>{translations.recent_invoices}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_invoices}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
 
-                        <Card>
-                            <CardHeader>{translations.recent_orders}</CardHeader>
-                            <CardBody>
-                                <ListGroup>
-                                    {recent_orders}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                                <TabPane tabId="2">
+                                    <Card>
+                                        <CardHeader>{translations.overdue_quotes}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {overdue_quotes}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
 
-                <Modal size="lg" isOpen={this.state.modal} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Configure Dashboard</ModalHeader>
-                    <ModalBody>
-                        {dashboardBody}
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggleModal}>Close</Button>
-                    </ModalFooter>
-                </Modal>
+                                    <Card>
+                                        <CardHeader>{translations.recent_quotes}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_quotes}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
 
-                <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
-                    <ModalHeader toggle={this.toggleModal2}>Configure Dashboard</ModalHeader>
-                    <ModalBody>
-                        <SettingsWizard />
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggleModal}>Close</Button>
-                    </ModalFooter>
-                </Modal>
-            </React.Fragment>
-        )
+                                <TabPane tabId="3">
+                                    <Card>
+                                        <CardHeader>{translations.recent_payments}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_payments}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
+
+                                <TabPane tabId="4">
+                                    <Card>
+                                        <CardHeader>{translations.overdue_orders}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {overdue_orders}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+
+                                    <Card>
+                                        <CardHeader>{translations.recent_orders}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_orders}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
+                            </TabContent>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+
+            <Row className={this.state.activeTab === '1' ? 'd-block' : 'd-none'}>
+                <Col sm={12}>
+                    {charts}
+                </Col>
+            </Row>
+
+            <Modal size="lg" isOpen={this.state.modal} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal}>Configure Dashboard</ModalHeader>
+                <ModalBody>
+                    {dashboardBody}
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={this.toggleModal}>Close</Button>
+                </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
+                <ModalHeader toggle={this.toggleModal2}>Configure Dashboard</ModalHeader>
+                <ModalBody>
+                    <SettingsWizard />
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={this.toggleModal}>Close</Button>
+                </ModalFooter>
+            </Modal>
+        </React.Fragment>
     }
 }
-
-export default Dashboard

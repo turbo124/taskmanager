@@ -113,7 +113,7 @@ class MessageCard extends React.Component {
         )
 
         return (
-            <div className="col-8 col-md-12">
+            <div className="col-12">
                 <Card>
                     <CardHeader>
                         <div className="pull-left image">

@@ -2,22 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\ClientContact;
 use App\Events\Credit\CreditWasCreated;
 use App\Events\Credit\CreditWasUpdated;
 use App\Filters\CreditFilter;
 use App\Jobs\Inventory\ReverseInventory;
-use App\Models\NumberGenerator;
-use App\Factory\CreditInvitationFactory;
-use App\Models\CreditInvitation;
-use App\Repositories\Base\BaseRepository;
-use App\Models\Credit;
-use App\Models\Payment;
-use App\Requests\SearchRequest;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
-use App\Models\Customer;
 use App\Models\Account;
+use App\Models\Credit;
+use App\Models\Customer;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Requests\SearchRequest;
 use Illuminate\Support\Collection;
 
 class CreditRepository extends BaseRepository implements CreditRepositoryInterface
@@ -44,7 +38,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      */
     public function createCreditNote(array $data, Credit $credit): ?Credit
     {
-        if ($credit->customer->getSetting('should_update_inventory') === true) {
+        if ($data['return_to_stock'] === true && $credit->customer->getSetting('should_update_inventory') === true) {
             ReverseInventory::dispatchNow($credit);
         }
 

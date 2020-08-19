@@ -63,6 +63,8 @@ class CreateProductTaskTable extends Migration {
 			$table->integer('assigned_user')->unsigned()->nullable();
 			$table->integer('assigned_to')->unsigned();
 			$table->dateTime('date_reminder_last_sent')->nullable();
+			$table->integer('currency_id')->nullable();
+			$table->decimal('exchange_rate', 12)->default(0.00);
 		});
 	}
 

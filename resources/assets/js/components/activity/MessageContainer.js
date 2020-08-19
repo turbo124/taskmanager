@@ -206,7 +206,7 @@ class MessageContainer extends React.Component {
                     />
 
                     {messages && messages.length &&
-                    <React.Fragment>
+                    <div className="mb-4">
                         <h2>Messages</h2>
                         <MessageBoard
                             setMode={this.setMode}
@@ -217,11 +217,11 @@ class MessageContainer extends React.Component {
                             deleteMessage={this.deleteMessage}
                             setActiveMessage={this.setActiveMessage}
                         />
-                    </React.Fragment>
+                    </div>
                     }
 
                     {events && events.length
-                        ? <React.Fragment>
+                        ? <div className="mb-4">
                             <h2>Event Invitations</h2> (
                             events.map((event, index) => (
                             <Event key={index}
@@ -230,13 +230,13 @@ class MessageContainer extends React.Component {
                                 event={event}
                             />
                             ))
-                            ) </React.Fragment> : null}
+                            ) </div> : null}
 
                     {notifications.length ? (
                         <Card>
                             <CardHeader><h2 className="text-center">Notifications</h2>
                             </CardHeader>
-                            <CardBody>
+                            <CardBody style={{ height: '400px', overflowY: 'auto' }}>
                                 <ListGroup className="m-3">
                                     {notifications.map((notification, index) => {
                                         const user = this.state.users.filter(user => user.id === notification.user_id)

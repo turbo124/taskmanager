@@ -286,6 +286,11 @@ body {
       }
     }
   }
+
+  .nav-fill .nav-link {
+    background-color: transparent !important;
+    border: none !important;
+  }
 }
 
 .tab-content {

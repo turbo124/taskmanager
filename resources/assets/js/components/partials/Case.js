@@ -19,12 +19,12 @@ import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
-import SimpleSectionItem from '../common/entityContainers/SimpleSectionItem'
 import CaseModel from '../models/CaseModel'
 import CasePresenter from '../presenters/CasePresenter'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
+import { icons } from "../common/_icons";
 
 export default class Case extends Component {
     constructor (props) {
@@ -68,6 +68,8 @@ export default class Case extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
         const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
+
+        let user = null
 
         if (this.props.entity.assigned_to) {
             console.log('users', JSON.parse(localStorage.getItem('users')))
@@ -144,7 +146,7 @@ export default class Case extends Component {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.documents} ({this.expenseModel.fileCount})
+                            {translations.documents} ({this.caseModel.fileCount})
                         </NavLink>
                     </NavItem>
                 </Nav>

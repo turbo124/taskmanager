@@ -35,7 +35,11 @@ trait CaseTransformable
             'files'         => $this->transformCaseFiles($cases->files),
             'updated_at'    => $cases->updated_at,
             'created_at'    => $cases->created_at,
-            'is_deleted'    => (bool)$cases->is_deleted
+            'is_deleted'    => (bool)$cases->is_deleted,
+            'custom_value1' => (string)$cases->custom_value1 ?: '',
+            'custom_value2' => (string)$cases->custom_value2 ?: '',
+            'custom_value3' => (string)$cases->custom_value3 ?: '',
+            'custom_value4' => (string)$cases->custom_value4 ?: '',
         ];
     }
 

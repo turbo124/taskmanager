@@ -83,16 +83,12 @@ export default class Details extends React.Component {
                     {this.renderErrorFor('number')}
                 </FormGroup>
 
-                <FormGroup>
-                    <Label>{translations.number}</Label>
-                    <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
-                        value={this.props.credit.return_to_stock}
-                        type='checkbox'
-                        name='return_to_stock'
-                        id='return_to_stock'
-                        onChange={this.props.handleInput}
-                    />
-                    {this.renderErrorFor('number')}
+                <FormGroup check>
+                    <Label check>
+                        <Input value={this.props.credit.return_to_stock} onChange={this.props.handleInput}
+                            name="return_to_stock" type="checkbox"/>
+                        {translations.return_to_stock}
+                    </Label>
                 </FormGroup>
             </CardBody>
         </Card>

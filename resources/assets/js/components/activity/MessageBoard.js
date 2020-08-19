@@ -11,27 +11,23 @@ class MessageBoard extends React.Component {
 
     render () {
         const { messages, activeUser, deleteMessage, submitMessage, setMode, setActiveMessage, users } = this.props
-
-        return (
-
-            messages.length ? (
-                messages.map((message) => (
-                    !message.parent_id ? (
-                        <MessageCard
-                            setMode={setMode}
-                            currentMessage={message}
-                            messages={messages}
-                            submitMessage={submitMessage}
-                            deleteMessage={deleteMessage}
-                            activeUser={activeUser}
-                            users={users}
-                            setActiveMessage={setActiveMessage}
-                        />
-                    ) : null
-                ))
-            ) : ''
-
-        )
+        const content = messages.length ? messages.map((message) => (
+            !message.parent_id ? (
+                <MessageCard
+                    setMode={setMode}
+                    currentMessage={message}
+                    messages={messages}
+                    submitMessage={submitMessage}
+                    deleteMessage={deleteMessage}
+                    activeUser={activeUser}
+                    users={users}
+                    setActiveMessage={setActiveMessage}
+                />
+            ) : null
+        )) : ''
+        return content ? <div style={{ height: '400px', overflowY: 'auto' }}>
+            {content}
+        </div> : null
     }
 }
 
