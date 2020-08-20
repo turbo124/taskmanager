@@ -57,6 +57,8 @@ class AutoBill
 
     private function findGatewayFee ($amount) { 
        //TODO
+       $gateways = CompanyGateway::where('is_default', '=', 1)->first();
+
        foreach($gateways as $gateway) {
            if(!empty($gateway['min_limit'] && $amount < $gateway['min_limit']) {
                continue;
