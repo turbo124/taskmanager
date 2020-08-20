@@ -38,9 +38,26 @@ class AutoBill
             $this->invoice_repo->markSent($this->invoice);
         }
 
+        $this->addFeeToInvoice();
+
         $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
         $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
         return $gateway_obj->build($amount, $this->invoice);
+    }
+
+    private function addFeeToInvoice () {
+        $fee = $this->findGatewayFee();
+
+        if(empty($fee)) {
+            return true;
+        }
+
+        $this->invoice_repo->save(['gateway_fee' => $fee], $this->invoice);
+    }
+
+    private function findGatewayFee () { 
+       //TODO
+       return 5;
     }
 
     public function execute()
