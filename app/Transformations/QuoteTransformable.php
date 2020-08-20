@@ -23,6 +23,8 @@ trait QuoteTransformable
             'account_id'          => (int)$quote->account_id,
             'assigned_to'         => (int)$quote->assigned_to,
             'company_id'          => (int)$quote->company_id ?: null,
+            'currency_id'         => (int)$quote->currency_id ?: null,
+            'exchange_rate'       => (float)$quote->exchange_rate,
             'public_notes'        => $quote->public_notes ?: '',
             'private_notes'       => $quote->private_notes ?: '',
             'number'              => $quote->number ?: '',

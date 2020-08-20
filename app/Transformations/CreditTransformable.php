@@ -30,6 +30,8 @@ trait CreditTransformable
             'account_id'          => (int)$credit->account_id,
             'assigned_to'         => (int)$credit->assigned_to,
             'company_id'          => (int)$credit->company_id ?: null,
+            'currency_id'         => (int)$credit->currency_id ?: null,
+            'exchange_rate'       => (float)$credit->exchange_rate,
             'public_notes'        => $credit->public_notes ?: '',
             'private_notes'       => $credit->private_notes ?: '',
             'number'              => $credit->number ?: '',

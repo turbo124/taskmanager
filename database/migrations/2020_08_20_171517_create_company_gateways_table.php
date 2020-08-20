@@ -28,6 +28,7 @@ class CreateCompanyGatewaysTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->boolean('exclude_from_checkout')->default(0);
+			$table->boolean('token_billing_enabled')->default(0);
 		});
 	}
 
