@@ -327,8 +327,8 @@ export default class Dashboard extends Component {
             orders: [],
             credits: [],
             activeTab: '1',
-            activeTab2: '1',
-            isMobile: window.innerWidth <= 768,
+            activeTab2: window.innerWidth <= 768 ? '' : '3',
+            isMobile: window.innerWidth <= 768
 
         }
 
@@ -377,7 +377,9 @@ export default class Dashboard extends Component {
     }
 
     handleWindowSizeChange () {
-        this.setState({ isMobile: window.innerWidth <= 768 })
+        const selected_tab1 = window.innerWidth <= 768 ? this.state.activeTab : '1'
+        const selected_tab2 = window.innerWidth <= 768 ? '' : '3'
+        this.setState({ isMobile: window.innerWidth <= 768, activeTab: selected_tab1, activeTab2: selected_tab2 })
     }
 
     toggleDashboardFilter (e) {
@@ -1486,13 +1488,21 @@ export default class Dashboard extends Component {
 
     toggle (tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+            if (this.state.isMobile) {
+                this.setState({ activeTab: tab, activeTab2: '' })
+            } else {
+                this.setState({ activeTab: tab })
+            }
         }
     }
 
     toggleTab2 (tab) {
         if (this.state.activeTab2 !== tab) {
-            this.setState({ activeTab2: tab })
+            if (this.state.isMobile) {
+                this.setState({ activeTab2: tab, activeTab: '' })
+            } else {
+                this.setState({ activeTab2: tab })
+            }
         }
     }
 
@@ -1664,7 +1674,8 @@ export default class Dashboard extends Component {
 
         const overdue_invoices = arrOverdueInvoices.length ? arrOverdueInvoices.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1680,7 +1691,8 @@ export default class Dashboard extends Component {
 
         const recent_invoices = arrRecentInvoices.length ? arrRecentInvoices.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1695,7 +1707,8 @@ export default class Dashboard extends Component {
 
         const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1711,7 +1724,8 @@ export default class Dashboard extends Component {
 
         const recent_quotes = arrRecentQuotes.length ? arrRecentQuotes.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1726,7 +1740,8 @@ export default class Dashboard extends Component {
 
         const overdue_orders = arrOverdueOrders.length ? arrOverdueOrders.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1742,7 +1757,8 @@ export default class Dashboard extends Component {
 
         const recent_orders = arrRecentOrders.length ? arrRecentOrders.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
@@ -1757,7 +1773,8 @@ export default class Dashboard extends Component {
 
         const recent_payments = arrRecentPayments.length ? arrRecentPayments.map((invoice, index) => {
             return (
-                <ListGroupItem key={index} className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
                         <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
                         {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
@@ -1797,94 +1814,97 @@ export default class Dashboard extends Component {
 
         return <React.Fragment>
             <Row className="mt-4">
-                <Col lg={7}>
-                    <Card className="pb-0">
-                        <CardBody>
-                            <Nav className="tabs-justify disable-scrollbars nav-fill" tabs>
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('1')
-                                        }}>
-                                        {translations.overview}
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('2')
-                                        }}>
-                                        {translations.activity}
-                                    </NavLink>
-                                </NavItem>
+                <Col className="dashboard-content-wrapper" lg={7}>
+                    <div className="topbar pl-0 dashboard-tabs">
+                        <Card>
+                            <CardBody className="pb-0">
+                                <Nav className="tabs-justify disable-scrollbars nav-fill setting-tabs disable-scrollbars" tabs>
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab === '1' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggle('1')
+                                            }}>
+                                            {translations.overview}
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab === '2' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggle('2')
+                                            }}>
+                                            {translations.activity}
+                                        </NavLink>
+                                    </NavItem>
 
-                                {this.state.isMobile && modules && modules.invoices &&
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '3' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('3')
-                                        }}>
-                                        {translations.invoices}
-                                    </NavLink>
-                                </NavItem>
-                                }
+                                    {this.state.isMobile && modules && modules.invoices &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab2 === '3' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggleTab2('3')
+                                            }}>
+                                            {translations.invoices}
+                                        </NavLink>
+                                    </NavItem>
+                                    }
 
-                                {this.state.isMobile && modules && modules.quotes &&
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '4' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('4')
-                                        }}>
-                                        {translations.quotes}
-                                    </NavLink>
-                                </NavItem>
-                                }
+                                    {this.state.isMobile && modules && modules.quotes &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab2 === '4' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggleTab2('4')
+                                            }}>
+                                            {translations.quotes}
+                                        </NavLink>
+                                    </NavItem>
+                                    }
 
-                                {this.state.isMobile && modules && modules.payments &&
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '5' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('5')
-                                        }}>
-                                        {translations.payments}
-                                    </NavLink>
-                                </NavItem>
-                                }
+                                    {this.state.isMobile && modules && modules.payments &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab2 === '5' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggleTab2('5')
+                                            }}>
+                                            {translations.payments}
+                                        </NavLink>
+                                    </NavItem>
+                                    }
 
-                                {this.state.isMobile && this.state.isMobile && modules && modules.orders &&
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '6' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('6')
-                                        }}>
-                                        {translations.orders}
-                                    </NavLink>
-                                </NavItem>
-                                }
-                            </Nav>
+                                    {this.state.isMobile && this.state.isMobile && modules && modules.orders &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={this.state.activeTab2 === '6' ? 'active' : ''}
+                                            onClick={() => {
+                                                this.toggleTab2('6')
+                                            }}>
+                                            {translations.orders}
+                                        </NavLink>
+                                    </NavItem>
+                                    }
+                                </Nav>
 
-                            <Row>
-                                <Col lg={6} className="d-flex justify-content-between align-items-center">
-                                    <i className={`ml-4 fa ${icons.left}`}/>
-                                    <i className={`fa ${icons.right}`}/>
-                                    <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
-                                        start_month={moment(this.state.start_date).format('M')}
-                                        end_year={moment(this.state.end_date).format('YYYY')}
-                                        end_month={moment(this.state.end_date).format('M')}
-                                        onChange={this.setDates}/>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
+                                <Row>
+                                    <Col className="d-flex justify-content-between align-items-center">
+                                        <i className={`ml-4 mt-2 fa ${icons.left}`}/>
+                                        <i className={`mt-2 fa ${icons.right}`}/>
+                                        <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
+                                                     start_month={moment(this.state.start_date).format('M')}
+                                                     end_year={moment(this.state.end_date).format('YYYY')}
+                                                     end_month={moment(this.state.end_date).format('M')}
+                                                     onChange={this.setDates}/>
+                                    </Col>
+                                </Row>
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                    <TabContent activeTab={this.state.activeTab}>
-                        <TabPane tabId="1" className="p-0">
+
+                    <TabContent className="dashboard-tabs-margin" activeTab={this.state.activeTab}>
+                        <TabPane className="pr-0" tabId="1">
                             <Row>
                                 <Col md={6}>
                                     <CardModule
@@ -2117,17 +2137,17 @@ export default class Dashboard extends Component {
                     </TabContent>
                 </Col>
 
-                <Col lg={5}>
+                <Col className="dashboard-tabs-right" lg={5}>
                     <Card className="dashboard-border">
                         <CardBody>
-                            {!this.state.isMobile && 
+                            {!this.state.isMobile &&
                             <Nav className="tabs-justify disable-scrollbars" tabs>
                                 {modules && modules.invoices &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        className={this.state.activeTab2 === '3' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab('3')
+                                            this.toggleTab2('3')
                                         }}>
                                         {translations.invoices}
                                     </NavLink>
@@ -2137,9 +2157,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.quotes &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '4' ? 'active' : ''}
+                                        className={this.state.activeTab2 === '4' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab('4')
+                                            this.toggleTab2('4')
                                         }}>
                                         {translations.quotes}
                                     </NavLink>
@@ -2149,9 +2169,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.payments &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '5' ? 'active' : ''}
+                                        className={this.state.activeTab2 === '5' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab('5')
+                                            this.toggleTab2('5')
                                         }}>
                                         {translations.payments}
                                     </NavLink>
@@ -2161,9 +2181,9 @@ export default class Dashboard extends Component {
                                 {modules && modules.orders &&
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '6' ? 'active' : ''}
+                                        className={this.state.activeTab2 === '6' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab('6')
+                                            this.toggleTab2('6')
                                         }}>
                                         {translations.orders}
                                     </NavLink>
@@ -2172,7 +2192,7 @@ export default class Dashboard extends Component {
                             </Nav>
                             }
 
-                            <TabContent activeTab={this.state.activeTab}>
+                            <TabContent activeTab={this.state.activeTab2}>
                                 <TabPane tabId="3">
                                     <Card>
                                         <CardHeader>{translations.overdue_invoices}</CardHeader>
@@ -2249,7 +2269,7 @@ export default class Dashboard extends Component {
                 </Col>
             </Row>
 
-            <Row className={this.state.activeTab === '1' ? 'd-block' : 'd-none'}>
+            <Row className={this.state.activeTab === '1' ? 'd-block z-index-high' : 'd-none'}>
                 <Col sm={12}>
                     {charts}
                 </Col>
@@ -2268,7 +2288,7 @@ export default class Dashboard extends Component {
             <Modal isOpen={this.state.modal2} toggle={this.toggleModal2}>
                 <ModalHeader toggle={this.toggleModal2}>Configure Dashboard</ModalHeader>
                 <ModalBody>
-                    <SettingsWizard />
+                    <SettingsWizard/>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={this.toggleModal}>Close</Button>
