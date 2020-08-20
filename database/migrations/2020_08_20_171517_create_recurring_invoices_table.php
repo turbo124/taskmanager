@@ -61,6 +61,8 @@ class CreateRecurringInvoicesTable extends Migration {
 			$table->boolean('shipping_cost_tax')->default(0);
 			$table->decimal('gateway_fee', 16, 4)->nullable();
 			$table->boolean('gateway_percentage')->default(0);
+			$table->integer('currency_id')->unsigned()->nullable();
+			$table->decimal('exchange_rate', 12)->default(0.00);
 		});
 	}
 
