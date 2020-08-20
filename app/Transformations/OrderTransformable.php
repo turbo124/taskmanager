@@ -23,6 +23,8 @@ trait OrderTransformable
             'account_id'          => (int)$order->account_id,
             'assigned_to'         => (int)$order->assigned_to,
             'company_id'          => (int)$order->company_id ?: null,
+            'currency_id'         => (int)$order->currency_id ?: null,
+            'exchange_rate'       => (float)$order->exchange_rate,
             'public_notes'        => $order->public_notes ?: '',
             'private_notes'       => $order->private_notes ?: '',
             'number'              => $order->number ?: '',
