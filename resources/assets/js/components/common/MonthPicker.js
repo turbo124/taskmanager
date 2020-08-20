@@ -57,7 +57,7 @@ export default class MonthPicker extends Component {
         }
 
         return (
-            <ul className="mt-4">
+            <ul className="mt-2 mb-0">
                 <li>
                     {/* <label><b>Pick A Span of Months</b></label> */}
                     <div className="edit">
