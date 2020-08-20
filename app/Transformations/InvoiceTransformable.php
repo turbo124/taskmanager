@@ -26,6 +26,8 @@ trait InvoiceTransformable
             'account_id'          => (int)$invoice->account_id,
             'assigned_to'         => (int)$invoice->assigned_to,
             'company_id'          => (int)$invoice->company_id ?: null,
+            'currency_id'         => (int)$invoice->currency_id ?: null,
+            'exchange_rate'       => (float)$invoice->exchange_rate,
             'public_notes'        => $invoice->public_notes ?: '',
             'private_notes'       => $invoice->private_notes ?: '',
             'number'              => $invoice->number ?: '',
