@@ -90,7 +90,7 @@ class BaseCalculator
         return $this->line_discount_total;
     }
 
-    protected function applyGatewayFee(float $total, float $gateway_fee, bool $is_percentage = false)
+    protected function calculateGatewayFee(float $total, float $gateway_fee, bool $is_percentage = false)
     {
         if ($gateway_fee <= 0) {
             return 0;
@@ -98,11 +98,11 @@ class BaseCalculator
 
         if ($is_percentage) {
             $gateway_amount = round($total * ($gateway_fee / 100), $this->decimals);
-            return $total + $gateway_amount;
+            return $gateway_amount;
         }
 
         $gateway_amount = round($gateway_fee, $this->decimals);
-        return $total + $gateway_amount;
+        return $gateway_amount;
     }
 
     /**
