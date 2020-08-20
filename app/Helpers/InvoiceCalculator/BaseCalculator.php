@@ -98,11 +98,11 @@ class BaseCalculator
 
         if ($is_percentage) {
             $gateway_amount = round($total * ($gateway_fee / 100), $this->decimals);
-            return $total += $gateway_amount;
+            return $total + $gateway_amount;
         }
 
         $gateway_amount = round($gateway_fee, $this->decimals);
-        return $total += $gateway_amount;
+        return $total + $gateway_amount;
     }
 
     /**
