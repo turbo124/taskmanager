@@ -133,11 +133,39 @@ class Invoice extends BaseCalculator
         }
 
         if (!empty($this->entity->gateway_fee) && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
-            $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
-            $this->total = $this->applyGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
+           $this->applyGatewayFee();
         }
 
         return $this;
+    }
+
+    private function applyGatewayFee (): ?bool {
+        if(!empty($this->entity->gateway_fee) {
+            return true;
+        }
+
+        $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
+        $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
+        $this->entity->gateway_fee = $gateway_fee;
+        $this->entity->gateway_fee_applied = true;
+        $this->entity->save;
+        $this->total += $gateway_fee;
+
+        return true;
+    }
+
+    private function addChargeToLineItems ($charge, $description) {
+        $line_item = (new LineItem)
+            ->setQuantity(1)
+           ->setDescription($description)
+           ->setUnitPrice($charge)
+           ->setTypeId(8)
+           ->setProductId(null)
+           ->setNotes($description)
+           ->toObject();
+
+        $this->addItem($line_item);
+        return true;
     }
 
     /**
