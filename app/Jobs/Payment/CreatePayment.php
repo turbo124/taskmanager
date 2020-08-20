@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Payment;
 
-use App\Models\Customer;
 use App\Factory\PaymentFactory;
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Payment;
@@ -16,8 +16,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 
 /**
  * Class SaveAttributeValues
@@ -120,6 +118,12 @@ class CreatePayment implements ShouldQueue
             $this->updateCustomer($payment, $invoice);
             $payment->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
             $invoice->reduceBalance($invoice->balance);
+
+//            if (!empty($this->data['gateway_fee'])) {
+//                $invoice->gateway_fee = $this->data['gateway_fee'];
+//                $invoice->save();
+//            }
+
             $payment->attachInvoice($invoice);
         }
 
