@@ -23,7 +23,7 @@ export default class MonthBox extends Component {
 
     render () {
         return (
-            <div className="box" onClick={this._handleClick}>
+            <div className="box pt-2" onClick={this._handleClick}>
                 <label>{this.state.value}</label>
             </div>
         )
