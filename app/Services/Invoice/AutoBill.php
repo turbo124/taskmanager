@@ -55,9 +55,21 @@ class AutoBill
         $this->invoice_repo->save(['gateway_fee' => $fee], $this->invoice);
     }
 
-    private function findGatewayFee () { 
+    private function findGatewayFee ($amount) { 
        //TODO
-       return 5;
+       foreach($gateways as $gateway) {
+           if(!empty($gateway['min_limit'] && $amount < $gateway['min_limit']) {
+               continue;
+           }
+
+           if(!empty($gateway['max_limit'] && $amount > $gateway['max_limit']) {
+               continue;
+           }
+
+           return $gateway;
+       }
+       
+       return false;
     }
 
     public function execute()
