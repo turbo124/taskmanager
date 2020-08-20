@@ -21,29 +21,53 @@ class AutobillInvoice implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private function build(Invoice $invoice)
+    private Invoice $invoice;
+
+    private InvoiceRepository $invoice_repo;
+
+    public function __construct(Invoice $invoice, InvoiceRepository $invoice_repo)
     {
-        $invoice_repo = new InvoiceRepository($invoice);
-
-        if ($invoice->status_id === Invoice::STATUS_DRAFT) {
-            $invoice_repo->markSent($invoice);
-        }
-
-        $this->addFeeToInvoice($invoice_repo, $invoice);
-
-        $amount = $invoice->partial > 0 ? $invoice->partial : $invoice->balance;
-        $gateway_obj = (new GatewayFactory())->create($invoice->customer);
-        return $gateway_obj->build($amount, $invoice);
+        $this->invoice = $invoice;
+        $this->invoice_repo = $invoice_repo;
     }
 
-    private function addFeeToInvoice (InvoiceRepository $invoice_repo, Invoice $invoice) {
+    public function handle()
+    {
+        if ($this->invoice->is_deleted || !in_array(
+                $this->invoice->status_id,
+                [
+                    Invoice::STATUS_SENT,
+                    Invoice::STATUS_PARTIAL,
+                    Invoice::STATUS_DRAFT
+                ]
+            )) {
+            return null;
+        }
+
+        return $this->build();
+    }
+
+    private function build(Invoice $invoice)
+    {
+        if ($this->invoice->status_id === Invoice::STATUS_DRAFT) {
+            $this->invoice_repo->markSent();
+        }
+
+        $this->addFeeToInvoice();
+
+        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
+        $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
+        return $gateway_obj->build($amount);
+    }
+
+    private function addFeeToInvoice () {
         $fee = $this->findGatewayFee();
 
         if(empty($fee)) {
             return true;
         }
 
-        $invoice_repo->save(['gateway_fee' => $fee], $invoice);
+        $this->invoice_repo->save(['gateway_fee' => $fee]);
     }
 
     private function findGatewayFee ($amount) { 
@@ -64,26 +88,4 @@ class AutobillInvoice implements ShouldQueue
        
        return false;
     }
-
-    public function execute(Invoice $invoice)
-    {
-        if ($invoice->is_deleted || !in_array(
-                $invoice->status_id,
-                [
-                    Invoice::STATUS_SENT,
-                    Invoice::STATUS_PARTIAL,
-                    Invoice::STATUS_DRAFT
-                ]
-            )) {
-            return null;
-        }
-
-        return $this->build($invoice);
-    }
-
-
-
-
-
-
 }
