@@ -41,7 +41,8 @@ $factory->define(
             'width'         => null,
             'height'        => null,
             'is_default'    => 0,
-            'deleted_at'    => null
+            'deleted_at'    => null,
+            'uploaded_by_customer' => false
         ];
     }
 );

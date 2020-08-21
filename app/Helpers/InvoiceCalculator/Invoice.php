@@ -122,7 +122,11 @@ class Invoice extends BaseCalculator
             $custom_surcharge_total += $this->entity->shipping_cost;
 
             if (!empty($this->entity->shipping_cost_tax)) {
-                $tax_total = $this->applyTax($this->entity->shipping_cost_tax, $this->sub_total, $this->is_amount_discount);
+                $tax_total = $this->applyTax(
+                    $this->entity->shipping_cost_tax,
+                    $this->sub_total,
+                    $this->is_amount_discount
+                );
                 $this->setTaxTotal($tax_total);
                 $this->setCustomTax($this->entity->shipping_cost);
             }
@@ -132,39 +136,46 @@ class Invoice extends BaseCalculator
             $this->total += $custom_surcharge_total;
         }
 
-        if (!empty($this->entity->gateway_fee) && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
-           $this->applyGatewayFee();
+        if (!empty($this->entity->gateway_fee)) {
+            $this->applyGatewayFee();
         }
 
         return $this;
     }
 
-    private function applyGatewayFee (): ?bool {
-        if(!empty($this->entity->gateway_fee) {
+    private function applyGatewayFee(): ?bool
+    {
+        if (empty($this->entity->gateway_fee) || $this->entity->gateway_fee_applied) {
             return true;
         }
 
         $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
         $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
+        $this->addChargeToLineItems($gateway_fee, 'Gateway Fee');
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
-        $this->entity->save;
-        $this->total += $gateway_fee;
+
+        if (!empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
+            $this->total += $gateway_fee;
+        }
 
         return true;
     }
 
-    private function addChargeToLineItems ($charge, $description) {
-        $line_item = (new LineItem)
-            ->setQuantity(1)
-           ->setDescription($description)
-           ->setUnitPrice($charge)
-           ->setTypeId(8)
-           ->setProductId(null)
-           ->setNotes($description)
-           ->toObject();
+    private function addChargeToLineItems($charge, $description)
+    {
+        //TODO Change type
 
-        $this->addItem($line_item);
+        $line_item = (new LineItem);
+
+        $line_item->setQuantity(1)
+                  ->setDescription($description)
+                  ->setUnitPrice($charge)
+                  ->setTypeId(8)
+//                  ->setProductId(null)
+                  ->setNotes($description);
+
+        $this->addItem($line_item->toObject());
         return true;
     }
 
@@ -231,7 +242,7 @@ class Invoice extends BaseCalculator
      */
     public function setDiscountTotal(float $discount_total): self
     {
-        if(!empty($this->discount_total)) {
+        if (!empty($this->discount_total)) {
             return $this;
         }
 
@@ -378,7 +389,7 @@ class Invoice extends BaseCalculator
         return $this;
     }
 
-    public function getEntity()
+    public function rebuildEntity()
     {
         Log::emergency($this->getSubTotal() . ' ' . $this->getTotal());
 

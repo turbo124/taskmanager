@@ -65,22 +65,6 @@ class InvoiceService extends ServiceBase
     }
 
     /**
-     * @param InvoiceRepository $invoice_repository
-     * @return Invoice|null
-     */
-    public function autoBill(InvoiceRepository $invoice_repository): ?Payment
-    {
-        return (new AutoBill($this->invoice, $invoice_repository))->execute();
-    }
-
-    public function sendReminders()
-    {
-        (new SendReminders($this->invoice->account->getSettings(), $this->invoice))->execute();
-
-        return $this;
-    }
-
-    /**
      * @param CreditRepository $credit_repo
      * @param PaymentRepository $payment_repo
      * @return \App\Models\Invoice

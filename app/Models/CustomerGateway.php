@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerGateway extends Model
 {
-    protected $table = 'client_gateway_tokens';
+    public function company_gateway()
+    {
+        return $this->hasOne(CompanyGateway::class, 'id', 'company_gateway_id');
+    }
 }

@@ -63,10 +63,9 @@ class Authorize extends BasePaymentGateway
         $paymentProfile = new PaymentProfileType();
         $paymentProfile->setPaymentProfileId($this->customer_gateway->token);
         $profileToCharge->setPaymentProfile($paymentProfile);
-
         $transactionRequestType = new TransactionRequestType();
         $transactionRequestType->setTransactionType("authCaptureTransaction");
-        $transactionRequestType->setAmount($amount);
+        $transactionRequestType->setAmount((float)$amount);
         $transactionRequestType->setProfile($profileToCharge);
 
         $request = new CreateTransactionRequest();

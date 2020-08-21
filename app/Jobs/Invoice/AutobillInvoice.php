@@ -2,20 +2,15 @@
 
 namespace App\Jobs\Invoice;
 
+use App\Helpers\Payment\Gateways\GatewayFactory;
+use App\Models\CustomerGateway;
 use App\Models\Invoice;
-use Carbon\Carbon;
+use App\Repositories\InvoiceRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Helpers\InvoiceCalculator\LineItem;
-use App\Helpers\Payment\Gateways\Authorize;
-use App\Helpers\Payment\Gateways\GatewayFactory;
-use App\Helpers\Payment\Gateways\Stripe;
-use App\Models\Invoice;
-use App\Repositories\InvoiceRepository;
-use Carbon\Carbon;
 
 class AutobillInvoice implements ShouldQueue
 {
@@ -47,45 +42,71 @@ class AutobillInvoice implements ShouldQueue
         return $this->build();
     }
 
-    private function build(Invoice $invoice)
+    private function build()
     {
         if ($this->invoice->status_id === Invoice::STATUS_DRAFT) {
-            $this->invoice_repo->markSent();
+            $this->invoice_repo->markSent($this->invoice);
         }
 
-        $this->addFeeToInvoice();
-
         $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
-        $gateway_obj = (new GatewayFactory())->create($this->invoice->customer);
-        return $gateway_obj->build($amount);
+
+        $customer_gateway = $this->findGatewayFee();
+
+        if (empty($customer_gateway)) {
+            return false;
+        }
+
+        $company_gateway = $customer_gateway->company_gateway;
+
+        $fee = $company_gateway->fees_and_limits[0]->fee_amount;
+
+        if (!empty($fee)) {
+            $amount += $fee;
+            $this->addFeeToInvoice($fee);
+        }
+
+        $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create($this->invoice->customer);
+        return $gateway_obj->build($amount, $this->invoice);
     }
 
-    private function addFeeToInvoice () {
-        $fee = $this->findGatewayFee();
+    private function addFeeToInvoice($fee)
+    {
 
-        if(empty($fee)) {
+        if (empty($fee)) {
             return true;
         }
 
-        $this->invoice_repo->save(['gateway_fee' => $fee]);
+        $this->invoice_repo->save(['gateway_fee' => $fee], $this->invoice);
+
+        return $fee;
     }
 
-    private function findGatewayFee ($amount) { 
-       //TODO
-       $gateways = CompanyGateway::where('is_default', '=', 1)->first();
+    private function findGatewayFee(): ?CustomerGateway
+    {
+        //TODO
+        $gateways = $this->invoice->customer->gateways()->orderBy('is_default', 'DESC')->get();
+        $amount = $this->invoice->total;
 
-       foreach($gateways as $gateway) {
-           if(!empty($gateway['min_limit'] && $amount < $gateway['min_limit']) {
-               continue;
-           }
+        foreach ($gateways as $gateway) {
+            $company_gateway = $gateway->company_gateway;
 
-           if(!empty($gateway['max_limit'] && $amount > $gateway['max_limit']) {
-               continue;
-           }
+            if (empty($company_gateway->fees_and_limits)) {
+                continue;
+            }
 
-           return $gateway;
-       }
-       
-       return false;
+            $fees_and_limits = $company_gateway->fees_and_limits[0];
+
+            if (!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) {
+                continue;
+            }
+
+            if (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit) {
+                continue;
+            }
+
+            return $gateway;
+        }
+
+        return null;
     }
 }
