@@ -38,7 +38,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      */
     public function createCreditNote(array $data, Credit $credit): ?Credit
     {
-        if ($data['return_to_stock'] === true && $credit->customer->getSetting('should_update_inventory') === true) {
+        if (!empty($data['return_to_stock']) && $credit->customer->getSetting('should_update_inventory') === true) {
             ReverseInventory::dispatchNow($credit);
         }
 

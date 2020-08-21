@@ -155,6 +155,6 @@ class ServiceBase
             ->setPartial($entity->partial)
             ->build();
 
-        return $objInvoice->getEntity();
+        return $objInvoice->rebuildEntity();
     }
 }

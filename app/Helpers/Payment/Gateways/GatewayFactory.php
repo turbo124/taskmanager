@@ -6,36 +6,45 @@ namespace App\Helpers\Payment\Gateways;
 
 use App\Models\CompanyGateway;
 use App\Models\Customer;
-use App\Models\Invoice;
-use Illuminate\Support\Facades\DB;
+use App\Models\CustomerGateway;
 
 class GatewayFactory
 {
 
+    /**
+     * @var CustomerGateway
+     */
+    private CustomerGateway $customer_gateway;
+
+    /**
+     * @var CompanyGateway
+     */
+    private CompanyGateway $company_gateway;
+
+    /**
+     * GatewayFactory constructor.
+     * @param CustomerGateway $customer_gateway
+     * @param CompanyGateway $company_gateway
+     */
+    public function __construct(CustomerGateway $customer_gateway, CompanyGateway $company_gateway)
+    {
+        $this->customer_gateway = $customer_gateway;
+        $this->company_gateway = $company_gateway;
+    }
+
+    /**
+     * @param Customer $customer
+     * @param CustomerGateway $customer_gateway
+     * @param CompanyGateway $company_gateway
+     * @return Authorize|Stripe|bool
+     */
     public function create(Customer $customer)
     {
-        $customer_gateway = $this->getCustomerGateway($customer);
-        $company_gateway = $this->getCompanyGateway($customer_gateway->company_gateway_id);
-
-        switch ($company_gateway->gateway_key) {
+        switch ($this->company_gateway->gateway_key) {
             case '13bb8d58':
-                return new Stripe($customer, $customer_gateway, $company_gateway);
+                return new Stripe($customer, $this->customer_gateway, $this->company_gateway);
             case '8ab2dce2':
-                return new Authorize($customer, $customer_gateway, $company_gateway);
+                return new Authorize($customer, $this->customer_gateway, $this->company_gateway);
         }
-    }
-
-    private function getCustomerGateway(Customer $customer)
-    {
-        return DB::table('client_gateway_tokens')
-                 ->where('account_id', $customer->account_id)
-                 ->where('customer_id', $customer->id)
-                 ->where('is_default', 1)
-                 ->first();
-    }
-
-    private function getCompanyGateway($gateway_id)
-    {
-        return CompanyGateway::where('id', $gateway_id)->first();
     }
 }

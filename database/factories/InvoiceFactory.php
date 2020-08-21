@@ -14,10 +14,11 @@ $factory->define(
 
         for ($x = 0; $x < 5; $x++) {
             $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
-                ->setQuantity($faker->numberBetween(1, 10))
-                ->setUnitPrice($faker->randomFloat(2, 1, 1000))
-                ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))
-                ->setUnitTax(10.00)
+                ->setQuantity(1)
+                ->setUnitPrice(160)
+                ->calculateSubTotal()
+                ->setUnitDiscount(0)
+                ->setUnitTax(0)
                 ->setProductId($faker->word())
                 ->setNotes($faker->realText(50))
                 ->toObject();
@@ -29,8 +30,8 @@ $factory->define(
             'number'         => $faker->ean13(),
             'total'          => $total,
             'balance'        => $total,
-            'tax_total'      => $faker->randomFloat(2),
-            'discount_total' => $faker->randomFloat(2),
+            'tax_total'      => 0,
+            'discount_total' => 0,
             'customer_id'    => $customer->id,
             'user_id'        => $user->id,
             'is_deleted'     => false,
