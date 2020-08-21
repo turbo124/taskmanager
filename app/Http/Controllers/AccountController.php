@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyToken;
 use App\Factory\AccountFactory;
-use App\Notifications\NewAccountCreated;
-use App\Requests\Account\StoreAccountRequest;
 use App\Models\Account;
+use App\Models\CompanyToken;
+use App\Notifications\NewAccountCreated;
 use App\Repositories\AccountRepository;
+use App\Requests\Account\StoreAccountRequest;
+use App\Requests\Account\UpdateAccountRequest;
 use App\Settings\AccountSettings;
+use App\Traits\UploadableTrait;
 use App\Transformations\AccountTransformable;
 use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Requests\Account\UpdateAccountRequest;
-use App\Traits\UploadableTrait;
+
 /**
  * Class AccountController
  * @package App\Http\Controllers

@@ -10,7 +10,7 @@ interface CommentRepositoryInterface
 {
     /**
      *
-     * @param \App\Models\Task $objTask
+     * @param Task $objTask
      */
     public function getAllCommentsForTask(Task $objTask, int $account_id);
 

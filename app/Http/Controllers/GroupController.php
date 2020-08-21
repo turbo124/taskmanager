@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Factory\GroupFactory;
 use App\Filters\GroupFilter;
 use App\Http\Requests\SignupRequest;
-use App\Requests\Group\StoreGroupRequest;
-use App\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
 use App\Repositories\GroupRepository;
+use App\Requests\Group\StoreGroupRequest;
+use App\Requests\Group\UpdateGroupRequest;
 use App\Requests\SearchRequest;
 use App\Settings\GroupSettings;
-use App\Transformations\GroupTransformable;
 use App\Traits\UploadableTrait;
+use App\Transformations\GroupTransformable;
+use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class GroupSettingController
@@ -40,7 +41,7 @@ class GroupController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -54,7 +55,7 @@ class GroupController extends Controller
 
     /**
      * @param StoreGroupRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(StoreGroupRequest $request)
     {
@@ -71,7 +72,7 @@ class GroupController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -81,7 +82,7 @@ class GroupController extends Controller
     /**
      * @param int $id
      * @param UpdateGroupRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdateGroupRequest $request)
     {
@@ -100,8 +101,8 @@ class GroupController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function archive(int $id)
     {
@@ -112,7 +113,7 @@ class GroupController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {

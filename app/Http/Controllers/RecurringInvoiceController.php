@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientContact;
 use App\Factory\CloneRecurringInvoiceFactory;
 use App\Factory\CloneRecurringInvoiceToQuoteFactory;
 use App\Factory\RecurringInvoiceFactory;
-use App\Filters\InvoiceFilter;
-use App\Notifications\ClientContactRequestCancellation;
-use App\Models\RecurringInvoice;
+use App\Filters\RecurringInvoiceFilter;
+use App\Models\ClientContact;
 use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\RecurringInvoice;
+use App\Notifications\ClientContactRequestCancellation;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\RecurringInvoice\CreateRecurringInvoiceRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\RecurringInvoiceTransformable;
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Filters\RecurringInvoiceFilter;
-use App\Repositories\InvoiceRepository;
-use App\Models\Invoice;
+use ReflectionException;
 
 /**
  * Class RecurringInvoiceController
@@ -122,9 +123,9 @@ class RecurringInvoiceController extends BaseController
      * @param Request $request
      * @param RecurringInvoice $invoice
      * @param $action
-     * @return array|bool|\Illuminate\Http\JsonResponse|string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \ReflectionException
+     * @return array|bool|JsonResponse|string
+     * @throws FileNotFoundException
+     * @throws ReflectionException
      */
     public function action(Request $request, RecurringInvoice $recurring_invoice, $action)
     {
@@ -162,7 +163,7 @@ class RecurringInvoiceController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function requestCancellation(Request $request)
     {

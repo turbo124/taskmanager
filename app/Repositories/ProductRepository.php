@@ -2,26 +2,23 @@
 
 namespace App\Repositories;
 
+use App\Filters\ProductFilter;
 use App\Models\Account;
 use App\Models\AttributeValue;
-use App\Filters\ProductFilter;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\ProductListingHistory;
 use App\Repositories\Base\BaseRepository;
-use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Requests\SearchRequest;
-use Exception;
-use Illuminate\Support\Collection as Support;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\Task;
-use App\Models\Category;
-use App\Models\ProductImage;
-use App\Models\ProductAttribute;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use App\Traits\UploadableTrait;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as Support;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
@@ -40,8 +37,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @param Account $account
+     * @return LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -50,7 +47,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * @param int $id
-     * @return \App\Models\Product
+     * @return Product
      */
     public function findProductById(int $id): Product
     {
@@ -146,7 +143,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * Delete the attribute from the product
      *
-     * @param \App\Models\ProductAttribute $productAttribute
+     * @param ProductAttribute $productAttribute
      *
      * @return bool|null
      * @throws Exception
@@ -169,8 +166,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * Associate the product attribute to the product
      *
-     * @param \App\Models\ProductAttribute $productAttribute
-     * @return \App\Models\ProductAttribute
+     * @param ProductAttribute $productAttribute
+     * @return ProductAttribute
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute
     {
@@ -191,15 +188,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * @param \App\Models\ProductAttribute $productAttribute
-     * @param \App\Models\AttributeValue ...$attributeValues
+     * @param ProductAttribute $productAttribute
+     * @param AttributeValue ...$attributeValues
      *
      * @return Collection
      */
     public function saveCombination(
         ProductAttribute $productAttribute,
         AttributeValue ...$attributeValues
-    ): \Illuminate\Support\Collection {
+    ): Support {
         return collect($attributeValues)->each(
             function (AttributeValue $value) use ($productAttribute) {
                 return $productAttribute->attributesValues()->save($value);
@@ -208,8 +205,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
-     * @param \App\Models\ProductAttribute $productAttribute
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param ProductAttribute $productAttribute
+     * @return Collection
      */
     public function findProductCombination(ProductAttribute $productAttribute)
     {
@@ -232,7 +229,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      *
-     * @param \App\Models\Category $category
+     * @param Category $category
      * @param type $value
      */
     public function getProductsByDealValueAndCategory(Category $category, Request $request): Support

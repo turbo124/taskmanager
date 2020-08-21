@@ -13,14 +13,14 @@ class QuoteWasApproved
     use SerializesModels;
 
     /**
-     * @var \App\Models\Quote
+     * @var Quote
      */
     public Quote $quote;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Quote $quote
+     * @param Quote $quote
      */
     public function __construct(Quote $quote)
     {

@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Inventory;
 
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductAttribute;

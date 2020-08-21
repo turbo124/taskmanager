@@ -4,11 +4,12 @@ namespace App\Filters;
 
 use App\Models\Account;
 use App\Models\Order;
+use App\Models\Task;
 use App\Repositories\OrderRepository;
 use App\Repositories\Support;
 use App\Requests\SearchRequest;
-use App\Models\Task;
 use App\Transformations\OrderTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderFilter extends QueryFilter
 {
@@ -31,7 +32,7 @@ class OrderFilter extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function filter(SearchRequest $request, Account $account)
     {
@@ -142,7 +143,7 @@ class OrderFilter extends QueryFilter
     }
 
     /**
-     * @param \App\Models\Task $task
+     * @param Task $task
      * @return Support
      */
     public function filterByTask(Task $task)
@@ -153,7 +154,7 @@ class OrderFilter extends QueryFilter
     }
 
     /**
-     * @param \App\Models\Task $objTask
+     * @param Task $objTask
      * @param int $status
      * @return mixed
      */

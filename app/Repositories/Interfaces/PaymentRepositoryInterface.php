@@ -3,23 +3,22 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Payment;
+use App\Repositories\Base\BaseRepositoryInterface;
 use App\Requests\SearchRequest;
-use Illuminate\Support\Collection;
 
 interface PaymentRepositoryInterface extends BaseRepositoryInterface
 {
 
     /**
      * @param int $id
-     * @return \App\Models\Payment
+     * @return Payment
      */
     public function findPaymentById(int $id): Payment;
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return mixed
      */
     public function getAll(SearchRequest $search_request, Account $account);
@@ -28,8 +27,8 @@ interface PaymentRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param array $request
-     * @param \App\Models\Payment $payment
-     * @return \App\Models\Payment|null
+     * @param Payment $payment
+     * @return Payment|null
      */
     public function save(array $request, Payment $payment): ?Payment;
 }

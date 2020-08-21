@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Models\Customer;
+use Exception;
 
 class CustomerSettings extends BaseSettings
 {
@@ -27,7 +28,7 @@ class CustomerSettings extends BaseSettings
             $customer->save();
 
             return $customer;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here 55');
         }

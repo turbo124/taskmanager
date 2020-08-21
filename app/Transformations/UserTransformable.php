@@ -4,8 +4,6 @@ namespace App\Transformations;
 
 use App\Models\AccountUser;
 use App\Models\User;
-use App\Repositories\DepartmentRepository;
-use App\Models\Department;
 
 trait UserTransformable
 {

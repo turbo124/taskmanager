@@ -8,7 +8,7 @@ trait ExpenseCategoryTransformable
 {
 
     /**
-     * @param \App\Models\ExpenseCategory $category
+     * @param ExpenseCategory $category
      * @return array
      */
     protected function transformCategory(ExpenseCategory $category)

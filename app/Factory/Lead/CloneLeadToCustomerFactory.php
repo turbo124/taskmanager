@@ -2,11 +2,10 @@
 
 namespace App\Factory\Lead;
 
-use App\Models\ClientContact;
+use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\User;
-use App\Models\Account;
 
 class CloneLeadToCustomerFactory
 {
@@ -14,7 +13,7 @@ class CloneLeadToCustomerFactory
      * @param Lead $lead
      * @param $user_id
      * @param $account_id
-     * @return \App\Models\Customer
+     * @return Customer
      */
     public static function create(Lead $lead, User $user, Account $account): Customer
     {

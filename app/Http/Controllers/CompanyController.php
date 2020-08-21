@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use App\Factory\CompanyFactory;
-use App\Repositories\CompanyRepository;
+use App\Filters\CompanyFilter;
+use App\Models\Company;
+use App\Models\Industry;
 use App\Repositories\CompanyContactRepository;
+use App\Repositories\CompanyRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;
-use App\Settings\CompanySettings;
-use App\Transformations\CompanyTransformable;
-use App\Models\Industry;
-use App\Filters\CompanyFilter;
-use App\Traits\UploadableTrait;
 use App\Requests\SearchRequest;
+use App\Settings\CompanySettings;
+use App\Traits\UploadableTrait;
+use App\Transformations\CompanyTransformable;
 use Exception;
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
@@ -50,7 +48,7 @@ class CompanyController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -61,7 +59,7 @@ class CompanyController extends Controller
 
     /**
      * @param CreateCompanyRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateCompanyRequest $request)
     {
@@ -85,7 +83,7 @@ class CompanyController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -96,7 +94,7 @@ class CompanyController extends Controller
     /**
      * @param UpdateCompanyRequest $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateCompanyRequest $request, $id)
     {

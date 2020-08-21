@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Timer;
 use App\Factory\TimerFactory;
-use App\Repositories\TimerRepository;
+use App\Models\Timer;
 use App\Repositories\TaskRepository;
-use App\Models\Project;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Repositories\TimerRepository;
 use App\Requests\Timer\CreateTimerRequest;
+use Carbon\Carbon;
 
 class TimerController extends Controller
 {

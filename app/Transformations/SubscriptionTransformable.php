@@ -9,7 +9,7 @@ trait SubscriptionTransformable
 {
 
     /**
-     * @param \App\Models\Subscription $subscription
+     * @param Subscription $subscription
      * @return array
      */
     public function transform(Subscription $subscription)

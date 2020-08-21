@@ -2,33 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyToken;
 use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
+use App\Filters\ProductFilter;
 use App\Jobs\Customer\StoreProductAttributes;
-use App\Jobs\Product\CreateProduct;
 use App\Jobs\Product\SaveProductFeatures;
+use App\Models\CompanyToken;
 use App\Models\Order;
 use App\Models\Product;
-use App\Repositories\Interfaces\ProductRepositoryInterface;
-use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Models\Task;
 use App\Repositories\CategoryRepository;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\TaskRepository;
 use App\Requests\Product\CreateProductRequest;
 use App\Requests\Product\UpdateProductRequest;
+use App\Requests\SearchRequest;
 use App\Shop\Products\Exceptions\ProductUpdateErrorException;
-use App\Transformations\ProductTransformable;
 use App\Transformations\LoanProductTransformable;
+use App\Transformations\ProductTransformable;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Repositories\TaskRepository;
-use App\Models\Task;
-use App\Requests\SearchRequest;
-use App\Filters\ProductFilter;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -99,7 +98,7 @@ class ProductController extends Controller
     /**
      * @param UpdateProductRequest $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateProductRequest $request, int $id)
     {

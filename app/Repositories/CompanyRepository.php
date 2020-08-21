@@ -3,13 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Company;
-use App\Repositories\Base\BaseRepository;
 use App\Models\Product;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Collection;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use Exception;
+use Illuminate\Support\Collection;
 
 class CompanyRepository extends BaseRepository implements CompanyRepositoryInterface
 {
@@ -19,7 +17,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     /**
      * CompanyRepository constructor.
      *
-     * @param \App\Models\Company $company
+     * @param Company $company
      */
     public function __construct(Company $company, CompanyContactRepository $contact_repo)
     {
@@ -68,7 +66,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
-     * @param \App\Models\Product $product
+     * @param Product $product
      */
     public function saveProduct(Product $product)
     {
@@ -107,9 +105,9 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
      * Saves the client and its contacts
      *
      * @param array $data The data
-     * @param \App\Models\Company $client The Company
+     * @param Company $client The Company
      *
-     * @return     Client|\App\Models\Company|null  Company Object
+     * @return     Client|Company|null  Company Object
      */
     public function save(array $data, Company $company): ?Company
     {

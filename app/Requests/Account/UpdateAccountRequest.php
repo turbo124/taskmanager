@@ -2,8 +2,8 @@
 
 namespace App\Requests\Account;
 
-use App\Rules\ValidSettingsRule;
 use App\Repositories\Base\BaseFormRequest;
+use App\Rules\ValidSettingsRule;
 
 class UpdateAccountRequest extends BaseFormRequest
 {

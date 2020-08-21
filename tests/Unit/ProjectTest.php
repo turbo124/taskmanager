@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Models\Customer;
 use App\Factory\ProjectFactory;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Project;
 use App\Models\Account;
-use App\Repositories\ProjectRepository;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Customer;
+use App\Models\Project;
 use App\Models\User;
+use App\Repositories\ProjectRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
@@ -103,7 +103,7 @@ class ProjectTest extends TestCase
      */
     public function it_errors_creating_the_project_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $product = new ProjectRepository(new Project);
         $product->createProject([]);
     }
@@ -111,7 +111,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_errors_finding_a_project()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $category = new ProjectRepository(new Project);
         $category->findProjectById(999);
     }

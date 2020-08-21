@@ -3,7 +3,6 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Invoice;
 use App\Models\RecurringQuote;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;

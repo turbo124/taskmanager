@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Base\BaseRepository;
 use App\Models\ProductAttribute;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ProductAttributeRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductAttributeRepository extends BaseRepository implements ProductAttributeRepositoryInterface
 {

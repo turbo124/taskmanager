@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
-use App\Models\User;
-use App\Models\NumberGenerator;
 use App\Services\RecurringQuote\RecurringQuoteService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Account;
 use Illuminate\Support\Carbon;
 
 /**

@@ -3,7 +3,6 @@
 namespace App\Services\Transaction;
 
 use App\Models\Transaction;
-use App\Factory\TransactionFactory;
 use App\Services\ServiceBase;
 
 class TransactionService extends ServiceBase

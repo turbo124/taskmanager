@@ -6,8 +6,8 @@ use App\Mail\Admin\Refunded;
 use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class RefundNotification extends Notification implements ShouldQueue
 {
@@ -25,7 +25,7 @@ class RefundNotification extends Notification implements ShouldQueue
 
     /**
      * RefundNotification constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

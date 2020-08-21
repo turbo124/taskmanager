@@ -5,18 +5,16 @@ namespace Tests\Unit;
 use App\Factory\TaskStatusFactory;
 use App\Filters\TaskStatusFilter;
 use App\Models\Account;
-use App\Models\Customer;
-use App\Models\NumberGenerator;
-use App\Models\Product;
+use App\Models\TaskStatus;
 use App\Models\User;
+use App\Repositories\TaskStatusRepository;
 use App\Requests\SearchRequest;
 use App\Shop\Orders\Order;
-use App\Models\TaskStatus;
-use App\Repositories\TaskStatusRepository;
-use Tests\TestCase;
-use App\Models\Task;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TaskStatusUnitTest extends TestCase
 {
@@ -49,14 +47,17 @@ class TaskStatusUnitTest extends TestCase
     public function it_lists_all_the_task_statuses()
     {
         factory(TaskStatus::class)->create();
-        $list = (new TaskStatusFilter(new TaskStatusRepository(new TaskStatus())))->filter(new SearchRequest(), $this->account);
+        $list = (new TaskStatusFilter(new TaskStatusRepository(new TaskStatus())))->filter(
+            new SearchRequest(),
+            $this->account
+        );
         $this->assertNotEmpty($list);
     }
 
     /** @test */
     public function it_errors_getting_not_existing_order_status()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $taskStatusRepo = new TaskStatusRepository(new TaskStatus);
         $taskStatusRepo->findTaskStatusById(999);
     }
@@ -65,7 +66,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_can_get_the_task_status()
     {
         $create = [
-            'name'        => $this->faker->name,
+            'name'         => $this->faker->name,
             'column_color' => $this->faker->word
         ];
         $taskStatusRepo = new TaskStatusRepository(new TaskStatus);
@@ -81,7 +82,7 @@ class TaskStatusUnitTest extends TestCase
         $os = factory(TaskStatus::class)->create();
         $taskStatusRepo = new TaskStatusRepository($os);
         $data = [
-            'name'        => $this->faker->name,
+            'name'         => $this->faker->name,
             'column_color' => $this->faker->word
         ];
         $updated = $taskStatusRepo->save($data, $os);
@@ -95,7 +96,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_can_create_the_task_status()
     {
         $create = [
-            'name'        => $this->faker->name,
+            'name'         => $this->faker->name,
             'task_type'    => 1,
             'description'  => $this->faker->sentence,
             'column_color' => $this->faker->word
@@ -110,7 +111,7 @@ class TaskStatusUnitTest extends TestCase
     /** @test */
     public function it_errors_creating_the_task_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $task = new TaskStatusRepository(new TaskStatus);
         $task->createTaskStatus([]);
     }

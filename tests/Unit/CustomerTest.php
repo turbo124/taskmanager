@@ -2,22 +2,22 @@
 
 namespace Tests\Unit;
 
+use App\Factory\CustomerFactory;
+use App\Filters\CustomerFilter;
+use App\Models\Account;
 use App\Models\ClientContact;
 use App\Models\Company;
 use App\Models\Customer;
-use App\Models\Account;
-use App\Filters\CustomerFilter;
+use App\Models\User;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
-use App\Models\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\CustomerTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Collection;
-use App\Models\Brand;
-use App\Factory\CustomerFactory;
+use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
@@ -71,7 +71,7 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_fails_when_the_customer_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $customer = new CustomerRepository(new Customer);
         $customer->findCustomerById(999);
     }
@@ -137,7 +137,7 @@ class CustomerTest extends TestCase
 
     public function it_errors_creating_the_customer_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $task = new CustomerRepository(new Customer);
         $task->createCustomer([]);
     }

@@ -3,8 +3,6 @@
 namespace App\Transformations;
 
 use App\Models\Notification;
-use App\Repositories\UserRepository;
-use App\Models\User;
 
 trait NotificationTransformable
 {

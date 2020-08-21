@@ -3,9 +3,9 @@
 namespace App\Transformations;
 
 use App\Models\Customer;
-use App\Repositories\MessageRepository;
-use App\Models\User;
 use App\Models\Message;
+use App\Models\User;
+use App\Repositories\MessageRepository;
 
 trait MessageUserTransformable
 {

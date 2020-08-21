@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Factory\ExpenseCategoryFactory;
-use App\Filters\CaseCategoryFilter;
 use App\Filters\ExpenseCategoryFilter;
 use App\Repositories\ExpenseCategoryRepository;
 use App\Requests\ExpenseCategory\CreateCategoryRequest;
 use App\Requests\ExpenseCategory\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\ExpenseCategoryTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class ExpenseCategoryController extends Controller
 {
@@ -34,7 +33,7 @@ class ExpenseCategoryController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -47,7 +46,7 @@ class ExpenseCategoryController extends Controller
 
     /**
      * @param CreateCategoryRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateCategoryRequest $request)
     {

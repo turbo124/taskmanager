@@ -2,13 +2,12 @@
 
 namespace App\Events\Payment;
 
-use App\Models\Account;
 use App\Models\Payment;
 use App\Traits\SendSubscription;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class PaymentWasUpdated.
@@ -30,7 +29,7 @@ class PaymentWasUpdated implements PerformsMetrics
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Payment $payment)
     {

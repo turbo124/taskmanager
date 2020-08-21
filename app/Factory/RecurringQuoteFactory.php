@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\Models\RecurringQuote;
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Customer;
+use App\Models\RecurringQuote;
+use App\Models\User;
 
 class RecurringQuoteFactory
 {

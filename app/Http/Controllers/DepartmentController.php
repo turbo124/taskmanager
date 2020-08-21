@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Factory\DepartmentFactory;
+use App\Models\Department;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Requests\CreateDepartmentRequest;
-use App\Requests\UpdateDepartmentRequest;
-use App\Models\Department;
-use App\Transformations\DepartmentTransformable;
 use App\Requests\SearchRequest;
+use App\Requests\UpdateDepartmentRequest;
+use App\Transformations\DepartmentTransformable;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use App\Factory\DepartmentFactory;
 
 class DepartmentController extends Controller
 {

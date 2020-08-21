@@ -8,7 +8,7 @@ trait CategoryTransformable
 {
 
     /**
-     * @param \App\Models\Category $category
+     * @param Category $category
      * @return array
      */
     protected function transformCategory(Category $category)

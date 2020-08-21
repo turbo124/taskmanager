@@ -2,8 +2,8 @@
 
 namespace App\Rules\Payment;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\Credit;
+use Illuminate\Contracts\Validation\Rule;
 
 class CreditPaymentValidation implements Rule
 {

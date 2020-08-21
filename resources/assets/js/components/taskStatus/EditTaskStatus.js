@@ -95,7 +95,8 @@ class EditTaskStatus extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="description">{translations.description} <span className="text-danger">*</span></Label>
+                            <Label for="description">{translations.description} <span
+                                className="text-danger">*</span></Label>
                             <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
                                 value={this.state.description}
                                 type="text"

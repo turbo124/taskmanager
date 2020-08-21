@@ -7,7 +7,7 @@ use App\Models\CreditInvitation;
 class CreditInvitationTransformable
 {
     /**
-     * @param \App\Models\CreditInvitation $invitation
+     * @param CreditInvitation $invitation
      * @return array
      */
     public function transformCreditInvitation(CreditInvitation $invitation)

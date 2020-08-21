@@ -3,15 +3,17 @@
 namespace Tests\Unit;
 
 use App\Factory\UserFactory;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use Illuminate\Support\Collection;
 use App\Models\Department;
 use App\Models\Role;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\User;
+use App\Repositories\UserRepository;
 use App\Transformations\UserTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
@@ -93,7 +95,7 @@ class UserTest extends TestCase
      */
     public function it_errors_creating_the_user_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $product = new UserRepository(new User);
         $product->createUser([]);
     }
@@ -101,7 +103,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_errors_finding_a_user()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $user = new UserRepository(new User);
         $user->findUserById(999);
     }

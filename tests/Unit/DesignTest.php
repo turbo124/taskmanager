@@ -2,28 +2,22 @@
 
 namespace Tests\Unit;
 
-use App\Models\Account;
-use App\Models\Credit;
-use App\Models\Design;
 use App\Designs\PdfColumns;
-use App\Factory\CreditFactory;
 use App\Factory\DesignFactory;
-use App\Filters\CreditFilter;
 use App\Filters\DesignFilter;
-use App\Filters\InvoiceFilter;
 use App\Helpers\Pdf\InvoicePdf;
+use App\Jobs\Invoice\CreateInvoicePdf;
+use App\Jobs\Quote\CreateQuotePdf;
+use App\Models\Account;
+use App\Models\Customer;
+use App\Models\Design;
+use App\Models\Quote;
+use App\Models\User;
 use App\Repositories\DesignRepository;
 use App\Requests\SearchRequest;
-use Tests\TestCase;
-use App\Models\Invoice;
-use App\Models\User;
-use App\Models\Customer;
-use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Jobs\Quote\CreateQuotePdf;
-use App\Jobs\Invoice\CreateInvoicePdf;
+use Tests\TestCase;
 
 /**
  * Description of InvoiceTest
@@ -105,7 +99,7 @@ class DesignTest extends TestCase
 
     public function testQuoteDesignExists()
     {
-        $this->quote = factory(\App\Models\Quote::class)->create(
+        $this->quote = factory(Quote::class)->create(
             [
                 'user_id'     => $this->user->id,
                 'customer_id' => $this->customer->id,
@@ -142,7 +136,7 @@ class DesignTest extends TestCase
 
     public function testInvoiceDesignExists()
     {
-        $this->invoice = factory(\App\Models\Quote::class)->create(
+        $this->invoice = factory(Quote::class)->create(
             [
                 'user_id'     => $this->user->id,
                 'customer_id' => Customer::first(),

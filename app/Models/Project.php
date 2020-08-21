@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
-use App\Models\Account;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Task;
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;

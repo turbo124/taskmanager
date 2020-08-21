@@ -9,6 +9,9 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Traits\Money;
+use ReflectionClass;
+use ReflectionException;
+use stdClass;
 
 /**
  * Class PdfData
@@ -32,7 +35,7 @@ class PdfBuilder
     public function __construct($entity)
     {
         $this->entity = $entity;
-        $this->class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
     }
 
     protected function setDefaults(Customer $customer): self
@@ -553,7 +556,7 @@ class PdfBuilder
     /**
      * @param $due_date
      * @return $this
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function setDueDate($due_date): self
     {
@@ -581,7 +584,7 @@ class PdfBuilder
         $labels = $this->getLabels();
         $values = $this->getValues();
 
-        $table[$table_prefix] = new \stdClass();
+        $table[$table_prefix] = new stdClass();
 
         $table[$table_prefix]->header = '<tr>';
         $table[$table_prefix]->body = '';

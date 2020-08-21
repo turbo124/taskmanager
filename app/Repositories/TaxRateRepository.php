@@ -2,12 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Base\BaseRepository;
 use App\Models\TaxRate;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\TaxRateRepositoryInterface;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
 class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInterface

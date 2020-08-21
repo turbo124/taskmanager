@@ -11,7 +11,10 @@ use App\Requests\SearchRequest;
 use App\Requests\TaskStatus\CreateTaskStatusRequest;
 use App\Requests\TaskStatus\UpdateTaskStatusRequest;
 use App\Transformations\TaskStatusTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+
+use function request;
 
 class TaskStatusController extends Controller
 {
@@ -27,7 +30,7 @@ class TaskStatusController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $token_sent = \request()->bearerToken();
+        $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
@@ -40,7 +43,7 @@ class TaskStatusController extends Controller
 
     /**
      * @param CreateTaskStatusRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateTaskStatusRequest $request)
     {
@@ -55,7 +58,7 @@ class TaskStatusController extends Controller
     /**
      * @param UpdateTaskStatusRequest $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateTaskStatusRequest $request, int $id)
     {

@@ -2,11 +2,11 @@
 
 namespace App\Services\Invoice;
 
+use App\Factory\InvoiceToPaymentFactory;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
-use App\Factory\InvoiceToPaymentFactory;
 
 class CreatePayment
 {
@@ -56,7 +56,7 @@ class CreatePayment
     }
 
     /**
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @return Customer
      */
     private function updateCustomer(Payment $payment): Customer
@@ -69,7 +69,7 @@ class CreatePayment
     }
 
     /**
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @return Invoice
      */
     private function updateInvoice(Payment $payment): Invoice

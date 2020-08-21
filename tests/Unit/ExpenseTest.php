@@ -2,23 +2,18 @@
 
 namespace Tests\Unit;
 
-use App\Models\Company;
-use App\Models\Expense;
 use App\Factory\ExpenseFactory;
 use App\Filters\ExpenseFilter;
-use App\Filters\QuoteFilter;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Customer;
+use App\Models\Expense;
+use App\Models\User;
 use App\Repositories\ExpenseRepository;
 use App\Requests\SearchRequest;
-use Tests\TestCase;
-use App\Models\Quote;
-use App\Models\User;
-use App\Models\Account;
-use App\Models\Customer;
-use App\Repositories\QuoteRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Factory\QuoteFactory;
+use Tests\TestCase;
 
 class ExpenseTest extends TestCase
 {

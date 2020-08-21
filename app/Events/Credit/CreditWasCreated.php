@@ -17,7 +17,7 @@ class CreditWasCreated
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Credit $credit
+     * @param Credit $credit
      */
     public function __construct(Credit $credit)
     {

@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\CustomerType;
-use App\Repositories\Interfaces\CustomerTypeRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\CustomerTypeRepositoryInterface;
 use Exception;
 
 class CustomerTypeRepository extends BaseRepository implements CustomerTypeRepositoryInterface
@@ -13,7 +13,7 @@ class CustomerTypeRepository extends BaseRepository implements CustomerTypeRepos
     /**
      * CustomerTypeRepository constructor.
      *
-     * @param \App\Models\CustomerType $customerType
+     * @param CustomerType $customerType
      */
     public function __construct(CustomerType $customerType)
     {
@@ -29,7 +29,7 @@ class CustomerTypeRepository extends BaseRepository implements CustomerTypeRepos
     /**
      * @param int $id
      *
-     * @return \App\Models\CustomerType
+     * @return CustomerType
      * @throws Exception
      */
     public function findCustomerTypeById(int $id): CustomerType

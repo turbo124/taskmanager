@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Models\Account;
+use Exception;
 
 class AccountSettings extends BaseSettings
 {
@@ -82,7 +83,7 @@ class AccountSettings extends BaseSettings
             $account->save();
 
             return $account;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here');
         }

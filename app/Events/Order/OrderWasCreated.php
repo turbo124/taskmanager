@@ -2,13 +2,12 @@
 
 namespace App\Events\Order;
 
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Traits\SendSubscription;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class OrderWasCreated
@@ -24,14 +23,14 @@ class OrderWasCreated implements PerformsMetrics
     protected $meter = 'order-created';
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     public Order $order;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Order $order
+     * @param Order $order
      */
     public function __construct(Order $order)
     {

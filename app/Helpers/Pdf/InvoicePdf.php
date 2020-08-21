@@ -4,6 +4,9 @@
 namespace App\Helpers\Pdf;
 
 
+use ReflectionClass;
+use ReflectionException;
+
 class InvoicePdf extends PdfBuilder
 {
     protected $entity;
@@ -11,13 +14,13 @@ class InvoicePdf extends PdfBuilder
     /**
      * InvoicePdf constructor.
      * @param $entity
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct($entity)
     {
         parent::__construct($entity);
         $this->entity = $entity;
-        $this->class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
     }
 
     public function build($contact = null)

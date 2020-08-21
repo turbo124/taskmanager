@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Models\Group;
+use Exception;
 
 class GroupSettings extends BaseSettings
 {
@@ -27,7 +28,7 @@ class GroupSettings extends BaseSettings
             $group_setting->save();
 
             return $group_setting;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here');
         }

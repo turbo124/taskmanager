@@ -2,8 +2,6 @@
 
 namespace App\Helpers\Refund;
 
-use App\Events\Payment\PaymentWasRefunded;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Payment;
 use App\Repositories\CreditRepository;
 
@@ -12,7 +10,7 @@ class PaymentRefund extends BaseRefund
 
     /**
      * PaymentRefund constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param array $data
      * @param CreditRepository $credit_repo
      */

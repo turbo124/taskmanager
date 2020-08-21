@@ -2,11 +2,10 @@
 
 namespace App\Factory;
 
-use App\Models\Quote;
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Customer;
-use Illuminate\Support\Facades\Log;
+use App\Models\Quote;
+use App\Models\User;
 
 class QuoteFactory
 {
@@ -15,7 +14,7 @@ class QuoteFactory
      * @param int $account_id
      * @param int $user_id
      * @param $total
-     * @return \App\Models\Quote
+     * @return Quote
      */
     public static function create(
         Account $account,

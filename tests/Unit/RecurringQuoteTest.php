@@ -2,36 +2,21 @@
 
 namespace Tests\Unit;
 
-use App\Models\Cases;
-use App\Models\Customer;
-use App\Events\Lead\LeadWasCreated;
-use App\Factory\CaseFactory;
-use App\Factory\LeadFactory;
-use App\Factory\RecurringInvoiceFactory;
 use App\Factory\RecurringQuoteFactory;
-use App\Filters\CaseFilter;
-use App\Filters\LeadFilter;
-use App\Filters\RecurringInvoiceFilter;
 use App\Filters\RecurringQuoteFilter;
-use App\Models\Lead;
-use App\Models\RecurringInvoice;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Models\RecurringQuote;
-use App\Repositories\CaseRepository;
-use App\Repositories\LeadRepository;
-use App\Repositories\ProjectRepository;
-use App\Repositories\RecurringInvoiceRepository;
+use App\Models\User;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
-use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Task;
-use App\Models\User;
-use App\Models\Account;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\TaskTransformable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class RecurringQuoteTest extends TestCase
 {
@@ -39,7 +24,7 @@ class RecurringQuoteTest extends TestCase
     use DatabaseTransactions, WithFaker, TaskTransformable;
 
     /**
-     * @var \App\Models\User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var User|Collection|Model|mixed
      */
     private User $user;
 
@@ -49,7 +34,7 @@ class RecurringQuoteTest extends TestCase
     private Account $account;
 
     /**
-     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var Customer|Collection|Model|mixed
      */
     private Customer $customer;
 

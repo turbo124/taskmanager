@@ -13,14 +13,14 @@ class InvoiceWasCancelled
     use SerializesModels;
 
     /**
-     * @var \App\Models\Invoice
+     * @var Invoice
      */
     public Invoice $invoice;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {

@@ -4,9 +4,9 @@ namespace App\Helpers\Currency;
 
 use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
-use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 
 class CurrencyConverter
 {

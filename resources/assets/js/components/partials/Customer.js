@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-    Alert,
     Button,
     Card,
     CardBody,
@@ -87,7 +86,9 @@ export default class Customer extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         const gateway_tokens = this.state.gateways.length ? this.customerModel.gateway_tokens.map((gatewayToken) => {
@@ -103,7 +104,7 @@ export default class Customer extends Component {
             return <SectionItem link={link}
                 icon={icons.credit_card}
                 title={`${translations.token} > ${companyGateway[0].gateway.name}`}
-                subtitle={<MetaItem meta={gatewayToken.meta} />}/>
+                subtitle={<MetaItem meta={gatewayToken.meta}/>}/>
         }) : null
 
         const fields = []
@@ -223,7 +224,7 @@ export default class Customer extends Component {
 
                         {this.props.entity.private_notes.length &&
                         <Row>
-                            <InfoMessage message={this.props.entity.private_notes} />
+                            <InfoMessage message={this.props.entity.private_notes}/>
                         </Row>
                         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Events\Order;
 
-use App\Traits\SendSubscription;
 use App\Models\Order;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**

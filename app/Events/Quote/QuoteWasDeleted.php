@@ -2,9 +2,9 @@
 
 namespace App\Events\Quote;
 
+use App\Models\Quote;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Quote;
 
 /**
  * Class QuoteWasDeleted.

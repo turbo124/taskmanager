@@ -5,13 +5,14 @@ namespace App\Mail\Admin;
 
 use App\Events\EmailFailedToSend;
 use App\Models\User;
+use Exception;
 use Illuminate\Mail\Mailable;
 
 class AdminMailer extends Mailable
 {
 
     /**
-     * @var \App\Models\User
+     * @var User
      */
     protected User $user;
 
@@ -42,7 +43,7 @@ class AdminMailer extends Mailable
                                 'data' => $this->message_array,
                             ]
                         );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             event(new EmailFailedToSend($this->entity, $exception->getMessage()));
         }
     }

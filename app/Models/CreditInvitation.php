@@ -2,13 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
 use App\Models;
-use App\Models\ClientContact;
-use App\Models\Invoice;
-use App\Models\Account;
-use App\Models\Credit;
-use App\Models\User;
 use App\Traits\Inviteable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

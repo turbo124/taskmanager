@@ -2,26 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
 use App\Filters\TaskFilter;
-use App\Requests\SearchRequest;
-use App\Models\Task;
+use App\Models\Account;
 use App\Models\Project;
-use App\Repositories\ProjectRepository;
+use App\Models\Task;
 use App\Models\User;
-use App\Repositories\UserRepository;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
-use App\Exceptions\CreateTaskErrorException;
-use Exception;
-use Illuminate\Support\Collection as Support;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Requests\SearchRequest;
 use Carbon\Carbon;
-use App\Models\Product;
-use Illuminate\Support\Facades\Mail;
-use App\Events\OrderCreateEvent;
-use App\Repositories\ProductRepository;
+use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as Support;
+use Illuminate\Support\Facades\DB;
 
 class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 {
@@ -30,7 +23,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     /**
      * TaskRepository constructor.
      *
-     * @param \App\Models\Task $task
+     * @param Task $task
      */
     public function __construct(Task $task, ProjectRepository $project_repo)
     {
@@ -42,7 +35,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     /**
      * @param int $id
      *
-     * @return \App\Models\Task
+     * @return Task
      * @throws Exception
      */
     public function findTaskById(int $id): Task
@@ -64,7 +57,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -74,7 +67,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     /**
      *
      * @param Project $objProject
-     * @param \App\Models\User $objUser
+     * @param User $objUser
      * @return type
      */
     public function getTasksForProject(Project $objProject, User $objUser = null): Support
@@ -219,7 +212,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     /**
      * @param $data
-     * @param \App\Models\Task $task
+     * @param Task $task
      * @return Task|null
      * @throws Exception
      */

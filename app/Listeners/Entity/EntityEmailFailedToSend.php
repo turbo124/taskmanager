@@ -3,12 +3,9 @@
 namespace App\Listeners\Entity;
 
 use App\Factory\NotificationFactory;
-use App\Models\Notification;
-use App\Notifications\Admin\EntityViewedNotification;
 use App\Repositories\NotificationRepository;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class EntityEmailFailedToSend implements ShouldQueue
 {
@@ -54,6 +51,5 @@ class EntityEmailFailedToSend implements ShouldQueue
             NotificationFactory::create($event->entity->account_id, $event->entity->user_id);
         $notification->entity_id = $event->entity->id;
         $this->notification_repo->save($notification, $fields);
-
     }
 }

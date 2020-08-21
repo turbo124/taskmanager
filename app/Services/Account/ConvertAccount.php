@@ -6,9 +6,9 @@ use App\Factory\Account\CloneAccountToAddressFactory;
 use App\Factory\Account\CloneAccountToContactFactory;
 use App\Factory\Account\CloneAccountToCustomerFactory;
 use App\Factory\Account\CloneAccountToUserFactory;
-use App\Repositories\AccountRepository;
 use App\Models\Account;
 use App\Models\Task;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -22,7 +22,7 @@ class ConvertAccount
 
     /**
      * ConvertLead constructor.
-     * @param \App\Models\Task $task
+     * @param Task $task
      */
     public function __construct(Account $account)
     {
@@ -79,7 +79,7 @@ class ConvertAccount
             DB::commit();
 
             return $this->account;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             echo $e->getMessage();
             DB::rollback();

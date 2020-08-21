@@ -8,24 +8,25 @@
 
 namespace Tests\Unit;
 
+use App\Factory\QuoteFactory;
 use App\Filters\QuoteFilter;
 use App\Models\Account;
-use App\Models\NumberGenerator;
-use App\Models\Order;
-use App\Models\RecurringQuote;
-use App\Repositories\OrderRepository;
-use App\Requests\SearchRequest;
-use Tests\TestCase;
-use App\Models\Quote;
-use App\Models\User;
 use App\Models\Customer;
 use App\Models\Invoice;
-use App\Repositories\QuoteRepository;
+use App\Models\NumberGenerator;
+use App\Models\Order;
+use App\Models\Quote;
+use App\Models\RecurringQuote;
+use App\Models\User;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\QuoteRepository;
+use App\Requests\SearchRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Factory\QuoteFactory;
+use Tests\TestCase;
 
 /**
  * Description of QuoteTest
@@ -130,7 +131,7 @@ class QuoteTest extends TestCase
         $arrRecurring = [];
 
         $arrRecurring['start_date'] = date('Y-m-d');
-        $arrRecurring['end_date'] = date('Y-m-d', strtotime('+1 year'));;
+        $arrRecurring['end_date'] = date('Y-m-d', strtotime('+1 year'));
         $arrRecurring['frequency'] = 30;
         $arrRecurring['recurring_due_date'] = date('Y-m-d', strtotime('+1 month'));
         $recurring_invoice = $quote->service()->createRecurringQuote($arrRecurring);
@@ -142,7 +143,7 @@ class QuoteTest extends TestCase
      */
     public function it_errors_creating_the_quote_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $quote = new QuoteRepository(new Quote);
         $quote->createQuote([]);
     }
@@ -150,7 +151,7 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_errors_finding_a_quote()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $invoice = new QuoteRepository(new Quote);
         $invoice->findQuoteById(99999);
     }

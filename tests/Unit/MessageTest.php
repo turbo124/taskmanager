@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
-use App\Models\Message;
-use App\Repositories\MessageRepository;
-use App\Models\User;
 use App\Models\Customer;
-use Tests\TestCase;
+use App\Models\Message;
+use App\Models\User;
+use App\Repositories\MessageRepository;
+use App\Transformations\MessageUserTransformable;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
-use App\Transformations\MessageUserTransformable;
+use Tests\TestCase;
 
 class MessageTest extends TestCase
 {
@@ -68,7 +69,7 @@ class MessageTest extends TestCase
 
     public function it_errors_creating_the_message_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $messageRepo = new MessageRepository(new Message);
         $messageRepo->createMessage([]);
     }

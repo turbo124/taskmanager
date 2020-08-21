@@ -30,8 +30,8 @@ class CreateCreditInvitationsTable extends Migration {
 			$table->dateTime('opened_date')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->index(['deleted_at','credit_id']);
 			$table->unique(['client_contact_id','credit_id'], 'credit_invitations_customer_id_credit_id_unique');
+			$table->index(['deleted_at','credit_id']);
 		});
 	}
 

@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models;
-use App\Models\ClientContact;
+use App\Traits\Inviteable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
-use App\Traits\Inviteable;
 
 /**
  * Class Invitation.

@@ -2,17 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\CompanyToken;
-use App\Models\Quote;
-use App\Repositories\Base\BaseRepository;
-use App\Models\Subscription;
 use App\Models\Account;
+use App\Models\Subscription;
+use App\Repositories\Base\BaseRepository;
 
 class SubscriptionRepository extends BaseRepository
 {
     /**
      * SubscriptionRepository constructor.
-     * @param \App\Models\Subscription $subscription
+     * @param Subscription $subscription
      */
     public function __construct(Subscription $subscription)
     {
@@ -47,7 +45,7 @@ class SubscriptionRepository extends BaseRepository
     /**
      * @param array $data
      * @param Subscription $subscription
-     * @return \App\Models\Subscription|null
+     * @return Subscription|null
      */
     public function save(array $data, Subscription $subscription): ?Subscription
     {

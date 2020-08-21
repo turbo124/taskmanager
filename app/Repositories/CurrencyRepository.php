@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Currency;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CurrencyRepositoryInterface;
-use App\Models\Currency;
 use Illuminate\Support\Collection;
 
 class CurrencyRepository extends BaseRepository implements CurrencyRepositoryInterface

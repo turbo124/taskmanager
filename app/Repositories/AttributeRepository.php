@@ -5,8 +5,8 @@ namespace App\Repositories;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Repositories\Base\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Database\QueryException;
 
 class AttributeRepository extends BaseRepository
 {
@@ -74,8 +74,8 @@ class AttributeRepository extends BaseRepository
     }
 
     /**
-     * @param \App\Models\AttributeValue $attributeValue
-     * @return bool|false|\Illuminate\Database\Eloquent\Model
+     * @param AttributeValue $attributeValue
+     * @return bool|false|Model
      */
     public function associateAttributeValue(AttributeValue $attributeValue)
     {

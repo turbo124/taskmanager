@@ -5,10 +5,7 @@ namespace App\Helpers\Payment;
 
 
 use App\Models\Credit;
-use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Paymentable;
-use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
 class CreditPayment extends BasePaymentProcessor
@@ -21,7 +18,7 @@ class CreditPayment extends BasePaymentProcessor
     /**
      * CreditPayment constructor.
      * @param array $data
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param PaymentRepository $payment_repo
      */
     public function __construct(array $data, Payment $payment, PaymentRepository $payment_repo)
@@ -31,7 +28,7 @@ class CreditPayment extends BasePaymentProcessor
     }
 
     /**
-     * @return \App\Models\Payment|null
+     * @return Payment|null
      */
     public function process(): ?Payment
     {
@@ -53,8 +50,8 @@ class CreditPayment extends BasePaymentProcessor
     }
 
     /**
-     * @param \App\Models\Credit $credit
-     * @param \App\Models\Payment $payment
+     * @param Credit $credit
+     * @param Payment $payment
      * @param $amount
      */
     private function updateCredits(Credit $credit, $amount)

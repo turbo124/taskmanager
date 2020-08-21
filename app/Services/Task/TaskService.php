@@ -2,26 +2,14 @@
 
 namespace App\Services\Task;
 
-use App\Factory\CustomerFactory;
-use App\Factory\TaskFactory;
-use App\Models\Invoice;
-use App\Repositories\ClientContactRepository;
+use App\Models\Task;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceSum;
-use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
-use App\Services\Task\ConvertLead;
-use Illuminate\Http\Request;
-use App\Models\Task;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
-use App\Repositories\Interfaces\ProjectRepositoryInterface;
-use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
-use App\Transformations\TaskTransformable;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\TaskCreated;
 use App\Services\EntityManager;
 use App\Services\ServiceBase;
+use App\Services\Task\ConvertLead;
+use Illuminate\Http\Request;
 
 /**
  * Class TaskService
@@ -33,7 +21,7 @@ class TaskService extends ServiceBase
 
     /**
      * TaskService constructor.
-     * @param \App\Models\Task $task
+     * @param Task $task
      */
     public function __construct(Task $task)
     {
@@ -105,7 +93,7 @@ class TaskService extends ServiceBase
     }
 
     /**
-     * @return \App\Models\Task|null
+     * @return Task|null
      */
     public function save(): ?Task
     {

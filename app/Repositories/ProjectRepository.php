@@ -3,12 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Project;
-use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
-use App\Exceptions\CreateProjectErrorException;
+use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use Exception;
-use Illuminate\Support\Collection as Support;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as Support;
 
 class ProjectRepository extends BaseRepository implements ProjectRepositoryInterface
 {

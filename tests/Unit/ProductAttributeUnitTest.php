@@ -4,16 +4,16 @@ namespace Tests\Unit;
 
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Repositories\AttributeRepository;
 use App\Repositories\AttributeValueRepository;
 use App\Repositories\ProductAttributeRepository;
-use App\Models\Product;
 use App\Repositories\ProductRepository;
-use Illuminate\Support\Collection;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ProductAttributeUnitTest extends TestCase
 {
@@ -29,7 +29,7 @@ class ProductAttributeUnitTest extends TestCase
     /** @test */
     public function it_throws_error_when_the_product_attribute_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $productAttributeRepo = new ProductAttributeRepository(new ProductAttribute);
         $productAttributeRepo->findProductAttributeById(999);
     }

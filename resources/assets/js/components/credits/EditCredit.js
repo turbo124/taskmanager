@@ -231,8 +231,8 @@ export default class EditCredit extends Component {
                     company_id: null,
                     status_id: null,
                     line_items: [],
-                    invitations: [], 
-                    return_to_stock: false,
+                    invitations: [],
+                    return_to_stock: false
                 }, () => localStorage.removeItem('creditForm'))
             }
         })

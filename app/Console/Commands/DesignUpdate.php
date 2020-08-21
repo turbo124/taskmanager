@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Design;
 use Illuminate\Console\Command;
+use stdClass;
 
 class DesignUpdate extends Command
 {
@@ -42,7 +43,7 @@ class DesignUpdate extends Command
             $class = 'App\Designs\\' . $design->name;
             $invoice_design = new $class();
 
-            $design_object = new \stdClass;
+            $design_object = new stdClass;
             $design_object->header = $invoice_design->header() ?: '';
             $design_object->body = $invoice_design->body() ?: '';
             $design_object->table = $invoice_design->table() ?: '';

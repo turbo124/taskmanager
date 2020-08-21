@@ -2,9 +2,7 @@
 
 namespace App\Factory;
 
-use App\Models\ClientContact;
 use App\Models\Comment;
-use Illuminate\Support\Str;
 
 class CommentFactory
 {

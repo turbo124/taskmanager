@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Factory\SubscriptionFactory;
 use App\Filters\SubscriptionFilters;
+use App\Models\Subscription;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Subscription\CreateSubscriptionRequest;
 use App\Requests\Subscription\UpdateSubscriptionRequest;
-use App\Models\Subscription;
 use App\Transformations\SubscriptionTransformable;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 class SubscriptionController extends Controller
 {
@@ -33,7 +34,7 @@ class SubscriptionController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -46,7 +47,7 @@ class SubscriptionController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -57,7 +58,7 @@ class SubscriptionController extends Controller
     /**
      * @param int $id
      * @param UpdateSubscriptionRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdateSubscriptionRequest $request)
     {
@@ -70,7 +71,7 @@ class SubscriptionController extends Controller
 
     /**
      * @param CreateSubscriptionRequest $request \
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateSubscriptionRequest $request)
     {
@@ -81,8 +82,8 @@ class SubscriptionController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(int $id)
     {
@@ -94,7 +95,7 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function bulk()
     {

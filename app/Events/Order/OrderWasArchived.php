@@ -2,8 +2,8 @@
 
 namespace App\Events\Order;
 
-use Illuminate\Queue\SerializesModels;
 use App\Models\Order;
+use Illuminate\Queue\SerializesModels;
 
 class OrderWasArchived
 {

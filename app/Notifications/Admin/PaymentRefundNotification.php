@@ -2,14 +2,12 @@
 
 namespace App\Notifications\Admin;
 
-use App\Mail\Admin\PaymentFailed;
 use App\Mail\Admin\Refunded;
 use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class PaymentRefundNotification extends Notification implements ShouldQueue
 {
@@ -17,7 +15,7 @@ class PaymentRefundNotification extends Notification implements ShouldQueue
 
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     private Payment $payment;
 
@@ -28,7 +26,7 @@ class PaymentRefundNotification extends Notification implements ShouldQueue
 
     /**
      * NewPaymentNotification constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

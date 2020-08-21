@@ -8,7 +8,7 @@ class EmailTransformable
 {
 
     /**
-     * @param \App\Models\Email $email
+     * @param Email $email
      * @return array
      */
     public function transformEmail(Email $email)

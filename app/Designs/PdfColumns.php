@@ -188,7 +188,7 @@ class PdfColumns
         }
 
         if (!empty($task_table['task'])) {
-            $this->exported_variables['$task_table_header'] = $task_table['task']->header;;
+            $this->exported_variables['$task_table_header'] = $task_table['task']->header;
             $this->exported_variables['$task_table_body'] = $task_table['task']->body;
         }
 

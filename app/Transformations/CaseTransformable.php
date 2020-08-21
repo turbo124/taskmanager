@@ -5,11 +5,12 @@ namespace App\Transformations;
 
 use App\Models\Cases;
 use App\Models\File;
+use App\Models\Subscription;
 
 trait CaseTransformable
 {
     /**
-     * @param \App\Models\Subscription $subscription
+     * @param Subscription $subscription
      * @return array
      */
     public function transform(Cases $cases)

@@ -2,12 +2,7 @@
 
 namespace App\Transformations;
 
-use App\Models\Address;
-use App\Models\ClientContact;
-use App\Models\Customer;
 use App\Models\Design;
-use App\Repositories\ClientContactRepository;
-use App\Repositories\CustomerRepository;
 
 trait DesignTransformable
 {

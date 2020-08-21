@@ -2,12 +2,10 @@
 
 namespace App\Listeners\Quote;
 
-use App\Notifications\Admin\NewOrderNotification;
 use App\Notifications\Admin\QuoteApprovedNotification;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendQuoteApprovedNotification implements ShouldQueue
 {

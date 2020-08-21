@@ -19,7 +19,7 @@ class OrderCreated extends AdminMailer
     /**
      * OrderCreated constructor.
      * @param Order $order
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(Order $order, User $user)
     {

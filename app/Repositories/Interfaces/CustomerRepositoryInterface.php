@@ -9,10 +9,9 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Customer;
+use App\Repositories\Base\BaseRepositoryInterface;
 use App\Requests\SearchRequest;
-use Illuminate\Support\Collection as Support;
 
 /**
  *
@@ -23,7 +22,7 @@ interface CustomerRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return mixed
      */
     public function getAll(SearchRequest $search_request, Account $account);
@@ -42,7 +41,7 @@ interface CustomerRepositoryInterface extends BaseRepositoryInterface
     /**
      * @param array $data
      * @param Customer $customer
-     * @return \App\Models\Customer|null
+     * @return Customer|null
      */
     public function save(array $data, Customer $customer): ?Customer;
 }

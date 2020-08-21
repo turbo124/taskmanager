@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Department;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
-use App\Models\Department;
 use Illuminate\Support\Collection;
 
 class DepartmentRepository extends BaseRepository implements DepartmentRepositoryInterface
@@ -40,7 +40,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     /**
      * @param int $id
      *
-     * @return \App\Models\Department
+     * @return Department
      * @throws DepartmentNotFoundErrorException
      */
     public function findDepartmentById(int $id): Department

@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Audit;
 use App\Models\Notification;
-use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class NotificationRepository extends BaseRepository implements NotificationRepositoryInterface
@@ -35,7 +35,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
 
     /**
      * @param array $data
-     * @return \App\Models\Notification
+     * @return Notification
      */
     public function create(array $data): Notification
     {
@@ -63,7 +63,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     }
 
     /**
-     * @param \App\Models\Notification $notification
+     * @param Notification $notification
      * @return bool
      */
     private function audit(Notification $notification)

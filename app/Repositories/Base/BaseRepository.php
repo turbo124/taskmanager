@@ -2,15 +2,14 @@
 
 namespace App\Repositories\Base;
 
-use App\Models\ClientContact;
-use App\Factory\InvoiceInvitationFactory;
-use App\Models\InvoiceInvitation;
-use Illuminate\Support\Carbon;
+use App\Helpers\Arrays;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Input;
-use App\Helpers\Arrays;
+use ReflectionClass;
+use ReflectionException;
 
 class BaseRepository implements BaseRepositoryInterface
 {
@@ -118,7 +117,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $entity->delete();
 
-        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $entity_class = (new ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasArchived";
 
         if (class_exists($event_class)) {
@@ -137,7 +136,7 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->is_deleted = false;
         $entity->save();
 
-        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $entity_class = (new ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasRestored";
 
         if (class_exists($event_class)) {
@@ -150,7 +149,7 @@ class BaseRepository implements BaseRepositoryInterface
     /**
      * @param $entity
      * @return |null
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function markSent($entity)
     {
@@ -175,7 +174,7 @@ class BaseRepository implements BaseRepositoryInterface
             $service->send();
         }
 
-        $class = (new \ReflectionClass($entity))->getShortName();
+        $class = (new ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 
         if (class_exists($event_class)) {
@@ -194,7 +193,7 @@ class BaseRepository implements BaseRepositoryInterface
         $entity->save();
         $entity->delete();
 
-        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $entity_class = (new ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasDeleted";
 
         if (class_exists($event_class)) {
@@ -312,7 +311,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     protected function populateDefaults($entity)
     {
-        $class = strtolower((new \ReflectionClass($entity))->getShortName());
+        $class = strtolower((new ReflectionClass($entity))->getShortName());
 
         if (empty($entity->terms) && !empty($entity->customer->getSetting($class . '_terms'))) {
             $entity->terms = $entity->customer->getSetting($class . '_terms');

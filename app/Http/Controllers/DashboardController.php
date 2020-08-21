@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\LeadFilter;
+use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Expense;
-use App\Filters\LeadFilter;
 use App\Models\Invoice;
 use App\Models\Lead;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Quote;
-use App\Models\Credit;
-use App\Models\Order;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Models\Task;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\LeadRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
-use App\Models\Task;
 
 class DashboardController extends Controller
 {

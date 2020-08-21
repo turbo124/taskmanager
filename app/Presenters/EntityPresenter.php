@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
-use stdClass;
 
 /**
  * Class EntityPresenter

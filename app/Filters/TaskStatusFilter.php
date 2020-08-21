@@ -3,16 +3,12 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\CaseCategory;
-use App\Models\Cases;
 use App\Models\TaskStatus;
 use App\Repositories\CaseCategoryRepository;
-use App\Repositories\CaseRepository;
-use App\Repositories\SubscriptionRepository;
 use App\Repositories\TaskStatusRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\CaseCategoryTransformable;
 use App\Transformations\TaskStatusTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -41,7 +37,7 @@ class TaskStatusFilter extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

@@ -9,7 +9,7 @@ trait AccountTransformable
 {
 
     /**
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return Address
      */
     public function transformAccount(Account $account)

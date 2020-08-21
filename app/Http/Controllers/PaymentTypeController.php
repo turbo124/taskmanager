@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\PaymentMethodRepositoryInterface;
-use App\Models\Department;
 use App\Transformations\DepartmentTransformable;
-use App\Requests\SearchRequest;
 
 class PaymentTypeController extends Controller
 {

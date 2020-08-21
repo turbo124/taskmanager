@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attribute;
 use App\Filters\AttributeFilter;
-use App\Http\Controllers\Controller;
 use App\Jobs\Attribute\SaveAttributeValues;
+use App\Models\Attribute;
 use App\Repositories\AttributeRepository;
 use App\Requests\Attribute\CreateAttributeRequest;
 use App\Requests\Attribute\UpdateAttributeRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\AttributeTransformable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class AttributeController extends Controller
 {
@@ -27,7 +29,7 @@ class AttributeController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -38,7 +40,7 @@ class AttributeController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create()
     {
@@ -47,7 +49,7 @@ class AttributeController extends Controller
 
     /**
      * @param CreateAttributeRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateAttributeRequest $request)
     {
@@ -58,7 +60,7 @@ class AttributeController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show($id)
     {
@@ -75,7 +77,7 @@ class AttributeController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function edit($id)
     {
@@ -87,7 +89,7 @@ class AttributeController extends Controller
     /**
      * @param UpdateAttributeRequest $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateAttributeRequest $request, $id)
     {

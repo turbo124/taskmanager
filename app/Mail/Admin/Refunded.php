@@ -19,7 +19,7 @@ class Refunded extends AdminMailer
     /**
      * Refunded constructor.
      * @param Payment $payment
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(Payment $payment, User $user)
     {

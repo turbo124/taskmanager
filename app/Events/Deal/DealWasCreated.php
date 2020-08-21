@@ -4,10 +4,10 @@ namespace App\Events\Deal;
 
 use App\Models\Account;
 use App\Models\Task;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 
 /**
@@ -30,7 +30,7 @@ class DealWasCreated implements PerformsMetrics
 
     /**
      * DealWasCreated constructor.
-     * @param \App\Models\Task $deal
+     * @param Task $deal
      */
     public function __construct(Task $deal, Account $account)
     {

@@ -3,11 +3,10 @@
 namespace App\Repositories;
 
 use App\Events\Uploads\FileWasDeleted;
-use App\Models\File;
-use App\Models\Task;
-use App\Repositories\Interfaces\FileRepositoryInterface;
-use App\Repositories\Base\BaseRepository;
 use App\Exceptions\CreateFileErrorException;
+use App\Models\File;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\FileRepositoryInterface;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +16,7 @@ class FileRepository extends BaseRepository implements FileRepositoryInterface
     /**
      * FileRepository constructor.
      *
-     * @param \App\Models\File $file
+     * @param File $file
      */
     public function __construct(File $file)
     {
@@ -28,7 +27,7 @@ class FileRepository extends BaseRepository implements FileRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \App\Models\File
+     * @return File
      * @throws CreateFileErrorException
      */
     public function createFile(array $data): File
@@ -43,7 +42,7 @@ class FileRepository extends BaseRepository implements FileRepositoryInterface
     /**
      * @param int $id
      *
-     * @return \App\Models\File
+     * @return File
      * @throws Exception
      */
     public function findFileById(int $id): File

@@ -2,21 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Account;
 use App\Factory\InvoiceFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
-use App\Models\Product;
-use App\Models\RecurringInvoice;
-use App\Factory\RecurringInvoiceToInvoiceFactory;
+use App\Models\Account;
 use App\Models\Invoice;
-use Illuminate\Support\Carbon;
+use App\Models\Product;
 use App\Repositories\InvoiceRepository;
-use App\Services\Invoice\InvoiceService;
-use DateTime;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Exception;
-use App\Jobs\Cron\RecurringInvoicesCron;
+use Illuminate\Support\Carbon;
 
 /**
  * Class SendRecurringInvoices.
@@ -130,7 +123,7 @@ class CalculateCommission extends Command
 
     /**
      * @param Account $account
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param float $total_paid
      * @return Invoice
      */

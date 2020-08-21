@@ -2,15 +2,9 @@
 
 namespace App\Services\Invoice;
 
-use App\Events\Payment\PaymentWasCreated;
-use App\Factory\CreditFactory;
-use App\Factory\PaymentFactory;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\Payment;
-use App\Models\Paymentable;
-use App\Services\Payment\PaymentService;
 
 /**
  * Class CancelInvoice
@@ -31,7 +25,7 @@ class CancelInvoice
 
     /**
      * CancelInvoice constructor.
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {
@@ -40,7 +34,7 @@ class CancelInvoice
     }
 
     /**
-     * @return \App\Models\Invoice
+     * @return Invoice
      */
     public function execute(): Invoice
     {
@@ -66,7 +60,7 @@ class CancelInvoice
     }
 
     /**
-     * @return \App\Models\Invoice
+     * @return Invoice
      */
     private function updateInvoice(): Invoice
     {

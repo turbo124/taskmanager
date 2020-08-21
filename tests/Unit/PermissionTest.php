@@ -2,16 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Task;
-use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class PermissionTest extends TestCase
 {

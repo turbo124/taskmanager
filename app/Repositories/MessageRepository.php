@@ -8,11 +8,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Customer;
+use App\Models\Message;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
-use App\Models\Message;
-use App\Models\Customer;
-use App\Models\User;
 use Exception;
 
 /**
@@ -25,7 +25,7 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
 
     /**
      * MessageRepository constructor.
-     * @param \App\Models\Message $message
+     * @param Message $message
      */
     public function __construct(Message $message)
     {
@@ -38,7 +38,7 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
      *
      * @param array $data
      *
-     * @return \App\Models\Message
+     * @return Message
      */
     public function createMessage(array $data): Message
     {
@@ -58,8 +58,8 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
 
     /**
      *
-     * @param \App\Models\Customer $customer
-     * @param \App\Models\User $user
+     * @param Customer $customer
+     * @param User $user
      * @param type $blLastOnly
      * @return type
      */

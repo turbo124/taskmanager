@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\PaymentMethod;
 use Illuminate\Support\Collection;
 
 interface PaymentMethodRepositoryInterface

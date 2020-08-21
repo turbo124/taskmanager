@@ -2,20 +2,13 @@
 
 namespace App\Services\Order;
 
-use App\Events\Order\OrderWasBackordered;
-use App\Factory\CloneOrderToInvoiceFactory;
-use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\ProductAttribute;
-use App\Models\Quote;
-use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 
 class FulfilOrder
 {
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     private Order $order;
 
@@ -26,7 +19,7 @@ class FulfilOrder
 
     /**
      * FulfilOrder constructor.
-     * @param \App\Models\Order $order
+     * @param Order $order
      */
     public function __construct(Order $order, OrderRepository $order_repository)
     {

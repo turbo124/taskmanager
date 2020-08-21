@@ -32,7 +32,7 @@ class CustomerFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

@@ -11,14 +11,14 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * @param array $data
-     * @param \App\Models\Brand $brand
-     * @return \App\Models\Brand
+     * @param Brand $brand
+     * @return Brand
      */
     public function save(array $data, Brand $brand): Brand;
 
     /**
      * @param int $id
-     * @return \App\Models\Brand
+     * @return Brand
      */
     public function findBrandById(int $id): Brand;
 
@@ -36,7 +36,7 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
     public function listBrands($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection;
 
     /**
-     * @param \App\Models\Product $product
+     * @param Product $product
      * @return mixed
      */
     public function saveProduct(Product $product);

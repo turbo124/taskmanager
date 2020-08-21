@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use App\Transformations\ProjectTransformable;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectFilter extends QueryFilter
 {
@@ -27,8 +28,8 @@ class ProjectFilter extends QueryFilter
 
     /**
      * @param Request $request
-     * @param \App\Models\Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @param Account $account
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(Request $request, Account $account)
     {

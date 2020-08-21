@@ -2,24 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
-use App\Models\ClientContact;
 use App\Events\Quote\QuoteWasCreated;
 use App\Events\Quote\QuoteWasUpdated;
 use App\Filters\QuoteFilter;
 use App\Jobs\Order\QuoteOrders;
 use App\Jobs\Product\UpdateProductPrices;
-use App\Repositories\Base\BaseRepository;
+use App\Models\Account;
 use App\Models\Quote;
-use App\Requests\SearchRequest;
-use Exception;
-use Illuminate\Support\Collection;
-use App\Repositories\Interfaces\QuoteRepositoryInterface;
-use Illuminate\Http\Request;
 use App\Models\Task;
-use App\Models\QuoteInvitation;
-use App\Models\Customer;
-use App\Models\NumberGenerator;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\QuoteRepositoryInterface;
+use App\Requests\SearchRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class QuoteRepository
@@ -41,7 +35,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 
     /**
      * @param int $id
-     * @return \App\Models\Quote
+     * @return Quote
      */
     public function findQuoteById(int $id): Quote
     {
@@ -90,7 +84,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     /**
      * @param $data
      * @param Quote $quote
-     * @return \App\Models\Quote|null
+     * @return Quote|null
      */
     public function save($data, Quote $quote): ?Quote
     {
@@ -113,7 +107,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -122,7 +116,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 
     /**
      * @param Task $objTask
-     * @return \App\Models\Quote
+     * @return Quote
      */
     public function getQuoteForTask(Task $objTask): Quote
     {

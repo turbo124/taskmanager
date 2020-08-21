@@ -2,19 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\File;
-use App\Models\ProductFeature;
-use App\Models\Review;
-use App\Models\ProductAttribute;
+use App\Services\Product\ProductService;
 use App\Traits\ManageStock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Collection;
-use App\Models\Company;
-use App\Models\Category;
-use App\Models\ProductImage;
-use App\Services\Product\ProductService;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model

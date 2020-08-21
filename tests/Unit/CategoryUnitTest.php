@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
+use App\Factory\CategoryFactory;
 use App\Models\Account;
 use App\Models\Category;
-use App\Factory\CategoryFactory;
-use App\Repositories\CategoryRepository;
+use App\Models\Product;
 use App\Models\User;
+use App\Repositories\CategoryRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Product;
-use Illuminate\Support\Str;
 
 class CategoryUnitTest extends TestCase
 {
@@ -20,7 +20,7 @@ class CategoryUnitTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var \App\Models\Account
+     * @var Account
      */
     private Account $account;
 
@@ -83,7 +83,7 @@ class CategoryUnitTest extends TestCase
     public function it_errors_looking_for_the_category_if_the_slug_is_not_found()
     {
         $category = factory(Category::class)->create();
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->findCategoryBySlug('unknown', $this->account);
     }
@@ -166,7 +166,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_errors_finding_a_category()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $category = new CategoryRepository(new Category);
         $category->findCategoryById(999);
     }

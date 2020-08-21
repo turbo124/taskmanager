@@ -20,7 +20,7 @@ class InvoiceWasMarkedSent
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      */
     public function __construct(Invoice $invoice)
     {

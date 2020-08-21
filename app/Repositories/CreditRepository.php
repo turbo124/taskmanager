@@ -9,6 +9,7 @@ use App\Jobs\Inventory\ReverseInventory;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Requests\SearchRequest;
@@ -18,7 +19,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
 {
     /**
      * PaymentRepository constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Credit $credit)
     {
@@ -50,7 +51,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
 
     /**
      * @param array $data
-     * @param \App\Models\Credit $credit
+     * @param Credit $credit
      * @return Credit|null
      */
     public function updateCreditNote(array $data, Credit $credit): ?Credit
@@ -65,7 +66,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     /**
      * @param array $data
      * @param Credit $credit
-     * @return \App\Models\Credit|null
+     * @return Credit|null
      */
     public function save(array $data, Credit $credit): ?Credit
     {

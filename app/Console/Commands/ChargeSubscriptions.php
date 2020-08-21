@@ -2,18 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Factory\InvoiceFactory;
-use App\Helpers\InvoiceCalculator\LineItem;
-use App\Mail\Account\SubscriptionInvoice;
-use App\Models\Account;
 use App\Models\Domain;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rules\In;
 
 class ChargeSubscriptions extends Command
 {

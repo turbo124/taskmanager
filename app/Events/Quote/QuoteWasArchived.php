@@ -2,8 +2,8 @@
 
 namespace App\Events\Quote;
 
-use Illuminate\Queue\SerializesModels;
 use App\Models\Quote;
+use Illuminate\Queue\SerializesModels;
 
 class QuoteWasArchived
 {

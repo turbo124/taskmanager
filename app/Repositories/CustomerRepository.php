@@ -2,19 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
+use App\Factory\CustomerFactory;
 use App\Filters\CustomerFilter;
-use App\Models\NumberGenerator;
-use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\Base\BaseRepository;
+use App\Models\Account;
 use App\Models\Customer;
+use App\Models\NumberGenerator;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Requests\SearchRequest;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection as Support;
-use Illuminate\Database\Eloquent\Collection;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\Factory\CustomerFactory;
 
 /**
  * Description of CustomerRepository
@@ -26,7 +25,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * CustomerRepository constructor.
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      */
     public function __construct(Customer $customer)
     {
@@ -36,8 +35,8 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
-     * @return \Illuminate\Support\Collection
+     * @param Account $account
+     * @return Support
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -46,7 +45,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
     /**
      * @param int $id
-     * @return \App\Models\Customer
+     * @return Customer
      */
     public function findCustomerById(int $id): Customer
     {
@@ -108,7 +107,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     /**
      * @param array $data
      * @param Customer $customer
-     * @return \App\Models\Customer|null
+     * @return Customer|null
      * @throws Exception
      */
     public function save(array $data, Customer $customer): ?Customer

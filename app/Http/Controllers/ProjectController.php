@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Factory\ProjectFactory;
 use App\Filters\ProjectFilter;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\Customer;
 use App\Models\Project;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\ProjectRepository;
 use App\Requests\Project\CreateProjectRequest;
 use App\Requests\Project\UpdateProjectRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Transformations\ProjectTransformable;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -73,7 +73,7 @@ class ProjectController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show($id)
     {

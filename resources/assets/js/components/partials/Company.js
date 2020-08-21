@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
+import { ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import PaymentModel from '../models/PaymentModel'
@@ -45,7 +45,9 @@ export default class Company extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         const fields = []
@@ -130,7 +132,7 @@ export default class Company extends Component {
 
                         {this.props.entity.private_notes.length &&
                         <Row>
-                            <InfoMessage message={this.props.entity.private_notes} />
+                            <InfoMessage message={this.props.entity.private_notes}/>
                         </Row>
                         }
 

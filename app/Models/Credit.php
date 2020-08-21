@@ -2,29 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\CreditInvitation;
-use App\Models\Customer;
-use App\Models\Email;
-use App\Models\File;
-use App\Filters\CreditFilter;
-use App\Models\Invoice;
-use App\Models\Account;
-use App\Models\Audit;
-use App\Models\Transaction;
-use App\Models\User;
-use App\Models\Notification;
-use App\Models\Payment;
 use App\Services\Credit\CreditService;
 use App\Services\Transaction\TransactionService;
 use App\Traits\Balancer;
+use App\Traits\Money;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
-use App\Models\NumberGenerator;
-use App\Traits\Money;
 
 class Credit extends Model
 {

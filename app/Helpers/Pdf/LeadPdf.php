@@ -5,6 +5,9 @@ namespace App\Helpers\Pdf;
 
 
 use App\Models\Lead;
+use Laracasts\Presenter\Exceptions\PresenterException;
+use ReflectionClass;
+use ReflectionException;
 
 class LeadPdf extends PdfBuilder
 {
@@ -13,13 +16,13 @@ class LeadPdf extends PdfBuilder
     /**
      * InvoicePdf constructor.
      * @param $entity
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct($entity)
     {
         parent::__construct($entity);
         $this->entity = $entity;
-        $this->class = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
     }
 
     public function build($contact = null)
@@ -42,9 +45,9 @@ class LeadPdf extends PdfBuilder
     }
 
     /**
-     * @param \App\Models\Lead $lead
+     * @param Lead $lead
      * @return $this
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     * @throws PresenterException
      */
     private function buildClientForLead(Lead $lead): self
     {

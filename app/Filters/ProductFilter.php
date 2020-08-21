@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use App\Models\Account;
 use App\Models\Product;
-use App\Models\Task;
 use App\Repositories\ProductRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\ProductTransformable;

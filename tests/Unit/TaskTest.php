@@ -4,21 +4,20 @@ namespace Tests\Unit;
 
 use App\Factory\TaskFactory;
 use App\Filters\TaskFilter;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Models\Project;
-use App\Repositories\ProjectRepository;
-use App\Requests\SearchRequest;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Account;
-use App\Models\Product;
-use App\Models\Customer;
+use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TaskTest extends TestCase
 {
@@ -155,7 +154,7 @@ class TaskTest extends TestCase
      */
     public function it_errors_creating_the_task_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $task = new TaskRepository(new Task, new ProjectRepository(new Project));
         $task->createTask([]);
     }
@@ -163,7 +162,7 @@ class TaskTest extends TestCase
     /** @test */
     public function it_errors_finding_a_task()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $task = new TaskRepository(new Task, new ProjectRepository(new Project));
         $task->findTaskById(999);
     }

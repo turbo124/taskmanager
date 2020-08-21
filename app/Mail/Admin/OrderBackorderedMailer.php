@@ -12,13 +12,13 @@ class OrderBackorderedMailer extends AdminMailer
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     private Order $order;
 
     /**
      * OrderCreated constructor.
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @param User $user
      */
     public function __construct(Order $order, User $user)

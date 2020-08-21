@@ -58,6 +58,7 @@ class CreateCreditsTable extends Migration {
 			$table->dateTime('date_reminder_last_sent')->nullable();
 			$table->integer('currency_id')->nullable();
 			$table->decimal('exchange_rate', 12)->default(0.00);
+			$table->boolean('gateway_fee_applied')->default(0);
 			$table->unique(['account_id','number']);
 		});
 	}

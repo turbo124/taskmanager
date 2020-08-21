@@ -13,7 +13,7 @@ class QuoteToRecurringQuoteFactory
 {
     /**
      * @param Quote $quote
-     * @return \App\Models\RecurringQuote
+     * @return RecurringQuote
      */
     public static function create(Quote $quote): RecurringQuote
     {

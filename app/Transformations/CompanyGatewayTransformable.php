@@ -30,7 +30,7 @@ trait CompanyGatewayTransformable
     }
 
     /**
-     * @param \App\Models\Gateway $gateway
+     * @param Gateway $gateway
      * @return array
      */
     public function transformGateway(Gateway $gateway)

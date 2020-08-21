@@ -3,14 +3,12 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
-use App\Models\Invoice;
-use App\Requests\SearchRequest;
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Project;
-use Illuminate\Support\Collection as Support;
-use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\Base\BaseRepositoryInterface;
+use App\Requests\SearchRequest;
+use Illuminate\Support\Collection as Support;
 
 interface TaskRepositoryInterface extends BaseRepositoryInterface
 {

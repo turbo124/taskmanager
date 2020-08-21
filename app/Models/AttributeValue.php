@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models;
-use App\Models\Attribute;
-use App\Models\ProductAttribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class AttributeValue extends Model
 {
@@ -14,7 +14,7 @@ class AttributeValue extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function attribute()
     {
@@ -22,7 +22,7 @@ class AttributeValue extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function productAttributes()
     {

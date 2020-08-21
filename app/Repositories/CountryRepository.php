@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Models\Country;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
-use App\Models\Country;
 use Illuminate\Support\Collection;
 
 class CountryRepository extends BaseRepository implements CountryRepositoryInterface
 {
     /**
      * CountryRepository constructor.
-     * @param \App\Models\Country $country
+     * @param Country $country
      */
     public function __construct(Country $country)
     {

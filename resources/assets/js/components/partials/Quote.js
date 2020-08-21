@@ -7,8 +7,6 @@ import {
     CardHeader,
     Col,
     ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
     Nav,
     NavItem,
     NavLink,
@@ -112,7 +110,9 @@ export default class Quote extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         const fields = []
@@ -213,12 +213,13 @@ export default class Quote extends Component {
 
                         {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <InfoMessage message={this.props.entity.private_notes} />
+                            <InfoMessage message={this.props.entity.private_notes}/>
                         </Row>
                         }
 
                         <Row>
-                            <EntityListTile entity={translations.customer} title={customer[0].name} icon={icons.customer} />
+                            <EntityListTile entity={translations.customer} title={customer[0].name}
+                                icon={icons.customer}/>
                         </Row>
 
                         {!!user &&

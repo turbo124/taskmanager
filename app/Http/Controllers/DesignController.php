@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Design;
 use App\Factory\DesignFactory;
 use App\Filters\DesignFilter;
+use App\Models\Design;
 use App\Repositories\DesignRepository;
 use App\Requests\Design\StoreDesignRequest;
 use App\Requests\Design\UpdateDesignRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\DesignTransformable;
+use Exception;
 
 /**
  * Class DesignController
@@ -105,7 +106,7 @@ class DesignController extends Controller
     /**
      * @param int $id
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(int $id)
     {

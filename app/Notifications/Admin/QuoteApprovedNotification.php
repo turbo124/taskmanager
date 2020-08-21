@@ -6,8 +6,8 @@ use App\Mail\Admin\QuoteApproved;
 use App\Models\Quote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class QuoteApprovedNotification extends Notification implements ShouldQueue
 {

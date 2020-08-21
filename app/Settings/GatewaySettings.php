@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Models\CompanyGateway;
+use Exception;
 
 class GatewaySettings extends BaseSettings
 {
@@ -35,7 +36,7 @@ class GatewaySettings extends BaseSettings
             }
 
             return $company_gateway;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here');
         }

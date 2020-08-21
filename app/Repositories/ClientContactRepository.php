@@ -2,15 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Customer;
-use App\Models\ClientContact;
 use App\Factory\ClientContactFactory;
-use App\Helpers\Arrays;
-use App\Models\InvoiceInvitation;
+use App\Models\ClientContact;
+use App\Models\Customer;
 use App\Repositories\Base\BaseRepository;
-use http\Client;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * ClientContactRepository

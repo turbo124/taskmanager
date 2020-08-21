@@ -3,9 +3,9 @@
 namespace App\Filters;
 
 use App\Models\Account;
+use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
-use App\Models\Invoice;
 use App\Transformations\InvoiceTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -29,7 +29,7 @@ class InvoiceFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

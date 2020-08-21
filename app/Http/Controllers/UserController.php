@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\UserFilter;
-use App\Factory\UserFactory;
-use App\Jobs\User\CreateUser;
-use App\Models\User;
 use App\Events\User\UserWasCreated;
-use Illuminate\Http\Request;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Factory\UserFactory;
+use App\Filters\UserFilter;
+use App\Jobs\User\CreateUser;
+use App\Models\Department;
+use App\Models\User;
+use App\Repositories\DepartmentRepository;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
+use App\Requests\SearchRequest;
 use App\Requests\User\CreateUserRequest;
 use App\Requests\User\UpdateUserRequest;
-use App\Repositories\UserRepository;
 use App\Transformations\UserTransformable;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
-use App\Repositories\DepartmentRepository;
-use App\Models\Department;
-use App\Requests\SearchRequest;
 
 /**
  * Class UserController
@@ -52,7 +53,7 @@ class UserController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -83,7 +84,7 @@ class UserController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function edit(int $id)
     {
@@ -121,7 +122,7 @@ class UserController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {
@@ -133,7 +134,7 @@ class UserController extends Controller
     /**
      * @param UpdateUserRequest $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateUserRequest $request, int $id)
     {
@@ -160,7 +161,7 @@ class UserController extends Controller
 
     /**
      * @param string $username
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function profile(string $username)
     {
@@ -180,7 +181,7 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function bulk()
     {

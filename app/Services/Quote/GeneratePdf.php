@@ -2,11 +2,11 @@
 
 namespace App\Services\Quote;
 
-use App\Models\ClientContact;
-use App\Models\Design;
 use App\Designs\PdfColumns;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
+use App\Models\ClientContact;
+use App\Models\Design;
 use App\Models\Quote;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +15,7 @@ class GeneratePdf
     private $contact;
 
     /**
-     * @var \App\Models\Quote
+     * @var Quote
      */
     private Quote $quote;
 
@@ -27,7 +27,7 @@ class GeneratePdf
     /**
      * GeneratePdf constructor.
      * @param Quote $quote
-     * @param \App\Models\ClientContact|null $contact
+     * @param ClientContact|null $contact
      * @param bool $update
      */
     public function __construct(Quote $quote, ClientContact $contact = null, $update = false)

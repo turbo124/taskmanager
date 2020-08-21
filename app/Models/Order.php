@@ -9,24 +9,13 @@
 namespace App\Models;
 
 
-use App\Models\Account;
-use App\Models\Audit;
-use App\Models\Customer;
-use App\Models\Email;
-use App\Models\File;
-use App\Models\Notification;
-use App\Models\Product;
-use App\Models\User;
-use App\Models\OrderInvitation;
 use App\Services\Order\OrderService;
 use App\Traits\Balancer;
+use App\Traits\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
-use App\Models\NumberGenerator;
-use App\Traits\Money;
 
 /**
  * Class Order

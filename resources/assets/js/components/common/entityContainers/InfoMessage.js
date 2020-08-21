@@ -7,7 +7,7 @@ export default function InfoMessage (props) {
     const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'primary'
 
     return <Alert className={`col-12 mt-2 ${text_color}`} color={bg_color}>
-        <i style={{ fontSize: '16px' }} className={`fa ${icons.info} mr-2`} />
+        <i style={{ fontSize: '16px' }} className={`fa ${icons.info} mr-2`}/>
         {props.message}
     </Alert>
 }

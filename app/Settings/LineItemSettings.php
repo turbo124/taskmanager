@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Helpers\InvoiceCalculator\LineItem;
+use Exception;
 
 class LineItemSettings extends BaseSettings
 {
@@ -60,7 +61,7 @@ class LineItemSettings extends BaseSettings
             }
 
             return $formatted_items;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here');
         }

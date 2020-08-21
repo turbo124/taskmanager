@@ -14,7 +14,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     private Payment $payment;
 
@@ -25,7 +25,7 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
 
     /**
      * NewPartialPaymentNotification constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param string $message_type
      */
     public function __construct(Payment $payment, $message_type = '')

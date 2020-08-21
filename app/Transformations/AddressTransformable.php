@@ -3,10 +3,6 @@
 namespace App\Transformations;
 
 use App\Models\Address;
-use App\Models\ClientContact;
-use App\Models\Customer;
-use App\Repositories\ClientContactRepository;
-use App\Repositories\CustomerRepository;
 
 class AddressTransformable
 {

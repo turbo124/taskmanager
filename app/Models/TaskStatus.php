@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Task;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\TaskType;
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class TaskStatus extends Model
 {

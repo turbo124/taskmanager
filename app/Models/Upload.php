@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Account;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Upload extends Model

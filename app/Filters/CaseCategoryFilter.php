@@ -4,12 +4,10 @@ namespace App\Filters;
 
 use App\Models\Account;
 use App\Models\CaseCategory;
-use App\Models\Cases;
 use App\Repositories\CaseCategoryRepository;
-use App\Repositories\CaseRepository;
-use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CaseCategoryTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -38,7 +36,7 @@ class CaseCategoryFilter extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

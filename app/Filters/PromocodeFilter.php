@@ -3,7 +3,6 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Credit;
 use App\Models\Promocode;
 use App\Repositories\PromocodeRepository;
 use App\Requests\SearchRequest;

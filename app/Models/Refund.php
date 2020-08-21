@@ -2,14 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\Payment\PaymentWasRefunded;
-use App\Events\Credit\CreditWasCreated;
-use App\Factory\CreditFactory;
-use App\Factory\NotificationFactory;
-use App\Helpers\InvoiceCalculator\LineItem;
-use App\Models\Payment;
 use App\Repositories\CreditRepository;
-use Omnipay\Omnipay;
 
 class Refund
 {

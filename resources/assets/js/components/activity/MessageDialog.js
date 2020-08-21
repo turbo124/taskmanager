@@ -1,8 +1,5 @@
 import * as React from 'react'
-import {
-    Card,
-    CardBody
-} from 'reactstrap'
+import { Card, CardBody } from 'reactstrap'
 
 class MessageDialog extends React.Component {
     constructor (props) {
@@ -31,10 +28,12 @@ class MessageDialog extends React.Component {
                     <form className="form-horizontal" role="form">
                         <h4>What's New</h4>
                         <div className="form-group p-2">
-                            <textarea value={this.props.message} className="form-control" placeholder="Update your status"
+                            <textarea value={this.props.message} className="form-control"
+                                placeholder="Update your status"
                                 onChange={this.onChange}/>
                         </div>
-                        <button onClick={() => submitMessage(messageText, mode)} className="btn btn-primary pull-right"
+                        <button onClick={() => submitMessage(messageText, mode)}
+                            className="btn btn-primary pull-right"
                             type="button">Post
                         </button>
                         <ul className="list-inline">

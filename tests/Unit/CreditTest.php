@@ -2,22 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Models\Account;
-use App\Models\Credit;
 use App\Factory\CreditFactory;
 use App\Filters\CreditFilter;
-use App\Filters\InvoiceFilter;
+use App\Models\Account;
+use App\Models\Credit;
+use App\Models\Customer;
+use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Requests\SearchRequest;
-use Tests\TestCase;
-use App\Models\Invoice;
-use App\Models\User;
-use App\Models\Customer;
-use App\Repositories\InvoiceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Factory\InvoiceFactory;
+use Tests\TestCase;
 
 /**
  * Description of InvoiceTest

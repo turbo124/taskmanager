@@ -2,7 +2,6 @@
 
 namespace App\Rules\Order;
 
-use App\Models\Product;
 use App\Models\Promocode;
 use Illuminate\Contracts\Validation\Rule;
 

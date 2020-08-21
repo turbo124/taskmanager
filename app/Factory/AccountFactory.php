@@ -5,7 +5,6 @@ namespace App\Factory;
 
 use App\Models\Account;
 use App\Settings\AccountSettings;
-use Illuminate\Support\Str;
 
 class AccountFactory
 {

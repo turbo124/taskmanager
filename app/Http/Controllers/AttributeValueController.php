@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttributeValue;
-use App\Http\Controllers\Controller;
 use App\Repositories\AttributeRepository;
 use App\Repositories\AttributeValueRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class AttributeValueController extends Controller
 {
@@ -33,7 +34,7 @@ class AttributeValueController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -55,7 +56,7 @@ class AttributeValueController extends Controller
     /**
      * @param CreateAttributeValueRequest $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     function store(CreateAttributeValueRequest $request, $id)
     {
@@ -73,7 +74,7 @@ class AttributeValueController extends Controller
     /**
      * @param $attributeId
      * @param $attributeValueId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy($attribute_id, $attribute_value_id)
     {

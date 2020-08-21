@@ -2,15 +2,15 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Task;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\File;
+use App\Models\Task;
+use App\Models\User;
 use App\Repositories\FileRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class FileTest extends TestCase
 {
@@ -86,7 +86,7 @@ class FileTest extends TestCase
      */
     public function it_errors_creating_the_file_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $product = new FileRepository(new File);
         $product->createFile([]);
     }
@@ -94,7 +94,7 @@ class FileTest extends TestCase
     /** @test */
     public function it_errors_finding_a_file()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $file = new FileRepository(new File);
         $file->findFileById(999);
     }

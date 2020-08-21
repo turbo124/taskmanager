@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Company;
-use App\Factory\ExpenseFactory;
 use App\Models\Expense;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Http\Request;
 
 /**
  * ExpenseRepository
@@ -16,7 +13,7 @@ class ExpenseRepository extends BaseRepository
 
     /**
      * ExpenseRepository constructor.
-     * @param \App\Models\Expense $expense
+     * @param Expense $expense
      */
     public function __construct(Expense $expense)
     {
@@ -31,7 +28,7 @@ class ExpenseRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return \App\Models\Expense
+     * @return Expense
      */
     public function findExpenseById(int $id): Expense
     {

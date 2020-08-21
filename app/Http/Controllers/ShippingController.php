@@ -4,11 +4,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Customer;
 use App\Helpers\Shipping\ShippoShipment;
-use App\Models\Order;
+use App\Models\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ShippingController
 {

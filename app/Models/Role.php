@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\SearchableTrait;
 use App\type;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Permission;
-use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model

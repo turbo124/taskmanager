@@ -2,10 +2,9 @@
 
 namespace App\Services\Lead;
 
-use App\Models\Lead;
 use App\Jobs\Email\SendEmail;
+use App\Models\Lead;
 use App\Traits\MakesInvoiceHtml;
-use Illuminate\Support\Carbon;
 
 class LeadEmail
 {
@@ -25,7 +24,7 @@ class LeadEmail
 
     /**
      * LeadEmail constructor.
-     * @param \App\Models\Lead $lead
+     * @param Lead $lead
      * @param string $subject
      * @param string $body
      */

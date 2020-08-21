@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use App\Factory\EventFactory;
 use App\Filters\EventFilter;
+use App\Models\Event;
+use App\Models\EventType;
+use App\Models\Task;
+use App\Models\User;
 use App\Notifications\EventCreated;
-use App\Requests\SearchRequest;
-use Exception;
-use Illuminate\Http\Request;
+use App\Repositories\EventTypeRepository;
+use App\Repositories\Interfaces\EventRepositoryInterface;
+use App\Repositories\TaskRepository;
+use App\Repositories\UserRepository;
 use App\Requests\Event\CreateEventRequest;
 use App\Requests\Event\UpdateEventRequest;
-use App\Repositories\Interfaces\EventRepositoryInterface;
+use App\Requests\SearchRequest;
 use App\Transformations\EventTransformable;
-use App\Repositories\TaskRepository;
-use App\Models\Task;
-use App\Repositories\UserRepository;
-use App\Models\User;
-use App\Repositories\EventTypeRepository;
-use App\Models\EventType;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 

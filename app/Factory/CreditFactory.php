@@ -2,12 +2,10 @@
 
 namespace App\Factory;
 
-use App\Models\Credit;
 use App\Models\Account;
-use App\Models\User;
+use App\Models\Credit;
 use App\Models\Customer;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
+use App\Models\User;
 
 class CreditFactory
 {

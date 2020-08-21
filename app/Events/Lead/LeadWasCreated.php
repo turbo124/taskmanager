@@ -2,7 +2,6 @@
 
 namespace App\Events\Lead;
 
-use App\Models\Account;
 use App\Models\Lead;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;

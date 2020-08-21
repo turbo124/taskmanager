@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use App\Helpers\Promocodes\Promocodes;
 use App\Models\Account;
 use App\Models\Customer;
-use App\Helpers\Promocodes\Promocodes;
 use App\Models\Order;
 use App\Models\Promocode;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
@@ -19,7 +20,7 @@ class PromocodeTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var User|\Illuminate\Database\Eloquent\Collection|Model|mixed
      */
     private User $user;
 
@@ -29,12 +30,12 @@ class PromocodeTest extends TestCase
     private Account $account;
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     private Order $order;
 
     /**
-     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var Customer|\Illuminate\Database\Eloquent\Collection|Model|mixed
      */
     private Customer $customer;
 

@@ -3,12 +3,11 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\CaseCategory;
 use App\Models\Category;
-use App\Repositories\CaseCategoryRepository;
 use App\Repositories\CategoryRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CategoryTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class CategoryFilter
@@ -37,8 +36,8 @@ class CategoryFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @param Account $account
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

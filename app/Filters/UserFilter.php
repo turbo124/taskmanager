@@ -3,10 +3,10 @@
 namespace App\Filters;
 
 use App\Models\Account;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\UserTransformable;
-use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserFilter extends QueryFilter

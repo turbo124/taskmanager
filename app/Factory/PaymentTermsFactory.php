@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use App\Models\Group;
 use App\Models\Account;
 use App\Models\PaymentTerms;
 use App\Models\User;

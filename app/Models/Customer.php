@@ -2,28 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\File;
-use App\Models\Group;
-use App\Models\Language;
-use App\Models\Message;
-use App\Models\Account;
-use App\Models\Address;
-use App\Models\ClientContact;
-use App\Models\Company;
-use App\Models\Country;
-use App\Models\Credit;
-use App\Models\Currency;
-use App\Models\Transaction;
-use App\Models\User;
-use App\Models\PaymentMethod;
 use App\Traits\Balancer;
-use Exception;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Illuminate\Contracts\Translation\HasLocalePreference;
 
 class Customer extends Model implements HasLocalePreference
 {

@@ -2,26 +2,14 @@
 
 namespace App\Models;
 
-use App\Models;
-use App\Models\Account;
-use App\Models\Credit;
-use App\Models\File;
-use App\Models\NumberGenerator;
-use App\Models\Transaction;
-use App\Models\User;
+use App\Events\Payment\PaymentWasDeleted;
 use App\Services\Payment\PaymentService;
 use App\Services\Transaction\TransactionService;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\PaymentMethod;
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\Paymentable;
-use App\Events\Payment\PaymentWasDeleted;
-use Laracasts\Presenter\PresentableTrait;
 use App\Traits\Money;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Payment extends Model
 {
@@ -145,7 +133,7 @@ class Payment extends Model
     }
 
     /**
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param float|null $amount
      * @return $this
      */

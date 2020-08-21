@@ -3,10 +3,9 @@
 namespace App\Rules\Refund;
 
 use App\Models\Credit;
-use Illuminate\Contracts\Validation\Rule;
-use App\Models\Invoice;
-use App\Models\Paymentable;
 use App\Models\Payment;
+use App\Models\Paymentable;
+use Illuminate\Contracts\Validation\Rule;
 
 class CreditRefundValidation implements Rule
 {

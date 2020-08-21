@@ -3,7 +3,6 @@
 namespace App\Jobs\Product;
 
 use App\Models\Product;
-use App\Models\ProductAttribute;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;

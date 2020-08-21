@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Currency;
 use App\Helpers\Currency\CurrencyConverter;
+use App\Models\Currency;
 use Illuminate\Console\Command;
 
 /**

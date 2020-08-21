@@ -1818,7 +1818,9 @@ export default class Dashboard extends Component {
                     <div className="topbar pl-0 dashboard-tabs">
                         <Card>
                             <CardBody className="pb-0">
-                                <Nav className="tabs-justify disable-scrollbars nav-fill setting-tabs disable-scrollbars" tabs>
+                                <Nav
+                                    className="tabs-justify disable-scrollbars nav-fill setting-tabs disable-scrollbars"
+                                    tabs>
                                     <NavItem>
                                         <NavLink
                                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -1892,16 +1894,15 @@ export default class Dashboard extends Component {
                                         <i className={`ml-4 mt-2 fa ${icons.left}`}/>
                                         <i className={`mt-2 fa ${icons.right}`}/>
                                         <MonthPicker start_year={moment(this.state.start_date).format('YYYY')}
-                                                     start_month={moment(this.state.start_date).format('M')}
-                                                     end_year={moment(this.state.end_date).format('YYYY')}
-                                                     end_month={moment(this.state.end_date).format('M')}
-                                                     onChange={this.setDates}/>
+                                            start_month={moment(this.state.start_date).format('M')}
+                                            end_year={moment(this.state.end_date).format('YYYY')}
+                                            end_month={moment(this.state.end_date).format('M')}
+                                            onChange={this.setDates}/>
                                     </Col>
                                 </Row>
                             </CardBody>
                         </Card>
                     </div>
-
 
                     <TabContent className="dashboard-tabs-margin" activeTab={this.state.activeTab}>
                         <TabPane className="pr-0" tabId="1">

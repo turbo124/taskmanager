@@ -6,7 +6,6 @@ use App\Notifications\Admin\NewLeadNotification;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Queue\InteractsWithQueue;
 
 class LeadNotification implements ShouldQueue
 {

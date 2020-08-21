@@ -10,14 +10,14 @@ class CreditWasCreated
     use SerializesModels;
 
     /**
-     * @var \App\Models\Credit
+     * @var Credit
      */
     public $credit;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Credit $credit
+     * @param Credit $credit
      */
     public function __construct(Credit $credit)
     {

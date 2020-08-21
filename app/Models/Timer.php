@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Timer extends Model
@@ -34,7 +34,7 @@ class Timer extends Model
     /**
      * Get the related user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -44,7 +44,7 @@ class Timer extends Model
     /**
      * Get the related project
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function task()
     {
@@ -54,8 +54,8 @@ class Timer extends Model
     /**
      * Get timer for current user.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeMine($query)
     {
@@ -65,8 +65,8 @@ class Timer extends Model
     /**
      * Get the running timers
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeRunning($query)
     {

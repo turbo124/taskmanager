@@ -3,9 +3,8 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Company;
-use App\Repositories\Base\BaseRepositoryInterface;
-use App\Models\Brand;
 use App\Models\Product;
+use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
 
 interface CompanyRepositoryInterface extends BaseRepositoryInterface

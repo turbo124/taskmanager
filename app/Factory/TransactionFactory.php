@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Models\Transaction;
 use App\Models\Account;
+use App\Models\Transaction;
 use App\Models\User;
 
 class TransactionFactory

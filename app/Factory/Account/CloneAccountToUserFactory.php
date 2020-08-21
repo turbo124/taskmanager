@@ -2,15 +2,15 @@
 
 namespace App\Factory\Account;
 
-use App\Models\User;
 use App\Models\Account;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class CloneAccountToUserFactory
 {
     /**
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return User
      */
     public static function create(Account $account): User

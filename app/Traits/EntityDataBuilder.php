@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Requests\SearchRequest;
+use ReflectionClass;
 
 trait EntityDataBuilder
 {
@@ -18,7 +19,7 @@ trait EntityDataBuilder
 
     public function setEntity($entity_class)
     {
-        $this->entity_string = (new \ReflectionClass($entity_class))->getShortName();
+        $this->entity_string = (new ReflectionClass($entity_class))->getShortName();
         $this->entity_class = $entity_class;
     }
 

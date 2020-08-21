@@ -17,7 +17,7 @@ class TaskCreated extends AdminMailer
     /**
      * TaskCreated constructor.
      * @param Task $task
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(Task $task, User $user)
     {

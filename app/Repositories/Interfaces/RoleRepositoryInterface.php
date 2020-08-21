@@ -2,9 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Permission;
-use App\Models\Role;
+use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
 
 interface RoleRepositoryInterface extends BaseRepositoryInterface
@@ -30,7 +29,7 @@ interface RoleRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param \App\Models\Permission $permission
+     * @param Permission $permission
      */
     public function attachToPermission(Permission $permission);
 

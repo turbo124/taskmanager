@@ -3,22 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\Email;
-use App\Models\Event;
-use App\Models\Notification;
-use App\Repositories\Interfaces\EventRepositoryInterface;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use Exception;
 use Illuminate\Support\Collection;
-use App\Repositories\UserRepository;
-use App\Models\User;
-use App\Models\Task;
 
 class EmailRepository extends BaseRepository
 {
 
     /**
      * EmailRepository constructor.
-     * @param \App\Models\Email $email
+     * @param Email $email
      */
     public function __construct(Email $email)
     {
@@ -34,7 +29,7 @@ class EmailRepository extends BaseRepository
     /**
      * @param int $id
      *
-     * @return \App\Models\User
+     * @return User
      * @throws Exception
      */
     public function findEmailById(int $id): Email

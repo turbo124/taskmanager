@@ -2,11 +2,10 @@
 
 namespace App\Helpers\Refund;
 
-use App\Models\Credit;
-use App\Models\Customer;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Factory\CreditFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\CreditRepository;
@@ -25,7 +24,7 @@ class BaseRefund
     protected array $line_items;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     protected Payment $payment;
 
@@ -66,7 +65,9 @@ class BaseRefund
 
     private function setStatus()
     {
-        $status = (float)abs($this->payment->refunded) === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $status = (float)abs(
+            $this->payment->refunded
+        ) === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
 
         $this->payment->setStatus($status);
     }
@@ -94,7 +95,7 @@ class BaseRefund
 
     /**
      * @param float $amount
-     * @param \App\Models\Invoice|null $invoice
+     * @param Invoice|null $invoice
      */
     protected function createLineItem(float $amount, Invoice $invoice = null)
     {
@@ -180,7 +181,7 @@ class BaseRefund
 
     protected function completeCreditRefund()
     {
-        if(!empty($this->data['invoices'])) {
+        if (!empty($this->data['invoices'])) {
             return false;
         }
 

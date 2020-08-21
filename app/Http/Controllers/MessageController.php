@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Requests\CreateMessageRequest;
-use App\Repositories\Interfaces\MessageRepositoryInterface;
-use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Transformations\MessageUserTransformable;
-use App\Transformations\MessageTransformable;
 use App\Models\Customer;
 use App\Models\Message;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Repositories\Interfaces\MessageRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Requests\CreateMessageRequest;
+use App\Transformations\MessageTransformable;
+use App\Transformations\MessageUserTransformable;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 

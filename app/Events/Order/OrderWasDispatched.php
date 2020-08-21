@@ -3,10 +3,10 @@
 namespace App\Events\Order;
 
 use App\Models\Order;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class InvoiceWasMarkedSent.

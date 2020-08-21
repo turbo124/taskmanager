@@ -2,29 +2,20 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
-use App\Models\Customer;
 use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasUpdated;
 use App\Filters\InvoiceFilter;
 use App\Jobs\Order\InvoiceOrders;
-use App\Models\NumberGenerator;
-use App\Factory\InvoiceInvitationFactory;
+use App\Models\Account;
 use App\Models\Invoice;
-use App\Models\ClientContact;
-use App\Models\InvoiceInvitation;
-use App\Repositories\Interfaces\InvoiceRepositoryInterface;
+use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
-use App\Repositories\PaymentRepository;
-use App\Models\Payment;
-use App\Factory\InvoiceToPaymentFactory;
+use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Requests\SearchRequest;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Jobs\Inventory\UpdateInventory;
-use App\Models\Task;
-use Illuminate\Support\Facades\DB;
 
 class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
 {
@@ -52,8 +43,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
-     * @return InvoiceFilter|\Illuminate\Pagination\LengthAwarePaginator
+     * @param Account $account
+     * @return InvoiceFilter|LengthAwarePaginator
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -66,7 +57,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     }
 
     /**
-     * @param \App\Models\Task $objTask
+     * @param Task $objTask
      * @return Collection
      */
     public function getInvoiceForTask(Task $objTask): Invoice
@@ -103,7 +94,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
         InvoiceOrders::dispatchNow($invoice);
 
-        if(!empty($data['recurring'])) {
+        if (!empty($data['recurring'])) {
             $recurring = json_decode($data['recurring'], true);
             $invoice->service()->createRecurringInvoice($recurring);
         }

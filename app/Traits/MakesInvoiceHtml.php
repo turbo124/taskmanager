@@ -3,14 +3,9 @@
 namespace App\Traits;
 
 use App\Designs\PdfColumns;
-use Exception;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\File;
-use Illuminate\View\Factory;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
-use Throwable;
-use Illuminate\Support\Facades\Storage;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class MakesInvoiceHtml.
@@ -75,7 +70,7 @@ trait MakesInvoiceHtml
      * @param $entity
      * @param $contact
      * @return string|null
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function getClientSignature($entity, $contact = null): ?string
     {
@@ -83,7 +78,7 @@ trait MakesInvoiceHtml
             return null;
         }
 
-        $invitation_class = 'App\Models\\' . (new \ReflectionClass($entity))->getShortName() . 'Invitation';
+        $invitation_class = 'App\Models\\' . (new ReflectionClass($entity))->getShortName() . 'Invitation';
 
         $invitations = $invitation_class::all();
 

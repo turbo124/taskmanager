@@ -3,19 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\Account;
-use App\Factory\CategoryFactory;
-use App\Repositories\Base\BaseRepository;
 use App\Models\Category;
+use App\Models\Product;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Transformations\ProductTransformable;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Models\Product;
-use App\Transformations\ProductTransformable;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
@@ -25,7 +22,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * CategoryRepository constructor.
-     * @param \App\Models\Category $category
+     * @param Category $category
      */
     public function __construct(Category $category)
     {
@@ -75,7 +72,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     /**
      * @param array $params
      * @param Account $account
-     * @return \App\Models\Category
+     * @return Category
      */
     public function createCategory(array $params, Category $category): Category
     {
@@ -112,7 +109,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      *
      * @param array $params
      *
-     * @return \App\Models\Category
+     * @return Category
      */
     public function updateCategory(array $params, Category $category): Category
     {
@@ -147,7 +144,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * @param int $id
-     * @return \App\Models\Category
+     * @return Category
      */
     public function findCategoryById(int $id): Category
     {
@@ -215,8 +212,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * @param string $slug
-     * @param \App\Models\Account $account
-     * @return \App\Models\Category
+     * @param Account $account
+     * @return Category
      */
     public function findCategoryBySlug(string $slug, Account $account): Category
     {

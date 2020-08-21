@@ -2,12 +2,8 @@
 
 namespace App\Helpers\Payment;
 
-use App\Events\Payment\PaymentWasRefunded;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Paymentable;
-use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
 class InvoicePayment extends BasePaymentProcessor
@@ -20,7 +16,7 @@ class InvoicePayment extends BasePaymentProcessor
     /**
      * InvoicePayment constructor.
      * @param array $data
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param PaymentRepository $payment_repo
      */
     public function __construct(array $data, Payment $payment, PaymentRepository $payment_repo)

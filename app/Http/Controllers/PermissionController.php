@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\PermissionRepository;
-use App\Transformations\PermissionTransformable;
 use App\Models\Permission;
+use App\Repositories\PermissionRepository;
 use App\Requests\CreatePermissionRequest;
-use App\Requests\UpdatePermissionRequest;
 use App\Requests\SearchRequest;
+use App\Requests\UpdatePermissionRequest;
+use App\Transformations\PermissionTransformable;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;

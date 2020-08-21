@@ -2,29 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Events\Misc\InvitationWasViewed;
-use App\Events\Order\OrderWasCreated;
-use App\Events\Order\OrderWasUpdated;
-use App\Factory\CloneOrderToInvoiceFactory;
-use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\OrderFactory;
-use App\Filters\InvoiceFilter;
 use App\Filters\OrderFilter;
-use App\Models\Invoice;
+use App\Models\Customer;
 use App\Models\Order;
-use App\Models\Quote;
 use App\Repositories\CreditRepository;
-use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\Order\CreateOrderRequest;
 use App\Requests\Order\UpdateOrderRequest;
 use App\Requests\SearchRequest;
-use Illuminate\Http\Request;
 use App\Transformations\OrderTransformable;
-use Illuminate\Support\Facades\Storage;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class OrderController extends BaseController
 {
@@ -60,7 +52,7 @@ class OrderController extends BaseController
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -72,8 +64,8 @@ class OrderController extends BaseController
     /**
      * @param int $id
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function update(int $id, UpdateOrderRequest $request)
     {
@@ -84,7 +76,7 @@ class OrderController extends BaseController
 
     /**
      * @param CreateOrderRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateOrderRequest $request)
     {

@@ -2,27 +2,27 @@
 
 namespace Tests\Unit;
 
-use App\Models\Company;
-use App\Models\Account;
 use App\Factory\ProductFactory;
 use App\Filters\ProductFilter;
-use App\Jobs\Inventory\UpdateInventory;
-use App\Models\Product;
-use App\Repositories\ProductRepository;
-use App\Requests\SearchRequest;
-use Illuminate\Support\Facades\File;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Transformations\ProductTransformable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Collection;
+use App\Models\Account;
 use App\Models\Category;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use App\Repositories\ProductImageRepository;
+use App\Models\Company;
+use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\User;
+use App\Repositories\ProductImageRepository;
+use App\Repositories\ProductRepository;
+use App\Requests\SearchRequest;
+use App\Transformations\ProductTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
@@ -122,7 +122,7 @@ class ProductTest extends TestCase
     /** @test */
     public function it_errors_when_the_slug_in_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $product = new ProductRepository(new Product);
         $product->findProductBySlug('unknown');
     }
@@ -130,7 +130,7 @@ class ProductTest extends TestCase
     public function it_errors_creating_the_product_when_required_fields_are_not_passed()
     {
         $product = new Product();
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $task = new ProductRepository($product);
         $task->save([], $product);
     }
@@ -167,7 +167,7 @@ class ProductTest extends TestCase
     /** @test */
     public function it_errors_finding_a_product()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $product = new ProductRepository(new Product);
         $product->findProductById(999);
     }

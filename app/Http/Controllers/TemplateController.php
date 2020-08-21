@@ -6,6 +6,7 @@ use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
+use Illuminate\Http\Response;
 
 
 class TemplateController extends Controller
@@ -19,7 +20,7 @@ class TemplateController extends Controller
     /**
      * Returns a template filled with entity variables
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
      */
     public function show()

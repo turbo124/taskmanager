@@ -2,13 +2,12 @@
 
 namespace App\Events\Order;
 
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Traits\SendSubscription;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class OrderWasCreated
@@ -24,7 +23,7 @@ class OrderWasBackordered implements PerformsMetrics
     protected $meter = 'order-backordered';
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     public Order $order;
 

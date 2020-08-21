@@ -2,41 +2,35 @@
 
 namespace Tests\Unit;
 
-use App\Factory\CloneOrderToInvoiceFactory;
+use App\Factory\OrderFactory;
+use App\Filters\OrderFilter;
 use App\Helpers\Shipping\ShippoShipment;
-use App\Models\Invoice;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Payment\CreatePayment;
-use App\Models\Payment;
-use App\Repositories\PaymentRepository;
-use App\Services\Order\OrderService;
-use App\Models\User;
-use App\Settings\AccountSettings;
-use App\Repositories\InvoiceRepository;
-use App\Requests\SearchRequest;
-use Illuminate\Support\Carbon;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Transformations\DepartmentTransformable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Collection;
-use App\Services\Task\TaskService;
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\NumberGenerator;
-use App\Models\Task;
-use App\Models\Project;
 use App\Models\Account;
-use App\Repositories\OrderRepository;
-use App\Repositories\CustomerRepository;
-use App\Factory\TaskFactory;
-use App\Factory\OrderFactory;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\NumberGenerator;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
-use App\Models\ClientContact;
-use App\Repositories\ClientContactRepository;
-use App\Repositories\TaskRepository;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\User;
+use App\Repositories\CustomerRepository;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\ProjectRepository;
-use App\Filters\OrderFilter;
+use App\Repositories\TaskRepository;
+use App\Requests\SearchRequest;
+use App\Settings\AccountSettings;
+use App\Transformations\DepartmentTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
@@ -129,7 +123,7 @@ class OrderTest extends TestCase
      */
     public function it_errors_creating_the_order_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $order = new OrderRepository(new Order);
         $order->createOrder([]);
     }
@@ -137,7 +131,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_errors_finding_a_order()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $order = new OrderRepository(new Order);
         $order->findOrderById(999);
     }

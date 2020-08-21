@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\Interfaces\PermissionRepositoryInterface;
-use App\Repositories\RoleRepository;
-use App\Repositories\Interfaces\RoleRepositoryInterface;
-use App\Requests\CreateRoleRequest;
-use App\Requests\UpdateRoleRequest;
+use App\Factory\RoleFactory;
 use App\Models\Role;
-use App\Transformations\RoleTransformable;
+use App\Repositories\Interfaces\PermissionRepositoryInterface;
+use App\Repositories\Interfaces\RoleRepositoryInterface;
+use App\Repositories\RoleRepository;
+use App\Requests\CreateRoleRequest;
 use App\Requests\SearchRequest;
+use App\Requests\UpdateRoleRequest;
+use App\Transformations\RoleTransformable;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use App\Factory\RoleFactory;
 
 class RoleController extends Controller
 {

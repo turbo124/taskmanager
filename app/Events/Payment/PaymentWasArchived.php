@@ -13,14 +13,14 @@ class PaymentWasArchived
     use SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     public Payment $payment;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Payment $payment)
     {

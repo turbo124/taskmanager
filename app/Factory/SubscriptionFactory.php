@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Models\Subscription;
 use App\Models\Account;
+use App\Models\Subscription;
 use App\Models\User;
 
 class SubscriptionFactory

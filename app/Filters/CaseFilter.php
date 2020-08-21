@@ -5,15 +5,9 @@ namespace App\Filters;
 use App\Models\Account;
 use App\Models\Cases;
 use App\Repositories\CaseRepository;
-use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Models\Subscription;
 use App\Transformations\CaseTransformable;
-use App\Transformations\SubscriptionTransformable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -41,8 +35,8 @@ class CaseFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @param Account $account
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

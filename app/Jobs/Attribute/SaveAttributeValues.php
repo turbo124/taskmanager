@@ -20,7 +20,7 @@ class SaveAttributeValues implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Attribute
+     * @var Attribute
      */
     private Attribute $attribute;
 

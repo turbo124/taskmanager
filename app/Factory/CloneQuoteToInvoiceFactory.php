@@ -2,11 +2,10 @@
 
 namespace App\Factory;
 
+use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\Quote;
 use App\Models\User;
-use App\Models\Account;
-use Carbon\Carbon;
 
 /**
  * Class CloneQuoteToInvoiceFactory
@@ -17,7 +16,7 @@ class CloneQuoteToInvoiceFactory
     /**
      * @param Quote $quote
      * @param User $user
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return Invoice|null
      */
     public static function create(Quote $quote, User $user, Account $account): ?Invoice

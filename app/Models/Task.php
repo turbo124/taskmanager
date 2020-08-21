@@ -2,20 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\File;
+use App\Libraries\Utils;
 use App\Models;
-use App\Models\Account;
-use App\Models\Order;
 use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Project;
-use App\Models\Product;
-use App\Models\Timer;
-use App\Models\User;
-use App\Models\TaskStatus;
-use App\Models\Customer;
-use App\Models\Comment;
-use App\Libraries\Utils;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
@@ -98,7 +89,7 @@ class Task extends Model
     /**
      * Get associated timers.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function timers()
     {

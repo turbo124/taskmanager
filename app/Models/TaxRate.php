@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TaxRate extends Model

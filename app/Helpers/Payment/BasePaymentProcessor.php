@@ -2,14 +2,7 @@
 
 namespace App\Helpers\Payment;
 
-use App\Models\Credit;
-use App\Models\Customer;
-use App\Events\Payment\PaymentWasRefunded;
-use App\Factory\CreditFactory;
-use App\Helpers\InvoiceCalculator\LineItem;
-use App\Models\Invoice;
 use App\Models\Payment;
-use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
 
 class BasePaymentProcessor

@@ -2,19 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Models\RecurringInvoice;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
+use App\Libraries\Utils;
 use App\Models\Invoice;
-use Illuminate\Support\Carbon;
+use App\Models\RecurringInvoice;
 use App\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;
-use DateTime;
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Auth;
-use Exception;
-use App\Libraries\Utils;
-use App\Jobs\Cron\RecurringInvoicesCron;
+use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 /**
  * Class SendRecurringInvoices.

@@ -2,13 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Factory\CompanyContactFactory;
 use App\Models\Company;
 use App\Models\CompanyContact;
-use App\Models\Expense;
-use App\Factory\CompanyContactFactory;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * VendorContactRepository

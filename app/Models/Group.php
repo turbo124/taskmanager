@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Account;
-use App\Models\Customer;
-use App\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {

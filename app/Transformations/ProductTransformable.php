@@ -10,7 +10,7 @@ trait ProductTransformable
 {
 
     /**
-     * @param \App\Models\Product $product
+     * @param Product $product
      * @return array
      */
     protected function transformProduct(Product $product)

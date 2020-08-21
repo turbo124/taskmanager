@@ -2,42 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientContact;
+use App\Factory\TaskFactory;
+use App\Filters\TaskFilter;
+use App\Jobs\Order\CreateOrder;
 use App\Models\CompanyToken;
 use App\Models\Customer;
-use App\Jobs\Order\CreateOrder;
-use App\Events\Deal\DealWasCreated;
-use App\Factory\OrderFactory;
-use App\Factory\TaskFactory;
-use App\Jobs\Task\SaveTaskTimes;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Project;
-use App\Repositories\ClientContactRepository;
+use App\Models\SourceType;
+use App\Models\Task;
 use App\Repositories\CustomerRepository;
+use App\Repositories\Interfaces\ProjectRepositoryInterface;
+use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\SourceTypeRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\Order\CreateOrderRequest;
-use App\Models\User;
+use App\Requests\SearchRequest;
+use App\Requests\Task\CreateDealRequest;
+use App\Requests\Task\CreateTaskRequest;
+use App\Requests\Task\UpdateTaskRequest;
+use App\Transformations\TaskTransformable;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Task;
-use App\Requests\Task\CreateTaskRequest;
-use App\Requests\Task\CreateDealRequest;
-use App\Requests\Task\UpdateTaskRequest;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
-use App\Repositories\Interfaces\ProjectRepositoryInterface;
-use App\Models\Product;
-use App\Repositories\ProductRepository;
-use App\Transformations\TaskTransformable;
-use App\Filters\OrderFilter;
-use App\Repositories\SourceTypeRepository;
-use App\Models\SourceType;
-use App\Filters\TaskFilter;
-use App\Requests\SearchRequest;
-use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {

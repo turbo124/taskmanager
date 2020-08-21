@@ -2,16 +2,12 @@
 
 namespace App\Jobs\Task;
 
-use App\Models\Task;
 use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Models\Quote;
-use App\Repositories\RecurringQuoteRepository;
 use App\Models\RecurringQuote;
-use App\Factory\RecurringQuoteFactory;
-
+use App\Repositories\RecurringQuoteRepository;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 
 class SaveTaskTimes
 {

@@ -3,12 +3,7 @@
 namespace App\Models;
 
 use App\Models;
-use App\Models\Account;
-use App\Models\ClientContact;
 use App\Traits\Inviteable;
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

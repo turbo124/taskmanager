@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\CaseCategory;
 use App\Models\TaskStatus;
-use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -60,7 +59,7 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
      * @param TaskStatus $task_status
      * @return TaskStatus|null
      */
-    public function save(array $data, TaskStatus $task_status) :?TaskStatus
+    public function save(array $data, TaskStatus $task_status): ?TaskStatus
     {
         $task_status->fill($data);
         $task_status->save();

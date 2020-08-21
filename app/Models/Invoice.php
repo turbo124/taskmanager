@@ -2,27 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Account;
-use App\Models\Audit;
-use App\Models\Customer;
-use App\Models\Email;
-use App\Models\File;
-use App\Models\Task;
-use App\Models\Transaction;
-use App\Models\User;
-use App\Models\Notification;
-use App\Models\NumberGenerator;
-use App\Models\Payment;
+use App\Events\Invoice\InvoiceWasDeleted;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Transaction\TransactionService;
 use App\Traits\Balancer;
+use App\Traits\Money;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Invoice\InvoiceWasDeleted;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Money;
 
 class Invoice extends Model
 {
@@ -115,7 +104,7 @@ class Invoice extends Model
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteInvoice(): bool
     {

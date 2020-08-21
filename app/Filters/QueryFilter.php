@@ -5,7 +5,6 @@ namespace App\Filters;
 use App\Models\Account;
 use App\Models\Invoice;
 use Carbon\Carbon;
-use phpDocumentor\Reflection\Types\Integer;
 
 class QueryFilter
 {
@@ -23,7 +22,7 @@ class QueryFilter
     }
 
     /**
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @param string $table
      */
     protected function addAccount(Account $account, $table = '')
@@ -79,7 +78,7 @@ class QueryFilter
             )->where('due_date', '<', Carbon::now())->orWhere('partial_due_date', '<', Carbon::now());
         }
 
-        if($status === 'unapplied') {
+        if ($status === 'unapplied') {
             $this->query->whereRaw("{$table}.applied < {$table}.amount");
         }
 
@@ -98,8 +97,13 @@ class QueryFilter
 
     protected function getEloquentSqlWithBindings($query)
     {
-        return vsprintf(str_replace('?', '%s', $query->toSql()), collect($query->getBindings())->map(function ($binding) {
-            return is_numeric($binding) ? $binding : "'{$binding}'";
-        })->toArray());
+        return vsprintf(
+            str_replace('?', '%s', $query->toSql()),
+            collect($query->getBindings())->map(
+                function ($binding) {
+                    return is_numeric($binding) ? $binding : "'{$binding}'";
+                }
+            )->toArray()
+        );
     }
 }

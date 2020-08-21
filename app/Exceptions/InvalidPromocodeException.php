@@ -4,7 +4,9 @@
 namespace App\Exceptions;
 
 
-class InvalidPromocodeException extends \Exception
+use Exception;
+
+class InvalidPromocodeException extends Exception
 {
 
 }

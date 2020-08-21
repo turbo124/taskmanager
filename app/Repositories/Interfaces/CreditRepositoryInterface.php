@@ -31,7 +31,7 @@ interface CreditRepositoryInterface
     /**
      * @param array $data
      * @param Credit $credit
-     * @return \App\Models\Credit|null
+     * @return Credit|null
      */
     public function createCreditNote(array $data, Credit $credit): ?Credit;
 
@@ -45,7 +45,7 @@ interface CreditRepositoryInterface
     /**
      * @param array $data
      * @param Credit $credit
-     * @return \App\Models\Credit|null
+     * @return Credit|null
      */
     public function save(array $data, Credit $credit): ?Credit;
 
