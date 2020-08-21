@@ -3,8 +3,8 @@
 
 namespace App\Jobs\Pdf;
 
-use App\Models\Account;
 use App\Mail\InvoiceWithAttachment;
+use App\Models\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

@@ -1,20 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Alert,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
 import FileUploads from '../attachments/FileUploads'
@@ -24,7 +9,7 @@ import CasePresenter from '../presenters/CasePresenter'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
-import { icons } from "../common/_icons";
+import { icons } from '../common/_icons'
 
 export default class Case extends Component {
     constructor (props) {
@@ -74,7 +59,9 @@ export default class Case extends Component {
         if (this.props.entity.assigned_to) {
             console.log('users', JSON.parse(localStorage.getItem('users')))
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         const fields = []
@@ -157,14 +144,15 @@ export default class Case extends Component {
 
                         <CasePresenter entity={this.props.entity} field="status_field"/>
 
-                       {!!this.props.entity.private_notes.length &&
+                        {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <InfoMessage message={this.props.entity.private_notes} />
+                            <InfoMessage message={this.props.entity.private_notes}/>
                         </Row>
                         }
 
                         <Row>
-                            <EntityListTile entity={translations.customer} title={customer[0].name} icon={icons.customer} />
+                            <EntityListTile entity={translations.customer} title={customer[0].name}
+                                icon={icons.customer}/>
                         </Row>
 
                         {!!user &&

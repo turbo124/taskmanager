@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use App\Transformations\LeadTransformable;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LeadFilter extends QueryFilter
 {
@@ -28,7 +29,7 @@ class LeadFilter extends QueryFilter
     /**
      * @param Request $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(Request $request, Account $account)
     {

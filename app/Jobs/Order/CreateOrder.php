@@ -2,24 +2,24 @@
 
 namespace App\Jobs\Order;
 
-use App\Models\Account;
-use App\Models\Address;
-use App\Models\ClientContact;
-use App\Models\Customer;
 use App\Events\Deal\DealWasCreated;
 use App\Factory\CustomerFactory;
 use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
+use App\Models\Account;
+use App\Models\Address;
+use App\Models\ClientContact;
+use App\Models\Customer;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\ProductAttribute;
+use App\Models\Task;
+use App\Models\User;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
-use App\Models\Task;
-use App\Models\User;
 use DateInterval;
+use DateTime;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Capsule\Eloquent;
@@ -35,7 +35,7 @@ class CreateOrder implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     private Order $order;
 
@@ -45,12 +45,12 @@ class CreateOrder implements ShouldQueue
     private ?Task $task;
 
     /**
-     * @var \App\Models\User
+     * @var User
      */
     private User $user;
 
     /**
-     * @var \App\Models\Account
+     * @var Account
      */
     private Account $account;
 
@@ -143,7 +143,7 @@ class CreateOrder implements ShouldQueue
 
             DB::commit();
             return $order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             DB::rollback();
         }
@@ -151,13 +151,13 @@ class CreateOrder implements ShouldQueue
 
     /**
      * @param Customer $customer
-     * @return \App\Models\Task|null
+     * @return Task|null
      */
     private function saveTask(Customer $customer): ?Task
     {
         try {
             $task = TaskFactory::create($this->user, $this->account);
-            $date = new \DateTime(); // Y-m-d
+            $date = new DateTime(); // Y-m-d
             $date->add(new DateInterval('P30D'));
             $due_date = $date->format('Y-m-d');
 
@@ -183,7 +183,7 @@ class CreateOrder implements ShouldQueue
             event(new DealWasCreated($task, $this->account));
 
             return $task;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             DB::rollback();
             return null;
@@ -237,7 +237,7 @@ class CreateOrder implements ShouldQueue
             }
 
             return $this->customer;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             DB::rollback();
             return null;
@@ -278,7 +278,7 @@ class CreateOrder implements ShouldQueue
             }
 
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             DB::rollback();
             return false;
@@ -286,8 +286,8 @@ class CreateOrder implements ShouldQueue
     }
 
     /**
-     * @param \App\Models\Customer $customer
-     * @return \App\Models\Order|null
+     * @param Customer $customer
+     * @return Order|null
      */
     private function saveOrder(Customer $customer): ?Order
     {
@@ -306,25 +306,25 @@ class CreateOrder implements ShouldQueue
             $this->order = $this->order_repo->createOrder(
                 [
                     'is_amount_discount' => !empty($this->request->is_amount_discount) ? $this->request->is_amount_discount : false,
-                    'voucher_code'    => !empty($this->request->voucher_code) ? $this->request->voucher_code : null,
-                    'gateway_fee'     => isset($this->request->gateway_fee) ? $this->request->gateway_fee : 0,
-                    'transaction_fee' => isset($this->request->transaction_fee) ? $this->request->transaction_fee : 0,
-                    'shipping_cost'   => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
-                    'invitations'     => $invitations,
-                    'shipping_id'     => isset($this->request->shipping_id) ? $this->request->shipping_id : null,
-                    'balance'         => $this->request->total,
-                    'sub_total'       => $this->request->sub_total,
-                    'total'           => $this->request->total,
+                    'voucher_code'       => !empty($this->request->voucher_code) ? $this->request->voucher_code : null,
+                    'gateway_fee'        => isset($this->request->gateway_fee) ? $this->request->gateway_fee : 0,
+                    'transaction_fee'    => isset($this->request->transaction_fee) ? $this->request->transaction_fee : 0,
+                    'shipping_cost'      => isset($this->request->shipping_cost) ? $this->request->shipping_cost : 0,
+                    'invitations'        => $invitations,
+                    'shipping_id'        => isset($this->request->shipping_id) ? $this->request->shipping_id : null,
+                    'balance'            => $this->request->total,
+                    'sub_total'          => $this->request->sub_total,
+                    'total'              => $this->request->total,
                     //'tax_total'         => isset($this->request->tax_total) ? $this->request->tax_total : 0,
-                    'discount_total'  => isset($this->request->discount_total) ? $this->request->discount_total : 0,
-                    'tax_rate'        => isset($this->request->tax_rate) ? (float)str_replace(
+                    'discount_total'     => isset($this->request->discount_total) ? $this->request->discount_total : 0,
+                    'tax_rate'           => isset($this->request->tax_rate) ? (float)str_replace(
                         '%',
                         '',
                         $this->request->tax_rate
                     ) : 0,
-                    'line_items'      => $this->request->line_items,
-                    'task_id'         => isset($this->task) ? $this->task->id : null,
-                    'date'            => date('Y-m-d')
+                    'line_items'         => $this->request->line_items,
+                    'task_id'            => isset($this->task) ? $this->task->id : null,
+                    'date'               => date('Y-m-d')
                 ],
                 $this->order
             );
@@ -335,7 +335,7 @@ class CreateOrder implements ShouldQueue
             $this->order->service()->sendEmail(null, $subject, $body);
 
             return $this->order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency($e->getMessage());
             DB::rollback();
             return null;

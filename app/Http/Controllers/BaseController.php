@@ -39,6 +39,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use ReflectionException;
 
 /**
  * Class BaseController
@@ -100,17 +101,17 @@ class BaseController extends Controller
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
         return [
-            'account_id' => $default_account->id,
-            'id' => $user->id,
-            'auth_token' => $user->auth_token,
-            'name' => $user->name,
-            'email' => $user->email,
-            'accounts' => $accounts,
-            'currencies' => Currency::all(),
-            'languages' => Language::all(),
-            'countries' => Country::all(),
+            'account_id'    => $default_account->id,
+            'id'            => $user->id,
+            'auth_token'    => $user->auth_token,
+            'name'          => $user->name,
+            'email'         => $user->email,
+            'accounts'      => $accounts,
+            'currencies'    => Currency::all(),
+            'languages'     => Language::all(),
+            'countries'     => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'users' => User::where('is_active', '=', 1)->get(
+            'users'         => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];
@@ -123,7 +124,7 @@ class BaseController extends Controller
      * @param bool $bulk
      * @return array|bool|JsonResponse|string
      * @throws FileNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function performAction(Request $request, $entity, $action, $bulk = false)
     {
@@ -445,8 +446,8 @@ class BaseController extends Controller
 
     /**
      * @param $invitation_key
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @return JsonResponse
+     * @throws FileNotFoundException
      */
     public function markViewed($invitation_key)
     {

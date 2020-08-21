@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\PaymentMethod;
-use App\Repositories\Interfaces\PaymentMethodRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\PaymentMethodRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class PaymentMethodRepository extends BaseRepository implements PaymentMethodRepositoryInterface
@@ -13,7 +13,7 @@ class PaymentMethodRepository extends BaseRepository implements PaymentMethodRep
     /**
      * PaymentMethodRepository constructor.
      *
-     * @param \App\Models\PaymentMethod $paymentMethod
+     * @param PaymentMethod $paymentMethod
      */
     public function __construct(PaymentMethod $paymentMethod)
     {

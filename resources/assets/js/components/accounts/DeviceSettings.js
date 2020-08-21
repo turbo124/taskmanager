@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
+import { Alert, Button, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../common/_translations'
 import Snackbar from '@material-ui/core/Snackbar'

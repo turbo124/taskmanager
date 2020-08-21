@@ -2,16 +2,11 @@
 
 namespace App\Transformations;
 
-use App\Repositories\TimerRepository;
-use App\Models\Task;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use App\Repositories\TaskStatusRepository;
-use App\Models\TaskStatus;
-use App\Transformations\TimerTransformable;
-use App\Models\Timer;
-use App\Transformations\CustomerTransformable;
 use App\Libraries\Utils;
+use App\Models\Task;
+use App\Models\Timer;
+use App\Repositories\TimerRepository;
+use Exception;
 
 trait TaskTransformable
 {
@@ -20,7 +15,7 @@ trait TaskTransformable
     /**
      * @param Task $task
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function transformTask(Task $task)
     {

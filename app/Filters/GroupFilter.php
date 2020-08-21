@@ -3,7 +3,6 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Company;
 use App\Models\Group;
 use App\Repositories\GroupRepository;
 use App\Requests\SearchRequest;

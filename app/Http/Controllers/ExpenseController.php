@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Factory\ExpenseFactory;
 use App\Filters\ExpenseFilter;
+use App\Models\Expense;
+use App\Repositories\ExpenseRepository;
 use App\Requests\Expense\CreateExpenseRequest;
 use App\Requests\Expense\UpdateExpenseRequest;
 use App\Requests\SearchRequest;
-use App\Models\Expense;
-use App\Repositories\ExpenseRepository;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Transformations\ExpenseTransformable;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * Class ExpenseController
@@ -52,7 +49,7 @@ class ExpenseController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -63,7 +60,7 @@ class ExpenseController extends Controller
     /**
      * @param UpdateExpenseRequest $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateExpenseRequest $request, int $id)
     {
@@ -76,7 +73,7 @@ class ExpenseController extends Controller
 
     /**
      * @param CreateExpenseRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateExpenseRequest $request)
     {
@@ -90,7 +87,7 @@ class ExpenseController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {
@@ -124,7 +121,7 @@ class ExpenseController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function bulk()
     {

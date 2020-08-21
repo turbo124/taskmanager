@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
+use App\Factory\DepartmentFactory;
 use App\Models\Department;
 use App\Models\User;
 use App\Repositories\DepartmentRepository;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\DepartmentTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
-use App\Factory\DepartmentFactory;
+use Tests\TestCase;
 
 class DepartmentTest extends TestCase
 {
@@ -53,7 +54,7 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_fails_when_the_department_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $department = new DepartmentRepository(new Department);
         $department->findDepartmentById(999);
     }

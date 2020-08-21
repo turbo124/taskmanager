@@ -6,9 +6,11 @@ use App\Factory\Lead\CloneLeadToAddressFactory;
 use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
-use App\Repositories\LeadRepository;
 use App\Models\Lead;
 use App\Models\Task;
+use DateInterval;
+use DateTime;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -61,8 +63,8 @@ class ConvertLead
 
             $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
-            $date = new \DateTime(); // Y-m-d
-            $date->add(new \DateInterval('P30D'));
+            $date = new DateTime(); // Y-m-d
+            $date->add(new DateInterval('P30D'));
             $due_date = $date->format('Y-m-d');
 
             $task->due_date = $due_date;
@@ -83,7 +85,7 @@ class ConvertLead
             DB::commit();
 
             return $this->lead;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             return null;
         }

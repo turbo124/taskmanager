@@ -9,29 +9,13 @@
 namespace App\Models;
 
 
-use App\Models\AccountUser;
-use App\Models\Company;
-use App\Models\Country;
-use App\Models\Domain;
 use App\Events\Account\AccountWasDeleted;
-use App\Models\Language;
-use App\Models\User;
+use App\Services\Account\AccountService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Illuminate\Notifications\Notification;
-use App\Services\Account\AccountService;
-use App\Models\Credit;
-use App\Models\Quote;
-use App\Models\Invoice;
-use App\Models\Customer;
-use App\Models\Product;
-use App\Models\TaxRate;
-use App\Models\Currency;
-use App\Models\Payment;
-use App\Models\Design;
 
 class Account extends Model
 {
@@ -72,7 +56,7 @@ class Account extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function language()
     {

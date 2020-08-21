@@ -2,29 +2,22 @@
 
 namespace App\Jobs\Email;
 
-use App\Designs\Custom;
+use App\Factory\EmailFactory;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
-use App\Models\User;
-use Illuminate\Support\Carbon;
-use App\Designs\PdfColumns;
-use App\Models\Design;
-use App\Models\Email;
-use App\Models\Account;
-use App\Models\Invoice;
 use App\Jobs\Invoice\CreateUbl;
 use App\Mail\SendMail;
+use App\Models\Email;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Repositories\EmailRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use App\Models\ClientContact;
-use App\Factory\EmailFactory;
-use App\Repositories\EmailRepository;
 
 class SendEmail implements ShouldQueue
 {
@@ -63,7 +56,11 @@ class SendEmail implements ShouldQueue
     {
         $settings = $this->entity->account->settings;
 
-        $objPdf = get_class($this->entity) === 'App\Models\Lead' ? new LeadPdf($this->entity) : new InvoicePdf($this->entity);
+        $objPdf = get_class($this->entity) === 'App\Models\Lead'
+            ? new LeadPdf($this->entity)
+            : new InvoicePdf(
+                $this->entity
+            );
 
         $objPdf->build();
         $labels = $objPdf->getLabels();

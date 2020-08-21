@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Credit;
-use App\Jobs\Email\SendEmail;
-use App\Models\Lead;
-use App\Models\Invoice;
 use App\Models\ClientContact;
-use App\Models\Order;
-use App\Models\Quote;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\EmailRepository;
 use App\Requests\Email\SendEmailRequest;
 use App\Traits\MakesInvoiceHtml;
 use App\Transformations\CreditTransformable;
 use App\Transformations\InvoiceTransformable;
+use App\Transformations\LeadTransformable;
 use App\Transformations\OrderTransformable;
 use App\Transformations\QuoteTransformable;
-use App\Transformations\LeadTransformable;
+use Illuminate\Http\JsonResponse;
+use ReflectionClass;
 
 class EmailController extends Controller
 {
@@ -37,7 +33,7 @@ class EmailController extends Controller
 
     /**
      * @param SendEmailRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function send(SendEmailRequest $request)
     {
@@ -48,7 +44,7 @@ class EmailController extends Controller
         $entity_obj = $entity::find($request->input('entity_id'));
         $contact = null;
 
-        if(!empty($to)) {
+        if (!empty($to)) {
             $contact = ClientContact::where('id', '=', $to)->first();
         } elseif ($entity !== 'App\\Models\\Lead') {
             $contact = $entity_obj->invitations->first()->contact;
@@ -70,7 +66,7 @@ class EmailController extends Controller
 
     private function transformObject($entity_object)
     {
-        $entity_class = (new \ReflectionClass($entity_object))->getShortName();
+        $entity_class = (new ReflectionClass($entity_object))->getShortName();
 
         switch ($entity_class) {
             case 'Lead':

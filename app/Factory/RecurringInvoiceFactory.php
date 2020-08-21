@@ -2,10 +2,10 @@
 
 namespace App\Factory;
 
-use App\Models\RecurringInvoice;
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Customer;
+use App\Models\RecurringInvoice;
+use App\Models\User;
 
 class RecurringInvoiceFactory
 {

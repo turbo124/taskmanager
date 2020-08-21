@@ -2,12 +2,10 @@
 
 namespace App\Factory;
 
+use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Quote;
 use App\Models\User;
-use App\Models\Account;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -17,9 +15,9 @@ use Illuminate\Support\Facades\Log;
 class CloneOrderToInvoiceFactory
 {
     /**
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @param User $user
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return Invoice|null
      */
     public static function create(Order $order, User $user, Account $account): ?Invoice

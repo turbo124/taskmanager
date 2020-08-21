@@ -37,7 +37,7 @@ class SendReminders implements ShouldQueue
         );
     }
 
-    private function execute (Invoice $invoice) 
+    private function execute(Invoice $invoice)
     {
         $this->invoice = $invoice;
 

@@ -3,7 +3,6 @@
 namespace App\Jobs\Inventory;
 
 use App\Models\Credit;
-use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use Illuminate\Bus\Queueable;
@@ -22,7 +21,7 @@ class ReverseInventory implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Credit
+     * @var Credit
      */
     private $entity;
 

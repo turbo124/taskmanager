@@ -10,7 +10,6 @@ use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class SendSubscriptionRenewals extends Command
@@ -68,7 +67,7 @@ class SendSubscriptionRenewals extends Command
 
     /**
      * @param Account $account
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param float $total_paid
      * @return Invoice
      */

@@ -3,8 +3,7 @@
 namespace App\Requests\User;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Models\User;
-use App\Repositories\UserRepository;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends BaseFormRequest
 {
@@ -29,7 +28,7 @@ class UpdateUserRequest extends BaseFormRequest
             'last_name'       => 'required|string',
             'email'           => [
                 'required',
-                \Illuminate\Validation\Rule::unique('users')->ignore($this->route('user_id'))
+                Rule::unique('users')->ignore($this->route('user_id'))
             ]
         ];
 

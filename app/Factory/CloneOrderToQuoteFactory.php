@@ -2,12 +2,10 @@
 
 namespace App\Factory;
 
-use App\Models\Invoice;
+use App\Models\Account;
 use App\Models\Order;
 use App\Models\Quote;
 use App\Models\User;
-use App\Models\Account;
-use Carbon\Carbon;
 
 /**
  * Class CloneOrderToQuoteFactory
@@ -16,10 +14,10 @@ use Carbon\Carbon;
 class CloneOrderToQuoteFactory
 {
     /**
-     * @param \App\Models\Order $order
-     * @param \App\Models\User $user
-     * @param \App\Models\Account $account
-     * @return \App\Models\Quote|null
+     * @param Order $order
+     * @param User $user
+     * @param Account $account
+     * @return Quote|null
      */
     public static function create(Order $order, User $user, Account $account): ?Quote
     {

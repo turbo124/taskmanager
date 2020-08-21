@@ -4,13 +4,10 @@
 namespace App\Helpers\Payment\Gateways;
 
 
-use App\Models\CompanyGateway;
 use App\Models\Customer;
 use App\Models\Invoice;
-use App\Jobs\Payment\CreatePayment;
 use App\Models\Payment;
-use App\Repositories\PaymentRepository;
-use Illuminate\Support\Facades\DB;
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
 use net\authorize\api\contract\v1\CustomerProfilePaymentType;
 use net\authorize\api\contract\v1\MerchantAuthenticationType;
@@ -23,7 +20,7 @@ class Authorize extends BasePaymentGateway
 
     /**
      * Authorize constructor.
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      * @param $customer_gateway
      * @param $company_gateway
      */
@@ -73,7 +70,7 @@ class Authorize extends BasePaymentGateway
         $request->setRefId($refId);
         $request->setTransactionRequest($transactionRequestType);
         $controller = new CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
 
         if ($response != null) {
             if ($response->getMessages()->getResultCode() == "Ok") {

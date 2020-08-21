@@ -2,8 +2,8 @@
 
 namespace App\Events\Lead;
 
-use Illuminate\Queue\SerializesModels;
 use App\Models\Lead;
+use Illuminate\Queue\SerializesModels;
 
 class LeadWasArchived
 {

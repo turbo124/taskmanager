@@ -4,10 +4,6 @@
 namespace App\Models;
 
 
-use App\Models\Customer;
-use App\Models\Account;
-use App\Models\User;
-use App\Models\NumberGenerator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

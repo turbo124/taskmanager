@@ -2,15 +2,15 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Comment;
-use App\Models\User;
 use App\Models\Task;
+use App\Models\User;
 use App\Repositories\CommentRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
@@ -107,7 +107,7 @@ class CommentTest extends TestCase
      */
     public function it_errors_creating_the_comment_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $comment = new CommentRepository(new Comment);
         $comment->createComment([]);
     }
@@ -115,7 +115,7 @@ class CommentTest extends TestCase
     /** @test */
     public function it_errors_finding_a_comment()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $comment = new CommentRepository(new Comment);
         $comment->findCommentById(999);
     }

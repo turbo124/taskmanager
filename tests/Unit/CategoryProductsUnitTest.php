@@ -3,11 +3,11 @@
 namespace Tests\Unit;
 
 use App\Models\Category;
-use App\Repositories\CategoryRepository;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Product;
+use App\Repositories\CategoryRepository;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CategoryProductsUnitTest extends TestCase
 {

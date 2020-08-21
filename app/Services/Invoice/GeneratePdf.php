@@ -2,12 +2,12 @@
 
 namespace App\Services\Invoice;
 
-use App\Models\ClientContact;
-use App\Models\Design;
 use App\Designs\PdfColumns;
 use App\Helpers\Pdf\InvoicePdf;
-use App\Models\Invoice;
 use App\Jobs\Pdf\CreatePdf;
+use App\Models\ClientContact;
+use App\Models\Design;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Storage;
 
 class GeneratePdf
@@ -26,7 +26,7 @@ class GeneratePdf
 
     /**
      * GeneratePdf constructor.
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param ClientContact|null $contact
      * @param bool $update
      */

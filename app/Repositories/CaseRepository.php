@@ -11,7 +11,7 @@ class CaseRepository extends BaseRepository
 {
     /**
      * CaseRepository constructor.
-     * @param \App\Models\Cases $case
+     * @param Cases $case
      */
     public function __construct(Cases $case)
     {
@@ -26,7 +26,7 @@ class CaseRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return \App\Models\Cases
+     * @return Cases
      */
     public function findCaseById(int $id): Cases
     {
@@ -35,7 +35,7 @@ class CaseRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param \App\Models\Cases $case
+     * @param Cases $case
      */
     public function save(array $data, Cases $case)
     {

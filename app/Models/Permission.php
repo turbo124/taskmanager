@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Models;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\SearchableTrait;
-use App\Models\Role;
+use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {

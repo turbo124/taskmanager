@@ -5,7 +5,6 @@ namespace App\Listeners\Invoice;
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use stdClass;
 
 class InvoiceEmailActivity implements ShouldQueue
 {

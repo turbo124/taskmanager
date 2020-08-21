@@ -5,10 +5,15 @@ namespace App\Helpers\Payment\Gateways;
 
 
 use App\Models\Invoice;
-use App\Jobs\Payment\CreatePayment;
 use App\Models\Payment;
-use App\Repositories\PaymentRepository;
+use Exception;
 use Stripe\Customer;
+use Stripe\Exception\ApiConnectionException;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Exception\AuthenticationException;
+use Stripe\Exception\CardException;
+use Stripe\Exception\InvalidRequestException;
+use Stripe\Exception\RateLimitException;
 use Stripe\StripeClient;
 
 class Stripe extends BasePaymentGateway
@@ -81,7 +86,7 @@ class Stripe extends BasePaymentGateway
     /**
      * @param float $amount
      * @param Invoice|null $invoice
-     * @return \App\Models\Payment|bool|null
+     * @return Payment|bool|null
      */
     private function createCharge(float $amount, Invoice $invoice = null)
     {
@@ -107,7 +112,7 @@ class Stripe extends BasePaymentGateway
                     'description'    => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
                 ]
             );
-        } catch (\Stripe\Exception\CardException $e) {
+        } catch (CardException $e) {
             // Since it's a decline, \Stripe\Exception\CardException will be caught
             echo 'Status is:' . $e->getHttpStatus() . '\n';
             echo 'Type is:' . $e->getError()->type . '\n';
@@ -116,24 +121,24 @@ class Stripe extends BasePaymentGateway
             echo 'Param is:' . $e->getError()->param . '\n';
             echo 'Message is:' . $e->getError()->message . '\n';
             return false;
-        } catch (\Stripe\Exception\RateLimitException $e) {
+        } catch (RateLimitException $e) {
             // Too many requests made to the API too quickly
             return false;
-        } catch (\Stripe\Exception\InvalidRequestException $e) {
+        } catch (InvalidRequestException $e) {
             // Invalid parameters were supplied to Stripe's API
             return false;
-        } catch (\Stripe\Exception\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
             return false;
-        } catch (\Stripe\Exception\ApiConnectionException $e) {
+        } catch (ApiConnectionException $e) {
             // Network communication with Stripe failed
             return false;
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
             return false;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
             return false;
         }

@@ -2,17 +2,19 @@
 
 namespace Tests\Unit;
 
-use App\Models\Event;
-use App\Models\Customer;
 use App\Factory\EventFactory;
+use App\Models\Account;
+use App\Models\Customer;
+use App\Models\Event;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Account;
 use App\Repositories\EventRepository;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Transformations\EventTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class EventTest extends TestCase
 {
@@ -61,7 +63,7 @@ class EventTest extends TestCase
     /** @test */
     public function it_fails_when_the_event_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $event = new EventRepository(new Event);
         $event->findEventById(999);
     }
@@ -128,7 +130,7 @@ class EventTest extends TestCase
 
     public function it_errors_creating_the_event_when_required_fields_are_not_passed()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         $task = new EventRepository(new Event);
         $task->createEvent([]);
     }

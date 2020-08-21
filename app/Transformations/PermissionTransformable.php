@@ -3,7 +3,6 @@
 namespace App\Transformations;
 
 use App\Models\Permission;
-use App\Repositories\PermissionRepository;
 use App\Shop\Cities\Exceptions\CityNotFoundException;
 use App\Shop\Countries\Exceptions\CountryNotFoundException;
 use App\Shop\Customers\Exceptions\CustomerNotFoundException;

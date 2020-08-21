@@ -11,7 +11,7 @@ use App\Models\OrderInvitation;
 trait OrderTransformable
 {
     /**
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @return array
      */
     protected function transformOrder(Order $order)

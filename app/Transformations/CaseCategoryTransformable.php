@@ -8,7 +8,7 @@ trait CaseCategoryTransformable
 {
 
     /**
-     * @param \App\Models\CaseCategory $category
+     * @param CaseCategory $category
      * @return array
      */
     protected function transformCategory(CaseCategory $category)

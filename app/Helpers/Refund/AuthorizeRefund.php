@@ -6,8 +6,8 @@ namespace App\Helpers\Refund;
 
 use App\Models\CompanyGateway;
 use App\Models\Payment;
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
-use net\authorize\api\contract\v1\CreditCardMaskedType;
 use net\authorize\api\contract\v1\CreditCardType;
 use net\authorize\api\contract\v1\CustomerProfilePaymentType;
 use net\authorize\api\contract\v1\GetTransactionDetailsRequest;
@@ -26,7 +26,7 @@ class AuthorizeRefund
     private Payment $payment;
 
     /**
-     * @var \App\Models\CompanyGateway
+     * @var CompanyGateway
      */
     private CompanyGateway $company_gateway;
 
@@ -37,8 +37,8 @@ class AuthorizeRefund
 
     /**
      * AuthorizeRefund constructor.
-     * @param \App\Models\Payment $payment
-     * @param \App\Models\CompanyGateway $company_gateway
+     * @param Payment $payment
+     * @param CompanyGateway $company_gateway
      */
     public function __construct(Payment $payment, CompanyGateway $company_gateway, array $data)
     {
@@ -117,7 +117,7 @@ class AuthorizeRefund
 
         $controller = new GetTransactionDetailsController($request);
 
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
 
         if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
             return $response->getTransaction();
@@ -168,7 +168,7 @@ class AuthorizeRefund
         $request->setRefId($refId);
         $request->setTransactionRequest($this->transactionRequest);
         $controller = new CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
 
         if ($response != null && $response->getMessages()->getResultCode() == "Ok") {
             return true;

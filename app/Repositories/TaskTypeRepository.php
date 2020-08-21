@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\TaskType;
-use App\Repositories\Interfaces\TaskTypeRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\TaskTypeRepositoryInterface;
 use Exception;
 
 class TaskTypeRepository extends BaseRepository implements TaskTypeRepositoryInterface

@@ -4,7 +4,6 @@ namespace App\Factory;
 
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\RecurringInvoice;
 
 class InvoiceToPaymentFactory
 {

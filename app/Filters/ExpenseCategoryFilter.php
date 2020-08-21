@@ -3,12 +3,12 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Category;
 use App\Models\ExpenseCategory;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ExpenseCategoryRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\ExpenseCategoryTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -37,7 +37,7 @@ class ExpenseCategoryFilter extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

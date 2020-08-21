@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\ClientContact;
 use App\Models\Customer;
-use App\Models\Address;
 use App\Models\Design;
 use App\Models\Invoice;
 use App\Traits\MakesInvoiceHtml;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 
@@ -22,7 +23,7 @@ class PreviewController extends Controller
     /**
      * Returns a template filled with entity variables
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
      */
     public function show()

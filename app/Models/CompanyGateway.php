@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Gateway;
-use App\Models\Account;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyGateway extends Model

@@ -11,7 +11,7 @@ class AttributeValueRepository extends BaseRepository
 {
     /**
      * AttributeValueRepository constructor.
-     * @param \App\Models\AttributeValue $attributeValue
+     * @param AttributeValue $attributeValue
      */
     public function __construct(AttributeValue $attributeValue)
     {
@@ -34,9 +34,9 @@ class AttributeValueRepository extends BaseRepository
     }
 
     /**
-     * @param \App\Models\Attribute $attribute
+     * @param Attribute $attribute
      * @param array $data
-     * @return \App\Models\AttributeValue
+     * @return AttributeValue
      */
     public function createAttributeValue(Attribute $attribute, array $data): AttributeValue
     {
@@ -49,8 +49,8 @@ class AttributeValueRepository extends BaseRepository
     /**
      * Create the attribute value and associate to the attribute
      *
-     * @param \App\Models\Attribute $attribute
-     * @return \App\Models\AttributeValue
+     * @param Attribute $attribute
+     * @return AttributeValue
      */
     public function associateToAttribute(Attribute $attribute): AttributeValue
     {

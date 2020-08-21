@@ -2,11 +2,9 @@
 
 namespace App\Factory;
 
-use App\Models\Expense;
 use App\Models\Account;
+use App\Models\Expense;
 use App\Models\User;
-use App\Models\Customer;
-use Illuminate\Support\Facades\Log;
 
 class ExpenseFactory
 {

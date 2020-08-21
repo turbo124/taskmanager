@@ -2,30 +2,32 @@
 
 namespace Tests\Unit;
 
-use App\Events\Payment\PaymentFailed;
+use App\Factory\CreditFactory;
 use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
-use App\Factory\CreditFactory;
+use App\Factory\PaymentFactory;
 use App\Filters\PaymentFilter;
+use App\Helpers\Currency\CurrencyConverter;
+use App\Helpers\InvoiceCalculator\LineItem;
 use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
+use App\Models\Account;
+use App\Models\Credit;
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Customer;
-use App\Requests\SearchRequest;
 use App\Models\User;
-use App\Repositories\PaymentRepository;
-use App\Repositories\InvoiceRepository;
-use App\Helpers\Currency\CurrencyConverter;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Transformations\EventTransformable;
-use Illuminate\Foundation\Testing\WithFaker;
-use App\Factory\PaymentFactory;
-use App\Models\Refund;
 use App\Repositories\CreditRepository;
-use App\Models\Credit;
-use App\Models\Account;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
+use App\Requests\SearchRequest;
+use App\Transformations\EventTransformable;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class PaymentUnitTest extends TestCase
 {
@@ -33,17 +35,17 @@ class PaymentUnitTest extends TestCase
     use DatabaseTransactions, EventTransformable, WithFaker;
 
     /**
-     * @var User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var User|Collection|Model|mixed
      */
     private User $user;
 
     /**
-     * @var \App\Models\Account
+     * @var Account
      */
     private Account $account;
 
     /**
-     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var Customer|Collection|Model|mixed
      */
     private Customer $customer;
 
@@ -77,7 +79,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_errors_when_the_payments_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $paymentRepo = new PaymentRepository(new Payment);
         $paymentRepo->findPaymentById(999);
     }
@@ -379,7 +381,7 @@ class PaymentUnitTest extends TestCase
     {
         $invoice = factory(Invoice::class)->create();
 
-        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+        $line_items[] = (new LineItem)
             ->setQuantity(1)
             ->setUnitPrice(2.0)
             ->calculateSubTotal()
@@ -510,7 +512,7 @@ class PaymentUnitTest extends TestCase
     {
         $credit = factory(Credit::class)->create();
 
-        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+        $line_items[] = (new LineItem)
             ->setQuantity(1)
             ->setUnitPrice(2.0)
             ->calculateSubTotal()
@@ -529,10 +531,10 @@ class PaymentUnitTest extends TestCase
         $data = [
             'amount'      => $credit->total,
             'customer_id' => $credit->customer->id,
-            'credits'    => [
+            'credits'     => [
                 [
                     'credit_id' => $credit->id,
-                    'amount'     => $credit->total
+                    'amount'    => $credit->total
                 ],
             ],
             'date'        => '2019/12/12',
@@ -549,11 +551,11 @@ class PaymentUnitTest extends TestCase
         $payment = (new RefundFactory())->createRefund(
             $payment,
             [
-                'amount'   => $credit->total,
+                'amount'  => $credit->total,
                 'credits' => [
                     [
                         'credit_id' => $credit->id,
-                        'amount'     => $credit->total
+                        'amount'    => $credit->total
                     ],
                 ]
             ],

@@ -8,24 +8,19 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
-use App\Models\ClientContact;
 use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasUpdated;
-use App\Factory\OrderInvitationFactory;
+use App\Filters\LengthAwarePaginator;
 use App\Filters\OrderFilter;
-use App\Models\NumberGenerator;
+use App\Models\Account;
 use App\Models\Order;
-use App\Models\OrderInvitation;
-use App\Models\Product;
-use App\Repositories\Interfaces\OrderRepositoryInterface;
-use App\Requests\SearchRequest;
 use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class OrderRepository
@@ -36,7 +31,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * OrderRepository constructor.
      *
-     * @param \App\Models\Order $order
+     * @param Order $order
      */
     public function __construct(Order $order)
     {
@@ -63,7 +58,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return \App\Filters\LengthAwarePaginator|OrderFilter
+     * @return LengthAwarePaginator|OrderFilter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -72,7 +67,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     /**
      * @param array $data
-     * @param \App\Models\Order $order
+     * @param Order $order
      */
     public function updateOrder(array $data, Order $order): ?Order
     {
@@ -87,7 +82,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param array $data
      * @param Order $order
-     * @return \App\Models\Order|null
+     * @return Order|null
      */
     public function createOrder(array $data, Order $order): ?Order
     {
@@ -118,8 +113,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     /**
      * @param array $data
-     * @param \App\Models\Order $order
-     * @return \App\Models\Order
+     * @param Order $order
+     * @return Order
      */
     public function save(array $data, Order $order): Order
     {

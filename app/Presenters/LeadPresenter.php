@@ -2,7 +2,6 @@
 
 namespace App\Presenters;
 
-use App\Models\Country;
 use Laracasts\Presenter\Presenter;
 
 /**

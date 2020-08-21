@@ -3,8 +3,8 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Project;
-use Illuminate\Support\Collection;
 use App\Repositories\Base\BaseRepositoryInterface;
+use Illuminate\Support\Collection;
 
 interface ProjectRepositoryInterface extends BaseRepositoryInterface
 {

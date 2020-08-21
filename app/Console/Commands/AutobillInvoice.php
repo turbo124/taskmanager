@@ -42,7 +42,7 @@ class AutobillInvoice extends Command
         $invoice_repo = new InvoiceRepository(new Invoice());
         $invoices = $invoice_repo->getInvoicesForAutoBilling();
 
-        if(empty($invoices)) {
+        if (empty($invoices)) {
             return false;
         }
 

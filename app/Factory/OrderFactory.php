@@ -3,9 +3,9 @@
 namespace App\Factory;
 
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\User;
 
 /**
  * Class OrderFactory

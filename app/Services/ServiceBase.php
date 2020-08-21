@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\ClientContact;
+use App\Helpers\InvoiceCalculator\Invoice;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
+use App\Models\ClientContact;
 
 class ServiceBase
 {
@@ -97,7 +98,7 @@ class ServiceBase
     }
 
     /**
-     * @param \App\Models\ClientContact $contact
+     * @param ClientContact $contact
      * @param string $subject
      * @param string $body
      * @param string $template
@@ -124,7 +125,7 @@ class ServiceBase
             return $entity;
         }
 
-        $objInvoice = new \App\Helpers\InvoiceCalculator\Invoice($entity);
+        $objInvoice = new Invoice($entity);
 
         foreach ($entity->line_items as $line_item) {
             $objLine = (new LineItem($entity))

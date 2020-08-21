@@ -2,9 +2,9 @@
 
 namespace App\Events\Credit;
 
+use App\Models\Credit;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Credit;
 
 /**
  * Class CreditWasDeleted.

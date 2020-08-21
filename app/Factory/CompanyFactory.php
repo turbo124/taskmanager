@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Models\Company;
 use App\Models\Account;
+use App\Models\Company;
 use App\Models\User;
 
 class CompanyFactory

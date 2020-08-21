@@ -7,9 +7,7 @@ use App\Models\CompanyToken;
 use App\Repositories\TokenRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TokenTransformable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -35,7 +33,7 @@ class TokenFilters extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

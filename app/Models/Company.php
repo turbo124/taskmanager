@@ -2,19 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\CompanyContact;
-use App\Models\File;
-use App\Models;
-use App\Models\Product;
-use App\Models\NumberGenerator;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Currency;
-use App\Models\Country;
-use App\Models\User;
 use App\CompanyUser;
+use App\Models;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Company extends Model
 {

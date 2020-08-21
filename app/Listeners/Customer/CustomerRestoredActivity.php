@@ -5,7 +5,6 @@ namespace App\Listeners\Customer;
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class CustomerRestoredActivity implements ShouldQueue
 {

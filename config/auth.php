@@ -12,8 +12,8 @@ return [
       |
      */
 
-    'defaults' => [
-        'guard' => 'user',
+    'defaults'  => [
+        'guard'     => 'user',
         'passwords' => 'users',
     ],
     /*
@@ -32,21 +32,21 @@ return [
       | Supported: "session", "token"
       |
      */
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
+    'guards'    => [
+        'web'     => [
+            'driver'   => 'session',
             'provider' => 'users',
         ],
-        'api' => [
-            'driver' => 'jwt',
+        'api'     => [
+            'driver'   => 'jwt',
             'provider' => 'users',
         ],
-        'user' => [
-            'driver' => 'session',
+        'user'    => [
+            'driver'   => 'session',
             'provider' => 'users',
         ],
         'contact' => [
-            'driver' => 'session',
+            'driver'   => 'session',
             'provider' => 'contacts',
         ],
     ],
@@ -69,17 +69,17 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \App\Models\User::class,
+            'model'  => \App\Models\User::class,
         ],
-        'user' => [
+        'user'  => [
             'driver' => 'eloquent',
-            'model' => \App\Models\User::class
+            'model'  => \App\Models\User::class
         ]
 
-    // 'users' => [
-    //     'driver' => 'database',
-    //     'table' => 'users',
-    // ],
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
     /*
       |--------------------------------------------------------------------------
@@ -96,15 +96,15 @@ return [
       |
      */
     'passwords' => [
-        'users' => [
+        'users'    => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
+            'table'    => 'password_resets',
+            'expire'   => 60,
         ],
         'contacts' => [
             'provider' => 'contacts',
-            'table' => 'password_resets',
-            'expire' => 60,
+            'table'    => 'password_resets',
+            'expire'   => 60,
         ],
     ],
 ];

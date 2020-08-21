@@ -2,15 +2,15 @@
 
 namespace App\Factory\Account;
 
+use App\Models\Account;
 use App\Models\Address;
 use App\Models\Customer;
-use App\Models\Account;
 
 class CloneAccountToAddressFactory
 {
     /**
      * @param Account $account
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      * @return Address
      */
     public static function create(Account $account, Customer $customer): Address

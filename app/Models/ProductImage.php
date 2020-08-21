@@ -14,7 +14,6 @@ namespace App\Models;
  * @author michael.hampton
  */
 
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

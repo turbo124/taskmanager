@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Attribute;
 use App\Repositories\AttributeRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -21,7 +22,7 @@ class AttributeUnitTest extends TestCase
     /** @test */
     public function it_should_error_when_the_attribute_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
 
         $attributeRepo = new AttributeRepository(new Attribute);
         $attributeRepo->findAttributeById(999);

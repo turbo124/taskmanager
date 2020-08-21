@@ -2,8 +2,8 @@
 
 namespace App\Services\Payment;
 
-use App\Models\Credit;
 use App\Events\Payment\PaymentWasDeleted;
+use App\Models\Credit;
 use App\Models\Invoice;
 use App\Models\Payment;
 
@@ -16,7 +16,7 @@ class DeletePayment
 
     /**
      * DeletePayment constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Payment $payment)
     {

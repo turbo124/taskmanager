@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 
+use App\Factory\CaseFactory;
+use App\Filters\CaseFilter;
 use App\Models\Cases;
 use App\Models\CompanyToken;
 use App\Models\Customer;
-use App\Factory\CaseFactory;
-use App\Filters\CaseFilter;
 use App\Repositories\CaseRepository;
 use App\Requests\Cases\CreateCaseRequest;
 use App\Requests\Cases\UpdateCaseRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\CaseTransformable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Exception;
+use Illuminate\Http\JsonResponse;
+
+use function request;
 
 class CaseController extends Controller
 {
@@ -36,11 +38,11 @@ class CaseController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
-        $token_sent = \request()->bearerToken();
+        $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
@@ -53,7 +55,7 @@ class CaseController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -64,7 +66,7 @@ class CaseController extends Controller
     /**
      * @param int $id
      * @param UpdateCaseRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdateCaseRequest $request)
     {
@@ -75,11 +77,11 @@ class CaseController extends Controller
 
     /**
      * @param CreateCaseRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateCaseRequest $request)
     {
-        $token_sent = \request()->bearerToken();
+        $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
         $user = $token->user;
@@ -95,8 +97,8 @@ class CaseController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(int $id)
     {
@@ -108,7 +110,7 @@ class CaseController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function bulk()
     {

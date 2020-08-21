@@ -1,20 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Alert,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import ExpenseModel from '../models/ExpenseModel'
 import ExpensePresenter from '../presenters/ExpensePresenter'
 import FormatDate from '../common/FormatDate'
@@ -120,13 +105,15 @@ export default class Expense extends Component {
 
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user} title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`} icon={icons.user} />
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         const fields = []
 
         if (this.props.entity.date.length) {
-            fields.date = <FormatDate date={this.props.entity.date} />
+            fields.date = <FormatDate date={this.props.entity.date}/>
         }
 
         if (this.props.entity.transaction_reference.length) {
@@ -141,7 +128,7 @@ export default class Expense extends Component {
         }
 
         if (this.props.entity.payment_date.length) {
-            fields.payment_date = <FormatDate date={this.props.entity.payment_date} />
+            fields.payment_date = <FormatDate date={this.props.entity.payment_date}/>
         }
 
         if (category.length) {
@@ -217,12 +204,13 @@ export default class Expense extends Component {
 
                         {!!this.props.entity.private_notes.length &&
                         <Row>
-                            <InfoMessage message={this.props.entity.private_notes} />
+                            <InfoMessage message={this.props.entity.private_notes}/>
                         </Row>
                         }
 
                         <Row>
-                            <EntityListTile entity={translations.customer} title={customer[0].name} icon={icons.customer} />
+                            <EntityListTile entity={translations.customer} title={customer[0].name}
+                                icon={icons.customer}/>
                         </Row>
 
                         {!!user &&
@@ -231,7 +219,7 @@ export default class Expense extends Component {
                         </Row>
                         }
 
-                        <FieldGrid fields={fields} />
+                        <FieldGrid fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">
@@ -255,8 +243,10 @@ export default class Expense extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')} button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')} button2={{ label: translations.clone_to_invoice }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
+                    button2={{ label: translations.clone_to_invoice }}/>
 
             </React.Fragment>
 

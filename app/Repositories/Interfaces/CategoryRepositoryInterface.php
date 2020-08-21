@@ -3,9 +3,9 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Category;
 use App\Models\Product;
+use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
 
 interface CategoryRepositoryInterface extends BaseRepositoryInterface
@@ -51,7 +51,7 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param \App\Models\Product $product
+     * @param Product $product
      */
     public function associateProduct(Product $product);
 
@@ -81,7 +81,7 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     /**
      * @param string $slug
      * @param Account $account
-     * @return \App\Models\Category
+     * @return Category
      */
     public function findCategoryBySlug(string $slug, Account $account): Category;
 

@@ -4,16 +4,18 @@ namespace App\Helpers\Shipping;
 
 use App\Models\Address;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Collection;
 use Shippo;
+use Shippo_Get_Shipping_Rates;
 use Shippo_Shipment;
+use Shippo_Transaction;
 
 class ShippoShipment
 {
     /**
-     * @var \App\Models\Customer
+     * @var Customer
      */
     private Customer $customer;
 
@@ -52,7 +54,7 @@ class ShippoShipment
 
     /**
      * ShippoShipment constructor.
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      */
     public function __construct(Customer $customer, $line_items)
     {
@@ -80,7 +82,7 @@ class ShippoShipment
      */
     public function createLabel(Order $order)
     {
-        $transaction = \Shippo_Transaction::create(
+        $transaction = Shippo_Transaction::create(
             array(
                 'rate'            => $order->shipping_id,
                 'label_file_type' => "PDF",
@@ -129,7 +131,7 @@ class ShippoShipment
     }
 
     /**
-     * @param \App\Models\Address $address
+     * @param Address $address
      */
     private function setDeliveryAddress(Address $address)
     {
@@ -150,7 +152,7 @@ class ShippoShipment
     }
 
     /**
-     * @return \Shippo_Shipment
+     * @return Shippo_Shipment
      */
     private function readyShipment()
     {
@@ -180,7 +182,7 @@ class ShippoShipment
     /**
      * @param string $id
      * @param string $currency
-     * @return \Shippo_Get_Shipping_Rates
+     * @return Shippo_Get_Shipping_Rates
      */
 //    public function getRates(string $id, string $currency = 'USD')
 //    {

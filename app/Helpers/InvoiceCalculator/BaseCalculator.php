@@ -3,8 +3,6 @@
 namespace App\Helpers\InvoiceCalculator;
 
 
-use Illuminate\Support\Facades\Log;
-
 class BaseCalculator
 {
     private $customer;

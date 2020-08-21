@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use App\Models\Payment;
 
 class Paymentable extends Pivot
 {

@@ -10,7 +10,7 @@ class PaymentWasEmailedAndFailed
     use SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     public $payment;
 

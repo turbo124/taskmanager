@@ -2,13 +2,15 @@
 
 namespace App\Helpers\Promocodes;
 
+use App\Exceptions\InvalidPromocodeException;
 use App\Models\Account;
 use App\Models\Customer;
-use App\Exceptions\InvalidPromocodeException;
 use App\Models\Order;
+use App\Models\Promocode;
 use App\Models\User;
 use Carbon\Carbon;
-use App\Models\Promocode;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 class Promocodes
@@ -66,7 +68,7 @@ class Promocodes
      * Save promocodes into database
      * Successful insert returns generated promocodes
      * Fail will return empty collection.
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @param int $amount
      * @param null $reward
      * @param array $data
@@ -168,7 +170,7 @@ class Promocodes
 
     /**
      * @param $data
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @param Customer $customer
      * @return bool
      */
@@ -214,7 +216,7 @@ class Promocodes
 
                 return $promocode->load('customers');
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             //
         }
 
@@ -281,7 +283,7 @@ class Promocodes
     /**
      * Get the list of valid promocodes
      *
-     * @return Promocode[]|\Illuminate\Database\Eloquent\Collection
+     * @return Promocode[]|Collection
      */
     public function all()
     {

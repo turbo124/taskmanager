@@ -3,26 +3,17 @@
 namespace App\Models;
 
 use App\Collection;
-use App\Models\File;
 use App\Models;
-use App\Models\AccountUser;
-use App\Models\Upload;
+use App\Traits\HasPermissionsTrait;
 use App\Util\Jobs\FileUploader;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Models\Event;
-use App\Traits\HasPermissionsTrait;
-use App\Models\Message;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Department;
-use App\Models\Role;
-use App\Models\Permission;
-use App\Models\Account;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
-use Illuminate\Support\Facades\Storage;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use stdClass;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -146,7 +137,9 @@ class User extends Authenticatable implements JWTSubject
         return Models\AccountUser::join('company_tokens', 'company_tokens.account_id', '=', 'account_user.account_id')
                                  ->where('company_tokens.user_id', '=', $this->id)
                                  ->where('company_tokens.is_web', '=', true)
-                                 ->where('company_tokens.token', '=', $this->auth_token)->select('account_user.*')->first();
+                                 ->where('company_tokens.token', '=', $this->auth_token)->select(
+                'account_user.*'
+            )->first();
     }
 
     /**
@@ -182,7 +175,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function notificationDefaults()
     {
-        $notification = new \stdClass;
+        $notification = new stdClass;
         $notification->email = [];
 
         return $notification;

@@ -8,11 +8,9 @@
 
 namespace App\Models;
 
-use App\Models\Country;
+use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\SearchableTrait;
-use App\Models\Customer;
 
 /**
  * Description of Address

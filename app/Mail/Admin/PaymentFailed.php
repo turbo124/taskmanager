@@ -12,13 +12,13 @@ class PaymentFailed extends AdminMailer
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     private Payment $payment;
 
     /**
      * PaymentFailed constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param User $user
      */
     public function __construct(Payment $payment, User $user)

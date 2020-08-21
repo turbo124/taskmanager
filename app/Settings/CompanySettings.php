@@ -3,6 +3,7 @@
 namespace App\Settings;
 
 use App\Models\Company;
+use Exception;
 
 class CompanySettings extends BaseSettings
 {
@@ -26,7 +27,7 @@ class CompanySettings extends BaseSettings
             $company->save();
 
             return $company;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             die('here 55');
         }

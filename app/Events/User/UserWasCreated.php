@@ -3,14 +3,12 @@
 namespace App\Events\User;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class UserWasCreated

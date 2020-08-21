@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Models;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Customer;
 
 class Message extends Model
 {

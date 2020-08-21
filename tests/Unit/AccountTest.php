@@ -2,14 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Models\Customer;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 use App\Models\Account;
-use Illuminate\Support\Collection;
+use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class AccountTest extends TestCase
 {

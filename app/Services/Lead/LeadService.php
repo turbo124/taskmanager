@@ -3,8 +3,8 @@
 namespace App\Services\Lead;
 
 use App\Models\Lead;
-use App\Services\ServiceBase;
 use App\Repositories\LeadRepository;
+use App\Services\ServiceBase;
 
 /**
  * Class TaskService

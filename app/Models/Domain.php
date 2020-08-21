@@ -2,16 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Account;
-use App\Models\AccountUser;
-use App\Models\Customer;
-use App\Models\User;
-use App\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
 
 class Domain extends Model
 {

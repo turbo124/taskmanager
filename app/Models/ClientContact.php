@@ -2,17 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
 use App\Models;
-use App\Models\Account;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Laracasts\Presenter\PresentableTrait;
 
 class ClientContact extends Model implements HasLocalePreference

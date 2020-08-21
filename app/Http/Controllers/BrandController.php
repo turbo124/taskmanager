@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Factory\BrandFactory;
 use App\Filters\BrandFilter;
-use App\Filters\CategoryFilter;
 use App\Repositories\BrandRepository;
 use App\Requests\Brand\CreateBrandRequest;
 use App\Requests\Brand\UpdateBrandRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\BrandTransformable;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class BrandController
@@ -34,7 +35,7 @@ class BrandController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -47,7 +48,7 @@ class BrandController extends Controller
 
     /**
      * @param CreateBrandRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateBrandRequest $request)
     {
@@ -61,7 +62,7 @@ class BrandController extends Controller
     /**
      * @param UpdateBrandRequest $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateBrandRequest $request, $id)
     {
@@ -75,8 +76,8 @@ class BrandController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy($id)
     {

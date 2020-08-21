@@ -25,7 +25,7 @@ class UpdatePaymentRequest extends BaseFormRequest
                 new InvoicePaymentValidation($this->all()),
                 new CreditPaymentValidation($this->all())
             ],
-            'number' => 'nullable|unique:payments,number,' . $this->payment_id . ',id,account_id,' . $this->account_id,
+            'number'   => 'nullable|unique:payments,number,' . $this->payment_id . ',id,account_id,' . $this->account_id,
         ];
     }
 }

@@ -5,8 +5,6 @@ namespace App\Jobs\Customer;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class StoreCustomerAddress
 {

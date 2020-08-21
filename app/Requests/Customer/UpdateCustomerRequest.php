@@ -3,7 +3,6 @@
 namespace App\Requests\Customer;
 
 use App\Repositories\Base\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateCustomerRequest extends BaseFormRequest
 {

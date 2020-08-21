@@ -5,7 +5,6 @@ namespace App\Services\Order;
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Quote;
 use App\Repositories\InvoiceRepository;
 
 class ConvertOrder

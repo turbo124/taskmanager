@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Permission;
-use Illuminate\Support\Collection;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class PermissionRepository extends BaseRepository implements PermissionRepositoryInterface
 {

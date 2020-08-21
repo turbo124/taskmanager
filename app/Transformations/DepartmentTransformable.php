@@ -3,8 +3,8 @@
 namespace App\Transformations;
 
 use App\Models\Department;
-use App\Repositories\UserRepository;
 use App\Models\User;
+use App\Repositories\UserRepository;
 
 trait DepartmentTransformable
 {

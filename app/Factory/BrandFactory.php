@@ -6,7 +6,6 @@ namespace App\Factory;
 
 use App\Models\Account;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\User;
 
 class BrandFactory

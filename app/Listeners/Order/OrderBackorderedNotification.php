@@ -6,7 +6,6 @@ use App\Notifications\Admin\OrderBackordered;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Queue\InteractsWithQueue;
 
 class OrderBackorderedNotification implements ShouldQueue
 {

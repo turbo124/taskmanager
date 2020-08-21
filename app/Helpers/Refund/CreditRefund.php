@@ -7,7 +7,6 @@ namespace App\Helpers\Refund;
 use App\Models\Credit;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Paymentable;
 use App\Repositories\CreditRepository;
 
 class CreditRefund extends BaseRefund
@@ -36,7 +35,7 @@ class CreditRefund extends BaseRefund
 
             $credit_id = $payment_credit['credit_id'];
 
-            if(empty($credits[$credit_id])) {
+            if (empty($credits[$credit_id])) {
                 return false;
             }
 

@@ -4,11 +4,10 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\CompanyToken;
-use App\Models\Customer;
-use App\Filters\GroupFilter;
 use App\Filters\PromocodeFilter;
 use App\Helpers\Promocodes\Promocodes;
+use App\Models\CompanyToken;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Promocode;
 use App\Repositories\PromocodeRepository;
@@ -16,8 +15,8 @@ use App\Requests\Promocode\CreatePromocode;
 use App\Requests\Promocode\UpdatePromocode;
 use App\Requests\SearchRequest;
 use App\Transformations\PromocodeTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class PromocodeController
@@ -43,7 +42,7 @@ class PromocodeController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {

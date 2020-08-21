@@ -3,7 +3,6 @@
 namespace App\Requests\Cases;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings;
 
 class CreateCaseRequest extends BaseFormRequest
 {

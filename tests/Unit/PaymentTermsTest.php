@@ -2,22 +2,16 @@
 
 namespace Tests\Unit;
 
-use App\Models\Customer;
 use App\Factory\PaymentTermsFactory;
-use App\Factory\ProjectFactory;
 use App\Filters\PaymentTermsFilter;
+use App\Models\Account;
 use App\Models\PaymentTerms;
+use App\Models\User;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\SearchRequest;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Project;
-use App\Models\Account;
-use App\Repositories\ProjectRepository;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class PaymentTermsTest extends TestCase
 {
@@ -25,12 +19,12 @@ class PaymentTermsTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /**
-     * @var \App\Models\Account
+     * @var Account
      */
     private Account $account;
 
     /**
-     * @var \App\Models\User
+     * @var User
      */
     private User $user;
 

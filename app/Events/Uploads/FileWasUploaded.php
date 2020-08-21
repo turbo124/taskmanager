@@ -2,10 +2,7 @@
 
 namespace App\Events\Uploads;
 
-use App\Models\Account;
 use App\Models\File;
-use App\Models\Lead;
-use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -23,7 +20,7 @@ class FileWasUploaded
 
     /**
      * FileWasUploaded constructor.
-     * @param \App\Models\File $file
+     * @param File $file
      */
     public function __construct(File $file)
     {

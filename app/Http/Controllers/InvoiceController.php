@@ -2,44 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Credit;
+use App\Factory\InvoiceFactory;
+use App\Filters\InvoiceFilter;
 use App\Models\Customer;
-use App\Events\Invoice\InvoiceWasCreated;
-use App\Events\Invoice\InvoiceWasRestored;
-use App\Events\Misc\InvitationWasViewed;
-use App\Factory\CloneInvoiceFactory;
-use App\Factory\InvoiceToPaymentFactory;
-use App\Helpers\Refund\RefundFactory;
-use App\Models\InvoiceInvitation;
-use App\Factory\CloneInvoiceToQuoteFactory;
-use App\Factory\NotificationFactory;
-use App\Jobs\Order\InvoiceOrders;
-use App\Jobs\Pdf\Download;
-use App\Models\Notification;
-use App\Models\Payment;
-use App\Models\Quote;
-use App\Repositories\CreditRepository;
-use App\Repositories\InvoiceRepository;
-use App\Repositories\NotificationRepository;
-use App\Repositories\PaymentRepository;
-use App\Repositories\QuoteRepository;
-use App\Transformations\QuoteTransformable;
-use Exception;
-use Illuminate\Http\Request;
-use App\Repositories\Interfaces\InvoiceRepositoryInterface;
-use App\Transformations\InvoiceTransformable;
 use App\Models\Invoice;
-use App\Requests\SearchRequest;
+use App\Models\Task;
+use App\Repositories\CreditRepository;
+use App\Repositories\Interfaces\InvoiceRepositoryInterface;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\QuoteRepository;
+use App\Repositories\TaskRepository;
 use App\Requests\Invoice\CreateInvoiceRequest;
 use App\Requests\Invoice\UpdateInvoiceRequest;
-use App\Factory\InvoiceFactory;
-use App\Events\Invoice\InvoiceWasUpdated;
-use App\Filters\InvoiceFilter;
-use App\Repositories\TaskRepository;
-use App\Models\Task;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Storage;
+use App\Requests\SearchRequest;
+use App\Transformations\InvoiceTransformable;
+use App\Transformations\QuoteTransformable;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class InvoiceController
@@ -72,7 +52,7 @@ class InvoiceController extends BaseController
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -170,7 +150,7 @@ class InvoiceController extends BaseController
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws Exception
      */
     public function destroy(int $id)

@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\EventType;
-use App\Repositories\Interfaces\EventTypeRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\EventTypeRepositoryInterface;
 use Exception;
 
 class EventTypeRepository extends BaseRepository implements EventTypeRepositoryInterface
@@ -13,7 +13,7 @@ class EventTypeRepository extends BaseRepository implements EventTypeRepositoryI
     /**
      * EventTypeRepository constructor.
      *
-     * @param \App\Models\EventType $eventType
+     * @param EventType $eventType
      */
     public function __construct(EventType $eventType)
     {

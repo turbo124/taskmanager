@@ -4,8 +4,8 @@ namespace App\Services\Account;
 
 use App\Models\Account;
 use App\Models\Lead;
-use App\Services\Account\ConvertAccount;
 use App\Services\ServiceBase;
+use Carbon\Carbon;
 
 /**
  * Class TaskService
@@ -20,7 +20,7 @@ class AccountService extends ServiceBase
 
     /**
      * LeadService constructor.
-     * @param \App\Models\Lead $lead
+     * @param Lead $lead
      */
     public function __construct(Account $account)
     {
@@ -40,8 +40,8 @@ class AccountService extends ServiceBase
 
     public function refund()
     {
-        $start_date = \Carbon\Carbon::createFromFormat('d-m-Y', '1-5-2015');
-        $end_date = \Carbon\Carbon::now();
+        $start_date = Carbon::createFromFormat('d-m-Y', '1-5-2015');
+        $end_date = Carbon::now();
         $different_days = $start_date->diffInDays($end_date);
         $daily_rate = 25;
         $should_pay = $different_days * $daily_rate;

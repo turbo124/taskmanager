@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Factory\CompanyGatewayFactory;
 use App\Filters\CompanyGatewayFilter;
-use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
-use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\Models\CompanyGateway;
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyGatewayRepository;
+use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
+use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\Requests\SearchRequest;
 use App\Settings\GatewaySettings;
 use App\Transformations\CompanyGatewayTransformable;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
 
 /**
  * Class CompanyGatewayController
@@ -61,7 +59,7 @@ class CompanyGatewayController extends Controller
 
     /**
      * @param UpdateCompanyGatewayRequest $request
-     * @param \App\Models\CompanyGateway $company_gateway
+     * @param CompanyGateway $company_gateway
      * @return mixed
      */
     public function update(UpdateCompanyGatewayRequest $request, int $id)

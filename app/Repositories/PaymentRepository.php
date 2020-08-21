@@ -2,29 +2,24 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
-use App\Models\Customer;
+use App\Events\Payment\PaymentWasCreated;
 use App\Filters\PaymentFilter;
 use App\Helpers\Currency\CurrencyConverter;
-use App\Factory\PaymentFactory;
-use App\Models\NumberGenerator;
+use App\Models\Account;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Paymentable;
 use App\Repositories\Base\BaseRepository;
-use App\Models\Payment;
-use App\Models\Credit;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\SearchRequest;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Collection;
-use App\Models\Invoice;
-use App\Events\Payment\PaymentWasCreated;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface
 {
     /**
      * PaymentRepository constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Payment $payment)
     {
@@ -45,7 +40,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return array|\Illuminate\Pagination\LengthAwarePaginator
+     * @return array|LengthAwarePaginator
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {

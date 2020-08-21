@@ -2,34 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Credit;
-use App\Models\Customer;
 use App\Events\Payment\PaymentWasCreated;
-use App\Factory\NotificationFactory;
+use App\Factory\PaymentFactory;
+use App\Filters\PaymentFilter;
 use App\Helpers\Payment\ProcessPayment;
 use App\Helpers\Refund\RefundFactory;
-use App\Models\Invoice;
 use App\Jobs\Payment\CreatePayment;
-use App\Models\Order;
-use App\Models\Refund;
+use App\Models\Credit;
+use App\Models\Customer;
+use App\Models\Payment;
 use App\Repositories\CreditRepository;
-use App\Repositories\InvoiceRepository;
-use App\Repositories\NotificationRepository;
-use App\Repositories\OrderRepository;
-use App\Repositories\PaymentRepository;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\Payment\CreatePaymentRequest;
 use App\Requests\Payment\RefundPaymentRequest;
 use App\Requests\Payment\UpdatePaymentRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\PaymentTransformable;
-use App\Models\Payment;
-use App\Filters\PaymentFilter;
-use App\Factory\PaymentFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -137,9 +128,9 @@ class PaymentController extends Controller
 
     /**
      * @param Request $request
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param $action
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function action(Request $request, Payment $payment, $action)
     {
@@ -160,7 +151,7 @@ class PaymentController extends Controller
 
     /**
      * @param RefundPaymentRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refund(RefundPaymentRequest $request)
     {
@@ -190,7 +181,7 @@ class PaymentController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function completePayment(Request $request)
     {

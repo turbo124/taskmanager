@@ -4,12 +4,13 @@ namespace Tests\Unit;
 
 use App\Factory\TaxRateFactory;
 use App\Models\TaxRate;
-use App\Repositories\TaxRateRepository;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Transformations\EventTransformable;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
+use App\Repositories\TaxRateRepository;
+use App\Transformations\EventTransformable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TaxRateUnitTest extends TestCase
 {
@@ -51,7 +52,7 @@ class TaxRateUnitTest extends TestCase
     /** @test */
     public function it_errors_when_the_tax_rate_is_not_found()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
         $taxRateRepo = new TaxRateRepository(new TaxRate);
         $taxRateRepo->findTaxRateById(999);
     }

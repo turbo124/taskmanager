@@ -7,9 +7,7 @@ use App\Models\CompanyGateway;
 use App\Repositories\CompanyGatewayRepository;
 use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
-use App\Models\Invoice;
 use App\Transformations\CompanyGatewayTransformable;
-use App\Transformations\InvoiceTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class CompanyGatewayFilter extends QueryFilter
@@ -32,7 +30,7 @@ class CompanyGatewayFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

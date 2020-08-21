@@ -7,7 +7,7 @@ use App\Models\PaymentTerms;
 trait PaymentTermsTransformable
 {
     /**
-     * @param \App\Models\PaymentTerms $payment_terms
+     * @param PaymentTerms $payment_terms
      * @return array
      */
     protected function transformPaymentTerms(PaymentTerms $payment_terms)

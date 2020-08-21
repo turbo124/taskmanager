@@ -3,7 +3,6 @@
 namespace App\Requests\Subscription;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings;
 
 class CreateSubscriptionRequest extends BaseFormRequest
 {

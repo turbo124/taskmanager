@@ -3,7 +3,6 @@
 namespace App\Requests\Promocode;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings\LineItemSettings;
 
 class UpdatePromocode extends BaseFormRequest
 {

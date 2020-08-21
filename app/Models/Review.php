@@ -4,7 +4,6 @@
 namespace App\Models;
 
 
-use App\Models\ClientContact;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model

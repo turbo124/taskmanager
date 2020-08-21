@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Base\BaseRepository;
 use App\Models\Permission;
+use App\Models\Role;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Shop\Roles\Exceptions\CreateRoleErrorException;
 use App\Shop\Roles\Exceptions\DeleteRoleErrorException;
 use App\Shop\Roles\Exceptions\RoleNotFoundErrorException;
 use App\Shop\Roles\Exceptions\UpdateRoleErrorException;
-use App\Models\Role;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
@@ -17,13 +17,13 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 {
 
     /**
-     * @var \App\Models\Role
+     * @var Role
      */
     protected $model;
 
     /**
      * RoleRepository constructor.
-     * @param \App\Models\Role $role
+     * @param Role $role
      */
     public function __construct(Role $role)
     {
@@ -45,7 +45,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 
     /**
      * @param array $data
-     * @return \App\Models\Role
+     * @return Role
      * @throws CreateRoleErrorException
      */
     public function createRole(array $data): Role
@@ -58,7 +58,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
     /**
      * @param int $id
      *
-     * @return \App\Models\Role
+     * @return Role
      * @throws RoleNotFoundErrorException
      */
     public function findRoleById(int $id): Role

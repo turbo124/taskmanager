@@ -11,13 +11,13 @@ class CustomerWasRestored
     use SerializesModels;
 
     /**
-     * @var \App\Models\Customer
+     * @var Customer
      */
     public Customer $customer;
 
     /**
      * CustomerWasRestored constructor.
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      */
     public function __construct(Customer $customer)
     {

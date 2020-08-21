@@ -3,11 +3,10 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Company;
+use App\Models\TaxRate;
 use App\Repositories\CompanyRepository;
 use App\Repositories\TaxRateRepository;
 use App\Requests\SearchRequest;
-use App\Models\TaxRate;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 

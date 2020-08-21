@@ -2,30 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Credit\CreditWasCreated;
-use App\Events\Credit\CreditWasRestored;
-use App\Events\Credit\CreditWasUpdated;
-use App\Events\Misc\InvitationWasViewed;
-use App\Factory\CloneCreditFactory;
-use App\Factory\CloneCreditToQuoteFactory;
+use App\Factory\CreditFactory;
 use App\Filters\CreditFilter;
-use App\Models\Quote;
+use App\Models\Credit;
+use App\Models\Customer;
+use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\Credit\CreateCreditRequest;
 use App\Requests\Credit\UpdateCreditRequest;
-use App\Models\Customer;
-use App\Models\Credit;
-use App\Repositories\CreditRepository;
-use App\Services\CreditService;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Services\CreditService;
 use App\Transformations\CreditTransformable;
-use App\Factory\CreditFactory;
 use App\Transformations\QuoteTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class CreditController
@@ -55,7 +46,7 @@ class CreditController extends BaseController
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {

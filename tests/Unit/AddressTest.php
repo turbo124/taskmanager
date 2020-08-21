@@ -3,15 +3,13 @@
 namespace Tests\Unit;
 
 use App\Models\Address;
-use App\Models\ClientContact;
-use App\Repositories\AddressRepository;
-use App\Repositories\ClientContactRepository;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use App\Transformations\AddressTransformable;
 use App\Models\Customer;
+use App\Repositories\AddressRepository;
 use App\Repositories\CustomerRepository;
+use App\Transformations\AddressTransformable;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class AddressTest extends TestCase
 {

@@ -13,7 +13,7 @@ class ProcessPayment
     /**
      * @param array $data
      * @param PaymentRepository $payment_repo
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @return Payment|null
      */
     public function process(array $data, PaymentRepository $payment_repo, Payment $payment): ?Payment

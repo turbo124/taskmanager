@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Requests\Upload;
 
 use App\Repositories\Base\BaseFormRequest;
@@ -16,11 +17,14 @@ class DeleteFile extends BaseFormRequest
         $user = auth()->user();
 
         return [
-            'password' => ['required', function ($attribute, $value, $fail) use ($user) {
-                if (!Hash::check($value, $user->password)) {
-                    return $fail(__('The password is incorrect.'));
+            'password' => [
+                'required',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        return $fail(__('The password is incorrect.'));
+                    }
                 }
-            }],
+            ],
         ];
     }
 }

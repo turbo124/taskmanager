@@ -2,17 +2,18 @@
 
 namespace App\Services\Quote;
 
-use App\Factory\QuoteToRecurringQuoteFactory;
-use App\Models\Invoice;
-use App\Models\Quote;
 use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasEmailed;
+use App\Factory\QuoteToRecurringQuoteFactory;
+use App\Models\Invoice;
+use App\Models\Order;
+use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Services\Quote\MarkSent;
-use App\Repositories\QuoteRepository;
 use App\Services\ServiceBase;
 
 class QuoteService extends ServiceBase
@@ -80,7 +81,7 @@ class QuoteService extends ServiceBase
     }
 
     /**
-     * @return \App\Models\Quote
+     * @return Quote
      */
     public function calculateInvoiceTotals(): Quote
     {
@@ -89,7 +90,7 @@ class QuoteService extends ServiceBase
 
     /**
      * @param OrderRepository $order_repository
-     * @return \App\Models\Order|null
+     * @return Order|null
      */
     public function convertQuoteToOrder(OrderRepository $order_repository)
     {

@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -73,9 +72,9 @@ class UserEmailChangedNotification extends Mailable
     private function buildMessage()
     {
         $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'logo'        => $this->user->account_user()->account->present()->logo(),
+            'title'   => $this->subject,
+            'message' => $this->message,
+            'logo'    => $this->user->account_user()->account->present()->logo(),
         ];
     }
 

@@ -12,14 +12,14 @@ class QuoteApproved extends AdminMailer
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Quote
+     * @var Quote
      */
     private Quote $quote;
 
     /**
      * QuoteApproved constructor.
      * @param Quote $quote
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(Quote $quote, User $user)
     {

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Base\BaseRepository;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Repositories\Base\BaseRepository;
 
 class ProductImageRepository extends BaseRepository
 {

@@ -13,7 +13,7 @@ class PaymentFailed
     use SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     public Payment $payment;
 

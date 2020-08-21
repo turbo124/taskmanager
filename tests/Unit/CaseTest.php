@@ -2,27 +2,20 @@
 
 namespace Tests\Unit;
 
+use App\Factory\CaseFactory;
+use App\Filters\CaseFilter;
+use App\Models\Account;
 use App\Models\Cases;
 use App\Models\Customer;
-use App\Events\Lead\LeadWasCreated;
-use App\Factory\CaseFactory;
-use App\Factory\LeadFactory;
-use App\Filters\CaseFilter;
-use App\Filters\LeadFilter;
-use App\Models\Lead;
-use App\Repositories\CaseRepository;
-use App\Repositories\LeadRepository;
-use App\Repositories\ProjectRepository;
-use App\Requests\SearchRequest;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Task;
 use App\Models\User;
-use App\Models\Account;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Repositories\CaseRepository;
+use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CaseTest extends TestCase
 {
@@ -30,17 +23,17 @@ class CaseTest extends TestCase
     use DatabaseTransactions, WithFaker, TaskTransformable;
 
     /**
-     * @var \App\Models\User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var User|Collection|Model|mixed
      */
     private User $user;
 
     /**
-     * @var \App\Models\Account
+     * @var Account
      */
     private Account $account;
 
     /**
-     * @var \App\Models\Customer|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @var Customer|Collection|Model|mixed
      */
     private Customer $customer;
 

@@ -8,9 +8,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Permission;
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Support\Collection;
-use App\Models\Permission;
 
 interface PermissionRepositoryInterface extends BaseRepositoryInterface
 {

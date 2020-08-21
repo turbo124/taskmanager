@@ -2,7 +2,6 @@
 
 namespace App\Transformations;
 
-use App\Models\Quote;
 use App\Models\QuoteInvitation;
 
 class QuoteInvitationTransformable

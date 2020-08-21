@@ -97,7 +97,7 @@ class ProductSettings extends Component {
                     label: translations.allow_backorders,
                     type: 'switch',
                     placeholder: translations.allow_backorders,
-                    value: settings.allow_backorders,  
+                    value: settings.allow_backorders,
                     help_text: translations.allow_backorders_help_text
                 },
                 {
@@ -114,7 +114,7 @@ class ProductSettings extends Component {
                     placeholder: translations.inventory_enabled,
                     help_text: translations.inventory_enabled_help_text,
                     value: settings.inventory_enabled
-                },
+                }
                 /* {
                     name: 'show_cost',
                     label: 'Show Cost',
@@ -142,7 +142,7 @@ class ProductSettings extends Component {
                 },
                 {
                     name: 'show_cost',
-                    label: translations.show_cost, 
+                    label: translations.show_cost,
                     help_text: translations.show_cost_help_text,
                     type: 'switch',
                     placeholder: 'Show Cost',

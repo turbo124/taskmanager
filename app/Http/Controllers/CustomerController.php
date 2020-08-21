@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Customer\CustomerWasCreated;
+use App\Events\Customer\CustomerWasUpdated;
+use App\Factory\CustomerFactory;
+use App\Filters\CustomerFilter;
+use App\Helpers\Customer\ContactRegister;
+use App\Jobs\Customer\StoreCustomerAddress;
 use App\Models\Account;
 use App\Models\CompanyToken;
 use App\Models\Customer;
-use App\Events\Customer\CustomerWasCreated;
-use App\Events\Customer\CustomerWasRestored;
-use App\Events\Customer\CustomerWasUpdated;
-use App\Helpers\Customer\ContactRegister;
-use App\Jobs\Customer\StoreCustomerAddress;
+use App\Models\CustomerType;
 use App\Repositories\ClientContactRepository;
 use App\Repositories\CustomerRepository;
+use App\Repositories\CustomerTypeRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Requests\Customer\CreateCustomerRequest;
 use App\Requests\Customer\CustomerRegistrationRequest;
+use App\Requests\Customer\UpdateCustomerRequest;
+use App\Requests\SearchRequest;
 use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
-use App\Requests\Customer\UpdateCustomerRequest;
-use App\Requests\Customer\CreateCustomerRequest;
-use App\Requests\SearchRequest;
-use App\Repositories\CustomerTypeRepository;
-use App\Models\CustomerType;
 use Exception;
-use Illuminate\Http\Request;
-use App\Factory\CustomerFactory;
-use App\Filters\CustomerFilter;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
+
+use function request;
 
 class CustomerController extends Controller
 {
@@ -96,7 +95,7 @@ class CustomerController extends Controller
 
     /**
      * @param CreateCustomerRequest $request
-     * @return \App\Models\Customer
+     * @return Customer
      */
     public function store(CreateCustomerRequest $request)
     {
@@ -181,7 +180,7 @@ class CustomerController extends Controller
     public function register(CustomerRegistrationRequest $request)
     {
         $account = Account::where('subdomain', '=', $request->input('subdomain'))->firstOrFail();
-        $token_sent = \request()->bearerToken();
+        $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $user = $token->user;
 

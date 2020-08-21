@@ -7,20 +7,20 @@ return [
      * You can remove this key - value pair and we will
      * use default database name: 'promocodes'
      */
-    'table' => 'promocodes',
+    'table'             => 'promocodes',
 
     /*
      * Database pivot table name for promocodes and users relation
      * use default database name: 'promocode_user'
      */
-    'relation_table' => 'promocode_user',
+    'relation_table'    => 'promocode_user',
 
     /*
      * List of characters, promo code generated from.
      * We have removed 1 (one) and I because with some
      * fonts you can't find deference between them
      */
-    'characters' => '23456789ABCDEFGHJKLMNPQRSTUVWXYZ',
+    'characters'        => '23456789ABCDEFGHJKLMNPQRSTUVWXYZ',
 
     /*
      * Promo code prefix.
@@ -30,7 +30,7 @@ return [
      * Ex: foo
      * Output: foo-1234-1234
      */
-    'prefix' => false,
+    'prefix'            => false,
 
     /*
      * Promo code suffix.
@@ -40,7 +40,7 @@ return [
      * Ex: bar
      * Output: 1234-1234-bar
      */
-    'suffix' => false,
+    'suffix'            => false,
 
     /*
      * Promo code mask.
@@ -49,27 +49,27 @@ return [
      *
      * Ex: ***-**-***
      */
-    'mask' => '****-****',
+    'mask'              => '****-****',
 
     /*
      * Promo code prefix and suffix separator.
      * Can be set any thing you wish
      */
-    'separator' => '-',
+    'separator'         => '-',
 
     /**
      * User model
      */
-    'customer_model' => \App\Models\Customer::class,
+    'customer_model'    => \App\Models\Customer::class,
 
     /**
-     * Foreign pivot key for many to many relationship 
+     * Foreign pivot key for many to many relationship
      * of promocode and user model
      */
     'foreign_pivot_key' => 'promocode_id',
 
     /**
-     * Related pivot key for many to many relationship 
+     * Related pivot key for many to many relationship
      * of promocode and user model
      */
     'related_pivot_key' => 'customer_id',

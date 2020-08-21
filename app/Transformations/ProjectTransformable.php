@@ -7,7 +7,7 @@ use App\Models\Project;
 trait ProjectTransformable
 {
     /**
-     * @param \App\Models\Project $project
+     * @param Project $project
      * @return array
      */
     protected function transformProject(Project $project)

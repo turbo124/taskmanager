@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Event;
-use App\Models\Notification;
-use App\Repositories\Interfaces\EventRepositoryInterface;
+use App\Models\Task;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\EventRepositoryInterface;
 use Exception;
 use Illuminate\Support\Collection;
-use App\Repositories\UserRepository;
-use App\Models\User;
-use App\Models\Task;
 
 class EventRepository extends BaseRepository implements EventRepositoryInterface
 {
@@ -116,8 +114,8 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     }
 
     /**
-     * @param \App\Models\Event $event
-     * @param \App\Models\User $objUser
+     * @param Event $event
+     * @param User $objUser
      * @param $status
      */
     public function updateInvitationResponseForUser(Event $event, User $objUser, $status)
@@ -127,7 +125,7 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
 
     /**
      * @param array $data
-     * @param \App\Models\Event $event
+     * @param Event $event
      */
     public function save(array $data, Event $event): ?Event
     {

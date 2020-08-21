@@ -3,17 +3,16 @@
 
 namespace App\Jobs\Utils;
 
-use App\Events\Uploads\FileWasDeleted;
 use App\Events\Uploads\FileWasUploaded;
 use App\Factory\NotificationFactory;
 use App\Models\Account;
 use App\Models\File;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Intervention\Image\Facades\Image;
 
 class UploadFile implements ShouldQueue

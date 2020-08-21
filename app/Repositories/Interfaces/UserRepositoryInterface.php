@@ -2,11 +2,10 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Invoice;
-use App\Models\User;
-use Illuminate\Support\Collection;
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Department;
+use App\Models\User;
+use App\Repositories\Base\BaseRepositoryInterface;
+use Illuminate\Support\Collection;
 
 interface UserRepositoryInterface extends BaseRepositoryInterface
 {

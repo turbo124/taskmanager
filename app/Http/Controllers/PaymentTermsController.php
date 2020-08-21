@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Factory\PaymentTermsFactory;
 use App\Filters\PaymentTermsFilter;
-use App\Requests\Group\StoreGroupRequest;
-use App\Requests\Group\UpdateGroupRequest;
-use App\Models\Group;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\PaymentTerms\StorePaymentTermsRequest;
 use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;
 use App\Requests\SearchRequest;
-use App\Transformations\PaymentTermsTransformable;
 use App\Traits\UploadableTrait;
+use App\Transformations\PaymentTermsTransformable;
+use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class PaymentTermsControllerController
@@ -40,7 +37,7 @@ class PaymentTermsController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -54,7 +51,7 @@ class PaymentTermsController extends Controller
 
     /**
      * @param StorePaymentTermsRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(StorePaymentTermsRequest $request)
     {
@@ -66,7 +63,7 @@ class PaymentTermsController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -76,7 +73,7 @@ class PaymentTermsController extends Controller
     /**
      * @param int $id
      * @param UpdatePaymentTermsRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdatePaymentTermsRequest $request)
     {
@@ -87,8 +84,8 @@ class PaymentTermsController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function archive(int $id)
     {
@@ -99,7 +96,7 @@ class PaymentTermsController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {

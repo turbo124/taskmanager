@@ -9,16 +9,11 @@
 namespace App\Models;
 
 
-use App\Models\Account;
-use App\Models\Email;
-use App\Models\File;
-use App\Models\User;
-use App\Models\NumberGenerator;
 use App\Services\Lead\LeadService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Notifications\Notifiable;
+use Laracasts\Presenter\PresentableTrait;
 
 class Lead extends Model
 {

@@ -3,34 +3,27 @@
 namespace App\Services\Order;
 
 use App\Events\Order\OrderWasCancelled;
-use App\Events\Order\OrderWasHeld;
-use App\Helpers\Shipping\ShippoShipment;
-use App\Models\Invoice;
-use App\Models\Account;
-use App\Jobs\Inventory\ReverseInventory;
-use App\Jobs\Inventory\UpdateInventory;
-use App\Repositories\CustomerRepository;
-use App\Repositories\TaskRepository;
-use App\Models\User;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasEmailed;
+use App\Events\Order\OrderWasHeld;
+use App\Helpers\Shipping\ShippoShipment;
+use App\Jobs\Inventory\ReverseInventory;
+use App\Jobs\Inventory\UpdateInventory;
 use App\Models\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
-use Carbon\Carbon;
 use App\Services\ServiceBase;
-use App\Services\Order\ConvertOrder;
 
 class OrderService extends ServiceBase
 {
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     protected Order $order;
 
     /**
      * OrderService constructor.
-     * @param \App\Models\Order $order
+     * @param Order $order
      */
     public function __construct(Order $order)
     {
@@ -135,7 +128,7 @@ class OrderService extends ServiceBase
     }
 
     /**
-     * @return \App\Models\Order
+     * @return Order
      */
     public function holdOrder(): ?Order
     {

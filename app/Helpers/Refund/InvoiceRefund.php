@@ -2,8 +2,6 @@
 
 namespace App\Helpers\Refund;
 
-use App\Events\Payment\PaymentWasRefunded;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Paymentable;
@@ -15,7 +13,7 @@ class InvoiceRefund extends BaseRefund
 
     /**
      * InvoiceRefund constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param array $data
      * @param CreditRepository $credit_repository
      * @param array $payment_invoices
@@ -32,7 +30,7 @@ class InvoiceRefund extends BaseRefund
 
     /**
      * @param CreditRefund|null $objCreditRefund
-     * @return \App\Models\Payment
+     * @return Payment
      */
     public function refund(CreditRefund $objCreditRefund = null)
     {
@@ -76,7 +74,7 @@ class InvoiceRefund extends BaseRefund
     }
 
     /**
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param $amount
      * @return bool
      */

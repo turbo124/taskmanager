@@ -11,9 +11,9 @@ use App\Models\User;
 class CategoryFactory
 {
     /**
-     * @param \App\Models\Account $account
-     * @param \App\Models\User $user
-     * @return \App\Models\Category
+     * @param Account $account
+     * @param User $user
+     * @return Category
      */
     public static function create(Account $account, User $user): Category
     {

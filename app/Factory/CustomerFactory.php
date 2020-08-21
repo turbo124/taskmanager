@@ -3,8 +3,8 @@
 namespace App\Factory;
 
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Customer;
+use App\Models\User;
 use App\Settings\CustomerSettings;
 
 class CustomerFactory

@@ -2,11 +2,11 @@
 
 namespace App\Factory\Lead;
 
+use App\Models\Account;
 use App\Models\ClientContact;
 use App\Models\Customer;
-use App\Models\User;
-use App\Models\Account;
 use App\Models\Lead;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class CloneLeadToContactFactory

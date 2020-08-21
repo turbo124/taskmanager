@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Message;
 use App\Models\Customer;
+use App\Models\Message;
 use App\Models\User;
 
 /**

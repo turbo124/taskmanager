@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyToken;
 use App\Factory\CategoryFactory;
 use App\Filters\CategoryFilter;
+use App\Models\CompanyToken;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Http\Controllers\Controller;
 use App\Requests\Category\CreateCategoryRequest;
 use App\Requests\Category\UpdateCategoryRequest;
+use App\Requests\SearchRequest;
+use App\Transformations\CategoryTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Transformations\CategoryTransformable;
-use App\Requests\SearchRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -40,7 +38,7 @@ class CategoryController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -53,7 +51,7 @@ class CategoryController extends Controller
 
     /**
      * @param CreateCategoryRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateCategoryRequest $request)
     {
@@ -109,7 +107,7 @@ class CategoryController extends Controller
 
     /**
      * @param string $slug
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getCategory(string $slug)
     {
@@ -123,7 +121,7 @@ class CategoryController extends Controller
 
     /**
      * @param string $slug
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getChildCategories(string $slug)
     {
@@ -139,7 +137,7 @@ class CategoryController extends Controller
 
     /**
      * @param int $category_id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getForm(int $category_id)
     {

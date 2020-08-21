@@ -2,10 +2,7 @@
 
 namespace App\Transformations;
 
-use App\Models\Department;
 use App\Models\Group;
-use App\Repositories\UserRepository;
-use App\Models\User;
 use stdClass;
 
 trait GroupTransformable

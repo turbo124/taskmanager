@@ -5,15 +5,13 @@ namespace App\Factory;
 
 
 use App\Models\Account;
-use App\Models\CaseCategory;
-use App\Models\Category;
 use App\Models\ExpenseCategory;
 use App\Models\User;
 
 class ExpenseCategoryFactory
 {
     /**
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @param User $user
      * @return ExpenseCategory
      */

@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\File;
 use App\Jobs\Utils\UploadFile;
-use App\Repositories\TaskRepository;
-use App\Requests\Upload\DeleteFile;
-use App\Requests\UploadRequest;
+use App\Models\File;
+use App\Repositories\FileRepository;
 use App\Repositories\Interfaces\FileRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
-use App\Repositories\UserRepository;
-use App\Repositories\FileRepository;
-use App\Models\Task;
+use App\Requests\Upload\DeleteFile;
+use App\Requests\UploadRequest;
 use App\Transformations\FileTransformable;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\AttachmentCreated;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {

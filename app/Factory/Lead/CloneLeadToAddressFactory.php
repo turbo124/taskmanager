@@ -3,7 +3,6 @@
 namespace App\Factory\Lead;
 
 use App\Models\Address;
-use App\Models\ClientContact;
 use App\Models\Customer;
 use App\Models\Lead;
 

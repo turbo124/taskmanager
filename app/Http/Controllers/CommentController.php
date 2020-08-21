@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CommentFactory;
-use App\Requests\CommentRequest;
+use App\Repositories\CommentRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Requests\CommentRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\CommentCreated;
-use App\Repositories\CommentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,7 +52,9 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request)
     {
-        $class = strpos($request->input('entity'), 'Models') !== false ? $request->input('entity') : 'App\Models\\' . $request->input('entity');
+        $class = strpos($request->input('entity'), 'Models') !== false ? $request->input(
+            'entity'
+        ) : 'App\Models\\' . $request->input('entity');
 
         $entity = $class::where('id', $request->input('entity_id'))->first();
 
@@ -70,7 +69,7 @@ class CommentController extends Controller
             'user_id'     => $user->id
         ];
 
-        $comment =  CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id);
+        $comment = CommentFactory::create(auth()->user()->id, auth()->user()->account_user()->account_id);
         $comment->fill($data);
         $entity->comments()->save($comment);
 

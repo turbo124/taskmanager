@@ -3,10 +3,10 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Event;
-use Illuminate\Support\Collection;
-use App\Repositories\Base\BaseRepositoryInterface;
 use App\Models\Task;
 use App\Models\User;
+use App\Repositories\Base\BaseRepositoryInterface;
+use Illuminate\Support\Collection;
 
 interface EventRepositoryInterface extends BaseRepositoryInterface
 {

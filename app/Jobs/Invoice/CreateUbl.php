@@ -6,10 +6,8 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Product;
 use CleverIt\UBL\Invoice\Address;
-use CleverIt\UBL\Invoice\Contact;
 use CleverIt\UBL\Invoice\Country;
 use CleverIt\UBL\Invoice\Generator;
-use CleverIt\UBL\Invoice\Invoice as UBLInvoice;
 use CleverIt\UBL\Invoice\InvoiceLine;
 use CleverIt\UBL\Invoice\Item;
 use CleverIt\UBL\Invoice\LegalMonetaryTotal;
@@ -19,6 +17,7 @@ use CleverIt\UBL\Invoice\TaxCategory;
 use CleverIt\UBL\Invoice\TaxScheme;
 use CleverIt\UBL\Invoice\TaxSubTotal;
 use CleverIt\UBL\Invoice\TaxTotal;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -124,7 +123,7 @@ class CreateUbl implements ShouldQueue
 
         try {
             return $generator->invoice($invoice);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             info(print_r($exception, 1));
             return false;
         }

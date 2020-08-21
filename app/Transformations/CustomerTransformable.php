@@ -8,13 +8,14 @@ use App\Models\Customer;
 use App\Models\CustomerGateway;
 use App\Models\File;
 use App\Models\Transaction;
+use Exception;
 
 trait CustomerTransformable
 {
     /**
-     * @param \App\Models\Customer $customer
+     * @param Customer $customer
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function transformCustomer(Customer $customer)
     {

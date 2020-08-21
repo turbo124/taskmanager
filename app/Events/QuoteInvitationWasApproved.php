@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\InvoiceInvitation;
 use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
 use Illuminate\Queue\SerializesModels;
 
 class QuoteInvitationWasApproved

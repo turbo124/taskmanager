@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyToken;
 use App\Factory\CaseCategoryFactory;
-use App\Factory\ExpenseCategoryFactory;
 use App\Filters\CaseCategoryFilter;
+use App\Models\CompanyToken;
 use App\Repositories\CaseCategoryRepository;
-use App\Repositories\ExpenseCategoryRepository;
-use App\Models\Category;
 use App\Requests\CaseCategory\CreateCategoryRequest;
 use App\Requests\CaseCategory\UpdateCategoryRequest;
-use App\Transformations\CaseCategoryTransformable;
 use App\Requests\SearchRequest;
+use App\Transformations\CaseCategoryTransformable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
+
+use function request;
 
 class CaseCategoryController extends Controller
 {
@@ -37,11 +36,11 @@ class CaseCategoryController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
-        $token_sent = \request()->bearerToken();
+        $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
@@ -54,7 +53,7 @@ class CaseCategoryController extends Controller
 
     /**
      * @param CreateCategoryRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateCategoryRequest $request)
     {

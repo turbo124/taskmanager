@@ -5,27 +5,26 @@ namespace App\Http\Controllers;
 use App\Factory\CloneRecurringQuoteFactory;
 use App\Factory\CloneRecurringQuoteToQuoteFactory;
 use App\Factory\RecurringQuoteFactory;
-use App\Filters\RecurringInvoiceFilter;
 use App\Filters\RecurringQuoteFilter;
-use App\Models\Invoice;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\RecurringInvoice\SendRecurring;
-use App\Models\RecurringQuote;
-use App\Models\Quote;
 use App\Models\Customer;
+use App\Models\Quote;
+use App\Models\RecurringQuote;
 use App\Repositories\BaseRepository;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
-use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
+use App\Requests\RecurringQuote\CreateRecurringQuoteRequest;
 use App\Requests\RecurringQuote\UpdateRecurringQuoteRequest;
 use App\Requests\SearchRequest;
-use App\Requests\RecurringQuote\CreateRecurringQuoteRequest;
 use App\Transformations\RecurringQuoteTransformable;
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use ReflectionException;
 
 /**
  * Class RecurringQuoteController
@@ -111,7 +110,7 @@ class RecurringQuoteController extends BaseController
     /**
      * @param int $id
      * @param UpdateRecurringQuoteRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdateRecurringQuoteRequest $request)
     {
@@ -123,11 +122,11 @@ class RecurringQuoteController extends BaseController
 
     /**
      * @param Request $request
-     * @param \App\Models\RecurringQuote $quote
+     * @param RecurringQuote $quote
      * @param $action
-     * @return array|bool|\Illuminate\Http\JsonResponse|string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \ReflectionException
+     * @return array|bool|JsonResponse|string
+     * @throws FileNotFoundException
+     * @throws ReflectionException
      */
     public function action(Request $request, RecurringQuote $recurring_quote, $action)
     {

@@ -2,16 +2,11 @@
 
 namespace App\Filters;
 
-use App\Models\Account;
 use App\Models\Attribute;
 use App\Repositories\AttributeRepository;
-use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Models\Subscription;
 use App\Transformations\AttributeTransformable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -34,7 +29,7 @@ class AttributeFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request)
     {

@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Factory\TaxRateFactory;
 use App\Filters\TaxRateFilter;
-use App\Repositories\TaxRateRepository;
-use App\Repositories\Interfaces\TaxRateRepositoryInterface;
-use App\Requests\TaxRate\CreateTaxRateRequest;
-use App\Requests\SearchRequest;
-use App\Requests\TaxRate\UpdateTaxRateRequest;
-use App\Http\Controllers\Controller;
 use App\Models\TaxRate;
+use App\Repositories\Interfaces\TaxRateRepositoryInterface;
+use App\Repositories\TaxRateRepository;
+use App\Requests\SearchRequest;
+use App\Requests\TaxRate\CreateTaxRateRequest;
+use App\Requests\TaxRate\UpdateTaxRateRequest;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

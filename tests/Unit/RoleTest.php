@@ -2,14 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Factory\RoleFactory;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\RoleRepository;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Factory\RoleFactory;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class RoleTest extends TestCase
 {

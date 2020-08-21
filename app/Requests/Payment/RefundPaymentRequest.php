@@ -5,9 +5,8 @@ namespace App\Requests\Payment;
 use App\Models\Payment;
 use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Refund\CreditRefundValidation;
-use App\Rules\Refund\RefundValidation;
 use App\Rules\Refund\InvoiceRefundValidation;
-use Illuminate\Support\Facades\Log;
+use App\Rules\Refund\RefundValidation;
 
 
 class RefundPaymentRequest extends BaseFormRequest

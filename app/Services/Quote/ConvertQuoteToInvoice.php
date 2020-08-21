@@ -6,7 +6,6 @@ use App\Factory\CloneQuoteToInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\Quote;
 use App\Repositories\InvoiceRepository;
-use App\Repositories\QuoteRepository;
 
 /**
  * Class ConvertQuote
@@ -36,7 +35,7 @@ class ConvertQuoteToInvoice
     }
 
     /**
-     * @return \App\Models\Invoice|null
+     * @return Invoice|null
      */
     public function execute(): ?Invoice
     {

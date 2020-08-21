@@ -5,19 +5,15 @@ namespace Tests\Unit;
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
 use App\Filters\LeadFilter;
-use App\Models\Lead;
-use App\Repositories\LeadRepository;
-use App\Repositories\ProjectRepository;
-use App\Requests\SearchRequest;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Task;
-use App\Models\User;
 use App\Models\Account;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Lead;
+use App\Models\User;
+use App\Repositories\LeadRepository;
+use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class LeadTest extends TestCase
 {

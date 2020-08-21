@@ -5,21 +5,17 @@ namespace App\Http\Controllers;
 use App\Filters\CustomerFilter;
 use App\Filters\UserFilter;
 use App\Models\Customer;
+use App\Models\Event;
+use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
-use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\EventRepositoryInterface;
-use App\Models\Notification;
+use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\NotificationTransformable;
 use App\Transformations\EventTransformable;
-
-;
-
-use Illuminate\Support\Facades\Auth;
-use App\Models\Event;
+use App\Transformations\NotificationTransformable;
 
 class ActivityController extends Controller
 {

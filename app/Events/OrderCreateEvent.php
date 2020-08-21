@@ -4,12 +4,10 @@ namespace App\Events;
 
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class OrderCreateEvent
 {
@@ -20,7 +18,7 @@ class OrderCreateEvent
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Task $task
+     * @param Task $task
      */
     public function __construct(Task $task)
     {

@@ -3,9 +3,6 @@
 namespace App\Transformations;
 
 use App\Models\CompanyContact;
-use App\Models\Company;
-use App\Repositories\UserRepository;
-use App\Models\User;
 
 class CompanyContactTransformable
 {

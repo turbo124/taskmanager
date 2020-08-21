@@ -3,39 +3,35 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
-use App\Models\Invoice;
-use App\Repositories\Base\BaseRepositoryInterface;
-use App\Models\Product;
-use App\Requests\SearchRequest;
-use Illuminate\Support\Collection as Support;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\Task;
-use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Repositories\Base\BaseRepositoryInterface;
+use App\Requests\SearchRequest;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection as Support;
 
 interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
 
     /**
      * @param SearchRequest $search_request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return mixed
      */
     public function getAll(SearchRequest $search_request, Account $account);
 
     /**
      * @param $data
-     * @param \App\Models\Product $product
-     * @return \App\Models\Product|null
+     * @param Product $product
+     * @return Product|null
      */
     public function save(array $data, Product $product): ?Product;
 
     /**
      * @param int $id
-     * @return \App\Models\Product
+     * @return Product
      */
     public function findProductById(int $id): Product;
 
@@ -46,7 +42,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param string $slug
-     * @return \App\Models\Product
+     * @return Product
      */
     public function findProductBySlug(string $slug): Product;
 
@@ -67,9 +63,9 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function filterProductsByCategory(Category $objCategory): Support;
 
     /**
-     * @param \App\Models\ProductAttribute $productAttribute
-     * @param \App\Models\Product $product
-     * @return \App\Models\ProductAttribute
+     * @param ProductAttribute $productAttribute
+     * @param Product $product
+     * @return ProductAttribute
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute;
 

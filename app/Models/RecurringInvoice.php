@@ -2,17 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\InvoiceInvitation;
 use App\Models;
-use App\Models\User;
-use App\Models\NumberGenerator;
 use App\Services\RecurringInvoice\RecurringInvoiceService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use App\Models\Account;
 
 /**
  * Class for Recurring Invoices.

@@ -4,7 +4,6 @@ namespace App\Jobs\Cron;
 
 use App\Jobs\RecurringInvoice\SendRecurring;
 use App\Models\RecurringInvoice;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 

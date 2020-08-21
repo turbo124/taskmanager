@@ -13,7 +13,7 @@ class PaymentWasRefunded
     use SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     public $payment;
 
@@ -22,7 +22,7 @@ class PaymentWasRefunded
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      * @param $refund_amount
      */
     public function __construct(Payment $payment, $data)

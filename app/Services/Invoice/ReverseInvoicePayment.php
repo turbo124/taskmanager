@@ -2,8 +2,8 @@
 
 namespace App\Services\Invoice;
 
-use App\Factory\CreditFactory;
 use App\Events\Invoice\InvoiceWasReversed;
+use App\Factory\CreditFactory;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Invoice;
 use App\Repositories\CreditRepository;
@@ -17,7 +17,7 @@ class ReverseInvoicePayment
 {
 
     /**
-     * @var \App\Models\Invoice
+     * @var Invoice
      */
     private Invoice $invoice;
 

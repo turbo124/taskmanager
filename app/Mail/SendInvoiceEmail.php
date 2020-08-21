@@ -2,12 +2,11 @@
 
 namespace App\Mail;
 
-use App\Transformations\AddressTransformable;
 use App\Models\Invoice;
+use App\Transformations\AddressTransformable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendInvoiceEmail extends Mailable
 {
@@ -15,7 +14,7 @@ class SendInvoiceEmail extends Mailable
     use Queueable, SerializesModels, AddressTransformable;
 
     /**
-     * @var \App\Models\Invoice
+     * @var Invoice
      */
     protected $invoice;
 
@@ -47,7 +46,7 @@ class SendInvoiceEmail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @param string $pdf
      * @param bool $reminder
      * @param mixed $pdfString

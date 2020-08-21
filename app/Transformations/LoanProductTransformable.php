@@ -2,9 +2,8 @@
 
 namespace App\Transformations;
 
-use App\Models\Product;
 use App\Models\Category;
-use App\Repositories\CategoryRepository;
+use App\Models\Product;
 use App\Traits\MonthlyPayments;
 use Illuminate\Http\Request;
 
@@ -17,7 +16,7 @@ trait LoanProductTransformable
      * Transform the product
      *
      * @param Product $product
-     * @return \App\Models\Product
+     * @return Product
      */
     protected function transformLoanProduct(Product $product, Category $parentCategory, Request $request)
     {

@@ -3,7 +3,6 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Company;
 use App\Models\Credit;
 use App\Repositories\CompanyRepository;
 use App\Repositories\CreditRepository;
@@ -31,7 +30,7 @@ class CreditFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

@@ -10,7 +10,6 @@ namespace App\Repositories\Interfaces;
 
 
 use App\Models\Account;
-use App\Models\Credit;
 use App\Models\Order;
 use App\Requests\SearchRequest;
 
@@ -32,13 +31,13 @@ interface OrderRepositoryInterface
     /**
      * @param array $data
      * @param Order $order
-     * @return \App\Models\Order|null
+     * @return Order|null
      */
     public function createOrder(array $data, Order $order): ?Order;
 
     /**
      * @param array $data
-     * @param \App\Models\Order $credit
+     * @param Order $credit
      * @return Order|null
      */
     public function updateOrder(array $data, Order $credit): ?Order;
@@ -46,7 +45,7 @@ interface OrderRepositoryInterface
     /**
      * @param array $data
      * @param Order $credit
-     * @return \App\Models\Order|null
+     * @return Order|null
      */
     public function save(array $data, Order $credit): ?Order;
 

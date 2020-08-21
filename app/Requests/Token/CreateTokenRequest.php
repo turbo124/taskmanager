@@ -3,7 +3,6 @@
 namespace App\Requests\Token;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings;
 
 class CreateTokenRequest extends BaseFormRequest
 {

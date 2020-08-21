@@ -4,8 +4,6 @@ namespace App\Listeners\User;
 
 use App\Events\User\UserEmailChanged;
 use App\Mail\UserEmailChangedNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendUserEmailChangedEmail
@@ -23,7 +21,7 @@ class SendUserEmailChangedEmail
     /**
      * Handle the event.
      *
-     * @param  UserEmailChanged  $event
+     * @param UserEmailChanged $event
      * @return void
      */
     public function handle(UserEmailChanged $event)

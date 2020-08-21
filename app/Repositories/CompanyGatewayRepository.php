@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\CompanyGateway;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Http\Request;
 
 /**
  * Class CompanyGatewayRepository

@@ -3,12 +3,11 @@
 namespace App\Filters;
 
 use App\Models\Account;
-use App\Models\Company;
 use App\Models\Design;
 use App\Repositories\DesignRepository;
 use App\Requests\SearchRequest;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Transformations\DesignTransformable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DesignFilter extends QueryFilter
 {
@@ -30,7 +29,7 @@ class DesignFilter extends QueryFilter
 
     /**
      * @param SearchRequest $request
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)

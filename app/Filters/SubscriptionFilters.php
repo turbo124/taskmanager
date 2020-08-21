@@ -3,13 +3,11 @@
 namespace App\Filters;
 
 use App\Models\Account;
+use App\Models\Subscription;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
-use App\Models\Subscription;
 use App\Transformations\SubscriptionTransformable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * TokenFilters
@@ -35,7 +33,7 @@ class SubscriptionFilters extends QueryFilter
     /**
      * @param SearchRequest $request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
     {

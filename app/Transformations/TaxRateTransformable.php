@@ -15,7 +15,7 @@ trait TaxRateTransformable
 {
 
     /**
-     * @param \App\Models\TaxRate $tax_rate
+     * @param TaxRate $tax_rate
      * @return array
      */
     protected function transformTaxRate(TaxRate $tax_rate)

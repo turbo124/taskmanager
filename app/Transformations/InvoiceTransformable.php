@@ -14,7 +14,7 @@ trait InvoiceTransformable
     use PaymentTransformable;
 
     /**
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @return array
      */
     protected function transformInvoice(Invoice $invoice)

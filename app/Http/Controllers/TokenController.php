@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyToken;
 use App\Factory\CompanyTokenFactory;
 use App\Filters\TokenFilters;
+use App\Models\CompanyToken;
 use App\Repositories\TokenRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Token\CreateTokenRequest;
 use App\Requests\Token\UpdateTokenRequest;
 use App\Transformations\TokenTransformable;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class TokenController
@@ -32,7 +34,7 @@ class TokenController extends Controller
 
     /**
      * @param SearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -42,7 +44,7 @@ class TokenController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(int $id)
     {
@@ -52,7 +54,7 @@ class TokenController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function edit(int $id)
     {
@@ -63,7 +65,7 @@ class TokenController extends Controller
     /**
      * @param int $id
      * @param UpdateTokenRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(int $id, UpdateTokenRequest $request)
     {
@@ -75,7 +77,7 @@ class TokenController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function create()
     {
@@ -90,7 +92,7 @@ class TokenController extends Controller
 
     /**
      * @param CreateTokenRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(CreateTokenRequest $request)
     {
@@ -105,8 +107,8 @@ class TokenController extends Controller
 
     /**
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(int $id)
     {
@@ -119,7 +121,7 @@ class TokenController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function bulk()
     {

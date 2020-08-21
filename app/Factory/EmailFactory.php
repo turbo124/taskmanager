@@ -3,14 +3,13 @@
 namespace App\Factory;
 
 use App\Models\Email;
-use Carbon\Carbon;
 
 class EmailFactory
 {
     /**
      * @param int $user_id
      * @param int $account_id
-     * @return \App\Models\Email
+     * @return Email
      */
     public static function create(int $user_id, int $account_id): Email
     {

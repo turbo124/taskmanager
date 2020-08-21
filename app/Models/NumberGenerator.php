@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
-use App\Models\RecurringInvoice;
-use App\Models\RecurringQuote;
-use Illuminate\Support\Facades\Log;
+use Exception;
+use ReflectionClass;
 
 class NumberGenerator
 {
@@ -15,13 +13,13 @@ class NumberGenerator
      * @param Customer $customer
      * @param $entity_obj
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function getNextNumberForEntity($entity_obj, Customer $customer = null): string
     {
         $this->entity_obj = $entity_obj;
         $resource = get_class($entity_obj);
-        $entity_id = strtolower((new \ReflectionClass($entity_obj))->getShortName());
+        $entity_id = strtolower((new ReflectionClass($entity_obj))->getShortName());
         $pattern_entity = "{$entity_id}_number_pattern";
         $counter_var = "{$entity_id}_number_counter";
 

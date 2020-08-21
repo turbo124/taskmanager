@@ -3,8 +3,6 @@
 namespace App\Transformations;
 
 use App\Models\Event;
-use App\Models\Customer;
-use App\Repositories\CustomerRepository;
 
 trait EventTransformable
 {

@@ -10,8 +10,8 @@ trait RoleTransformable
     /**
      * Transform the role
      *
-     * @param \App\Models\Role $role
-     * @return \App\Models\Role
+     * @param Role $role
+     * @return Role
      */
     protected function transformRole(Role $role)
     {

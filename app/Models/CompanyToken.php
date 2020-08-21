@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Domain;
-use App\Models\Account;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyToken extends Model

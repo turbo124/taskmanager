@@ -95,8 +95,10 @@ class AddTaskStatus extends React.Component {
 
                         <FormGroup>
                             <Label for="name">{translations.description} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text" name="description"
-                                id="name" placeholder={translations.description} onChange={this.handleInput.bind(this)}/>
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
+                                name="description"
+                                id="name" placeholder={translations.description}
+                                onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('description')}
                         </FormGroup>
                     </ModalBody>

@@ -12,7 +12,7 @@ class PartialPaymentMade extends AdminMailer
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     private Payment $payment;
 
@@ -20,7 +20,7 @@ class PartialPaymentMade extends AdminMailer
     /**
      * PaymentMade constructor.
      * @param Payment $payment
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(Payment $payment, User $user)
     {

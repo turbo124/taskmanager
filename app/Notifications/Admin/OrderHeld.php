@@ -6,8 +6,8 @@ use App\Mail\Admin\OrderHeldMailer;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class OrderHeld extends Notification implements ShouldQueue
 {
@@ -25,7 +25,7 @@ class OrderHeld extends Notification implements ShouldQueue
 
     /**
      * NewOrderNotification constructor.
-     * @param \App\Models\Order $order
+     * @param Order $order
      * @param string $message_type
      */
     public function __construct(Order $order, string $message_type = '')

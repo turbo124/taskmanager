@@ -3,11 +3,10 @@
 namespace App\Jobs\Subscription;
 
 use App\Models\Subscription;
-use App\Traits\EntityDataBuilder;
 use App\Repositories\SubscriptionRepository;
+use App\Traits\EntityDataBuilder;
+use GuzzleHttp\Client;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class SendSubscription
 {
@@ -59,7 +58,7 @@ class SendSubscription
     {
         return true;
 
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         $response = $client->request(
             'POST',
             $subscription->target_url,

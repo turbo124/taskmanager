@@ -3,17 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\Address;
-use Illuminate\Support\Collection;
+use App\Models\Customer;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\AddressRepositoryInterface;
-use App\Models\Customer;
+use Illuminate\Support\Collection;
 
 class AddressRepository extends BaseRepository implements AddressRepositoryInterface
 {
 
     /**
      * AddressRepository constructor.
-     * @param \App\Models\Address $address
+     * @param Address $address
      */
     public function __construct(Address $address)
     {

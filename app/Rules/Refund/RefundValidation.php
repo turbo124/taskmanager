@@ -2,9 +2,9 @@
 
 namespace App\Rules\Refund;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\Payment;
 use App\Paymentables;
+use Illuminate\Contracts\Validation\Rule;
 
 class RefundValidation implements Rule
 {
@@ -55,7 +55,7 @@ class RefundValidation implements Rule
 
         $invoice_total = array_sum(array_column($this->request['invoices'], 'amount'));
 
-        if(!empty($this->request['credits'])) {
+        if (!empty($this->request['credits'])) {
             $credit_total = array_sum(array_column($this->request['credits'], 'amount'));
             $invoice_total -= $credit_total;
         }

@@ -6,15 +6,15 @@ use App\Mail\Admin\OrderCreated;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class NewOrderNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
-     * @var \App\Models\Order
+     * @var Order
      */
     private Order $order;
 

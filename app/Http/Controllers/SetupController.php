@@ -3,28 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Events\EnvironmentSaved;
-use App\Repositories\DomainRepository;
-use App\Events\User\UserWasCreated;
-use App\Notifications\Account\NewAccount;
-use App\Models\Domain;
-use App\Models\User;
-use App\Repositories\AccountRepository;
-use App\Models\Account;
-use App\Factory\AccountFactory;
 use App\Events\SetupFinished;
+use App\Events\User\UserWasCreated;
+use App\Factory\AccountFactory;
+use App\Factory\UserFactory;
 use App\Helpers\Setup\DatabaseManager;
 use App\Helpers\Setup\EnvironmentManager;
 use App\Helpers\Setup\FinalInstallManager;
 use App\Helpers\Setup\InstalledFileManager;
 use App\Helpers\Setup\PermissionsChecker;
 use App\Helpers\Setup\RequirementsChecker;
+use App\Models\Account;
+use App\Models\Domain;
+use App\Models\User;
+use App\Notifications\Account\NewAccount;
+use App\Repositories\AccountRepository;
+use App\Repositories\DomainRepository;
+use App\Repositories\UserRepository;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\UserRepository;
-use App\Factory\UserFactory;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class SetupController extends Controller
 {
@@ -81,8 +86,8 @@ class SetupController extends Controller
         try {
             DB::connection()->getPdo();
 
-           $can_connect = true;
-        } catch (\Exception $e) {
+            $can_connect = true;
+        } catch (Exception $e) {
             $can_connect = false;
         }
 
@@ -94,7 +99,7 @@ class SetupController extends Controller
     /**
      * Display the requirements page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function requirements()
     {
@@ -111,7 +116,7 @@ class SetupController extends Controller
     /**
      * Migrate and seed the database.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function database()
     {
@@ -125,7 +130,7 @@ class SetupController extends Controller
     /**
      * Create the user and account.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function user()
     {
@@ -144,7 +149,7 @@ class SetupController extends Controller
     /**
      * Display the installer welcome page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function welcome()
     {
@@ -154,7 +159,7 @@ class SetupController extends Controller
     /**
      * Display the Environment menu page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function environmentMenu()
     {
@@ -164,7 +169,7 @@ class SetupController extends Controller
     /**
      * Display the Environment page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function environmentWizard()
     {
@@ -176,7 +181,7 @@ class SetupController extends Controller
     /**
      * Display the Environment page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function environmentClassic()
     {
@@ -190,7 +195,7 @@ class SetupController extends Controller
      *
      * @param Request $input
      * @param Redirector $redirect
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function saveClassic(Request $input, Redirector $redirect)
     {
@@ -207,7 +212,7 @@ class SetupController extends Controller
      *
      * @param Request $request
      * @param Redirector $redirect
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function saveWizard(Request $request, Redirector $redirect)
     {
@@ -243,7 +248,7 @@ class SetupController extends Controller
      *
      * @param Request $request
      * @param Redirector $redirect
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function saveUser(Request $request, Redirector $redirect)
     {
@@ -329,7 +334,7 @@ class SetupController extends Controller
             DB::connection()->getPdo();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -340,7 +345,7 @@ class SetupController extends Controller
      * @param \RachidLaasri\LaravelInstaller\Helpers\InstalledFileManager $fileManager
      * @param \RachidLaasri\LaravelInstaller\Helpers\FinalInstallManager $finalInstall
      * @param \RachidLaasri\LaravelInstaller\Helpers\EnvironmentManager $environment
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function finish(
         InstalledFileManager $fileManager,

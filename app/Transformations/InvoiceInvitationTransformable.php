@@ -2,7 +2,6 @@
 
 namespace App\Transformations;
 
-use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
 
 class InvoiceInvitationTransformable

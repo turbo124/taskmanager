@@ -13,13 +13,13 @@ class PaymentWasVoided
     use SerializesModels;
 
     /**
-     * @var \App\Models\Payment
+     * @var Payment
      */
     public $payment;
 
     /**
      * PaymentWasEmailed constructor.
-     * @param \App\Models\Payment $payment
+     * @param Payment $payment
      */
     public function __construct(Payment $payment)
     {

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateClientGatewayTokensTable extends Migration {
+class CreateCustomerGatewaysTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateClientGatewayTokensTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('client_gateway_tokens', function(Blueprint $table)
+		Schema::create('customer_gateways', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('account_id')->unsigned()->index('client_gateway_tokens_account_id_foreign');
@@ -36,7 +36,7 @@ class CreateClientGatewayTokensTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('client_gateway_tokens');
+		Schema::drop('customer_gateways');
 	}
 
 }

@@ -104,8 +104,8 @@ class CreatePayment implements ShouldQueue
     }
 
     /**
-     * @param \App\Models\Customer $customer
-     * @param \App\Models\Payment $payment
+     * @param Customer $customer
+     * @param Payment $payment
      * @return Payment
      */
     private function attachInvoices(Payment $payment): Payment
@@ -132,7 +132,7 @@ class CreatePayment implements ShouldQueue
 
     /**
      * @param Payment $payment
-     * @param \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      */
     private function updateCustomer(Payment $payment, Invoice $invoice)
     {

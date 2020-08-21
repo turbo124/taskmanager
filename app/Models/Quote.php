@@ -2,21 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Audit;
-use App\Models\Customer;
-use App\Models\Email;
-use App\Models\File;
-use App\Models\Account;
-use App\Models\QuoteInvitation;
-use App\Models\User;
-use App\Models\Notification;
 use App\Services\Quote\QuoteService;
 use App\Traits\Balancer;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Task;
-use App\Models\NumberGenerator;
 use App\Traits\Money;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;

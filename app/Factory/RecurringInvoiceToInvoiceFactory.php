@@ -14,8 +14,8 @@ class RecurringInvoiceToInvoiceFactory
 {
     /**
      * @param RecurringInvoice $recurring_invoice
-     * @param \App\Models\Customer $customer
-     * @return \App\Models\Invoice
+     * @param Customer $customer
+     * @return Invoice
      */
     public static function create(RecurringInvoice $recurring_invoice, Customer $customer): Invoice
     {
