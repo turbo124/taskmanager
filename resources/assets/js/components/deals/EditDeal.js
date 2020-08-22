@@ -32,7 +32,7 @@ export default class EditDeal extends Component {
         super(props)
 
         this.dealModel = new DealModel(this.props.deal, this.props.customers)
-        this.initialState = this.taskModel.fields
+        this.initialState = this.dealModel.fields
         this.dealModel.start_date = this.initialState.start_date
         this.dealModel.due_date = this.initialState.due_date
 
@@ -76,8 +76,8 @@ export default class EditDeal extends Component {
             source_type: this.state.source_type,
             valued_at: this.state.valued_at,
             title: this.state.title,
-            content: this.state.description,
-            contributors: this.state.selectedUsers,
+            description: this.state.description,
+            assigned_to: this.state.assigned_to,
             due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
             start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
             custom_value1: this.state.custom_value1,
@@ -126,13 +126,13 @@ export default class EditDeal extends Component {
 
     render () {
        const form = <React.Fragment>
-           <TaskDropdownMenu model={this.taskModel} id={this.props.task.id} formData={this.getFormData()}/>
+           <DealDropdownMenu model={this.dealModel} id={this.props.deal.id} formData={this.getFormData()}/>
                     <Card>
                         <CardHeader>Details</CardHeader>
                         <CardBody>
-                            <Details task={this.state} setTimeRange={this.setTimeRange}
+                            <Details task={this.state}
                                 customers={this.props.customers}
-                                errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
+                                errors={this.state.errors}
                                 users={this.props.users} handleInput={this.handleChange}/>
 
                             <FormGroup>
