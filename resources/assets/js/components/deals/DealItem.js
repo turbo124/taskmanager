@@ -4,8 +4,8 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditTask from './EditTask'
-import TaskPresenter from '../presenters/TaskPresenter'
+import EditDeal from './EditDeal'
+import DealPresenter from '../presenters/DealPresenter'
 
 export default class DealItem extends Component {
     constructor (props) {
@@ -33,46 +33,46 @@ export default class DealItem extends Component {
     render () {
         const { deals, custom_fields, users, ignoredColumns } = this.props
         if (deals && deals.length && users.length) {
-            return deals.map(task => {
-                const restoreButton = task.deleted_at
-                    ? <RestoreModal id={task.id} entities={tasks} updateState={this.props.addUserToState}
-                        url={`/api/tasks/restore/${task.id}`}/> : null
-                const archiveButton = !task.deleted_at
-                    ? <DeleteModal archive={true} deleteFunction={this.deleteTask} id={task.id}/> : null
-                const deleteButton = !task.deleted_at
-                    ? <DeleteModal archive={false} deleteFunction={this.deleteTask} id={task.id}/> : null
-                const editButton = !task.deleted_at ? <EditTask
+            return deals.map(deal => {
+                const restoreButton = deal.deleted_at
+                    ? <RestoreModal id={deal.id} entities={deals} updateState={this.props.addUserToState}
+                        url={`/api/deals/restore/${deal.id}`}/> : null
+                const archiveButton = !deal.deleted_at
+                    ? <DeleteModal archive={true} deleteFunction={this.deleteDeal} id={deal.id}/> : null
+                const deleteButton = !deal.deleted_at
+                    ? <DeleteModal archive={false} deleteFunction={this.deleteDeal} id={deal.id}/> : null
+                const editButton = !deal.deleted_at ? <EditDeal
                     modal={true}
                     listView={true}
                     custom_fields={custom_fields}
                     users={users}
-                    task={task}
-                    allTasks={tasks}
+                    deal={deal}
+                    deals={deals}
                     action={this.props.addUserToState}
                 /> : null
 
-                const columnList = Object.keys(task).filter(key => {
+                const columnList = Object.keys(deal).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TaskPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={task} custom_fields={custom_fields}
+                    return <DealPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={deal} custom_fields={custom_fields}
                         users={users}
                         customers={this.props.customers}
-                        tasks={tasks}
+                        deals={deals}
                         action={this.props.action}
-                        task={task}/>
+                        deal={deal}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(task.id)
-                const selectedRow = this.props.viewId === task.id ? 'table-row-selected' : ''
+                const isChecked = this.props.bulk.includes(deal.id)
+                const selectedRow = this.props.viewId === deal.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={task.id}>
+                return <tr className={selectedRow} key={deal.id}>
                     <td>
-                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                        <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
