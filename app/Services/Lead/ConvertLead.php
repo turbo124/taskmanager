@@ -5,7 +5,10 @@ namespace App\Services\Lead;
 use App\Factory\Lead\CloneLeadToAddressFactory;
 use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
+use App\Factory\Lead\CloneLeadToDealFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
+use App\Models\Customer;
+use App\Models\Deal;
 use App\Models\Lead;
 use App\Models\Task;
 use DateInterval;
@@ -61,16 +64,11 @@ class ConvertLead
                 return null;
             }
 
-            $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+            if (!$this->createTask($customer)) {
+                return null;
+            }
 
-            $date = new DateTime(); // Y-m-d
-            $date->add(new DateInterval('P30D'));
-            $due_date = $date->format('Y-m-d');
-
-            $task->due_date = $due_date;
-
-            if (!$task->save()) {
-                DB::rollback();
+            if (!$this->createDeal($customer)) {
                 return null;
             }
 
@@ -89,5 +87,49 @@ class ConvertLead
             DB::rollback();
             return null;
         }
+    }
+
+    /**
+     * @param Customer $customer
+     * @return Task|null
+     */
+    private function createTask(Customer $customer): ?Task
+    {
+        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+
+        $date = new DateTime(); // Y-m-d
+        $date->add(new DateInterval('P30D'));
+        $due_date = $date->format('Y-m-d');
+
+        $task->due_date = $due_date;
+
+        if (!$task->save()) {
+            DB::rollback();
+            return null;
+        }
+
+        return $task;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return Deal|null
+     */
+    private function createDeal(Customer $customer): ?Deal
+    {
+        $deal = CloneLeadToDealFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+
+        $date = new DateTime(); // Y-m-d
+        $date->add(new DateInterval('P30D'));
+        $due_date = $date->format('Y-m-d');
+
+        $deal->due_date = $due_date;
+
+        if (!$deal->save()) {
+            DB::rollback();
+            return null;
+        }
+
+        return $deal;
     }
 }

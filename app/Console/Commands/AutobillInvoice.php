@@ -47,7 +47,7 @@ class AutobillInvoice extends Command
         }
 
         foreach ($invoices as $invoice) {
-            $invoice->service()->autoBill($invoice_repo);
+            \App\Jobs\Invoice\AutobillInvoice::dispatchNow($invoice, $invoice_repo);
         }
     }
 }

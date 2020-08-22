@@ -89,6 +89,14 @@ class Quote extends Model
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
 
+    const PRODUCT_TYPE = 1;
+    const COMMISSION_TYPE = 2;
+    const TASK_TYPE = 3;
+    const LATE_FEE_TYPE = 4;
+    const SUBSCRIPTION_TYPE = 5;
+    const EXPENSE_TYPE = 6;
+    const GATEWAY_FEE_TYPE = 7;
+
     public function tasks()
     {
         return $this->belongsToMany(Task::class);

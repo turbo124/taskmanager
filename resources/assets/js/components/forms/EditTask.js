@@ -17,7 +17,6 @@ import {
     TabContent,
     TabPane
 } from 'reactstrap'
-import AddLead from './AddLead'
 import moment from 'moment'
 import EditTaskTimes from './EditTaskTimes'
 import TaskDropdownMenu from './TaskDropdownMenu'
@@ -148,32 +147,12 @@ class EditTask extends Component {
         })
     }
 
-    getFormForLead (readOnly = false) {
-        const objValues = {
-            rating: this.state.rating,
-            source_type: this.state.source_type,
-            valued_at: this.state.valued_at,
-            customer_id: this.state.customer_id
-        }
-
-        return (
-            <React.Fragment>
-                <AddLead
-                    readOnly={readOnly}
-                    updateValue={this.handleChange} task={objValues}
-                />
-            </React.Fragment>
-        )
-    }
-
     handleMultiSelect (e) {
         this.setState({ selectedUsers: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
     render () {
-        const leadForm = this.props.task_type === 2 ? this.getFormForLead(true) : ''
-
-        const form = <React.Fragment>
+       const form = <React.Fragment>
             <Nav tabs>
                 <NavItem>
                     <NavLink
@@ -225,7 +204,7 @@ class EditTask extends Component {
                                 />
                             </FormGroup>
 
-                            {leadForm}
+                   
 
                             <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
                                 custom_value2={this.state.custom_value2}

@@ -136,8 +136,16 @@ class Invoice extends BaseCalculator
             $this->total += $custom_surcharge_total;
         }
 
-        if (!empty($this->entity->gateway_fee)) {
+        if (!empty($this->entity->gateway_fee) && $this->entity->gateway_fee > 0) {
             $this->applyGatewayFee();
+        }
+
+        if (!empty($this->entity->late_fee_charge) && $this->entity->late_fee_charge > 0) {
+            $this->addChargeToLineItems(
+                $this->entity->late_fee_charge,
+                'Late Fee Charge applied',
+                $this->entity::LATE_FEE_TYPE
+            );
         }
 
         return $this;
@@ -151,7 +159,7 @@ class Invoice extends BaseCalculator
 
         $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
         $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
-        $this->addChargeToLineItems($gateway_fee, 'Gateway Fee');
+        $this->addChargeToLineItems($gateway_fee, 'Gateway Fee', $this->entity::GATEWAY_FEE_TYPE);
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
 
@@ -162,16 +170,14 @@ class Invoice extends BaseCalculator
         return true;
     }
 
-    private function addChargeToLineItems($charge, $description)
+    private function addChargeToLineItems($charge, $description, $type_id)
     {
-        //TODO Change type
-
         $line_item = (new LineItem);
 
         $line_item->setQuantity(1)
                   ->setDescription($description)
                   ->setUnitPrice($charge)
-                  ->setTypeId(8)
+                  ->setTypeId($type_id)
 //                  ->setProductId(null)
                   ->setNotes($description);
 

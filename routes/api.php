@@ -36,6 +36,8 @@ Route::group(
 
                 Route::resource('promocodes', 'PromocodeController');
 
+                Route::resource('deals', 'DealController');
+
                 // subscription
                 Route::resource('subscriptions', 'SubscriptionController');
 
@@ -387,7 +389,7 @@ Route::group(
             'tasks/status/{task_id}',
             'TaskController@updateStatus'
         )->middleware('role:null,taskcontroller.updatestatus');
-        Route::get('deals', 'TaskController@getDeals')->middleware('role:null,taskcontroller.getdeals');
+        //Route::get('deals', 'TaskController@getDeals')->middleware('role:null,taskcontroller.getdeals');
         Route::get('tasks', 'TaskController@index')->middleware('role:null,taskcontroller.index');
         Route::get(
             'tasks/subtasks/{task_id}',

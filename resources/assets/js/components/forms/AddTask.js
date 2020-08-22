@@ -2,7 +2,6 @@ import React from 'react'
 import { DateRangePicker } from 'react-dates'
 import { Button, Form, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import moment from 'moment'
-import AddLead from './AddLead'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
@@ -108,15 +107,7 @@ class AddModal extends React.Component {
         })
     }
 
-    getFormForLead () {
-        return (
-            <React.Fragment>
-                <AddLead updateValue={this.handleInput}/>
-            </React.Fragment>
-        )
-    }
-
-    buildForm () {
+   buildForm () {
         return (
             <Form>
                 <TaskDetails task={this.state} setTimeRange={this.setTimeRange} customers={this.props.customers}
@@ -158,7 +149,6 @@ class AddModal extends React.Component {
     }
 
     render () {
-        const leadForm = this.props.task_type === 2 || this.props.task_type === 3 ? this.getFormForLead() : ''
         const form = this.buildForm()
         const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}> Add</Button>
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
@@ -172,7 +162,7 @@ class AddModal extends React.Component {
 
                         <ModalBody className={theme}>
                             {form}
-                            {leadForm}
+                            
                         </ModalBody>
 
                         <DefaultModalFooter show_success={true} toggle={this.toggle}
@@ -190,7 +180,7 @@ class AddModal extends React.Component {
                         The event has been created successfully </div>
                 )}
                 {form}
-                {leadForm}
+                
                 {saveButton}
             </div>
         )

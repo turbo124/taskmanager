@@ -13,6 +13,7 @@ use App\Factory\InvoiceFactory;
 use App\Filters\InvoiceFilter;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Invoice\AutobillInvoice;
+use App\Jobs\Invoice\SendReminders;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
@@ -27,6 +28,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
 use App\Settings\AccountSettings;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -71,7 +73,7 @@ class InvoiceTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
-        //$this->account = factory(Account::class)->create();
+        $this->account = factory(Account::class)->create();
         $this->user = factory(User::class)->create();
         $this->main_account = Account::where('id', 1)->first();
         $this->objNumberGenerator = new NumberGenerator;
@@ -463,11 +465,42 @@ class InvoiceTest extends TestCase
     }
 
     /** @test */
-//    public function autoBill()
+    public function autoBill()
+    {
+        // create invoice
+        $invoice = factory(Invoice::class)->create();
+        $invoice->customer_id = 5;
+        $invoice->gateway_fee = 12.99;
+        $invoice->save();
+
+        $total = $invoice->total;
+        $line_item_count = count($invoice->line_items);
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
+        $expected_amount = $total + $original_invoice->gateway_fee;
+        $this->assertEquals((float)$expected_amount, (float)$original_invoice->total);
+        $this->assertEquals($line_item_count + 1, count($original_invoice->line_items));
+
+        // auto bill
+        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
+
+        $payment = $original_invoice->payments->first();
+
+        $invoice = $original_invoice->fresh();
+        $this->assertNotNull($payment);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals((float)$payment->amount, $expected_amount);
+        $this->assertEquals(0, $invoice->balance);
+    }
+
+    /** @test */
+//    public function autoBill_with_gateway()
 //    {
 //        // create invoice
 //        $invoice = factory(Invoice::class)->create();
 //        $invoice->customer_id = 5;
+//        $invoice->gateway_fee = 0;
 //        $user = factory(User::class)->create();
 //
 //        $total = $invoice->total;
@@ -475,51 +508,52 @@ class InvoiceTest extends TestCase
 //
 //        $invoiceRepo = new InvoiceRepository(new Invoice);
 //        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
-//        $expected_amount = $total + $original_invoice->gateway_fee;
-//        $this->assertEquals((float)$expected_amount, (float)$original_invoice->total);
-//        $this->assertEquals($line_item_count + 1, count($original_invoice->line_items));
+//        $this->assertEquals($total, $original_invoice->total);
+//        $this->assertEquals($line_item_count, count($original_invoice->line_items));
 //
 //        // auto bill
 //        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
+//        $invoice = $original_invoice->fresh();
+//        $this->assertEquals($line_item_count + 1, count($invoice->line_items));
+//        $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
 //
 //        $payment = $original_invoice->payments->first();
 //
 //        $invoice = $original_invoice->fresh();
 //        $this->assertNotNull($payment);
 //        $this->assertInstanceOf(Payment::class, $payment);
-//        $this->assertEquals((float)$payment->amount, $expected_amount);
+//        $this->assertEquals((float)$payment->amount, $invoice->total);
 //        $this->assertEquals(0, $invoice->balance);
 //    }
-//
-    /** @test */
-    public function autoBill_with_gateway()
+
+    public function test_reminders()
     {
         // create invoice
         $invoice = factory(Invoice::class)->create();
         $invoice->customer_id = 5;
-        $invoice->gateway_fee = 0;
-        $user = factory(User::class)->create();
+        $invoice->account_id = $this->account->id;
+        $invoice->next_send_date = Carbon::now();
+        $invoice->save();
 
-        $total = $invoice->total;
-        $line_item_count = count($invoice->line_items);
+        $settings = $this->account->settings;
+        $settings->late_fee_amount1 = 10;
+        $settings->enable_reminder1 = true;
+        $settings->num_days_reminder1 = 1;
+        $settings->schedule_reminder1 = 'after_invoice_date';
+        $settings->inclusive_taxes = false;
+        $this->account->settings = $settings;
+        $this->account->save();
 
         $invoiceRepo = new InvoiceRepository(new Invoice);
-        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
-        $this->assertEquals($total, $original_invoice->total);
-        $this->assertEquals($line_item_count, count($original_invoice->line_items));
 
-        // auto bill
-        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
-        $invoice = $original_invoice->fresh();
-        $this->assertEquals($line_item_count + 1, count($invoice->line_items));
-        $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
+        SendReminders::dispatchNow($invoiceRepo);
 
-        $payment = $original_invoice->payments->first();
+        $updated_invoice = $invoice->fresh();
 
-        $invoice = $original_invoice->fresh();
-        $this->assertNotNull($payment);
-        $this->assertInstanceOf(Payment::class, $payment);
-        $this->assertEquals((float)$payment->amount, $invoice->total);
-        $this->assertEquals(0, $invoice->balance);
+        $next_send_date = Carbon::parse($invoice->date)->addDays($settings->num_days_reminder1)->format('Y-m-d');
+
+        $this->assertEquals(count($invoice->line_items) + 1, count($updated_invoice->line_items));
+        $this->assertEquals($this->main_account->settings->late_fee_amount1, $updated_invoice->late_fee_charge);
+        $this->assertEquals($updated_invoice->next_send_date, $next_send_date);
     }
 }

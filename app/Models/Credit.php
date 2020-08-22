@@ -76,6 +76,14 @@ class Credit extends Model
     const STATUS_PARTIAL = 3;
     const STATUS_APPLIED = 4;
 
+    const PRODUCT_TYPE = 1;
+    const COMMISSION_TYPE = 2;
+    const TASK_TYPE = 3;
+    const LATE_FEE_TYPE = 4;
+    const SUBSCRIPTION_TYPE = 5;
+    const EXPENSE_TYPE = 6;
+    const GATEWAY_FEE_TYPE = 7;
+
     /**
      * @return BelongsTo
      */

@@ -201,7 +201,7 @@ class CreateUbl implements ShouldQueue
         $product = Product::find($line_item->product_id);
 
         $item = new Item();
-        $item->setName($product->name);
+        $item->setName(!empty($product) ? $product->name : 'Untitled');
 
         $price = new Price();
         $price->setBaseQuantity($line_item->quantity);

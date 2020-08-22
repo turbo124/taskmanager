@@ -152,6 +152,7 @@ _localizedValues.en = {
     number: 'Number',
     processed: 'Processed',
     amount_type: 'Amount Type',
+    promocodes: 'Promocodes',
     edit_promocode: 'Edit Promocode',
     scope: 'Scope Type',
     redeemable: 'Redeemable Amount',

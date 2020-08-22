@@ -128,13 +128,17 @@ const items = [
 const financial = {
     name: 'Financial',
     icon: 'fa fa-bar-chart',
-    children: [
+    children: []
+}
+
+if (modules && modules.promocodes) {
+    financial.children.push(
         {
             name: 'Promocodes',
             url: '/promocodes',
             icon: 'fa fa-shopping-basket'
         }
-    ]
+    )
 }
 
 if (modules && modules.invoices) {
@@ -259,7 +263,7 @@ if (modules && modules.deals) {
     tasks.children.push(
         {
             name: 'Deals',
-            url: '/kanban/deals',
+            url: '/deals',
             icon: 'fa fa-chain-broken'
         }
     )

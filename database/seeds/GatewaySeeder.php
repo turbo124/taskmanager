@@ -46,7 +46,7 @@ class GatewaySeeder extends Seeder
                 'default_gateway_type_id' => 1
             ],
             2 => [
-                'name'                    => 'PayPal Express',
+                'name'                    => 'PayPal',
                 'provider'                => 'PayPal_Express',
                 'key'                     => '64bcbdce',
                 'default_gateway_type_id' => 2

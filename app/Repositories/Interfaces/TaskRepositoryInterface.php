@@ -34,13 +34,6 @@ interface TaskRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param int $task_type
-     * @param type $limit
-     */
-    public function getDeals($limit = null, User $objUser = null): Support;
-
-    /**
-     *
      * @param Project $objProject
      */
     public function getTasksForProject(Project $objProject, User $objUser = null): Support;
