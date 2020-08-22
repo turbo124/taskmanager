@@ -76,6 +76,7 @@ class LineItemEditor extends Component {
 
             rows[row].task_id = e.target.value
             rows[row].quantity = 1
+            rows[row].type_id = 3
             this.props.update(rows, row)
 
             return
@@ -122,6 +123,7 @@ class LineItemEditor extends Component {
             rows[row].expense_id = e.target.value
             rows[row].unit_price = expense.amount
             rows[row].quantity = 1
+            rows[row].type_id = 6
             this.props.update(rows, row)
 
             return
