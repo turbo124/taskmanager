@@ -65,7 +65,11 @@ class DealRepository extends BaseRepository implements TaskRepositoryInterface
     {
         $query = $this->model->orderBy('deals.created_at', 'desc');
 
-       if ($limit !== null) {
+        if ($objUser !== null) {
+            $query->where('assigned_to', '=', $objUser->id);
+        }
+
+        if ($limit !== null) {
             $query->limit($limit);
         }
 
