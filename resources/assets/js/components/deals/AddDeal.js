@@ -66,7 +66,7 @@ export default class AddDeal extends React.Component {
             title: this.state.title,
             description: this.state.description,
             task_status: parseInt(this.props.status),
-            assigned_to: this.state.assigned_to
+            assigned_to: this.state.assigned_to,
             due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
             start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
             custom_value1: this.state.custom_value1,
