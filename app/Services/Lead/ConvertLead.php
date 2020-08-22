@@ -6,6 +6,7 @@ use App\Factory\Lead\CloneLeadToAddressFactory;
 use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
+use App\Factory\Lead\CloneLeadToDealFactory;
 use App\Models\Lead;
 use App\Models\Task;
 use DateInterval;
@@ -61,18 +62,13 @@ class ConvertLead
                 return null;
             }
 
-            $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+           if(!$this->createTask()) {
+               return null;
+           }
 
-            $date = new DateTime(); // Y-m-d
-            $date->add(new DateInterval('P30D'));
-            $due_date = $date->format('Y-m-d');
-
-            $task->due_date = $due_date;
-
-            if (!$task->save()) {
-                DB::rollback();
-                return null;
-            }
+            if(!$this->createDeal()) {
+               return null;
+           }
 
             $this->lead->task_status = Lead::STATUS_COMPLETED;
             $this->lead->status_id = Lead::STATUS_COMPLETED;
@@ -89,5 +85,41 @@ class ConvertLead
             DB::rollback();
             return null;
         }
+    }
+
+    private function createTask(): bool
+    {
+         $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+
+            $date = new DateTime(); // Y-m-d
+            $date->add(new DateInterval('P30D'));
+            $due_date = $date->format('Y-m-d');
+
+            $task->due_date = $due_date;
+
+            if (!$task->save()) {
+                DB::rollback();
+                return false;
+            }
+
+           return true;
+    }
+
+    private function createDeal(): bool
+    {
+         $deal = CloneLeadToDealFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+
+            $date = new DateTime(); // Y-m-d
+            $date->add(new DateInterval('P30D'));
+            $due_date = $date->format('Y-m-d');
+
+            $deal->due_date = $due_date;
+
+            if (!$deal->save()) {
+                DB::rollback();
+                return false;
+            }
+
+         return true;
     }
 }
