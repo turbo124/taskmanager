@@ -18,6 +18,7 @@ class Deal extends Model
         'title',
         'description',
         'is_completed',
+        'assigned_to',
         'due_date',
         'start_date',
         'project_id',
