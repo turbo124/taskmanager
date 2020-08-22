@@ -171,7 +171,7 @@ class Invoice extends BaseCalculator
         $line_item->setQuantity(1)
                   ->setDescription($description)
                   ->setUnitPrice($charge)
-                  ->setTypeId(8)
+                  ->setTypeId($this->entity::GATEWAY_FEE_TYPE)
 //                  ->setProductId(null)
                   ->setNotes($description);
 
