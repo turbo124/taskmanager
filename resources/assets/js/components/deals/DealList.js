@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import DataTable from '../common/DataTable'
 import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
-import TaskFilters from './TaskFilters'
-import TaskItem from './TaskItem'
+import DealFilters from './DealFilters'
+import DealItem from './DealItem'
 import AddModal from './AddTask'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -32,12 +32,12 @@ export default class DealList extends Component {
             error_message: translations.unexpected_error,
             success_message: translations.success_message,
             filters: {
-                project_id: queryString.parse(this.props.location.search).project_id || '',
+                //project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
                 task_status: '',
                 user_id: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                task_type: '',
+                //task_type: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -45,19 +45,13 @@ export default class DealList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
-                'task_rate',
-                'timers',
                 'public_notes',
                 'private_notes',
                 'deleted_at',
-                'users',
-                'customer',
-                'contributors',
-                'users',
+                'assigned_to',
                 'comments',
                 'is_completed',
                 'task_status',
-                'task_type',
                 'rating',
                 'customer_id',
                 'user_id',
@@ -72,18 +66,13 @@ export default class DealList extends Component {
                 'custom_value3',
                 'custom_value4',
                 'is_deleted',
-                'time_log',
-                'project_id',
-                'is_running',
-                'task_status_sort_order',
-                'notes'
             ],
             showRestoreButton: false
         }
 
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
-        this.filterTasks = this.filterTasks.bind(this)
+        this.filterDeals = this.filterDeals.bind(this)
         this.getCustomers = this.getCustomers.bind(this)
         this.getUsers = this.getUsers.bind(this)
     }
@@ -102,7 +91,7 @@ export default class DealList extends Component {
         this.setState({ error: '', show_success: false })
     }
 
-    filterTasks (filters) {
+    filterDeals (filters) {
         console.log('filters', filters)
         this.setState({ filters: filters })
 
@@ -110,9 +99,9 @@ export default class DealList extends Component {
     }
 
     userList (props) {
-        const { tasks, custom_fields, users, customers } = this.state
+        const { deals, custom_fields, users, customers } = this.state
 
-        return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} tasks={tasks} users={users}
+        return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} deals={deals} users={users}
             custom_fields={custom_fields} customers={customers}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
@@ -122,7 +111,7 @@ export default class DealList extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Task')
+        axios.get('api/accounts/fields/Deal')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -182,16 +171,16 @@ export default class DealList extends Component {
     }
 
     render () {
-        const { tasks, users, customers, custom_fields, isOpen, error_message, success_message, show_success } = this.state
-        const { project_id, task_status, task_type, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
+        const { deals, users, customers, custom_fields, isOpen, error_message, success_message, show_success } = this.state
+        const { task_status, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
+        const fetchUrl = `/api/deals?search_term=${searchText}&task_status=${task_status}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
         const table = <DataTable
             setSuccess={this.setSuccess.bind(this)}
             setError={this.setError.bind(this)}
             dropdownButtonActions={this.state.dropdownButtonActions}
-            entity_type="Task"
-            bulk_save_url="/api/task/bulk"
+            entity_type="Deal"
+            bulk_save_url="/api/deals/bulk"
             view={view}
             disableSorting={['id']}
             defaultColumn='title'
@@ -208,11 +197,10 @@ export default class DealList extends Component {
             custom_fields={custom_fields}
             modal={true}
             status={1}
-            task_type={1}
             customers={customers}
             users={users}
             action={this.addUserToState}
-            tasks={tasks}
+            deals={deals}
         /> : null
 
         return (
@@ -221,12 +209,12 @@ export default class DealList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
-                                    tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={this.state.filters} filter={this.filterTasks}
+                                <DealFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
+                                    deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterDeals}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 <Button color="primary" onClick={() => {
-                                    location.href = '/#/kanban/projects'
+                                    location.href = '/#/kanban/deals'
                                 }}>Kanban view </Button>
 
                                 {addButton}
