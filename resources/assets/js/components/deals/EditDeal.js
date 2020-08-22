@@ -44,7 +44,7 @@ export default class EditDeal extends Component {
        
        
         this.toggle = this.toggle.bind(this)
-        this.toggleTab = this.toggleTab.bind(this)
+       
         this.toggleMenu = this.toggleMenu.bind(this)
     }
 
@@ -69,13 +69,7 @@ export default class EditDeal extends Component {
         })
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
-        }
-    }
-
-   getFormData () {
+    getFormData () {
         return {
             customer_id: this.state.customer_id,
             rating: this.state.rating,
