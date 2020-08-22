@@ -1,0 +1,88 @@
+import axios from 'axios'
+import React, { Component } from 'react'
+import { Input } from 'reactstrap'
+import RestoreModal from '../common/RestoreModal'
+import DeleteModal from '../common/DeleteModal'
+import ActionsMenu from '../common/ActionsMenu'
+import EditTask from './EditTask'
+import TaskPresenter from '../presenters/TaskPresenter'
+
+export default class DealItem extends Component {
+    constructor (props) {
+        super(props)
+
+        this.deleteDeal = this.deleteDeal.bind(this)
+    }
+
+    deleteDeal (id, archive = false) {
+        const self = this
+        const url = archive === true ? `/api/deals/archive/${id}` : `/api/deals/${id}`
+
+        axios.delete(url)
+            .then(function (response) {
+                const arrDeals = [...self.props.deals]
+                const index = arrDeals.findIndex(deal => deal.id === id)
+                arrDeals.splice(index, 1)
+                self.props.addUserToState(arrDeals)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
+    render () {
+        const { deals, custom_fields, users, ignoredColumns } = this.props
+        if (deals && deals.length && users.length) {
+            return deals.map(task => {
+                const restoreButton = task.deleted_at
+                    ? <RestoreModal id={task.id} entities={tasks} updateState={this.props.addUserToState}
+                        url={`/api/tasks/restore/${task.id}`}/> : null
+                const archiveButton = !task.deleted_at
+                    ? <DeleteModal archive={true} deleteFunction={this.deleteTask} id={task.id}/> : null
+                const deleteButton = !task.deleted_at
+                    ? <DeleteModal archive={false} deleteFunction={this.deleteTask} id={task.id}/> : null
+                const editButton = !task.deleted_at ? <EditTask
+                    modal={true}
+                    listView={true}
+                    custom_fields={custom_fields}
+                    users={users}
+                    task={task}
+                    allTasks={tasks}
+                    action={this.props.addUserToState}
+                /> : null
+
+                const columnList = Object.keys(task).filter(key => {
+                    return ignoredColumns && !ignoredColumns.includes(key)
+                }).map(key => {
+                    return <TaskPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={task} custom_fields={custom_fields}
+                        users={users}
+                        customers={this.props.customers}
+                        tasks={tasks}
+                        action={this.props.action}
+                        task={task}/>
+                })
+
+                const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                const isChecked = this.props.bulk.includes(task.id)
+                const selectedRow = this.props.viewId === task.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
+
+                return <tr className={selectedRow} key={task.id}>
+                    <td>
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        {actionMenu}
+                    </td>
+                    {columnList}
+                </tr>
+            })
+        } else {
+            return <tr>
+                <td className="text-center">No Records Found.</td>
+            </tr>
+        }
+    }
+}
