@@ -19,7 +19,12 @@ class SendReminders implements ShouldQueue
 
     private InvoiceRepository $invoice_repo;
 
-    
+    public function __construct(InvoiceRepository $invoice_repo)
+    {
+        
+        $this->invoice_repo = $invoice_repo;
+    }
+
     /**
      * Execute the job.
      *
