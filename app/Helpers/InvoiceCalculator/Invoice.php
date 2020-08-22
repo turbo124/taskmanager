@@ -140,6 +140,10 @@ class Invoice extends BaseCalculator
             $this->applyGatewayFee();
         }
 
+        if(!empty($this->entity->late_fee_charge)) {
+            $this->addChargeToLineItems($this->entity->late_fee_charge, 'Late Fee Charge applied');
+        }
+
         return $this;
     }
 
