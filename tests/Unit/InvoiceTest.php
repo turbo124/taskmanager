@@ -528,6 +528,8 @@ class InvoiceTest extends TestCase
         // create invoice
         $invoice = factory(Invoice::class)->create();
         $invoice->customer_id = 5;
+        $invoice->next_send_date = Carbon::now();
+        $invoice->save();
        
         $total = $invoice->total;
         $line_item_count = count($invoice->line_items);
