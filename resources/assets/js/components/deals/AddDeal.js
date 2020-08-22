@@ -5,7 +5,7 @@ import moment from 'moment'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
-import TaskModel from '../models/TaskModel'
+import DealModel from '../models/DealModel'
 import Details from './Details'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
@@ -16,7 +16,7 @@ export default class AddDeal extends React.Component {
         super(props)
 
         this.dealModel = new DealModel(null, this.props.customers)
-        this.initialState = this.taskModel.fields
+        this.initialState = this.dealModel.fields
         this.dealModel.start_date = this.initialState.start_date
         this.dealModel.due_date = this.initialState.due_date
 
@@ -38,7 +38,7 @@ export default class AddDeal extends React.Component {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
         this.setState({
             [e.target.name]: value
-        }, () => localStorage.setItem('taskForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('dealForm', JSON.stringify(this.state)))
     }
 
     toggle () {
@@ -64,15 +64,11 @@ export default class AddDeal extends React.Component {
             valued_at: this.state.valued_at,
             customer_id: this.state.customer_id,
             title: this.state.title,
-            content: this.state.content,
+            description: this.state.description,
             task_status: parseInt(this.props.status),
-            contributors: this.state.selectedUsers,
+            assigned_to: this.state.assigned_to
             due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
             start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
-            project_id: parseInt(this.props.project_id),
-            created_by: this.state.created_by,
-            task_type: this.props.task_type,
-            parent_id: this.props.task_id ? this.props.task_id : 0,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
