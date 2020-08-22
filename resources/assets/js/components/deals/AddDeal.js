@@ -24,7 +24,7 @@ export default class AddDeal extends React.Component {
         this.toggle = this.toggle.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.buildForm = this.buildForm.bind(this)
-        this.handleMultiSelect = this.handleMultiSelect.bind(this)
+       
     }
 
     componentDidMount () {
@@ -97,7 +97,7 @@ export default class AddDeal extends React.Component {
         return (
             <Form>
                 <Details task={this.state} customers={this.props.customers}
-                    errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
+                    errors={this.state.errors}
                     users={this.props.users} handleInput={this.handleInput}/>
 
                 <FormGroup>
@@ -128,10 +128,6 @@ export default class AddDeal extends React.Component {
 
             </Form>
         )
-    }
-
-    handleMultiSelect (e) {
-        this.setState({ selectedUsers: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
     render () {
