@@ -3,6 +3,7 @@
 namespace App\Jobs\Invoice;
 
 use App\Models\Invoice;
+use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,6 +17,9 @@ class SendReminders implements ShouldQueue
 
     private Invoice $invoice;
 
+    private InvoiceRepository $invoice_repo;
+
+    
     /**
      * Execute the job.
      *
@@ -112,19 +116,7 @@ class SendReminders implements ShouldQueue
     {
         // if percentage calculate amount
 
-        // update total
-        $this->invoice->total += $amount;
-
-        // create line
-        $line_items = $this->invoice->line_items;
-        $line_items[] = (new LineItem)
-            ->setQuantity(1)
-            ->setNotes('Late fee for invoice')
-            ->setTypeId(Invoice::LATE_FEE_TYPE)
-            ->setUnitPrice($amount)
-            ->setSubTotal($amount)
-            ->toObject();
-
-        $this->invoice->line_items = $line_items;
+       $this->invoice->late_fee_charge = $amount;
+       $this->invoice_repo->save([], $this->invoice);
     }
 }
