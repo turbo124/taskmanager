@@ -522,4 +522,19 @@ class InvoiceTest extends TestCase
         $this->assertEquals((float)$payment->amount, $invoice->total);
         $this->assertEquals(0, $invoice->balance);
     }
+
+    public function test_reminders()
+    {
+        // create invoice
+        $invoice = factory(Invoice::class)->create();
+        $invoice->customer_id = 5;
+       
+        $total = $invoice->total;
+        $line_item_count = count($invoice->line_items);
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
+        $this->assertEquals($total, $original_invoice->total);
+        $this->assertEquals($line_item_count + 1, count($original_invoice->line_items));
+    }
 }
