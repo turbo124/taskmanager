@@ -10,6 +10,7 @@ import Details from './Details'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import axios from 'axios'
 
 export default class AddDeal extends React.Component {
     constructor (props) {
@@ -17,21 +18,38 @@ export default class AddDeal extends React.Component {
 
         this.dealModel = new DealModel(null, this.props.customers)
         this.initialState = this.dealModel.fields
-        this.dealModel.start_date = this.initialState.start_date
-        this.dealModel.due_date = this.initialState.due_date
 
         this.state = this.initialState
         this.toggle = this.toggle.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.buildForm = this.buildForm.bind(this)
-       
     }
 
     componentDidMount () {
-        if (Object.prototype.hasOwnProperty.call(localStorage, 'taskForm')) {
+        this.getSourceTypes()
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'dealForm')) {
             // const storedValues = JSON.parse(localStorage.getItem('taskForm'))
             // this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+    }
+
+    getSourceTypes () {
+        axios.get('/api/tasks/source-types')
+            .then((r) => {
+                this.setState({
+                    sourceTypes: r.data,
+                    err: ''
+                })
+            })
+            .then((r) => {
+                console.warn(this.state.users)
+            })
+            .catch((e) => {
+                console.error(e)
+                this.setState({
+                    err: e
+                })
+            })
     }
 
     handleInput (e) {
@@ -51,7 +69,7 @@ export default class AddDeal extends React.Component {
             }
         })
     }
- 
+
     handleClick (event) {
         this.setState({
             submitSuccess: false,
@@ -68,7 +86,6 @@ export default class AddDeal extends React.Component {
             task_status: parseInt(this.props.status),
             assigned_to: this.state.assigned_to,
             due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
-            start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
@@ -92,26 +109,9 @@ export default class AddDeal extends React.Component {
     buildForm () {
         return (
             <Form>
-                <Details task={this.state} customers={this.props.customers}
+                <Details sourceTypes={this.state.sourceTypes} deal={this.state} customers={this.props.customers}
                     errors={this.state.errors}
                     users={this.props.users} handleInput={this.handleInput}/>
-
-                <FormGroup>
-                    <Label>Start / End date</Label>
-                    <DateRangePicker
-                        startDate={this.state.start_date} // momentPropTypes.momentObj or null,
-                        startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-                        endDate={this.state.due_date} // momentPropTypes.momentObj or null,
-                        endDateId="due_date" // PropTypes.string.isRequired,
-                        displayFormat="DD-MM-YYYY"
-                        onDatesChange={({ startDate, endDate }) => this.setState({
-                            start_date: startDate,
-                            due_date: endDate
-                        })} // PropTypes.func.isRequired,
-                        focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-                    />
-                </FormGroup>
 
                 <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                     custom_value2={this.state.custom_value2}
@@ -140,7 +140,6 @@ export default class AddDeal extends React.Component {
 
                         <ModalBody className={theme}>
                             {form}
-                            {leadForm}
                         </ModalBody>
 
                         <DefaultModalFooter show_success={true} toggle={this.toggle}
@@ -158,7 +157,6 @@ export default class AddDeal extends React.Component {
                         The event has been created successfully </div>
                 )}
                 {form}
-                {leadForm}
                 {saveButton}
             </div>
         )

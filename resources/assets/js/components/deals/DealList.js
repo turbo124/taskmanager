@@ -4,7 +4,7 @@ import DataTable from '../common/DataTable'
 import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
 import DealFilters from './DealFilters'
 import DealItem from './DealItem'
-import AddModal from './AddTask'
+import AddDeal from './AddDeal'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
@@ -32,12 +32,12 @@ export default class DealList extends Component {
             error_message: translations.unexpected_error,
             success_message: translations.success_message,
             filters: {
-                //project_id: queryString.parse(this.props.location.search).project_id || '',
+                // project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
                 task_status: '',
                 user_id: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                //task_type: '',
+                // task_type: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -65,7 +65,7 @@ export default class DealList extends Component {
                 'custom_value2',
                 'custom_value3',
                 'custom_value4',
-                'is_deleted',
+                'is_deleted'
             ],
             showRestoreButton: false
         }
@@ -101,7 +101,7 @@ export default class DealList extends Component {
     userList (props) {
         const { deals, custom_fields, users, customers } = this.state
 
-        return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} deals={deals} users={users}
+        return <DealItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} deals={deals} users={users}
             custom_fields={custom_fields} customers={customers}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
@@ -193,7 +193,7 @@ export default class DealList extends Component {
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
-        const addButton = customers.length && users.length ? <AddModal
+        const addButton = customers.length && users.length ? <AddDeal
             custom_fields={custom_fields}
             modal={true}
             status={1}
@@ -213,10 +213,6 @@ export default class DealList extends Component {
                                     deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterDeals}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                                <Button color="primary" onClick={() => {
-                                    location.href = '/#/kanban/deals'
-                                }}>Kanban view </Button>
-
                                 {addButton}
                             </CardBody>
                         </Card>

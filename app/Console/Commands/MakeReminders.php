@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Jobs\Invoice\SendReminders;
+use App\Models\Invoice;
+use App\Repositories\InvoiceRepository;
 use Illuminate\Console\Command;
 
 class MakeReminders extends Command
@@ -38,6 +40,6 @@ class MakeReminders extends Command
      */
     public function handle()
     {
-        SendReminders::dispatchNow();
+        SendReminders::dispatchNow((new InvoiceRepository(new Invoice)));
     }
 }

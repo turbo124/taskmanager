@@ -155,7 +155,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return !empty($result[0]) ? $result[0]['total'] : 0;
     }
 
-   private function saveProjectTask($data, Task $task)
+    private function saveProjectTask($data, Task $task)
     {
         $objProject = (new ProjectRepository(new Project))->findProjectById($data['project_id']);
         $data['customer_id'] = $objProject->customer_id;

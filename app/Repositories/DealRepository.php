@@ -4,11 +4,10 @@ namespace App\Repositories;
 
 use App\Filters\DealFilter;
 use App\Models\Account;
-use App\Models\Project;
 use App\Models\Deal;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Repositories\Interfaces\DealRepositoryInterface;
 use App\Requests\SearchRequest;
 use Carbon\Carbon;
 use Exception;
@@ -16,9 +15,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as Support;
 use Illuminate\Support\Facades\DB;
 
-class DealRepository extends BaseRepository implements TaskRepositoryInterface
+class DealRepository extends BaseRepository implements DealRepositoryInterface
 {
-   
+
 
     /**
      * DealRepository constructor.
@@ -81,7 +80,6 @@ class DealRepository extends BaseRepository implements TaskRepositoryInterface
         return $this->model;
     }
 
-   
 
     /**
      *
@@ -129,7 +127,7 @@ class DealRepository extends BaseRepository implements TaskRepositoryInterface
      * @param int $task_type
      * @return type
      */
-    public function getNewDeals(int $task_type, int $account_id)
+    public function getNewDeals(int $account_id)
     {
         $result = $this->model->select(DB::raw('count(*) as total'))
                               ->where('account_id', $account_id)->get();
@@ -142,12 +140,12 @@ class DealRepository extends BaseRepository implements TaskRepositoryInterface
      * @param int $task_type
      * @return type
      */
-    public function getTotalEarnt(int $task_type, int $account_id)
+    public function getTotalEarnt(int $account_id)
     {
-        return $this->model->where('task_type', $task_type)->where('account_id', $account_id)->sum('valued_at');
+        return $this->model->where('account_id', $account_id)->sum('valued_at');
     }
 
-    
+
     /**
      * @param $data
      * @param Task $task
@@ -156,7 +154,6 @@ class DealRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function save($data, Deal $deal): ?Deal
     {
-        
         $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
 
         $deal->fill($data);

@@ -6,15 +6,12 @@ use App\Factory\DealFactory;
 use App\Filters\DealFilter;
 use App\Models\Account;
 use App\Models\Customer;
-use App\Models\Project;
 use App\Models\Deal;
 use App\Models\User;
-use App\Repositories\ProjectRepository;
 use App\Repositories\DealRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\DealTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,7 +19,7 @@ use Tests\TestCase;
 class DealTest extends TestCase
 {
 
-    use DatabaseTransactions, WithFaker, TaskTransformable;
+    use DatabaseTransactions, WithFaker, DealTransformable;
 
     private $user;
     private $customer;
@@ -61,6 +58,7 @@ class DealTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function it_can_archive_the_task()
     {
         $deal = factory(Deal::class)->create();
@@ -112,7 +110,6 @@ class DealTest extends TestCase
         $this->assertEquals($data['title'], $deal->title);
     }
 
-   
 
     /** @test */
     public function it_errors_finding_a_deal()
@@ -134,11 +131,11 @@ class DealTest extends TestCase
 
         $address = factory(Deal::class)->create(
             [
-                'account_id' => $this->account->id,
-                'title'      => $title,
+                'account_id'  => $this->account->id,
+                'title'       => $title,
                 'description' => $description,
-                'due_date'   => $due_date
-               
+                'due_date'    => $due_date
+
             ]
         );
 

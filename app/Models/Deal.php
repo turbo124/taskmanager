@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use App\Libraries\Utils;
-use App\Models;
 use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deal extends Model
@@ -20,7 +18,6 @@ class Deal extends Model
         'is_completed',
         'assigned_to',
         'due_date',
-        'start_date',
         'project_id',
         'task_status',
         'created_by',
@@ -59,7 +56,7 @@ class Deal extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
-   
+
 
     public function files()
     {

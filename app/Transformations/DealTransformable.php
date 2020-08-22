@@ -1,43 +1,39 @@
-
 <?php
 
 namespace App\Transformations;
 
 use App\Libraries\Utils;
 use App\Models\Deal;
-use Exception;
 
 trait DealTransformable
 {
-    
 
     /**
-     * @param Task $task
+     * @param Deal $deal
      * @return array
-     * @throws Exception
      */
-    protected function transformDeal(Deal $task)
+    protected function transformDeal(Deal $deal)
     {
         return [
-            'id'                     => (int)$task->id,
-            'title'                  => $task->title,
-            'description'            => $task->description,
-            'comments'               => $task->comments,
-            'due_date'               => $task->due_date,
-            'task_status'            => (int)$task->task_status,
-            'deleted_at'             => $task->deleted_at,
-            'rating'                 => $task->rating,
-            'customer_id'            => $task->customer_id,
-            'valued_at'              => $task->valued_at,
-            'source_type'            => $task->source_type,
-            'is_deleted'             => (bool)$task->is_deleted,
-            'custom_value1'          => $task->custom_value1 ?: '',
-            'custom_value2'          => $task->custom_value2 ?: '',
-            'custom_value3'          => $task->custom_value3 ?: '',
-            'custom_value4'          => $task->custom_value4 ?: '',
-            'public_notes'           => $task->public_notes ?: '',
-            'private_notes'          => $task->private_notes ?: '',
-           
+            'id'            => (int)$deal->id,
+            'title'         => $deal->title,
+            'description'   => $deal->description,
+            'comments'      => $deal->comments,
+            'due_date'      => $deal->due_date,
+            'task_status'   => (int)$deal->task_status,
+            'deleted_at'    => $deal->deleted_at,
+            'rating'        => $deal->rating,
+            'customer_id'   => $deal->customer_id,
+            'valued_at'     => $deal->valued_at,
+            'source_type'   => $deal->source_type,
+            'is_deleted'    => (bool)$deal->is_deleted,
+            'custom_value1' => $deal->custom_value1 ?: '',
+            'custom_value2' => $deal->custom_value2 ?: '',
+            'custom_value3' => $deal->custom_value3 ?: '',
+            'custom_value4' => $deal->custom_value4 ?: '',
+            'public_notes'  => $deal->public_notes ?: '',
+            'private_notes' => $deal->private_notes ?: '',
+
         ];
     }
 }

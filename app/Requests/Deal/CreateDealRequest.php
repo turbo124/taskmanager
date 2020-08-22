@@ -15,18 +15,17 @@ class CreateDealRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'source_type'  => 'nullable|numeric',
-            'rating'       => 'nullable|numeric',
-            'customer_id'  => 'nullable|numeric',
+            'source_type' => 'nullable|numeric',
+            'rating'      => 'nullable|numeric',
+            'customer_id' => 'nullable|numeric',
             //'task_type' => 'required',
-            'title'        => 'required',
-            'description'      => 'required',
-           
-            'start_date'   => 'nullable',
+            'title'       => 'required',
+            'description' => 'required',
+
+            'start_date' => 'nullable',
             //'task_status' => 'required',
-       
+
         ];
-    
     }
 
 }

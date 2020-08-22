@@ -15,11 +15,11 @@ class UpdateDealRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'valued_at'    => 'nullable|string',
-            'rating'       => 'nullable|numeric',
-            'customer_id'  => 'nullable|numeric',
-            'title'        => 'required',
-          
+            'valued_at'   => 'nullable|string',
+            'rating'      => 'nullable|numeric',
+            'customer_id' => 'nullable|numeric',
+            'title'       => 'required',
+
         ];
     }
 

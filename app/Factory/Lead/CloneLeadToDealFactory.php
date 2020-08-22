@@ -1,18 +1,24 @@
-
 <?php
 
 namespace App\Factory\Lead;
 
 use App\Models\Account;
 use App\Models\Customer;
-use App\Models\Lead;
 use App\Models\Deal;
+use App\Models\Lead;
 use App\Models\TaskStatus;
 use App\Models\User;
 
 class CloneLeadToDealFactory
 {
-    public static function create(Lead $lead, Customer $customer, User $user, Account $account): Task
+    /**
+     * @param Lead $lead
+     * @param Customer $customer
+     * @param User $user
+     * @param Account $account
+     * @return Deal
+     */
+    public static function create(Lead $lead, Customer $customer, User $user, Account $account): Deal
     {
         $client_contact = new Deal();
         $client_contact->account_id = $account->id;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, FormGroup, Row } from 'reactstrap'
+import { Button, CardBody, Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
@@ -117,6 +117,12 @@ export default class DealFilters extends Component {
                     <FormGroup>
                         <DateFilter onChange={this.filterTasks}/>
                     </FormGroup>
+                </Col>
+
+                <Col sm={12} md={1} className="mt-3 mt-md-0">
+                    <Button color="primary" onClick={() => {
+                        location.href = '/#/kanban/deals'
+                    }}>Kanban view </Button>
                 </Col>
             </Row>
         )

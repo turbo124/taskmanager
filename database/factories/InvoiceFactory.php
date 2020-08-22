@@ -36,11 +36,11 @@ $factory->define(
             'user_id'        => $user->id,
             'is_deleted'     => false,
             'po_number'      => $faker->text(10),
-            'date'           => $faker->date(),
+            'date'           => \Carbon\Carbon::now()->format('Y-m-d'),
             'due_date'       => $faker->date(),
             'line_items'     => $line_items,
             'terms'          => $faker->text(500),
-            'gateway_fee'    => 12.99
+            //'gateway_fee'    => 12.99
         ];
     }
 );

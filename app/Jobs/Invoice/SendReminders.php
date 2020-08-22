@@ -21,7 +21,6 @@ class SendReminders implements ShouldQueue
 
     public function __construct(InvoiceRepository $invoice_repo)
     {
-        
         $this->invoice_repo = $invoice_repo;
     }
 
@@ -66,7 +65,7 @@ class SendReminders implements ShouldQueue
         $this->build();
     }
 
-    private function updateNextReminderDate(Invoice $invoice, $reminder_type, $number_of_days)
+    private function updateNextReminderDate($reminder_type, $number_of_days)
     {
         switch ($reminder_type) {
             case 'after_invoice_date':
@@ -94,17 +93,23 @@ class SendReminders implements ShouldQueue
 
         for ($x = 1; $x <= 3; $x++) {
             $reminder_date = $this->invoice->next_send_date;
-            $settings = (array)$this->settings;
 
-            if ($settings["enable_reminder{$x}"] === false || $settings["num_days_reminder{$x}"] == 0 || $reminder_date !== Carbon::now(
-                )->format('Y-m-d')) {
+            if ($this->invoice->customer->getSetting(
+                    "enable_reminder{$x}"
+                ) === false || $this->invoice->customer->getSetting(
+                    "num_days_reminder{$x}"
+                ) == 0 || $reminder_date !== Carbon::now()->format('Y-m-d')) {
                 continue;
             }
 
             if (!$message_sent) {
-                $this->addCharge($settings["late_fee_amount{$x}"]);
+                $this->addCharge($this->invoice->customer->getSetting("late_fee_amount{$x}"));
+
                 $this->sendEmail("reminder{$x}");
-                $this->updateNextReminderDate($settings["schedule_reminder{$x}"], $settings["num_days_reminder{$x}"]);
+                $this->updateNextReminderDate(
+                    $this->invoice->customer->getSetting("schedule_reminder{$x}"),
+                    $this->invoice->customer->getSetting("num_days_reminder{$x}")
+                );
                 $message_sent = true;
             }
         }
@@ -112,16 +117,15 @@ class SendReminders implements ShouldQueue
 
     private function sendEmail($template)
     {
-        $subject = $this->invoice->customer->getSetting('email_subject_' . $this->template);
-        $body = $this->invoice->customer->getSetting('email_template_' . $this->template);
+        $subject = $this->invoice->customer->getSetting('email_subject_' . $template);
+        $body = $this->invoice->customer->getSetting('email_template_' . $template);
         $this->invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 
     private function addCharge(float $amount)
     {
         // if percentage calculate amount
-
-       $this->invoice->late_fee_charge = $amount;
-       $this->invoice_repo->save([], $this->invoice);
+        $this->invoice->late_fee_charge = $amount;
+        $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
     }
 }

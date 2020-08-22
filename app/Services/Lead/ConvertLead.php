@@ -5,8 +5,10 @@ namespace App\Services\Lead;
 use App\Factory\Lead\CloneLeadToAddressFactory;
 use App\Factory\Lead\CloneLeadToContactFactory;
 use App\Factory\Lead\CloneLeadToCustomerFactory;
-use App\Factory\Lead\CloneLeadToTaskFactory;
 use App\Factory\Lead\CloneLeadToDealFactory;
+use App\Factory\Lead\CloneLeadToTaskFactory;
+use App\Models\Customer;
+use App\Models\Deal;
 use App\Models\Lead;
 use App\Models\Task;
 use DateInterval;
@@ -62,13 +64,13 @@ class ConvertLead
                 return null;
             }
 
-           if(!$this->createTask()) {
-               return null;
-           }
+            if (!$this->createTask($customer)) {
+                return null;
+            }
 
-            if(!$this->createDeal()) {
-               return null;
-           }
+            if (!$this->createDeal($customer)) {
+                return null;
+            }
 
             $this->lead->task_status = Lead::STATUS_COMPLETED;
             $this->lead->status_id = Lead::STATUS_COMPLETED;
@@ -87,39 +89,47 @@ class ConvertLead
         }
     }
 
-    private function createTask(): bool
+    /**
+     * @param Customer $customer
+     * @return Task|null
+     */
+    private function createTask(Customer $customer): ?Task
     {
-         $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
-            $date = new DateTime(); // Y-m-d
-            $date->add(new DateInterval('P30D'));
-            $due_date = $date->format('Y-m-d');
+        $date = new DateTime(); // Y-m-d
+        $date->add(new DateInterval('P30D'));
+        $due_date = $date->format('Y-m-d');
 
-            $task->due_date = $due_date;
+        $task->due_date = $due_date;
 
-            if (!$task->save()) {
-                DB::rollback();
-                return false;
-            }
+        if (!$task->save()) {
+            DB::rollback();
+            return null;
+        }
 
-           return true;
+        return $task;
     }
 
-    private function createDeal(): bool
+    /**
+     * @param Customer $customer
+     * @return Deal|null
+     */
+    private function createDeal(Customer $customer): ?Deal
     {
-         $deal = CloneLeadToDealFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
+        $deal = CloneLeadToDealFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
-            $date = new DateTime(); // Y-m-d
-            $date->add(new DateInterval('P30D'));
-            $due_date = $date->format('Y-m-d');
+        $date = new DateTime(); // Y-m-d
+        $date->add(new DateInterval('P30D'));
+        $due_date = $date->format('Y-m-d');
 
-            $deal->due_date = $due_date;
+        $deal->due_date = $due_date;
 
-            if (!$deal->save()) {
-                DB::rollback();
-                return false;
-            }
+        if (!$deal->save()) {
+            DB::rollback();
+            return null;
+        }
 
-         return true;
+        return $deal;
     }
 }

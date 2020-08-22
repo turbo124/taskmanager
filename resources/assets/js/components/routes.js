@@ -12,6 +12,7 @@ import Categories from './categories/Categories'
 import Brands from './brands/Brands'
 import ProjectList from './forms/ProjectList'
 import Leads from './leads/Leads'
+import Deals from './deals/DealList'
 import TaskList from './forms/TaskList'
 import Customers from './customers/Customers'
 import Departments from './departments/Departments'
@@ -314,6 +315,12 @@ const routes = [
         exact: true,
         name: 'Leads List',
         component: Leads
+    },
+    {
+        path: '/deals',
+        exact: true,
+        name: 'Deals List',
+        component: Deals
     },
     {
         path: '/cases',

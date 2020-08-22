@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Factory\DealFactory;
 use App\Filters\DealFilter;
 use App\Models\Deal;
-use App\Repositories\CustomerRepository;
 use App\Repositories\DealRepository;
-use App\Requests\SearchRequest;
 use App\Requests\Deal\CreateDealRequest;
 use App\Requests\Deal\UpdateDealRequest;
+use App\Requests\SearchRequest;
 use App\Transformations\DealTransformable;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
@@ -34,7 +32,6 @@ class DealController extends Controller
     public function __construct(DealRepository $deal_repo)
     {
         $this->deal_repo = $deal_repo;
-        
     }
 
     public function index(SearchRequest $request)
@@ -71,7 +68,7 @@ class DealController extends Controller
         return response()->json($deal);
     }
 
-    
+
     /**
      * @param UpdateDealRequest $request
      * @param int $id
@@ -82,7 +79,7 @@ class DealController extends Controller
     {
         $deal = $this->deal_repo->findDealById($id);
         $deal = $this->deal_repo->save($request->all(), $deal);
-       
+
 
         return response()->json($deal);
     }

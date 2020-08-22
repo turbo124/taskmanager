@@ -93,7 +93,7 @@ class Invoice extends Model
     const STATUS_PAID = 3;
     const STATUS_CANCELLED = 5;
     const STATUS_REVERSED = 6;
-    
+
     const PRODUCT_TYPE = 1;
     const COMMISSION_TYPE = 2;
     const TASK_TYPE = 3;
@@ -101,7 +101,7 @@ class Invoice extends Model
     const SUBSCRIPTION_TYPE = 5;
     const EXPENSE_TYPE = 6;
     const GATEWAY_FEE_TYPE = 7;
-   
+
 
     public function service(): InvoiceService
     {
