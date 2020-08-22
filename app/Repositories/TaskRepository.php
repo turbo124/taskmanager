@@ -83,22 +83,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $query->get();
     }
 
-    public function getDeals($limit = null, User $objUser = null): Support
-    {
-        $query = $this->model->where('task_type', 3)->where('is_completed', 0)->where('parent_id', 0)
-                             ->orderBy('tasks.created_at', 'desc');
-
-        if ($objUser !== null) {
-            $query->join('task_user', 'tasks.id', '=', 'task_user.task_id')->where('task_user.user_id', $objUser->id);
-        }
-
-        if ($limit !== null) {
-            $query->limit($limit);
-        }
-
-        return $query->get();
-    }
-
     public function getModel()
     {
         return $this->model;
@@ -171,30 +155,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return !empty($result[0]) ? $result[0]['total'] : 0;
     }
 
-    /**
-     *
-     * @param int $task_type
-     * @return type
-     */
-    public function getNewDeals(int $task_type, int $account_id)
-    {
-        $result = $this->model->select(DB::raw('count(*) as total'))->where('task_type', $task_type)
-                              ->where('account_id', $account_id)->get();
-
-        return !empty($result[0]) ? $result[0]['total'] : 0;
-    }
-
-    /**
-     *
-     * @param int $task_type
-     * @return type
-     */
-    public function getTotalEarnt(int $task_type, int $account_id)
-    {
-        return $this->model->where('task_type', $task_type)->where('account_id', $account_id)->sum('valued_at');
-    }
-
-    private function saveProjectTask($data, Task $task)
+   private function saveProjectTask($data, Task $task)
     {
         $objProject = (new ProjectRepository(new Project))->findProjectById($data['project_id']);
         $data['customer_id'] = $objProject->customer_id;
