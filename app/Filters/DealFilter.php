@@ -63,7 +63,7 @@ class DealFilter extends QueryFilter
         }
 
         if ($request->filled('user_id')) {
-            $this->query->where('task_user.user_id', '=', $request->user_id);
+            $this->query->where('assigned_to', '=', $request->user_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
