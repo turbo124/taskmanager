@@ -252,6 +252,15 @@ export default class Order extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
+                    <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
                     <TabPane tabId="3">
                         <Row>
                             <Col>
