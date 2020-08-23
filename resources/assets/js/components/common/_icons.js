@@ -12,6 +12,7 @@ export const icons = {
     email: 'fa-envelope-square',
     mark_sent: 'fa-share-square',
     customer: 'fa-user-circle-o',
+    contact: 'fa-users',
     approve: 'fa-check-square',
     clone: 'fa-copy',
     delete: 'fa-trash',

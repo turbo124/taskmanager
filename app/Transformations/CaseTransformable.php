@@ -4,6 +4,7 @@ namespace App\Transformations;
 
 
 use App\Models\Cases;
+use App\Models\Email;
 use App\Models\File;
 use App\Models\Subscription;
 
@@ -34,7 +35,7 @@ trait CaseTransformable
             'category_id'   => (int)$cases->category_id,
             'priority_id'   => (int)$cases->priority_id,
             'files'         => $this->transformCaseFiles($cases->files),
-            'emails'        => $this->transformEmails($cases->emails()),
+            'emails'        => $this->transformCaseEmails($cases->emails()),
             'updated_at'    => $cases->updated_at,
             'created_at'    => $cases->created_at,
             'is_deleted'    => (bool)$cases->is_deleted,
@@ -62,7 +63,7 @@ trait CaseTransformable
         )->all();
     }
 
-    private function transformEmails($emails)
+    private function transformCaseEmails($emails)
     {
         if ($emails->count() === 0) {
             return [];

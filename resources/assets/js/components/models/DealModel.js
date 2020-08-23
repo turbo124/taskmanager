@@ -8,7 +8,7 @@ export default class DealModel extends BaseModel {
         this.customers = customers
         this.entity = 'Deal'
         this._url = '/api/deals'
-       
+
         this._fields = {
             modal: false,
             title: '',

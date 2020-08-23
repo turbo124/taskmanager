@@ -63,7 +63,7 @@ export default class Credit extends Component {
 
     loadPdf () {
         axios.post('/api/preview', {
-            entity: 'Credit',
+            entity: 'Cases',
             entity_id: this.props.entity.id
         })
             .then((response) => {

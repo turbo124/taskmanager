@@ -10,6 +10,8 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
+import BottomNavigationButtons from '../common/BottomNavigationButtons'
+import axios from 'axios'
 
 export default class Case extends Component {
     constructor (props) {
@@ -23,6 +25,7 @@ export default class Case extends Component {
         this.caseModel = new CaseModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
+        this.loadPdf = this.loadPdf.bind(this)
     }
 
     triggerAction (action) {
@@ -37,6 +40,40 @@ export default class Case extends Component {
                 2000
             )
         })
+    }
+
+    loadPdf () {
+        axios.post('/api/preview', {
+            entity: 'Cases',
+            entity_id: this.props.entity.id
+        })
+            .then((response) => {
+                console.log('respons', response.data.data)
+                var base64str = response.data.data
+
+                // decode base64 string, remove space for IE compatibility
+                var binary = atob(base64str.replace(/\s/g, ''))
+                var len = binary.length
+                var buffer = new ArrayBuffer(len)
+                var view = new Uint8Array(buffer)
+                for (var i = 0; i < len; i++) {
+                    view[i] = binary.charCodeAt(i)
+                }
+
+                // create the blob object with content-type "application/pdf"
+                var blob = new Blob([view], { type: 'application/pdf' })
+                var url = URL.createObjectURL(blob)
+
+                /* const file = new Blob (
+                 [ response.data.data ],
+                 { type: 'application/pdf' } ) */
+                // const fileURL = URL.createObjectURL ( file )
+
+                this.setState({ obj_url: url }, () => URL.revokeObjectURL(url))
+            })
+            .catch((error) => {
+                alert(error)
+            })
     }
 
     toggleTab (tab) {
@@ -171,8 +208,23 @@ export default class Case extends Component {
                                 <Card>
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Case" entity={this.props.entity}
+                                        <FileUploads entity_type="Cases" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader> {translations.pdf} </CardHeader>
+                                    <CardBody>
+                                        <iframe style={{ width: '400px', height: '400px' }}
+                                            className="embed-responsive-item" id="viewer"
+                                            src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -186,20 +238,10 @@ export default class Case extends Component {
                 </Alert>
                 }
 
-                <div className="navbar d-flex p-0 view-buttons">
-                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
-                        onClick={() => {
-                            this.triggerAction('3')
-                        }}>
-                        {translations.pdf}
-                    </NavLink>
-                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
-                        onClick={() => {
-                            this.triggerAction('4')
-                        }}>
-                        Link 4
-                    </NavLink>
-                </div>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
+                    button2={{ label: translations.clone_to_invoice }}/>
             </React.Fragment>
 
         )

@@ -5,6 +5,7 @@ namespace App\Jobs\Email;
 use App\Factory\EmailFactory;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
+use App\Helpers\Pdf\TaskPdf;
 use App\Jobs\Invoice\CreateUbl;
 use App\Mail\SendMail;
 use App\Models\Email;
@@ -56,11 +57,16 @@ class SendEmail implements ShouldQueue
     {
         $settings = $this->entity->account->settings;
 
-        $objPdf = get_class($this->entity) === 'App\Models\Lead'
-            ? new LeadPdf($this->entity)
-            : new InvoicePdf(
-                $this->entity
-            );
+        switch (get_class($this->entity)) {
+            case in_array(get_class($this->entity), ['App\Models\Cases', 'App\Models\Task', 'App\Models\Deal']):
+                $objPdf = new TaskPdf($this->entity);
+                break;
+            case 'App\Models\Lead':
+                $objPdf = new LeadPdf($this->entity);
+                break;
+            default:
+                $objPdf = new InvoicePdf($this->entity);
+        }
 
         $objPdf->build();
         $labels = $objPdf->getLabels();
@@ -92,9 +98,15 @@ class SendEmail implements ShouldQueue
             $message->setBcc($settings->bcc_email);
         }
 
-        if ($settings->pdf_email_attachment && get_class($this->entity) !== 'App\Models\Lead' && get_class(
-                $this->entity
-            ) !== 'App\Models\Payment') {
+        if ($settings->pdf_email_attachment && !in_array(get_class($this->entity),
+                                                         [
+                                                             'App\Models\Lead',
+                                                             'App\Models\Task',
+                                                             'App\Models\Deal',
+                                                             'App\Models\Payment',
+                                                             'App\Models\Cases'
+                                                         ]
+            )) {
             $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }
 

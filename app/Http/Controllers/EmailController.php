@@ -7,11 +7,14 @@ use App\Repositories\Base\BaseRepository;
 use App\Repositories\EmailRepository;
 use App\Requests\Email\SendEmailRequest;
 use App\Traits\MakesInvoiceHtml;
+use App\Transformations\CaseTransformable;
 use App\Transformations\CreditTransformable;
+use App\Transformations\DealTransformable;
 use App\Transformations\InvoiceTransformable;
 use App\Transformations\LeadTransformable;
 use App\Transformations\OrderTransformable;
 use App\Transformations\QuoteTransformable;
+use App\Transformations\TaskTransformable;
 use Illuminate\Http\JsonResponse;
 use ReflectionClass;
 
@@ -23,6 +26,9 @@ class EmailController extends Controller
     use QuoteTransformable;
     use InvoiceTransformable;
     use LeadTransformable;
+    use DealTransformable;
+    use TaskTransformable;
+    use CaseTransformable;
 
     private $email_repo;
 
@@ -46,12 +52,15 @@ class EmailController extends Controller
 
         if (!empty($to)) {
             $contact = ClientContact::where('id', '=', $to)->first();
-        } elseif ($entity !== 'App\\Models\\Lead') {
+        } elseif (!in_array($entity, ['App\Models\Lead', 'App\Models\Deal', 'App\Models\Task', 'App\Models\Cases'])) {
             $contact = $entity_obj->invitations->first()->contact;
         }
         $entity_obj->service()->sendEmail($contact, $request->subject, $request->body);
 
-        if ($request->mark_sent === true) {
+        if (!in_array(
+                $entity,
+                ['App\Models\Lead', 'App\Models\Deal', 'App\Models\Task', 'App\Models\Cases']
+            ) && $request->mark_sent === true) {
             (new BaseRepository($entity_obj))->markSent($entity_obj);
         }
 
@@ -71,6 +80,12 @@ class EmailController extends Controller
         switch ($entity_class) {
             case 'Lead':
                 return $this->transformLead($entity_object);
+            case 'Deal':
+                return $this->transformDeal($entity_object);
+            case 'Cases':
+                return $this->transform($entity_object);
+            case 'Task':
+                return $this->transformTask($entity_object);
             case 'Credit':
                 return $this->transformCredit($entity_object);
             case 'Order':

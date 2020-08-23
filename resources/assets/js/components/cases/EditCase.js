@@ -1,5 +1,5 @@
 import React from 'react'
-import { DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -152,7 +152,7 @@ export default class EditCase extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('4')
                                     }}>
-                                    {translations.emails}
+                                    {translations.email}
                                 </NavLink>
                             </NavItem>
                         </Nav>

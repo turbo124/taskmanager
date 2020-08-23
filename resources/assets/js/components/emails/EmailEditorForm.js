@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Label, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import { translations } from '../common/_translations'
+import CustomerModel from "../models/CustomerModel";
+import { icons } from "../common/_icons";
 
 export default class EmailEditorForm extends Component {
     constructor (props) {
@@ -117,21 +119,26 @@ export default class EmailEditorForm extends Component {
             message={translations.failed_to_send}/> : null
 
         const customer = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.customers.filter(customer => customer.id === this.props.entity_object.customer_id) : []
-        const contacts = customer.length && customer[0] ? customer[0].contacts : []
-        const invitations = this.props.entity_object && this.props.customers && this.props.customers.length ? this.props.entity_object.invitations : []
 
-        const contactList = invitations.length && contacts.length ? invitations.map((invitation, index) => {
-            const contact = contacts.filter(contact => contact.id === invitation.client_contact_id)
-            return <option
-                value={contact[0].id}>{`${contact[0].first_name} ${contact[0].last_name} <${contact[0].email}>`}</option>
-        }) : null
+        let contactList = null
+
+        if (customer.length && this.props.entity_object.invitations) {
+            const customerModel = new CustomerModel(customer[0])
+            const invitations = this.props.entity_object.invitations
+
+            contactList = invitations.map((invitation, index) => {
+                const contact = customerModel.findContact(invitation.client_contact_id)
+                return <option
+                    value={contact.id}>{contact.fullNameWithEmail}</option>
+            })
+        }
 
         return (
             <Form>
                 {successMessage}
                 {errorMessage}
 
-                {customer.length &&
+                {!!contactList &&
                 <FormGroup>
                     <Label for="exampleEmail">{translations.to}</Label>
                     <Input value={this.state.to} type="select" name="to"

@@ -1,3 +1,8 @@
+import moment from 'moment'
+import React from 'react'
+import { Card, CardBody, ListGroup, ListGroupItem } from 'reactstrap'
+import FormatDate from '../common/FormatDate'
+
 var deepDiffMapper = (function () {
     return {
         VALUE_CREATED: 'created',
@@ -78,10 +83,6 @@ var deepDiffMapper = (function () {
     }
 }())
 
-import React from 'react'
-import { Card, CardBody, ListGroup, ListGroupItem } from 'reactstrap'
-import FormatDate from '../common/FormatDate'
-
 export default function Audit (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
@@ -89,12 +90,11 @@ export default function Audit (props) {
         const previous = props.audits[i === 0 ? props.audits.length - 1 : i - 1]
         const diff = deepDiffMapper.map(array.data, previous.data)
         const type = array.notification.type.replace(`App\\Listeners\\${props.entity}\\`, '')
+        const time_ago = moment(array.created_at).fromNow()
 
         return <ListGroupItem key={i} className={`${listClass} list-group-item-action flex-column align-items-start`}>
-            <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{type} - {array.notification.author}</h5>
-                <small>{<FormatDate with_time={true} date={array.created_at}/>}</small>
-            </div>
+            <h5 className="mb-1">{type} - {array.notification.author}</h5>
+            <p><small>{<FormatDate with_time={true} date={array.created_at}/>} . {time_ago}</small></p>
             {/* <p className="mb-1">{JSON.stringify(diff)}</p> */}
             {/* <small>Donec id elit non mi porta.</small> */}
         </ListGroupItem>

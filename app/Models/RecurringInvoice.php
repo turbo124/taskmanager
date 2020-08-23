@@ -109,6 +109,11 @@ class RecurringInvoice extends Model
         )->orderBy('created_at', 'desc');
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     public function setNumber()
     {
         if (!empty($this->number)) {

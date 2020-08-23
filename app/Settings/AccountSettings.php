@@ -72,9 +72,6 @@ class AccountSettings extends BaseSettings
             $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
 
             if (!$settings && $full_validation === true) {
-                echo '<pre>';
-                print_r($this->validationFailures);
-                die;
 
                 return false;
             }
@@ -123,6 +120,18 @@ class AccountSettings extends BaseSettings
                 '$invoice.due_date',
                 '$invoice.balance_due',
                 '$invoice.invoice_total',
+            ],
+            'lead'             => [
+
+            ],
+            'case'             => [
+
+            ],
+            'task'             => [
+
+            ],
+            'deal'             => [
+
             ],
             'order'            => [
                 '$order.order_number',

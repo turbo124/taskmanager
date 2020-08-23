@@ -3,7 +3,11 @@
 namespace App\Services\Lead;
 
 use App\Designs\PdfColumns;
+use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\LeadPdf;
 use App\Jobs\Pdf\CreatePdf;
+use App\Models\ClientContact;
+use App\Models\Deal;
 use App\Models\Design;
 use App\Models\Lead;
 use Illuminate\Support\Facades\Storage;
@@ -11,31 +15,52 @@ use Illuminate\Support\Facades\Storage;
 class GeneratePdf
 {
     private $contact;
-    private $lead;
 
-    public function __construct(Lead $lead)
+    /**
+     * @var Deal
+     */
+    private Lead $lead;
+
+    /**
+     * @var bool
+     */
+    private bool $update;
+
+    /**
+     * GeneratePdf constructor.
+     * @param Lead $lead
+     * @param ClientContact|null $contact
+     * @param bool $update
+     */
+    public function __construct(Lead $lead, ClientContact $contact = null, $update = false)
     {
+        $this->contact = $contact;
         $this->lead = $lead;
+        $this->update = $update;
     }
 
     public function execute()
     {
-        $path = 'storage/' . $this->lead->account->id . '/' . $this->lead->id . '/leads/';
-        $file_path = $path . $this->lead->id . '.pdf';
+
+        $file_path = $this->lead->getPdfFilename();
 
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
 
-        if ($file) {
+        if ($file && $this->update === false) {
             return $file_path;
         }
 
-        $design = Design::find($this->lead->account->getSetting('invoice_design_id'));
+        $design = Design::find($this->lead->getDesignId());
+
+        $objPdf = new LeadPdf($this->lead);
 
         $designer =
-            new PdfColumns($this->lead, $design, $this->lead->account->getSetting('pdf_variables'), 'lead');
+            new PdfColumns(
+                $objPdf, $this->lead, $design, $this->lead->account->settings->pdf_variables, 'lead'
+            );
 
-        return CreatePdf::dispatchNow($this->lead, $file_path, $designer, $this->lead);
+        return CreatePdf::dispatchNow($objPdf, $this->lead, $file_path, $designer, $this->contact);
     }
 
 }

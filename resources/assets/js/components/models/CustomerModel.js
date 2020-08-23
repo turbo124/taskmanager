@@ -1,6 +1,44 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
+class ContactModel {
+    constructor (contact) {
+        this._contact = contact
+
+        this._fields = {
+            id: '',
+            settings: {},
+            first_name: '',
+            last_name: '',
+            phone: '',
+            email: '',
+            is_primary: false,
+            contact_key: '',
+            custom_value1: '',
+            custom_value2: '',
+            custom_value3: '',
+            custom_value4: '',
+            errors: []
+        }
+
+        if (contact !== null) {
+            this._fields = { ...this.fields, ...contact }
+        }
+    }
+
+    get fullName () {
+        return (this._fields.first_name + ' ' + this._fields.last_name).trim()
+    }
+
+    get fullNameWithEmail () {
+        return `${this.fullName} <${this._fields.email}>`
+    }
+
+    get id () {
+        return this._fields.id
+    }
+}
+
 export default class CustomerModel extends BaseModel {
     constructor (data = null) {
         super()
@@ -168,8 +206,21 @@ export default class CustomerModel extends BaseModel {
     }
 
     get gateway_tokens () {
-        console.log('fields', this.fields)
         return this.fields.gateway_tokens
+    }
+
+    get displayName () {
+        return this.fields.name
+    }
+
+    findContact (contact_id) {
+        const contact = this.fields.contacts.filter(contact => contact.id === contact_id)
+
+        if (!contact.length) {
+            return false
+        }
+
+        return new ContactModel(contact[0])
     }
 
     addGateway (gateway) {

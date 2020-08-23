@@ -184,7 +184,7 @@ export default class RecurringQuote extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
-                     <NavItem>
+                    <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
@@ -254,7 +254,7 @@ export default class RecurringQuote extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
-                     <TabPane tabId="2">
+                    <TabPane tabId="2">
                         <Row>
                             <Col>
                                 <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
@@ -267,7 +267,7 @@ export default class RecurringQuote extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Quote" entity={this.props.entity}
+                                        <FileUploads entity_type="RecurringQuote" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
                                     </CardBody>
                                 </Card>
@@ -278,7 +278,7 @@ export default class RecurringQuote extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Audit entity="Quote" audits={this.props.entity.audits}/>
+                                <Audit entity="RecurringQuote" audits={this.props.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>

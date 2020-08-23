@@ -49,14 +49,19 @@ class LeadService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($subject = '', $body = '', $template = 'lead')
+    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'lead')
     {
         return (new LeadEmail($this->lead, $subject, $body))->execute();
     }
 
-    public function generatePdf()
+    /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function generatePdf($contact = null, $update = false)
     {
-        return '';
+        return (new GeneratePdf($this->lead, $contact, $update))->execute();
     }
 
 }

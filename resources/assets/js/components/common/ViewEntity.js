@@ -22,6 +22,7 @@ import TaxRate from '../partials/TaxRate'
 import Token from '../partials/Token'
 import Group from '../partials/Group'
 import Gateway from '../partials/Gateway'
+import Deal from "../partials/Deal";
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -88,6 +89,9 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && this.props.entity_type && ['User'].includes(this.props.entity_type) &&
                         <User entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['Deal'].includes(this.props.entity_type) &&
+                        <Deal entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company customers={this.props.customers} entity={this.props.entity}/>}
