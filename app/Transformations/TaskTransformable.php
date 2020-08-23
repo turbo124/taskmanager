@@ -73,4 +73,17 @@ trait TaskTransformable
         )->all();
     }
 
+    private function transformTaskFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
 }
