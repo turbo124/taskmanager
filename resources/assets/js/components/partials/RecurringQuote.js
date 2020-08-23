@@ -182,11 +182,21 @@ export default class RecurringQuote extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
-                    <NavItem>
+                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
+                            }}
+                        >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.quoteModel.fileCount})
@@ -231,7 +241,7 @@ export default class RecurringQuote extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="2">
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -244,7 +254,7 @@ export default class RecurringQuote extends Component {
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="3">
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Card>
@@ -265,7 +275,7 @@ export default class RecurringQuote extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>
