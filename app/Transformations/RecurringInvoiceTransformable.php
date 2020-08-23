@@ -3,6 +3,11 @@
 namespace App\Transformations;
 
 use App\Models\RecurringInvoice;
+use App\Models\Audit;
+use App\Models\Email;
+use App\Models\File;
+use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
 
 trait RecurringInvoiceTransformable
 {
