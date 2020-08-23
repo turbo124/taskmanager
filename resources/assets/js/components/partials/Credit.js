@@ -182,7 +182,7 @@ export default class Credit extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
                             }}
@@ -193,7 +193,7 @@ export default class Credit extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('3')
                             }}
@@ -274,13 +274,7 @@ export default class Credit extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Card>
-                                    <CardHeader>{translations.pdf}</CardHeader>
-                                    <CardBody>
-                                        <iframe style={{ width: '400px', height: '400px' }}
-                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
-                                    </CardBody>
-                                </Card>
+                                <Audit entity="Credit" audits={this.props.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -288,7 +282,13 @@ export default class Credit extends Component {
                     <TabPane tabId="5">
                         <Row>
                             <Col>
-                                <Audit entity="Credit" audits={this.props.entity.audits}/>
+                                <Card>
+                                    <CardHeader>{translations.pdf}</CardHeader>
+                                    <CardBody>
+                                        <iframe style={{ width: '400px', height: '400px' }}
+                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                                    </CardBody>
+                                </Card>
                             </Col>
                         </Row>
                     </TabPane>
@@ -300,7 +300,7 @@ export default class Credit extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>
