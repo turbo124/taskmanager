@@ -13,16 +13,41 @@ import { icons } from '../common/_icons'
 import TaskTimeItem from '../common/entityContainers/TaskTimeItem'
 
 export default class Task extends Component {
-    constructor (props) {
+   constructor (props) {
         super(props)
         this.state = {
-            statuses: [],
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
         this.taskModel = new TaskModel(this.props.entity)
+        this.toggleTab = this.toggleTab.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+    }
+
+    triggerAction (action) {
+        this.taskModel.completeAction(this.props.entity, action).then(response => {
+            this.setState({ show_success: true })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
+    }
+
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab }, () => {
+                if (this.state.activeTab === '3') {
+                    this.loadPdf()
+                }
+            })
+        }
     }
 
     render () {
