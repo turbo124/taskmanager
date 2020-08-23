@@ -184,11 +184,23 @@ export default class Invoice extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
+
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
+                            }}
+                        >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.invoiceModel.fileCount})
@@ -206,6 +218,7 @@ export default class Invoice extends Component {
                         </NavLink>
                     </NavItem>
                 </Nav>
+
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <ViewEntityHeader heading_1={translations.total} value_1={this.props.entity.total}
@@ -265,7 +278,12 @@ export default class Invoice extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
                     <TabPane tabId="2">
+
+                    </TabPane>
+
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -273,20 +291,6 @@ export default class Invoice extends Component {
                                     <CardBody>
                                         <FileUploads entity_type="Invoice" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane tabId="3">
-                        <Row>
-                            <Col>
-                                <Card>
-                                    <CardHeader> {translations.pdf} </CardHeader>
-                                    <CardBody>
-                                        <iframe style={{ width: '400px', height: '400px' }}
-                                            className="embed-responsive-item" id="viewer"
-                                            src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -300,6 +304,21 @@ export default class Invoice extends Component {
                             </Col>
                         </Row>
                     </TabPane>
+
+                    <TabPane tabId="5">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader> {translations.pdf} </CardHeader>
+                                    <CardBody>
+                                        <iframe style={{ width: '400px', height: '400px' }}
+                                            className="embed-responsive-item" id="viewer"
+                                            src={this.state.obj_url}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
                 </TabContent>
 
                 {this.state.show_success &&
@@ -308,7 +327,7 @@ export default class Invoice extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>
