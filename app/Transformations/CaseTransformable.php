@@ -41,7 +41,6 @@ trait CaseTransformable
             'custom_value2' => (string)$cases->custom_value2 ?: '',
             'custom_value3' => (string)$cases->custom_value3 ?: '',
             'custom_value4' => (string)$cases->custom_value4 ?: '',
-            'files'         => $this->transformCaseFiles($cases->files),
         ];
     }
 
