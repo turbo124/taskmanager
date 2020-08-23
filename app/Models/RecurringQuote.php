@@ -88,6 +88,15 @@ class RecurringQuote extends Model
         return $this->belongsTo(Account::class);
     }
 
+    public function audits()
+    {
+        return $this->hasManyThrough(Audit::class, Notification::class, 'entity_id')->where(
+            'entity_class',
+            '=',
+            get_class($this)
+        )->orderBy('created_at', 'desc');
+    }
+
     public function setNumber()
     {
         if (!empty($this->number)) {
