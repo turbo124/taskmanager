@@ -92,9 +92,9 @@ export default class DataTable extends Component {
 
 
             // complete
-            if (percent >= 100) {
+            if (percent >= 95) {
                 clearInterval(timerId);
-                this.setState({progress: 0})
+             
             }
 
         }, 200);
@@ -244,7 +244,8 @@ export default class DataTable extends Component {
                     perPage: noPerPage,
                     loading: false,
                     data: data,
-                    columns: columns
+                    columns: columns,
+                    progress: 0
                 }, () => this.props.updateState(data))
             })
             .catch(error => {
