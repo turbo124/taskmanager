@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
-import { Alert, ListGroup, Row } from 'reactstrap'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
+import FormatDate from '../common/FormatDate'
 import { translations } from '../common/_translations'
+import FileUploads from '../attachments/FileUploads'
 import ViewEntityHeader from '../common/entityContainers/ViewEntityHeader'
 import TaskModel from '../models/TaskModel'
+import TaskPresenter from '../presenters/TaskPresenter'
 import FieldGrid from '../common/entityContainers/FieldGrid'
+import InfoMessage from '../common/entityContainers/InfoMessage'
+import EntityListTile from '../common/entityContainers/EntityListTile'
+import { icons } from '../common/_icons'
 import TaskTimeItem from '../common/entityContainers/TaskTimeItem'
 
 export default class Task extends Component {
