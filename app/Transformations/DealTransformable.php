@@ -36,4 +36,17 @@ trait DealTransformable
             'files'         => $this->transformDealFiles($deal->files),
         ];
     }
+
+    private function transformDealFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
 }
