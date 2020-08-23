@@ -51,6 +51,8 @@ trait RecurringInvoiceTransformable
             'gateway_percentage'  => (bool)$invoice->gateway_percentage,
             'transaction_fee_tax' => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
+            'audits'              => $this->transformAuditsForRecurringInvoice($invoice->audits),
+            'files'               => $this->transformInvoiceFiles($invoice->files)
 
         ];
     }
