@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import 'react-dates/initialize' // necessary for latest version
 import 'react-dates/lib/css/_datepicker.css'
-import { DateRangePicker } from 'react-dates'
-import { Card, CardBody, CardHeader, DropdownItem, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
+import { Card, CardBody, CardHeader, DropdownItem, Nav, NavItem, NavLink, Modal, ModalBody, TabContent, TabPane } from 'reactstrap'
 import moment from 'moment'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
@@ -13,10 +12,10 @@ import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import axios from 'axios'
-import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import FileUploads from '../attachments/FileUploads'
 import Emails from '../emails/Emails'
 import Comments from '../comments/Comments'
+import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 
 export default class EditDeal extends Component {
     constructor (props) {
@@ -150,98 +149,98 @@ export default class EditDeal extends Component {
             : null
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
-        return this.props.modal && this.props.modal === true
-            ? <React.Fragment>
-                {button}
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_task}/>
+        return <React.Fragment>
+            {button}
+            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <DefaultModalHeader toggle={this.toggle} title={translations.edit_task}/>
 
-                    <ModalBody className={theme}>
-                         <Nav tabs>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('1')
-                                    }}>
-                                    {translations.details}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('2')
-                                    }}>
-                                    {translations.comments}
-                                </NavLink>
-                            </NavItem>
+                <ModalBody className={theme}>
+                    <Nav tabs>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '1' ? 'active' : ''}
+                                onClick={() => {
+                                    this.toggleTab('1')
+                                }}>
+                                {translations.details}
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '2' ? 'active' : ''}
+                                onClick={() => {
+                                    this.toggleTab('2')
+                                }}>
+                                {translations.comments}
+                            </NavLink>
+                        </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('3')
-                                    }}>
-                                    {translations.documents}
-                                </NavLink>
-                            </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '3' ? 'active' : ''}
+                                onClick={() => {
+                                    this.toggleTab('3')
+                                }}>
+                                {translations.documents}
+                            </NavLink>
+                        </NavItem>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTab('4')
-                                    }}>
-                                    {translations.emails}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '4' ? 'active' : ''}
+                                onClick={() => {
+                                    this.toggleTab('4')
+                                }}>
+                                {translations.email}
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
 
-                        <TabContent activeTab={this.state.activeTab}>
-                            <TabPane tabId="1">
-                                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}
-                                 </DropdownItem>
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
+                                model={this.dealModel}
+                                action={this.props.action}/>
 
-                                <Details sourceTypes={this.state.sourceTypes} deal={this.state}
-                                    customers={this.props.customers}
-                                    errors={this.state.errors}
-                                    users={this.props.users} handleInput={this.handleChange}/>
-                                
-                                <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
-                                    custom_value2={this.state.custom_value2}
-                                    custom_value3={this.state.custom_value3}
-                                    custom_value4={this.state.custom_value4}
-                                    custom_fields={this.props.custom_fields}/>
+                            <Details sourceTypes={this.state.sourceTypes} deal={this.state}
+                                customers={this.props.customers}
+                                errors={this.state.errors}
+                                users={this.props.users} handleInput={this.handleChange}/>
 
-                                <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                                    handleInput={this.handleChange}/>
-                            </TabPane>
+                            <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
+                                custom_value2={this.state.custom_value2}
+                                custom_value3={this.state.custom_value3}
+                                custom_value4={this.state.custom_value4}
+                                custom_fields={this.props.custom_fields}/>
 
-                            <TabPane tabId="2">
-                                <Comments entity_type="Deal" entity={this.state}
-                                    user_id={this.state.user_id}/>
-                            </TabPane>
+                            <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                                handleInput={this.handleChange}/>
+                        </TabPane>
 
-                            <TabPane tabId="3">
-                                <Card>
-                                    <CardHeader>{translations.documents}</CardHeader>
-                                    <CardBody>
-                                        <FileUploads entity_type="Deal" entity={this.state}
-                                            user_id={this.state.user_id}/>
-                                    </CardBody>
-                                </Card>
-                            </TabPane>
+                        <TabPane tabId="2">
+                            <Comments entity_type="Deal" entity={this.state}
+                                user_id={this.state.user_id}/>
+                        </TabPane>
 
-                            <TabPane tabId="4">
-                                {email_editor}
-                            </TabPane>
-                        </TabContent>
-                    </ModalBody>
-                    <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleSave.bind(this)}
-                        loading={false}/>
-                </Modal>
-            </React.Fragment> : form
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardHeader>{translations.documents}</CardHeader>
+                                <CardBody>
+                                    <FileUploads entity_type="Deal" entity={this.state}
+                                        user_id={this.state.user_id}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+
+                        <TabPane tabId="4">
+                            {email_editor}
+                        </TabPane>
+                    </TabContent>
+                </ModalBody>
+                <DefaultModalFooter show_success={true} toggle={this.toggle}
+                    saveData={this.handleSave.bind(this)}
+                    loading={false}/>
+            </Modal>
+        </React.Fragment>
     }
 }

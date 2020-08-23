@@ -93,4 +93,14 @@ class Lead extends Model
     {
         return 'en';
     }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->account->settings->lead_design_id;
+    }
+
+    public function getPdfFilename()
+    {
+        return 'storage/' . $this->account->id . '/' . $this->id . '/leads/' . $this->number . '.pdf';
+    }
 }

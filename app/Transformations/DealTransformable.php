@@ -4,6 +4,8 @@ namespace App\Transformations;
 
 use App\Libraries\Utils;
 use App\Models\Deal;
+use App\Models\Email;
+use App\Models\File;
 
 trait DealTransformable
 {
@@ -34,7 +36,8 @@ trait DealTransformable
             'public_notes'  => $deal->public_notes ?: '',
             'private_notes' => $deal->private_notes ?: '',
             'files'         => $this->transformDealFiles($deal->files),
-            'emails'        => $this->transformEmails($deal->emails()),
+            'emails'        => $this->transformDealEmails($deal->emails()),
+            'status_name'   => !empty($deal->taskStatus) ? $deal->taskStatus->name : '',
         ];
     }
 
@@ -51,7 +54,7 @@ trait DealTransformable
         )->all();
     }
 
-    private function transformEmails($emails)
+    private function transformDealEmails($emails)
     {
         if ($emails->count() === 0) {
             return [];

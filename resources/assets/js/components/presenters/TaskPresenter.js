@@ -1,5 +1,5 @@
 import React from 'react'
-import ViewTask from '../forms/ViewTask'
+import ViewTask from '../tasks/ViewTask'
 
 export default function TaskPresenter (props) {
     const { field, entity } = props

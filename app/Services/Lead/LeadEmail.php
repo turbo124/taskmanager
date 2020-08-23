@@ -10,7 +10,10 @@ class LeadEmail
 {
     use MakesInvoiceHtml;
 
-    private $lead;
+    /**
+     * @var Lead
+     */
+    private Lead $lead;
 
     /**
      * @var string

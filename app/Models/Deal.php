@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use App\Libraries\Utils;
+use App\Services\Deal\DealService;
 use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Deal extends Model
 {
 
     use SoftDeletes;
+    use PresentableTrait;
 
     protected $fillable = [
         'title',
@@ -38,9 +40,7 @@ class Deal extends Model
         'private_notes'
     ];
 
-    protected $casts = [
-        'updated_at' => 'timestamp',
-    ];
+    protected $presenter = 'App\Presenters\DealPresenter';
 
     public function comments()
     {
@@ -57,14 +57,38 @@ class Deal extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
+    public function service(): DealService
+    {
+        return new DealService($this);
+    }
 
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
     }
 
-    public function service(): TaskService
+    public function user()
     {
-        return new TaskService($this);
+        return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    public function taskStatus()
+    {
+        return $this->belongsTo(TaskStatus::class, 'task_status');
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('deal_design_id');
+    }
+
+    public function getPdfFilename()
+    {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/deals/' . $this->number . '.pdf';
+    }
+
+    public function emails()
+    {
+        return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
 }

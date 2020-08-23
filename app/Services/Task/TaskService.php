@@ -30,15 +30,13 @@ class TaskService extends ServiceBase
     }
 
     /**
+     * @param string $subject
+     * @param string $body
      * @return array
      */
-    public function sendEmail()
+    public function sendEmail($contact = null, $subject = '', $body = '', $template = 'deal')
     {
-        $send_email = new SendEmail($this->task);
-
-        $this->task = $send_email->execute();
-
-        return $this->task;
+        return (new TaskEmail($this->task, $subject, $body))->execute();
     }
 
     /**
@@ -90,6 +88,16 @@ class TaskService extends ServiceBase
         $this->trigger($subject, $body, $task_repo);
 
         return $this->quote;
+    }
+
+    /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function generatePdf($contact = null, $update = false)
+    {
+        return (new GeneratePdf($this->task, $contact, $update))->execute();
     }
 
     /**

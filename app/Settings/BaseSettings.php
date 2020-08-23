@@ -674,6 +674,30 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'string'
         ],
+        'case_design_id'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
+        ],
+        'task_design_id'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
+        ],
+        'deal_design_id'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
+        ],
+        'lead_design_id'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
+        ],
         'type_id'                              => [
             'required'         => false,
             'translated_value' => '',

@@ -20,7 +20,11 @@ trait MakesInvoiceHtml
      */
     public function generateEntityHtml($objPdf, PdfColumns $designer, $entity, $contact = null): string
     {
-        App::setLocale($entity->customer->preferredLocale());
+        if (get_class($entity) === 'App\Models\Lead') {
+            App::setLocale($entity->preferredLocale());
+        } else {
+            App::setLocale($entity->customer->preferredLocale());
+        }
 
         $objPdf->build($contact);
         $labels = $objPdf->getLabels();
@@ -30,15 +34,23 @@ trait MakesInvoiceHtml
 
         $table = $designer->getSection('table');
         $settings = $entity->account->settings;
-        $signature = !empty($settings->email_signature) && $entity->customer->getSetting(
-            'show_signature_on_pdf'
-        ) === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
         $client_signature = $this->getClientSignature($entity, $contact);
 
-        $client_signature = !empty($client_signature) && $entity->customer->getSetting(
-            'show_signature_on_pdf'
-        ) === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
+        if (get_class($entity) === 'App\Models\Lead') {
+            $signature = !empty($settings->email_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
+
+            $client_signature = !empty($client_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
+        } else {
+            $signature = !empty($settings->email_signature) && $entity->customer->getSetting(
+                'show_signature_on_pdf'
+            ) === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
+
+            $client_signature = !empty($client_signature) && $entity->customer->getSetting(
+                'show_signature_on_pdf'
+            ) === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
+        }
+
 
         $footer = $designer->getSection('footer');
         $footer = str_replace('$signature_here', $signature, $footer);
@@ -46,7 +58,8 @@ trait MakesInvoiceHtml
 
         $data = [
             'entity'   => $entity,
-            'lang'     => $entity->customer->preferredLocale(),
+            'lang'     => get_class($entity) === 'App\Models\Lead' ? $entity->preferredLocale(
+            ) : $entity->customer->preferredLocale(),
             'settings' => $settings,
             'header'   => $designer->getSection('header'),
             'body'     => str_replace('$table_here', $table, $designer->getSection('body')),

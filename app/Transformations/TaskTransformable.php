@@ -3,6 +3,8 @@
 namespace App\Transformations;
 
 use App\Libraries\Utils;
+use App\Models\Email;
+use App\Models\File;
 use App\Models\Task;
 use App\Models\Timer;
 use App\Repositories\TimerRepository;
@@ -19,6 +21,7 @@ trait TaskTransformable
      */
     protected function transformTask(Task $task)
     {
+
         return [
             'id'                     => (int)$task->id,
             'customer_name'          => $task->customer->present()->name,
@@ -29,7 +32,7 @@ trait TaskTransformable
             'start_date'             => $task->start_date ?: '',
             'is_completed'           => $task->is_completed,
             'task_status'            => (int)$task->task_status,
-            'status_name'            => !empty($task->taskStatus) ? $task->taskStatus->title : '',
+            'status_name'            => !empty($task->taskStatus) ? $task->taskStatus->name : '',
             'task_type'              => $task->task_type,
             'deleted_at'             => $task->deleted_at,
             'rating'                 => $task->rating,
@@ -53,7 +56,7 @@ trait TaskTransformable
             'task_rate'              => 1.0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
             'files'                  => $this->transformTaskFiles($task->files),
-            'emails'                => $this->transformEmails($task->emails()),
+            'emails'                => $this->transformTaskEmails($task->emails()),
         ];
     }
 
@@ -87,7 +90,7 @@ trait TaskTransformable
         )->all();
     }
 
-    private function transformEmails($emails)
+    private function transformTaskEmails($emails)
     {
         if ($emails->count() === 0) {
             return [];

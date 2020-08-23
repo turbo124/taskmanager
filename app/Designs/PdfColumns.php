@@ -79,6 +79,18 @@ class PdfColumns
             '$surcharge3'        => '<span>$surcharge3_label: $surcharge3</span>',
             '$surcharge4'        => '<span>$surcharge4_label: $surcharge4</span>',
         ],
+        'case'    => [
+
+        ],
+        'task'    => [
+
+        ],
+        'deal'    => [
+
+        ],
+        'lead'    => [
+
+        ],
         'invoice' => [
             '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
             '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',

@@ -192,7 +192,7 @@ export default class Quote extends Component {
                             }}
                         >
                             {translations.contacts}
-                        </NavLink
+                        </NavLink>
                     </NavItem>
 
                     <NavItem>

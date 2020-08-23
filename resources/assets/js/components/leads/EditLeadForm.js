@@ -1,5 +1,17 @@
 import React from 'react'
-import { Button, DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import {
+    Button,
+    Card, CardBody,
+    CardHeader,
+    DropdownItem,
+    Modal,
+    ModalBody,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import axios from 'axios'
 import LeadModel from '../models/LeadModel'
 import Contact from './Contact'
@@ -11,6 +23,7 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import FileUploads from '../attachments/FileUploads'
 
 class EditLeadForm extends React.Component {
     constructor (props) {
@@ -230,6 +243,16 @@ class EditLeadForm extends React.Component {
                                         {translations.email}
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '6' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab('6')
+                                        }}>
+                                        {translations.documents}
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
 
                             <TabContent activeTab={this.state.activeTab}>
@@ -251,6 +274,16 @@ class EditLeadForm extends React.Component {
 
                                 <TabPane tabId="5">
                                     {email_editor}
+                                </TabPane>
+
+                                <TabPane tabId="6">
+                                    <Card>
+                                        <CardHeader>{translations.documents}</CardHeader>
+                                        <CardBody>
+                                            <FileUploads entity_type="Lead" entity={this.state}
+                                                user_id={this.state.user_id}/>
+                                        </CardBody>
+                                    </Card>
                                 </TabPane>
                             </TabContent>
                         </React.Fragment>

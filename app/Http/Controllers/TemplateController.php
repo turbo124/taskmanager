@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
+use App\Helpers\Pdf\TaskPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
 use Illuminate\Http\Response;
@@ -35,7 +36,16 @@ class TemplateController extends Controller
 
         $entity_object = !$entity_id ? $class::first() : $class::whereId($entity_id)->first();
 
-        $objPdfBuilder = $class === 'App\Models\Lead' ? new LeadPdf($entity_object) : new InvoicePdf($entity_object);
+        switch ($class) {
+            case in_array($class, ['App\Models\Cases', 'App\Models\Task', 'App\Models\Deal']):
+                $objPdfBuilder = new TaskPdf($entity_object);
+                break;
+            case 'App\Models\Lead':
+                $objPdfBuilder = new LeadPdf($entity_object);
+                break;
+            default:
+                $objPdfBuilder = new InvoicePdf($entity_object);
+        }
 
         $data = (new TemplateEngine(
             $objPdfBuilder, $body, $subject, $entity, $entity_id, $template

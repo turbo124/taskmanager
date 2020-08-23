@@ -45,6 +45,8 @@ export default class DealList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'files',
+                'emails',
                 'public_notes',
                 'private_notes',
                 'deleted_at',

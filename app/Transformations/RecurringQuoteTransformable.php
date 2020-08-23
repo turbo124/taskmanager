@@ -2,12 +2,11 @@
 
 namespace App\Transformations;
 
-use App\Models\RecurringQuote;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
-use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
+use App\Models\RecurringQuote;
 
 trait RecurringQuoteTransformable
 {
@@ -53,12 +52,12 @@ trait RecurringQuoteTransformable
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
             'audits'              => $this->transformAuditsForRecurringQuote($quote->audits),
             'files'               => $this->transformInvoiceFiles($quote->files),
-            'invitations',        => []
+            'invitations'         => []
 
         ];
     }
 
-     /**
+    /**
      * @param $files
      * @return array
      */

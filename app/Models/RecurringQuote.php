@@ -83,6 +83,11 @@ class RecurringQuote extends Model
         return new RecurringQuoteService($this);
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     public function account()
     {
         return $this->belongsTo(Account::class);

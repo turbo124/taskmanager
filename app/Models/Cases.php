@@ -4,12 +4,15 @@
 namespace App\Models;
 
 
+use App\Services\Cases\CasesService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Cases extends Model
 {
     use SoftDeletes;
+    use PresentableTrait;
 
     protected $fillable = [
         'status_id',
@@ -31,6 +34,8 @@ class Cases extends Model
         'custom_value4'
     ];
 
+    protected $presenter = 'App\Presenters\CasesPresenter';
+
     const STATUS_DRAFT = 1;
 
     const PRIORITY_LOW = 1;
@@ -47,12 +52,32 @@ class Cases extends Model
         return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
+    public function service(): CasesService
+    {
+        return new CasesService($this);
+    }
+
     /**
      * @return mixed
      */
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer')->withTrashed();
+    }
+
+    public function emails()
+    {
+        return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**
@@ -95,5 +120,15 @@ class Cases extends Model
         }
 
         return true;
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('case_design_id');
+    }
+
+    public function getPdfFilename()
+    {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/cases/' . $this->number . '.pdf';
     }
 }

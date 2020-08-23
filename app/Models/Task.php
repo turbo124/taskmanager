@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Libraries\Utils;
 use App\Models;
 use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Task extends Model
 {
 
     use SoftDeletes;
+    use PresentableTrait;
 
     const TASK_TYPE_DEAL = 3;
 
@@ -42,9 +43,7 @@ class Task extends Model
         'private_notes'
     ];
 
-    protected $casts = [
-        'updated_at' => 'timestamp',
-    ];
+    protected $presenter = 'App\Presenters\TaskPresenter';
 
     public function projects()
     {
@@ -74,6 +73,11 @@ class Task extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function emails()
+    {
+        return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
 
     public function taskStatus()
@@ -109,5 +113,15 @@ class Task extends Model
     public function service(): TaskService
     {
         return new TaskService($this);
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('task_design_id');
+    }
+
+    public function getPdfFilename()
+    {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/tasks/' . $this->number . '.pdf';
     }
 }

@@ -2,7 +2,7 @@
 import React from 'react'
 import FileUpload from './FileUpload'
 
-class CommentList extends React.Component {
+export default class FileUploadList extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -39,5 +39,3 @@ class CommentList extends React.Component {
         )
     }
 }
-
-export default CommentList
