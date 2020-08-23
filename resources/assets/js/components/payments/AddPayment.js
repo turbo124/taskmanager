@@ -124,20 +124,8 @@ class AddPayment extends React.Component {
     render () {
         const { message, loading } = this.state
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
-
-        return (
-            <React.Fragment>
-                <AddButtons toggle={this.toggle}/>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
-
-                    <ModalBody className={theme}>
-
-                        {message && <div className="alert alert-danger" role="alert">
-                            {message}
-                        </div>}
-
-                        <Details hide_customer={false} payment={this.state} errors={this.state.errors}
+        const form = <React.Fragment>
+             <Details hide_customer={false} payment={this.state} errors={this.state.errors}
                             handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
@@ -151,13 +139,26 @@ class AddPayment extends React.Component {
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
-                        <Documents payment={this.state}/>
-
                         <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
                             custom_value2={this.state.custom_value2}
                             custom_value3={this.state.custom_value3}
                             custom_value4={this.state.custom_value4}
                             custom_fields={this.props.custom_fields}/>
+        </React.Fragment>
+        return !this.props.showForm ? (
+            <React.Fragment>
+                <AddButtons toggle={this.toggle}/>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
+
+                    <ModalBody className={theme}>
+
+                        {message && <div className="alert alert-danger" role="alert">
+                            {message}
+                        </div>}
+
+                       {form}
+                       <Documents payment={this.state}/>
 
                     </ModalBody>
 
@@ -165,7 +166,13 @@ class AddPayment extends React.Component {
                         saveData={this.handleClick.bind(this)}
                         loading={loading}/>
                 </Modal>
+            </React.Fragment> :
+            <React.Fragment>
+                {form}
+                <Button color="success" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
             </React.Fragment>
+
+          
         )
     }
 }
