@@ -33,7 +33,34 @@ trait DealTransformable
             'custom_value4' => $deal->custom_value4 ?: '',
             'public_notes'  => $deal->public_notes ?: '',
             'private_notes' => $deal->private_notes ?: '',
-
+            'files'         => $this->transformDealFiles($deal->files),
+            'emails'        => $this->transformEmails($deal->emails()),
         ];
+    }
+
+    private function transformDealFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
+    private function transformEmails($emails)
+    {
+        if ($emails->count() === 0) {
+            return [];
+        }
+
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
     }
 }

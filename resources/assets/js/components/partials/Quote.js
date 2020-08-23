@@ -29,6 +29,7 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class Quote extends Component {
     constructor (props) {
@@ -182,11 +183,23 @@ export default class Quote extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
+
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
+                            }}
+                        >
+                            {translations.contacts}
+                        </NavLink
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.quoteModel.fileCount})
@@ -242,7 +255,16 @@ export default class Quote extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
                     <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -255,7 +277,16 @@ export default class Quote extends Component {
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="3">
+
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Audit entity="Quote" audits={this.props.entity.audits}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Card>
@@ -265,14 +296,6 @@ export default class Quote extends Component {
                                             className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-
-                    <TabPane tabId="4">
-                        <Row>
-                            <Col>
-                                <Audit entity="Quote" audits={this.props.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>

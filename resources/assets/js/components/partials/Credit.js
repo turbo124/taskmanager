@@ -29,6 +29,7 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class Credit extends Component {
     constructor (props) {
@@ -179,11 +180,23 @@ export default class Credit extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
+
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
+                            }}
+                        >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.creditModel.fileCount})
@@ -240,7 +253,16 @@ export default class Credit extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
                     <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -248,19 +270,6 @@ export default class Credit extends Component {
                                     <CardBody>
                                         <FileUploads entity_type="Credit" entity={this.props.entity}
                                             user_id={this.props.entity.user_id}/>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane tabId="3">
-                        <Row>
-                            <Col>
-                                <Card>
-                                    <CardHeader>{translations.pdf}</CardHeader>
-                                    <CardBody>
-                                        <iframe style={{ width: '400px', height: '400px' }}
-                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -274,6 +283,20 @@ export default class Credit extends Component {
                             </Col>
                         </Row>
                     </TabPane>
+
+                    <TabPane tabId="5">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader>{translations.pdf}</CardHeader>
+                                    <CardBody>
+                                        <iframe style={{ width: '400px', height: '400px' }}
+                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
                 </TabContent>
 
                 {this.state.show_success &&
@@ -282,7 +305,7 @@ export default class Credit extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>

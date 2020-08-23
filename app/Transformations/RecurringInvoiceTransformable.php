@@ -3,6 +3,11 @@
 namespace App\Transformations;
 
 use App\Models\RecurringInvoice;
+use App\Models\Audit;
+use App\Models\Email;
+use App\Models\File;
+use App\Models\Invoice;
+use App\Models\InvoiceInvitation;
 
 trait RecurringInvoiceTransformable
 {
@@ -46,8 +51,75 @@ trait RecurringInvoiceTransformable
             'gateway_percentage'  => (bool)$invoice->gateway_percentage,
             'transaction_fee_tax' => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
+            'audits'              => $this->transformAuditsForRecurringInvoice($invoice->audits),
+            'files'               => $this->transformInvoiceFiles($invoice->files),
+            'invitations'         => []
 
         ];
+    }
+   
+     /**
+     * @param $files
+     * @return array
+     */
+    private function transformInvoiceFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformRecurringInvoiceInvitations($invitations)
+    {
+        if (empty($invitations)) {
+            return [];
+        }
+
+        return $invitations->map(
+            function (InvoiceInvitation $invitation) {
+                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformEmails($emails)
+    {
+        if ($emails->count() === 0) {
+            return [];
+        }
+
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForRecurringInvoice($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
     }
 
 }

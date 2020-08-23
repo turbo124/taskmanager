@@ -31,6 +31,8 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import InfoMessage from '../common/entityContainers/InfoMessage'
+import Audit from './Audit'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
@@ -182,14 +184,37 @@ export default class RecurringInvoice extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
-                    <NavItem>
+
+                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
                             }}
                         >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}
+                        >
                             {translations.documents} ({this.invoiceModel.fileCount})
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
+                            {translations.history}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -252,7 +277,16 @@ export default class RecurringInvoice extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
                     <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -265,7 +299,16 @@ export default class RecurringInvoice extends Component {
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="3">
+
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Audit entity="Quote" audits={this.props.entity.audits}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Card>
@@ -286,7 +329,7 @@ export default class RecurringInvoice extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>

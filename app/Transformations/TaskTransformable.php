@@ -52,6 +52,8 @@ trait TaskTransformable
             'duration'               => (new TimerRepository(new Timer()))->getTotalDuration($task),
             'task_rate'              => 1.0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
+            'files'                  => $this->transformTaskFiles($task->files),
+            'emails'                => $this->transformEmails($task->emails()),
         ];
     }
 
@@ -68,6 +70,32 @@ trait TaskTransformable
         return $timers->map(
             function (Timer $timer) {
                 return (new TimerTransformable)->transform($timer);
+            }
+        )->all();
+    }
+
+    private function transformTaskFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
+    private function transformEmails($emails)
+    {
+        if ($emails->count() === 0) {
+            return [];
+        }
+
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
             }
         )->all();
     }
