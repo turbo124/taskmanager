@@ -28,6 +28,8 @@ import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import Emails from '../emails/Emails'
+import FileUploads from '../attachments/FileUploads'
 
 class EditTask extends Component {
     constructor (props) {
@@ -152,6 +154,10 @@ class EditTask extends Component {
     }
 
     render () {
+        const email_editor = this.state.id
+            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="cases"
+                entity_id={this.state.id}/> : null
        const form = <React.Fragment>
             <Nav tabs>
                 <NavItem>
@@ -160,7 +166,7 @@ class EditTask extends Component {
                         onClick={() => {
                             this.toggleTab('1')
                         }}>
-                        Details
+                         {translations.details}
                     </NavLink>
                 </NavItem>
 
@@ -173,6 +179,26 @@ class EditTask extends Component {
                         Times
                     </NavLink>
                 </NavItem>
+
+                <NavItem>
+                    <NavLink
+                        className={this.state.activeTab === '3' ? 'active' : ''}
+                        onClick={() => {
+                            this.toggleTab('3')
+                        }}>
+                            {translations.documents}
+                    </NavLink>
+                </NavItem>
+
+                <NavItem>
+                    <NavLink
+                       className={this.state.activeTab === '4' ? 'active' : ''}
+                       onClick={() => {
+                           this.toggleTab('4')
+                       }}>
+                           {translations.emails}
+                    </NavLink>
+                </NavItem>
             </Nav>
 
             <TabContent activeTab={this.state.activeTab}>
@@ -180,7 +206,7 @@ class EditTask extends Component {
 
                     <TaskDropdownMenu model={this.taskModel} id={this.props.task.id} formData={this.getFormData()}/>
                     <Card>
-                        <CardHeader>Details</CardHeader>
+                        <CardHeader>{translations.details}</CardHeader>
                         <CardBody>
                             <TaskDetails task={this.state} setTimeRange={this.setTimeRange}
                                 customers={this.props.customers}
@@ -204,8 +230,6 @@ class EditTask extends Component {
                                 />
                             </FormGroup>
 
-                   
-
                             <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
                                 custom_value2={this.state.custom_value2}
                                 custom_value3={this.state.custom_value3}
@@ -220,12 +244,26 @@ class EditTask extends Component {
 
                 <TabPane tabId="2">
                     <Card>
-                        <CardHeader>Details</CardHeader>
+                        <CardHeader>{translations.times}</CardHeader>
                         <CardBody>
                             <EditTaskTimes timers={this.props.task.timers} model={this.taskModel}
                                 task_id={this.props.task.id}/>
                         </CardBody>
                     </Card>
+                </TabPane>
+
+                <TabPane tabId="3">
+                    <Card>
+                        <CardHeader>{translations.documents}</CardHeader>
+                        <CardBody>
+                            <FileUploads entity_type="Cases" entity={this.state}
+                                user_id={this.state.user_id}/>
+                        </CardBody>
+                    </Card>
+                </TabPane>
+
+                <TabPane tabId="4">
+                    {email_editor}
                 </TabPane>
             </TabContent>
         </React.Fragment>
