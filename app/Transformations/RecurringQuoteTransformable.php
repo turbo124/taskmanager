@@ -51,6 +51,8 @@ trait RecurringQuoteTransformable
             'gateway_percentage'  => (bool)$quote->gateway_percentage,
             'transaction_fee_tax' => (bool)$quote->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
+            'audits'              => $this->transformAuditsForRecurringQuote($quote->audits),
+            'files'               => $this->transformInvoiceFiles($quote->files)
 
         ];
     }
@@ -69,7 +71,7 @@ trait RecurringQuoteTransformable
 
         return $invitations->map(
             function (InvoiceInvitation $invitation) {
-                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+                return (new QuoteInvitationTransformable())->transformInvoiceInvitation($invitation);
             }
         )->all();
     }
