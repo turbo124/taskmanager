@@ -50,4 +50,53 @@ trait RecurringInvoiceTransformable
         ];
     }
 
+    
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformRecurringInvoiceInvitations($invitations)
+    {
+        if (empty($invitations)) {
+            return [];
+        }
+
+        return $invitations->map(
+            function (InvoiceInvitation $invitation) {
+                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformEmails($emails)
+    {
+        if ($emails->count() === 0) {
+            return [];
+        }
+
+        return $emails->map(
+            function (Email $email) {
+                return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    public function transformAuditsForRecurringInvoice($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
 }
