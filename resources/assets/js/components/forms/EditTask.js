@@ -30,6 +30,7 @@ import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import Emails from '../emails/Emails'
 import FileUploads from '../attachments/FileUploads'
+import Comments from '../comments/Comments'
 
 class EditTask extends Component {
     constructor (props) {
@@ -155,8 +156,8 @@ class EditTask extends Component {
 
     render () {
         const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
-                customers={this.props.customers} entity_object={this.state} entity="cases"
+            ? <Emails emails={this.state.emails} template="email_template_task" show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="task"
                 entity_id={this.state.id}/> : null
        const form = <React.Fragment>
             <Nav tabs>
@@ -176,7 +177,7 @@ class EditTask extends Component {
                         onClick={() => {
                             this.toggleTab('2')
                         }}>
-                        Times
+                        {translations.times}
                     </NavLink>
                 </NavItem>
 
@@ -197,6 +198,16 @@ class EditTask extends Component {
                            this.toggleTab('4')
                        }}>
                            {translations.emails}
+                    </NavLink>
+                </NavItem>
+
+                <NavItem>
+                    <NavLink
+                        className={this.state.activeTab === '5' ? 'active' : ''}
+                        onClick={() => {
+                            this.toggleTab('5')
+                        }}>
+                            {translations.comments}
                     </NavLink>
                 </NavItem>
             </Nav>
@@ -256,7 +267,7 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>{translations.documents}</CardHeader>
                         <CardBody>
-                            <FileUploads entity_type="Cases" entity={this.state}
+                            <FileUploads entity_type="Task" entity={this.state}
                                 user_id={this.state.user_id}/>
                         </CardBody>
                     </Card>
@@ -264,6 +275,11 @@ class EditTask extends Component {
 
                 <TabPane tabId="4">
                     {email_editor}
+                </TabPane>
+
+                <TabPane tabId="5">
+                    <Comments entity_type="Task" entity={this.state}
+                        user_id={this.state.user_id}/>
                 </TabPane>
             </TabContent>
         </React.Fragment>
