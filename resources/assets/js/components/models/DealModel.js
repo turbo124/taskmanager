@@ -47,6 +47,14 @@ export default class DealModel extends BaseModel {
         }
     }
 
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
+    }
+
     set start_date (start_date) {
         this.fields.start_date = moment(start_date, 'YYYY-MM-DD')
     }
