@@ -33,7 +33,7 @@ trait DealTransformable
             'custom_value4' => $deal->custom_value4 ?: '',
             'public_notes'  => $deal->public_notes ?: '',
             'private_notes' => $deal->private_notes ?: '',
-
+            'files'         => $this->transformDealFiles($deal->files),
         ];
     }
 }
