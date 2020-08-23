@@ -52,6 +52,7 @@ trait TaskTransformable
             'duration'               => (new TimerRepository(new Timer()))->getTotalDuration($task),
             'task_rate'              => 1.0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
+            'files'                  => $this->transformTaskFiles($customer->files),
         ];
     }
 
