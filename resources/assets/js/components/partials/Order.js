@@ -29,6 +29,7 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class Order extends Component {
     constructor (props) {
