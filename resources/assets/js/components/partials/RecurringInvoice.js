@@ -31,6 +31,7 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import InfoMessage from '../common/entityContainers/InfoMessage'
+import Audit from './Audit'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
