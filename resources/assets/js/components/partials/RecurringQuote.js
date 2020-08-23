@@ -202,6 +202,17 @@ export default class RecurringQuote extends Component {
                             {translations.documents} ({this.quoteModel.fileCount})
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
+                            {translations.history}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
