@@ -179,11 +179,23 @@ export default class Credit extends Component {
                             {translations.details}
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
+                        >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('2')
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.creditModel.fileCount})
@@ -240,7 +252,12 @@ export default class Credit extends Component {
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
                         </Row>
                     </TabPane>
+
                     <TabPane tabId="2">
+
+                    </TabPane>
+
+                    <TabPane tabId="3">
                         <Row>
                             <Col>
                                 <Card>
@@ -253,7 +270,8 @@ export default class Credit extends Component {
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="3">
+
+                    <TabPane tabId="4">
                         <Row>
                             <Col>
                                 <Card>
@@ -267,7 +285,7 @@ export default class Credit extends Component {
                         </Row>
                     </TabPane>
 
-                    <TabPane tabId="4">
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Audit entity="Credit" audits={this.props.entity.audits}/>
