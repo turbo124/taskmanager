@@ -39,6 +39,12 @@ export default class DealModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
+
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
     }
 
     set start_date (start_date) {
