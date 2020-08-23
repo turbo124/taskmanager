@@ -28,6 +28,7 @@ import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
+import Audit from './Audit'
 
 export default class RecurringQuote extends Component {
     constructor (props) {
