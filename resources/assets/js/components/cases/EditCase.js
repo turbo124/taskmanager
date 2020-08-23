@@ -129,6 +129,26 @@ export default class EditCase extends React.Component {
                                     {translations.comments}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('3')
+                                    }}>
+                                    {translations.documents}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.emails}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
