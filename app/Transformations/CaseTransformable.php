@@ -34,6 +34,7 @@ trait CaseTransformable
             'category_id'   => (int)$cases->category_id,
             'priority_id'   => (int)$cases->priority_id,
             'files'         => $this->transformCaseFiles($cases->files),
+            'emails'        => $this->transformEmails($cases->emails()),
             'updated_at'    => $cases->updated_at,
             'created_at'    => $cases->created_at,
             'is_deleted'    => (bool)$cases->is_deleted,
