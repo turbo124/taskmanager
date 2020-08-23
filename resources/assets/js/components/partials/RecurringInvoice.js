@@ -32,6 +32,7 @@ import BottomNavigationButtons from '../common/BottomNavigationButtons'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import Audit from './Audit'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
