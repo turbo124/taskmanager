@@ -34,6 +34,7 @@ trait DealTransformable
             'public_notes'  => $deal->public_notes ?: '',
             'private_notes' => $deal->private_notes ?: '',
             'files'         => $this->transformDealFiles($deal->files),
+            'emails'        => $this->transformEmails($deal->emails()),
         ];
     }
 
