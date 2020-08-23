@@ -254,6 +254,15 @@ export default class RecurringQuote extends Component {
                             </Col>
                         </Row>
                     </TabPane>
+
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col>
+                                <Audit entity="Quote" audits={this.props.entity.audits}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
                     <TabPane tabId="5">
                         <Row>
                             <Col>
