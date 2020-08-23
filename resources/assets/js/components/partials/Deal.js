@@ -111,6 +111,43 @@ export default class Deal extends Component {
 
                 <FieldGrid fields={fields}/>
 
+                </TabPane>
+
+                    <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Case" entity={this.props.entity}
+                                            user_id={this.props.entity.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </TabContent>
+
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
+                }
+
+                <div className="navbar d-flex p-0 view-buttons">
+                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
+                        onClick={() => {
+                            this.triggerAction('3')
+                        }}>
+                        {translations.pdf}
+                    </NavLink>
+                    <NavLink className={`flex-fill border border-secondary btn ${buttonClass}`}
+                        onClick={() => {
+                            this.triggerAction('4')
+                        }}>
+                        Link 4
+                    </NavLink>
+                </div>
               
             </React.Fragment>
         )
