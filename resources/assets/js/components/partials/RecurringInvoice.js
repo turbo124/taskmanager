@@ -277,7 +277,7 @@ export default class RecurringInvoice extends Component {
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="4">
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Card>
@@ -298,7 +298,7 @@ export default class RecurringInvoice extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('4')}
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
                     button2_click={(e) => this.triggerAction('clone_to_invoice')}
                     button2={{ label: translations.clone_to_invoice }}/>
