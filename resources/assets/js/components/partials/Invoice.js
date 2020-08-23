@@ -32,6 +32,7 @@ import Audit from './Audit'
 import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class Invoice extends Component {
     constructor (props) {
