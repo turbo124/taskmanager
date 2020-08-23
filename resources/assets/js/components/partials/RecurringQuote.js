@@ -29,6 +29,7 @@ import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import { icons } from '../common/_icons'
 import Audit from './Audit'
+import ViewContacts from '../common/entityContainers/ViewContacts'
 
 export default class RecurringQuote extends Component {
     constructor (props) {
@@ -251,6 +252,13 @@ export default class RecurringQuote extends Component {
 
                         <Row className="justify-content-end">
                             <TotalsBox customers={this.props.customers} entity={this.props.entity}/>
+                        </Row>
+                    </TabPane>
+                     <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                            </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">
