@@ -52,12 +52,28 @@ trait RecurringInvoiceTransformable
             'transaction_fee_tax' => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
             'audits'              => $this->transformAuditsForRecurringInvoice($invoice->audits),
-            'files'               => $this->transformInvoiceFiles($invoice->files)
+            'files'               => $this->transformInvoiceFiles($invoice->files),
+            'invitations'         => []
 
         ];
     }
+   
+     /**
+     * @param $files
+     * @return array
+     */
+    private function transformInvoiceFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
 
-    
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
 
     /**
      * @param $invitations
