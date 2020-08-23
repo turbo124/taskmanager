@@ -14,6 +14,9 @@ import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import axios from 'axios'
 import DealDropdownMenu from './DealDropdownMenu'
+import FileUploads from '../attachments/FileUploads'
+import Emails from '../emails/Emails'
+import Comments from '../comments/Comments'
 
 export default class EditDeal extends Component {
     constructor (props) {
@@ -76,6 +79,12 @@ export default class EditDeal extends Component {
         })
     }
 
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
+    }
+
     getFormData () {
         return {
             customer_id: this.state.customer_id,
@@ -131,28 +140,10 @@ export default class EditDeal extends Component {
     }
 
     render () {
-        const form = <React.Fragment>
-            <DealDropdownMenu model={this.dealModel} id={this.props.deal.id} formData={this.getFormData()}/>
-            <Card>
-                <CardHeader>Details</CardHeader>
-                <CardBody>
-                    <Details sourceTypes={this.state.sourceTypes} deal={this.state}
-                        customers={this.props.customers}
-                        errors={this.state.errors}
-                        users={this.props.users} handleInput={this.handleChange}/>
-
-                    <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
-                        custom_value2={this.state.custom_value2}
-                        custom_value3={this.state.custom_value3}
-                        custom_value4={this.state.custom_value4}
-                        custom_fields={this.props.custom_fields}/>
-
-                    <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                        handleInput={this.handleChange}/>
-                </CardBody>
-            </Card>
-
-        </React.Fragment>
+        const email_editor = this.state.id
+            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="deal"
+                entity_id={this.state.id}/> : null
 
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
@@ -166,7 +157,86 @@ export default class EditDeal extends Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_task}/>
 
                     <ModalBody className={theme}>
-                        {form}
+                         <Nav tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('1')
+                                    }}>
+                                    {translations.details}
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('2')
+                                    }}>
+                                    {translations.comments}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('3')
+                                    }}>
+                                    {translations.documents}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.emails}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+
+                        <TabContent activeTab={this.state.activeTab}>
+                            <TabPane tabId="1">
+                                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_case}
+                                 </DropdownItem>
+
+                                <Details sourceTypes={this.state.sourceTypes} deal={this.state}
+                                    customers={this.props.customers}
+                                    errors={this.state.errors}
+                                    users={this.props.users} handleInput={this.handleChange}/>
+                                
+                                <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
+                                    custom_value2={this.state.custom_value2}
+                                    custom_value3={this.state.custom_value3}
+                                    custom_value4={this.state.custom_value4}
+                                    custom_fields={this.props.custom_fields}/>
+
+                                <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+                                    handleInput={this.handleChange}/>
+                            </TabPane>
+
+                            <TabPane tabId="2">
+                                <Comments entity_type="Deal" entity={this.state}
+                                    user_id={this.state.user_id}/>
+                            </TabPane>
+
+                            <TabPane tabId="3">
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Deal" entity={this.state}
+                                            user_id={this.state.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="4">
+                                {email_editor}
+                            </TabPane>
+                        </TabContent>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
                         saveData={this.handleSave.bind(this)}
