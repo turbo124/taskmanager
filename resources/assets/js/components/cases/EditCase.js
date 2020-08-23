@@ -8,6 +8,8 @@ import DropdownMenuBuilder from '../common/DropdownMenuBuilder'
 import Comments from '../comments/Comments'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import FileUploads from '../attachments/FileUploads'
+import Emails from '../emails/Emails'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -100,6 +102,10 @@ export default class EditCase extends React.Component {
     }
 
     render () {
+       const email_editor = this.state.id
+            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="cases"
+                entity_id={this.state.id}/> : null
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
@@ -129,6 +135,26 @@ export default class EditCase extends React.Component {
                                     {translations.comments}
                                 </NavLink>
                             </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('3')
+                                    }}>
+                                    {translations.documents}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('4')
+                                    }}>
+                                    {translations.emails}
+                                </NavLink>
+                            </NavItem>
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab}>
@@ -146,6 +172,20 @@ export default class EditCase extends React.Component {
                             <TabPane tabId="2">
                                 <Comments entity_type="Cases" entity={this.state}
                                     user_id={this.state.user_id}/>
+                            </TabPane>
+
+                            <TabPane tabId="3">
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Cases" entity={this.state}
+                                            user_id={this.state.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="4">
+                                {email_editor}
                             </TabPane>
                         </TabContent>
                     </ModalBody>
