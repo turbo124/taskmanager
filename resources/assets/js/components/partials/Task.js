@@ -76,6 +76,30 @@ export default class Task extends Component {
 
         return (
             <React.Fragment>
+                 <Nav tabs className="nav-justified disable-scrollbars">
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
+                        >
+                            {translations.details}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
+                        >
+                            {translations.documents} ({this.caseModel.fileCount})
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
                 <ViewEntityHeader heading_1={translations.duration} value_1={this.props.entity.duration}
                     heading_2={translations.amount}
                     value_2={this.taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}/>
