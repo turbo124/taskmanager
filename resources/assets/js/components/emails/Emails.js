@@ -79,8 +79,8 @@ export default class Emails extends Component {
         const subjectKey = this.state.template_type.replace('template', 'subject')
         const bodyKey = this.state.template_type
 
-        const subject = !this.state.settings[subjectKey] ? 'Subject Here' : this.state.settings[subjectKey]
-        const body = !this.state.settings[bodyKey] ? 'Body Here' : this.state.settings[bodyKey]
+        const subject = !this.state.settings[subjectKey] ? '' : this.state.settings[subjectKey]
+        const body = !this.state.settings[bodyKey] ? '' : this.state.settings[bodyKey]
 
         return {
             subject: subject,
