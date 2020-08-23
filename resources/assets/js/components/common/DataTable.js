@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Collapse, Spinner, Table, UncontrolledTooltip } from 'reactstrap'
+import { Collapse, Spinner, Table, UncontrolledTooltip, Progress } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -54,7 +54,8 @@ export default class DataTable extends Component {
         this.closeFilterBar = this.closeFilterBar.bind(this)
         this.checkAll = this.checkAll.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
-        this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this)
+        this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this) 
+        this.toggleProgress = this.toggleProgress.bind(this)
     }
 
     componentWillMount () {
@@ -80,6 +81,23 @@ export default class DataTable extends Component {
         this.setState({ ignoredColumns: columns.concat('files', 'transactions', 'reviews', 'audits', 'paymentables', 'line_items', 'emails', 'timers', 'attributes', 'features') }, function () {
             console.log('ignored columns', this.state.ignoredColumns)
         })
+    }
+
+    toggleProgress () {
+        timerId = setInterval(function() {
+
+            // increment progress bar
+            percent += 5;
+            this.setState({progress: percent})
+
+
+            // complete
+            if (percent >= 100) {
+                clearInterval(timerId);
+                this.setState({progress: 0})
+            }
+
+        }, 200);
     }
 
     saveBulk (e) {
@@ -200,6 +218,8 @@ export default class DataTable extends Component {
             this.cancel.cancel()
         }
 
+        this.toggleProgress()
+
         pageNumber = !pageNumber || typeof pageNumber === 'object' ? this.state.current_page : pageNumber
         order = !order ? this.state.order : order
         sorted_column = !sorted_column ? this.state.sorted_column : sorted_column
@@ -274,7 +294,7 @@ export default class DataTable extends Component {
     }
 
     render () {
-        const { loading, message, width } = this.state
+        const { loading, message, width, progress } = this.state
         const isMobile = width <= 500
         const loader = loading ? <Spinner style={{
             width: '3rem',
@@ -347,6 +367,8 @@ export default class DataTable extends Component {
                 <TableToolbar dropdownButtonActions={this.props.dropdownButtonActions}
                     fetchEntities={this.fetchEntities} saveBulk={this.saveBulk}
                     handleTableActions={this.handleTableActions}/>
+
+                <Progress value={progress} />
 
                 {table}
 
