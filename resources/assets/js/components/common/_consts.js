@@ -1,4 +1,5 @@
 import React from 'react'
+import { translations } from './_translations'
 
 export const consts = {
     centimeters: 'cm',
@@ -134,4 +135,161 @@ export const consts = {
     select: 'select',
     date: 'date',
     currency_pound: 2
+}
+
+export const invoiceStatuses = {
+    [consts.invoice_status_draft]: translations.draft,
+    [consts.invoice_status_sent]: translations.sent,
+    [consts.invoice_status_paid]: translations.paid,
+    [consts.invoice_status_partial]: translations.partial,
+    [consts.invoice_status_cancelled]: translations.cancelled,
+    100: translations.overdue,
+    [consts.invoice_status_reversed]: translations.reversed
+}
+
+export const invoiceStatusColors = {
+    [consts.invoice_status_draft]: 'secondary',
+    [consts.invoice_status_sent]: 'primary',
+    [consts.invoice_status_paid]: 'success',
+    [consts.invoice_status_partial]: 'warning',
+    [consts.invoice_status_draft_text]: 'danger',
+    [consts.invoice_status_reversed]: 'danger',
+    [consts.invoice_status_cancelled]: 'danger',
+    100: 'danger'
+}
+
+export const quoteStatuses = {
+    [consts.quote_status_draft]: translations.draft,
+    [consts.quote_status_sent]: translations.sent,
+    [consts.quote_status_approved]: translations.status_approved,
+    [consts.quote_status_invoiced]: translations.invoiced,
+    [consts.quote_status_on_order]: translations.on_order,
+    100: translations.expired
+}
+
+export const quoteStatusColors = {
+    [consts.quote_status_draft]: 'secondary',
+    [consts.quote_status_sent]: 'primary',
+    [consts.quote_status_approved]: 'success',
+    [consts.quote_status_on_order]: 'success',
+    [consts.quote_status_invoiced]: 'success',
+    100: 'danger'
+}
+
+export const creditStatuses = {
+    [consts.credit_status_draft]: translations.draft,
+    [consts.credit_status_sent]: translations.sent,
+    [consts.credit_status_partial]: translations.partial,
+    [consts.credit_status_applied]: translations.applied
+}
+
+export const creditStatusColors = {
+    [consts.credit_status_draft]: 'secondary',
+    [consts.credit_status_sent]: 'primary',
+    [consts.credit_status_partial]: 'warning',
+    [consts.credit_status_applied]: 'success'
+}
+
+export const paymentStatuses = {
+    [consts.payment_status_pending]: translations.pending,
+    [consts.payment_status_voided]: translations.voided,
+    [consts.payment_status_failed]: translations.failed,
+    [consts.payment_status_completed]: translations.complete,
+    [consts.payment_status_partial_refund]: translations.partial_refund,
+    [consts.payment_status_refunded]: translations.refunded
+}
+
+export const paymentStatusColors = {
+    [consts.payment_status_pending]: 'secondary',
+    [consts.payment_status_voided]: 'danger',
+    [consts.payment_status_failed]: 'danger',
+    [consts.payment_status_completed]: 'success',
+    [consts.payment_status_partial_refund]: 'dark',
+    [consts.payment_status_refunded]: 'danger'
+}
+
+export const orderStatuses = {
+    [consts.order_status_draft]: translations.pending,
+    [consts.order_status_sent]: translations.sent,
+    [consts.order_status_complete]: translations.complete,
+    [consts.order_status_approved]: translations.dispatched,
+    [consts.order_status_backorder]: translations.backordered,
+    [consts.order_status_held]: translations.held,
+    [consts.order_status_cancelled]: translations.cancelled,
+    '-1': 'Expired'
+}
+
+export const orderStatusColors = {
+    [consts.order_status_draft]: 'secondary',
+    [consts.order_status_sent]: 'primary',
+    [consts.order_status_complete]: 'success',
+    [consts.order_status_approved]: 'success',
+    [consts.order_status_backorder]: 'warning',
+    [consts.order_status_held]: 'warning',
+    [consts.order_status_cancelled]: 'danger',
+    '-1': 'danger'
+}
+
+export const expenseStatuses = {
+    [consts.expense_status_logged]: translations.logged,
+    [consts.expense_status_pending]: translations.pending,
+    [consts.expense_status_invoiced]: translations.invoiced
+}
+
+export const expenseStatusColors = {
+    [consts.expense_status_logged]: 'secondary',
+    [consts.expense_status_pending]: 'primary',
+    [consts.expense_status_invoiced]: 'success'
+}
+
+export const recurringInvoiceStatuses = {
+    [consts.recurring_invoice_status_draft]: translations.draft,
+    [consts.recurring_invoice_status_active]: translations.active,
+    [consts.recurring_invoice_status_cancelled]: translations.cancelled,
+    [consts.recurring_invoice_status_pending]: translations.pending,
+    [consts.recurring_invoice_status_completed]: translations.complete
+}
+
+export const recurringInvoiceStatusColors = {
+    [consts.recurring_invoice_status_draft]: 'primary',
+    [consts.recurring_invoice_status_active]: 'primary',
+    [consts.recurring_invoice_status_cancelled]: 'danger',
+    [consts.recurring_invoice_status_pending]: 'primary',
+    [consts.recurring_invoice_status_completed]: 'success'
+}
+
+export const recurringQuoteStatuses = {
+    [consts.recurring_invoice_status_draft]: translations.draft,
+    [consts.recurring_invoice_status_active]: translations.active,
+    [consts.recurring_invoice_status_cancelled]: translations.cancelled,
+    [consts.recurring_invoice_status_pending]: translations.pending,
+    [consts.recurring_invoice_status_completed]: translations.complete
+}
+
+export const recurringQuoteStatusColors = {
+    [consts.recurring_quote_status_draft]: 'primary',
+    [consts.recurring_quote_status_active]: 'primary',
+    [consts.recurring_quote_status_cancelled]: 'danger',
+    [consts.recurring_quote_status_pending]: 'primary',
+    [consts.recurring_quote_status_completed]: 'success'
+}
+
+export const caseStatuses = {
+    [consts.case_status_draft]: translations.draft
+}
+
+export const caseStatusColors = {
+    [consts.case_status_draft]: 'secondary'
+}
+
+export const casePriorityColors = {
+    [consts.low_priority]: 'success',
+    [consts.medium_priority]: 'warning',
+    [consts.high_priority]: 'danger'
+}
+
+export const casePriorities = {
+    [consts.low_priority]: translations.low,
+    [consts.medium_priority]: translations.medium,
+    [consts.high_priority]: translations.high
 }

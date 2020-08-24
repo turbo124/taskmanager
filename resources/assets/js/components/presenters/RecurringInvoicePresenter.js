@@ -2,31 +2,15 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
+import { recurringInvoiceStatusColors, recurringInvoiceStatuses } from '../common/_consts'
 import { translations } from '../common/_translations'
 
 export default function RecurringInvoicePresenter (props) {
-    const colors = {
-        [consts.recurring_invoice_status_draft]: 'primary',
-        [consts.recurring_invoice_status_active]: 'primary',
-        [consts.recurring_invoice_status_cancelled]: 'danger',
-        [consts.recurring_invoice_status_pending]: 'primary',
-        [consts.recurring_invoice_status_completed]: 'success'
-    }
-
-    const statuses = {
-        [consts.recurring_invoice_status_draft]: translations.draft,
-        [consts.recurring_invoice_status_active]: translations.active,
-        [consts.recurring_invoice_status_cancelled]: translations.cancelled,
-        [consts.recurring_invoice_status_pending]: translations.pending,
-        [consts.recurring_invoice_status_completed]: translations.complete
-    }
-
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
-        : <Badge className="mr-2" color="warning">Archived</Badge>
+        ? <Badge color={recurringInvoiceStatusColors[entity.status_id]}>{recurringInvoiceStatuses[entity.status_id]}</Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
         case 'total':
@@ -38,7 +22,7 @@ export default function RecurringInvoicePresenter (props) {
         case 'due_date':
         case 'start_date':
         case 'end_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
         case 'status_field':

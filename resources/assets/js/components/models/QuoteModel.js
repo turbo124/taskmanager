@@ -29,6 +29,7 @@ export default class QuoteModel extends BaseModel {
             is_amount_discount: false,
             invitations: [],
             customer_id: '',
+            invoice_id: '',
             assigned_to: '',
             number: '',
             user_id: null,
@@ -114,6 +115,10 @@ export default class QuoteModel extends BaseModel {
 
     set fileCount (files) {
         this._file_count = files ? files.length : 0
+    }
+
+    get hasInvoice () {
+        return this.fields.invoice_id.toString().length
     }
 
     buildDropdownMenu () {

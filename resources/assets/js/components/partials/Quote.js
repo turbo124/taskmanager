@@ -169,6 +169,9 @@ export default class Quote extends Component {
                 amount={this.props.entity.discount_total}/>
         }
 
+        const button_2_action = this.quoteModel.hasInvoice ? 'clone_to_quote' : 'approve'
+        const button_2_text = this.quoteModel.hasInvoice ? translations.clone_quote : translations.convert_quote_to_invoice
+
         return (
             <React.Fragment>
 
@@ -309,8 +312,8 @@ export default class Quote extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={(e) => this.triggerAction(button_2_action)}
+                    button2={{ label: button_2_text }}/>
 
             </React.Fragment>
 

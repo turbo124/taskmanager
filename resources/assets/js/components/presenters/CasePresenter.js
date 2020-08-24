@@ -1,37 +1,17 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import { consts } from '../common/_consts'
+import { casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../common/_consts'
 import { translations } from '../common/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function CasePresenter (props) {
-    const status_colors = {
-        [consts.case_status_draft]: 'secondary'
-    }
-
-    const priority_colors = {
-        [consts.low_priority]: 'success',
-        [consts.medium_priority]: 'warning',
-        [consts.high_priority]: 'danger'
-    }
-
-    const statuses = {
-        [consts.case_status_draft]: translations.draft
-    }
-
-    const priorities = {
-        [consts.low_priority]: translations.low,
-        [consts.medium_priority]: translations.medium,
-        [consts.high_priority]: translations.high
-    }
-
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={status_colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
-        : <Badge className="mr-2" color="warning">Archived</Badge>
+        ? <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
-    const priority = <Badge color={priority_colors[entity.priority_id]}>{priorities[entity.priority_id]}</Badge>
+    const priority = <Badge color={casePriorityColors[entity.priority_id]}>{casePriorities[entity.priority_id]}</Badge>
 
     switch (field) {
         case 'status_field':

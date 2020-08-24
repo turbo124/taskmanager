@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Factory\RecurringInvoiceToInvoiceFactory;
+use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Libraries\Utils;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
@@ -49,18 +50,6 @@ class SendRecurringInvoices extends Command
      */
     public function handle()
     {
-        $toMakeInvoices = RecurringInvoice::whereDate('next_send_date', '=', Carbon::today())
-                                          ->whereDate('date', '!=', Carbon::today())
-                                          ->get();
-
-        foreach ($toMakeInvoices as $recurringInvoice) {
-            $invoice = RecurringInvoiceToInvoiceFactory::create($recurringInvoice, $recurringInvoice->customer);
-            (new InvoiceRepository(new Invoice))->save([], $invoice);
-
-            $recurringInvoice->last_sent_date = Carbon::today();
-            $recurringInvoice->next_send_date = Carbon::today()->addDays($recurringInvoice->frequency);
-            $recurringInvoice->save();
-            //Mail::send(new NewInvoice($newInvoice->client, $newInvoice));
-        }
+        SendRecurringInvoice::dispatchNow((new InvoiceRepository(new Invoice())));
     }
 }

@@ -15,9 +15,10 @@ export default function ViewContacts (props) {
 
         contactList = invitations.map((invitation, index) => {
             const contact = customerModel.findContact(invitation.client_contact_id)
+
             return <ListGroupItem key={index} className={listClass}>
                 <ListGroupItemHeading><i
-                    className={`fa ${icons.contact} mr-4`}/>${(!contact.fullName.length ? customerModel.displayName : contact.fullName)}`}
+                    className={`fa ${icons.contact} mr-4`}/>{(!contact.fullName.length ? customerModel.displayName : contact.fullName)}
                 </ListGroupItemHeading>
             </ListGroupItem>
         })

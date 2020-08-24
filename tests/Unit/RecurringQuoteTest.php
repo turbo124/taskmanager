@@ -4,10 +4,13 @@ namespace Tests\Unit;
 
 use App\Factory\RecurringQuoteFactory;
 use App\Filters\RecurringQuoteFilter;
+use App\Jobs\Quote\SendRecurringQuote;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Models\User;
+use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
@@ -48,7 +51,7 @@ class RecurringQuoteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_all_the_invoices()
+    public function it_can_show_all_the_quotes()
     {
         factory(RecurringQuote::class)->create();
         $list = (new RecurringQuoteFilter(new RecurringQuoteRepository(new RecurringQuote())))->filter(
@@ -61,7 +64,7 @@ class RecurringQuoteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_the_invoice()
+    public function it_can_delete_the_quote()
     {
         $recurring_quote = factory(RecurringQuote::class)->create();
         $taskRepo = new RecurringQuoteRepository($recurring_quote);
@@ -90,7 +93,7 @@ class RecurringQuoteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_the_invoice()
+    public function it_can_show_the_quote()
     {
         $recurring_quote = factory(RecurringQuote::class)->create();
         $recurringQuoteRepo = new RecurringQuoteRepository(new RecurringQuote());
@@ -101,7 +104,7 @@ class RecurringQuoteTest extends TestCase
 
 
     /** @test */
-    public function it_can_create_a_invoice()
+    public function it_can_create_a_quote()
     {
         $data = [
             'account_id'  => $this->account->id,
@@ -116,6 +119,23 @@ class RecurringQuoteTest extends TestCase
 
         $this->assertInstanceOf(RecurringQuote::class, $recurring_quote);
         $this->assertEquals($data['total'], $recurring_quote->total);
+    }
+
+    public function test_send_recurring_quote () {
+        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote->next_send_date = Carbon::now()->format('Y-m-d');
+        $recurring_quote->date = Carbon::now()->subDays(15);
+        $recurring_quote->save();
+
+        SendRecurringQuote::dispatchNow(new QuoteRepository(new Quote()));
+
+        $updated_recurring_quote = $recurring_quote->fresh();
+
+        $this->assertEquals($updated_recurring_quote->next_send_date, Carbon::today()->addDays($recurring_quote->frequency));
+        $this->assertEquals($updated_recurring_quote->last_sent_date, Carbon::today());
+
+        $quote = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
+        $this->assertInstanceOf(Quote::class, $quote);
     }
 
     public function tearDown(): void

@@ -4,6 +4,7 @@ namespace App\Requests\Credit;
 
 use App\Repositories\Base\BaseFormRequest;
 use App\Settings\LineItemSettings;
+use Illuminate\Validation\Rule;
 
 class CreateCreditRequest extends BaseFormRequest
 {
@@ -23,7 +24,14 @@ class CreateCreditRequest extends BaseFormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
-            'number'         => 'nullable|unique:credits,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
+            //'number'         => 'nullable|unique:invoices,number,customer,' . $this->customer_id,
+            'number'         => [
+                Rule::unique('credits', 'number')->where(
+                    function ($query) {
+                        return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                    }
+                )
+            ],
         ];
     }
 

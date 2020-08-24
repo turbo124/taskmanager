@@ -2,33 +2,11 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
+import { orderStatusColors, orderStatuses } from '../common/_consts'
 import OrderModel from '../models/OrderModel'
 import { translations } from '../common/_translations'
 
 export default function OrderPresenter (props) {
-    const colors = {
-        [consts.order_status_draft]: 'secondary',
-        [consts.order_status_sent]: 'primary',
-        [consts.order_status_complete]: 'success',
-        [consts.order_status_approved]: 'success',
-        [consts.order_status_backorder]: 'warning',
-        [consts.order_status_held]: 'warning',
-        [consts.order_status_cancelled]: 'danger',
-        '-1': 'danger'
-    }
-
-    const statuses = {
-        [consts.order_status_draft]: translations.pending,
-        [consts.order_status_sent]: translations.sent,
-        [consts.order_status_complete]: translations.complete,
-        [consts.order_status_approved]: translations.dispatched,
-        [consts.order_status_backorder]: translations.backordered,
-        [consts.order_status_held]: translations.held,
-        [consts.order_status_cancelled]: translations.cancelled,
-        '-1': 'Expired'
-    }
-
     const { field, entity } = props
 
     const objOrderModel = new OrderModel(entity, props.customers)
@@ -36,8 +14,8 @@ export default function OrderPresenter (props) {
     const entity_status = is_late === true ? '-1' : entity.status_id
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity_status]}>{statuses[entity_status]}</Badge>
-        : <Badge className="mr-2" color="warning">Archived</Badge>
+        ? <Badge color={orderStatusColors[entity_status]}>{orderStatuses[entity_status]}</Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
         case 'balance':

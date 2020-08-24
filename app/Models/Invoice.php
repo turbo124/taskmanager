@@ -85,6 +85,7 @@ class Invoice extends Model
         'commission_paid_date',
         'gateway_fee',
         'gateway_percentage',
+        'recurring_invoice_id'
     ];
 
     const STATUS_DRAFT = 1;

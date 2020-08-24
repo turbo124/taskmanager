@@ -2,12 +2,16 @@
 
 namespace Tests\Unit;
 
+use App\Console\Commands\SendRecurringInvoices;
 use App\Factory\RecurringInvoiceFactory;
 use App\Filters\RecurringInvoiceFilter;
+use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Models\User;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
@@ -116,6 +120,23 @@ class RecurringInvoiceTest extends TestCase
 
         $this->assertInstanceOf(RecurringInvoice::class, $recurring_invoice);
         $this->assertEquals($data['total'], $recurring_invoice->total);
+    }
+
+    public function test_send_recurring_invoice () {
+        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice->next_send_date = Carbon::now()->format('Y-m-d');
+        $recurring_invoice->date = Carbon::now()->subDays(15);
+        $recurring_invoice->save();
+
+        SendRecurringInvoice::dispatchNow(new InvoiceRepository(new Invoice()));
+
+        $updated_recurring_invoice = $recurring_invoice->fresh();
+
+        $this->assertEquals($updated_recurring_invoice->next_send_date, Carbon::today()->addDays($recurring_invoice->frequency));
+        $this->assertEquals($updated_recurring_invoice->last_sent_date, Carbon::today());
+
+        $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
+        $this->assertInstanceOf(Invoice::class, $invoice);
     }
 
     public function tearDown(): void

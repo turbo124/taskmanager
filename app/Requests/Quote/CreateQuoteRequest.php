@@ -4,6 +4,7 @@ namespace App\Requests\Quote;
 
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateQuoteRequest extends FormRequest
 {
@@ -33,7 +34,14 @@ class CreateQuoteRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
-            'number'         => 'nullable|unique:quotes,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
+            //'number'         => 'nullable|unique:invoices,number,customer,' . $this->customer_id,
+            'number'         => [
+                Rule::unique('quotes', 'number')->where(
+                    function ($query) {
+                        return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                    }
+                )
+            ],
         ];
     }
 

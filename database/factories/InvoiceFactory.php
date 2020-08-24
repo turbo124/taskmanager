@@ -37,7 +37,7 @@ $factory->define(
             'is_deleted'     => false,
             'po_number'      => $faker->text(10),
             'date'           => \Carbon\Carbon::now()->format('Y-m-d'),
-            'due_date'       => $faker->date(),
+            'due_date'       => \Carbon\Carbon::now()->addDays(3)->format('Y-m-d'),
             'line_items'     => $line_items,
             'terms'          => $faker->text(500),
             //'gateway_fee'    => 12.99

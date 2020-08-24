@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, ModalBody } from 'reactstrap'
+import { Button, Card, CardBody, Modal, ModalBody } from 'reactstrap'
 import InvoiceLine from './InvoiceLine'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'
@@ -103,8 +103,13 @@ class AddPayment extends React.Component {
                 return
             }
 
-            this.props.payments.push(response)
-            this.props.action(this.props.payments)
+            if (this.props.payments) {
+                this.props.payments.push(response)
+                this.props.action(this.props.payments)
+            } else {
+                // TODO
+            }
+
             localStorage.removeItem('paymentForm')
             this.setState(this.initialState)
         })
@@ -124,49 +129,64 @@ class AddPayment extends React.Component {
     render () {
         const { message, loading } = this.state
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const form = <React.Fragment>
+            <Card>
+                <CardBody>
+                    <Details hide_customer={false} payment={this.state} errors={this.state.errors}
+                        handleInput={this.handleInput}
+                        handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
-        return (
-            <React.Fragment>
-                <AddButtons toggle={this.toggle}/>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
+                    <InvoiceLine invoice_id={this.props.invoice_id} payment={this.state} status={2}
+                        handleAmountChange={this.setAmount}
+                        errors={this.state.errors}
+                        invoices={this.props.invoices} credits={this.props.credits}
+                        payment={this.state}
+                        customerChange={this.handleCustomerChange}
+                        onChange={this.setInvoices}
+                        onCreditChange={this.setCredits}/>
 
-                    <ModalBody className={theme}>
+                    {!!this.props.custom_fields &&
+                    <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                        custom_value2={this.state.custom_value2}
+                        custom_value3={this.state.custom_value3}
+                        custom_value4={this.state.custom_value4}
+                        custom_fields={this.props.custom_fields}/>
+                    }
 
-                        {message && <div className="alert alert-danger" role="alert">
-                            {message}
-                        </div>}
+                </CardBody>
+            </Card>
 
-                        <Details hide_customer={false} payment={this.state} errors={this.state.errors}
-                            handleInput={this.handleInput}
-                            handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
+            <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
-                        <InvoiceLine payment={this.state} status={2} handleAmountChange={this.setAmount}
-                            errors={this.state.errors}
-                            invoices={this.props.invoices} credits={this.props.credits}
-                            payment={this.state}
-                            customerChange={this.handleCustomerChange}
-                            onChange={this.setInvoices}
-                            onCreditChange={this.setCredits}/>
+        </React.Fragment>
 
-                        <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
+        const modal = <React.Fragment>
+            <AddButtons toggle={this.toggle}/>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <DefaultModalHeader toggle={this.toggle} title={translations.add_payment}/>
 
-                        <Documents payment={this.state}/>
+                <ModalBody className={theme}>
 
-                        <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                            custom_value2={this.state.custom_value2}
-                            custom_value3={this.state.custom_value3}
-                            custom_value4={this.state.custom_value4}
-                            custom_fields={this.props.custom_fields}/>
+                    {message && <div className="alert alert-danger" role="alert">
+                        {message}
+                    </div>}
 
-                    </ModalBody>
+                    {form}
+                    <Documents payment={this.state}/>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={loading}/>
-                </Modal>
+                </ModalBody>
+
+                <DefaultModalFooter show_success={true} toggle={this.toggle}
+                    saveData={this.handleClick.bind(this)}
+                    loading={loading}/>
+            </Modal>
+        </React.Fragment>
+
+        return !this.props.showForm ? modal
+            : <React.Fragment>
+                {form}
+                <Button color="success" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
             </React.Fragment>
-        )
     }
 }
 

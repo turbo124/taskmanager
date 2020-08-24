@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Collapse, Spinner, Table, UncontrolledTooltip } from 'reactstrap'
+import { Collapse, Spinner, Table, Progress } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -55,6 +55,7 @@ export default class DataTable extends Component {
         this.checkAll = this.checkAll.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this)
+        this.toggleProgress = this.toggleProgress.bind(this)
     }
 
     componentWillMount () {
@@ -80,6 +81,21 @@ export default class DataTable extends Component {
         this.setState({ ignoredColumns: columns.concat('files', 'transactions', 'reviews', 'audits', 'paymentables', 'line_items', 'emails', 'timers', 'attributes', 'features') }, function () {
             console.log('ignored columns', this.state.ignoredColumns)
         })
+    }
+
+    toggleProgress () {
+        let percent = 0
+        const timerId = setInterval(() => {
+            // increment progress bar
+            percent += 5
+            this.setState({ progress: percent })
+
+            // complete
+            if (percent >= 100) {
+                clearInterval(timerId)
+                this.setState({ progress: 0 })
+            }
+        }, 200)
     }
 
     saveBulk (e) {
@@ -143,9 +159,21 @@ export default class DataTable extends Component {
         if (event.target.id === 'toggle-columns') {
             this.setState({ showColumns: !this.state.showColumns })
         }
+
+        if (event.target.id === 'view-entity') {
+            const viewId = !this.state.view.viewedId ? this.state.data[0] : this.state.view.viewedId
+            let title = ''
+
+            if (!this.state.view.title) {
+                title = !this.state.data[0].number ? this.state.data[0].name : this.state.data[0].number
+            }
+
+            this.toggleViewedEntity(viewId, title)
+        }
     }
 
     toggleViewedEntity (id, title = null) {
+        console.log('entity', id)
         this.setState({
             view: {
                 ...this.state.view,
@@ -200,6 +228,8 @@ export default class DataTable extends Component {
             this.cancel.cancel()
         }
 
+        this.toggleProgress()
+
         pageNumber = !pageNumber || typeof pageNumber === 'object' ? this.state.current_page : pageNumber
         order = !order ? this.state.order : order
         sorted_column = !sorted_column ? this.state.sorted_column : sorted_column
@@ -225,9 +255,11 @@ export default class DataTable extends Component {
                     loading: false,
                     data: data,
                     columns: columns
+                    // progress: 0
                 }, () => this.props.updateState(data))
             })
             .catch(error => {
+                this.setState(({ progress: 0 }))
                 this.props.setError('Failed to fetch the data. Please check network')
             })
     }
@@ -274,7 +306,7 @@ export default class DataTable extends Component {
     }
 
     render () {
-        const { loading, message, width } = this.state
+        const { loading, message, width, progress } = this.state
         const isMobile = width <= 500
         const loader = loading ? <Spinner style={{
             width: '3rem',
@@ -316,23 +348,11 @@ export default class DataTable extends Component {
 
                 {message && <p className="message">{message}</p>}
 
+                {progress > 0 &&
+                <Progress value={progress} />
+                }
+
                 {loader}
-
-                <UncontrolledTooltip placement="top" target="refresh">
-                    {translations.refresh}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-checkbox">
-                    {translations.toggle_checkbox}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-table">
-                    {translations.toggle_table}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-columns">
-                    {translations.toggle_columns}
-                </UncontrolledTooltip>
 
                 <Collapse className="pull-left col-12 col-md-8" isOpen={this.state.showColumns}>
                     {columnFilter}

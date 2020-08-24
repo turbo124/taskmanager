@@ -36,7 +36,7 @@ class AccountSettings extends BaseSettings
 
     public function __construct()
     {
-        $this->account_settings['pdf_variables']['default_value'] = $this->getPdfVariables();
+        $this->settings['pdf_variables']['default_value'] = $this->getPdfVariables();
     }
 
     public function getAccountDefaults()
