@@ -135,7 +135,7 @@ class RecurringInvoiceTest extends TestCase
         $this->assertEquals($updated_recurring_invoice->next_send_date, Carbon::today()->addDays($recurring_invoice->frequency));
         $this->assertEquals($updated_recurring_invoice->last_sent_date, Carbon::today());
 
-        $invoice = Invoice::where('last_sent_date', Carbon::today())->first();
+        $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
         $this->assertInstanceOf(Invoice::class, $invoice);
     }
 

@@ -46,7 +46,7 @@ class RecurringQuoteToQuoteFactory
         $quote->shipping_cost = $recurring_quote->shipping_cost;
         $quote->transaction_fee_tax = $recurring_quote->transaction_fee_tax;
         $quote->shipping_cost_tax = $recurring_quote->shipping_cost_tax;
-        $quote->gateway_fee = $recurring_quote->gateway_fee;
+        $quote->gateway_fee = $recurring_quote->gateway_fee ?: 0;
         $quote->gateway_percentage = $recurring_quote->gateway_percentage;
 
         return $quote;

@@ -50,7 +50,8 @@ class SendRecurringInvoice implements ShouldQueue
 
         foreach ($recurring_invoices as $recurring_invoice) {
             $invoice = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
-            $this->invoice_repo->save(['last_sent_date' => Carbon::today(), 'next_send_date' => Carbon::today()->addDays($recurring_invoice->frequency)], $invoice);
+            $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $invoice);
+
             $recurring_invoice->last_sent_date = Carbon::today();
             $recurring_invoice->next_send_date = Carbon::today()->addDays($recurring_invoice->frequency);
             $recurring_invoice->save();
