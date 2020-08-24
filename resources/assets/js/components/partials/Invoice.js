@@ -33,6 +33,7 @@ import FieldGrid from '../common/entityContainers/FieldGrid'
 import InfoMessage from '../common/entityContainers/InfoMessage'
 import EntityListTile from '../common/entityContainers/EntityListTile'
 import ViewContacts from '../common/entityContainers/ViewContacts'
+import AddPayment from "../payments/AddPayment";
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -111,6 +112,8 @@ export default class Invoice extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+        console.log('entity', this.props.entity)
+
         let user = null
 
         if (this.props.entity.assigned_to) {
@@ -170,6 +173,9 @@ export default class Invoice extends Component {
             fields.discount = <FormatMoney customers={this.props.customers}
                 amount={this.props.entity.discount_total}/>
         }
+
+        const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice') : (e) => this.toggleTab('6')
+        const button_2_text = this.invoiceModel.isPaid ? translations.clone_invoice : translations.add_payment
 
         return (
             <React.Fragment>
@@ -324,6 +330,10 @@ export default class Invoice extends Component {
                             </Col>
                         </Row>
                     </TabPane>
+
+                    <TabPane tabId="6">
+                        <AddPayment invoice_id={this.props.entity.id} showForm={true} />
+                    </TabPane>
                 </TabContent>
 
                 {this.state.show_success &&
@@ -334,8 +344,8 @@ export default class Invoice extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={button_2_action}
+                    button2={{ label: button_2_text }}/>
             </React.Fragment>
 
         )

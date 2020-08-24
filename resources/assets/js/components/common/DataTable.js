@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Collapse, Spinner, Table, UncontrolledTooltip, Progress } from 'reactstrap'
+import { Collapse, Spinner, Table, Progress } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -54,7 +54,7 @@ export default class DataTable extends Component {
         this.closeFilterBar = this.closeFilterBar.bind(this)
         this.checkAll = this.checkAll.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
-        this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this) 
+        this.updateIgnoredColumns = this.updateIgnoredColumns.bind(this)
         this.toggleProgress = this.toggleProgress.bind(this)
     }
 
@@ -84,20 +84,18 @@ export default class DataTable extends Component {
     }
 
     toggleProgress () {
-        timerId = setInterval(function() {
-
+        let percent = 0
+        const timerId = setInterval(() => {
             // increment progress bar
-            percent += 5;
-            this.setState({progress: percent})
-
+            percent += 5
+            this.setState({ progress: percent })
 
             // complete
-            if (percent >= 95) {
-                clearInterval(timerId);
-             
+            if (percent >= 100) {
+                clearInterval(timerId)
+                this.setState({ progress: 0 })
             }
-
-        }, 200);
+        }, 200)
     }
 
     saveBulk (e) {
@@ -161,9 +159,21 @@ export default class DataTable extends Component {
         if (event.target.id === 'toggle-columns') {
             this.setState({ showColumns: !this.state.showColumns })
         }
+
+        if (event.target.id === 'view-entity') {
+            const viewId = !this.state.view.viewedId ? this.state.data[0] : this.state.view.viewedId
+            let title = ''
+
+            if (!this.state.view.title) {
+                title = !this.state.data[0].number ? this.state.data[0].name : this.state.data[0].number
+            }
+
+            this.toggleViewedEntity(viewId, title)
+        }
     }
 
     toggleViewedEntity (id, title = null) {
+        console.log('entity', id)
         this.setState({
             view: {
                 ...this.state.view,
@@ -244,11 +254,12 @@ export default class DataTable extends Component {
                     perPage: noPerPage,
                     loading: false,
                     data: data,
-                    columns: columns,
-                    progress: 0
+                    columns: columns
+                    // progress: 0
                 }, () => this.props.updateState(data))
             })
             .catch(error => {
+                this.setState(({ progress: 0 }))
                 this.props.setError('Failed to fetch the data. Please check network')
             })
     }
@@ -337,23 +348,11 @@ export default class DataTable extends Component {
 
                 {message && <p className="message">{message}</p>}
 
+                {progress > 0 &&
+                <Progress value={progress} />
+                }
+
                 {loader}
-
-                <UncontrolledTooltip placement="top" target="refresh">
-                    {translations.refresh}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-checkbox">
-                    {translations.toggle_checkbox}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-table">
-                    {translations.toggle_table}
-                </UncontrolledTooltip>
-
-                <UncontrolledTooltip placement="top" target="toggle-columns">
-                    {translations.toggle_columns}
-                </UncontrolledTooltip>
 
                 <Collapse className="pull-left col-12 col-md-8" isOpen={this.state.showColumns}>
                     {columnFilter}
@@ -368,8 +367,6 @@ export default class DataTable extends Component {
                 <TableToolbar dropdownButtonActions={this.props.dropdownButtonActions}
                     fetchEntities={this.fetchEntities} saveBulk={this.saveBulk}
                     handleTableActions={this.handleTableActions}/>
-
-                <Progress value={progress} />
 
                 {table}
 

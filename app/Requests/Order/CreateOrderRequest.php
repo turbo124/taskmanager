@@ -5,6 +5,7 @@ namespace App\Requests\Order;
 use App\Rules\Order\OrderTotals;
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateOrderRequest extends FormRequest
 {
@@ -40,7 +41,14 @@ class CreateOrderRequest extends FormRequest
                 'array',
                 new OrderTotals($input)
             ],
-            'number'         => 'nullable|unique:product_task,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
+            //'number'         => 'nullable|unique:invoices,number,customer,' . $this->customer_id,
+            'number'         => [
+                Rule::unique('product_task', 'number')->where(
+                    function ($query) {
+                        return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                    }
+                )
+            ],
         ];
     }
 

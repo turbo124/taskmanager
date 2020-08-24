@@ -2,31 +2,15 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
+import { recurringQuoteStatusColors, recurringQuoteStatuses } from '../common/_consts'
 import { translations } from '../common/_translations'
 
 export default function RecurringQuotePresenter (props) {
-    const colors = {
-        [consts.recurring_quote_status_draft]: 'primary',
-        [consts.recurring_quote_status_active]: 'primary',
-        [consts.recurring_quote_status_cancelled]: 'danger',
-        [consts.recurring_quote_status_pending]: 'primary',
-        [consts.recurring_quote_status_completed]: 'success'
-    }
-
-    const statuses = {
-        [consts.recurring_invoice_status_draft]: translations.draft,
-        [consts.recurring_invoice_status_active]: translations.active,
-        [consts.recurring_invoice_status_cancelled]: translations.cancelled,
-        [consts.recurring_invoice_status_pending]: translations.pending,
-        [consts.recurring_invoice_status_completed]: translations.complete
-    }
-
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
-        : <Badge color="warning">Archived</Badge>
+        ? <Badge color={recurringQuoteStatusColors[entity.status_id]}>{recurringQuoteStatuses[entity.status_id]}</Badge>
+        : <Badge color="warning">{translations.archived}</Badge>
 
     switch (field) {
         case 'total':
@@ -38,7 +22,7 @@ export default function RecurringQuotePresenter (props) {
         case 'due_date':
         case 'start_date':
         case 'end_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
 

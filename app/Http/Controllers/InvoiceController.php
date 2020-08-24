@@ -20,6 +20,7 @@ use App\Transformations\QuoteTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class InvoiceController
@@ -74,6 +75,9 @@ class InvoiceController extends BaseController
      */
     public function store(CreateInvoiceRequest $request)
     {
+      Log::emergency('lexie');
+      die;
+
         $customer = Customer::find($request->input('customer_id'));
         $invoice = $this->invoice_repo->createInvoice(
             $request->all(),

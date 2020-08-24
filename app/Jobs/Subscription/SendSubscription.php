@@ -34,10 +34,12 @@ class SendSubscription
      */
     public function handle()
     {
+
         $subscription = (new SubscriptionRepository(new Subscription))->findSubscriptionByEvent(
             $this->event,
             $this->entity->account
         );
+
 
         if (empty($subscription) || $subscription->count() === 0) {
             return true;
@@ -64,11 +66,17 @@ class SendSubscription
             $subscription->target_url,
             [
                 'headers'     => [
-                    //'Authorization' => 'Bearer ' . 'Mu9tNULggxB9QFRyDytg9RYdpG8GsQJ9LGBBTYWSzlKAkJgaK7hs0xrV9F4qKrM7',
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90YXNrbWFuMi5kZXZlbG9wXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTk4MjkwMzE1LCJleHAiOjE1OTgzMDExMTUsIm5iZiI6MTU5ODI5MDMxNSwianRpIjoiMnBDSTB3Q2w0WGpIQ0NtaCIsInN1YiI6NSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.E20vNJAUQFktJeEbV09s3o643G7rDCQ5a_FJ5ZzeU6k',
                     'Accept' => 'application/json',
                 ],
                 'form_params' => $data
             ]
         );
+
+        $response = json_decode($response->getBody(), true);
+
+        echo '<pre>';
+        print_r($response);
+        die;
     }
 }

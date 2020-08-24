@@ -307,8 +307,8 @@ export default class Credit extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={(e) => this.triggerAction('clone_to_credit')}
+                    button2={{ label: translations.clone_credit }}/>
 
             </React.Fragment>
 

@@ -210,7 +210,7 @@ export default class InvoiceLine extends Component {
         const status = this.props.refund && this.props.refund === true ? consts.invoice_status_paid : this.props.status
         const allowedInvoices = this.paymentModel.getInvoicesByStatus(status)
 
-        if (this.state.lines.length >= allowedInvoices.length) {
+        if (this.state.lines.length >= allowedInvoices.length || this.props.invoice_id) {
             return
         }
 
@@ -224,9 +224,9 @@ export default class InvoiceLine extends Component {
     addCredit (e) {
         const allowedCredits = this.paymentModel.getCreditsByStatus(2)
 
-        if (this.state.lines.length >= allowedCredits.length) {
-            return
-        }
+        // if (this.state.lines.length >= allowedCredits.length || this.props.invoice_id) {
+        //     return
+        // }
 
         this.setState((prevState) => ({
             credit_lines: [...prevState.credit_lines, { credit_id: null, amount: 0 }]
@@ -264,6 +264,12 @@ export default class InvoiceLine extends Component {
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
         const has_invoice = this.paymentModel.hasInvoice(lines)
+
+        this.allowed_invoices = []
+
+        if (this.props.invoice_id) {
+            this.allowed_invoices.push(this.props.invoice_id)
+        }
 
         return (
             <form>

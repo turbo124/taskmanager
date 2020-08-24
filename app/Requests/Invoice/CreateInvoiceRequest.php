@@ -4,6 +4,8 @@ namespace App\Requests\Invoice;
 
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class CreateInvoiceRequest extends FormRequest
 {
@@ -25,7 +27,7 @@ class CreateInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'customer_id'    => 'required|exists:customers,id,account_id,' . $this->account_id,
             'date'           => 'required',
             'due_date'       => 'required',
             'discount_total' => 'required',
@@ -33,7 +35,12 @@ class CreateInvoiceRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
-            'number'         => 'nullable|unique:invoices,number,customer' . $this->customer_id . 'account_id,' . $this->account_id
+            //'number'         => 'nullable|unique:invoices,number,customer,' . $this->customer_id,
+            'number' => [
+                Rule::unique('invoices', 'number')->where(function ($query) {
+                    return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                })
+            ],
         ];
     }
 

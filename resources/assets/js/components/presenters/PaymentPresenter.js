@@ -2,36 +2,18 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
-import { translations } from '../common/_translations'
 import PaymentModel from '../models/PaymentModel'
+import { paymentStatusColors, paymentStatuses } from '../common/_consts'
+import { translations } from '../common/_translations'
 
 export default function PaymentPresenter (props) {
-    const colors = {
-        [consts.payment_status_pending]: 'secondary',
-        [consts.payment_status_voided]: 'danger',
-        [consts.payment_status_failed]: 'danger',
-        [consts.payment_status_completed]: 'success',
-        [consts.payment_status_partial_refund]: 'dark',
-        [consts.payment_status_refunded]: 'danger'
-    }
-
-    const statuses = {
-        [consts.payment_status_pending]: translations.pending,
-        [consts.payment_status_voided]: translations.voided,
-        [consts.payment_status_failed]: translations.failed,
-        [consts.payment_status_completed]: translations.complete,
-        [consts.payment_status_partial_refund]: translations.partial_refund,
-        [consts.payment_status_refunded]: translations.refunded
-    }
-
     const { field, entity } = props
 
     const paymentModel = new PaymentModel(entity.invoices, entity, entity.credits)
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity.status_id]}>{statuses[entity.status_id]}</Badge>
-        : <Badge color="warning">Archived</Badge>
+        ? <Badge color={paymentStatusColors[entity.status_id]}>{paymentStatuses[entity.status_id]}</Badge>
+        : <Badge color="warning">{translations.archived}</Badge>
 
     switch (field) {
         case 'amount':

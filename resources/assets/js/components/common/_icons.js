@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const icons = {
+    view: 'fa-eye',
     refresh: 'fa-gear',
     checkbox: 'fa-check-square',
     checkbox_o: 'fa-check-square-o',

@@ -2,28 +2,11 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { consts } from '../common/_consts'
+import { quoteStatusColors, quoteStatuses } from '../common/_consts'
 import QuoteModel from '../models/QuoteModel'
 import { translations } from '../common/_translations'
 
 export default function QuotePresenter (props) {
-    const colors = {
-        [consts.quote_status_draft]: 'secondary',
-        [consts.quote_status_sent]: 'primary',
-        [consts.quote_status_approved]: 'success',
-        [consts.quote_status_on_order]: 'success',
-        [consts.quote_status_invoiced]: 'success',
-        100: 'danger'
-    }
-
-    const statuses = {
-        [consts.quote_status_draft]: translations.draft,
-        [consts.quote_status_sent]: translations.sent,
-        [consts.quote_status_approved]: translations.status_approved,
-        [consts.quote_status_invoiced]: translations.invoiced,
-        [consts.quote_status_on_order]: translations.on_order,
-        100: translations.expired
-    }
 
     const { field, entity } = props
 
@@ -32,8 +15,8 @@ export default function QuotePresenter (props) {
     const entity_status = is_late === true ? 100 : entity.status_id
 
     const status = !entity.deleted_at
-        ? <Badge color={colors[entity_status]}>{statuses[entity_status]}</Badge>
-        : <Badge className="mr-2" color="warning">Archived</Badge>
+        ? <Badge color={quoteStatusColors[entity_status]}>{quoteStatuses[entity_status]}</Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
         case 'balance':
@@ -48,7 +31,7 @@ export default function QuotePresenter (props) {
             return status
         case 'date':
         case 'due_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
 

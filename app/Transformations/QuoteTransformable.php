@@ -29,6 +29,7 @@ trait QuoteTransformable
             'private_notes'       => $quote->private_notes ?: '',
             'number'              => $quote->number ?: '',
             'customer_id'         => (int)$quote->customer_id,
+            'invoice_id'          => (int)$quote->invoice_id,
             'date'                => $quote->date ?: '',
             'due_date'            => $quote->due_date ?: '',
             'design_id'           => (int)$quote->design_id,
