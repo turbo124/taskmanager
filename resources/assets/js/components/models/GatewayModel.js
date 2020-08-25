@@ -15,6 +15,7 @@ export default class GatewayModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            name: '',
             gateway_key: '',
             accepted_credit_cards: '',
             accepted_cards: new Map(),

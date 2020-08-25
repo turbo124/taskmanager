@@ -151,6 +151,11 @@ class Customer extends Model implements HasLocalePreference
         return $this->hasMany(CustomerGateway::class);
     }
 
+    private function checkObjectEmpty($var)
+    {
+        return  is_object($var) && empty((array)$var);
+    }
+
     /**
      * @param $setting
      * @return bool
@@ -158,17 +163,17 @@ class Customer extends Model implements HasLocalePreference
     public function getSetting($setting)
     {
         /*Client Settings*/
-        if (!empty($this->settings->{$setting})) {
+        if (!empty($this->settings->{$setting}) && !$this->checkObjectEmpty($this->settings->{$setting})) {
             return $this->settings->{$setting};
         }
 
         /*Group Settings*/
-        if ($this->group_settings && !empty($this->group_settings->settings->{$setting})) {
+        if (!empty($this->group_settings) && !empty($this->group_settings->settings->{$setting}) && !$this->checkObjectEmpty($this->group_settings->settings->{$setting})) {
             return $this->group_settings->settings->{$setting};
         }
 
         /*Company Settings*/
-        if (isset($this->account->settings->{$setting})) {
+        if (isset($this->account->settings->{$setting}) && !$this->checkObjectEmpty($this->account->settings->{$setting})) {
             return $this->account->settings->{$setting};
         }
 

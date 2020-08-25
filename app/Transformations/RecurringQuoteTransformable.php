@@ -6,10 +6,12 @@ use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
 use App\Models\InvoiceInvitation;
+use App\Models\Quote;
 use App\Models\RecurringQuote;
 
 trait RecurringQuoteTransformable
 {
+    use QuoteTransformable;
 
     /**
      * @param RecurringQuote $quote
@@ -52,7 +54,8 @@ trait RecurringQuoteTransformable
             'shipping_cost_tax'   => (bool)$quote->shipping_cost_tax,
             'audits'              => $this->transformAuditsForRecurringQuote($quote->audits),
             'files'               => $this->transformInvoiceFiles($quote->files),
-            'invitations'         => []
+            'invitations'         => [],
+            'quotes'              => $this->transformQuotesCreated($quote->quotes)
 
         ];
     }
@@ -117,6 +120,19 @@ trait RecurringQuoteTransformable
         return $audits->map(
             function (Audit $audit) {
                 return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
+    private function transformQuotesCreated($quotes)
+    {
+        if ($quotes->count() === 0) {
+            return [];
+        }
+
+        return $quotes->map(
+            function (Quote $quote) {
+                return $this->transformQuote($quote);
             }
         )->all();
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
+import { translations } from "./_translations";
 
 export default class TaskStatusDropdown extends Component {
     constructor (props) {
@@ -52,7 +53,7 @@ export default class TaskStatusDropdown extends Component {
             statusList = <option value="">Loading...</option>
         } else {
             statusList = this.state.statuses.map((status, index) => (
-                <option key={index} value={status.id}>{status.title}</option>
+                <option key={index} value={status.id}>{status.name}</option>
             ))
         }
 
@@ -60,10 +61,10 @@ export default class TaskStatusDropdown extends Component {
             <FormGroup className="ml-2">
                 <Input value={this.props.status} onChange={this.props.handleInputChanges} type="select"
                     name="task_status" id="task_status">
-                    <option value="">Select Status</option>
+                    <option value="">{translations.select_option}</option>
                     {statusList}
-                    <option value="archived">Archived</option>
-                    <option value="deleted">Deleted</option>
+                    {/* <option value="archived">Archived</option> */}
+                    {/* <option value="deleted">Deleted</option> */}
                 </Input>
                 {this.renderErrorFor('task_status')}
             </FormGroup>

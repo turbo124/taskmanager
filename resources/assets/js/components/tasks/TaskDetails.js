@@ -2,6 +2,7 @@ import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import CustomerDropdown from '../common/CustomerDropdown'
 import { translations } from '../common/_translations'
+import TaskStatusDropdown from '../common/TaskStatusDropdown'
 
 export default class TaskDetails extends React.Component {
     constructor (props) {
@@ -81,6 +82,15 @@ export default class TaskDetails extends React.Component {
                 </FormGroup>
 
                 {userOptions}
+
+                <FormGroup>
+                    <Label>{translations.status}</Label>
+                    <TaskStatusDropdown
+                        task_type={1}
+                        status={this.props.deal.task_status}
+                        handleInputChanges={this.props.handleInput}
+                    />
+                </FormGroup>
 
             </React.Fragment>
         )

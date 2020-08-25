@@ -71,6 +71,8 @@ export default class CreditModel extends BaseModel {
             activeTab: '1',
             po_number: '',
             return_to_stock: false,
+            currency_id: null,
+            exchange_rate: 1,
             loading: false,
             dropdownOpen: false,
             changesMade: false,
@@ -224,6 +226,26 @@ export default class CreditModel extends BaseModel {
             // Don't forget to return something
             return res.data
         } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async loadPdf () {
+        try {
+            this.errors = []
+            this.error_message = ''
+            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
             this.handleError(e)
             return false
         }

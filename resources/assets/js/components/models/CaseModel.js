@@ -107,6 +107,26 @@ export default class CaseModel extends BaseModel {
         }
     }
 
+    async loadPdf () {
+        try {
+            this.errors = []
+            this.error_message = ''
+            const res = await axios.post('api/preview', { entity: 'Cases', entity_id: this._fields.id })
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
+            this.handleError(e)
+            return false
+        }
+    }
+
     async update (data) {
         if (!this.fields.id) {
             return false

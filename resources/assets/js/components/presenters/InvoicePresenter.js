@@ -19,6 +19,7 @@ export default function InvoicePresenter (props) {
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
+        case 'exchange_rate':
         case 'balance':
         case 'total':
         case 'discount_total':

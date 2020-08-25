@@ -3,6 +3,7 @@
 namespace App\Jobs\Invoice;
 
 use App\Helpers\Payment\Gateways\GatewayFactory;
+use App\Models\CompanyGateway;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
@@ -58,15 +59,31 @@ class AutobillInvoice implements ShouldQueue
 
         $company_gateway = $customer_gateway->company_gateway;
 
-        $fee = $company_gateway->fees_and_limits[0]->fee_amount;
+        $amount = $this->calculateFee($company_gateway, $amount);
+
+        $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create($this->invoice->customer);
+        return $gateway_obj->build($amount, $this->invoice);
+    }
+
+    private function calculateFee(CompanyGateway $company_gateway, float $amount)
+    {
+        $fees_and_limits = $company_gateway->fees_and_limits[0];
+        $fee = 0;
+
+        if (!empty($fees_and_limits->fee_percent) && $fees_and_limits->fee_percent > 0) {
+            $amount += $amount * $fees_and_limits->fee_percent / 100;
+        }
+
+        if (!empty($fees_and_limits->fee_amount) && $fees_and_limits->fee_amount > 0) {
+            $amount += $fees_and_limits->fee_amount;
+        }
 
         if (!empty($fee)) {
             $amount += $fee;
             $this->addFeeToInvoice($fee);
         }
 
-        $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create($this->invoice->customer);
-        return $gateway_obj->build($amount, $this->invoice);
+        return $amount;
     }
 
     private function addFeeToInvoice($fee)

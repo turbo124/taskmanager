@@ -82,7 +82,7 @@ class RecurringInvoice extends Model
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, "id", "recurring_invoice_id")->withTrashed();
+        return $this->hasMany(Invoice::class, "recurring_invoice_id", "id")->withTrashed();
     }
 
     public function invitations()

@@ -14,6 +14,7 @@ class CompanyGateway extends Model
         'deleted_at'      => 'timestamp',
     ];
     protected $fillable = [
+        'name',
         'gateway_key',
         'accepted_credit_cards',
         'require_cvv',

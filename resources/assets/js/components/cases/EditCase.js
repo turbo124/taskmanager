@@ -1,5 +1,17 @@
 import React from 'react'
-import { DropdownItem, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from 'reactstrap'
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    DropdownItem,
+    Modal,
+    ModalBody,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import { icons } from '../common/_icons'
 import { translations } from '../common/_translations'
 import Details from './Details'
@@ -102,8 +114,8 @@ export default class EditCase extends React.Component {
     }
 
     render () {
-       const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
+        const email_editor = this.state.id
+            ? <Emails model={this.caseModel} emails={this.state.emails} template="email_template_case" show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="cases"
                 entity_id={this.state.id}/> : null
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'

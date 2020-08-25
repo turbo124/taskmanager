@@ -78,6 +78,8 @@ export default class InvoiceModel extends BaseModel {
             activeTab: '1',
             po_number: '',
             design_id: '',
+            currency_id: null,
+            exchange_rate: 1,
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
@@ -331,6 +333,26 @@ export default class InvoiceModel extends BaseModel {
             // Don't forget to return something
             return res.data
         } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async loadPdf () {
+        try {
+            this.errors = []
+            this.error_message = ''
+            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
             this.handleError(e)
             return false
         }

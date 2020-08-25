@@ -24,6 +24,7 @@ export default function QuotePresenter (props) {
         case 'discount_total':
         case 'tax_total':
         case 'sub_total':
+        case 'exchange_rate':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
                 <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
             </td>

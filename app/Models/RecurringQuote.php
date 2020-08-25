@@ -78,6 +78,16 @@ class RecurringQuote extends Model
         return $this->belongsTo(User::class, 'assigned_to', 'id')->withTrashed();
     }
 
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class, "recurring_quote_id", "id")->withTrashed();
+    }
+
+    public function invitations()
+    {
+        $this->morphMany(QuoteInvitation::class);
+    }
+
     public function service(): RecurringQuoteService
     {
         return new RecurringQuoteService($this);

@@ -31,7 +31,17 @@ class ContactModel {
     }
 
     get fullNameWithEmail () {
-        return `${this.fullName} <${this._fields.email}>`
+        let name = this.fullName
+
+        if (this._fields.email.length) {
+            if (!name.length) {
+                name += this._fields.email
+            } else {
+                name += `<${this._fields.email}>`
+            }
+        }
+
+        return name
     }
 
     get id () {

@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
-import Invoice from '../partials/Invoice'
-import RecurringInvoice from '../partials/RecurringInvoice'
-import Payment from '../partials/Payment'
-import Customer from '../partials/Customer'
-import Expense from '../partials/Expense'
-import Quote from '../partials/Quote'
-import RecurringQuote from '../partials/RecurringQuote'
-import Credit from '../partials/Credit'
-import Project from '../partials/Project'
-import Company from '../partials/Company'
-import Order from '../partials/Order'
-import Lead from '../partials/Lead'
+import Invoice from '../invoice/view/Invoice'
+import RecurringInvoice from '../recurringInvoices/view/RecurringInvoice'
+import Payment from '../payments/view/Payment'
+import Customer from '../customers/view/Customer'
+import Expense from '../expenses/view/Expense'
+import Quote from '../quotes/view/Quote'
+import RecurringQuote from '../recurringQuotes/view/RecurringQuote'
+import Credit from '../credits/view/Credit'
+import Project from '../projects/view/Project'
+import Company from '../companies/view/Company'
+import Order from '../orders/view/Order'
+import Lead from '../leads/view/Lead'
 import Promocode from '../partials/Promocode'
-import Product from '../partials/Product'
+import Product from '../products/view/Product'
 import User from '../partials/User'
-import Case from '../partials/Case'
-import Subscription from '../partials/Subscription'
-import Task from '../partials/Task'
-import TaxRate from '../partials/TaxRate'
-import Token from '../partials/Token'
+import Case from '../cases/view/Case'
+import Subscription from '../subscriptions/view/Subscription'
+import Task from '../tasks/view/Task'
+import TaxRate from '../TaxRates/view/TaxRate'
+import Token from '../tokens/view/Token'
 import Group from '../partials/Group'
-import Gateway from '../partials/Gateway'
-import Deal from "../partials/Deal";
+import Gateway from '../gateways/view/Gateway'
+import Deal from '../deals/view/Deal'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -91,7 +91,7 @@ export default class ViewEntity extends Component {
                         <User entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Deal'].includes(this.props.entity_type) &&
-                        <Deal entity={this.props.entity}/>}
+                        <Deal customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
                         <Company customers={this.props.customers} entity={this.props.entity}/>}
@@ -106,7 +106,7 @@ export default class ViewEntity extends Component {
                         <Subscription entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Task'].includes(this.props.entity_type) &&
-                        <Task entity={this.props.entity}/>}
+                        <Task customers={this.props.customers} entity={this.props.entity}/>}
 
                         {this.props.entity && this.props.entity_type && ['Tax Rate'].includes(this.props.entity_type) &&
                         <TaxRate entity={this.props.entity}/>}
