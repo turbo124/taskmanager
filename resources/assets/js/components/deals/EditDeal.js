@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import 'react-dates/initialize' // necessary for latest version
 import 'react-dates/lib/css/_datepicker.css'
-import { Card, CardBody, CardHeader, DropdownItem, Nav, NavItem, NavLink, Modal, ModalBody, TabContent, TabPane } from 'reactstrap'
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    DropdownItem,
+    Modal,
+    ModalBody,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import moment from 'moment'
 import CustomFieldsForm from '../common/CustomFieldsForm'
 import Notes from '../common/Notes'
@@ -140,7 +152,7 @@ export default class EditDeal extends Component {
 
     render () {
         const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_case" show_editor={true}
+            ? <Emails model={this.dealModel} emails={this.state.emails} template="email_template_case" show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="deal"
                 entity_id={this.state.id}/> : null
 

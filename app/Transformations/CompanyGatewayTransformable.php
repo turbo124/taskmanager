@@ -15,6 +15,7 @@ trait CompanyGatewayTransformable
     {
         return [
             'id'                    => (int)$company_gateway->id,
+            'name'                  => (string)$company_gateway->name ?: '',
             'gateway_key'           => (string)$company_gateway->gateway_key ?: '',
             'gateway'               => $this->transformGateway($company_gateway->gateway),
             'accepted_credit_cards' => $company_gateway->accepted_credit_cards,

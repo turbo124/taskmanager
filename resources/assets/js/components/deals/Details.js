@@ -4,6 +4,7 @@ import UserDropdown from '../common/UserDropdown'
 import { translations } from '../common/_translations'
 import CustomerDropdown from '../common/CustomerDropdown'
 import Datepicker from '../common/Datepicker'
+import TaskStatusDropdown from '../common/TaskStatusDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -107,9 +108,21 @@ export default class Details extends React.Component {
                             {this.renderErrorFor('valued_at')}
                         </FormGroup>
 
-                        <UserDropdown handleInputChanges={this.props.handleInput}
-                            user_id={this.props.deal.assigned_to} name="assigned_to"
-                            users={this.props.users}/>
+                        <FormGroup>
+                            <Label>{translations.assigned_user}</Label>
+                            <UserDropdown handleInputChanges={this.props.handleInput}
+                                user_id={this.props.deal.assigned_to} name="assigned_to"
+                                users={this.props.users}/>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label>{translations.status}</Label>
+                            <TaskStatusDropdown
+                                task_type={2}
+                                status={this.props.deal.task_status}
+                                handleInputChanges={this.props.handleInput}
+                            />
+                        </FormGroup>
 
                         {sourceTypeOptions}
                     </CardBody>

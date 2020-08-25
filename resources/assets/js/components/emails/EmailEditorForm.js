@@ -4,8 +4,8 @@ import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
 import { translations } from '../common/_translations'
-import CustomerModel from "../models/CustomerModel";
-import { icons } from "../common/_icons";
+import CustomerModel from '../models/CustomerModel'
+import { icons } from '../common/_icons'
 
 export default class EmailEditorForm extends Component {
     constructor (props) {

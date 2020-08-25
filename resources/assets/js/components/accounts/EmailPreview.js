@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import parse from 'html-react-parser'
+import { translations } from "../common/_translations";
 
 class EmailPreview extends Component {
     constructor (props) {
@@ -16,7 +17,7 @@ class EmailPreview extends Component {
     render () {
         return Object.keys(this.props.preview).length
             ? <div className="col-12" style={{ height: '600px', overflowY: 'auto' }}>
-                <div>Subject: {parse(this.props.preview.subject)}</div>
+                <div>{translations.subject}: {parse(this.props.preview.subject)}</div>
                 <iframe style={{ width: '900px', height: '460px' }} srcDoc={this.props.preview.wrapper}/>
 
             </div>

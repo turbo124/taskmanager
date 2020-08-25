@@ -546,7 +546,8 @@ class EditInvoice extends Component {
                 handleInput={this.handleInput}/>
 
         const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_invoice" show_editor={true}
+            ? <Emails model={this.invoiceModel} emails={this.state.emails} template="email_template_invoice"
+                show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="invoice"
                 entity_id={this.state.id}/> : null
 

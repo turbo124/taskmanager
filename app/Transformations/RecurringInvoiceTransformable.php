@@ -2,15 +2,16 @@
 
 namespace App\Transformations;
 
-use App\Models\RecurringInvoice;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
 use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
+use App\Models\RecurringInvoice;
 
 trait RecurringInvoiceTransformable
 {
+    use InvoiceTransformable;
 
     /**
      * @param RecurringInvoice $invoice
@@ -53,12 +54,13 @@ trait RecurringInvoiceTransformable
             'shipping_cost_tax'   => (bool)$invoice->shipping_cost_tax,
             'audits'              => $this->transformAuditsForRecurringInvoice($invoice->audits),
             'files'               => $this->transformInvoiceFiles($invoice->files),
-            'invitations'         => []
+            'invitations'         => [],
+            'invoices'            => $this->transformInvoicesCreated($invoice->invoices)
 
         ];
     }
-   
-     /**
+
+    /**
      * @param $files
      * @return array
      */
@@ -122,4 +124,16 @@ trait RecurringInvoiceTransformable
         )->all();
     }
 
+    private function transformInvoicesCreated($invoices)
+    {
+        if ($invoices->count() === 0) {
+            return [];
+        }
+
+        return $invoices->map(
+            function (Invoice $invoice) {
+                return $this->transformInvoice($invoice);
+            }
+        )->all();
+    }
 }

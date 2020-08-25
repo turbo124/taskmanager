@@ -95,7 +95,7 @@ export default class DataTable extends Component {
                 clearInterval(timerId)
                 this.setState({ progress: 0 })
             }
-        }, 200)
+        }, 170)
     }
 
     saveBulk (e) {
@@ -158,6 +158,11 @@ export default class DataTable extends Component {
 
         if (event.target.id === 'toggle-columns') {
             this.setState({ showColumns: !this.state.showColumns })
+        }
+
+        if (event.target.id === 'refresh') {
+            this.toggleProgress()
+            this.fetchEntities()
         }
 
         if (event.target.id === 'view-entity') {
@@ -227,8 +232,6 @@ export default class DataTable extends Component {
         if (this.cancel) {
             this.cancel.cancel()
         }
-
-        this.toggleProgress()
 
         pageNumber = !pageNumber || typeof pageNumber === 'object' ? this.state.current_page : pageNumber
         order = !order ? this.state.order : order
@@ -365,7 +368,7 @@ export default class DataTable extends Component {
                 </Collapse>
 
                 <TableToolbar dropdownButtonActions={this.props.dropdownButtonActions}
-                    fetchEntities={this.fetchEntities} saveBulk={this.saveBulk}
+                    saveBulk={this.saveBulk}
                     handleTableActions={this.handleTableActions}/>
 
                 {table}

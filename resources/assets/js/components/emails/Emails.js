@@ -7,6 +7,7 @@ import ViewEmails from '../emails/ViewEmails'
 import EmailFields from '../accounts/EmailFields'
 import EmailPreview from '../accounts/EmailPreview'
 import { translations } from '../common/_translations'
+import ViewPdf from "./ViewPdf";
 
 export default class Emails extends Component {
     constructor (props) {
@@ -136,6 +137,7 @@ export default class Emails extends Component {
                 template_type={this.state.template_type}/> : null
         const editor = this.state.subject.length && this.state.body.length
             ? <EmailEditorForm
+                model={this.props.model}
                 entity_object={this.props.entity_object}
                 customers={this.props.customers}
                 subject={this.state.subject}
@@ -181,13 +183,23 @@ export default class Emails extends Component {
                             {translations.history}
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.active_email_tab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleEmailTab('4')
+                            }}>
+                            {translations.pdf}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.active_email_tab} className="bg-transparent">
 
                     <TabPane tabId="1">
                         <Card>
-                            <CardHeader>Preview</CardHeader>
+                            <CardHeader>{translations.preview}</CardHeader>
                             <CardBody>
                                 {fields}
                                 {spinner}
@@ -198,7 +210,7 @@ export default class Emails extends Component {
 
                     <TabPane tabId="2">
                         <Card>
-                            <CardHeader>Customise</CardHeader>
+                            <CardHeader>{translations.customise}</CardHeader>
                             <CardBody>
                                 {editor}
                             </CardBody>
@@ -207,12 +219,21 @@ export default class Emails extends Component {
 
                     <TabPane tabId="3">
                         <Card>
-                            <CardHeader>History</CardHeader>
+                            <CardHeader>{translations.history}</CardHeader>
                             <CardBody>
                                 <ViewEmails template_type={this.state.template_type}
                                     handleSettingsChange={this.handleSettingsChange}
                                     active_id={this.state.active_id}
                                     emails={this.props.emails}/>
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="4">
+                        <Card>
+                            <CardHeader>{translations.pdf}</CardHeader>
+                            <CardBody>
+                                <ViewPdf model={this.props.model} />
                             </CardBody>
                         </Card>
                     </TabPane>

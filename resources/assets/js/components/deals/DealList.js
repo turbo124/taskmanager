@@ -177,20 +177,7 @@ export default class DealList extends Component {
         const { task_status, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/deals?search_term=${searchText}&task_status=${task_status}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
-        const table = <DataTable
-            setSuccess={this.setSuccess.bind(this)}
-            setError={this.setError.bind(this)}
-            dropdownButtonActions={this.state.dropdownButtonActions}
-            entity_type="Deal"
-            bulk_save_url="/api/deals/bulk"
-            view={view}
-            disableSorting={['id']}
-            defaultColumn='title'
-            ignore={this.state.ignoredColumns}
-            userList={this.userList}
-            fetchUrl={fetchUrl}
-            updateState={this.addUserToState}
-        />
+
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
@@ -205,7 +192,7 @@ export default class DealList extends Component {
             deals={deals}
         /> : null
 
-        return (
+        return customers.length ? (
             <Row>
                 <div className="col-12">
                     <div className="topbar">
@@ -239,12 +226,26 @@ export default class DealList extends Component {
                     <div className={margin_class}>
                         <Card>
                             <CardBody>
-                                {table}
+                                <DataTable
+                                    customers={customers}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
+                                    dropdownButtonActions={this.state.dropdownButtonActions}
+                                    entity_type="Deal"
+                                    bulk_save_url="/api/deals/bulk"
+                                    view={view}
+                                    disableSorting={['id']}
+                                    defaultColumn='title'
+                                    ignore={this.state.ignoredColumns}
+                                    userList={this.userList}
+                                    fetchUrl={fetchUrl}
+                                    updateState={this.addUserToState}
+                                />
                             </CardBody>
                         </Card>
                     </div>
                 </div>
             </Row>
-        )
+        ) : null
     }
 }

@@ -33,7 +33,7 @@ export default function TableToolbar (props) {
                 {props.dropdownButtonActions && <BulkActionDropdown
                     dropdownButtonActions={props.dropdownButtonActions}
                     saveBulk={props.saveBulk}/>}
-                <i onClick={props.fetchEntities} id="refresh" className={`fa ${icons.refresh} ${text_color}`}
+                <i onClick={props.handleTableActions} id="refresh" className={`fa ${icons.refresh} ${text_color}`}
                     style={{ fontSize: '28px', cursor: 'pointer', marginRight: '6px' }}/>
                 <i onClick={props.handleTableActions} id="toggle-checkbox" className={`fa ${icons.checkbox} mr-2`}
                     style={{ fontSize: '28px' }}/>

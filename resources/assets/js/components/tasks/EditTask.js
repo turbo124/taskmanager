@@ -156,7 +156,7 @@ class EditTask extends Component {
 
     render () {
         const email_editor = this.state.id
-            ? <Emails emails={this.state.emails} template="email_template_task" show_editor={true}
+            ? <Emails model={this.taskModel} emails={this.state.emails} template="email_template_task" show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="task"
                 entity_id={this.state.id}/> : null
         const form = <React.Fragment>

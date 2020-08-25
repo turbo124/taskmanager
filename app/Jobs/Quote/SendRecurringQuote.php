@@ -2,13 +2,10 @@
 
 namespace App\Jobs\Quote;
 
-use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Models\Invoice;
 use App\Models\Quote;
-use App\Models\RecurringInvoice;
 use App\Models\RecurringQuote;
-use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -53,12 +50,20 @@ class SendRecurringQuote implements ShouldQueue
     private function processRecurringInvoices()
     {
         $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', \Illuminate\Support\Carbon::today())
-                                              ->whereDate('date', '!=', Carbon::today())
-                                              ->get();
+                                          ->whereDate('date', '!=', Carbon::today())
+                                          ->get();
 
         foreach ($recurring_quotes as $recurring_quote) {
+            if (Carbon::parse($recurring_quote->start_date)->gt(Carbon::now()) || Carbon::now()->gt(
+                    Carbon::parse($recurring_quote->end_date)
+                )) {
+                continue;
+            }
+
             $quote = RecurringQuoteToQuoteFactory::create($recurring_quote, $recurring_quote->customer);
-            $this->quote_repo->save(['recurring_quote_id' => $recurring_quote->id], $quote);
+            $quote = $this->quote_repo->save(['recurring_quote_id' => $recurring_quote->id], $quote);
+
+            $quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_quote->last_sent_date = Carbon::today();
             $recurring_quote->next_send_date = Carbon::today()->addDays($recurring_quote->frequency);
