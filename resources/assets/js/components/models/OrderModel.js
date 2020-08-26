@@ -350,6 +350,7 @@ export default class OrderModel extends BaseModel {
         const contacts = customer.contacts ? customer.contacts : []
 
         return {
+            customer: customer,
             customerName: customer.name,
             contacts: contacts,
             address: address

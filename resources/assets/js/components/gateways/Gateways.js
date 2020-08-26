@@ -34,7 +34,7 @@ export default class Gateways extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['id', 'config', 'fees_and_limits', 'account_id', 'user_id', 'updated_at', 'status', 'deleted_at', 'created_at', 'show_billing_address', 'show_shipping_address', 'require_cvv', 'accepted_credit_cards', 'update_details'],
+            ignoredColumns: ['gateway', 'id', 'config', 'fees_and_limits', 'account_id', 'user_id', 'updated_at', 'status', 'deleted_at', 'created_at', 'show_billing_address', 'show_shipping_address', 'require_cvv', 'accepted_credit_cards', 'update_details'],
             filters: {
                 searchText: '',
                 status: 'active',

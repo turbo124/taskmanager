@@ -6,6 +6,7 @@ import Datepicker from '../common/Datepicker'
 import { translations } from '../common/_translations'
 import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
 import UserDropdown from '../common/UserDropdown'
+import RecurringForm from '../common/RecurringForm'
 
 export default class DetailsForm extends React.Component {
     hasErrorFor (field) {
@@ -83,6 +84,9 @@ export default class DetailsForm extends React.Component {
                     />
                     {this.renderErrorFor('company_id')}
                 </FormGroup>
+
+                <RecurringForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                    handleInput={this.props.handleInput} recurring={this.props.expense}/>
             </CardBody>
         </Card>
         )

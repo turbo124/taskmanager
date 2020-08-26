@@ -312,6 +312,7 @@ export default class RecurringQuoteModel extends BaseModel {
         const contacts = customer && customer.contacts ? customer.contacts : []
 
         return {
+            customer: customer,
             customerName: customer.name,
             contacts: contacts
             // address: address

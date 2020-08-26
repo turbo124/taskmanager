@@ -78,7 +78,14 @@ export default class TaskList extends Component {
                 'project_id',
                 'is_running',
                 'task_status_sort_order',
-                'notes'
+                'notes',
+                'is_recurring',
+                'recurring_start_date',
+                'recurring_end_date',
+                'recurring_due_date',
+                'last_sent_date',
+                'next_send_date',
+                'recurring_frequency'
             ],
             showRestoreButton: false
         }

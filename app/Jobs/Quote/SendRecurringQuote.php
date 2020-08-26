@@ -19,7 +19,7 @@ class SendRecurringQuote implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Invoice
+     * @var Quote
      */
     private Quote $quote;
 

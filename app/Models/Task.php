@@ -40,8 +40,17 @@ class Task extends Model
         'custom_value3',
         'custom_value4',
         'public_notes',
-        'private_notes'
+        'private_notes',
+        'is_recurring',
+        'recurring_start_date',
+        'recurring_end_date',
+        'recurring_due_date',
+        'last_sent_date',
+        'next_send_date',
+        'recurring_frequency'
     ];
+
+
 
     protected $presenter = 'App\Presenters\TaskPresenter';
 

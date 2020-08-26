@@ -13,11 +13,13 @@ trait CompanyGatewayTransformable
      */
     protected function transformCompanyGateway(CompanyGateway $company_gateway)
     {
+        $gateway = $this->transformGateway($company_gateway->gateway);
+
         return [
             'id'                    => (int)$company_gateway->id,
-            'name'                  => (string)$company_gateway->name ?: '',
+            'name'                  => !empty($company_gateway->name) ? $company_gateway->name : $gateway['name'],
             'gateway_key'           => (string)$company_gateway->gateway_key ?: '',
-            'gateway'               => $this->transformGateway($company_gateway->gateway),
+            'gateway'               => $gateway,
             'accepted_credit_cards' => $company_gateway->accepted_credit_cards,
             'require_cvv'           => (bool)$company_gateway->require_cvv,
             'show_billing_address'  => (bool)$company_gateway->show_billing_address,

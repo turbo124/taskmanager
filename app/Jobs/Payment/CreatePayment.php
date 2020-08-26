@@ -16,6 +16,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class SaveAttributeValues
@@ -119,10 +120,10 @@ class CreatePayment implements ShouldQueue
             $payment->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
             $invoice->reduceBalance($invoice->balance);
 
-//            if (!empty($this->data['gateway_fee'])) {
-//                $invoice->gateway_fee = $this->data['gateway_fee'];
-//                $invoice->save();
-//            }
+            if(!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
+                (new InvoiceRepository($invoice))->save(['gateway_fee' => $this->data['invoices'][$invoice->id]['gateway_fee']], $invoice);
+
+            }
 
             $payment->attachInvoice($invoice);
         }
