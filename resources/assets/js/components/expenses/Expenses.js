@@ -70,7 +70,14 @@ export default class Expenses extends Component {
                     'custom_value3',
                     'custom_value4',
                     'tax_rate_name',
-                    'tax_rate'
+                    'tax_rate',
+                    'is_recurring',
+                    'recurring_start_date',
+                    'recurring_end_date',
+                    'recurring_due_date',
+                    'last_sent_date',
+                    'next_send_date',
+                    'recurring_frequency'
                 ],
             custom_fields: [],
             customers: [],

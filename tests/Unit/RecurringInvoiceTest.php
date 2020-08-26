@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Console\Commands\SendRecurringInvoices;
+use App\Console\Commands\SendRecurring;
 use App\Factory\RecurringInvoiceFactory;
 use App\Filters\RecurringInvoiceFilter;
 use App\Jobs\Invoice\SendRecurringInvoice;

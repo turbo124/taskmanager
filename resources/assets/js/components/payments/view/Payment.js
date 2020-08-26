@@ -77,7 +77,7 @@ export default class Payment extends Component {
             const link = this.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, this.props.entity.transaction_reference)
             gateway = <SectionItem link={link}
                 icon={icons.credit_card}
-                title={`${translations.token} > ${companyGateway[0].gateway.name}`}/>
+                title={`${translations.token} > ${companyGateway[0].name}`}/>
         }
 
         const fields = []

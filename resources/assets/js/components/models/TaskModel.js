@@ -42,7 +42,14 @@ export default class TaskModel extends BaseModel {
             project_id: null,
             loading: false,
             users: [],
-            selectedUsers: []
+            selectedUsers: [],
+            is_recurring: false,
+            recurring_start_date: '',
+            recurring_end_date: '',
+            recurring_due_date: '',
+            last_sent_date: '',
+            next_send_date: '',
+            recurring_frequency: 0
         }
 
         if (data !== null) {

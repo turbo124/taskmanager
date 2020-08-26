@@ -1,6 +1,6 @@
 import React from 'react'
 import { DateRangePicker } from 'react-dates'
-import { Button, Form, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
+import { Button, CardBody, Form, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import moment from 'moment'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'
@@ -10,6 +10,7 @@ import TaskDetails from './TaskDetails'
 import { translations } from '../common/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import RecurringForm from '../common/RecurringForm'
 
 class AddModal extends React.Component {
     constructor (props) {
@@ -25,12 +26,28 @@ class AddModal extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.buildForm = this.buildForm.bind(this)
         this.handleMultiSelect = this.handleMultiSelect.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
     componentDidMount () {
         if (Object.prototype.hasOwnProperty.call(localStorage, 'taskForm')) {
             // const storedValues = JSON.parse(localStorage.getItem('taskForm'))
             // this.setState({ ...storedValues }, () => console.log('new state', this.state))
+        }
+    }
+
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.state.errors[field][0]}</strong>
+                </span>
+            )
         }
     }
 
@@ -73,6 +90,13 @@ class AddModal extends React.Component {
         })
 
         const data = {
+            is_recurring: this.state.is_recurring,
+            recurring_start_date: this.state.recurring_start_date,
+            recurring_end_date: this.state.recurring_end_date,
+            recurring_due_date: this.state.recurring_due_date,
+            last_sent_date: this.state.last_sent_date,
+            next_send_date: this.state.next_send_date,
+            recurring_frequency: this.state.recurring_frequency,
             rating: this.state.rating,
             source_type: this.state.source_type,
             valued_at: this.state.valued_at,
@@ -107,10 +131,11 @@ class AddModal extends React.Component {
         })
     }
 
-   buildForm () {
+    buildForm () {
         return (
             <Form>
-                <TaskDetails task={this.state} setTimeRange={this.setTimeRange} customers={this.props.customers}
+                <TaskDetails renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor} task={this.state}
+                    setTimeRange={this.setTimeRange} customers={this.props.customers}
                     errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
                     users={this.props.users} handleInput={this.handleInput}/>
 
@@ -140,6 +165,9 @@ class AddModal extends React.Component {
                 <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                     handleInput={this.handleInput}/>
 
+                <RecurringForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                    recurring={this.state} handleInput={this.handleInput}/>
+
             </Form>
         )
     }
@@ -162,7 +190,7 @@ class AddModal extends React.Component {
 
                         <ModalBody className={theme}>
                             {form}
-                            
+
                         </ModalBody>
 
                         <DefaultModalFooter show_success={true} toggle={this.toggle}
@@ -180,7 +208,7 @@ class AddModal extends React.Component {
                         The event has been created successfully </div>
                 )}
                 {form}
-                
+
                 {saveButton}
             </div>
         )

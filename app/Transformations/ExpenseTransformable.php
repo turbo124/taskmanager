@@ -49,7 +49,14 @@ trait ExpenseTransformable
             'updated_at'            => $expense->updated_at,
             'archived_at'           => $expense->deleted_at,
             'created_at'            => $expense->created_at,
-            'files'                 => $this->transformExpenseFiles($expense->files)
+            'files'                 => $this->transformExpenseFiles($expense->files),
+            'is_recurring'          => (bool)$expense->is_recurring ?: false,
+            'recurring_start_date'  => $expense->recurring_start_date ?: '',
+            'recurring_end_date'    => $expense->recurring_end_date ?: '',
+            'recurring_due_date'    => $expense->recurring_due_date ?: '',
+            'last_sent_date'        => $expense->last_sent_date ?: '',
+            'next_send_date'        => $expense->next_send_date ?: '',
+            'recurring_frequency'   => (int)$expense->recurring_frequency ?: ''
 
         ];
     }

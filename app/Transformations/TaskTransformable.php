@@ -21,7 +21,6 @@ trait TaskTransformable
      */
     protected function transformTask(Task $task)
     {
-
         return [
             'id'                     => (int)$task->id,
             'customer_name'          => $task->customer->present()->name,
@@ -56,7 +55,14 @@ trait TaskTransformable
             'task_rate'              => 1.0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
             'files'                  => $this->transformTaskFiles($task->files),
-            'emails'                => $this->transformTaskEmails($task->emails()),
+            'emails'                 => $this->transformTaskEmails($task->emails()),
+            'is_recurring'           => (bool)$task->is_recurring ?: false,
+            'recurring_start_date'   => $task->recurring_start_date ?: '',
+            'recurring_end_date'     => $task->recurring_end_date ?: '',
+            'recurring_due_date'     => $task->recurring_due_date ?: '',
+            'last_sent_date'         => $task->last_sent_date ?: '',
+            'next_send_date'         => $task->next_send_date ?: '',
+            'recurring_frequency'    => (int)$task->recurring_frequency ?: ''
         ];
     }
 

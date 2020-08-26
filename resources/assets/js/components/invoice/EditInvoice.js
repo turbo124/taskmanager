@@ -37,6 +37,7 @@ import Detailsm from './Detailsm'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import CustomerModel from '../models/CustomerModel'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -114,13 +115,21 @@ class EditInvoice extends Component {
 
     handleInput (e) {
         if (e.target.name === 'customer_id') {
-            const customer = this.invoiceModel.customerChange(e.target.value)
+            const customer_data = this.invoiceModel.customerChange(e.target.value)
 
             this.setState({
-                customerName: customer.name,
-                contacts: customer.contacts,
-                address: customer.address
+                customerName: customer_data.name,
+                contacts: customer_data.contacts,
+                address: customer_data.address
             }, () => localStorage.setItem('invoiceForm', JSON.stringify(this.state)))
+
+            if (this.settings.convert_product_currency === true) {
+                const customer = new CustomerModel(customer_data.customer)
+                const currency_id = customer.currencyId
+                const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
+                const exchange_rate = currency[0].exchange_rate
+                this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+            }
         }
 
         if (e.target.name === 'tax') {
@@ -350,6 +359,8 @@ class EditInvoice extends Component {
 
     getFormData () {
         return {
+            currency_id: this.state.currency_id,
+            exchange_rate: this.state.exchange_rate,
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,
             account_id: this.state.account_id,

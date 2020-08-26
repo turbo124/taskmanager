@@ -31,6 +31,7 @@ import DefaultModalFooter from '../common/ModalFooter'
 import Emails from '../emails/Emails'
 import FileUploads from '../attachments/FileUploads'
 import Comments from '../comments/Comments'
+import RecurringForm from '../common/RecurringForm'
 
 class EditTask extends Component {
     constructor (props) {
@@ -51,6 +52,22 @@ class EditTask extends Component {
         this.toggle = this.toggle.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
         this.toggleMenu = this.toggleMenu.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+    }
+
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.state.errors[field][0]}</strong>
+                </span>
+            )
+        }
     }
 
     toggle () {
@@ -97,6 +114,13 @@ class EditTask extends Component {
 
     getFormData () {
         return {
+            is_recurring: this.state.is_recurring,
+            recurring_start_date: this.state.recurring_start_date,
+            recurring_end_date: this.state.recurring_end_date,
+            recurring_due_date: this.state.recurring_due_date,
+            last_sent_date: this.state.last_sent_date,
+            next_send_date: this.state.next_send_date,
+            recurring_frequency: this.state.recurring_frequency,
             customer_id: this.state.customer_id,
             rating: this.state.rating,
             source_type: this.state.source_type,
@@ -219,7 +243,7 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>{translations.details}</CardHeader>
                         <CardBody>
-                            <TaskDetails task={this.state} setTimeRange={this.setTimeRange}
+                            <TaskDetails renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor} task={this.state} setTimeRange={this.setTimeRange}
                                 customers={this.props.customers}
                                 errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
                                 users={this.props.users} handleInput={this.handleChange}/>
@@ -249,6 +273,9 @@ class EditTask extends Component {
 
                             <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
                                 handleInput={this.handleChange}/>
+
+                            <RecurringForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                                recurring={this.state} handleInput={this.handleChange}/>
                         </CardBody>
                     </Card>
                 </TabPane>

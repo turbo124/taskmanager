@@ -35,6 +35,7 @@ import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
+import CustomerModel from "../models/CustomerModel";
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -110,13 +111,21 @@ export default class EditCredit extends Component {
 
     handleInput (e) {
         if (e.target.name === 'customer_id') {
-            const customer = this.creditModel.customerChange(e.target.value)
+            const customer_data = this.creditModel.customerChange(e.target.value)
 
             this.setState({
-                customerName: customer.name,
-                contacts: customer.contacts,
-                address: customer.address
+                customerName: customer_data.name,
+                contacts: customer_data.contacts,
+                address: customer_data.address
             }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
+
+            if (this.settings.convert_product_currency === true) {
+                const customer = new CustomerModel(customer_data.customer)
+                const currency_id = customer.currencyId
+                const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
+                const exchange_rate = currency[0].exchange_rate
+                this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+            }
         }
 
         if (e.target.name === 'tax') {
@@ -301,6 +310,8 @@ export default class EditCredit extends Component {
 
     getFormData () {
         return {
+            currency_id: this.state.currency_id,
+            exchange_rate: this.state.exchange_rate,
             return_to_stock: this.state.return_to_stock,
             is_amount_discount: this.state.is_amount_discount,
             assigned_to: this.state.assigned_to,

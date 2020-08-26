@@ -68,6 +68,13 @@ class AddExpense extends React.Component {
         this.setState({ loading: true })
 
         const data = {
+            is_recurring: this.state.is_recurring,
+            recurring_start_date: this.state.recurring_start_date,
+            recurring_end_date: this.state.recurring_end_date,
+            recurring_due_date: this.state.recurring_due_date,
+            last_sent_date: this.state.last_sent_date,
+            next_send_date: this.state.next_send_date,
+            recurring_frequency: this.state.recurring_frequency,
             amount: this.state.amount,
             customer_id: this.state.customer_id,
             currency_id: this.state.currency_id,
