@@ -36,7 +36,7 @@ export default class ProjectItem extends Component {
     }
 
     render () {
-        const { projects, custom_fields, users, ignoredColumns } = this.props
+        const { projects, custom_fields, customers, ignoredColumns } = this.props
         if (projects && projects.length) {
             return projects.map(project => {
                 const restoreButton = project.deleted_at
@@ -49,7 +49,7 @@ export default class ProjectItem extends Component {
                 const editButton = !project.deleted_at ? <EditProject
                     listView={true}
                     custom_fields={custom_fields}
-                    users={users}
+                    customers={customers}
                     project={project}
                     projects={projects}
                     action={this.props.addUserToState}

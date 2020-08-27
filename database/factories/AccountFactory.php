@@ -12,6 +12,7 @@ $factory->define(
         $settings->address1 = $faker->address;
         $settings->city = $faker->city;
         $settings->email = $faker->email;
+        $settings->inclusive_taxes = false;
 
         return [
             //'name' => $faker->name,

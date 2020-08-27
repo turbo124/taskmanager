@@ -12,9 +12,10 @@ import { translations } from '../common/_translations'
 export default class ProjectList extends Component {
     constructor (props) {
         super(props)
-        
+
         this.state = {
             isOpen: window.innerWidth > 670,
+            customers: [],
             projects: [],
             cachedData: [],
             errors: [],
@@ -39,6 +40,7 @@ export default class ProjectList extends Component {
             },
             custom_fields: [],
             ignoredColumns: [
+                'tasks',
                 'created_at',
                 'deleted_at',
                 'updated_at',
@@ -65,7 +67,7 @@ export default class ProjectList extends Component {
     }
 
     componentDidMount () {
-        this.getUsers()
+        this.getCustomers()
         this.getCustomFields()
     }
 
@@ -86,8 +88,8 @@ export default class ProjectList extends Component {
     }
 
     userList (props) {
-        const { projects, custom_fields, users } = this.state
-        return <ProjectItem showCheckboxes={props.showCheckboxes} projects={projects} users={users}
+        const { projects, custom_fields, customers } = this.state
+        return <ProjectItem showCheckboxes={props.showCheckboxes} projects={projects} customers={customers}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
@@ -111,11 +113,11 @@ export default class ProjectList extends Component {
             })
     }
 
-    getUsers () {
-        axios.get('api/users')
+    getCustomers () {
+        axios.get('api/customers')
             .then((r) => {
                 this.setState({
-                    users: r.data
+                    customers: r.data
                 })
             })
             .catch((e) => {
@@ -142,14 +144,14 @@ export default class ProjectList extends Component {
     }
 
     render () {
-        const { projects, users, custom_fields, ignoredColumns, view, error, isOpen, error_message, success_message, show_success } = this.state
+        const { projects, customers, custom_fields, ignoredColumns, view, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/projects?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
-        return (
+        return this.state.customers.length ? (
             <Row>
                 <div className="col-12">
                     <div className="topbar">
@@ -159,7 +161,7 @@ export default class ProjectList extends Component {
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterProjects}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
-                                <AddProject users={users} projects={projects} action={this.addUserToState}
+                                <AddProject customers={customers} projects={projects} action={this.addUserToState}
                                     custom_fields={custom_fields}/>
                             </CardBody>
                         </Card>
@@ -185,6 +187,7 @@ export default class ProjectList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    customers={customers}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
@@ -203,6 +206,6 @@ export default class ProjectList extends Component {
                     </div>
                 </div>
             </Row>
-        )
+        ) : null
     }
 }

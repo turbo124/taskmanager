@@ -88,6 +88,10 @@ class Invoice extends Model
         'recurring_invoice_id'
     ];
 
+    protected $dates = [
+        'next_send_date',
+    ];
+
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
     const STATUS_PARTIAL = 4;

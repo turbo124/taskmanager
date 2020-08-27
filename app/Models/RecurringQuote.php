@@ -54,13 +54,23 @@ class RecurringQuote extends Model
         'custom_value3',
         'custom_value4',
         'tax_rate_name',
-        'tax_rate'
+        'tax_rate',
+        'next_send_date'
     ];
+
     protected $casts = [
+        'next_send_date' => 'datetime',
         'settings'   => 'object',
         'line_items' => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
+    ];
+
+    protected $dates = [
+        'next_send_date',
+        'last_sent_date',
+        'start_date',
+        'end_date'
     ];
 
     public function customer()

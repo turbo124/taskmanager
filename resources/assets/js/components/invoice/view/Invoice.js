@@ -184,7 +184,7 @@ export default class Invoice extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                                <ViewContacts entity={this.invoiceModel} customers={this.props.customers}/>
                             </Col>
                         </Row>
                     </TabPane>

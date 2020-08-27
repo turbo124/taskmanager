@@ -2,7 +2,8 @@ import React from 'react'
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import CustomerModel from '../../models/CustomerModel'
 import { icons } from '../_icons'
-import { translations } from "../_translations";
+import { translations } from '../_translations'
+import FormatDate from '../FormatDate'
 
 export default function ViewContacts (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
@@ -15,17 +16,22 @@ export default function ViewContacts (props) {
         const invitations = props.entity.invitations
 
         contactList = invitations.map((invitation, index) => {
+            const link = props.entity.invitation_link.replace('$key', invitation.key)
             const contact = customerModel.findContact(invitation.client_contact_id)
-            const sent_date = invitation.sent_date.length ? `<p>${translations.sent} ${invitation.sent_date}</p>` : ''
-            const viewed_date = invitation.viewed_date ? `<p>${translations.viewed} ${invitation.viewed_date}</p>` : ''
 
             return <ListGroupItem key={index} className={listClass}>
-                <ListGroupItemHeading><i
-                    className={`fa ${icons.contact} mr-4`}/>{(!contact.fullName.length ? customerModel.displayName : contact.fullName)}
-                </ListGroupItemHeading>
-                {sent_date}
-                {viewed_date}
-                <p data-link="test">link here</p>
+                <a href={link}>
+                    <ListGroupItemHeading><i
+                        className={`fa ${icons.contact} mr-4`}/>{(!contact.fullName.length ? customerModel.displayName : contact.fullName)}
+                    </ListGroupItemHeading>
+                    {!!invitation.sent_date.length &&
+                    <p>{translations.sent} <FormatDate date={invitation.sent_date} with_time={true} /></p>
+                    }
+                    {!!invitation.viewed_date.length &&
+                    <p>{translations.viewed} <FormatDate date={invitation.viewed_date} with_time={true} /></p>
+                    }
+                </a>
+                <p className="small"><span onClick={(e) => props.entity.copyToClipboard(link)}> {translations.copy_to_clipboard}</span></p>
             </ListGroupItem>
         })
     }

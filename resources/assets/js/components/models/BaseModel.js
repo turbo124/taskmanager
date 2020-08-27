@@ -86,4 +86,18 @@ export default class BaseModel {
         var blob = new Blob([view], { type: 'application/pdf' })
         return URL.createObjectURL(blob)
     }
+
+    copyToClipboard (content) {
+        const mark = document.createElement('textarea')
+        mark.setAttribute('readonly', 'readonly')
+        mark.value = content
+        mark.style.position = 'fixed'
+        mark.style.top = 0
+        mark.style.clip = 'rect(0, 0, 0, 0)'
+        document.body.appendChild(mark)
+        mark.select()
+        document.execCommand('copy')
+        document.body.removeChild(mark)
+        return true
+    }
 }

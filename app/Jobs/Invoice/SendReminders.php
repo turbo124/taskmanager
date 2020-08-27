@@ -36,7 +36,7 @@ class SendReminders implements ShouldQueue
 
     private function processReminders()
     {
-        $invoices = Invoice::where('next_send_date', Carbon::now()->format('Y-m-d'))->get();
+        $invoices = Invoice::whereDate('next_send_date', '=', Carbon::today()->toDateString())->get();
 
         $invoices->each(
             function ($invoice) {
@@ -98,7 +98,7 @@ class SendReminders implements ShouldQueue
                     "enable_reminder{$x}"
                 ) === false || $this->invoice->customer->getSetting(
                     "num_days_reminder{$x}"
-                ) == 0 || $reminder_date !== Carbon::now()->format('Y-m-d')) {
+                ) == 0 || !$reminder_date->isToday()) {
                 continue;
             }
 
@@ -124,7 +124,6 @@ class SendReminders implements ShouldQueue
 
     private function addCharge(float $amount)
     {
-        // if percentage calculate amount
         $this->invoice->late_fee_charge = $amount;
         $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
     }

@@ -7,6 +7,9 @@ import TaskTimeItem from '../../common/entityContainers/TaskTimeItem'
 import axios from 'axios'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
+import formatDuration from '../../common/_formatting'
+import EntityListTile from '../../common/entityContainers/EntityListTile'
+import { icons } from '../../common/_icons'
 
 export default class Task extends Component {
     constructor (props) {
@@ -81,6 +84,16 @@ export default class Task extends Component {
     }
 
     render () {
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        let user = null
+
+        if (this.props.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            user = <EntityListTile entity={translations.user}
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
+        }
+
         const fields = []
 
         if (this.props.entity.status_name.length) {
@@ -132,7 +145,7 @@ export default class Task extends Component {
         }
 
         const task_times = this.props.entity.timers && this.props.entity.timers.length ? this.props.entity.timers.map((timer, index) => {
-            return <TaskTimeItem taskTime={timer}/>
+            return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
 
         return (
@@ -161,8 +174,9 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview
-                            calculatedAmount={this.taskModel.calculateAmount(this.props.entity.task_rate, this.props.entity.duration)}
+                        <Overview user={user} customer={customer}
+                            totalDuration={formatDuration(this.taskModel.getTotalDuration())}
+                            calculatedAmount={this.taskModel.calculateAmount(this.props.entity.task_rate)}
                             entity={this.props.entity} fields={fields} task_times={task_times}/>
                     </TabPane>
 

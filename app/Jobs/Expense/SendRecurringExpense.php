@@ -51,13 +51,13 @@ class SendRecurringExpense implements ShouldQueue
 
     private function processRecurringExpenses()
     {
-        $recurring_expenses = Expense::whereDate('next_send_date', '=', \Illuminate\Support\Carbon::today())
-                                          ->whereDate('date', '!=', Carbon::today())
-                                          ->get();
+        $recurring_expenses = Expense::whereDate('next_send_date', '=', Carbon::today())
+                               ->whereDate('date', '!=', Carbon::today())
+                               ->get();
 
         foreach ($recurring_expenses as $recurring_expense) {
-            if (Carbon::parse($recurring_expense->recurring_start_date)->gt(Carbon::now()) || Carbon::now()->gt(
-                    Carbon::parse($recurring_expense->recurring_end_date)
+            if ($recurring_expense->start_date->gt(Carbon::now()) || Carbon::now()->gt(
+                    $recurring_expense->end_date
                 )) {
                 continue;
             }
@@ -65,10 +65,10 @@ class SendRecurringExpense implements ShouldQueue
             $expense = $recurring_expense->replicate();
             $expense = $this->expense_repo->save(['recurring_expense_id' => $recurring_expense->id], $expense);
 
-            //$quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
+            $expense->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_expense->last_sent_date = Carbon::today();
-            $recurring_expense->next_send_date = Carbon::today()->addDays($recurring_expense->recurring_frequency);
+            $recurring_expense->next_send_date = Carbon::today()->addDays($recurring_expense->frequency);
             $recurring_expense->save();
         }
     }

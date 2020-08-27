@@ -4,12 +4,16 @@ namespace Tests\Unit;
 
 use App\Factory\RecurringQuoteFactory;
 use App\Filters\RecurringQuoteFilter;
+use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Jobs\Quote\SendRecurringQuote;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Quote;
+use App\Models\RecurringInvoice;
 use App\Models\RecurringQuote;
 use App\Models\User;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
@@ -123,17 +127,18 @@ class RecurringQuoteTest extends TestCase
 
     public function test_send_recurring_quote () {
         $recurring_quote = factory(RecurringQuote::class)->create();
-        $recurring_quote->next_send_date = Carbon::now()->format('Y-m-d');
+        $recurring_quote->next_send_date = Carbon::now();
         $recurring_quote->date = Carbon::now()->subDays(15);
+        $recurring_quote->start_date = Carbon::now()->subDays(1);
+        $recurring_quote->end_date = Carbon::now()->addDays(15);
         $recurring_quote->save();
 
         SendRecurringQuote::dispatchNow(new QuoteRepository(new Quote()));
 
         $updated_recurring_quote = $recurring_quote->fresh();
 
-        $this->assertEquals($updated_recurring_quote->next_send_date, Carbon::today()->addDays($recurring_quote->frequency));
-        $this->assertEquals($updated_recurring_quote->last_sent_date, Carbon::today());
-
+        $this->assertTrue($updated_recurring_quote->next_send_date->eq(Carbon::today()->addDays($recurring_quote->frequency)));
+        $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
         $quote = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
         $this->assertInstanceOf(Quote::class, $quote);
     }

@@ -51,13 +51,13 @@ class SendRecurringTask implements ShouldQueue
 
     private function processRecurringTasks()
     {
-        $recurring_tasks = Task::whereDate('next_send_date', '=', \Illuminate\Support\Carbon::today())
-                                     ->whereDate('start_date', '!=', Carbon::today())
-                                     ->get();
+        $recurring_tasks = Task::whereDate('next_send_date', '=', Carbon::today())
+                               ->whereDate('date', '!=', Carbon::today())
+                               ->get();
 
         foreach ($recurring_tasks as $recurring_task) {
-            if (Carbon::parse($recurring_task->recurring_start_date)->gt(Carbon::now()) || Carbon::now()->gt(
-                    Carbon::parse($recurring_task->recurring_end_date)
+            if ($recurring_task->start_date->gt(Carbon::now()) || Carbon::now()->gt(
+                    $recurring_task->end_date
                 )) {
                 continue;
             }
@@ -65,10 +65,10 @@ class SendRecurringTask implements ShouldQueue
             $task = $recurring_task->replicate();
             $task = $this->task_repo->save(['recurring_task_id' => $recurring_task->id], $task);
 
-            //$quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
+            $task->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_task->last_sent_date = Carbon::today();
-            $recurring_task->next_send_date = Carbon::today()->addDays($recurring_task->recurring_frequency);
+            $recurring_task->next_send_date = Carbon::today()->addDays($recurring_task->frequency);
             $recurring_task->save();
         }
     }

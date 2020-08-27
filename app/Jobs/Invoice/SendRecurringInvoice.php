@@ -44,21 +44,21 @@ class SendRecurringInvoice implements ShouldQueue
 
     private function processRecurringInvoices()
     {
-        $recurring_invoices = RecurringInvoice::whereDate('next_send_date', '=', \Illuminate\Support\Carbon::today())
+        $recurring_invoices = RecurringInvoice::whereDate('next_send_date', '=', Carbon::today())
                                               ->whereDate('date', '!=', Carbon::today())
                                               ->get();
 
         foreach ($recurring_invoices as $recurring_invoice) {
-            if (Carbon::parse($recurring_invoice->start_date)->gt(Carbon::now()) || Carbon::now()->gt(
-                    Carbon::parse($recurring_invoice->end_date)
+            if ($recurring_invoice->start_date->gt(Carbon::now()) || Carbon::now()->gt(
+                    $recurring_invoice->end_date
                 )) {
                 continue;
             }
 
-            $invoice = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
-            $invoice = $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $invoice);
+            $quote = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
+            $quote = $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $quote);
 
-            $invoice->service()->sendEmail(null, trans('texts.invoice_subject'), trans('texts.invoice_body'));
+            $quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_invoice->last_sent_date = Carbon::today();
             $recurring_invoice->next_send_date = Carbon::today()->addDays($recurring_invoice->frequency);
