@@ -22,9 +22,10 @@ class Project extends Model
         'assigned_to',
         'user_id',
         'account_id',
-        'notes',
+        'private_notes',
         'due_date',
-        'budgeted_hours'
+        'budgeted_hours',
+        'task_rate'
     ];
 
     protected $casts = [
@@ -54,7 +55,7 @@ class Project extends Model
      */
     public function tasks()
     {
-        return $this->belongsToMany(Task::class);
+        return $this->hasMany(Task::class);
     }
 
     /**

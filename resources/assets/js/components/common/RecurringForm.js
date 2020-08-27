@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Collapse, Form, FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap'
+import { Card, CardBody, CardHeader, Collapse, Form, FormGroup, Input, Label } from 'reactstrap'
 import { icons } from './_icons'
 import { translations } from './_translations'
 import Datepicker from './Datepicker'
@@ -46,21 +46,24 @@ export default class RecurringForm extends Component {
                         <Form>
                             <FormGroup>
                                 <Label for="start_date">{translations.start_date}(*):</Label>
-                                <Datepicker name="recurring_start_date" date={this.props.recurring.recurring_start_date} handleInput={this.props.handleInput}
+                                <Datepicker name="recurring_start_date" date={this.props.recurring.recurring_start_date}
+                                    handleInput={this.props.handleInput}
                                     className={this.props.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
                                 {this.props.renderErrorFor('start_date')}
                             </FormGroup>
 
                             <FormGroup>
                                 <Label for="end_date">{translations.end_date}(*):</Label>
-                                <Datepicker name="recurring_end_date" date={this.props.recurring.recurring_end_date} handleInput={this.props.handleInput}
+                                <Datepicker name="recurring_end_date" date={this.props.recurring.recurring_end_date}
+                                    handleInput={this.props.handleInput}
                                     className={this.props.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
                                 {this.props.renderErrorFor('end_date')}
                             </FormGroup>
 
                             <FormGroup>
                                 <Label for="due_date">{translations.due_date}(*):</Label>
-                                <Datepicker name="recurring_due_date" date={this.props.recurring.recurring_due_date} handleInput={this.props.handleInput}
+                                <Datepicker name="recurring_due_date" date={this.props.recurring.recurring_due_date}
+                                    handleInput={this.props.handleInput}
                                     className={this.props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                                 {this.props.renderErrorFor('due_date')}
                             </FormGroup>

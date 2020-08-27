@@ -73,17 +73,7 @@ export default class TokenModel extends BaseModel {
     }
 
     copyToken () {
-        const mark = document.createElement('textarea')
-        mark.setAttribute('readonly', 'readonly')
-        mark.value = this._fields.token
-        mark.style.position = 'fixed'
-        mark.style.top = 0
-        mark.style.clip = 'rect(0, 0, 0, 0)'
-        document.body.appendChild(mark)
-        mark.select()
-        document.execCommand('copy')
-        document.body.removeChild(mark)
-        return true
+        this.copyToClipboard(this._fields.token)
     }
 
     async completeAction (data, action) {

@@ -11,7 +11,7 @@ import Audit from '../../partials/Audit'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import AddPayment from '../../payments/AddPayment'
-import Overview from "./Overview";
+import Overview from './Overview'
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -184,7 +184,7 @@ export default class Invoice extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                                <ViewContacts entity={this.invoiceModel} customers={this.props.customers}/>
                             </Col>
                         </Row>
                     </TabPane>

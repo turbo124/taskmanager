@@ -43,6 +43,7 @@ _localizedValues.en = {
     display_invoice_signature: 'Require Customer to sign invoices',
     display_quote_signature: 'Require Customer to sign quotes',
     copy: 'Copy',
+    copy_to_clipboard: 'Copy to Clipboard',
     gateway_fee: 'Gateway Fee',
     is_percentage: 'Is Percentage',
     token_copied: 'The token has been copied to the clipboard successfully',

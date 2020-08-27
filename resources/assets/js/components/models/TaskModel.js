@@ -116,21 +116,41 @@ export default class TaskModel extends BaseModel {
         return array
     }
 
-    calculateAmount (taskRate, duration) {
-        return (taskRate * duration).toFixed(3)
+    calculateAmount (taskRate) {
+        const total_duration = this.getTotalDuration()
+
+        if (!total_duration) {
+            return 0
+        }
+
+        return taskRate * Math.round(total_duration / 3600, 3)
     }
 
-    calculateDuration (currentStartTime, currentEndTime) {
+    getTotalDuration () {
+        let seconds = 0
+        this.fields.timers.map(timer => {
+            seconds += this.calculateDuration(timer.start_time, timer.end_time, true)
+        })
+
+        return seconds
+    }
+
+    calculateDuration (currentStartTime, currentEndTime, returnAsSeconds = false) {
         const startTime = moment(currentStartTime, 'hh:mm:ss a')
         let endTime = ''
 
         if (currentEndTime.length) {
             endTime = moment(currentEndTime, 'hh:mm:ss a')
-            let totalHours = (endTime.diff(startTime, 'hours'))
-            totalHours = ('0' + totalHours).slice(-2)
+            const hours = (endTime.diff(startTime, 'hours'))
+            const totalHours = ('0' + hours).slice(-2)
             const totalMinutes = endTime.diff(startTime, 'minutes')
-            let clearMinutes = totalMinutes % 60
-            clearMinutes = ('0' + clearMinutes).slice(-2)
+            const minutes = totalMinutes % 60
+            const clearMinutes = ('0' + minutes).slice(-2)
+
+            if (returnAsSeconds === true) {
+                const duration = parseFloat(hours + '.' + minutes)
+                return duration * 3600
+            }
 
             return `${totalHours}:${clearMinutes}`
         }

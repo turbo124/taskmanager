@@ -124,7 +124,7 @@ class RecurringInvoiceTest extends TestCase
 
     public function test_send_recurring_invoice () {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
-        $recurring_invoice->next_send_date = Carbon::now()->format('Y-m-d');
+        $recurring_invoice->next_send_date = Carbon::now();
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
         $recurring_invoice->end_date = Carbon::now()->addDays(15);
@@ -134,17 +134,16 @@ class RecurringInvoiceTest extends TestCase
 
         $updated_recurring_invoice = $recurring_invoice->fresh();
 
-        $this->assertEquals(Carbon::parse($updated_recurring_invoice->next_send_date)->format('Y-m-d'), Carbon::today()->addDays($recurring_invoice->frequency)->format('Y-m-d'));
-        $this->assertEquals(Carbon::parse($updated_recurring_invoice->last_sent_date)->format('Y-m-d'), Carbon::today()->format('Y-m-d'));
-
-        $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
-        $this->assertInstanceOf(Invoice::class, $invoice);
+        $this->assertTrue($updated_recurring_invoice->next_send_date->eq(Carbon::today()->addDays($recurring_invoice->frequency)));
+        $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
+        $quote = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
+        $this->assertInstanceOf(Invoice::class, $quote);
     }
-
+    
     public function test_send_recurring_invoice_fails () {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
-        $recurring_invoice->next_send_date = Carbon::now()->format('Y-m-d');
-        $recurring_invoice->last_sent_date = Carbon::now()->format('Y-m-d');
+        $recurring_invoice->next_send_date = Carbon::now();
+        $recurring_invoice->last_sent_date = Carbon::now();
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->addDays(1);
         $recurring_invoice->save();
@@ -153,9 +152,9 @@ class RecurringInvoiceTest extends TestCase
 
         $updated_recurring_invoice = $recurring_invoice->fresh();
         $a = $recurring_invoice->next_send_date;
-        $b = Carbon::parse($updated_recurring_invoice->next_send_date)->format('Y-m-d');
+        $b = $updated_recurring_invoice->next_send_date;
 
-        $this->assertEquals($a, $b);
+        $this->assertTrue($a->eq($b));
     }
 
     public function tearDown(): void

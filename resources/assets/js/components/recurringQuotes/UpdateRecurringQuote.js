@@ -36,7 +36,7 @@ import Recurring from '../quotes/Recurring'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 import RecurringQuoteModel from '../models/RecurringQuoteModel'
-import CustomerModel from "../models/CustomerModel";
+import CustomerModel from '../models/CustomerModel'
 
 class EditInvoice extends Component {
     constructor (props, context) {

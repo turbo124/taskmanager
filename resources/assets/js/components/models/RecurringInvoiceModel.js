@@ -159,6 +159,18 @@ export default class RecurringInvoiceModel extends BaseModel {
         this._file_count = files ? files.length : 0
     }
 
+    get invitations () {
+        return this.fields.invitations
+    }
+
+    get invitation_link () {
+        return `http://${this.account.account.subdomain}portal/recurring-invoices/$key`
+    }
+
+    get customer_id () {
+        return this.fields.customer_id
+    }
+
     get invoices () {
         return this.fields.invoices
     }

@@ -104,6 +104,18 @@ export default class CreditModel extends BaseModel {
         this._file_count = files ? files.length : 0
     }
 
+    get invitations () {
+        return this.fields.invitations
+    }
+
+    get customer_id () {
+        return this.fields.customer_id
+    }
+
+    get invitation_link () {
+        return `http://${this.account.account.subdomain}portal/credits/$key`
+    }
+
     get isSent () {
         return parseInt(this.fields.status_id) === this.sent
     }

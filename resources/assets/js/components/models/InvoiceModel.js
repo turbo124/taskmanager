@@ -96,6 +96,10 @@ export default class InvoiceModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get fields () {
@@ -156,6 +160,18 @@ export default class InvoiceModel extends BaseModel {
 
     set fileCount (files) {
         this._file_count = files ? files.length : 0
+    }
+
+    get invitations () {
+        return this.fields.invitations
+    }
+
+    get invitation_link () {
+        return `http://${this.account.account.subdomain}portal/invoices/$key`
+    }
+
+    get customer_id () {
+        return this.fields.customer_id
     }
 
     buildDropdownMenu () {

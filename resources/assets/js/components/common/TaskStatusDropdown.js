@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
-import { translations } from "./_translations";
+import { translations } from './_translations'
 
 export default class TaskStatusDropdown extends Component {
     constructor (props) {

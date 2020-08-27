@@ -1,5 +1,6 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
+import TaskModel from './TaskModel'
 
 export default class ProjectModel extends BaseModel {
     constructor (data = null) {
@@ -9,6 +10,7 @@ export default class ProjectModel extends BaseModel {
         this.entity = 'Project'
 
         this._fields = {
+            id: null,
             modal: false,
             title: '',
             description: '',
@@ -19,7 +21,8 @@ export default class ProjectModel extends BaseModel {
             budgeted_hours: '',
             count: 2,
             errors: [],
-            customers: []
+            customers: [],
+            tasks: []
         }
 
         if (data !== null) {
@@ -47,6 +50,19 @@ export default class ProjectModel extends BaseModel {
         }
 
         return actions
+    }
+
+    taskDurationForProject () {
+        console.log('tasks', this.fields.tasks)
+        let total = 0
+        this.fields.tasks.map(task => {
+            if (task.is_active && task.project_id === parseInt(this.fields.id)) {
+                const taskModel = new TaskModel(task)
+                total += taskModel.getTotalDuration()
+            }
+        })
+
+        return total
     }
 
     performAction () {

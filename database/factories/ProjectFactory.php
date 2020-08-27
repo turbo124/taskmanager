@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Project;
 use Faker\Generator as Faker;
 
 /*
@@ -15,8 +16,6 @@ use Faker\Generator as Faker;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Project;
-
 $factory->define(
     Project::class,
     function (Faker $faker) {
@@ -29,8 +28,9 @@ $factory->define(
             'title'          => $faker->text,
             'description'    => $faker->text,
             'is_completed'   => 0,
-            'notes'          => null,
+            'private_notes'  => null,
             'budgeted_hours' => null,
+            'task_rate'      => null,
             'due_date'       => null,
             'deleted_at'     => null,
             'is_deleted'     => 0

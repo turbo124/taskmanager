@@ -58,11 +58,19 @@ class RecurringInvoice extends Model
         'tax_rate',
         'settings',
     ];
+
     protected $casts = [
         'settings'   => 'object',
         'line_items' => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
+    ];
+
+    protected $dates = [
+        'next_send_date',
+        'last_sent_date',
+        'start_date',
+        'end_date'
     ];
 
     public function customer()

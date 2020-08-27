@@ -69,7 +69,7 @@ class InvoiceInvitation extends Model
 
     public function getLink()
     {
-        return $this->account->subdomain . 'portal/invoice/' . $this->key;
+        return $this->account->subdomain . 'portal/invoices/' . $this->key;
     }
 
     public function markViewed()

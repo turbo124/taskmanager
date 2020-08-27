@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import DataTable from '../common/DataTable'
-import { Alert, Button, Card, CardBody, Row } from 'reactstrap'
+import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DealFilters from './DealFilters'
 import DealItem from './DealItem'
 import AddDeal from './AddDeal'

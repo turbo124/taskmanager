@@ -243,7 +243,8 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>{translations.details}</CardHeader>
                         <CardBody>
-                            <TaskDetails renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor} task={this.state} setTimeRange={this.setTimeRange}
+                            <TaskDetails renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                                task={this.state} setTimeRange={this.setTimeRange}
                                 customers={this.props.customers}
                                 errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
                                 users={this.props.users} handleInput={this.handleChange}/>

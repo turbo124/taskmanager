@@ -9,7 +9,7 @@ import CompanyModel from '../../models/CompanyModel'
 import InvoiceModel from '../../models/InvoiceModel'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
-import Overview from "./Overview";
+import Overview from './Overview'
 
 export default class Expense extends Component {
     constructor (props) {

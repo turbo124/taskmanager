@@ -119,6 +119,18 @@ export default class RecurringQuoteModel extends BaseModel {
         this._file_count = files ? files.length : 0
     }
 
+    get invitations () {
+        return this.fields.invitations
+    }
+
+    get invitation_link () {
+        return `http://${this.account.account.subdomain}portal/recurring-quotes/$key`
+    }
+
+    get customer_id () {
+        return this.fields.customer_id
+    }
+
     get quotes () {
         return this.fields.quotes
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemHeading, Row, TabPane } from 'reactstrap'
+import { Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../common/_translations'
 import CasePresenter from '../../presenters/CasePresenter'

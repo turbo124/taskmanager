@@ -177,7 +177,7 @@ export default class Order extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <ViewContacts entity={this.props.entity} customers={this.props.customers}/>
+                                <ViewContacts entity={this.orderModel} customers={this.props.customers}/>
                             </Col>
                         </Row>
                     </TabPane>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import parse from 'html-react-parser'
-import { translations } from "../common/_translations";
+import { translations } from '../common/_translations'
 
 class EmailPreview extends Component {
     constructor (props) {

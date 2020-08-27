@@ -49,13 +49,13 @@ class SendRecurringQuote implements ShouldQueue
 
     private function processRecurringInvoices()
     {
-        $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', \Illuminate\Support\Carbon::today())
+        $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', Carbon::today())
                                           ->whereDate('date', '!=', Carbon::today())
                                           ->get();
 
         foreach ($recurring_quotes as $recurring_quote) {
-            if (Carbon::parse($recurring_quote->start_date)->gt(Carbon::now()) || Carbon::now()->gt(
-                    Carbon::parse($recurring_quote->end_date)
+            if ($recurring_quote->start_date->gt(Carbon::now()) || Carbon::now()->gt(
+                    $recurring_quote->end_date
                 )) {
                 continue;
             }

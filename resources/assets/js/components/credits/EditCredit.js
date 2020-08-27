@@ -35,7 +35,7 @@ import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
-import CustomerModel from "../models/CustomerModel";
+import CustomerModel from '../models/CustomerModel'
 
 export default class EditCredit extends Component {
     constructor (props, context) {

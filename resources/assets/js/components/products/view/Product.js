@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, Col, ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
-import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import InfoItem from '../../common/entityContainers/InfoItem'
 import FormatMoney from '../../common/FormatMoney'
 import ProductModel from '../../models/ProductModel'
 import FileUploads from '../../attachments/FileUploads'
-import Overview from "./Overview";
+import Overview from './Overview'
 
 export default class Product extends Component {
     constructor (props) {
@@ -86,7 +85,7 @@ export default class Product extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} />
+                        <Overview entity={this.props.entity}/>
                     </TabPane>
 
                     <TabPane tabId="2">
