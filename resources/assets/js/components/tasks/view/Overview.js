@@ -7,6 +7,7 @@ import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
 import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
+
 export default function Overview (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 

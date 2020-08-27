@@ -1,23 +1,9 @@
 import React, { Component } from 'react'
-import {
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
 import PaymentModel from '../../models/PaymentModel'
 import SectionItem from '../../common/entityContainers/SectionItem'
-import InfoItem from '../../common/entityContainers/InfoItem'
 import Transaction from '../Transaction'
 import CustomerSettings from '../CustomerSettings'
 import CustomerModel from '../../models/CustomerModel'
@@ -28,7 +14,7 @@ import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import MetaItem from '../../common/entityContainers/MetaItem'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
-import Details from "./Details";
+import Details from './Details'
 
 export default class Customer extends Component {
     constructor (props) {
@@ -223,7 +209,7 @@ export default class Customer extends Component {
                     </TabPane>
 
                     <TabPane tabId="2">
-                        <Details billing={billing} shipping={shipping} entity={this.props.entity} />
+                        <Details billing={billing} shipping={shipping} entity={this.props.entity}/>
                     </TabPane>
 
                     <TabPane tabId="3">

@@ -41,7 +41,7 @@ class CreateTasksTable extends Migration {
 			$table->boolean('is_deleted')->default(0);
 			$table->text('custom_value3', 65535)->nullable();
 			$table->text('custom_value4', 65535)->nullable();
-			$table->integer('project_id')->unsigned()->nullable();
+			$table->integer('project_id')->unsigned()->nullable()->index('project_id');
 			$table->integer('invoice_id')->unsigned()->nullable()->index('invoice_id');
 			$table->integer('user_id')->unsigned()->default(9874)->index('user_id');
 			$table->text('public_notes', 65535)->nullable();

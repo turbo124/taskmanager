@@ -7,7 +7,6 @@ import QuoteModel from '../models/QuoteModel'
 import { translations } from '../common/_translations'
 
 export default function QuotePresenter (props) {
-
     const { field, entity } = props
 
     const objQuoteModel = new QuoteModel(entity, props.customers)

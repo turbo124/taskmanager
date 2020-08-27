@@ -1,16 +1,10 @@
 import React from 'react'
-import { Alert, ListGroup, ListGroupItem, ListGroupItemHeading, Row, TabPane } from 'reactstrap'
+import { Alert, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../common/_translations'
-import CasePresenter from '../../presenters/CasePresenter'
-import InfoMessage from '../../common/entityContainers/InfoMessage'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
-import CreditPresenter from '../../presenters/CreditPresenter'
-import LineItem from '../../common/entityContainers/LineItem'
-import TotalsBox from '../../common/entityContainers/TotalsBox'
-import SectionItem from '../../common/entityContainers/SectionItem'
 import FormatMoney from '../../common/FormatMoney'
 
 export default function Overview (props) {

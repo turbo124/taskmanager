@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Progress
-} from 'reactstrap'
-import axios from 'axios'
-import { translations } from './_translations'
+import { Progress } from 'reactstrap'
 
 export default class AboutModal extends Component {
     constructor (props) {
@@ -16,23 +12,20 @@ export default class AboutModal extends Component {
     }
 
     toggle () {
-        timerId = setInterval(function() {
-
+        timerId = setInterval(function () {
             // increment progress bar
-            percent += 5;
-            this.setState({percent: percent})
-
+            percent += 5
+            this.setState({ percent: percent })
 
             // complete
             if (percent >= 100) {
-                clearInterval(timerId);
-                this.setState({percent: 0})
+                clearInterval(timerId)
+                this.setState({ percent: 0 })
             }
-
-        }, 200);
+        }, 200)
     }
 
     render () {
-       <Progress value={this.state.percent} />
+        <Progress value={this.state.percent}/>
     }
 }

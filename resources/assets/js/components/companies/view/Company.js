@@ -1,17 +1,12 @@
 import React, { Component } from 'react'
-import { ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
 import PaymentModel from '../../models/PaymentModel'
-import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import SectionItem from '../../common/entityContainers/SectionItem'
-import InfoItem from '../../common/entityContainers/InfoItem'
 import CompanyModel from '../../models/CompanyModel'
-import FieldGrid from '../../common/entityContainers/FieldGrid'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
-import InfoMessage from '../../common/entityContainers/InfoMessage'
-import Overview from "./Overview";
-import Details from "./Details";
+import Overview from './Overview'
+import Details from './Details'
 
 export default class Company extends Component {
     constructor (props) {
@@ -129,11 +124,11 @@ export default class Company extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} user={user} fields={fields} />
+                        <Overview entity={this.props.entity} user={user} fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">
-                        <Details entity={this.props.entity} address={address} />
+                        <Details entity={this.props.entity} address={address}/>
                     </TabPane>
                 </TabContent>
 

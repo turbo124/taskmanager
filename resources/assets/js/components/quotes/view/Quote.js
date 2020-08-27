@@ -1,36 +1,16 @@
 import React, { Component } from 'react'
 import FileUploads from '../../attachments/FileUploads'
-import {
-    Alert,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane
-} from 'reactstrap'
-import QuotePresenter from '../../presenters/QuotePresenter'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import FormatDate from '../../common/FormatDate'
-import axios from 'axios'
 import { translations } from '../../common/_translations'
 import QuoteModel from '../../models/QuoteModel'
-import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import LineItem from '../../common/entityContainers/LineItem'
-import TotalsBox from '../../common/entityContainers/TotalsBox'
 import FormatMoney from '../../common/FormatMoney'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Audit from '../../partials/Audit'
-import FieldGrid from '../../common/entityContainers/FieldGrid'
-import InfoMessage from '../../common/entityContainers/InfoMessage'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
-import Overview from "./Overview";
+import Overview from './Overview'
 
 export default class Quote extends Component {
     constructor (props) {
@@ -196,7 +176,8 @@ export default class Quote extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} customers={this.props.customers} customer={customer} user={user} fields={fields} />
+                        <Overview entity={this.props.entity} customers={this.props.customers} customer={customer}
+                            user={user} fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">

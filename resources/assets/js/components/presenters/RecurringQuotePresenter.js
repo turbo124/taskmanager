@@ -9,7 +9,8 @@ export default function RecurringQuotePresenter (props) {
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={recurringQuoteStatusColors[entity.status_id]}>{recurringQuoteStatuses[entity.status_id]}</Badge>
+        ? <Badge
+            color={recurringQuoteStatusColors[entity.status_id]}>{recurringQuoteStatuses[entity.status_id]}</Badge>
         : <Badge color="warning">{translations.archived}</Badge>
 
     switch (field) {

@@ -1,28 +1,11 @@
 import React, { Component } from 'react'
-import {
-    Alert,
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane
-} from 'reactstrap'
-import FormatMoney from '../../common/FormatMoney'
-import { icons } from '../../common/_icons'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { translations } from '../../common/_translations'
-import InfoItem from '../../common/entityContainers/InfoItem'
 import LeadModel from '../../models/LeadModel'
 import axios from 'axios'
 import FileUploads from '../../attachments/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
-import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import Overview from "./Overview";
+import Overview from './Overview'
 
 export default class Lead extends Component {
     constructor (props) {
@@ -130,7 +113,7 @@ export default class Lead extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} address={address} />
+                        <Overview entity={this.props.entity} address={address}/>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>

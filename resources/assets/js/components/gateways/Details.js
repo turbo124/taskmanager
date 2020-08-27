@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, CardBody, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../common/_translations'
 import Config from './Config'
-import InfoMessage from '../common/entityContainers/InfoMessage'
 
 export default class Details extends React.Component {
     constructor (props) {

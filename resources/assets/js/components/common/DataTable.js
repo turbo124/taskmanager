@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Collapse, Spinner, Table, Progress } from 'reactstrap'
+import { Collapse, Progress, Spinner, Table } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -352,7 +352,7 @@ export default class DataTable extends Component {
                 {message && <p className="message">{message}</p>}
 
                 {progress > 0 &&
-                <Progress value={progress} />
+                <Progress value={progress}/>
                 }
 
                 {loader}

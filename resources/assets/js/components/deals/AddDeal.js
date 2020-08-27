@@ -1,6 +1,5 @@
 import React from 'react'
-import { DateRangePicker } from 'react-dates'
-import { Button, Form, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
+import { Button, Form, Modal, ModalBody } from 'reactstrap'
 import moment from 'moment'
 import AddButtons from '../common/AddButtons'
 import CustomFieldsForm from '../common/CustomFieldsForm'

@@ -9,7 +9,8 @@ export default function RecurringInvoicePresenter (props) {
     const { field, entity } = props
 
     const status = !entity.deleted_at
-        ? <Badge color={recurringInvoiceStatusColors[entity.status_id]}>{recurringInvoiceStatuses[entity.status_id]}</Badge>
+        ? <Badge
+            color={recurringInvoiceStatusColors[entity.status_id]}>{recurringInvoiceStatuses[entity.status_id]}</Badge>
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {

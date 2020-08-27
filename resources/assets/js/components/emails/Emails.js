@@ -7,7 +7,7 @@ import ViewEmails from '../emails/ViewEmails'
 import EmailFields from '../accounts/EmailFields'
 import EmailPreview from '../accounts/EmailPreview'
 import { translations } from '../common/_translations'
-import ViewPdf from "./ViewPdf";
+import ViewPdf from './ViewPdf'
 
 export default class Emails extends Component {
     constructor (props) {
@@ -233,7 +233,7 @@ export default class Emails extends Component {
                         <Card>
                             <CardHeader>{translations.pdf}</CardHeader>
                             <CardBody>
-                                <ViewPdf model={this.props.model} />
+                                <ViewPdf model={this.props.model}/>
                             </CardBody>
                         </Card>
                     </TabPane>

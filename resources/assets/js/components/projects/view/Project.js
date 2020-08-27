@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { ListGroup, Row } from 'reactstrap'
 import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
-import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import SectionItem from '../../common/entityContainers/SectionItem'
 import ProjectModel from '../../models/ProjectModel'
 import FormatMoney from '../../common/FormatMoney'
@@ -10,9 +9,8 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import FormatDate from '../../common/FormatDate'
 import formatDuration from '../../common/_formatting'
 import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
-import Paymentable from '../../common/entityContainers/Paymentable'
-import InfoMessage from "../../common/entityContainers/InfoMessage";
-import FieldGrid from "../../common/entityContainers/FieldGrid";
+import InfoMessage from '../../common/entityContainers/InfoMessage'
+import FieldGrid from '../../common/entityContainers/FieldGrid'
 
 export default class Project extends Component {
     render () {
@@ -29,7 +27,7 @@ export default class Project extends Component {
 
         const fields = []
         fields.due_date = <FormatDate date={this.props.entity.due_date}/>
-        fields.task_rate = <FormatMoney amount={this.props.entity.task_rate} customers={this.props.customers} />
+        fields.task_rate = <FormatMoney amount={this.props.entity.task_rate} customers={this.props.customers}/>
 
         const total = projectModel.taskDurationForProject()
 

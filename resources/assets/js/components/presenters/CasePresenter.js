@@ -11,7 +11,8 @@ export default function CasePresenter (props) {
         ? <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
-    const priority = <Badge color={casePriorityColors[entity.priority_id]}>{casePriorities[entity.priority_id]}</Badge>
+    const priority = <Badge
+        color={casePriorityColors[entity.priority_id]}>{casePriorities[entity.priority_id]}</Badge>
 
     switch (field) {
         case 'status_field':

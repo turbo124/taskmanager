@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../common/Datepicker'
 import PaymentTypeDropdown from '../common/PaymentTypeDropdown'
 import CustomerDropdown from '../common/CustomerDropdown'
@@ -77,18 +77,18 @@ export default class Details extends React.Component {
             </FormGroup>
 
             {this.props.hide_customer === false &&
-                    <FormGroup className="mb-3">
-                        <Label>{translations.customer}</Label>
-                        <CustomerDropdown
-                            disabled={customer_disabled}
-                            customer={this.props.payment.customer_id}
-                            errors={this.props.errors}
-                            name="customer_id"
-                            renderErrorFor={this.renderErrorFor}
-                            handleInputChanges={this.props.handleInput}
-                        />
-                        {this.renderErrorFor('customer_id')}
-                    </FormGroup>
+                <FormGroup className="mb-3">
+                    <Label>{translations.customer}</Label>
+                    <CustomerDropdown
+                        disabled={customer_disabled}
+                        customer={this.props.payment.customer_id}
+                        errors={this.props.errors}
+                        name="customer_id"
+                        renderErrorFor={this.renderErrorFor}
+                        handleInputChanges={this.props.handleInput}
+                    />
+                    {this.renderErrorFor('customer_id')}
+                </FormGroup>
             }
 
             <FormGroup check>

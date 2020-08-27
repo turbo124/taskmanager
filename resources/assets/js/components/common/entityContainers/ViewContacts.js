@@ -25,13 +25,15 @@ export default function ViewContacts (props) {
                         className={`fa ${icons.contact} mr-4`}/>{(!contact.fullName.length ? customerModel.displayName : contact.fullName)}
                     </ListGroupItemHeading>
                     {!!invitation.sent_date.length &&
-                    <p>{translations.sent} <FormatDate date={invitation.sent_date} with_time={true} /></p>
+                    <p>{translations.sent} <FormatDate date={invitation.sent_date} with_time={true}/></p>
                     }
                     {!!invitation.viewed_date.length &&
-                    <p>{translations.viewed} <FormatDate date={invitation.viewed_date} with_time={true} /></p>
+                    <p>{translations.viewed} <FormatDate date={invitation.viewed_date} with_time={true}/></p>
                     }
                 </a>
-                <p className="small"><span onClick={(e) => props.entity.copyToClipboard(link)}> {translations.copy_to_clipboard}</span></p>
+                <p className="small"><span
+                    onClick={(e) => props.entity.copyToClipboard(link)}> {translations.copy_to_clipboard}</span>
+                </p>
             </ListGroupItem>
         })
     }
