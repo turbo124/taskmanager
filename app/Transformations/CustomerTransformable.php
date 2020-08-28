@@ -63,7 +63,7 @@ trait CustomerTransformable
             'assigned_to'            => $customer->assigned_to,
             'settings'               => $customer->settings,
             'transactions'           => $this->transformTransactions($customer->transactions),
-             'transactions'          => $this->transformErrorLogs($customer->error_logs),
+            'error_logs'             => $this->transformErrorLogs($customer->error_logs),
             'custom_value1'          => $customer->custom_value1 ?: '',
             'custom_value2'          => $customer->custom_value2 ?: '',
             'custom_value3'          => $customer->custom_value3 ?: '',
