@@ -3,6 +3,7 @@
 namespace App\Services\Lead;
 
 use App\Designs\PdfColumns;
+use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\ClientContact;
@@ -40,6 +41,7 @@ class GeneratePdf
 
     public function execute()
     {
+
         $file_path = $this->lead->getPdfFilename();
 
         $disk = config('filesystems.default');

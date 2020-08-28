@@ -34,7 +34,7 @@ class ProjectFilter extends QueryFilter
     public function filter(Request $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-        $orderBy = !$request->column ? 'name' : $request->column;
+        $orderBy = !$request->column ? 'title' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
 
         $this->query = $this->model->select('*');
@@ -93,7 +93,7 @@ class ProjectFilter extends QueryFilter
 
         return $this->query->where(
             function ($query) use ($filter) {
-                $query->where('projects.name', 'like', '%' . $filter . '%');
+                $query->where('projects.title', 'like', '%' . $filter . '%');
             }
         );
     }

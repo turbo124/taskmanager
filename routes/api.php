@@ -36,7 +36,6 @@ Route::group(
 
                 Route::resource('promocodes', 'PromocodeController');
 
-                Route::post('deals/{deal}/{action}', 'DealController@action')->name('invoices.action');
                 Route::resource('deals', 'DealController');
 
                 // subscription
@@ -410,8 +409,6 @@ Route::group(
             'role:null,taskcontroller.update'
         );
         Route::delete('tasks/archive/{task_id}', 'TaskController@archive');
-        Route::post('tasks/{task}/{action}', 'TaskController@action')->name('invoices.action');
-
 
         // leads
         Route::get('leads', 'LeadController@index');
@@ -419,7 +416,6 @@ Route::group(
         Route::delete('leads/archive/{lead_id}', 'LeadController@archive');
         Route::delete('leads/{lead}', 'LeadController@destroy')->middleware('role:null,taskcontroller.destroy');
         Route::post('leads/restore/{id}', 'LeadController@restore');
-        Route::post('lead/{lead}/{action}', 'LeadController@action')->name('invoices.action');
 
         Route::group(
             ['middleware' => ['role:Manager']],

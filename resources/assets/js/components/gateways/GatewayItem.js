@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditGateway from './edit/EditGateway'
+import EditGateway from './EditGateway'
 import { Input } from 'reactstrap'
 import GatewayPresenter from '../presenters/GatewayPresenter'
 

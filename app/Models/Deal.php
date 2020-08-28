@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Deal\DealService;
+use App\Services\Task\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -14,7 +15,7 @@ class Deal extends Model
     use PresentableTrait;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'is_completed',
         'assigned_to',

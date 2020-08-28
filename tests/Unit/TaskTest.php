@@ -50,7 +50,7 @@ class TaskTest extends TestCase
         $this->assertNotEmpty($list);
         //$this->assertInstanceOf(Task::class, $list[0]);
         // $this->assertInstanceOf(Collection::class, $list);
-        //$this->assertEquals($insertedtask->name, $myLastElement['name']);
+        //$this->assertEquals($insertedtask->title, $myLastElement['title']);
     }
 
     /** @test */
@@ -74,13 +74,13 @@ class TaskTest extends TestCase
     public function it_can_update_the_task()
     {
         $task = factory(Task::class)->create();
-        $name = $this->faker->word;
-        $data = ['name' => $name];
+        $title = $this->faker->word;
+        $data = ['title' => $title];
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
         $task = $taskRepo->save($data, $task);
         $found = $taskRepo->findTaskById($task->id);
         $this->assertInstanceOf(Task::class, $task);
-        $this->assertEquals($data['name'], $found->name);
+        $this->assertEquals($data['title'], $found->title);
     }
 
     /** @test */
@@ -111,8 +111,8 @@ class TaskTest extends TestCase
             'task_type'    => 1,
             'task_status'  => 1,
             'customer_id'  => $this->customer->id,
-            'name'         => $this->faker->word,
-            'description'      => $this->faker->sentence,
+            'title'        => $this->faker->word,
+            'content'      => $this->faker->sentence,
             'is_completed' => 0,
             'due_date'     => $this->faker->dateTime,
         ];
@@ -121,7 +121,7 @@ class TaskTest extends TestCase
         $factory = (new TaskFactory())->create($this->user, $this->account);
         $task = $taskRepo->save($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
-        $this->assertEquals($data['name'], $task->name);
+        $this->assertEquals($data['title'], $task->title);
     }
 
     /** @test */
@@ -135,8 +135,8 @@ class TaskTest extends TestCase
             'task_type'    => 1,
             'task_status'  => 1,
             'customer_id'  => $this->customer->id,
-            'name'         => $this->faker->word,
-            'description'      => $this->faker->sentence,
+            'title'        => $this->faker->word,
+            'content'      => $this->faker->sentence,
             'is_completed' => 0,
             'due_date'     => $this->faker->dateTime,
         ];
@@ -145,7 +145,7 @@ class TaskTest extends TestCase
         $factory = (new TaskFactory())->create($this->user, $this->account);
         $task = $taskRepo->save($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
-        $this->assertEquals($data['name'], $task->name);
+        $this->assertEquals($data['title'], $task->title);
         $this->assertEquals($data['project_id'], $task->project_id);
     }
 
@@ -172,16 +172,16 @@ class TaskTest extends TestCase
     {
         $customer = factory(Customer::class)->create();
 
-        $name = $this->faker->name;
-        $description = $this->faker->sentence;
+        $title = $this->faker->title;
+        $content = $this->faker->sentence;
         $due_date = $this->faker->dateTime;
         $task_type = 2;
 
         $address = factory(Task::class)->create(
             [
                 'account_id' => $this->account->id,
-                'name'       => $name,
-                'description'    => $description,
+                'title'      => $title,
+                'content'    => $content,
                 'due_date'   => $due_date,
                 'task_type'  => $task_type
             ]

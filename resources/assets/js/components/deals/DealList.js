@@ -4,7 +4,7 @@ import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DealFilters from './DealFilters'
 import DealItem from './DealItem'
-import AddDeal from './edit/AddDeal'
+import AddDeal from './AddDeal'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
@@ -235,7 +235,7 @@ export default class DealList extends Component {
                                     bulk_save_url="/api/deals/bulk"
                                     view={view}
                                     disableSorting={['id']}
-                                    defaultColumn='name'
+                                    defaultColumn='title'
                                     ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}

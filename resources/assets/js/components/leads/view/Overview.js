@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, ListGroup, Row } from 'reactstrap'
+import { ListGroup, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../common/_translations'
 import { icons } from '../../common/_icons'
@@ -7,21 +7,11 @@ import FormatMoney from '../../common/FormatMoney'
 import InfoItem from '../../common/entityContainers/InfoItem'
 
 export default function Overview (props) {
+    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.valued_at}
             value_1={<FormatMoney amount={props.entity.valued_at}/>}/>
-
-        {props.entity.name.length &&
-        <Alert color="dark col-12 mt-2">
-            {props.entity.name}
-        </Alert>
-        }
-
-        {props.entity.private_notes.length &&
-        <Alert color="dark col-12 mt-2">
-            {props.entity.private_notes}
-        </Alert>
-        }
 
         <Row>
             <ListGroup className="col-12">

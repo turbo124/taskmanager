@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AddTaxRate from './edit/AddTaxRate'
+import AddTaxRate from './AddTaxRate'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import TaxRateFilters from './TaxRateFilters'

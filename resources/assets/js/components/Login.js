@@ -74,7 +74,6 @@ class Login extends Component {
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
                     localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
-                    localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
                     localStorage.setItem('access_token', userData.auth_token)
                     localStorage.setItem('account_id', response.data.data.account_id)

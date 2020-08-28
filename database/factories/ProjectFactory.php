@@ -25,7 +25,7 @@ $factory->define(
             'assigned_to'    => null,
             'user_id'        => $user->id,
             'customer_id'    => null,
-            'name'           => $faker->text,
+            'title'          => $faker->text,
             'description'    => $faker->text,
             'is_completed'   => 0,
             'private_notes'  => null,

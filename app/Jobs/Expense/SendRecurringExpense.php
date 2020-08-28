@@ -2,8 +2,13 @@
 
 namespace App\Jobs\Expense;
 
+use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Models\Expense;
+use App\Models\Invoice;
+use App\Models\Quote;
+use App\Models\RecurringQuote;
 use App\Repositories\ExpenseRepository;
+use App\Repositories\QuoteRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,15 +52,8 @@ class SendRecurringExpense implements ShouldQueue
     private function processRecurringExpenses()
     {
         $recurring_expenses = Expense::whereDate('next_send_date', '=', Carbon::today())
-                                     ->whereDate('date', '!=', Carbon::today())
-                                     ->whereDate('recurring_start_date', '<=', Carbon::today())
-                                     ->where(
-                                         function ($query) {
-                                             $query->whereNull('recurring_end_date')
-                                                   ->orWhere('recurring_end_date', '>=', Carbon::today());
-                                         }
-                                     )
-                                     ->get();
+                               ->whereDate('date', '!=', Carbon::today())
+                               ->get();
 
         foreach ($recurring_expenses as $recurring_expense) {
             if ($recurring_expense->start_date->gt(Carbon::now()) || Carbon::now()->gt(

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddRecurringInvoice from './edit/AddRecurringInvoice'
+import AddRecurringInvoice from './AddRecurringInvoice'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RecurringInvoiceItem from './RecurringInvoiceItem'

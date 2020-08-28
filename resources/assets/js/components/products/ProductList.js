@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddProduct from './edit/AddProduct'
+import AddProduct from './AddProduct'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ProductItem from './ProductItem'

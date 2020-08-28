@@ -95,7 +95,7 @@ class ConvertLead
      */
     private function createTask(Customer $customer): ?Task
     {
-        $task = CloneLeadToTaskFactory::create($this->lead, $this->lead->user, $this->lead->account, $customer);
+        $task = CloneLeadToTaskFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
         $date = new DateTime(); // Y-m-d
         $date->add(new DateInterval('P30D'));
@@ -117,7 +117,7 @@ class ConvertLead
      */
     private function createDeal(Customer $customer): ?Deal
     {
-        $deal = CloneLeadToDealFactory::create($this->lead, $this->lead->user, $this->lead->account, $customer);
+        $deal = CloneLeadToDealFactory::create($this->lead, $customer, $this->lead->user, $this->lead->account);
 
         $date = new DateTime(); // Y-m-d
         $date->add(new DateInterval('P30D'));

@@ -9,7 +9,7 @@ class Friend extends Component {
         const active = this.props.selected_friend === customer_id
         return (
             <div className={`chat_list ${active === true ? 'active_chat' : ''}`}
-                onClick={() => this.props.loadMessages(customer_id)}>
+                 onClick={() => this.props.loadMessages ( customer_id )}>
                 <div className="chat_people">
                     <div className="chat_img">
                         {/* <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> */}
@@ -31,7 +31,7 @@ class Friend extends Component {
                     )}
 
                     <div className="chat_ib">
-                        <h5>{name} <span className="chat_date">{when ? this.props.formatDate(when) : ''}</span></h5>
+                        <h5>{name} <span className="chat_date">{when ? this.props.formatDate ( when ) : ''}</span></h5>
                         <p>{message}</p>
                     </div>
                 </div>

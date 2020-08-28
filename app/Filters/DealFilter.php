@@ -35,7 +35,7 @@ class DealFilter extends QueryFilter
     public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-        $orderBy = !$request->column ? 'name' : $request->column;
+        $orderBy = !$request->column ? 'title' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
 
         $this->query =
@@ -90,7 +90,7 @@ class DealFilter extends QueryFilter
         }
         return $this->query->where(
             function ($query) use ($filter) {
-                $query->where('name', 'like', '%' . $filter . '%')->orWhere('description', 'like', '%' . $filter . '%')
+                $query->where('title', 'like', '%' . $filter . '%')->orWhere('content', 'like', '%' . $filter . '%')
                       ->orWhere('rating', 'like', '%' . $filter . '%')
                       ->orWhere('custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('custom_value2', 'like', '%' . $filter . '%')

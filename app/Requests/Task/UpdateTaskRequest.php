@@ -18,7 +18,7 @@ class UpdateTaskRequest extends BaseFormRequest
             'valued_at'    => 'nullable|string',
             'rating'       => 'nullable|numeric',
             'customer_id'  => 'nullable|numeric',
-            'name'         => 'required',
+            'title'        => 'required',
             //'content'      => 'required',
             'contributors' => 'required|array',
             'due_date'     => 'required',
@@ -34,7 +34,7 @@ class UpdateTaskRequest extends BaseFormRequest
     {
         return [
             'title.required'        => 'Title is required!',
-            'description.required'  => 'Content is required!',
+            'content.required'      => 'Content is required!',
             'contributors.required' => 'Contributors is required!',
             'due_date.required'     => 'Due date is required!',
         ];

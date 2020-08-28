@@ -77,7 +77,7 @@ class UpdateLead
             }
         }
 
-        $this->task_repo->save($this->request->only('source_type', 'name', 'description', 'valued_at'), $this->task);
+        $this->task_repo->save($this->request->only('source_type', 'title', 'description', 'valued_at'), $this->task);
 
         if ($this->request->has('contributors')) {
             $this->task->users()->sync($this->request->input('contributors'));

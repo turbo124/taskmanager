@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddCase from './edit/AddCase'
+import AddCase from './AddCase'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CaseFilters from './CaseFilters'

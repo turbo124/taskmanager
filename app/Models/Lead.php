@@ -43,7 +43,7 @@ class Lead extends Model
         'job_title',
         'company_name',
         'description',
-        'name',
+        'title',
         'valued_at',
         'source_type',
         'assigned_to',

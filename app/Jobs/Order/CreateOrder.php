@@ -166,7 +166,7 @@ class CreateOrder implements ShouldQueue
                     'due_date'    => $due_date,
                     'created_by'  => $this->user->id,
                     'source_type' => $this->request->source_type,
-                    'name'        => $this->request->title,
+                    'title'       => $this->request->title,
                     'description' => isset($this->request->description) ? $this->request->description : '',
                     'customer_id' => $customer->id,
                     'valued_at'   => $this->request->valued_at,

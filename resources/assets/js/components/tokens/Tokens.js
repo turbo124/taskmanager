@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddToken from './edit/AddToken'
+import AddToken from './AddToken'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import TokenFilters from './TokenFilters'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddRecurringQuote from './edit/AddRecurringQuote'
+import AddRecurringQuote from './AddRecurringQuote'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import RecurringQuoteItem from './RecurringQuoteItem'

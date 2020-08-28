@@ -34,7 +34,7 @@ class LeadFilter extends QueryFilter
     public function filter(Request $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-        $orderBy = !$request->column ? 'name' : $request->column;
+        $orderBy = !$request->column ? 'title' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
 
         $this->query = $this->model->select('*');
@@ -90,7 +90,7 @@ class LeadFilter extends QueryFilter
 
         return $this->query->where(
             function ($query) use ($filter) {
-                $query->where('leads.name', 'like', '%' . $filter . '%')
+                $query->where('leads.title', 'like', '%' . $filter . '%')
                       ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
                       ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
             }

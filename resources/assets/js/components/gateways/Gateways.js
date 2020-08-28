@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AddGateway from './edit/AddGateway'
+import AddGateway from './AddGateway'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import GatewayFilters from './GatewayFilters'

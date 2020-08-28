@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import axios from 'axios'
-import AddExpense from './edit/AddExpense'
+import AddExpense from './AddExpense'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'

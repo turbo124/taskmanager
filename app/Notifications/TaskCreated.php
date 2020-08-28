@@ -56,7 +56,7 @@ class TaskCreated extends Notification
     {
         return [
             'id'      => $this->task->id,
-            'title'   => $this->task->name,
+            'title'   => $this->task->title,
             'message' => 'New Task created'
         ];
     }

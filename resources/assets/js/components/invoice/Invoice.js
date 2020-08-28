@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import queryString from 'query-string'
-import EditInvoice from './edit/EditInvoice'
+import EditInvoice from './EditInvoice'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import InvoiceItem from './InvoiceItem'

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
-import EditLead from './edit/EditLeadForm'
+import EditLead from './EditLeadForm'
 import ActionsMenu from '../common/ActionsMenu'
 import LeadPresenter from '../presenters/LeadPresenter'
 

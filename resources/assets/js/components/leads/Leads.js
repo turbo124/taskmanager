@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddLead from './edit/AddLeadForm'
+import AddLead from './AddLeadForm'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import LeadFilters from './LeadFilters'
@@ -202,7 +202,7 @@ export default class Leads extends Component {
                                     bulk_save_url="/api/lead/bulk"
                                     view={view}
                                     disableSorting={['id']}
-                                    defaultColumn='name'
+                                    defaultColumn='title'
                                     ignore={ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}

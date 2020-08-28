@@ -17,15 +17,14 @@ export default class GatewayModel extends BaseModel {
             modal: false,
             name: '',
             gateway_key: '',
-            accepted_credit_cards: 0,
+            accepted_credit_cards: '',
             accepted_cards: new Map(),
             require_cvv: false,
-            show_billing_address: true,
+            show_billing_address: false,
             show_shipping_address: false,
-            update_details: true,
-            config: '',
+            update_details: 0,
+            config: 0,
             fees_and_limits: [],
-            token_billing: true,
             loading: false,
             errors: [],
             activeTab: '1'
@@ -60,10 +59,6 @@ export default class GatewayModel extends BaseModel {
 
     get gateway_ids () {
         return this.settings.company_gateway_ids || ''
-    }
-
-    supportsCard (cardType) {
-        return this.fields.accepted_credit_cards & cardType > 0
     }
 
     performAction () {

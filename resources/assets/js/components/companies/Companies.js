@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddCompany from './edit/AddCompany'
+import AddCompany from './AddCompany'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CompanyFilters from './CompanyFilters'

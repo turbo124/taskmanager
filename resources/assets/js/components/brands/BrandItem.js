@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditBrand from './edit/EditBrand'
+import EditBrand from './EditBrand'
 import { Input } from 'reactstrap'
 import BrandPresenter from '../presenters/BrandPresenter'
 

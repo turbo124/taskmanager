@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddCategory from './edit/AddCategory'
+import AddCategory from './AddCategory'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CategoryFilters from './CategoryFilters'

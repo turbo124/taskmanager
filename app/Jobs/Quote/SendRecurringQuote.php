@@ -3,6 +3,7 @@
 namespace App\Jobs\Quote;
 
 use App\Factory\RecurringQuoteToQuoteFactory;
+use App\Models\Invoice;
 use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Repositories\QuoteRepository;
@@ -50,16 +51,15 @@ class SendRecurringQuote implements ShouldQueue
     {
         $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', Carbon::today())
                                           ->whereDate('date', '!=', Carbon::today())
-                                          ->whereDate('start_date', '<=', Carbon::today())
-                                          ->where(
-                                              function ($query) {
-                                                  $query->whereNull('end_date')
-                                                        ->orWhere('end_date', '>=', Carbon::today());
-                                              }
-                                          )
                                           ->get();
 
         foreach ($recurring_quotes as $recurring_quote) {
+            if ($recurring_quote->start_date->gt(Carbon::now()) || Carbon::now()->gt(
+                    $recurring_quote->end_date
+                )) {
+                continue;
+            }
+
             $quote = RecurringQuoteToQuoteFactory::create($recurring_quote, $recurring_quote->customer);
             $quote = $this->quote_repo->save(['recurring_quote_id' => $recurring_quote->id], $quote);
 

@@ -5,8 +5,6 @@ import { translations } from '../../common/_translations'
 import SectionItem from '../../common/entityContainers/SectionItem'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import PaymentModel from '../../models/PaymentModel'
-import FormatMoney from '../../common/FormatMoney'
-import FieldGrid from '../../common/entityContainers/FieldGrid'
 
 export default class Gateway extends Component {
     constructor (props) {
@@ -40,37 +38,6 @@ export default class Gateway extends Component {
         const payments = this.state.payments.length ? this.state.payments.filter(payment => payment.company_gateway_id === parseInt(this.props.entity.id)) : []
         const sumValues = payments.length ? payments.map(item => item.amount).reduce((prev, next) => prev + next) : 0
 
-        const allFields = []
-
-        this.props.entity.fees_and_limits.map((settings, index) => {
-            const fields = {}
-
-            if (settings.fee_amount && settings.fee_amount > 0) {
-                fields[translations.fee_amount] = <FormatMoney amount={settings.fee_amount}/>
-            }
-
-            if (settings.fee_percent && settings.fee_percent > 0) {
-                fields[translations.fee_percent] = <FormatMoney amount={settings.fee_percent}/>
-            }
-
-            if (settings.fee_cap && settings.fee_cap > 0) {
-                fields[translations.fee_cap] = <FormatMoney amount={settings.fee_cap}/>
-            }
-
-            if (settings.min_limit && settings.min_limit > 0) {
-                fields[translations.min_limit] = <FormatMoney amount={settings.min_limit}/>
-            }
-            if (settings.max_limit && settings.max_limit > 0) {
-                fields[translations.max_limit] = <FormatMoney amount={settings.max_limit}/>
-            }
-
-            if (Object.keys(fields).length) {
-                allFields[index] = fields
-            }
-        })
-
-        console.log('entity', this.props.entity)
-
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.processed} value_1={sumValues}/>
@@ -84,9 +51,6 @@ export default class Gateway extends Component {
                     </ListGroup>
                 </Row>
 
-                {allFields.map((field) =>
-                    <FieldGrid fields={field}/>
-                )}
             </React.Fragment>
 
         )

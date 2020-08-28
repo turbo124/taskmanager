@@ -3,7 +3,7 @@ import { Button, Col, Container, Progress, Row } from 'reactstrap'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import EditUser from './edit/EditUser'
+import EditUser from './EditUser'
 import { monthByNumber } from '../common/helper'
 
 class UserProfile extends React.Component {

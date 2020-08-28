@@ -71,63 +71,39 @@ export default class DropdownMenuBuilder extends Component {
             if (action === 'clone_to_invoice') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
-                message = `${translations.invoice} ${response.number} ${translations.has_been_created}`
+                message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
             }
 
             if (action === 'clone_recurring_to_invoice') {
-                message = `${translations.invoice} ${response.number} ${translations.has_been_created}`
+                message = `Invoice was cloned successfully. Invoice ${response.number} has been created`
             }
 
             if (action === 'clone_recurring_to_quote') {
-                message = `${translations.quote} ${response.number} ${translations.has_been_created}`
+                message = `Quote was created successfully. Quote ${response.number} has been created`
             }
 
             if (action === 'clone_to_quote') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
-                message = `${translations.quote} ${response.number} ${translations.has_been_created}`
+                message = `Quote was created successfully. Quote ${response.number} has been created`
             }
 
             if (action === 'clone_to_credit') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
-                message = `${translations.credit} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_to_task') {
-                message = `${translations.task} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_to_lead') {
-                message = `${translations.lead} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_to_project') {
-                message = `${translations.project} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_task_to_deal') {
-                message = `${translations.task} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_lead_to_task') {
-                message = `${translations.task} ${response.number} ${translations.has_been_created}`
-            }
-
-            if (action === 'clone_lead_to_deal') {
-                message = `${translations.deal} ${response.number} ${translations.has_been_created}`
+                message = `Credit was created successfully. Credit ${response.number} has been created`
             }
 
             if (action === 'clone_to_order') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
-                message = `${translations.order} ${response.number} ${translations.has_been_created}`
+                message = `Order was created successfully. Order ${response.number} has been created`
             }
 
             if (action === 'clone_to_expense') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
-                message = `${translations.expense} ${response.number} ${translations.has_been_created}`
+                message = `Expense was created successfully. Expense ${response.number} has been created`
             }
 
             if (action === 'approve') {
@@ -363,39 +339,6 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={23} className="primary"
                     onClick={() => this.changeStatus('copy')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.copy}
-                </DropdownItem>
-            case 'cloneToTask':
-                return <DropdownItem key={23} className="primary"
-                    onClick={() => this.changeStatus('clone_to_task')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_task}
-                </DropdownItem>
-            case 'cloneToLead':
-                return <DropdownItem key={23} className="primary"
-                    onClick={() => this.changeStatus('clone_to_lead')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_lead}
-                </DropdownItem>
-            case 'cloneToProject':
-                return <DropdownItem key={23} className="primary"
-                    onClick={() => this.changeStatus('clone_to_project')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
-                </DropdownItem>
-
-            case 'cloneTaskToDeal':
-                return <DropdownItem key={13} className="primary"
-                    onClick={() => this.changeStatus('clone_task_to_deal')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_deal}
-                </DropdownItem>
-
-            case 'cloneLeadToDeal':
-                return <DropdownItem key={13} className="primary"
-                    onClick={() => this.changeStatus('clone_lead_to_deal')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_deal}
-                </DropdownItem>
-
-            case 'cloneLeadToTask':
-                return <DropdownItem key={13} className="primary"
-                    onClick={() => this.changeStatus('clone_lead_to_task')}>
-                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_task}
                 </DropdownItem>
         }
     }

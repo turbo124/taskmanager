@@ -18,9 +18,8 @@ class Task extends Model
     const TASK_TYPE_DEAL = 3;
 
     protected $fillable = [
-        'name',
-        'description',
-        'assigned_to',
+        'title',
+        'content',
         'is_completed',
         'due_date',
         'start_date',
@@ -50,6 +49,7 @@ class Task extends Model
         'next_send_date',
         'recurring_frequency'
     ];
+
 
 
     protected $presenter = 'App\Presenters\TaskPresenter';

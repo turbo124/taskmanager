@@ -15,7 +15,7 @@ class UpdateProjectRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'        => 'string|required',
+            'title'       => 'string|required',
             'description' => 'string|required',
             'customer_id' => 'numeric|required',
         ];

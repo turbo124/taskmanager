@@ -19,7 +19,6 @@ use App\Models\AccountUser;
 use App\Models\Country;
 use App\Models\Credit;
 use App\Models\Currency;
-use App\Models\Gateway;
 use App\Models\Invoice;
 use App\Models\Language;
 use App\Models\Order;
@@ -112,7 +111,6 @@ class BaseController extends Controller
             'languages'     => Language::all(),
             'countries'     => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'gateways'      => Gateway::all(),
             'users'         => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )

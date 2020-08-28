@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddPaymentTerm from './edit/AddPaymentTerm'
+import AddPaymentTerm from './AddPaymentTerm'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import PaymentTermFilters from './PaymentTermFilters'

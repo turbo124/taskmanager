@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditCategory from './edit/EditCategory'
+import EditCategory from './EditCategory'
 import { Input } from 'reactstrap'
 import CategoryPresenter from '../presenters/CategoryPresenter'
 

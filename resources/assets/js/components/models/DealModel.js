@@ -11,13 +11,12 @@ export default class DealModel extends BaseModel {
 
         this._fields = {
             modal: false,
-            name: '',
+            title: '',
             rating: '',
             source_type: 0,
             errors: [],
             valued_at: '',
             customer_id: '',
-            assigned_to: '',
             content: '',
             contributors: '',
             custom_value1: '',
@@ -82,10 +81,6 @@ export default class DealModel extends BaseModel {
         if (!this.fields.deleted_at) {
             actions.push('archive')
         }
-
-        actions.push('cloneToTask')
-        actions.push('cloneToLead')
-        actions.push('cloneToProject')
 
         return actions
     }

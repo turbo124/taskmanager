@@ -20,11 +20,13 @@ export default class TaskModel extends BaseModel {
 
         this._fields = {
             modal: false,
-            name: '',
-            assigned_to: '',
+            title: '',
+            rating: '',
+            source_type: 0,
             errors: [],
+            valued_at: '',
             customer_id: '',
-            description: '',
+            content: '',
             contributors: '',
             custom_value1: '',
             custom_value2: '',
@@ -166,8 +168,6 @@ export default class TaskModel extends BaseModel {
         if (!this.fields.deleted_at) {
             actions.push('archive')
         }
-
-        actions.push('cloneTaskToDeal')
 
         return actions
     }

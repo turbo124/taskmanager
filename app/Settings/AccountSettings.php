@@ -72,6 +72,7 @@ class AccountSettings extends BaseSettings
             $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
 
             if (!$settings && $full_validation === true) {
+
                 return false;
             }
 

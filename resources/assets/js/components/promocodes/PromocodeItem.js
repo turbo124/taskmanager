@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditPromocode from './edit/EditPromocode'
+import EditPromocode from './EditPromocode'
 import { Input } from 'reactstrap'
 import PromocodePresenter from '../presenters/PromocodePresenter'
 

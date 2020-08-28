@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditTask from './edit/EditTask'
+import EditTask from './EditTask'
 import TaskPresenter from '../presenters/TaskPresenter'
 
 export default class TaskItem extends Component {

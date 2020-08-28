@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import UpdateRecurringInvoice from './edit/UpdateRecurringInvoice'
+import UpdateRecurringInvoice from './UpdateRecurringInvoice'
 import RecurringInvoicePresenter from '../presenters/RecurringInvoicePresenter'
 
 export default class RecurringInvoiceItem extends Component {

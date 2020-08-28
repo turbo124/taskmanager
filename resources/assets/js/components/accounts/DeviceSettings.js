@@ -114,7 +114,6 @@ export default class DeviceSettings extends Component {
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
                     localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
-                    localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
 
                     this.setState({ success_message: 'Refresh completed', success: true })
