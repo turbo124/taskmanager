@@ -5,8 +5,10 @@ namespace App\Helpers\Payment\Gateways;
 
 
 use App\Models\Customer;
+use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Factory\ErrorLogFactory;
 use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
 use net\authorize\api\contract\v1\CustomerProfilePaymentType;
@@ -82,6 +84,25 @@ class Authorize extends BasePaymentGateway
                     }
 
                     return null;
+                } else {
+                    $errors = [];
+                    $error_log = ErrorLogFactory::create($this->customer->account, auth()-user(), $this->customer);
+                    $tresponse = $response->getTransactionResponse();
+                    if($tresponse != null && $tresponse->getErrors() != null)
+                    {
+                        $error_log['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                        $error_log['data']['message'] = $tresponse->getErrors()[0]->getErrorText();                      
+                    }
+                    else
+                    {
+                        $error_log['data']['error_code'] = $response->getMessages()->getMessage()[0]->getCode();
+                        $error_log['data']['message'] =  $response->getMessages()->getMessage()[0]->getText();
+                    }
+
+                    $error_log->error_type = ErrorLog::PAYMENT_FAILURE; 
+                    $error_log->error_result = ErrorLog::FAILURE;
+                    $error->entity = 'Authorize.net';
+                    $error_log->save();
                 }
             }
         }
