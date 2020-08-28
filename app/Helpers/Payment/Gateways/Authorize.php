@@ -90,15 +90,16 @@ class Authorize extends BasePaymentGateway
                     $tresponse = $response->getTransactionResponse();
                     if($tresponse != null && $tresponse->getErrors() != null)
                     {
-                        $error_log['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
-                        $error_log['data']['message'] = $tresponse->getErrors()[0]->getErrorText();                      
+                        $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                        $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();                      
                     }
                     else
                     {
-                        $error_log['data']['error_code'] = $response->getMessages()->getMessage()[0]->getCode();
-                        $error_log['data']['message'] =  $response->getMessages()->getMessage()[0]->getText();
+                        $errors['data']['error_code'] = $response->getMessages()->getMessage()[0]->getCode();
+                        $errors['data']['message'] =  $response->getMessages()->getMessage()[0]->getText();
                     }
 
+                    $error->log['data'] = $errors['data'];
                     $error_log->error_type = ErrorLog::PAYMENT_FAILURE; 
                     $error_log->error_result = ErrorLog::FAILURE;
                     $error->entity = 'Authorize.net';
