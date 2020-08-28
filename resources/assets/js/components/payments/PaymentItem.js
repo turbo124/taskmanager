@@ -4,9 +4,9 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditPayment from './EditPayment'
+import EditPayment from './edit/EditPayment'
 import PaymentPresenter from '../presenters/PaymentPresenter'
-import Refund from './Refund'
+import Refund from './edit/Refund'
 import PaymentModel from '../models/PaymentModel'
 
 export default class PaymentItem extends Component {

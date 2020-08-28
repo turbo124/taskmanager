@@ -46,15 +46,16 @@ class SendRecurringInvoice implements ShouldQueue
     {
         $recurring_invoices = RecurringInvoice::whereDate('next_send_date', '=', Carbon::today())
                                               ->whereDate('date', '!=', Carbon::today())
+                                              ->whereDate('start_date', '<=', Carbon::today())
+                                              ->where(
+                                                  function ($query) {
+                                                      $query->whereNull('end_date')
+                                                            ->orWhere('end_date', '>=', Carbon::today());
+                                                  }
+                                              )
                                               ->get();
 
         foreach ($recurring_invoices as $recurring_invoice) {
-            if ($recurring_invoice->start_date->gt(Carbon::now()) || Carbon::now()->gt(
-                    $recurring_invoice->end_date
-                )) {
-                continue;
-            }
-
             $quote = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
             $quote = $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $quote);
 

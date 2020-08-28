@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import UpdateRecurringQuote from './UpdateRecurringQuote'
+import UpdateRecurringQuote from './edit/UpdateRecurringQuote'
 import RecurringQuotePresenter from '../presenters/RecurringQuotePresenter'
 
 export default class RecurringQuoteItem extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddAttribute from './AddAttribute'
+import AddAttribute from './edit/AddAttribute'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import AttributeFilters from './AttributeFilters'

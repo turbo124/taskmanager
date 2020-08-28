@@ -52,7 +52,7 @@ class Customer extends Model implements HasLocalePreference
     ];
 
     protected $casts = [
-        'settings'   => 'object',
+        'settings' => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',
@@ -153,7 +153,7 @@ class Customer extends Model implements HasLocalePreference
 
     private function checkObjectEmpty($var)
     {
-        return  is_object($var) && empty((array)$var);
+        return is_object($var) && empty((array)$var);
     }
 
     /**
@@ -168,12 +168,16 @@ class Customer extends Model implements HasLocalePreference
         }
 
         /*Group Settings*/
-        if (!empty($this->group_settings) && !empty($this->group_settings->settings->{$setting}) && !$this->checkObjectEmpty($this->group_settings->settings->{$setting})) {
+        if (!empty($this->group_settings) && !empty($this->group_settings->settings->{$setting}) && !$this->checkObjectEmpty(
+                $this->group_settings->settings->{$setting}
+            )) {
             return $this->group_settings->settings->{$setting};
         }
 
         /*Company Settings*/
-        if (isset($this->account->settings->{$setting}) && !$this->checkObjectEmpty($this->account->settings->{$setting})) {
+        if (isset($this->account->settings->{$setting}) && !$this->checkObjectEmpty(
+                $this->account->settings->{$setting}
+            )) {
             return $this->account->settings->{$setting};
         }
 

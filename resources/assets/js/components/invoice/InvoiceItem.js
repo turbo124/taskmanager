@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditInvoice from './EditInvoice'
+import EditInvoice from './edit/EditInvoice'
 import InvoicePresenter from '../presenters/InvoicePresenter'
 
 export default class InvoiceItem extends Component {

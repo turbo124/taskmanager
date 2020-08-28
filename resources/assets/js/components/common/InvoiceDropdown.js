@@ -11,6 +11,7 @@ export default class InvoiceDropdown extends Component {
         }
 
         this.getInvoices = this.getInvoices.bind(this)
+        this.count = 0
     }
 
     componentDidMount () {
@@ -64,6 +65,8 @@ export default class InvoiceDropdown extends Component {
                 invoices = invoices.filter(invoice => this.props.allowed_invoices.includes(invoice.id))
             }
 
+            this.count = invoices.length
+
             invoiceList = invoices.map((invoice, index) => (
                 <option key={index} value={invoice.id}>{invoice.number} ({invoice.total})</option>
             ))
@@ -88,7 +91,7 @@ export default class InvoiceDropdown extends Component {
             {invoiceList}
         </Input>
 
-        return (
+        return this.props.hide_when_empty && !this.count ? null : (
             <FormGroup>
                 {selectList}
                 {this.renderErrorFor(error_name)}

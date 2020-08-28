@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
-import EditCredit from './EditCredit'
+import EditCredit from './edit/EditCredit'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
 

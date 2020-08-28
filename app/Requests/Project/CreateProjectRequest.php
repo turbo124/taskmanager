@@ -15,7 +15,7 @@ class CreateProjectRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'title'       => 'string|required',
+            'name'        => 'string|required',
             'description' => 'string|required',
             'customer_id' => 'numeric|required',
         ];

@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditExpense from './EditExpense'
+import EditExpense from './edit/EditExpense'
 import ExpensePresenter from '../presenters/ExpensePresenter'
 
 export default class ExpenseItem extends Component {

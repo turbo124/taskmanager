@@ -4,7 +4,7 @@ import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import TaskFilters from './TaskFilters'
 import TaskItem from './TaskItem'
-import AddModal from './AddTask'
+import AddModal from './edit/AddTask'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
@@ -254,7 +254,7 @@ export default class TaskList extends Component {
                                     bulk_save_url="/api/task/bulk"
                                     view={view}
                                     disableSorting={['id']}
-                                    defaultColumn='title'
+                                    defaultColumn='name'
                                     ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}

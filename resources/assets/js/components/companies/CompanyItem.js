@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditCompany from './EditCompany'
+import EditCompany from './edit/EditCompany'
 import CompanyPresenter from '../presenters/CompanyPresenter'
 
 export default class CompanyItem extends Component {

@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Factory\CloneTaskToDealFactory;
 use App\Factory\TaskFactory;
 use App\Filters\TaskFilter;
 use App\Jobs\Order\CreateOrder;
 use App\Models\CompanyToken;
 use App\Models\Customer;
+use App\Models\Deal;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\SourceType;
 use App\Models\Task;
 use App\Repositories\CustomerRepository;
+use App\Repositories\DealRepository;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\OrderRepository;
@@ -25,6 +28,7 @@ use App\Requests\SearchRequest;
 use App\Requests\Task\CreateDealRequest;
 use App\Requests\Task\CreateTaskRequest;
 use App\Requests\Task\UpdateTaskRequest;
+use App\Transformations\DealTransformable;
 use App\Transformations\TaskTransformable;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -34,6 +38,7 @@ class TaskController extends Controller
 {
 
     use TaskTransformable;
+    use DealTransformable;
 
     /**
      * @var TaskRepositoryInterface
@@ -293,5 +298,18 @@ class TaskController extends Controller
         $task = Task::withTrashed()->where('id', '=', $id)->first();
         $this->task_repo->restore($task);
         return response()->json([], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param Task $task
+     * @param $action
+     */
+    public function action(Request $request, Task $task, $action)
+    {
+        if ($action === 'clone_task_to_deal') {
+            $deal = (new DealRepository(new Deal()))->save([], CloneTaskToDealFactory::create($task, auth()->user()));
+            return response()->json($this->transformDeal($deal));
+        }
     }
 }

@@ -12,25 +12,29 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Models\Task;
+
 use App\Models\Customer;
+use App\Models\Task;
 use App\Models\User;
 use Faker\Generator as Faker;
 
-$factory->define(Task::class, function (Faker $faker) {
-    $customer = factory(Customer::class)->create();
-    $user = factory(User::class)->create();
-    return [
-        'account_id' => 1,
-        'user_id' => $user->id,
-        'title' => $faker->text,
-        'content' => $faker->text,
-        'is_completed' => 0,
-        'customer_id' => $customer->id,
-        'due_date' => $faker->dateTime(),
-        'task_type' => 2,
-        'source_type' => 1,
-        'task_status' => 1,
-        'valued_at' => $faker->randomNumber(3)
-    ];
-});
+$factory->define(
+    Task::class,
+    function (Faker $faker) {
+        $customer = factory(Customer::class)->create();
+        $user = factory(User::class)->create();
+        return [
+            'account_id'   => 1,
+            'user_id'      => $user->id,
+            'name'         => $faker->text,
+            'description'  => $faker->text,
+            'is_completed' => 0,
+            'customer_id'  => $customer->id,
+            'due_date'     => $faker->dateTime(),
+            'task_type'    => 2,
+            'source_type'  => 1,
+            'task_status'  => 1,
+            'valued_at'    => $faker->randomNumber(3)
+        ];
+    }
+);

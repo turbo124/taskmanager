@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditTaskStatus from './EditTaskStatus'
+import EditTaskStatus from './edit/EditTaskStatus'
 import { Input } from 'reactstrap'
 import TaskStatusPresenter from '../presenters/TaskStatusPresenter'
 

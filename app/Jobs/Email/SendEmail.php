@@ -98,14 +98,15 @@ class SendEmail implements ShouldQueue
             $message->setBcc($settings->bcc_email);
         }
 
-        if ($settings->pdf_email_attachment && !in_array(get_class($this->entity),
-                                                         [
-                                                             'App\Models\Lead',
-                                                             'App\Models\Task',
-                                                             'App\Models\Deal',
-                                                             'App\Models\Payment',
-                                                             'App\Models\Cases'
-                                                         ]
+        if ($settings->pdf_email_attachment && !in_array(
+                get_class($this->entity),
+                [
+                    'App\Models\Lead',
+                    'App\Models\Task',
+                    'App\Models\Deal',
+                    'App\Models\Payment',
+                    'App\Models\Cases'
+                ]
             )) {
             $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }

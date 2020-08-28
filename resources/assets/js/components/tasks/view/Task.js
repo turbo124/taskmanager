@@ -100,6 +100,10 @@ export default class Task extends Component {
             fields.status = this.props.entity.status_name
         }
 
+        if (this.props.entity.description.length) {
+            fields.description = this.props.entity.description
+        }
+
         if (this.props.entity.start_date.length) {
             fields.start_date = this.props.entity.start_date
         }

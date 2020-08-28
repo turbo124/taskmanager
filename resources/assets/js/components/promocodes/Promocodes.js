@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddPromocode from './AddPromocode'
+import AddPromocode from './edit/AddPromocode'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import PromocodeFilters from './PromocodeFilters'

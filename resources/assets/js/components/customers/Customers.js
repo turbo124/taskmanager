@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddCustomer from './AddCustomer'
+import AddCustomer from './edit/AddCustomer'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import CustomerFilters from './CustomerFilters'

@@ -6,6 +6,7 @@ use App\Models\AccountUser;
 use App\Models\CompanyToken;
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Gateway;
 use App\Models\Language;
 use App\Models\PaymentMethod;
 use App\Models\User;
@@ -91,6 +92,7 @@ class LoginController extends Controller
                     'languages'     => Language::all()->toArray(),
                     'countries'     => Country::all()->toArray(),
                     'payment_types' => PaymentMethod::all()->toArray(),
+                    'gateways'      => Gateway::all()->toArray(),
                     'users'         => User::where('is_active', '=', 1)->get(
                         ['first_name', 'last_name', 'phone_number', 'id']
                     )->toArray()

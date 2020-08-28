@@ -31,7 +31,7 @@ class UpdateDealRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            'title.required'        => 'Title is required!',
+            'name.required'         => 'Name is required!',
             'content.required'      => 'Content is required!',
             'contributors.required' => 'Contributors is required!',
             'due_date.required'     => 'Due date is required!',

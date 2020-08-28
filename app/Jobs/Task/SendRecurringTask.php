@@ -2,13 +2,8 @@
 
 namespace App\Jobs\Task;
 
-use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Models\Task;
-use App\Models\Invoice;
-use App\Models\Quote;
-use App\Models\RecurringQuote;
 use App\Repositories\TaskRepository;
-use App\Repositories\QuoteRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -53,15 +48,16 @@ class SendRecurringTask implements ShouldQueue
     {
         $recurring_tasks = Task::whereDate('next_send_date', '=', Carbon::today())
                                ->whereDate('date', '!=', Carbon::today())
+                               ->whereDate('recurring_start_date', '<=', Carbon::today())
+                               ->where(
+                                   function ($query) {
+                                       $query->whereNull('recurring_end_date')
+                                             ->orWhere('recurring_end_date', '>=', Carbon::today());
+                                   }
+                               )
                                ->get();
 
         foreach ($recurring_tasks as $recurring_task) {
-            if ($recurring_task->start_date->gt(Carbon::now()) || Carbon::now()->gt(
-                    $recurring_task->end_date
-                )) {
-                continue;
-            }
-
             $task = $recurring_task->replicate();
             $task = $this->task_repo->save(['recurring_task_id' => $recurring_task->id], $task);
 

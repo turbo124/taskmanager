@@ -10,7 +10,7 @@ import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Audit from '../../partials/Audit'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
-import AddPayment from '../../payments/AddPayment'
+import AddPayment from '../../payments/edit/AddPayment'
 import Overview from './Overview'
 
 export default class Invoice extends Component {
