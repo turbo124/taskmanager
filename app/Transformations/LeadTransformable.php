@@ -16,12 +16,11 @@ trait LeadTransformable
         return [
             'id'            => (int)$lead->id,
             'number'        => $lead->number ?: '',
-            'website'       => $lead->website ?: '',
             'industry_id'   => (int)$lead->industry_id,
             'created_at'    => $lead->created_at,
             'first_name'    => $lead->first_name,
             'last_name'     => $lead->last_name,
-            'title'         => $lead->title,
+            'name'          => $lead->name,
             'description'   => $lead->description,
             'valued_at'     => $lead->valued_at,
             'source_type'   => $lead->source_type,

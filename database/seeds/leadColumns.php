@@ -11,7 +11,7 @@ class leadColumns extends Seeder {
      */
     public function run() {
         DB::table('task_statuses')->insert([
-            'title' => 'Unassigned',
+            'name' => 'Unassigned',
             'description' => 'Description 1',
             'icon' => 'fa-bars',
             'is_active' => 1,
@@ -20,7 +20,7 @@ class leadColumns extends Seeder {
         );
 
         DB::table('task_statuses')->insert([
-            'title' => 'Partner Leads',
+            'name' => 'Partner Leads',
             'description' => 'Description 2',
             'icon' => 'fa-lightbulb',
             'is_active' => 1,
@@ -29,7 +29,7 @@ class leadColumns extends Seeder {
         );
 
         DB::table('task_statuses')->insert([
-            'title' => 'Responsible Assigned',
+            'name' => 'Responsible Assigned',
             'description' => 'Description 3',
             'icon' => 'fa-spinner',
             'is_active' => 1,
@@ -38,7 +38,7 @@ class leadColumns extends Seeder {
         );
 
         DB::table('task_statuses')->insert([
-            'title' => 'Waiting For Details',
+            'name' => 'Waiting For Details',
             'description' => 'Description 4',
             'icon' => 'fa-check',
             'is_active' => 1,

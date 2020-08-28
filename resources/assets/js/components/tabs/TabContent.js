@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import TabList from './TabList'
 import Comments from '../comments/Comments'
 import FileUploads from '../attachments/FileUploads'
-import EditTask from '../tasks/EditTask'
-import EditCustomer from '../customers/EditCustomer'
+import EditTask from '../tasks/edit/EditTask'
+import EditCustomer from '../customers/edit/EditCustomer'
 import EventTab from './EventTab'
 import TaskTab from './TaskTab'
-import EditInvoice from '../invoice/EditInvoice'
-import EditQuote from '../quotes/EditQuote'
-import EditOrder from '../orders/EditOrder'
+import EditInvoice from '../invoice/edit/EditInvoice'
+import EditQuote from '../quotes/edit/EditQuote'
+import EditOrder from '../orders/edit/EditOrder'
 
 export default class TabContent extends Component {
     render () {

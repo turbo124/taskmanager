@@ -38,7 +38,7 @@ class LeadTest extends TestCase
         $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
-        //$this->assertEquals($insertedtask->title, $myLastElement['title']);
+        //$this->assertEquals($insertedtask->name, $myLastElement['name']);
     }
 
     /** @test */
@@ -62,7 +62,7 @@ class LeadTest extends TestCase
     public function it_can_update_the_lead()
     {
         $lead = factory(Lead::class)->create();
-        $title = $this->faker->word;
+        $name = $this->faker->word;
         $data = ['first_name' => $this->faker->firstName];
         $leadRepo = new LeadRepository($lead);
         $task = $leadRepo->save($lead, $data);
@@ -89,7 +89,7 @@ class LeadTest extends TestCase
             'account_id'  => $this->account->id,
             'user_id'     => $this->user->id,
             'task_status' => 1,
-            'title'       => $this->faker->word,
+            'name'       => $this->faker->word,
             'description' => $this->faker->sentence,
             'first_name'  => $this->faker->firstName,
             'last_name'   => $this->faker->lastName,

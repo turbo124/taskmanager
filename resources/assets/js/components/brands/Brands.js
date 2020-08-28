@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddBrand from './AddBrand'
+import AddBrand from './edit/AddBrand'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import BrandFilters from './BrandFilters'

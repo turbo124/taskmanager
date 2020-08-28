@@ -61,13 +61,13 @@ class ProjectTest extends TestCase
     public function it_can_update_the_project()
     {
         $project = factory(Project::class)->create();
-        $title = $this->faker->word;
-        $data = ['title' => $title];
+        $name = $this->faker->word;
+        $data = ['name' => $name];
         $projectRepo = new ProjectRepository($project);
         $updated = $projectRepo->save($data, $project);
         $found = $projectRepo->findProjectById($project->id);
         $this->assertInstanceOf(Project::class, $updated);
-        $this->assertEquals($data['title'], $found->title);
+        $this->assertEquals($data['name'], $found->name);
     }
 
     /** @test */
@@ -86,7 +86,7 @@ class ProjectTest extends TestCase
         $data = [
             'account_id'   => $this->account->id,
             'user_id'      => $this->user->id,
-            'title'        => $this->faker->word,
+            'name'        => $this->faker->word,
             'description'  => $this->faker->sentence,
             'is_completed' => 0,
         ];
@@ -95,7 +95,7 @@ class ProjectTest extends TestCase
         $factory = (new ProjectFactory())->create($this->user, $this->customer, $this->account);
         $project = $projectRepo->save($data, $factory);
         $this->assertInstanceOf(Project::class, $project);
-        $this->assertEquals($data['title'], $project->title);
+        $this->assertEquals($data['name'], $project->name);
     }
 
     /**

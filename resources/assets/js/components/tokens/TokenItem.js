@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditToken from './EditToken'
+import EditToken from './edit/EditToken'
 import { Input } from 'reactstrap'
 import TokenPresenter from '../presenters/TokenPresenter'
 

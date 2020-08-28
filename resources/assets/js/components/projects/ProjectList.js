@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddProject from './AddStory'
+import AddProject from './edit/AddStory'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ProjectFilters from './ProjectFilters'
@@ -195,7 +195,7 @@ export default class ProjectList extends Component {
                                     bulk_save_url="/api/project/bulk"
                                     view={view}
                                     disableSorting={['id']}
-                                    defaultColumn='title'
+                                    defaultColumn='name'
                                     ignore={ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
-import AddPayment from './AddPayment'
+import AddPayment from './edit/AddPayment'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import axios from 'axios'
 import PaymentItem from './PaymentItem'

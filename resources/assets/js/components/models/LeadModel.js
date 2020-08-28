@@ -25,7 +25,7 @@ export default class LeadModel extends BaseModel {
             company_name: '',
             zip: '',
             city: '',
-            title: '',
+            name: '',
             valued_at: '',
             assigned_to: '',
             source_type: '',
@@ -78,6 +78,9 @@ export default class LeadModel extends BaseModel {
             actions.push('archive')
         }
 
+        // actions.push('cloneLeadToDeal')
+        // actions.push('cloneLeadToTask')
+
         return actions
     }
 
@@ -126,6 +129,26 @@ export default class LeadModel extends BaseModel {
             // Don't forget to return something
             return res.data
         } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async loadPdf () {
+        try {
+            this.errors = []
+            this.error_message = ''
+            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
             this.handleError(e)
             return false
         }

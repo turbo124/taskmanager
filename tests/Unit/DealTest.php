@@ -46,7 +46,7 @@ class DealTest extends TestCase
         $this->assertNotEmpty($list);
         //$this->assertInstanceOf(Deal::class, $list[0]);
         // $this->assertInstanceOf(Collection::class, $list);
-        //$this->assertEquals($insertedtask->title, $myLastElement['title']);
+        //$this->assertEquals($insertedtask->name, $myLastElement['name']);
     }
 
     /** @test */
@@ -71,13 +71,13 @@ class DealTest extends TestCase
     public function it_can_update_the_task()
     {
         $deal = factory(Deal::class)->create();
-        $title = $this->faker->word;
-        $data = ['title' => $title];
+        $name = $this->faker->word;
+        $data = ['name' => $name];
         $dealRepo = new DealRepository($deal);
         $deal = $dealRepo->save($data, $deal);
         $found = $dealRepo->findDealById($deal->id);
         $this->assertInstanceOf(Deal::class, $deal);
-        $this->assertEquals($data['title'], $found->title);
+        $this->assertEquals($data['name'], $found->name);
     }
 
     /** @test */
@@ -87,7 +87,7 @@ class DealTest extends TestCase
         $dealRepo = new DealRepository(new Deal);
         $found = $dealRepo->findDealById($deal->id);
         $this->assertInstanceOf(Deal::class, $found);
-        $this->assertEquals($deal->title, $found->title);
+        $this->assertEquals($deal->name, $found->name);
     }
 
     /** @test */
@@ -97,7 +97,7 @@ class DealTest extends TestCase
             'account_id'   => $this->account->id,
             'task_status'  => 1,
             'customer_id'  => $this->customer->id,
-            'title'        => $this->faker->word,
+            'name'        => $this->faker->word,
             'description'  => $this->faker->sentence,
             'is_completed' => 0,
             'due_date'     => $this->faker->dateTime,
@@ -107,7 +107,7 @@ class DealTest extends TestCase
         $factory = (new DealFactory())->create($this->user, $this->account);
         $deal = $dealRepo->save($data, $factory);
         $this->assertInstanceOf(Deal::class, $deal);
-        $this->assertEquals($data['title'], $deal->title);
+        $this->assertEquals($data['name'], $deal->name);
     }
 
 
@@ -124,7 +124,7 @@ class DealTest extends TestCase
     {
         $customer = factory(Customer::class)->create();
 
-        $title = $this->faker->title;
+        $name = $this->faker->name;
         $description = $this->faker->sentence;
         $due_date = $this->faker->dateTime;
         $task_type = 2;
@@ -132,7 +132,7 @@ class DealTest extends TestCase
         $address = factory(Deal::class)->create(
             [
                 'account_id'  => $this->account->id,
-                'title'       => $title,
+                'name'       => $name,
                 'description' => $description,
                 'due_date'    => $due_date
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Tooltip } from 'reactstrap'
-import AddTask from './tasks/AddTask'
-import AddLeadForm from './leads/AddLeadForm'
+import AddTask from './tasks/edit/AddTask'
+import AddLeadForm from './leads/edit/AddLeadForm'
 
 class Tooltips extends Component {
     constructor (props) {

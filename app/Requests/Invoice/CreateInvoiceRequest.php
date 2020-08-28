@@ -4,7 +4,6 @@ namespace App\Requests\Invoice;
 
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class CreateInvoiceRequest extends FormRequest
@@ -36,10 +35,12 @@ class CreateInvoiceRequest extends FormRequest
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
             //'number'         => 'nullable|unique:invoices,number,customer,' . $this->customer_id,
-            'number' => [
-                Rule::unique('invoices', 'number')->where(function ($query) {
-                    return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
-                })
+            'number'         => [
+                Rule::unique('invoices', 'number')->where(
+                    function ($query) {
+                        return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                    }
+                )
             ],
         ];
     }

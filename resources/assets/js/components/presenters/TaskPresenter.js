@@ -1,10 +1,14 @@
 import React from 'react'
 import ViewTask from '../tasks/ViewTask'
+import FormatDate from '../common/FormatDate'
 
 export default function TaskPresenter (props) {
     const { field, entity } = props
 
     switch (field) {
+        case 'due_date':
+        case 'start_date':
+            return <td><FormatDate date={entity[field]}/></td>
         case 'title':
             return <td data-label="Title"><ViewTask custom_fields={props.custom_fields}
                 project_id={props.task.project_id}

@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditAttribute from './EditAttribute'
+import EditAttribute from './edit/EditAttribute'
 import { Input } from 'reactstrap'
 
 export default class AttributeItem extends Component {

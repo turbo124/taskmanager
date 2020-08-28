@@ -16,9 +16,9 @@ export default function Overview (props) {
             heading_2={translations.amount}
             value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
 
-        {!!props.entity.title.length &&
+        {!!props.entity.name.length &&
         <Row>
-            <InfoMessage message={props.entity.title}/>
+            <InfoMessage message={props.entity.name}/>
         </Row>
         }
 

@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditQuote from './EditQuote'
+import EditQuote from './edit/EditQuote'
 import QuotePresenter from '../presenters/QuotePresenter'
 
 export default class QuoteItem extends Component {

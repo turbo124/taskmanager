@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddSubscription from './AddSubscription'
+import AddSubscription from './edit/AddSubscription'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import SubscriptionFilters from './SubscriptionFilters'

@@ -9,7 +9,7 @@ import ViewTask from './tasks/ViewTask'
 import Subtasks from './tasks/Subtasks'
 import Avatar from './common/Avatar'
 import RestoreModal from './common/RestoreModal'
-import EditLeadForm from './leads/EditLeadForm'
+import EditLeadForm from './leads/edit/EditLeadForm'
 
 class Task extends Component {
     componentWillReceiveProps () {
@@ -134,7 +134,7 @@ class Task extends Component {
                                     {deleteButtonDisplay}
                                 </span>
 
-                                <h3>{i.title}</h3>
+                                <h3>{i.name}</h3>
                                 <h5 className="m-3">{i.valued_at}</h5>
                                 <p className="mb-1">{description}</p>
 

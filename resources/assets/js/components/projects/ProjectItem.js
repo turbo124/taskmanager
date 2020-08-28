@@ -4,7 +4,7 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditProject from './EditProject'
+import EditProject from './edit/EditProject'
 import ProjectPresenter from '../presenters/ProjectPresenter'
 
 export default class ProjectItem extends Component {

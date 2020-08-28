@@ -3,7 +3,6 @@
 namespace App\Services\Deal;
 
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\TaskPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\ClientContact;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import EditQuote from './EditQuote'
+import EditQuote from './edit/EditQuote'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import QuoteItem from './QuoteItem'

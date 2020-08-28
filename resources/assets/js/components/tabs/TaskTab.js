@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { Button } from 'reactstrap'
-import AddTask from '../tasks/AddTask'
+import AddTask from '../tasks/edit/AddTask'
 
 class TaskTab extends React.Component {
     constructor (props) {

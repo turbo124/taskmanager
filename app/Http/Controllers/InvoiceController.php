@@ -75,8 +75,8 @@ class InvoiceController extends BaseController
      */
     public function store(CreateInvoiceRequest $request)
     {
-      Log::emergency('lexie');
-      die;
+        Log::emergency('lexie');
+        die;
 
         $customer = Customer::find($request->input('customer_id'));
         $invoice = $this->invoice_repo->createInvoice(

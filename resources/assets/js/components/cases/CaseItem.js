@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditCase from './EditCase'
+import EditCase from './edit/EditCase'
 import { Input } from 'reactstrap'
 import CasePresenter from '../presenters/CasePresenter'
 

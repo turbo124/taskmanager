@@ -3,7 +3,7 @@ import axios from 'axios'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditSubscription from './EditSubscription'
+import EditSubscription from './edit/EditSubscription'
 import { Input } from 'reactstrap'
 import SubscriptionPresenter from '../presenters/SubscriptionPresenter'
 

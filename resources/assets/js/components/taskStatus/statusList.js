@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddTaskStatus from './AddTaskStatus'
+import AddTaskStatus from './edit/AddTaskStatus'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import TaskStatusFilters from './TaskStatusFilters'

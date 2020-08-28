@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import EditOrder from './EditOrder'
+import EditOrder from './edit/EditOrder'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import OrderItem from './OrderItem'

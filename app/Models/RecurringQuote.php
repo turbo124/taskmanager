@@ -60,10 +60,10 @@ class RecurringQuote extends Model
 
     protected $casts = [
         'next_send_date' => 'datetime',
-        'settings'   => 'object',
-        'line_items' => 'object',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp',
+        'settings'       => 'object',
+        'line_items'     => 'object',
+        'updated_at'     => 'timestamp',
+        'deleted_at'     => 'timestamp',
     ];
 
     protected $dates = [
