@@ -87,7 +87,7 @@ trait CustomerTransformable
 
         return $transactions->map(
             function (Transaction $transaction) {
-                return (new ErrorLogTransformable())->transformErrorLog($error_log);
+                return (new TransactionTransformable())->transformTransaction($transaction);
             }
         )->all();
     }
@@ -104,7 +104,7 @@ trait CustomerTransformable
 
         return $error_logs->map(
             function (ErrorLog $error_log) {
-                return (new TransactionTransformable())->transformTransaction($transaction);
+                return (new ErrorLogTransformable())->transformErrorLog($error_log);
             }
         )->all();
     }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel from './BaseModel'
+import { consts } from "../common/_consts";
 
 export default class PaymentModel extends BaseModel {
     constructor (invoices, data = null, credits = null) {
@@ -22,6 +23,7 @@ export default class PaymentModel extends BaseModel {
             assigned_to: '',
             customer_id: '',
             account_id: null,
+            status_id: null,
             invoice_id: null,
             transaction_reference: '',
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
@@ -41,6 +43,8 @@ export default class PaymentModel extends BaseModel {
             paymentables: [],
             message: ''
         }
+
+        this.completed = consts.payment_status_completed
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -105,6 +109,10 @@ export default class PaymentModel extends BaseModel {
 
     get isActive () {
         return !this.fields.deleted_at && this.fields.is_deleted === false
+    }
+
+    get isCompleted () {
+        return this.fields.status_id === this.completed
     }
 
     buildPaymentables () {

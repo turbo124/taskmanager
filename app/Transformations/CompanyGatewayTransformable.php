@@ -26,6 +26,7 @@ trait CompanyGatewayTransformable
             'show_shipping_address' => (bool)$company_gateway->show_shipping_address,
             'update_details'        => (bool)$company_gateway->update_details,
             'config'                => $company_gateway->config,
+            'mode'                  => $company_gateway->getMode(),
             'fees_and_limits'       => $company_gateway->fees_and_limits ?: '',
             'updated_at'            => $company_gateway->updated_at,
             'deleted_at'            => $company_gateway->deleted_at,

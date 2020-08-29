@@ -24,19 +24,19 @@ class ErrorLog extends Authenticatable
         'account_id',
         'user_id',
         'customer_id',
-       
+
     ];
 
     protected $casts = [
         'data' => 'object'
     ];
 
-     /**
+    /**
      * type
      */
     const PAYMENT = 'payment';
     const EMAIL = 'email';
-   
+
     /**
      * result
      */
@@ -44,5 +44,5 @@ class ErrorLog extends Authenticatable
     const NEUTRAL = 'neutral';
     const FAILURE = 'failure';
 
-    protected $table = 'error_log'
+    protected $table = 'error_log';
 }

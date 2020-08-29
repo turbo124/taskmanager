@@ -467,66 +467,66 @@ class InvoiceTest extends TestCase
     }
 
     /** @test */
-//    public function autoBill()
-//    {
-//        // create invoice
-//        $invoice = factory(Invoice::class)->create();
-//        $invoice->customer_id = 5;
-//        $invoice->gateway_fee = 12.99;
-//        $invoice->save();
-//
-//        $total = $invoice->total;
-//        $line_item_count = count($invoice->line_items);
-//
-//        $invoiceRepo = new InvoiceRepository(new Invoice);
-//        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
-//        $expected_amount = $total + $original_invoice->gateway_fee;
-//        $this->assertEquals((float)$expected_amount, (float)$original_invoice->total);
-//        $this->assertEquals($line_item_count + 1, count($original_invoice->line_items));
-//
-//        // auto bill
-//        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
-//
-//        $payment = $original_invoice->payments->first();
-//
-//        $invoice = $original_invoice->fresh();
-//        $this->assertNotNull($payment);
-//        $this->assertInstanceOf(Payment::class, $payment);
-//        $this->assertEquals((float)$payment->amount, $expected_amount);
-//        $this->assertEquals(0, $invoice->balance);
-//    }
+    public function autoBill()
+    {
+        // create invoice
+        $invoice = factory(Invoice::class)->create();
+        $invoice->customer_id = 5;
+        $invoice->gateway_fee = 12.99;
+        $invoice->save();
+
+        $total = $invoice->total;
+        $line_item_count = count($invoice->line_items);
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
+        $expected_amount = $total + $original_invoice->gateway_fee;
+        $this->assertEquals((float)$expected_amount, (float)$original_invoice->total);
+        $this->assertEquals($line_item_count + 1, count($original_invoice->line_items));
+
+        // auto bill
+        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
+
+        $payment = $original_invoice->payments->first();
+
+        $invoice = $original_invoice->fresh();
+        $this->assertNotNull($payment);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals((float)$payment->amount, $expected_amount);
+        $this->assertEquals(0, $invoice->balance);
+    }
 
     /** @test */
-//    public function autoBill_with_gateway()
-//    {
-//        // create invoice
-//        $invoice = factory(Invoice::class)->create();
-//        $invoice->customer_id = 5;
-//        $invoice->gateway_fee = 0;
-//        $user = factory(User::class)->create();
-//
-//        $total = $invoice->total;
-//        $line_item_count = count($invoice->line_items);
-//
-//        $invoiceRepo = new InvoiceRepository(new Invoice);
-//        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
-//        $this->assertEquals($total, $original_invoice->total);
-//        $this->assertEquals($line_item_count, count($original_invoice->line_items));
-//
-//        // auto bill
-//        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
-//        $invoice = $original_invoice->fresh();
-//        $this->assertEquals($line_item_count + 1, count($invoice->line_items));
-//        $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
-//
-//        $payment = $original_invoice->payments->first();
-//
-//        $invoice = $original_invoice->fresh();
-//        $this->assertNotNull($payment);
-//        $this->assertInstanceOf(Payment::class, $payment);
-//        $this->assertEquals((float)$payment->amount, $invoice->total);
-//        $this->assertEquals(0, $invoice->balance);
-//    }
+    public function autoBill_with_gateway()
+    {
+        // create invoice
+        $invoice = factory(Invoice::class)->create();
+        $invoice->customer_id = 5;
+        $invoice->gateway_fee = 0;
+        $user = factory(User::class)->create();
+
+        $total = $invoice->total;
+        $line_item_count = count($invoice->line_items);
+
+        $invoiceRepo = new InvoiceRepository(new Invoice);
+        $original_invoice = $invoiceRepo->createInvoice([], $invoice);
+        $this->assertEquals($total, $original_invoice->total);
+        $this->assertEquals($line_item_count, count($original_invoice->line_items));
+
+        // auto bill
+        AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
+        $invoice = $original_invoice->fresh();
+        $this->assertEquals($line_item_count + 1, count($invoice->line_items));
+        $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
+
+        $payment = $original_invoice->payments->first();
+
+        $invoice = $original_invoice->fresh();
+        $this->assertNotNull($payment);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals((float)$payment->amount, $invoice->total);
+        $this->assertEquals(0, $invoice->balance);
+    }
 
     public function test_reminders()
     {

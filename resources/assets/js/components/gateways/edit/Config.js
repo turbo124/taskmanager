@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import FormBuilder from '../../accounts/FormBuilder'
+import { translations } from '../../common/_translations'
+import { consts } from '../../common/_consts'
 
 export default class Config extends Component {
     constructor (props) {
@@ -18,17 +20,34 @@ export default class Config extends Component {
             [
                 {
                     name: 'apiLoginId',
-                    label: 'Api Login ID',
+                    label: translations.api_login_id,
                     type: 'text',
                     placeholder: 'Api Login ID',
                     value: settings.apiLoginId
                 },
                 {
                     name: 'transactionKey',
-                    label: 'Transaction Key',
+                    label: translations.transaction_key,
                     type: 'password',
                     placeholder: 'Transaction Key',
                     value: settings.transactionKey
+                },
+                {
+                    name: 'mode',
+                    label: translations.mode,
+                    type: 'select',
+                    placeholder: 'Transaction Key',
+                    value: settings.mode || '',
+                    options: [
+                        {
+                            value: consts.gateway_mode_live,
+                            text: translations.live
+                        },
+                        {
+                            value: consts.gateway_mode_production,
+                            text: translations.production
+                        }
+                    ]
                 }
             ]
         ]
@@ -43,9 +62,9 @@ export default class Config extends Component {
             [
                 {
                     name: 'password',
-                    label: 'Password',
+                    label: translations.password,
                     type: 'password',
-                    placeholder: 'Password',
+                    placeholder: translations.password,
                     value: settings.password
                 },
                 {
@@ -57,10 +76,26 @@ export default class Config extends Component {
                 },
                 {
                     name: 'username',
-                    label: 'Username',
+                    label: translations.username,
                     type: 'text',
-                    placeholder: 'Username',
+                    placeholder: translations.username,
                     value: settings.username
+                },
+                {
+                    name: 'mode',
+                    label: translations.mode,
+                    type: 'select',
+                    value: settings.mode || '',
+                    options: [
+                        {
+                            value: consts.gateway_mode_live,
+                            text: translations.live
+                        },
+                        {
+                            value: consts.gateway_mode_production,
+                            text: translations.production
+                        }
+                    ]
                 }
             ]
         ]
@@ -75,17 +110,34 @@ export default class Config extends Component {
             [
                 {
                     name: 'apiKey',
-                    label: 'Secret Key',
+                    label: translations.secret_key,
                     type: 'password',
                     placeholder: 'Secret Key',
                     value: settings.apiKey
                 },
                 {
                     name: 'publishable_key',
-                    label: 'Publishable Key',
+                    label: translations.publishable_key,
                     type: 'password',
                     placeholder: 'Publishable Key',
                     value: settings.publishable_key
+                },
+                {
+                    name: 'mode',
+                    label: translations.mode,
+                    type: 'select',
+                    placeholder: 'Transaction Key',
+                    value: settings.mode || '',
+                    options: [
+                        {
+                            value: consts.gateway_mode_live,
+                            text: translations.live
+                        },
+                        {
+                            value: consts.gateway_mode_production,
+                            text: translations.production
+                        }
+                    ]
                 }
             ]
         ]

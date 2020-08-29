@@ -39,8 +39,13 @@ class CompanyGateway extends Model
         return $this->belongsTo(Gateway::class, 'gateway_key', 'key');
     }
 
-    public function resolveRouteBinding($value)
+    public function getMode()
     {
-        return $this->where('id', $value)->firstOrFail();
+        return isset($this->config->mode) ? $this->config->mode : 'Production';
     }
+
+//    public function resolveRouteBinding($value)
+//    {
+//        return $this->where('id', $value)->firstOrFail();
+//    }
 }

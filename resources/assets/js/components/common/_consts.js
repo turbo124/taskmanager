@@ -11,6 +11,8 @@ export const consts = {
     pounds: 'lbs',
     foot: 'ft',
     yard: 'yd',
+    gateway_mode_live: 'Live',
+    gateway_mode_production: 'Production',
     low_priority: 1,
     medium_priority: 2,
     high_priority: 3,

@@ -4,12 +4,12 @@
 namespace App\Helpers\Payment\Gateways;
 
 
+use App\Factory\ErrorLogFactory;
+use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\ErrorLog;
 use Exception;
 use Stripe\Customer;
-use App\Factory\ErrorLogFactory;
 use Stripe\Exception\ApiConnectionException;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\AuthenticationException;
@@ -123,37 +123,36 @@ class Stripe extends BasePaymentGateway
             // param is '' in this case
             $errors['param'] = $e->getError()->param;
             $errors['error_message'] = $e->getError();
-           
         } catch (RateLimitException $e) {
             // Too many requests made to the API too quickly
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
             $errors['param'] = $e->getError()->param;
-           
+
             $errors['error_message'] = 'Too many requests made to the API too quickly';
             return false;
         } catch (InvalidRequestException $e) {
             // Invalid parameters were supplied to Stripe's API
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
             $errors['param'] = $e->getError()->param;
-            $errors['error_message'] = 'Invalid parameters were supplied to Stripe's API';
+            $errors['error_message'] = 'Invalid parameters were supplied to Stripes API';
         } catch (AuthenticationException $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
             $errors['param'] = $e->getError()->param;
-            $errors['error_message'] = 'Authentication with Stripe's API failed';
+            $errors['error_message'] = 'Authentication with Stripes API failed';
         } catch (ApiConnectionException $e) {
             // Network communication with Stripe failed
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
@@ -162,7 +161,7 @@ class Stripe extends BasePaymentGateway
         } catch (ApiErrorException $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
@@ -170,7 +169,7 @@ class Stripe extends BasePaymentGateway
             $errors['error_message'] = 'unexpected error';
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
-             $errors['error_status'] = $e->getHttpStatus();
+            $errors['error_status'] = $e->getHttpStatus();
             $errors['error_type'] = $e->getError()->type;
             $errors['error_code'] = $e->getError()->code;
             // param is '' in this case
@@ -178,12 +177,14 @@ class Stripe extends BasePaymentGateway
             $errors['error_message'] = 'unexpected error';
         }
 
-        if(!empty($errors)) {
-            $error_log = ErrorLogFactory::create($this->customer->account, auth()-user(), $this->customer);
-            $error->log->data = $errors;
-            $error_log->error_type = ErrorLog::PAYMENT; 
+        if (!empty($errors)) {
+            $user = !empty($invoice) ? $invoice->user : $this->customer->user;
+            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+            $error_log->data = $errors['data'];
+            $error_log->error_type = ErrorLog::PAYMENT;
             $error_log->error_result = ErrorLog::FAILURE;
-            $error->entity = 'stripe';
+            $error_log->entity = 'stripe';
+
             $error_log->save();
             return false;
         }

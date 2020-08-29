@@ -1,7 +1,6 @@
-import axios from 'axios'
 import BaseModel from './BaseModel'
 
-export default class SystemLogModel extends BaseModel {
+export default class ErrorLogModel extends BaseModel {
     constructor (data = null) {
         super()
 
@@ -36,41 +35,40 @@ export default class SystemLogModel extends BaseModel {
         return this._fields
     }
 
-    get category {
+    get category () {
         switch (this.fields.error_type) {
-            case this.PAYMENT_FAILURE:
-                return 'payment';
+            case this.PAYMENT:
+                return 'payment'
             case this.EMAIL:
-                return 'email';
+                return 'email'
         }
 
-        return '';
+        return ''
     }
 
-    get event {
+    get event () {
         switch (this.fields.error_result) {
             case this.NEUTRAL:
-                return '';
+                return ''
             case this.SUCCESS:
-                return 'error_log_success';
+                return 'error_log_success'
             case this.FAILURE:
-                return 'error_log_failure';
-           
+                return 'error_log_failure'
         }
 
-        return '';
+        return ''
     }
 
-    get entity {
+    get entity () {
         switch (this.fields.entity) {
             case this.ENTITY_PAYPAL:
-                return 'paypal';
+                return 'paypal'
             case this.ENTITY_STRIPE:
-                return 'stripe';
+                return 'stripe'
             case this.ENTITY_AUTHORIZE:
                 return 'authorize'
         }
 
-    return '';
-  }
+        return ''
+    }
 }
