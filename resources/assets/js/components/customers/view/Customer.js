@@ -4,7 +4,7 @@ import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
 import PaymentModel from '../../models/PaymentModel'
 import SectionItem from '../../common/entityContainers/SectionItem'
-import Transaction from '../edit/Transaction'
+import Transaction from './Transaction'
 import CustomerSettings from '../edit/CustomerSettings'
 import CustomerModel from '../../models/CustomerModel'
 import GatewayModel from '../../models/GatewayModel'
@@ -15,6 +15,7 @@ import MetaItem from '../../common/entityContainers/MetaItem'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
 import Details from './Details'
+import ErrorLog from "./ErrorLog";
 
 export default class Customer extends Component {
     constructor (props) {
@@ -200,6 +201,17 @@ export default class Customer extends Component {
                             {translations.documents} ({this.customerModel.fileCount})
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '7' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('7')
+                            }}
+                        >
+                            {translations.error_log}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -241,6 +253,10 @@ export default class Customer extends Component {
                             e.preventDefault()
                             window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
                         }}>{translations.gateways} </Button>
+                    </TabPane>
+
+                    <TabPane tabId="7">
+                        <ErrorLog error_logs={this.props.entity.error_logs} />
                     </TabPane>
                 </TabContent>
 

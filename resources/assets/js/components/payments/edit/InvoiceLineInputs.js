@@ -4,7 +4,6 @@ import InvoiceDropdown from '../../common/InvoiceDropdown'
 import { translations } from '../../common/_translations'
 
 const InvoiceLineInputs = (props) => {
-    alert(props.hideEmpty)
     return (
         props.lines.map((val, idx) => {
             return (

@@ -4,7 +4,9 @@
 namespace App\Helpers\Payment\Gateways;
 
 
+use App\Factory\ErrorLogFactory;
 use App\Models\Customer;
+use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
 use net\authorize\api\constants\ANetEnvironment;
@@ -72,18 +74,45 @@ class Authorize extends BasePaymentGateway
         $controller = new CreateTransactionController($request);
         $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
 
+        $errors = [];
+
         if ($response != null) {
             if ($response->getMessages()->getResultCode() == "Ok") {
                 $tresponse = $response->getTransactionResponse();
 
-                if ($tresponse != null) {
+                if ($tresponse != null && $tresponse->getMessages() != null) {
                     if ($invoice !== null) {
                         return $this->completePayment($amount, $invoice, $tresponse->getTransId());
                     }
-
-                    return null;
+                } else {
+                   if ($tresponse->getErrors() != null) {
+                        $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                        $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
+                    }
+                }
+            } else {
+                $tresponse = $response->getTransactionResponse();
+                if ($tresponse != null && $tresponse->getErrors() != null) {
+                    $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                    $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
+                } else {
+                    $errors['data']['error_code'] = $response->getMessages()->getMessage()[0]->getCode();
+                    $errors['data']['message'] = $response->getMessages()->getMessage()[0]->getText();
                 }
             }
+        }
+
+        if (!empty($errors)) {
+            $user = !empty($invoice) ? $invoice->user : $this->customer->user;
+            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+            $error_log->data = $errors['data'];
+            $error_log->error_type = ErrorLog::PAYMENT;
+            $error_log->error_result = ErrorLog::FAILURE;
+            $error_log->entity = 'authorize';
+
+            $error_log->save();
+
+            return null;
         }
 
         return null;

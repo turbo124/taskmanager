@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\CustomerGateway;
 use App\Models\File;
 use App\Models\Transaction;
+use App\Models\ErrorLog;
 use Exception;
 
 trait CustomerTransformable
@@ -62,6 +63,7 @@ trait CustomerTransformable
             'assigned_to'            => $customer->assigned_to,
             'settings'               => $customer->settings,
             'transactions'           => $this->transformTransactions($customer->transactions),
+            'error_logs'             => $this->transformErrorLogs($customer->error_logs),
             'custom_value1'          => $customer->custom_value1 ?: '',
             'custom_value2'          => $customer->custom_value2 ?: '',
             'custom_value3'          => $customer->custom_value3 ?: '',
@@ -86,6 +88,23 @@ trait CustomerTransformable
         return $transactions->map(
             function (Transaction $transaction) {
                 return (new TransactionTransformable())->transformTransaction($transaction);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $transactions
+     * @return array
+     */
+    private function transformErrorLogs($error_logs)
+    {
+        if (empty($error_logs)) {
+            return [];
+        }
+
+        return $error_logs->map(
+            function (ErrorLog $error_log) {
+                return (new ErrorLogTransformable())->transformErrorLog($error_log);
             }
         )->all();
     }

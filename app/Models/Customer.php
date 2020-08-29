@@ -104,6 +104,11 @@ class Customer extends Model implements HasLocalePreference
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
+    public function error_logs()
+    {
+        return $this->hasMany(ErrorLog::class)->orderBy('created_at', 'desc');
+    }
+
     public function contacts()
     {
         return $this->hasMany(ClientContact::class)->orderBy('is_primary', 'desc');

@@ -202,6 +202,7 @@ class EditPayment extends React.Component {
                             handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
+                        {!this.paymentModel.isCompleted &&
                         <InvoiceLine payment={this.state} credit_lines={this.state.payable_credits}
                             lines={this.state.payable_invoices} handleAmountChange={this.setAmount}
                             errors={this.state.errors}
@@ -211,6 +212,7 @@ class EditPayment extends React.Component {
                             customerChange={this.handleCustomerChange}
                             onCreditChange={this.setCredits}
                             onChange={this.setInvoices}/>
+                        }
 
                         <Notes private_notes={this.state.private_notes} handleInput={this.handleInput}/>
 
