@@ -10,14 +10,19 @@ export default function ErrorLog (props) {
    
     const error_logs = props.error_logs.length ? props.error_logs.map((error_log, index) => {
         const errorLogModel = new ErrorLogModel(error_log)
+        const icon = error_log.error_type === errorLogModel.CATEGORY_EMAIL ? Icons.email : Icons.credit_card
        return (
            <ListGroupItem>
                <a id="toggler" className="btn collapsed" data-toggle="collapse" href="#collapseExample1">
                    <div className="d-flex w-100 justify-content-between">
-                       <h5 className="mb-1">heading here</h5>
+                       <h5 className="mb-1">{translations[errorLogModel.category] +
+                      '  ›  ' +
+                      translations[errorLogModel.type]}
+                      </h5>
                        <span>icon here</span>
                    </div>
-                   <p class="mb-1">subheading here</p>
+                   <p class="mb-1">{translations[errorLogModel.event]}
+                      <DateFormat date={error_log.created_at} with_time={true} /> </p>
                </a>
                 <UncontrolledCollapse toggler="#toggler">
                     Json viewer here
