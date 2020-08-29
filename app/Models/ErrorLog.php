@@ -35,6 +35,7 @@ class ErrorLog extends Authenticatable
      * type
      */
     const PAYMENT_FAILURE = 'payment_failure';
+    const EMAIL_FAILURE = 'email_failure';
    
     /**
      * result
