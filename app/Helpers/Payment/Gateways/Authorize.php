@@ -100,9 +100,9 @@ class Authorize extends BasePaymentGateway
                     }
 
                     $error->log->data = $errors['data'];
-                    $error_log->error_type = ErrorLog::PAYMENT_FAILURE; 
+                    $error_log->error_type = ErrorLog::PAYMENT; 
                     $error_log->error_result = ErrorLog::FAILURE;
-                    $error->entity = 'Authorize.net';
+                    $error->entity = 'authorize';
                     $error_log->save();
                 }
             }
