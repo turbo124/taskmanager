@@ -181,9 +181,9 @@ class Stripe extends BasePaymentGateway
         if(!empty($errors)) {
             $error_log = ErrorLogFactory::create($this->customer->account, auth()-user(), $this->customer);
             $error->log->data = $errors;
-            $error_log->error_type = ErrorLog::PAYMENT_FAILURE; 
+            $error_log->error_type = ErrorLog::PAYMENT; 
             $error_log->error_result = ErrorLog::FAILURE;
-            $error->entity = 'Stripe';
+            $error->entity = 'stripe';
             $error_log->save();
             return false;
         }
