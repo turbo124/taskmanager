@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Email extends Authenticatable
+class ErrorLog extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
