@@ -30,6 +30,7 @@ export default class Details extends React.Component {
     render () {
         const customer_disabled = this.props.payment.payable_invoices.length > 0
         return (<React.Fragment>
+            {!this.props.hide_amount && 
             <FormGroup className="mb-3">
                 <Label>{translations.amount}(*):</Label>
                 <Input value={this.props.payment.amount}
@@ -38,6 +39,7 @@ export default class Details extends React.Component {
                     onChange={this.props.handleInput}/>
                 {this.renderErrorFor('amount')}
             </FormGroup>
+            }
 
             <FormGroup className="mr-2">
                 <Label for="date">{translations.date}(*):</Label>
