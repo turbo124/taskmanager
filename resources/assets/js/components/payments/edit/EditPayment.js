@@ -199,6 +199,7 @@ class EditPayment extends React.Component {
                         {errorMessage}
 
                         <Details hide_customer={true} payment={this.state} errors={this.state.errors}
+                            hide_amount={this.paymentModel.isCompleted}
                             handleInput={this.handleInput}
                             handleCustomerChange={this.handleCustomerChange} handleCheck={this.handleCheck}/>
 
