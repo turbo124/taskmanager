@@ -53,11 +53,7 @@ class InvoiceService extends ServiceBase
 
     public function send()
     {
-        $customer = $this->invoice->customer;
-        $customer->increaseBalance($this->invoice->balance);
-        $customer->save();
-
-        $this->invoice->transaction_service()->createTransaction($this->invoice->balance, $customer->balance);
+       $this->invoice->updateInvoiceBalance($this->invoice->balance);
     }
 
     /**
