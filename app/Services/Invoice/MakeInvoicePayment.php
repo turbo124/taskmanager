@@ -33,25 +33,31 @@ class MakeInvoicePayment
 
     public function execute()
     {
-        $this->updateCustomer();
+        $amount_to_pay = $this->payment_amount;
 
+        if($this->invoice->gateway_fee > 0) {
+            $amount_to_pay += $this->invoice->gateway_fee;
+        }
+
+        $this->updateCustomer($amount_to_pay);
+    
         $this->payment->transaction_service()->createTransaction(
-            $this->payment_amount * -1,
+           $amount_to_pay  * -1,
             $this->payment->customer->balance
         );
 
-        $this->updateInvoiceTotal();
+        $this->updateInvoiceTotal($amount_to_pay);
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            return $this->updateInvoice(true);
+            return $this->updateInvoice($amount_to_pay, true);
         }
 
-        if ($this->payment_amount > $this->invoice->balance) {
+        if ($amount_to_pay > $this->invoice->balance) {
             return $this->invoice;
         }
 
-        $this->updateInvoice();
+        $this->updateInvoice($amount_to_pay);
 
         return $this->invoice;
     }
@@ -59,9 +65,10 @@ class MakeInvoicePayment
     /**
      * @return bool
      */
-    private function updateCustomer(): bool
+    private function updateCustomer($amount_to_pay): bool
     {
-        $this->payment->customer->reduceBalance($this->payment_amount);
+        $this->payment->customer->reduceBalance($amount_to_pay);
+        $this->payment->customer->increasePaidToDate($amount_to_pay);
         $this->payment->customer->save();
         return true;
     }
@@ -69,14 +76,14 @@ class MakeInvoicePayment
     /**
      * @return Invoice
      */
-    private function updateInvoice($partial = false): Invoice
+    private function updateInvoice($amount_to_pay, $partial = false): Invoice
     {
         if ($partial) {
-            $this->resetPartialInvoice();
+            $this->resetPartialInvoice($amount_to_pay);
             $this->setDueDate();
         }
 
-        $this->updateBalance($this->payment_amount);
+        $this->updateBalance($amount_to_pay);
         $this->setStatus();
         $this->save();
 
@@ -108,10 +115,10 @@ class MakeInvoicePayment
     /**
      * @return Invoice
      */
-    private function updateInvoiceTotal(): Invoice
+    private function updateInvoiceTotal($amount_to_pay): Invoice
     {
         $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
-        $invoice->pivot->amount = $this->payment_amount;
+        $invoice->pivot->amount = $amount_to_pay;
         $invoice->pivot->save();
         return $invoice;
     }
@@ -119,10 +126,10 @@ class MakeInvoicePayment
     /**
      * @return bool
      */
-    private function resetPartialInvoice(): bool
+    private function resetPartialInvoice($amount_to_pay): bool
     {
-        $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
-        $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
+        $balance_adjustment = $this->invoice->partial > $amount_to_pay ? $amount_to_pay : $this->invoice->partial;
+        $balance_adjustment = $this->invoice->partial == $amount_to_pay ? 0 : $balance_adjustment;
 
         if ($balance_adjustment > 0) {
             $this->invoice->partial -= $balance_adjustment;
