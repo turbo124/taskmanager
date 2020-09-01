@@ -187,6 +187,6 @@ class PaymentController extends Controller
     {
         $payment = CreatePayment::dispatchNow($request->all(), $this->payment_repo);
 
-        return response()->json(['code' => 200, 'payment_id' => $payment->id]);
+        return response()->json(['code' => 200, 'payment_id' => $payment->id], 200);
     }
 }

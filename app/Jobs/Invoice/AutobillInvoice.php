@@ -71,11 +71,11 @@ class AutobillInvoice implements ShouldQueue
         $fee = 0;
 
         if (!empty($fees_and_limits->fee_percent) && $fees_and_limits->fee_percent > 0) {
-            $amount += $amount * $fees_and_limits->fee_percent / 100;
+            $fee += $amount * $fees_and_limits->fee_percent / 100;
         }
 
         if (!empty($fees_and_limits->fee_amount) && $fees_and_limits->fee_amount > 0) {
-            $amount += $fees_and_limits->fee_amount;
+            $fee += $fees_and_limits->fee_amount;
         }
 
         if (!empty($fee)) {

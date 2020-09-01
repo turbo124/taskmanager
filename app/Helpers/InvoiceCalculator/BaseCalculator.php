@@ -23,7 +23,6 @@ class BaseCalculator
 
     public function __construct($entity)
     {
-        $this->entity = $entity;
         $this->customer = $entity !== null ? $entity->customer : null;
         $this->decimals = $entity !== null ? $this->customer->currency->precision : 2;
     }
@@ -55,6 +54,9 @@ class BaseCalculator
     protected function calculateBalance($total, $balance)
     {
         if ($total != $balance) {
+
+            echo $this->entity->gateway_fee;
+
             $paid_to_date = $total - $balance;
 
             return round($total, $this->decimals) - $paid_to_date;

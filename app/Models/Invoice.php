@@ -316,6 +316,8 @@ class Invoice extends Model
         $customer->increaseBalance($amount);
         $customer->save();
 
-        $this->transaction_service()->createTransaction($amount, $customer->balance);
+        if ($this->id) {
+            $this->transaction_service()->createTransaction($amount, $customer->balance);
+        }
     }
 }

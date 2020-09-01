@@ -37,7 +37,7 @@ export default class QuoteModel extends BaseModel {
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             quantity: '',
             id: null,
-            account_id: null,
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             lines: [],
             address: {},
             customerName: '',

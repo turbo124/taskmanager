@@ -114,6 +114,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $original_amount = $invoice->total;
         $invoice->fill($data);
         $invoice = $this->populateDefaults($invoice);
+
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();
 

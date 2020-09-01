@@ -45,14 +45,14 @@ class BasePaymentProcessor
 
     private function applyPayment()
     {
-        if ($this->amount > $this->payment->amount) {
-            return true;
-        }
+//        if ($this->amount > $this->payment->amount) {
+//            return true;
+//        }
 
         //TODO - Need to check this
         $this->payment->amount = $this->amount;
         $this->payment->applied += $this->amount;
-        $this->payment->save();
+        //$this->payment->save();
     }
 
     /**
@@ -84,6 +84,7 @@ class BasePaymentProcessor
         }
 
         $this->amount += $amount;
+
         return $this;
     }
 
@@ -105,13 +106,15 @@ class BasePaymentProcessor
         return $this->amount;
     }
 
-    protected function save()
+    protected function save(): ?Payment
     {
         $this->applyPayment();
         //$this->setStatus();
         $this->updateCustomer();
 
         $this->payment->save();
+
+        return $this->payment;
         //event(new PaymentWasRefunded($this->payment, $this->data));
     }
 }
