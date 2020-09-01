@@ -24,7 +24,7 @@ export default class OrderModel extends BaseModel {
             number: '',
             is_amount_discount: false,
             id: null,
-            account_id: null,
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             showSuccessMessage: false,
             showErrorMessage: false,
             invitations: [],

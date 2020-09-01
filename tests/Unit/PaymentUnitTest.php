@@ -198,6 +198,8 @@ class PaymentUnitTest extends TestCase
     {
         $invoice = factory(Invoice::class)->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
+        $paid_to_date = $this->customer->paid_to_date;
+        $balance = $this->customer->balance;
 
         $data = [
             'customer_id' => $this->customer->id,
@@ -210,8 +212,52 @@ class PaymentUnitTest extends TestCase
 
         $paymentRepo = new PaymentRepository(new Payment);
         $created = (new ProcessPayment())->process($data, $paymentRepo, $factory);
+
+        $this->assertEquals((float)$created->customer->balance, ($balance - $invoice->balance));
+        $this->assertEquals($created->customer->paid_to_date, ($paid_to_date + $invoice->balance));
         $this->assertEquals($data['customer_id'], $created->customer_id);
         $this->assertEquals($data['type_id'], $created->type_id);
+    }
+
+    /** @test */
+    public function it_can_create_a_payment_with_a_gateway_fee()
+    {
+        $invoice = factory(Invoice::class)->create();
+
+        $invoice = (new InvoiceRepository($invoice))->save(
+            ['gateway_fee' => 12, 'total' => 800, 'balance' => 800],
+            $invoice
+        );
+
+        (new InvoiceRepository(new Invoice))->markSent($invoice);
+
+        $payment = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
+        $paid_to_date = $this->customer->paid_to_date;
+        $balance = $this->customer->balance;
+
+        $data = [
+            'customer_id' => $this->customer->id,
+            'type_id'     => 1,
+            'amount'      => 800
+        ];
+
+        $data['invoices'][0]['invoice_id'] = $invoice->id;
+        $data['invoices'][0]['amount'] = 800;
+
+        $paymentRepo = new PaymentRepository(new Payment);
+        $created = (new ProcessPayment())->process($data, $paymentRepo, $payment);
+
+        $new_total = 800 + $invoice->gateway_fee;
+
+        $this->assertEquals($created->amount, $new_total);
+        $this->assertEquals((float)$created->customer->balance, ($balance - $new_total));
+        $this->assertEquals($created->customer->paid_to_date, ($paid_to_date + $new_total));
+        $this->assertEquals($data['customer_id'], $created->customer_id);
+        $this->assertEquals($data['type_id'], $created->type_id);
+
+        $invoice = $invoice->fresh();
+
+        $this->assertEquals($invoice->balance, 0);
     }
 
     /** @test */
@@ -221,6 +267,8 @@ class PaymentUnitTest extends TestCase
         //$invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->partial = 5.0;
         $invoice->save();
+
+        $paid_to_date = $invoice->customer->paid_to_date;
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
 
@@ -238,9 +286,14 @@ class PaymentUnitTest extends TestCase
 
         $original_balance = $invoice->balance;
 
+        $expected_balance = $invoice->customer->balance - 6;
+
         $factory = (new PaymentFactory())->create($invoice->customer, $this->user, $this->account);
         $paymentRepo = new PaymentRepository(new Payment);
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
+
+        $this->assertEquals($expected_balance, $payment->customer->balance);
+        $this->assertEquals($payment->customer->paid_to_date, (float)($paid_to_date + 6));
         $this->assertEquals($data['customer_id'], $payment->customer_id);
         $this->assertNotNull($payment->invoices());
         $this->assertEquals(1, $payment->invoices()->count());

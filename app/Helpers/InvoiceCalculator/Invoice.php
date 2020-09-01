@@ -75,6 +75,7 @@ class Invoice extends BaseCalculator
     public function __construct($entity)
     {
         parent::__construct($entity);
+
         $this->entity = $entity;
     }
 
@@ -166,6 +167,7 @@ class Invoice extends BaseCalculator
         if (!empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
             $this->entity->updateInvoiceBalance($gateway_fee);
             $this->total += $gateway_fee;
+            $this->balance += $gateway_fee;
         }
 
         return true;
