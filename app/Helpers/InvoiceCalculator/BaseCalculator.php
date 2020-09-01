@@ -55,8 +55,6 @@ class BaseCalculator
     {
         if ($total != $balance) {
 
-            echo $this->entity->gateway_fee;
-
             $paid_to_date = $total - $balance;
 
             return round($total, $this->decimals) - $paid_to_date;
