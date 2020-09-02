@@ -64,7 +64,7 @@ class AddLeadForm extends React.Component {
             assigned_to: this.state.assigned_to,
             source_type: this.state.source_type,
             task_type: this.props.task_type,
-            task_status: this.props.status
+            task_status: this.state.task_status
         }
 
         this.leadModel.save(data).then(response => {

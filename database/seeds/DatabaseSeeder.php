@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(leadColumns::class);
 //        $this->call(StatusTableSeeder::class);
         //$this->call(GatewaySeeder::class);
         //$this->call(RoleTableSeeder::class);

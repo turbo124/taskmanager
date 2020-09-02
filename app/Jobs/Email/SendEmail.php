@@ -190,6 +190,7 @@ class SendEmail implements ShouldQueue
                 'entity_id'       => $this->entity->id,
                 'recipient'       => $this->contact->present()->name,
                 'recipient_email' => $this->contact->present()->email,
+                'template'        => $this->template,
                 'sent_at'         => Carbon::now(),
                 'failed_to_send'  => $sent_successfully === false,
             ],
