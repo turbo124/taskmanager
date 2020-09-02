@@ -41,6 +41,7 @@ class TaskStatusFilter extends QueryFilter
      */
     public function filter(SearchRequest $request, Account $account)
     {
+
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'created_at' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
@@ -53,6 +54,10 @@ class TaskStatusFilter extends QueryFilter
 
         if ($request->has('search_term') && !empty($request->search_term)) {
             $this->query = $this->searchFilter($request->search_term);
+        }
+
+        if ($request->has('task_type') && !empty($request->task_type)) {
+            $this->query->whereTaskType($request->task_type);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {

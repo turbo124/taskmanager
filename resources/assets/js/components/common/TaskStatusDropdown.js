@@ -36,7 +36,7 @@ export default class TaskStatusDropdown extends Component {
     }
 
     getStatuses () {
-        axios.get(`/api/status/${this.props.task_type}`)
+        axios.get(`/api/taskStatus?task_type=${this.props.task_type}`)
             .then((r) => {
                 this.setState({
                     statuses: r.data

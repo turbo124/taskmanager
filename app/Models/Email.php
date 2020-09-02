@@ -19,6 +19,7 @@ class Email extends Authenticatable
         'subject',
         'body',
         'design',
+        'template',
         'recipient',
         'recipient_email',
         'sent_at',

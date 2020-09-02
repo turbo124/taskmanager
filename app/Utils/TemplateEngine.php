@@ -46,6 +46,7 @@ class TemplateEngine
         $entity_obj = $this->objPdf->getEntity();
 
         $this->objPdf->build();
+
         $labels = $this->objPdf->getLabels();
         $values = $this->objPdf->getValues();
 

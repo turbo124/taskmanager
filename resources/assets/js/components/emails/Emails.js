@@ -53,12 +53,17 @@ export default class Emails extends Component {
     }
 
     handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+        const name = event.target.name
+        const template_name = name === 'template_type' ? event.target[event.target.selectedIndex].getAttribute('data-name') : null
+        this.setState({ [name]: event.target.value }, () => {
+            if (name === 'template_type') {
+                if (template_name !== null) {
+                    this.setState({ template_name: name })
+                }
 
-        if (event.target.name === 'template_type') {
-            const name = event.target[event.target.selectedIndex].getAttribute('data-name')
-            this.setState({ template_name: name })
-        }
+                this.getPreview()
+            }
+        })
     }
 
     handleSettingsChange (name, value) {
@@ -92,7 +97,6 @@ export default class Emails extends Component {
 
     getPreview () {
         this.setState({ showSpinner: true, showPreview: false })
-
         const { subject, body, bodyKey } = this.buildPreviewData()
 
         axios.post('api/template', {

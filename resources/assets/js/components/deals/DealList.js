@@ -94,7 +94,6 @@ export default class DealList extends Component {
     }
 
     filterDeals (filters) {
-        console.log('filters', filters)
         this.setState({ filters: filters })
 
         return true

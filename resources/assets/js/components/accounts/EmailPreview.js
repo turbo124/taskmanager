@@ -17,7 +17,7 @@ class EmailPreview extends Component {
     render () {
         return Object.keys(this.props.preview).length
             ? <div className="col-12" style={{ height: '600px', overflowY: 'auto' }}>
-                <div>{translations.subject}: {parse(this.props.preview.subject)}</div>
+                <div>{translations.subject}: {this.props.preview.subject && this.props.preview.subject.length ? parse(this.props.preview.subject) : ''}</div>
                 <iframe style={{ width: '900px', height: '460px' }} srcDoc={this.props.preview.wrapper}/>
 
             </div>

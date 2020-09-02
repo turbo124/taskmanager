@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import UserDropdown from '../../common/UserDropdown'
 import { translations } from '../../common/_translations'
+import TaskStatusDropdown from '../../common/TaskStatusDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -92,6 +93,15 @@ export default class Details extends React.Component {
                             users={this.props.users}/>
 
                         {sourceTypeOptions}
+
+                        <FormGroup>
+                            <Label>{translations.status}</Label>
+                            <TaskStatusDropdown
+                                task_type={3}
+                                status={this.props.lead.task_status}
+                                handleInputChanges={this.props.handleInputChanges}
+                            />
+                        </FormGroup>
                     </CardBody>
                 </Card>
 
