@@ -168,6 +168,26 @@ export default class Expense extends Component {
             )
         }
 
+        const recurring = []
+
+        if (this.props.entity.is_recurring === true) {
+            if (this.props.entity.recurring_start_date.length) {
+                recurring.start_date = <FormatDate date={this.props.entity.recurring_start_date} />
+            }
+
+            if (this.props.entity.recurring_end_date.length) {
+                recurring.end_date = <FormatDate date={this.props.entity.recurring_end_date} />
+            }
+
+            if (this.props.entity.recurring_due_date.length) {
+                recurring.due_date = <FormatDate date={this.props.entity.recurring_due_date} />
+            }
+
+            if (this.props.entity.recurring_frequency.toString().length) {
+                recurring.frequency = this.props.entity.recurring_frequency.toString()
+            }
+        }
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -194,7 +214,8 @@ export default class Expense extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview customer={customer} fields={fields} user={user} entity={this.props.entity}
+                        <Overview recurring={recurring} customer={customer} fields={fields} user={user}
+                            entity={this.props.entity}
                             customers={this.props.customers} convertedAmount={convertedAmount}/>
                     </TabPane>
 

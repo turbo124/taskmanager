@@ -9,8 +9,6 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
 
 export default function Overview (props) {
-    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
-
     return <React.Fragment>
         <PlainEntityHeader heading_1={translations.duration} value_1={props.totalDuration}
             heading_2={translations.amount}
@@ -40,6 +38,13 @@ export default function Overview (props) {
         }
 
         <FieldGrid fields={props.fields}/>
+
+        {!!Object.keys(props.recurring).length &&
+            <div>
+                <h5>{translations.recurring}</h5>
+                <FieldGrid fields={props.recurring}/>
+            </div>
+        }
 
         <Row>
             <ListGroup className="col-12">
