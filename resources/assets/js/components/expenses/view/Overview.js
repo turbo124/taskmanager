@@ -35,5 +35,12 @@ export default function Overview (props) {
         }
 
         <FieldGrid fields={props.fields}/>
+
+        {!!Object.keys(props.recurring).length &&
+        <div>
+            <h5>{translations.recurring}</h5>
+            <FieldGrid fields={props.recurring}/>
+        </div>
+        }
     </React.Fragment>
 }

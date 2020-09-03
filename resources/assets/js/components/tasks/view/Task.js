@@ -10,6 +10,7 @@ import Overview from './Overview'
 import formatDuration from '../../common/_formatting'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../common/_icons'
+import FormatDate from '../../common/FormatDate'
 
 export default class Task extends Component {
     constructor (props) {
@@ -148,6 +149,26 @@ export default class Task extends Component {
             )
         }
 
+        const recurring = []
+
+        if (this.props.entity.is_recurring === true) {
+            if (this.props.entity.recurring_start_date.length) {
+                recurring.start_date = <FormatDate date={this.props.entity.recurring_start_date} />
+            }
+
+            if (this.props.entity.recurring_end_date.length) {
+                recurring.end_date = <FormatDate date={this.props.entity.recurring_end_date} />
+            }
+
+            if (this.props.entity.recurring_due_date.length) {
+                recurring.due_date = <FormatDate date={this.props.entity.recurring_due_date} />
+            }
+
+            if (this.props.entity.recurring_frequency.toString().length) {
+                recurring.frequency = this.props.entity.recurring_frequency.toString()
+            }
+        }
+
         const task_times = this.props.entity.timers && this.props.entity.timers.length ? this.props.entity.timers.map((timer, index) => {
             return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
@@ -178,7 +199,7 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview user={user} customer={customer}
+                        <Overview user={user} customer={customer} recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.getTotalDuration())}
                             calculatedAmount={this.taskModel.calculateAmount(this.props.entity.task_rate)}
                             entity={this.props.entity} fields={fields} task_times={task_times}/>
