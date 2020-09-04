@@ -160,7 +160,7 @@ class Invoice extends BaseCalculator
 
         $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
         $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
-        $this->addChargeToLineItems($gateway_fee, 'Gateway Fee', $this->entity::GATEWAY_FEE_TYPE);
+        $this->addChargeToLineItems($gateway_fee, trans('texts.gateway_fee'), $this->entity::GATEWAY_FEE_TYPE);
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
 
@@ -181,7 +181,7 @@ class Invoice extends BaseCalculator
                   ->setDescription($description)
                   ->setUnitPrice($charge)
                   ->setTypeId($type_id)
-//                  ->setProductId(null)
+//                ->setProductId($description)
                   ->setNotes($description);
 
         $this->addItem($line_item->toObject());
