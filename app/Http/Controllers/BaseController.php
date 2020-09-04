@@ -284,12 +284,14 @@ class BaseController extends Controller
                 $response = $this->transformEntity($entity);
                 break;
             case 'clone_to_invoice': // done
+                $entity->fill($request->all());
+
                 $invoice = CloneInvoiceFactory::create(
                     $entity,
                     auth()->user(),
                     auth()->user()->account_user()->account
                 );
-                $this->invoice_repo->createInvoice($request->all(), $invoice);
+                $this->invoice_repo->createInvoice([], $invoice);
                 $response = $this->transformInvoice($invoice);
                 break;
             case 'clone_invoice_to_quote': // done

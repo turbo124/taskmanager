@@ -181,6 +181,8 @@ _localizedValues.en = {
     mode: 'Mode',
     live: 'Live',
     production: 'Production',
+    live_url: 'Live URL',
+    production_url: 'Production URL',
     api_login_id: 'Api Login ID',
     publishable_key: 'Publishable Key',
     secret_key: 'Secret Key',

@@ -9,7 +9,7 @@ export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$qu
 ]
 
 export default class RecurringQuoteModel extends BaseModel {
-    constructor (data = null, customers = null) {
+    constructor (data = null, customers = []) {
         super()
         this.customers = customers
         this._url = '/api/recurring-quote'
@@ -18,6 +18,8 @@ export default class RecurringQuoteModel extends BaseModel {
         this.error_message = ''
 
         this._file_count = 0
+
+        this.customer = null
 
         if (data !== null && data.files) {
             this.fileCount = data.files
@@ -93,7 +95,33 @@ export default class RecurringQuoteModel extends BaseModel {
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
+
+            if (this.customers.length && this._fields.customer_id) {
+                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+                this.customer = customer[0]
+            }
         }
+
+        if (this.customer && this.customer.currency_id.toString().length) {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
+            this.exchange_rate = currency[0].exchange_rate
+        }
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
+    }
+
+    get exchange_rate () {
+        return this.fields.exchange_rate
+    }
+
+    get customer () {
+        return this._customer
+    }
+
+    set customer (customer) {
+        this._customer = customer
     }
 
     get fields () {

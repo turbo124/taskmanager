@@ -63,6 +63,7 @@ export default class CustomerModel extends BaseModel {
         }
 
         this._fields = {
+            currency_id: '',
             settings: {},
             id: null,
             modal: false,
@@ -208,11 +209,11 @@ export default class CustomerModel extends BaseModel {
     }
 
     get currencyId () {
-        if (!this.fields.settings || !this.fields.settings.currency_id) {
+        if (!this.fields.currency_id || !this.fields.currency_id) {
             return null
         }
 
-        return parseInt(this.fields.settings.currency_id)
+        return parseInt(this.fields.currency_id)
     }
 
     get gateway_tokens () {

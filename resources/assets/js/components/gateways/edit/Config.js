@@ -48,6 +48,20 @@ export default class Config extends Component {
                             text: translations.production
                         }
                     ]
+                },
+                {
+                    name: 'live_url',
+                    label: translations.live_url,
+                    type: 'text',
+                    placeholder: translations.live_url,
+                    value: settings.live_url || 'https://api2.authorize.net/xml/v1/request.api'
+                },
+                {
+                    name: 'production_url',
+                    label: translations.production_url,
+                    type: 'text',
+                    placeholder: translations.production_url,
+                    value: settings.production_url || 'https://apitest.authorize.net/xml/v1/request.api'
                 }
             ]
         ]
@@ -96,6 +110,20 @@ export default class Config extends Component {
                             text: translations.production
                         }
                     ]
+                },
+                {
+                    name: 'live_url',
+                    label: translations.live_url,
+                    type: 'text',
+                    placeholder: translations.live_url,
+                    value: settings.live_url || ''
+                },
+                {
+                    name: 'production_url',
+                    label: translations.production_url,
+                    type: 'text',
+                    placeholder: translations.production_url,
+                    value: settings.production_url || ''
                 }
             ]
         ]
@@ -138,6 +166,20 @@ export default class Config extends Component {
                             text: translations.production
                         }
                     ]
+                },
+                {
+                    name: 'live_url',
+                    label: translations.live_url,
+                    type: 'text',
+                    placeholder: translations.live_url,
+                    value: settings.live_url || ''
+                },
+                {
+                    name: 'production_url',
+                    label: translations.production_url,
+                    type: 'text',
+                    placeholder: translations.production_url,
+                    value: settings.production_url || ''
                 }
             ]
         ]
