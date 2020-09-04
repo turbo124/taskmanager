@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
+import { consts } from '../common/_consts'
 
 export const credit_pdf_fields = ['$credit.credit_number', '$credit.po_number', '$credit.credit_date', '$credit.credit_amount',
     '$credit.balance_due', '$credit.partial_due', '$credit.credit1', '$credit.credit2', '$credit.credit3', '$credit.credit4',
@@ -8,7 +9,7 @@ export const credit_pdf_fields = ['$credit.credit_number', '$credit.po_number', 
 ]
 
 export default class CreditModel extends BaseModel {
-    constructor (data = null, customers = null) {
+    constructor (data = null, customers = []) {
         super()
         this.customers = customers
         this._url = '/api/credit'
@@ -80,12 +81,40 @@ export default class CreditModel extends BaseModel {
             success: false
         }
 
-        this.sent = 2
-        this.approved = 4
+        this.sent = consts.credit_status_sent
+        this.approved = consts.credit_status_applied
+
+        this.customer = null
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
+
+            if (this.customers.length && this._fields.customer_id) {
+                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+                this.customer = customer[0]
+            }
         }
+
+        if (this.customer && this.customer.currency_id.toString().length) {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
+            this.exchange_rate = currency[0].exchange_rate
+        }
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
+    }
+
+    get exchange_rate () {
+        return this.fields.exchange_rate
+    }
+
+    get customer () {
+        return this._customer
+    }
+
+    set customer (customer) {
+        this._customer = customer
     }
 
     get fields () {
