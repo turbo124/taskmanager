@@ -134,6 +134,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'should_email_purchase_order'                   => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'should_email_order'                   => [
             'required'         => false,
             'translated_value' => '',
@@ -661,6 +667,12 @@ class BaseSettings
             'translated_value' => '',
             'default_value'    => 1,
             'type'             => 'string'
+        ],  
+        'purchase_order_design_id'                      => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
         ],
         'credit_design_id'                     => [
             'required'         => false,
@@ -711,6 +723,18 @@ class BaseSettings
             'type'             => 'string'
         ],
         'quote_number_counter'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'integer'
+        ],
+        'purchase_order_number_pattern'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'purchase_order_number_counter'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
@@ -956,6 +980,12 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
+        'email_subject_purchase_order'                  => [
+            'required'         => false,
+            'translated_value' => 'texts.quote_subject',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
         'email_subject_credit'                 => [
             'required'         => false,
             'translated_value' => 'texts.credit_subject',
@@ -999,6 +1029,12 @@ class BaseSettings
             'type'             => 'string'
         ],
         'email_template_quote'                 => [
+            'required'         => false,
+            'translated_value' => 'texts.quote_body',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+         'email_template_purchase_order'                 => [
             'required'         => false,
             'translated_value' => 'texts.quote_body',
             'default_value'    => '',
