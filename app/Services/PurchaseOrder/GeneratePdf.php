@@ -3,7 +3,7 @@
 namespace App\Services\PurchaseOrder;
 
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\PurchaseOrderPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\CompanyContact;
 use App\Models\Design;
@@ -53,7 +53,7 @@ class GeneratePdf
         }
 
         $design = Design::find($this->po->getDesignId());
-        $objPdf = new InvoicePdf($this->po);
+        $objPdf = new PurchaseOrderPdf($this->po);
         $designer =
             new PdfColumns(
                 $objPdf, $this->po, $design, $this->account->settings->pdf_variables, 'quote'
