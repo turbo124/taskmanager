@@ -139,7 +139,7 @@ class LineItemEditor extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
 
         if (customer.length && this.settings.fill_products) {
-            const customerModel = new CustomerModel(customer[0])
+            const customerModel = this.props.model ? this.props.model : new CustomerModel(customer[0])
             let cost = product.price
             const client_currency = customerModel.currencyId
 
