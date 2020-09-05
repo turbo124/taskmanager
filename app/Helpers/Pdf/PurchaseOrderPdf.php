@@ -46,7 +46,7 @@ class PurchaseOrderPdf extends PdfBuilder
              ->setBalance($company, $this->entity->balance)
              ->setTotal($company, $this->entity->total)
              ->setNotes($this->entity->public_notes)
-             ->setInvoiceCustomValues()
+             //->setInvoiceCustomValues()
              ->buildProduct()
              ->transformLineItems($customer, $this->entity)
              ->buildTask();
