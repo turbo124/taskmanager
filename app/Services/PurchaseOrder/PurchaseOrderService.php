@@ -66,7 +66,7 @@ class PurchaseOrderService extends ServiceBase
      * @param string $body
      * @return array
      */
-    public function sendEmail($contact = null, $subject, $body, $template = 'purchase_order'): ?e
+    public function sendEmail($contact = null, $subject, $body, $template = 'purchase_order'): ?PurchaseOrder
     {
         if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
@@ -77,7 +77,7 @@ class PurchaseOrderService extends ServiceBase
     }
 
     /**
-     * @return Quote
+     * @return PurchaseOrder
      */
     public function calculateInvoiceTotals(): PurchaseOrder
     {
