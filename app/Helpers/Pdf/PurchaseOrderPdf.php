@@ -1,4 +1,4 @@
-?php
+<?php
 
 
 namespace App\Helpers\Pdf;
@@ -25,26 +25,26 @@ class PurchaseOrderPdf extends PdfBuilder
 
     public function build($contact = null)
     {
-        $contact === null ? $this->entity->customer->contacts->first() : $contact;
-        $customer = $this->entity->customer;
+        $contact === null ? $this->entity->company->contacts->first() : $contact;
+        $company = $this->entity->company;
 
-        $this->setDefaults($customer)
+        $this->setDefaults($company)
              ->buildContact($contact)
-             ->setTaxes($customer)
+             ->setTaxes($company)
              ->setDate($this->entity->date)
              ->setDueDate($this->entity->due_date)
              ->setNumber($this->entity->number)
              ->setPoNumber($this->entity->po_number)
-             ->buildCustomer($customer)
-             ->buildCustomerAddress($customer)
+             ->buildCompany($company)
+             ->buildCompanyAddress($company)
              ->buildAccount($this->entity->account)
              ->setTerms($this->entity->terms)
-             ->setDiscount($customer, $this->entity->discount_total)
-             ->setShippingCost($customer, $this->entity->shipping_cost)
+             ->setDiscount($company, $this->entity->discount_total)
+             ->setShippingCost($company, $this->entity->shipping_cost)
              ->setVoucherCode(isset($this->entity->voucher_code) ? $this->entity->voucher_code : '')
              ->setSubTotal($customer, $this->entity->sub_total)
-             ->setBalance($customer, $this->entity->balance)
-             ->setTotal($customer, $this->entity->total)
+             ->setBalance($company, $this->entity->balance)
+             ->setTotal($company, $this->entity->total)
              ->setNotes($this->entity->public_notes)
              ->setInvoiceCustomValues()
              ->buildProduct()
