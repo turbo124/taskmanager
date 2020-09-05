@@ -243,7 +243,7 @@ export default class PurchaseOrderModel extends BaseModel {
 
     get contacts () {
         const index = this.companies.findIndex(company => company.id === this.fields.company_id)
-        const company = this.company[index]
+        const company = this.companies[index]
         return company.contacts ? company.contacts : []
     }
 
