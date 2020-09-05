@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Quote\QuoteService;
+use App\Services\PurchaseOrder\PurchaseOrderService;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +20,7 @@ class PurchaseOrder extends Model
     protected $presenter = 'App\Presenters\QuotePresenter';
 
     protected $casts = [
-        'customer_id' => 'integer',
+        'company_id'  => 'integer',
         'account_id'  => 'integer',
         'user_id'     => 'integer',
         'line_items'  => 'object',
@@ -102,9 +102,9 @@ class PurchaseOrder extends Model
         return $this->belongsToMany(Task::class);
     }
 
-    public function customer()
+    public function company()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function audits()
@@ -126,7 +126,7 @@ class PurchaseOrder extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(QuoteInvitation::class);
+        return $this->hasMany(PurchaseOrderInvitation::class);
     }
 
     public function account()
@@ -139,9 +139,9 @@ class PurchaseOrder extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function service(): QuoteService
+    public function service(): PurchaseOrderService
     {
-        return new QuoteService($this);
+        return new PurchaseOrderService($this);
     }
 
     public function files()
