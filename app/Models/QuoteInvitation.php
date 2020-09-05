@@ -60,7 +60,7 @@ class QuoteInvitation extends Model
 
     public function getLink()
     {
-        return $this->account->subdomain . 'portal/credit/' . $this->key;
+        return $this->account->subdomain . 'portal/quotes/' . $this->key;
     }
 
     public function markViewed()
