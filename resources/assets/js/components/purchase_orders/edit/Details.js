@@ -56,27 +56,27 @@ export default class Details extends Component {
                 <CardBody>
                     <FormGroup>
                         <Label for="date">{translations.date}(*):</Label>
-                        <Datepicker name="date" date={this.props.quote.date} handleInput={this.props.handleInput}
+                        <Datepicker name="date" date={this.props.purchase_order.date} handleInput={this.props.handleInput}
                             className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
                         {this.renderErrorFor('due_date')}
                     </FormGroup>
                     <FormGroup>
                         <Label for="due_date">{translations.expiry_date}(*):</Label>
-                        <Datepicker name="due_date" date={this.props.quote.due_date}
+                        <Datepicker name="due_date" date={this.props.purchase_orde.due_date}
                             handleInput={this.props.handleInput}
                             className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         {this.renderErrorFor('due_date')}
                     </FormGroup>
                     <FormGroup>
                         <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.quote.po_number} type="text" id="po_number" name="po_number"
+                        <Input value={this.props.purchase_order.po_number} type="text" id="po_number" name="po_number"
                             onChange={this.props.handleInput}/>
                         {this.renderErrorFor('po_number')}
                     </FormGroup>
                     <FormGroup>
                         <Label>{translations.partial}</Label>
                         <Input
-                            value={this.props.quote.partial}
+                            value={this.props.purchase_order.partial}
                             type='text'
                             name='partial'
                             id='partial'
@@ -86,7 +86,7 @@ export default class Details extends Component {
 
                     <FormGroup className={this.props.quote.has_partial === true ? '' : 'd-none'}>
                         <Label>{translations.partial_due_date}</Label>
-                        <Datepicker name="partial_due_date" date={this.props.quote.partial_due_date}
+                        <Datepicker name="partial_due_date" date={this.props.purchase_order.partial_due_date}
                             handleInput={this.props.handleInput}
                             className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     </FormGroup>
@@ -94,7 +94,7 @@ export default class Details extends Component {
                     <FormGroup>
                         <Label>{translations.number}</Label>
                         <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
-                            value={this.props.quote.number}
+                            value={this.props.purchase_order.number}
                             type='text'
                             name='number'
                             id='number'
@@ -106,7 +106,7 @@ export default class Details extends Component {
                     <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
-                            user_id={this.props.quote.assigned_to}
+                            user_id={this.props.purchase_order.assigned_to}
                             name="assigned_to"
                             errors={this.props.errors}
                             handleInputChanges={this.props.handleInput}
