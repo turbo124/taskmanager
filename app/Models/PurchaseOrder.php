@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Services\PurchaseOrder\PurchaseOrderService;
 use App\Traits\Balancer;
-use App\Traits\Money;
+use App\Traits\MoneyVendor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -14,7 +14,7 @@ class PurchaseOrder extends Model
 {
     use SoftDeletes;
     use PresentableTrait;
-    use Money;
+    use MoneyVendor;
     use Balancer;
 
     protected $presenter = 'App\Presenters\QuotePresenter';
