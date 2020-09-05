@@ -167,9 +167,9 @@ class PurchaseOrder extends Model
         $this->account_id = (int)$account->id;
     }
 
-    public function setCustomer(Customer $customer)
+    public function setCompany(Company $company)
     {
-        $this->customer_id = (int)$customer->id;
+        $this->company_id = (int)$company->id;
     }
 
     public function setStatus(int $status)
