@@ -34,7 +34,7 @@ class PurchaseOrderArchivedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->purchase_order->id;
-        $fields['data']['customer_id'] = $event->purchase_order->customer_id;
+        $fields['data']['company_id'] = $event->purchase_order->company_id;
         $fields['data']['message'] = 'A purchase order was archived';
         $fields['notifiable_id'] = $event->purchase_order->user_id;
         $fields['account_id'] = $event->purchase_order->account_id;
