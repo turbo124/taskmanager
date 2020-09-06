@@ -8,6 +8,7 @@ export default function Items (props) {
             <CardHeader>Items</CardHeader>
             <CardBody>
                 <LineItemEditor
+                    entity="Company"
                     customers={props.companies}
                     invoice={props.purchase_order}
                     delete={props.handleDelete}
