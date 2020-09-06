@@ -41,7 +41,6 @@ class TaskStatusFilter extends QueryFilter
      */
     public function filter(SearchRequest $request, Account $account)
     {
-
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'created_at' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;

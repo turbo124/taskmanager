@@ -53,6 +53,7 @@ class CreateTasksTable extends Migration {
 			$table->dateTime('next_send_date')->nullable();
 			$table->integer('recurring_frequency')->nullable();
 			$table->dateTime('recurring_due_date')->nullable();
+			$table->integer('number')->nullable();
 		});
 	}
 

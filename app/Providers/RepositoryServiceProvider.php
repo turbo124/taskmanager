@@ -33,6 +33,7 @@ use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
+use App\Repositories\Interfaces\PurchaseOrderRepositoryInterface;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
@@ -47,6 +48,7 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\PurchaseOrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\TaskRepository;
@@ -96,6 +98,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
 
         $this->app->bind(QuoteRepositoryInterface::class, QuoteRepository::class);
+
+        $this->app->bind(PurchaseOrderRepositoryInterface::class, PurchaseOrderRepository::class);
 
         $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
 

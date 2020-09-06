@@ -93,6 +93,28 @@ class Company extends Model
         return $this->hasMany(CompanyContact::class)->orderBy('is_primary', 'desc');
     }
 
+    public function language()
+    {
+        return Language::find($this->account->settings->language_id);
+    }
+
+    public function locale()
+    {
+        $language = $this->language();
+
+        return !empty($language) ? $this->language()->locale : 'en';
+    }
+
+    public function preferredLocale()
+    {
+        return $this->locale();
+    }
+
+    public function primary_contact()
+    {
+        return $this->hasMany(CompanyContact::class)->whereIsPrimary(true);
+    }
+
     public function setNumber()
     {
         if (empty($this->number) || !isset($this->id)) {

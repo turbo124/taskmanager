@@ -90,4 +90,19 @@ class Deal extends Model
     {
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
     }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
+            return true;
+        }
+
+        return true;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
 }

@@ -205,7 +205,7 @@ export default class CustomerModel extends BaseModel {
     }
 
     get hasCurrency () {
-        return this.fields.settings && this.fields.settings.currency_id != null && this.fields.settings.currency_id.toString().length
+        return this.fields.currency_id != null && this.fields.currency_id.toString().length
     }
 
     get currencyId () {

@@ -5,6 +5,8 @@ import axios from 'axios'
 import FormatMoney from './FormatMoney'
 import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from './_money'
+import CompanyModel from '../models/CompanyModel'
+import { translations } from "./_translations";
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -136,21 +138,32 @@ class LineItemEditor extends Component {
     convertProductToInvoiceItem (product_id, row) {
         const index = this.state.products.findIndex(product => product.id === parseInt(product_id))
         const product = this.state.products[index]
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
 
-        if (customer.length && this.settings.fill_products) {
-            const customerModel = new CustomerModel(customer[0])
-            let cost = product.price
-            const client_currency = customerModel.currencyId
+        let cost = product.price
+        let customer = []
+        let customerModel = null
 
-            if (this.settings.convert_product_currency &&
-                client_currency !== parseInt(this.settings.currency_id)) {
-                const currencies = JSON.parse(localStorage.getItem('currencies'))
-                const currency = currencies.filter(currency => currency.id === client_currency)
+        if (this.settings.fill_products) {
+            if (this.props.entity && this.props.entity === 'Company') {
+                customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.company_id))
+                customerModel = new CompanyModel(customer[0])
+            } else {
+                customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
+                customerModel = this.props.model ? this.props.model : new CustomerModel(customer[0])
+            }
 
-                cost = cost *
-                    getExchangeRateWithMap(currencies, this.settings.currency_id, client_currency)
-                cost = Math.round(cost, currency[0].precision)
+            if (customer.length && customerModel) {
+                const client_currency = customerModel.currencyId
+
+                if (this.settings.convert_product_currency &&
+                    client_currency !== parseInt(this.settings.currency_id)) {
+                    const currencies = JSON.parse(localStorage.getItem('currencies'))
+                    const currency = currencies.filter(currency => currency.id === client_currency)
+
+                    cost = cost *
+                        getExchangeRateWithMap(currencies, this.settings.currency_id, client_currency)
+                    cost = Math.round(cost, currency[0].precision)
+                }
             }
 
             return {
@@ -221,13 +234,16 @@ class LineItemEditor extends Component {
             <React.Fragment>
 
                 <FormGroup>
-                    <Label>Tax</Label>
+                    <Label>{translations.line_type}</Label>
+                    {!this.props.entity &&
                     <Input name="line_type" type='select' value={this.state.line_type}
                         onChange={this.handleLineTypeChange} className='pa2 mr2 f6 form-control'>
-                        <option value="1">Product</option>
-                        <option value="2">Task</option>
-                        <option value="3">Expense</option>
+                        <option value="1">{translations.product}</option>
+                        <option value="2">{translations.task}</option>
+                        <option value="3">{translations.expense}</option>
                     </Input>
+                    }
+
                 </FormGroup>
                 {lineItemRows}
 
@@ -235,7 +251,7 @@ class LineItemEditor extends Component {
                     <tfoot>
                         <tr>
                             <th/>
-                            <th>Tax total:</th>
+                            <th>{translations.tax}:</th>
                             <th>{<FormatMoney
                                 amount={tax_total}/>}</th>
                             <th/>
@@ -243,7 +259,7 @@ class LineItemEditor extends Component {
 
                         <tr>
                             <th/>
-                            <th>Discount total:</th>
+                            <th>{translations.discount}:</th>
                             <th>{<FormatMoney
                                 amount={this.props.invoice.discount_total}/>}</th>
                             <th/>
@@ -251,7 +267,7 @@ class LineItemEditor extends Component {
 
                         <tr>
                             <th/>
-                            <th>Sub total:</th>
+                            <th>{translations.subtotal}:</th>
                             <th>{<FormatMoney
                                 amount={this.props.invoice.sub_total}/>}</th>
                             <th/>
@@ -259,7 +275,7 @@ class LineItemEditor extends Component {
 
                         <tr>
                             <th/>
-                            <th>Grand total:</th>
+                            <th>{translations.total}:</th>
                             <th>{<FormatMoney
                                 amount={total}/>}</th>
                             <th/>

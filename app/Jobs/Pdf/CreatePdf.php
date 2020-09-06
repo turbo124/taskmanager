@@ -44,6 +44,7 @@ class CreatePdf implements ShouldQueue
 
     public function handle()
     {
+
         if (!empty($this->contact)) {
             App::setLocale($this->contact->preferredLocale());
         }

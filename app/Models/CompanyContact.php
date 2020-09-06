@@ -17,6 +17,8 @@ class CompanyContact extends Model
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Presenters\ClientContactPresenter';
+
     protected $dates = [
         'deleted_at'
     ];
@@ -57,6 +59,11 @@ class CompanyContact extends Model
     public function user()
     {
         return $this->belongsTo(Models\User::class)->withTrashed();
+    }
+
+    public function preferredLocale()
+    {
+        return $this->company->locale();
     }
 
 //    public function sendPasswordResetNotification($token)

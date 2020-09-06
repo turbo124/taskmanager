@@ -213,7 +213,7 @@ class EventServiceProvider extends ServiceProvider
             EntityViewedListener::class
         ],
         // quotes
-        QuoteWasApproved::class     => [
+        QuoteWasApproved::class => [
             QuoteApprovedActivity::class,
             SendQuoteApprovedNotification::class
         ],

@@ -61,11 +61,11 @@ class CreatePayment implements ShouldQueue
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
-            'company_gateway_id' => $this->data['company_gateway_id'],
-            'status_id' => Payment::STATUS_COMPLETED,
-            'date' => Carbon::now(),
-            'amount' => $this->data['amount'],
-            'type_id' => $this->data['payment_type'],
+            'company_gateway_id'    => $this->data['company_gateway_id'],
+            'status_id'             => Payment::STATUS_COMPLETED,
+            'date'                  => Carbon::now(),
+            'amount'                => $this->data['amount'],
+            'type_id'               => $this->data['payment_type'],
             'transaction_reference' => $this->data['payment_method']
 
         ];
@@ -124,7 +124,6 @@ class CreatePayment implements ShouldQueue
             $payment->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
 
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
-
                 $invoice = (new InvoiceRepository($invoice))->save(
                     ['gateway_fee' => $this->data['invoices'][$invoice->id]['gateway_fee']],
                     $invoice

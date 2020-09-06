@@ -23,8 +23,11 @@ class BaseCalculator
 
     public function __construct($entity)
     {
-        $this->customer = $entity !== null ? $entity->customer : null;
-        $this->decimals = $entity !== null ? $this->customer->currency->precision : 2;
+        if ($entity !== null) {
+            $this->customer = get_class($entity) === 'App\Models\PurchaseOrder' ? $entity->company : $entity->customer;
+        }
+
+        $this->decimals = $entity !== null && $this->customer ? $this->customer->currency->precision : 2;
     }
 
     /**
@@ -54,7 +57,6 @@ class BaseCalculator
     protected function calculateBalance($total, $balance)
     {
         if ($total != $balance) {
-
             $paid_to_date = $total - $balance;
 
             return round($total, $this->decimals) - $paid_to_date;

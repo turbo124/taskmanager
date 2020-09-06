@@ -127,6 +127,24 @@ class PdfColumns
             '$quote.surcharge4'  => '<span>$surcharge4</span>',
         ],
 
+        'purchase_order' => [
+            '$purchaseorder.number'      => '<span>$invoice.number_label: $invoice.number</span>',
+            '$purchaseorder.po_number'   => '<span>$purchaseorder.po_number_label: $purchaseorder.po_number</span>',
+            '$purchaseorder.quote_date'  => '<span>$purchaseorder.date_label: $purchaseorder.date</span>',
+            '$purchaseorder.valid_until' => '<span>$purchaseorder.due_date_label: $purchaseorder.due_date</span>',
+            '$purchaseorder.balance_due' => '<span>$purchaseorder.balance_due_label: $purchaseorder.balance_due</span>',
+            '$purchaseorder.quote_total' => '<span>$purchaseorder.total_label: $purchaseorder.total</span>',
+            '$purchaseorder.partial_due' => '<span>$purchaseorder.partial_due_label: $purchaseorder.partial_due</span>',
+            '$purchaseorder.custom1'     => '<span>$purchaseorder</span>',
+            '$purchaseorder.custom2'     => '<span>$purchaseorder</span>',
+            '$purchaseorder.custom3'     => '<span>$purchaseorder</span>',
+            '$purchaseorder.custom4'     => '<span>$purchaseorder</span>',
+            '$purchaseorder.surcharge1'  => '<span>$surcharge1</span>',
+            '$purchaseorder.surcharge2'  => '<span>$surcharge2</span>',
+            '$purchaseorder.surcharge3'  => '<span>$surcharge3</span>',
+            '$purchaseorder.surcharge4'  => '<span>$surcharge4</span>',
+        ],
+
         'credit' => [
             '$credit.number'        => '<span>$credit.number_label: $credit.number</span>',
             '$credit.po_number'     => '<span>$credit.po_number_label: $credit.po_number</span>',

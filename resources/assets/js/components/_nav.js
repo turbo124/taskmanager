@@ -315,6 +315,16 @@ if (modules && modules.companies) {
     )
 }
 
+if (modules && modules.purchase_orders) {
+    items.push(
+        {
+            name: 'Purchase Orders',
+            url: '/purchase_orders',
+            icon: `fa ${icons.building}`
+        }
+    )
+}
+
 const products = {
     name: 'Products',
     icon: 'fa fa-barcode',

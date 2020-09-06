@@ -31,10 +31,12 @@ use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
+use App\Repositories\PurchaseOrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Transformations\CreditTransformable;
 use App\Transformations\InvoiceTransformable;
 use App\Transformations\OrderTransformable;
+use App\Transformations\PurchaseOrderTransformable;
 use App\Transformations\QuoteTransformable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -52,6 +54,7 @@ class BaseController extends Controller
     use QuoteTransformable;
     use InvoiceTransformable;
     use OrderTransformable;
+    use PurchaseOrderTransformable;
 
     /**
      * @var InvoiceRepository
@@ -102,18 +105,18 @@ class BaseController extends Controller
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
         return [
-            'account_id'    => $default_account->id,
-            'id'            => $user->id,
-            'auth_token'    => $user->auth_token,
-            'name'          => $user->name,
-            'email'         => $user->email,
-            'accounts'      => $accounts,
-            'currencies'    => Currency::all(),
-            'languages'     => Language::all(),
-            'countries'     => Country::all(),
+            'account_id' => $default_account->id,
+            'id' => $user->id,
+            'auth_token' => $user->auth_token,
+            'name' => $user->name,
+            'email' => $user->email,
+            'accounts' => $accounts,
+            'currencies' => Currency::all(),
+            'languages' => Language::all(),
+            'countries' => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'gateways'      => Gateway::all(),
-            'users'         => User::where('is_active', '=', 1)->get(
+            'gateways' => Gateway::all(),
+            'users' => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];
@@ -251,7 +254,9 @@ class BaseController extends Controller
                 break;
 
             case 'approve': //done
-                $quote = $entity->service()->approve($this->invoice_repo, $this->quote_repo);
+                $quote = $this->entity_string === 'PurchaseOrder' ? $entity->service()->approve(
+                    new PurchaseOrderRepository($entity)
+                ) : $entity->service()->approve($this->invoice_repo, $this->quote_repo);
 
                 if (!$quote) {
                     $message = 'Unable to approve this quote as it has expired.';
@@ -381,6 +386,8 @@ class BaseController extends Controller
 
             case 'Order':
                 return $this->transformOrder($entity);
+            case 'PurchaseOrder':
+                return $this->transformPurchaseOrder($entity);
         }
     }
 

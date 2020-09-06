@@ -30,6 +30,7 @@ class CreateEmailsTable extends Migration {
 			$table->text('design', 65535)->nullable();
 			$table->boolean('failed_to_send')->default(0);
 			$table->integer('number_of_tries')->default(0);
+			$table->string('template')->nullable();
 		});
 	}
 

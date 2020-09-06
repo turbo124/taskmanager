@@ -41,6 +41,7 @@ class CreateDealsTable extends Migration {
 			$table->integer('user_id')->unsigned()->default(9874)->index('user_id');
 			$table->text('public_notes', 65535)->nullable();
 			$table->text('private_notes', 65535)->nullable();
+			$table->integer('number')->nullable();
 		});
 	}
 

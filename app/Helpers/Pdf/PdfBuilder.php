@@ -4,6 +4,7 @@ namespace App\Helpers\Pdf;
 
 use App\Models\Account;
 use App\Models\ClientContact;
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Product;
@@ -106,7 +107,7 @@ class PdfBuilder
         return $new_array[0]->label;
     }
 
-    public function buildContact(ClientContact $contact = null): self
+    public function buildContact($contact = null): self
     {
         if ($contact === null) {
             return $this;
@@ -179,6 +180,54 @@ class PdfBuilder
         $this->data['$customer4'] = [
             'value' => $customer->custom_value4 ?: '&nbsp;',
             'label' => $this->makeCustomField('Customer', 'custom_value4')
+        ];
+
+        return $this;
+    }
+
+    public function buildCompany(Company $company): self
+    {
+        $this->data['$customer.number'] = [
+            'value' => $company->number ?: '&nbsp;',
+            'label' => trans('texts.customer_id_number')
+        ];
+        $this->data['$customer.vat_number'] = [
+            'value' => $company->vat_number ?: '&nbsp;',
+            'label' => trans('texts.vat_number')
+        ];
+        $this->data['$customer.website'] = [
+            'value' => $company->website ?: '&nbsp;',
+            'label' => trans('texts.website')
+        ];
+        $this->data['$customer.phone'] = [
+            'value' => $company->phone ?: '&nbsp;',
+            'label' => trans('texts.phone_number')
+        ];
+        $this->data['$customer.email'] = [
+            'value' => isset(
+                $company->primary_contact()->first()->email
+            ) ? $company->primary_contact()->first()->email : '',
+            'label' => trans('texts.email_address')
+        ];
+        $this->data['$customer.name'] = [
+            'value' => $company->name ?: '&nbsp;',
+            'label' => trans('texts.customer_name')
+        ];
+        $this->data['$customer1'] = [
+            'value' => $company->custom_value1 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Company', 'custom_value1')
+        ];
+        $this->data['$customer2'] = [
+            'value' => $company->custom_value2 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Company', 'custom_value2')
+        ];
+        $this->data['$customer3'] = [
+            'value' => $company->custom_value3 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Company', 'custom_value3')
+        ];
+        $this->data['$customer4'] = [
+            'value' => $company->custom_value4 ?: '&nbsp;',
+            'label' => $this->makeCustomField('Company', 'custom_value4')
         ];
 
         return $this;
@@ -273,6 +322,18 @@ class PdfBuilder
         if (!empty($billing)) {
             $this->buildAddress($customer, $billing);
         }
+
+        return $this;
+    }
+
+    public function buildCompanyAddress(Company $company): self
+    {
+        $this->data['$customer.address1'] = [
+            'value' => $company->present()->address() ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
+
+        $this->buildAddress($company, $company);
 
         return $this;
     }
@@ -381,7 +442,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setTotal(Customer $customer, $total): self
+    public function setTotal($customer, $total): self
     {
         $this->data['$entity_label'] = [
             'value' => '',
@@ -395,7 +456,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setBalance(Customer $customer, $balance): self
+    public function setBalance($customer, $balance): self
     {
         if (!isset($this->entity->balance)) {
             return $this;
@@ -413,7 +474,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setSubTotal(Customer $customer, $sub_total): self
+    public function setSubTotal($customer, $sub_total): self
     {
         if (!isset($this->entity->sub_total)) {
             return $this;
@@ -464,7 +525,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setDiscount(Customer $customer, $discount): self
+    public function setDiscount($customer, $discount): self
     {
         $this->data['$discount'] = [
             'value' => $this->formatCurrency($discount, $customer) ?: '&nbsp;',
@@ -473,7 +534,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setShippingCost(Customer $customer, $shipping): self
+    public function setShippingCost($customer, $shipping): self
     {
         $shipping = empty($shipping) ? 0 : $shipping;
 
@@ -518,7 +579,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setTaxes(Customer $customer): self
+    public function setTaxes($customer): self
     {
         $this->data['$tax'] = [
             'value' => $this->makeLineTaxes($customer),
@@ -536,7 +597,7 @@ class PdfBuilder
      * @param Customer $customer
      * @return string
      */
-    private function makeLineTaxes(Customer $customer): string
+    private function makeLineTaxes($customer): string
     {
         $data = '';
 
@@ -636,7 +697,7 @@ class PdfBuilder
      * @param string $table_type
      * @return $this
      */
-    protected function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self
+    protected function transformLineItems($customer, $entity, $table_type = '$product'): self
     {
         if (!isset($entity->line_items) || empty($entity->line_items)) {
             return $this;

@@ -138,6 +138,110 @@ class NumberSettings extends Component {
         return formFields
     }
 
+    getPurchaseOrderFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'purchaseorder_number_pattern',
+                    label: 'Purchase Number Pattern',
+                    type: 'text',
+                    placeholder: 'Purchase Number Pattern',
+                    value: settings.purchaseorder_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'purchaseorder_number_counter',
+                    label: 'Purchase Order Counter',
+                    type: 'text',
+                    placeholder: 'Purchase Order Counter',
+                    value: settings.purchaseorder_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getDealFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'deal_number_pattern',
+                    label: 'Deal Number Pattern',
+                    type: 'text',
+                    placeholder: 'Deal Number Pattern',
+                    value: settings.deal_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'deal_number_counter',
+                    label: 'Deal Counter',
+                    type: 'text',
+                    placeholder: 'Deal Counter',
+                    value: settings.deal_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getCaseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'case_number_pattern',
+                    label: 'Case Number Pattern',
+                    type: 'text',
+                    placeholder: 'Case Number Pattern',
+                    value: settings.case_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'case_number_counter',
+                    label: 'Case Counter',
+                    type: 'text',
+                    placeholder: 'Case Counter',
+                    value: settings.case_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getTaskFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'task_number_pattern',
+                    label: 'Task Number Pattern',
+                    type: 'text',
+                    placeholder: 'Task Number Pattern',
+                    value: settings.task_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'task_number_counter',
+                    label: 'Task Counter',
+                    type: 'text',
+                    placeholder: 'Task Counter',
+                    value: settings.task_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     getOrderFields () {
         const settings = this.state.settings
 
@@ -390,6 +494,46 @@ class NumberSettings extends Component {
                                         {translations.orders}
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '7' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('7')
+                                        }}>
+                                        {translations.purchase_orders}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '8' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('8')
+                                        }}>
+                                        {translations.deals}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '9' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('9')
+                                        }}>
+                                        {translations.cases}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '10' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('10')
+                                        }}>
+                                        {translations.tasks}
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
                         </CardBody>
                     </Card>
@@ -457,6 +601,50 @@ class NumberSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="7" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="8" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDealFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="9" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="10" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getTaskFields()}
                                 />
                             </CardBody>
                         </Card>
