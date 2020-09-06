@@ -61,7 +61,7 @@ export default class Details extends Component {
                         {this.renderErrorFor('due_date')}
                     </FormGroup>
                     <FormGroup>
-                        <Label for="due_date">{translations.expiry_date}(*):</Label>
+                        <Label for="due_date">{translations.needed_by}(*):</Label>
                         <Datepicker name="due_date" date={this.props.purchase_order.due_date}
                             handleInput={this.props.handleInput}
                             className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
