@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Transformations;
@@ -29,7 +28,6 @@ trait PurchaseOrderTransformable
             'public_notes'        => $po->public_notes ?: '',
             'private_notes'       => $po->private_notes ?: '',
             'number'              => $po->number ?: '',
-            'customer_id'         => (int)$po->customer_id,
             'invoice_id'          => (int)$po->invoice_id,
             'date'                => $po->date ?: '',
             'due_date'            => $po->due_date ?: '',

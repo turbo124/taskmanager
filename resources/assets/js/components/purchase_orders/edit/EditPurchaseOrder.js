@@ -38,6 +38,7 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
+import CompanyModel from "../../models/CompanyModel";
 
 class EditPurchaseOrder extends Component {
     constructor (props, context) {
@@ -123,9 +124,10 @@ class EditPurchaseOrder extends Component {
                 //customerName: customer_data.name,
                 contacts: customer_data.contacts,
                 //address: customer_data.address
-            }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+            }, () => localStorage.setItem('purchaseOrderForm', JSON.stringify(this.state)))
 
             if (this.settings.convert_product_currency === true) {
+                console.log('contacts', customer_data.contacts)
                 const company = new CompanyModel(customer_data.company)
                 const currency_id = company.currencyId
                 const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
@@ -209,7 +211,7 @@ class EditPurchaseOrder extends Component {
                 this.setState({
                     line_items: arrLines,
                     total: total
-                }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+                }, () => localStorage.setItem('purchaseOrderForm', JSON.stringify(this.state)))
             })
             .catch((e) => {
                 console.warn(e)
@@ -249,7 +251,7 @@ class EditPurchaseOrder extends Component {
             errors: []
         }, () => {
             if (!this.state.modalOpen) {
-                this.setState(this.initialState, () => localStorage.removeItem('quoteForm'))
+                this.setState(this.initialState, () => localStorage.removeItem('purchaseOrderForm'))
             }
         })
     }
@@ -500,7 +502,7 @@ class EditPurchaseOrder extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.purchaseOrderModel} customers={this.props.companies} purchase_order={this.state} errors={this.state.errors}
+        const items = <Items model={this.purchaseOrderModel} companies={this.props.companies} purchase_order={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}
@@ -517,9 +519,9 @@ class EditPurchaseOrder extends Component {
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
         const email_editor = this.state.id
-            ? <Emails model={this.quoteModel} emails={this.state.emails} template="email_template_quote"
+            ? <Emails model={this.purchaseOrderModel} emails={this.state.emails} template="email_template_purchase_order"
                 show_editor={true}
-                customers={this.props.customers} entity_object={this.state} entity="quote"
+                customers={this.props.customers} entity_object={this.state} entity="purchaseOrder"
                 entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
@@ -572,7 +574,7 @@ class EditPurchaseOrder extends Component {
                             onClick={() => {
                                 this.toggleTab('1')
                             }}>
-                            {translations.quote}
+                            {translations.purchase_order}
                         </NavLink>
                     </NavItem>
 
@@ -638,7 +640,7 @@ class EditPurchaseOrder extends Component {
         const form = this.buildForm()
         const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
-            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_quote}
+            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_purchase_order}
             </DropdownItem>
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
@@ -648,7 +650,7 @@ class EditPurchaseOrder extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_quote}/>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_purchase_order}/>
 
                         <ModalBody className={theme}>
                             {form}

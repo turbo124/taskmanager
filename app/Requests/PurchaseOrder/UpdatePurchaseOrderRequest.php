@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Requests\Quote;
@@ -26,7 +25,7 @@ class UpdatePurchaseOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id'    => 'required',
+            'company_id'     => 'required',
             'date'           => 'required',
             'due_date'       => 'required',
             'discount_total' => 'required',

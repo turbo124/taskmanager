@@ -157,6 +157,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
         $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
 
         $deal->fill($data);
+        $deal->setNumber();
         $deal->save();
 
         return $deal->fresh();

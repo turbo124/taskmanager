@@ -134,7 +134,13 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
-        'should_email_purchase_order'                   => [
+        'should_email_purchase_order'          => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'should_email_deal'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,
@@ -667,8 +673,8 @@ class BaseSettings
             'translated_value' => '',
             'default_value'    => 1,
             'type'             => 'string'
-        ],  
-        'purchase_order_design_id'                      => [
+        ],
+        'purchase_order_design_id'             => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
@@ -728,13 +734,25 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'purchase_order_number_pattern'                 => [
+        'deal_order_number_pattern'            => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'purchase_order_number_counter'                 => [
+        'deal_order_number_counter'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'integer'
+        ],
+        'purchase_order_number_pattern'        => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'purchase_order_number_counter'        => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
@@ -872,6 +890,18 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'should_archive_purchase_order'        => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'should_archive_deal'                  => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'has_minimum_quantity'                 => [
             'required'         => false,
             'translated_value' => '',
@@ -980,7 +1010,7 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_purchase_order'                  => [
+        'email_subject_purchase_order'         => [
             'required'         => false,
             'translated_value' => 'texts.quote_subject',
             'default_value'    => '',
@@ -1034,7 +1064,7 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-         'email_template_purchase_order'                 => [
+        'email_template_purchase_order'        => [
             'required'         => false,
             'translated_value' => 'texts.quote_body',
             'default_value'    => '',

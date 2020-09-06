@@ -5,6 +5,7 @@ import axios from 'axios'
 import FormatMoney from './FormatMoney'
 import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from './_money'
+import CompanyModel from "../models/CompanyModel";
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -136,19 +137,24 @@ class LineItemEditor extends Component {
     convertProductToInvoiceItem (product_id, row) {
         const index = this.state.products.findIndex(product => product.id === parseInt(product_id))
         const product = this.state.products[index]
-    
-        if (customer.length && this.settings.fill_products) {
-            if(this.props.entity && this.props.entity === 'Company') {
+
+        let client_currency = null
+        let cost = 0
+
+        if (this.settings.fill_products) {
+            if (this.props.entity && this.props.entity === 'Company') {
                 const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.company_id))
                 const customerModel = new CompanyModel(customer[0])
-                let cost = product.price
-                const client_currency = customerModel.currencyId
+                cost = product.price
+                client_currency = customerModel.currencyId
             } else {
                 const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
                 const customerModel = this.props.model ? this.props.model : new CustomerModel(customer[0])
-                let cost = product.price
-                const client_currency = customerModel.currencyId
+                cost = product.price
+                client_currency = customerModel.currencyId
             }
+
+            alert(client_currency)
 
             if (this.settings.convert_product_currency &&
                 client_currency !== parseInt(this.settings.currency_id)) {

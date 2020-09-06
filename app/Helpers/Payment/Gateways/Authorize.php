@@ -85,7 +85,7 @@ class Authorize extends BasePaymentGateway
                         return $this->completePayment($amount, $invoice, $tresponse->getTransId());
                     }
                 } else {
-                   if ($tresponse->getErrors() != null) {
+                    if ($tresponse->getErrors() != null) {
                         $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
                         $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
                     }

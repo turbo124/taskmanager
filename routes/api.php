@@ -272,6 +272,17 @@ Route::group(
         )->middleware('role:null,invoicelinecontroller.getinvoicelinesfortask');
         Route::post('quotes/restore/{id}', 'QuoteController@restore');
 
+        // purchase orders
+        Route::delete('purchase_order/archive/{quote_id}', 'PurchaseOrderController@archive');
+        Route::delete('purchase_order/{quote_id}', 'PurchaseOrderController@destroy');
+        Route::post('purchase_order', 'PurchaseOrderController@store')->middleware('role:null,invoicecontroller.store');
+
+        Route::put('purchase_order/{quote_id}', 'PurchaseOrderController@update')->middleware('role:null,invoicecontroller.update');
+        Route::get('purchase_order', 'PurchaseOrderController@index')->middleware('role:null,invoicecontroller.index');
+        Route::get('purchase_order/{quote_id}', 'PurchaseOrderController@show')->middleware('role:null,invoicecontroller.show');
+        Route::post('purchase_order/{purchase_order}/{action}', 'PurchaseOrderController@action')->name('quotes.action');
+        Route::post('purchase_order/restore/{id}', 'PurchaseOrderController@restore');
+
         //accounts
         Route::post('accounts', 'AccountController@store')->middleware('role:null,invoicecontroller.store');
         Route::post(

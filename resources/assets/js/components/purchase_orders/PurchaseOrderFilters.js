@@ -101,7 +101,7 @@ export default class PurchaseOrderFilters extends Component {
 
                 <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CompanyDropdown
-                        company={this.props.filters.company_id}
+                        company_id={this.props.filters.company_id}
                         renderErrorFor={this.renderErrorFor}
                         handleInputChanges={this.filterInvoices}
                         companies={this.props.companies}

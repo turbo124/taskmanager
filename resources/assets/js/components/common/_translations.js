@@ -191,6 +191,8 @@ _localizedValues.en = {
     start_date: 'Start Date',
     end_date: 'End Date',
     frequency: 'Frequency (in days)',
+    purchase_order: 'Purchase Order',
+    edit_purchase_order: 'Edit Purchase Order',
     quote: 'Quote',
     public_notes: 'Public Notes',
     private_notes: 'Private Notes',

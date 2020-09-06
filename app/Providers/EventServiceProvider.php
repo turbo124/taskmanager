@@ -44,7 +44,7 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasRestored;
 use App\Events\Payment\PaymentWasUpdated;
-use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\PurchaseOrderWasApproved;
 use App\Events\Quote\QuoteWasArchived;
 use App\Events\Quote\QuoteWasCreated;
 use App\Events\Quote\QuoteWasDeleted;
@@ -213,7 +213,7 @@ class EventServiceProvider extends ServiceProvider
             EntityViewedListener::class
         ],
         // quotes
-        QuoteWasApproved::class     => [
+        PurchaseOrderWasApproved::class => [
             QuoteApprovedActivity::class,
             SendQuoteApprovedNotification::class
         ],

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Pdf\InvoicePdf;
 use App\Helpers\Pdf\LeadPdf;
+use App\Helpers\Pdf\PurchaseOrderPdf;
 use App\Helpers\Pdf\TaskPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
@@ -42,6 +43,9 @@ class TemplateController extends Controller
                 break;
             case 'App\Models\Lead':
                 $objPdfBuilder = new LeadPdf($entity_object);
+                break;
+            case 'App\Models\PurchaseOrder':
+                $objPdfBuilder = new PurchaseOrderPdf($entity_object);
                 break;
             default:
                 $objPdfBuilder = new InvoicePdf($entity_object);

@@ -52,6 +52,7 @@ import Localisation from './accounts/LocalisationSettings'
 import DeviceSettings from './accounts/DeviceSettings'
 import WorkflowSettings from './accounts/WorkflowSettings'
 import Cases from './cases/Cases'
+import PurchaseOrders from "./purchase_orders/PurchaseOrders";
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -167,6 +168,11 @@ const routes = [
         path: '/expenses',
         name: 'Expenses',
         component: Expenses
+    },
+    {
+        path: '/purchase_orders',
+        name: 'Purchase Orders',
+        component: PurchaseOrders
     },
     {
         path: '/permissions',

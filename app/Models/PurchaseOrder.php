@@ -20,13 +20,13 @@ class PurchaseOrder extends Model
     protected $presenter = 'App\Presenters\QuotePresenter';
 
     protected $casts = [
-        'company_id'  => 'integer',
-        'account_id'  => 'integer',
-        'user_id'     => 'integer',
-        'line_items'  => 'object',
-        'updated_at'  => 'timestamp',
-        'deleted_at'  => 'timestamp',
-        'is_deleted'  => 'boolean',
+        'company_id' => 'integer',
+        'account_id' => 'integer',
+        'user_id'    => 'integer',
+        'line_items' => 'object',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
+        'is_deleted' => 'boolean',
     ];
 
     /**
@@ -204,12 +204,12 @@ class PurchaseOrder extends Model
 
     public function getDesignId()
     {
-        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('quote_design_id');
+        return !empty($this->design_id) ? $this->design_id : $this->account->settings->purchase_order_design_id;
     }
 
     public function getPdfFilename()
     {
-        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/quotes/' . $this->number . '.pdf';
+        return 'storage/' . $this->account->id . '/' . $this->company->id . '/purchase_orders/' . $this->number . '.pdf';
     }
 
     public function canBeSent()

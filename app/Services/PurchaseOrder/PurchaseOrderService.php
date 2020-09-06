@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Quote;
+namespace App\Services\PurchaseOrder;
 
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
 use App\Events\PurchaseOrder\PurchaseOrderWasEmailed;
@@ -11,43 +11,42 @@ use App\Models\PurchaseOrder;
 use App\Models\RecurringPurchaseOrder;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
-use App\Repositories\QuoteRepository;
-use App\Repositories\RecurringQuoteRepository;
+use App\Repositories\PurchaseOrderRepository;
 use App\Services\PurchaseOrder\MarkSent;
 use App\Services\ServiceBase;
 
 class PurchaseOrderService extends ServiceBase
 {
-    protected PurchaseOrder $po;
+    protected PurchaseOrder $purchase_order;
 
-    public function __construct(PurchaseOrder $po)
+    public function __construct(PurchaseOrder $purchase_order)
     {
         $config = [
-            'email'   => $po->customer->getSetting('should_email_purchase_order'),
-            'archive' => $po->customer->getSetting('should_archive_purchase_order')
+            'email'   => $purchase_order->account->settings->should_email_purchase_order,
+            'archive' => $purchase_order->account->settings->should_archive_purchase_order
         ];
 
-        parent::__construct($quote, $config);
-        $this->po = $po;
+        parent::__construct($purchase_order, $config);
+        $this->purchase_order = $purchase_order;
     }
 
     public function approve(PurchaseOrderRepository $po_repo): ?PurchaseOrder
     {
-        if ($this->po->status_id != PurchaseOrder::STATUS_SENT) {
+        if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
             return null;
         }
 
-        $this->po->setStatus(PurchaseOrder::STATUS_APPROVED);
-        $this->po->save();
+        $this->purchase_order->setStatus(PurchaseOrder::STATUS_APPROVED);
+        $this->purchase_order->save();
 
-        event(new PurchaseOrderWasApproved($this->po));
+        event(new PurchaseOrderWasApproved($this->purchase_order));
 
         // trigger
         $subject = trans('texts.purchase_order_approved_subject');
         $body = trans('texts.purchase_order_approved_body');
         $this->trigger($subject, $body, $po_repo);
 
-        return $this->po;
+        return $this->purchase_order;
     }
 
     /**
@@ -57,7 +56,7 @@ class PurchaseOrderService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->po, $contact, $update))->execute();
+        return (new GeneratePdf($this->purchase_order, $contact, $update))->execute();
     }
 
     /**
@@ -72,8 +71,8 @@ class PurchaseOrderService extends ServiceBase
             return null;
         }
 
-        event(new PurchaseOrderWasEmailed($this->po->invitations->first()));
-        return $this->po;
+        event(new PurchaseOrderWasEmailed($this->purchase_order->invitations->first()));
+        return $this->purchase_order;
     }
 
     /**
@@ -81,7 +80,7 @@ class PurchaseOrderService extends ServiceBase
      */
     public function calculateInvoiceTotals(): PurchaseOrder
     {
-        return $this->calculateTotals($this->po);
+        return $this->calculateTotals($this->purchase_order);
     }
 
     /**
@@ -118,7 +117,7 @@ class PurchaseOrderService extends ServiceBase
         $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
         $recurringQuote = (new RecurringPurchaseOrderRepository(new RecurringPurchaseOrder))->save(
             $arrRecurring,
-            PurchaseOrderToRecurringPurchaseOrderFactory::create($this->po)
+            PurchaseOrderToRecurringPurchaseOrderFactory::create($this->purchase_order)
         );
 
         $this->quote->recurring_purchase_order_id = $recurringQuote->id;

@@ -53,7 +53,7 @@ class InvoiceService extends ServiceBase
 
     public function send()
     {
-       $this->invoice->updateInvoiceBalance($this->invoice->balance);
+        $this->invoice->updateInvoiceBalance($this->invoice->balance);
     }
 
     /**

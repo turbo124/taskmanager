@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Requests\PurchaseOrder;
@@ -27,7 +26,7 @@ class CreatePurchaseOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'company_id'     => 'required|exists:companies,id,account_id,' . auth()->user()->account_user()->account_id,
             'date'           => 'required',
             'due_date'       => 'required',
             'discount_total' => 'required',

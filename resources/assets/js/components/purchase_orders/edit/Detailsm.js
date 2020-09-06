@@ -5,6 +5,7 @@ import FormBuilder from '../../accounts/FormBuilder'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../common/_translations'
 import UserDropdown from '../../common/UserDropdown'
+import CompanyDropdown from "../../common/CompanyDropdown";
 
 export default class Detailsm extends Component {
     constructor (props, context) {
@@ -119,7 +120,7 @@ export default class Detailsm extends Component {
                         <Label>{translations.company}</Label>
                         <CompanyDropdown
                             handleInputChanges={this.props.handleInput}
-                            company={this.props.purchase_order.company_id}
+                            company_id={this.props.purchase_order.company_id}
                             companies={this.props.companies}
                             errors={this.props.errors}
                         />

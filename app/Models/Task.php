@@ -133,4 +133,19 @@ class Task extends Model
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/tasks/' . $this->number . '.pdf';
     }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
+            return true;
+        }
+
+        return true;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
 }

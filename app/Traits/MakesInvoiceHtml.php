@@ -20,10 +20,19 @@ trait MakesInvoiceHtml
      */
     public function generateEntityHtml($objPdf, PdfColumns $designer, $entity, $contact = null): string
     {
-        if (get_class($entity) === 'App\Models\Lead') {
-            App::setLocale($entity->preferredLocale());
-        } else {
-            App::setLocale($entity->customer->preferredLocale());
+        switch (get_class($entity)) {
+            case 'App\Models\Lead':
+                $lang = $entity->preferredLocale();
+                App::setLocale($lang);
+                break;
+            case 'App\Models\PurchaseOrder':
+                $lang = $entity->company->preferredLocale();
+                App::setLocale($lang);
+                break;
+            default:
+                $lang = $entity->customer->preferredLocale();
+                App::setLocale($lang);
+                break;
         }
 
         $objPdf->build($contact);
@@ -37,7 +46,7 @@ trait MakesInvoiceHtml
 
         $client_signature = $this->getClientSignature($entity, $contact);
 
-        if (get_class($entity) === 'App\Models\Lead') {
+        if (in_array(get_class($entity), ['App\Models\Lead', 'App\Models\PurchaseOrder'])) {
             $signature = !empty($settings->email_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
             $client_signature = !empty($client_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
@@ -58,8 +67,7 @@ trait MakesInvoiceHtml
 
         $data = [
             'entity'   => $entity,
-            'lang'     => get_class($entity) === 'App\Models\Lead' ? $entity->preferredLocale(
-            ) : $entity->customer->preferredLocale(),
+            'lang'     => $lang,
             'settings' => $settings,
             'header'   => $designer->getSection('header'),
             'body'     => str_replace('$table_here', $table, $designer->getSection('body')),

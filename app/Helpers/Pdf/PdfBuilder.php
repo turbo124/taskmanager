@@ -4,6 +4,7 @@ namespace App\Helpers\Pdf;
 
 use App\Models\Account;
 use App\Models\ClientContact;
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Product;
@@ -195,11 +196,11 @@ class PdfBuilder
             'label' => trans('texts.vat_number')
         ];
         $this->data['$customer.website'] = [
-            'value' => $company->website() ?: '&nbsp;',
+            'value' => $company->website ?: '&nbsp;',
             'label' => trans('texts.website')
         ];
         $this->data['$customer.phone'] = [
-            'value' => $company->phone() ?: '&nbsp;',
+            'value' => $company->phone ?: '&nbsp;',
             'label' => trans('texts.phone_number')
         ];
         $this->data['$customer.email'] = [
@@ -209,7 +210,7 @@ class PdfBuilder
             'label' => trans('texts.email_address')
         ];
         $this->data['$customer.name'] = [
-            'value' => $this->company->name ?: '&nbsp;',
+            'value' => $company->name ?: '&nbsp;',
             'label' => trans('texts.customer_name')
         ];
         $this->data['$customer1'] = [
@@ -332,7 +333,7 @@ class PdfBuilder
             'label' => trans('texts.address')
         ];
 
-       $this->buildAddress($company, $company);
+        $this->buildAddress($company, $company);
 
         return $this;
     }
@@ -524,7 +525,7 @@ class PdfBuilder
         return $this;
     }
 
-    public function setDiscount(Customer $customer, $discount): self
+    public function setDiscount($customer, $discount): self
     {
         $this->data['$discount'] = [
             'value' => $this->formatCurrency($discount, $customer) ?: '&nbsp;',
@@ -596,7 +597,7 @@ class PdfBuilder
      * @param Customer $customer
      * @return string
      */
-    private function makeLineTaxes(Customer $customer): string
+    private function makeLineTaxes($customer): string
     {
         $data = '';
 
@@ -696,7 +697,7 @@ class PdfBuilder
      * @param string $table_type
      * @return $this
      */
-    protected function transformLineItems(Customer $customer, $entity, $table_type = '$product'): self
+    protected function transformLineItems($customer, $entity, $table_type = '$product'): self
     {
         if (!isset($entity->line_items) || empty($entity->line_items)) {
             return $this;

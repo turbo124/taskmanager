@@ -61,7 +61,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
             $po->service()->createRecurringPurchaseOrder($recurring);
         }
 
-       
+
         event(new PurchaseOrderWasCreated($po));
 
         return $po;
@@ -75,7 +75,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
     public function updatePurchaseOrder(array $data, PurchaseOrder $po): ?PurchaseOrder
     {
         $po = $this->save($data, $po);
-       
+
         event(new PurchaseOrderWasUpdated($po));
 
         return $po;
@@ -89,7 +89,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
     public function save($data, PurchaseOrder $po): ?PurchaseOrder
     {
         $po->fill($data);
-       
+
         $po = $po->service()->calculateInvoiceTotals();
         $po->setNumber();
 

@@ -1,8 +1,8 @@
-
 <?php
 
 namespace App\Events\PurchaseOrder;
 
+use App\Models\PurchaseOrder;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
@@ -14,16 +14,16 @@ class PurchaseOrderWasCreated
     use SerializesModels;
     use SendSubscription;
 
-    public $purchase_order;
+    public PurchaseOrder $purchase_order;
 
     /**
      * Create a new event instance.
      *
-     * @param $quote
+     * @param $purchase_order
      */
-    public function __construct($purchase_order)
+    public function __construct(PurchaseOrder $purchase_order)
     {
         $this->purchase_order = $purchase_order;
-        //$this->send($quote, get_class($this));
+        //$this->send($purchase_order, get_class($this));
     }
 }

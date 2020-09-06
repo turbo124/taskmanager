@@ -28,8 +28,7 @@ class PurchaseOrderPdf extends PdfBuilder
         $contact === null ? $this->entity->company->contacts->first() : $contact;
         $company = $this->entity->company;
 
-        $this->setDefaults($company)
-             ->buildContact($contact)
+        $this->buildContact($contact)
              ->setTaxes($company)
              ->setDate($this->entity->date)
              ->setDueDate($this->entity->due_date)
@@ -42,13 +41,13 @@ class PurchaseOrderPdf extends PdfBuilder
              ->setDiscount($company, $this->entity->discount_total)
              ->setShippingCost($company, $this->entity->shipping_cost)
              ->setVoucherCode(isset($this->entity->voucher_code) ? $this->entity->voucher_code : '')
-             ->setSubTotal($customer, $this->entity->sub_total)
+             ->setSubTotal($company, $this->entity->sub_total)
              ->setBalance($company, $this->entity->balance)
              ->setTotal($company, $this->entity->total)
              ->setNotes($this->entity->public_notes)
-             //->setInvoiceCustomValues()
+            //->setInvoiceCustomValues()
              ->buildProduct()
-             ->transformLineItems($customer, $this->entity)
+             ->transformLineItems($company, $this->entity)
              ->buildTask();
 
         foreach ($this->data as $key => $value) {

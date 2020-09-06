@@ -24,7 +24,7 @@ export default function Contacts (props) {
                     <Label>{translations.company}</Label>
                     <CompanyDropdown
                         handleInputChanges={props.handleInput}
-                        company={props.invoice.company_id}
+                        company_id={props.invoice.company_id}
                         companies={props.companies}
                         errors={props.errors}
                     />

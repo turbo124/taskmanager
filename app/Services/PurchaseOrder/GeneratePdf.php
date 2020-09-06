@@ -17,7 +17,7 @@ class GeneratePdf
     /**
      * @var PurchaseOrder
      */
-    private PurchaseOrder $po;
+    private PurchaseOrder $purchase_order;
 
     /**
      * @var bool
@@ -26,24 +26,24 @@ class GeneratePdf
 
     /**
      * GeneratePdf constructor.
-     * @param Quote $quote
-     * @param ClientContact|null $contact
+     * @param PurchaseOrder $po
+     * @param CompanyContact|null $contact
      * @param bool $update
      */
-    public function __construct(PurchaseOrder $po, CompanyContact $contact = null, $update = false)
+    public function __construct(PurchaseOrder $purchase_order, CompanyContact $contact = null, $update = false)
     {
         $this->contact = $contact;
-        $this->po = $po;
+        $this->purchase_order = $purchase_order;
         $this->update = $update;
     }
 
     public function execute()
     {
         if (!$this->contact) {
-            $this->contact = $this->po->company->primary_contact()->first();
+            $this->contact = $this->purchase_order->company->primary_contact()->first();
         }
 
-        $file_path = $this->po->getPdfFilename();
+        $file_path = $this->purchase_order->getPdfFilename();
 
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
@@ -52,13 +52,13 @@ class GeneratePdf
             return $file_path;
         }
 
-        $design = Design::find($this->po->getDesignId());
-        $objPdf = new PurchaseOrderPdf($this->po);
+        $design = Design::find($this->purchase_order->getDesignId());
+        $objPdf = new PurchaseOrderPdf($this->purchase_order);
         $designer =
             new PdfColumns(
-                $objPdf, $this->po, $design, $this->account->settings->pdf_variables, 'quote'
+                $objPdf, $this->purchase_order, $design, $this->purchase_order->account->settings->pdf_variables, 'purchase_order'
             );
 
-        return CreatePdf::dispatchNow($objPdf, $this->po, $file_path, $designer, $this->contact);
+        return CreatePdf::dispatchNow($objPdf, $this->purchase_order, $file_path, $designer, $this->contact);
     }
 }

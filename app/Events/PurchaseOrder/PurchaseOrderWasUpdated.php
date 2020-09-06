@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Events\PurchaseOrder;
@@ -6,9 +5,9 @@ namespace App\Events\PurchaseOrder;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PurchaseOrderWasUpdated.
+ * Class QuoteWasUpdated.
  */
-class QuoteWasUpdated
+class PurchaseOrderWasUpdated
 {
     use SerializesModels;
 
@@ -17,7 +16,7 @@ class QuoteWasUpdated
     /**
      * Create a new event instance.
      *
-     * @param $quote
+     * @param $purchase_order
      */
     public function __construct($purchase_order)
     {

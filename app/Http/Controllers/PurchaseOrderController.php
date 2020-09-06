@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Factory\QuoteFactory;
-use App\Filters\QuoteFilter;
-use App\Models\Customer;
-use App\Models\Quote;
-use App\Models\Task;
+use App\Factory\PurchaseOrderFactory;
+use App\Filters\PurchaseOrderFilter;
+use App\Models\Company;
+use App\Models\PurchaseOrder;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
+use App\Repositories\Interfaces\PurchaseOrderRepositoryInterface;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
-use App\Repositories\TaskRepository;
-use App\Requests\Quote\CreateQuoteRequest;
-use App\Requests\Quote\UpdateOrderRequest;
-use App\Requests\Quote\UpdateQuoteRequest;
+use App\Requests\PurchaseOrder\CreatePurchaseOrderRequest;
+use App\Requests\Quote\UpdatePurchaseOrderRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\InvoiceTransformable;
-use App\Transformations\QuoteTransformable;
-use Exception;
+use App\Transformations\PurchaseOrderTransformable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,9 +31,9 @@ class PurchaseOrderController extends BaseController
     /**
      * @var PurchaseOrderRepositoryInterface
      */
-    private $po_repo;
+    private PurchaseOrderRepositoryInterface $purchase_order_repo;
 
-    
+
     /**
      * PurchaseOrderController constructor.
      * @param InvoiceRepositoryInterface $invoice_repo
@@ -48,10 +45,8 @@ class PurchaseOrderController extends BaseController
         QuoteRepositoryInterface $quote_repo,
         CreditRepository $credit_repo
     ) {
-        $this->invoice_repo = $invoice_repo;
-        $this->quote_repo = $quote_repo;
-        $this->po_repo = $po_repo;
-        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'Quote');
+        $this->purchase_order_repo = $po_repo;
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'PurchaseOrder');
     }
 
     /**
@@ -60,7 +55,7 @@ class PurchaseOrderController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $pos = (new PurchaseOrderFilter($this->po_repo))->filter($request, auth()->user()->account_user()->account);
+        $pos = (new PurchaseOrderFilter($this->purchase_order_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($pos);
     }
 
@@ -70,7 +65,7 @@ class PurchaseOrderController extends BaseController
      */
     public function show(int $po_id)
     {
-        $po = $this->po_repo->findPurchaseOrderById($po_id);
+        $po = $this->purchase_order_repo->findPurchaseOrderById($po_id);
         return response()->json($po);
     }
 
@@ -81,7 +76,7 @@ class PurchaseOrderController extends BaseController
     public function store(CreatePurchaseOrderRequest $request)
     {
         $company = Company::find($request->input('company_id'));
-        $po = $this->po_repo->createPurchaseOrder(
+        $po = $this->purchase_order_repo->createPurchaseOrder(
             $request->all(),
             PurchaseOrderFactory::create(auth()->user()->account_user()->account, auth()->user(), $company)
         );
@@ -96,9 +91,9 @@ class PurchaseOrderController extends BaseController
      */
     public function update(UpdatePurchaseOrderRequest $request, int $id)
     {
-        $po = $this->po_repo->findPurchaseOrderById($id);
+        $po = $this->purchase_order_repo->findPurchaseOrderById($id);
 
-        $po = $this->po_repo->updatePurchaseOrder($request->all(), $po);
+        $po = $this->purchase_order_repo->updatePurchaseOrder($request->all(), $po);
 
         return response()->json($this->transformPurchaseOrder($po));
     }
@@ -110,9 +105,9 @@ class PurchaseOrderController extends BaseController
      * @return JsonResponse
      * @throws FileNotFoundException
      */
-    public function action(Request $request, PurchaseOrder $po, $action)
+    public function action(Request $request, PurchaseOrder $purchase_order, $action)
     {
-        return $this->performAction($request, $po, $action);
+        return $this->performAction($request, $purchase_order, $action);
     }
 
     /**
@@ -121,8 +116,8 @@ class PurchaseOrderController extends BaseController
      */
     public function archive(int $id)
     {
-        $po = $this->po_repo->findPurchaseOrderById($id);
-        $this->po_repo->archive($po);
+        $po = $this->purchase_order_repo->findPurchaseOrderById($id);
+        $this->purchase_order_repo->archive($po);
         return response()->json([], 200);
     }
 
@@ -133,7 +128,7 @@ class PurchaseOrderController extends BaseController
     public function destroy(int $id)
     {
         $po = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
-        $this->po_repo->newDelete($po);
+        $this->purchase_order_repo->newDelete($po);
         return response()->json([], 200);
     }
 
@@ -144,7 +139,7 @@ class PurchaseOrderController extends BaseController
     public function restore(int $id)
     {
         $po = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
-        $this->po_repo->restore($po);
+        $this->purchase_order_repo->restore($po);
         return response()->json([], 200);
     }
 

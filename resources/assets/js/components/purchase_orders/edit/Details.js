@@ -62,7 +62,7 @@ export default class Details extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="due_date">{translations.expiry_date}(*):</Label>
-                        <Datepicker name="due_date" date={this.props.purchase_orde.due_date}
+                        <Datepicker name="due_date" date={this.props.purchase_order.due_date}
                             handleInput={this.props.handleInput}
                             className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                         {this.renderErrorFor('due_date')}
@@ -84,7 +84,7 @@ export default class Details extends Component {
                         />
                     </FormGroup>
 
-                    <FormGroup className={this.props.quote.has_partial === true ? '' : 'd-none'}>
+                    <FormGroup className={this.props.purchase_order.has_partial === true ? '' : 'd-none'}>
                         <Label>{translations.partial_due_date}</Label>
                         <Datepicker name="partial_due_date" date={this.props.purchase_order.partial_due_date}
                             handleInput={this.props.handleInput}

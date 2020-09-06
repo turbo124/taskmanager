@@ -187,6 +187,8 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
         $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
 
+        $task->setNumber();
+
         $task->fill($data);
         $task->save();
 

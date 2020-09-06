@@ -84,6 +84,33 @@ export default class WorkflowSettings extends Component {
             })
     }
 
+    getPurchaseOrderFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_purchase_order',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_purchase_order,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_purchase_order',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_purchase_order,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     getInvoiceFields () {
         const settings = this.state.settings
 
@@ -236,6 +263,41 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
+    getDealFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_deal',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_deal,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_deal',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_deal,
+                    group: 1
+                },
+                {
+                    name: 'should_convert_deal',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_deal,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     handleClose () {
         this.setState({ success: false, error: false })
     }
@@ -302,6 +364,26 @@ export default class WorkflowSettings extends Component {
                                         {translations.orders}
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '5' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('5')
+                                        }}>
+                                        {translations.deals}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '6' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('6')
+                                        }}>
+                                        {translations.purchase_orders}
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
                         </CardBody>
                     </Card>
@@ -347,6 +429,28 @@ export default class WorkflowSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="pr-0 pl-0" tabId="5">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="pr-0 pl-0" tabId="6">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
                                 />
                             </CardBody>
                         </Card>

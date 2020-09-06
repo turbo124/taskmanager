@@ -21,12 +21,12 @@ class PurchaseOrderFactory
         User $user,
         Company $company
     ): PurchaseOrder {
-        $po = new PurchaseOrder();
-        $po->setAccount($account);
-        $po->setStatus(PurchaseOrder::STATUS_DRAFT);
-        $po->setUser($user);
-        $po->setCompany($company);
+        $purchase_order = new PurchaseOrder();
+        $purchase_order->setAccount($account);
+        $purchase_order->setStatus(PurchaseOrder::STATUS_DRAFT);
+        $purchase_order->setUser($user);
+        $purchase_order->setCompany($company);
 
-        return $quote;
+        return $purchase_order;
     }
 }
