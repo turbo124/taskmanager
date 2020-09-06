@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\Quote\QuoteWasCreated;
-use App\Events\Quote\PurchaseOrderWasUpdated;
+use App\Events\Quote\QuoteWasUpdated;
 use App\Filters\QuoteFilter;
 use App\Jobs\Order\QuoteOrders;
 use App\Jobs\Product\UpdateProductPrices;
@@ -76,7 +76,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     {
         $quote = $this->save($data, $quote);
         QuoteOrders::dispatchNow($quote);
-        event(new PurchaseOrderWasUpdated($quote));
+        event(new QuoteWasUpdated($quote));
 
         return $quote;
     }
