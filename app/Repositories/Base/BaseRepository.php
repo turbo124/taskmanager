@@ -361,7 +361,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         if(!empty($entity->assigned_to)) {
-            $variables['$agent'] = $entity->assignee;
+            $variables['$agent'] = $entity->assignee->name
         }
 
         return str_replace(array_keys($variables), array_values($variables), $content);
