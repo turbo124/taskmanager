@@ -33,7 +33,7 @@ class PurchaseOrderEmailedActivity implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->purchase_order_invitation->purchase_order->id;
-        $fields['data']['company_contact_id'] = $event->purchase_order_invitation->client_company_id;
+        $fields['data']['contact_id'] = $event->purchase_order_invitation->contact_id;
         $fields['data']['company_id'] = $event->purchase_order_invitation->purchase_order->company_id;
         $fields['data']['message'] = 'A purchase order was emailed';
         $fields['notifiable_id'] = $event->purchase_order_invitation->purchase_order->user_id;
