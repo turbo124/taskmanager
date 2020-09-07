@@ -42,6 +42,16 @@ class Cases extends Model
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 3;
 
+    private $arrStatuses = [
+        1 => 'Pending'
+    ];
+
+    private $arrPriorities = [
+        1 => 'High',
+        2 => 'Medium',
+        3 => 'High'
+    ];
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
@@ -138,5 +148,14 @@ class Cases extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/cases/' . $this->number . '.pdf';
+    }
+
+    public function getStatusName()
+    {
+        return $this->arrStatuses[$this->status_id];
+    }
+
+    public function getPriorityName() {
+        return $this->arrPriorities[$this->priority_id];
     }
 }
