@@ -176,7 +176,7 @@ export default class PurchaseOrder extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} customers={this.props.customers} customer={customer}
+                        <Overview entity={this.props.entity} companies={this.props.companies} company={company}
                             user={user} fields={fields}/>
                     </TabPane>
 
