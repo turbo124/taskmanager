@@ -27,7 +27,7 @@ export default function Overview (props) {
 
         <Row>
             <EntityListTile entity={translations.company} title={props.company[0].name}
-                icon={icons.customer}/>
+                icon={icons.company}/>
         </Row>
 
         {!!props.user &&
