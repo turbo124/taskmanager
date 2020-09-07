@@ -32,7 +32,7 @@ class QuoteEmailedActivity implements ShouldQueue
         $fields['data']['id'] = $event->invitation->quote->id;
         $fields['data']['customer_id'] = $event->invitation->quote->customer_id;
         $fields['data']['message'] = 'An quote was emailed';
-        $fields['data']['client_contact_id'] = $event->invitation->quote->client_contact_id;
+        $fields['data']['contact_id'] = $event->invitation->quote->contact_id;
         $fields['notifiable_id'] = $event->invitation->quote->user_id;
         $fields['account_id'] = $event->invitation->quote->account_id;
         $fields['notifiable_type'] = get_class($event->invitation->quote);
