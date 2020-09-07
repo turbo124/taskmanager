@@ -15,7 +15,7 @@ class QuoteInvitation extends Model
 
     protected $fillable = [
         'id',
-        'client_contact_id',
+        'contact_id',
     ];
 
     /**
@@ -47,7 +47,7 @@ class QuoteInvitation extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(ClientContact::class, 'client_contact_id', 'id')->withTrashed();
+        return $this->belongsTo(ClientContact::class, 'contact_id', 'id')->withTrashed();
     }
 
     /**
