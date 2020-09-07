@@ -126,7 +126,7 @@ export default class EmailEditorForm extends Component {
             const invitations = this.props.entity_object.invitations
 
             contactList = invitations.map((invitation, index) => {
-                const contact = customerModel.findContact(invitation.client_contact_id)
+                const contact = customerModel.findContact(invitation.contact_id)
                 return <option key={index}
                     value={contact.id}>{contact.fullNameWithEmail}</option>
             })

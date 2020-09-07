@@ -106,7 +106,7 @@ trait MakesInvoiceHtml
         $selected_invitation = null;
 
         if (!empty($contact)) {
-            $selected_invitation = $invitation_class::where('client_contact_id', '=', $contact->id);
+            $selected_invitation = $invitation_class::where('contact_id', '=', $contact->id);
         } else {
             foreach ($invitations as $invitation) {
                 if (!empty($invitation->client_signature)) {
