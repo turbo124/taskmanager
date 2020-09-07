@@ -66,6 +66,7 @@ class CaseRepository extends BaseRepository
     {
         $case->fill($data);
         $case->setNumber();
+        $case->description = $this->parseTemplateVariables($data['description'], $case);
         $case->save();
 
         $this->saveInvitations($case, 'case', $data);
