@@ -378,6 +378,7 @@ export default class DataTable extends Component {
                     toggle={this.toggleViewedEntity}
                     title={this.state.view.title}
                     viewed={this.state.view.viewMode}
+                    companies={this.props.companies}
                     customers={this.props.customers && this.props.customers.length ? this.props.customers : []}
                     entity={this.state.view.viewedId}
                     entity_type={this.props.entity_type}
