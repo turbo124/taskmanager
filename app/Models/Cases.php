@@ -93,7 +93,7 @@ class Cases extends Model
     /**
      * @return mixed
      */
-    public function asignee()
+    public function assignee()
     {
         return $this->hasOne(User::class, 'id', 'assigned_to');
     }
