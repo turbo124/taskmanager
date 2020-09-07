@@ -164,7 +164,9 @@ class Invoice extends BaseCalculator
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
 
-        if (!empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
+        if (get_class(
+                $this->entity
+            ) === 'App\Models\Invoice' && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
             $this->entity->updateInvoiceBalance($gateway_fee);
             $this->total += $gateway_fee;
             $this->balance += $gateway_fee;

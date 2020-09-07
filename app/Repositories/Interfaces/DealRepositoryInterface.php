@@ -18,6 +18,20 @@ interface DealRepositoryInterface extends BaseRepositoryInterface
     public function findDealById(int $id): Deal;
 
     /**
+     * @param array $data
+     * @param Deal $deal
+     * @return mixed
+     */
+    public function createDeal(array $data, Deal $deal): ?Deal;
+
+    /**
+     * @param array $data
+     * @param Deal $deal
+     * @return mixed
+     */
+    public function updateDeal(array $data, Deal $deal): ?Deal;
+
+    /**
      * @param $data
      * @param Deal $task
      * @return Deal|null

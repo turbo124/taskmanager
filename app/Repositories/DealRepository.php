@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Deal\DealWasCreated;
+use App\Events\Deal\DealWasUpdated;
 use App\Filters\DealFilter;
 use App\Models\Account;
 use App\Models\Deal;
@@ -145,17 +147,45 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
         return $this->model->where('account_id', $account_id)->sum('valued_at');
     }
 
+    /**
+     * @param array $data
+     * @param Deal $deal
+     * @return Deal|Task|null
+     * @throws Exception
+     */
+    public function createDeal(array $data, Deal $deal): ?Deal
+    {
+        $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
+        $deal = $this->save($data, $deal);
+
+        event(new DealWasCreated($deal));
+
+        return $deal;
+    }
+
+    /**
+     * @param array $data
+     * @param Deal $deal
+     * @return Deal|Task|null
+     * @throws Exception
+     */
+    public function updateDeal(array $data, Deal $deal): ?Deal
+    {
+        $deal = $this->save($data, $deal);
+
+        event(new DealWasUpdated($deal));
+
+        return $deal;
+    }
+
 
     /**
      * @param $data
-     * @param Task $task
-     * @return Task|null
-     * @throws Exception
+     * @param Deal $deal
+     * @return Deal|null
      */
     public function save($data, Deal $deal): ?Deal
     {
-        $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
-
         $deal->fill($data);
         $deal->setNumber();
         $deal->save();

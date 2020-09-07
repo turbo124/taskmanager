@@ -2,6 +2,7 @@
 
 namespace App\Services\Lead;
 
+use App\Events\Lead\LeadWasEmailed;
 use App\Jobs\Email\SendEmail;
 use App\Models\Lead;
 use App\Traits\MakesInvoiceHtml;
@@ -49,5 +50,7 @@ class LeadEmail
         $body = strlen($this->body) > 0 ? $this->body : $this->lead->account->getSetting('email_template_lead');
 
         SendEmail::dispatchNow($this->lead, $subject, $body, 'lead', $this->lead);
+
+        event(new LeadWasEmailed($this->lead));
     }
 }

@@ -57,7 +57,7 @@ class ActivityController extends Controller
     {
         $currentUser = auth()->user();
         $comments = auth()->user()->account_user()->account->comments()->with('user')->get();
-        $list = $this->notification_repo->listNotifications();
+        $list = $this->notification_repo->listNotifications('*', 'created_at', 'DESC');
         $userEvents = $this->event_repo->getEventsForUser($currentUser, auth()->user()->account_user()->account_id);
 
         $events = $userEvents->map(

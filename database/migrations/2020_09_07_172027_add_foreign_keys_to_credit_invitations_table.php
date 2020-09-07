@@ -16,7 +16,7 @@ class AddForeignKeysToCreditInvitationsTable extends Migration {
 		{
 			$table->foreign('account_id')->references('id')->on('accounts')->onUpdate('RESTRICT')->onDelete('CASCADE');
 			$table->foreign('credit_id')->references('id')->on('credits')->onUpdate('RESTRICT')->onDelete('CASCADE');
-			$table->foreign('client_contact_id', 'credit_invitations_customer_id_foreign')->references('id')->on('client_contacts')->onUpdate('RESTRICT')->onDelete('CASCADE');
+			$table->foreign('contact_id', 'credit_invitations_ibfk_1')->references('id')->on('client_contacts')->onUpdate('NO ACTION')->onDelete('CASCADE');
 			$table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('CASCADE');
 		});
 	}
@@ -33,7 +33,7 @@ class AddForeignKeysToCreditInvitationsTable extends Migration {
 		{
 			$table->dropForeign('credit_invitations_account_id_foreign');
 			$table->dropForeign('credit_invitations_credit_id_foreign');
-			$table->dropForeign('credit_invitations_customer_id_foreign');
+			$table->dropForeign('credit_invitations_ibfk_1');
 			$table->dropForeign('credit_invitations_user_id_foreign');
 		});
 	}

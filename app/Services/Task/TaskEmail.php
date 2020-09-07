@@ -2,6 +2,7 @@
 
 namespace App\Services\Task;
 
+use App\Events\Task\TaskWasEmailed;
 use App\Jobs\Email\SendEmail;
 use App\Models\task;
 use App\Traits\MakesInvoiceHtml;
@@ -49,5 +50,7 @@ class TaskEmail
         $body = strlen($this->body) > 0 ? $this->body : $this->task->account->getSetting('email_template_task');
 
         SendEmail::dispatchNow($this->task, $subject, $body, 'task', $this->task->customer->contacts->first());
+
+        event(new TaskWasEmailed($this->task));
     }
 }

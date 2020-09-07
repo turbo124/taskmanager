@@ -3,6 +3,7 @@
 namespace App\Services\Quote;
 
 use App\Events\Quote\PurchaseOrderWasApproved;
+use App\Events\Quote\QuoteWasApproved;
 use App\Events\Quote\QuoteWasEmailed;
 use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Models\Invoice;
@@ -44,7 +45,7 @@ class QuoteService extends ServiceBase
             (new ConvertQuoteToInvoice($this->quote, $invoice_repo))->execute();
         }
 
-        event(new PurchaseOrderWasApproved($this->quote));
+        event(new QuoteWasApproved($this->quote));
 
         // trigger
         $subject = trans('texts.quote_approved_subject');
@@ -76,7 +77,6 @@ class QuoteService extends ServiceBase
             return null;
         }
 
-        event(new QuoteWasEmailed($this->quote->invitations->first()));
         return $this->quote;
     }
 

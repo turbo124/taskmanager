@@ -168,7 +168,7 @@ class RecurringInvoiceController extends BaseController
     public function requestCancellation(Request $request)
     {
         $recurring_invoice = $this->recurring_invoice_repo->findInvoiceById($request->invoice_id);
-        $client_contact = ClientContact::find($request->client_contact_id);
+        $client_contact = ClientContact::find($request->contact_id);
         $recurring_invoice->user->notify(new ClientContactRequestCancellation($recurring_invoice, $client_contact));
         return response()->json(['code' => 200]);
     }

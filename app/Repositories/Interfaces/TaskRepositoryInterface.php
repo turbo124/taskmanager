@@ -23,6 +23,20 @@ interface TaskRepositoryInterface extends BaseRepositoryInterface
      * @param Task $task
      * @return Task|null
      */
+    public function createTask($data, Task $task): ?Task;
+
+    /**
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     */
+    public function updateTask($data, Task $task): ?Task;
+
+    /**
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     */
     public function save($data, Task $task): ?Task;
 
     /**

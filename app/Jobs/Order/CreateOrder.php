@@ -180,8 +180,6 @@ class CreateOrder implements ShouldQueue
                 $task->users()->sync($this->request->input('contributors'));
             }
 
-            event(new DealWasCreated($task, $this->account));
-
             return $task;
         } catch (Exception $e) {
             Log::emergency($e->getMessage());
@@ -297,7 +295,7 @@ class CreateOrder implements ShouldQueue
 
             foreach ($contacts as $contact) {
                 $invitations[] = [
-                    'client_contact_id' => $contact['id']
+                    'contact_id' => $contact['id']
                 ];
             }
 

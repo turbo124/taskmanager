@@ -65,7 +65,7 @@ class LeadTest extends TestCase
         $name = $this->faker->word;
         $data = ['first_name' => $this->faker->firstName];
         $leadRepo = new LeadRepository($lead);
-        $task = $leadRepo->save($lead, $data);
+        $task = $leadRepo->updateLead($lead, $data);
         $found = $leadRepo->findLeadById($lead->id);
         $this->assertInstanceOf(Lead::class, $lead);
         $this->assertEquals($data['first_name'], $found->first_name);
@@ -99,7 +99,7 @@ class LeadTest extends TestCase
 
         $leadRepo = new LeadRepository(new Lead);
         $factory = (new LeadFactory)->create($this->account, $this->user);
-        $lead = $leadRepo->save($factory, $data);
+        $lead = $leadRepo->createLead($factory, $data);
 
         event(new LeadWasCreated($lead));
 

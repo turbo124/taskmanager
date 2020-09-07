@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOrderInvitationsTable extends Migration {
+class CreateCaseInvitationsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,14 @@ class CreateOrderInvitationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('order_invitations', function(Blueprint $table)
+		Schema::create('case_invitations', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('account_id')->unsigned()->index('account_id');
-			$table->integer('client_contact_id')->unsigned()->index('client_contact_id');
-			$table->integer('order_id')->unsigned()->index('order_id');
-			$table->string('key');
+			$table->integer('account_id')->unsigned()->index('quote_invitations_account_id_foreign');
+			$table->integer('user_id')->unsigned()->index('quote_invitations_user_id_foreign');
+			$table->integer('contact_id')->unsigned()->index('quote_invitations_customer_id_foreign');
+			$table->integer('case_id')->unsigned()->index('quote_invitations_quote_id_index');
+			$table->string('key')->index('quote_invitations_key_index');
 			$table->string('transaction_reference')->nullable();
 			$table->string('message_id')->nullable();
 			$table->text('email_error', 65535)->nullable();
@@ -29,7 +30,8 @@ class CreateOrderInvitationsTable extends Migration {
 			$table->dateTime('opened_date')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->integer('user_id')->unsigned()->index('user_id');
+			$table->text('client_signature', 65535)->nullable();
+			$table->index(['deleted_at','case_id'], 'quote_invitations_deleted_at_quote_id_index');
 		});
 	}
 
@@ -41,7 +43,7 @@ class CreateOrderInvitationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('order_invitations');
+		Schema::drop('case_invitations');
 	}
 
 }

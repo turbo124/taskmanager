@@ -15,7 +15,7 @@ import MetaItem from '../../common/entityContainers/MetaItem'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
 import Details from './Details'
-import ErrorLog from "./ErrorLog";
+import ErrorLog from './ErrorLog'
 
 export default class Customer extends Component {
     constructor (props) {

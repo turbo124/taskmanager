@@ -152,7 +152,7 @@ export default class EditDeal extends Component {
 
     render () {
         const email_editor = this.state.id
-            ? <Emails model={this.dealModel} emails={this.state.emails} template="email_template_case" show_editor={true}
+            ? <Emails model={this.dealModel} emails={this.state.emails} template="email_template_deal" show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="deal"
                 entity_id={this.state.id}/> : null
 

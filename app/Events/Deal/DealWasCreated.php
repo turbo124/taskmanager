@@ -2,8 +2,7 @@
 
 namespace App\Events\Deal;
 
-use App\Models\Account;
-use App\Models\Task;
+use App\Models\Deal;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
@@ -26,15 +25,12 @@ class DealWasCreated implements PerformsMetrics
      */
     public $deal;
 
-    public $account;
-
     /**
      * DealWasCreated constructor.
-     * @param Task $deal
+     * @param Deal $deal
      */
-    public function __construct(Task $deal, Account $account)
+    public function __construct(Deal $deal)
     {
         $this->deal = $deal;
-        $this->account = $account;
     }
 }

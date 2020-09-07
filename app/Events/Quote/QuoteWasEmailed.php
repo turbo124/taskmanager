@@ -2,24 +2,27 @@
 
 namespace App\Events\Quote;
 
+use App\Models\CreditInvitation;
+use App\Models\QuoteInvitation;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class QuoteWasEmailed.
- */
 class QuoteWasEmailed
 {
-    use SerializesModels;
-
-    public $quote;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Create a new event instance.
-     *
-     * @param $quote
+     * @var QuoteInvitation
      */
-    public function __construct($quote)
+    public QuoteInvitation $invitation;
+
+    /**
+     * QuoteWasEmailed constructor.
+     * @param QuoteInvitation $invitation
+     */
+    public function __construct(QuoteInvitation $invitation)
     {
-        $this->quote = $quote;
+        $this->invitation = $invitation;
     }
 }

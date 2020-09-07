@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateInvoiceInvitationsTable extends Migration {
+class CreateQuoteInvitationsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,13 @@ class CreateInvoiceInvitationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('invoice_invitations', function(Blueprint $table)
+		Schema::create('quote_invitations', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('account_id')->unsigned()->index('invoice_invitations_account_id_foreign');
-			$table->integer('user_id')->unsigned()->index('invoice_invitations_user_id_foreign');
-			$table->integer('client_contact_id')->unsigned();
-			$table->integer('invoice_id')->unsigned()->index();
+			$table->integer('account_id')->unsigned()->index('quote_invitations_account_id_foreign');
+			$table->integer('user_id')->unsigned()->index('quote_invitations_user_id_foreign');
+			$table->integer('contact_id')->unsigned()->index('quote_invitations_customer_id_foreign');
+			$table->integer('quote_id')->unsigned()->index();
 			$table->string('key')->index();
 			$table->string('transaction_reference')->nullable();
 			$table->string('message_id')->nullable();
@@ -31,8 +31,7 @@ class CreateInvoiceInvitationsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->text('client_signature', 65535)->nullable();
-			$table->unique(['client_contact_id','invoice_id'], 'invoice_invitations_customer_id_invoice_id_unique');
-			$table->index(['deleted_at','invoice_id']);
+			$table->index(['deleted_at','quote_id']);
 		});
 	}
 
@@ -44,7 +43,7 @@ class CreateInvoiceInvitationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('invoice_invitations');
+		Schema::drop('quote_invitations');
 	}
 
 }

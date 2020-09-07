@@ -32,7 +32,7 @@ class InvoiceEmailActivity implements ShouldQueue
         $fields['data']['id'] = $event->invitation->invoice->id;
         $fields['data']['customer_id'] = $event->invitation->invoice->customer_id;
         $fields['data']['message'] = 'An invoice was emailed';
-        $fields['data']['client_contact_id'] = $event->invitation->invoice->client_contact_id;
+        $fields['data']['contact_id'] = $event->invitation->invoice->contact_id;
         $fields['notifiable_id'] = $event->invitation->invoice->user_id;
         $fields['account_id'] = $event->invitation->invoice->account_id;
         $fields['notifiable_type'] = get_class($event->invitation->invoice);

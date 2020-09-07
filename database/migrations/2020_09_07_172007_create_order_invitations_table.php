@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateCreditInvitationsTable extends Migration {
+class CreateOrderInvitationsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,13 @@ class CreateCreditInvitationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('credit_invitations', function(Blueprint $table)
+		Schema::create('order_invitations', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('account_id')->unsigned()->index('credit_invitations_account_id_foreign');
-			$table->integer('user_id')->unsigned()->index('credit_invitations_user_id_foreign');
-			$table->integer('client_contact_id')->unsigned();
-			$table->integer('credit_id')->unsigned()->index();
-			$table->string('key')->index();
+			$table->integer('account_id')->unsigned()->index('account_id');
+			$table->integer('contact_id')->unsigned()->index('client_contact_id');
+			$table->integer('order_id')->unsigned()->index('order_id');
+			$table->string('key');
 			$table->string('transaction_reference')->nullable();
 			$table->string('message_id')->nullable();
 			$table->text('email_error', 65535)->nullable();
@@ -30,8 +29,7 @@ class CreateCreditInvitationsTable extends Migration {
 			$table->dateTime('opened_date')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->unique(['client_contact_id','credit_id'], 'credit_invitations_customer_id_credit_id_unique');
-			$table->index(['deleted_at','credit_id']);
+			$table->integer('user_id')->unsigned()->index('user_id');
 		});
 	}
 
@@ -43,7 +41,7 @@ class CreateCreditInvitationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('credit_invitations');
+		Schema::drop('order_invitations');
 	}
 
 }

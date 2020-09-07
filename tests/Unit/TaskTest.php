@@ -77,7 +77,7 @@ class TaskTest extends TestCase
         $name = $this->faker->word;
         $data = ['name' => $name];
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
-        $task = $taskRepo->save($data, $task);
+        $task = $taskRepo->updateTask($data, $task);
         $found = $taskRepo->findTaskById($task->id);
         $this->assertInstanceOf(Task::class, $task);
         $this->assertEquals($data['name'], $found->name);
@@ -119,7 +119,7 @@ class TaskTest extends TestCase
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
         $factory = (new TaskFactory())->create($this->user, $this->account);
-        $task = $taskRepo->save($data, $factory);
+        $task = $taskRepo->createTask($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
         $this->assertEquals($data['name'], $task->name);
     }
@@ -143,7 +143,7 @@ class TaskTest extends TestCase
 
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
         $factory = (new TaskFactory())->create($this->user, $this->account);
-        $task = $taskRepo->save($data, $factory);
+        $task = $taskRepo->createTask($data, $factory);
         $this->assertInstanceOf(Task::class, $task);
         $this->assertEquals($data['name'], $task->name);
         $this->assertEquals($data['project_id'], $task->project_id);

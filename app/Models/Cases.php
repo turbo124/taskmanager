@@ -81,6 +81,14 @@ class Cases extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function invitations()
+    {
+        return $this->hasMany(CaseInvitation::class, 'case_id', 'id');
+    }
+
+    /**
      * @param Customer $customer
      */
     public function setCustomer(Customer $customer)

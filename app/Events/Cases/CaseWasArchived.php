@@ -13,7 +13,7 @@ class CaseWasArchived
     use SerializesModels;
 
     /**
-     * @var case
+     * @var case|Cases
      */
     public Cases $case;
 

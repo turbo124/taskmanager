@@ -17,7 +17,7 @@ export default function ViewContacts (props) {
 
         contactList = invitations.map((invitation, index) => {
             const link = props.entity.invitation_link.replace('$key', invitation.key)
-            const contact = customerModel.findContact(invitation.client_contact_id)
+            const contact = customerModel.findContact(invitation.contact_id)
 
             return <ListGroupItem key={index} className={listClass}>
                 <a href={link}>

@@ -79,7 +79,7 @@ class CaseTest extends TestCase
         $case = factory(Cases::class)->create();
         $data = ['message' => $this->faker->sentence];
         $caseRepo = new CaseRepository($case);
-        $task = $caseRepo->save($data, $case);
+        $task = $caseRepo->updateCase($data, $case);
         $found = $caseRepo->findCaseById($case->id);
         $this->assertInstanceOf(Cases::class, $case);
         $this->assertEquals($data['message'], $found->message);
@@ -109,7 +109,7 @@ class CaseTest extends TestCase
 
         $caseRepo = new CaseRepository(new Cases);
         $factory = (new CaseFactory)->create($this->account, $this->user, $this->customer);
-        $case = $caseRepo->save($data, $factory);
+        $case = $caseRepo->createCase($data, $factory);
 
         $this->assertInstanceOf(Cases::class, $case);
         $this->assertEquals($data['message'], $case->message);
