@@ -93,6 +93,14 @@ class Cases extends Model
     /**
      * @return mixed
      */
+    public function asignee()
+    {
+        return $this->hasOne(User::class, 'id', 'assigned_to');
+    }
+
+    /**
+     * @return mixed
+     */
     public function invitations()
     {
         return $this->hasMany(CaseInvitation::class, 'case_id', 'id');
