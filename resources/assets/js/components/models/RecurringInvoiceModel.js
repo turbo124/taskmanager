@@ -141,7 +141,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             invitations.push({ contact_id: contact })
         } else {
             // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex(contact => contact.client_contact_id === contact)
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
             invitations.splice(index, 1)
         }
 
