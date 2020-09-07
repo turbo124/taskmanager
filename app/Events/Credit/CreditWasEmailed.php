@@ -11,15 +11,18 @@ class CreditWasEmailed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $credit;
+    /**
+     * @var CreditInvitation
+     */
+    public CreditInvitation $invitation;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(CreditInvitation $credit)
+    public function __construct(CreditInvitation $invitation)
     {
-        $this->credit = $credit;
+        $this->invitation = $invitation;
     }
 }

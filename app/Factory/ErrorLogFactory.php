@@ -3,8 +3,8 @@
 namespace App\Factory;
 
 use App\Models\Account;
-use App\Models\ErrorLog;
 use App\Models\Customer;
+use App\Models\ErrorLog;
 use App\Models\User;
 
 class ErrorLogFactory

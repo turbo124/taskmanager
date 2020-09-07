@@ -24,7 +24,7 @@ class InvoiceInvitation extends Model
 
     protected $fillable = [
         'key',
-        'client_contact_id'
+        'contact_id'
     ];
 
     /**
@@ -56,7 +56,7 @@ class InvoiceInvitation extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(Models\ClientContact::class, 'client_contact_id', 'id')->withTrashed();
+        return $this->belongsTo(Models\ClientContact::class, 'contact_id', 'id')->withTrashed();
     }
 
     /**

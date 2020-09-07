@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models;
-use App\Traits\Inviteable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +14,7 @@ class PurchaseOrderInvitation extends Model
 
     protected $fillable = [
         'id',
-        'company_contact_id',
+        'contact_id',
     ];
 
     /**
@@ -47,7 +46,7 @@ class PurchaseOrderInvitation extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(CompanyContact::class, 'company_contact_id', 'id')->withTrashed();
+        return $this->belongsTo(CompanyContact::class, 'contact_id', 'id')->withTrashed();
     }
 
     /**

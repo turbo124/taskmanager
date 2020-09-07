@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Mail\Admin\DealCreated;
 use App\Mail\Admin\TaskCreated;
 use App\Traits\Money;
 use Illuminate\Bus\Queueable;
@@ -52,11 +53,11 @@ class NewDealNotification extends Notification implements ShouldQueue
 
     /**
      * @param $notifiable
-     * @return TaskCreated
+     * @return DealCreated
      */
     public function toMail($notifiable)
     {
-        return new TaskCreated($this->deal, $notifiable);
+        return new DealCreated($this->deal, $notifiable);
     }
 
     /**

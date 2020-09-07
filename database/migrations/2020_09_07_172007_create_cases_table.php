@@ -14,7 +14,7 @@ class CreateCasesTable extends Migration {
 	{
 		Schema::create('cases', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+			$table->increments('id');
 			$table->string('subject');
 			$table->text('message', 65535);
 			$table->timestamps();

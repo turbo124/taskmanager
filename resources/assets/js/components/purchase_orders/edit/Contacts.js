@@ -5,7 +5,7 @@ import CompanyDropdown from '../../common/CompanyDropdown'
 
 export default function Contacts (props) {
     const send_to = props.contacts.length ? props.contacts.map((contact, index) => {
-        const invitations = props.invitations.length ? props.invitations.filter(invitation => parseInt(invitation.company_contact_id) === contact.id) : []
+        const invitations = props.invitations.length ? props.invitations.filter(invitation => parseInt(invitation.contact_id) === contact.id) : []
         const checked = invitations.length ? 'checked="checked"' : ''
         return <FormGroup key={index} check>
             <Label check>

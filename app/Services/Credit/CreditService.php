@@ -40,7 +40,6 @@ class CreditService extends ServiceBase
             return null;
         }
 
-        event(new CreditWasEmailed($this->credit->invitations->first()));
         return $this->credit;
     }
 

@@ -3,7 +3,6 @@
 namespace App\Events\PurchaseOrder;
 
 use App\Models\PurchaseOrder;
-use App\Models\Quote;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
@@ -24,7 +23,7 @@ class PurchaseOrderWasDeleted
      */
     public function __construct(PurchaseOrder $purchase_order)
     {
-        $this->quote = $purchase_order;
+        $this->purchase_order = $purchase_order;
         $this->send($purchase_order, get_class($this));
     }
 }

@@ -38,7 +38,7 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
-import CompanyModel from "../../models/CompanyModel";
+import CompanyModel from '../../models/CompanyModel'
 
 class EditPurchaseOrder extends Component {
     constructor (props, context) {
@@ -121,9 +121,9 @@ class EditPurchaseOrder extends Component {
             const customer_data = this.purchaseOrderModel.companyChange(e.target.value)
 
             this.setState({
-                //customerName: customer_data.name,
-                contacts: customer_data.contacts,
-                //address: customer_data.address
+                // customerName: customer_data.name,
+                contacts: customer_data.contacts
+                // address: customer_data.address
             }, () => localStorage.setItem('purchaseOrderForm', JSON.stringify(this.state)))
 
             if (this.settings.convert_product_currency === true) {
@@ -231,7 +231,7 @@ class EditPurchaseOrder extends Component {
                         invoice_id: r.data.id,
                         company_id: r.data.company_id,
                         user_id: r.data.user_id,
-                        //company_id: r.data.company_id,
+                        // company_id: r.data.company_id,
                         public_notes: r.data.public_notes,
                         private_notes: r.data.private_notes,
                         terms: r.data.terms,
@@ -332,7 +332,7 @@ class EditPurchaseOrder extends Component {
             invoice_id: this.state.id,
             task_id: this.props.task_id,
             due_date: this.state.due_date,
-            //customer_id: this.state.customer_id,
+            // customer_id: this.state.customer_id,
             company_id: this.state.company_id,
             line_items: this.state.line_items,
             total: this.state.total,
@@ -464,7 +464,7 @@ class EditPurchaseOrder extends Component {
 
         const details = this.state.is_mobile
             ? <Detailsm hide_customer={this.state.id === null}
-               handleInput={this.handleInput}
+                handleInput={this.handleInput}
                 companies={this.props.companies}
                 errors={this.state.errors}
                 purchase_order={this.state}

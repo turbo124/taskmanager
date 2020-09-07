@@ -74,7 +74,7 @@ class DealTest extends TestCase
         $name = $this->faker->word;
         $data = ['name' => $name];
         $dealRepo = new DealRepository($deal);
-        $deal = $dealRepo->save($data, $deal);
+        $deal = $dealRepo->updateDeal($data, $deal);
         $found = $dealRepo->findDealById($deal->id);
         $this->assertInstanceOf(Deal::class, $deal);
         $this->assertEquals($data['name'], $found->name);
@@ -105,7 +105,7 @@ class DealTest extends TestCase
 
         $dealRepo = new DealRepository(new Deal);
         $factory = (new DealFactory())->create($this->user, $this->account);
-        $deal = $dealRepo->save($data, $factory);
+        $deal = $dealRepo->createDeal($data, $factory);
         $this->assertInstanceOf(Deal::class, $deal);
         $this->assertEquals($data['name'], $deal->name);
     }

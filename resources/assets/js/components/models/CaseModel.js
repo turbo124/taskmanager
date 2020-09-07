@@ -29,6 +29,8 @@ export default class CaseModel extends BaseModel {
             private_notes: '',
             loading: false,
             errors: [],
+            invitations: [],
+            contacts: [],
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             activeTab: '1',
             currencyOpen: false,
@@ -66,6 +68,49 @@ export default class CaseModel extends BaseModel {
         actions.push('cloneExpense')
 
         return actions
+    }
+
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
+    }
+
+    customerChange (customer_id) {
+        const index = this.customers.findIndex(customer => customer.id === parseInt(customer_id))
+        const customer = this.customers[index]
+        const address = customer.billing ? {
+            line1: customer.billing.address_1,
+            town: customer.billing.address_2,
+            county: customer.billing.city,
+            country: 'United Kingdom'
+        } : null
+
+        const contacts = customer.contacts ? customer.contacts : []
+
+        return {
+            customer: customer,
+            customerName: customer.name,
+            contacts: contacts,
+            address: address
+
+        }
+    }
+
+    buildInvitations (contact, add = false) {
+        const invitations = this.fields.invitations
+
+        // check if the check box is checked or unchecked
+        if (add) {
+            // add the numerical value of the checkbox to options array
+            invitations.push({ contact_id: contact })
+        } else {
+            // or remove the value from the unchecked checkbox from the array
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
+            invitations.splice(index, 1)
+        }
+
+        return invitations
     }
 
     get convertedAmount () {

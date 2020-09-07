@@ -22,6 +22,7 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import FileUploads from '../../attachments/FileUploads'
 import Emails from '../../emails/Emails'
+import Contacts from './Contacts'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -36,9 +37,35 @@ export default class EditCase extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleContactChange = this.handleContactChange.bind(this)
+    }
+
+    componentDidMount () {
+        if (this.props.case && this.props.case.customer_id) {
+            const contacts = this.caseModel.contacts
+            this.setState({ contacts: contacts })
+        }
     }
 
     handleInput (e) {
+        if (e.target.name === 'customer_id') {
+            const customer_data = this.caseModel.customerChange(e.target.value)
+
+            this.setState({
+                customerName: customer_data.name,
+                contacts: customer_data.contacts,
+                address: customer_data.address
+            })
+
+            // if (this.settings.convert_product_currency === true) {
+            //     const customer = new CustomerModel(customer_data.customer)
+            //     const currency_id = customer.currencyId
+            //     const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
+            //     const exchange_rate = currency[0].exchange_rate
+            //     this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+            // }
+        }
+
         this.setState({
             [e.target.name]: e.target.value,
             changesMade: true
@@ -61,6 +88,7 @@ export default class EditCase extends React.Component {
 
     getFormData () {
         return {
+            invitations: this.state.invitations,
             subject: this.state.subject,
             message: this.state.message,
             customer_id: this.state.customer_id,
@@ -70,6 +98,12 @@ export default class EditCase extends React.Component {
             category_id: this.state.category_id,
             assigned_to: this.state.assigned_to
         }
+    }
+
+    handleContactChange (e) {
+        const invitations = this.caseModel.buildInvitations(e.target.value, e.target.checked)
+        // update the state with the new array of options
+        this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
     }
 
     handleClick () {
@@ -179,6 +213,11 @@ export default class EditCase extends React.Component {
                                     errors={this.state.errors}
                                     hasErrorFor={this.hasErrorFor} case={this.state}
                                     handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+
+                                <Contacts handleInput={this.handleInput} case={this.state} errors={this.state.errors}
+                                    contacts={this.state.contacts}
+                                    invitations={this.state.invitations}
+                                    handleContactChange={this.handleContactChange}/>
                             </TabPane>
 
                             <TabPane tabId="2">

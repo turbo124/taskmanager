@@ -60,7 +60,7 @@ class DealController extends Controller
      */
     public function store(CreateDealRequest $request)
     {
-        $deal = $this->deal_repo->save(
+        $deal = $this->deal_repo->createDeal(
             $request->all(),
             (new DealFactory)->create(auth()->user(), auth()->user()->account_user()->account)
         );
@@ -91,7 +91,7 @@ class DealController extends Controller
     public function update(UpdateDealRequest $request, int $id)
     {
         $deal = $this->deal_repo->findDealById($id);
-        $deal = $this->deal_repo->save($request->all(), $deal);
+        $deal = $this->deal_repo->updateDeal($request->all(), $deal);
 
 
         return response()->json($deal);

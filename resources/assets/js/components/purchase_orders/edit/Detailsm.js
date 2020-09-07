@@ -5,7 +5,7 @@ import FormBuilder from '../../accounts/FormBuilder'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../common/_translations'
 import UserDropdown from '../../common/UserDropdown'
-import CompanyDropdown from "../../common/CompanyDropdown";
+import CompanyDropdown from '../../common/CompanyDropdown'
 
 export default class Detailsm extends Component {
     constructor (props, context) {

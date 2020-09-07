@@ -77,6 +77,7 @@ class CreateInvoicesTable extends Migration {
 			$table->boolean('gateway_fee_applied')->default(0);
 			$table->decimal('late_fee_charge', 12)->default(0.00);
 			$table->dateTime('next_send_date')->nullable();
+			$table->text('temp_data', 65535)->nullable();
 		});
 	}
 

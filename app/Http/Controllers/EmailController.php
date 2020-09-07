@@ -13,6 +13,7 @@ use App\Transformations\DealTransformable;
 use App\Transformations\InvoiceTransformable;
 use App\Transformations\LeadTransformable;
 use App\Transformations\OrderTransformable;
+use App\Transformations\PurchaseOrderTransformable;
 use App\Transformations\QuoteTransformable;
 use App\Transformations\TaskTransformable;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,7 @@ class EmailController extends Controller
     use DealTransformable;
     use TaskTransformable;
     use CaseTransformable;
+    use PurchaseOrderTransformable;
 
     private $email_repo;
 
@@ -94,6 +96,8 @@ class EmailController extends Controller
                 return $this->transformQuote($entity_object);
             case 'Invoice':
                 return $this->transformInvoice($entity_object);
+            case 'PurchaseOrder':
+                return $this->transformPurchaseOrder($entity_object);
         }
 
         return false;

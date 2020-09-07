@@ -17,7 +17,7 @@ class CreatePurchaseOrderInvitationsTable extends Migration {
 			$table->increments('id');
 			$table->integer('account_id')->unsigned()->index('quote_invitations_account_id_foreign');
 			$table->integer('user_id')->unsigned()->index('quote_invitations_user_id_foreign');
-			$table->integer('client_contact_id')->unsigned()->index('quote_invitations_customer_id_foreign');
+			$table->integer('contact_id')->unsigned()->index('quote_invitations_customer_id_foreign');
 			$table->integer('purchase_order_id')->unsigned()->index('quote_invitations_quote_id_index');
 			$table->string('key')->index('quote_invitations_key_index');
 			$table->string('transaction_reference')->nullable();

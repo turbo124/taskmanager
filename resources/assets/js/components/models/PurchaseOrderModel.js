@@ -217,10 +217,10 @@ export default class PurchaseOrderModel extends BaseModel {
         // check if the check box is checked or unchecked
         if (add) {
             // add the numerical value of the checkbox to options array
-            invitations.push({ company_contact_id: contact })
+            invitations.push({ contact_id: contact })
         } else {
             // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex(contact => contact.company_contact_id === contact)
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
             invitations.splice(index, 1)
         }
 

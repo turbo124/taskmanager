@@ -76,7 +76,7 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        $task = $this->task_repo->save(
+        $task = $this->task_repo->createTask(
             $request->all(),
             (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account)
         );
@@ -124,7 +124,7 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, int $id)
     {
         $task = $this->task_repo->findTaskById($id);
-        $task = $this->task_repo->save($request->all(), $task);
+        $task = $this->task_repo->updateTask($request->all(), $task);
         //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($task);
     }

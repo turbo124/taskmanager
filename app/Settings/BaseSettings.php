@@ -278,9 +278,45 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
+        'email_template_task'                  => [
+            'required'         => false,
+            'translated_value' => 'texts.task_body',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_template_deal'                  => [
+            'required'         => false,
+            'translated_value' => 'texts.deal_body',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_template_case'                  => [
+            'required'         => false,
+            'translated_value' => 'texts.case_body',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
         'email_subject_statement'              => [
             'required'         => false,
             'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_subject_task'                   => [
+            'required'         => false,
+            'translated_value' => 'texts.task_subject',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_subject_deal'                   => [
+            'required'         => false,
+            'translated_value' => 'texts.deal_subject',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'email_subject_case'                   => [
+            'required'         => false,
+            'translated_value' => 'texts.case_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
@@ -1012,7 +1048,7 @@ class BaseSettings
         ],
         'email_subject_purchase_order'         => [
             'required'         => false,
-            'translated_value' => 'texts.quote_subject',
+            'translated_value' => 'texts.purchase_order_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
@@ -1066,7 +1102,7 @@ class BaseSettings
         ],
         'email_template_purchase_order'        => [
             'required'         => false,
-            'translated_value' => 'texts.quote_body',
+            'translated_value' => 'texts.purchase_order_body',
             'default_value'    => '',
             'type'             => 'string'
         ],

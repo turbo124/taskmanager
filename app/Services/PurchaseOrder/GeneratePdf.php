@@ -56,7 +56,11 @@ class GeneratePdf
         $objPdf = new PurchaseOrderPdf($this->purchase_order);
         $designer =
             new PdfColumns(
-                $objPdf, $this->purchase_order, $design, $this->purchase_order->account->settings->pdf_variables, 'purchase_order'
+                $objPdf,
+                $this->purchase_order,
+                $design,
+                $this->purchase_order->account->settings->pdf_variables,
+                'purchase_order'
             );
 
         return CreatePdf::dispatchNow($objPdf, $this->purchase_order, $file_path, $designer, $this->contact);

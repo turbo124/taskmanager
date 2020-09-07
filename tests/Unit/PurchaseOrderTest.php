@@ -73,7 +73,7 @@ class PurchaseOrderTest extends TestCase
     {
         $purchase_order = factory(PurchaseOrder::class)->create();
         $company_id = $this->company->id;
-        $data = ['company_id' => $company_id];
+        $data = ['company_id' => 1];
         $purchase_orderRepo = new PurchaseOrderRepository($purchase_order);
         $updated = $purchase_orderRepo->updatePurchaseOrder($data, $purchase_order);
         $found = $purchase_orderRepo->findPurchaseOrderById($purchase_order->id);

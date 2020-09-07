@@ -5,11 +5,8 @@ namespace App\Repositories;
 use App\Events\PurchaseOrder\PurchaseOrderWasCreated;
 use App\Events\PurchaseOrder\PurchaseOrderWasUpdated;
 use App\Filters\PurchaseOrderFilter;
-use App\Jobs\Order\QuoteOrders;
-use App\Jobs\Product\UpdateProductPrices;
 use App\Models\Account;
 use App\Models\PurchaseOrder;
-use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PurchaseOrderRepositoryInterface;
 use App\Requests\SearchRequest;
@@ -25,12 +22,12 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
     /**
      * PurchaseOrderRepository constructor.
      *
-     * @param PurchaseOrder $po
+     * @param PurchaseOrder $purchase_order
      */
-    public function __construct(PurchaseOrder $po)
+    public function __construct(PurchaseOrder $purchase_order)
     {
-        parent::__construct($po);
-        $this->model = $po;
+        parent::__construct($purchase_order);
+        $this->model = $purchase_order;
     }
 
     /**
@@ -52,19 +49,19 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
      * @param Quote $quote
      * @return Quote
      */
-    public function createPurchaseOrder(array $data, PurchaseOrder $po): ?PurchaseOrder
+    public function createPurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
     {
-        $po = $this->save($data, $po);
+        $purchase_order = $this->save($data, $purchase_order);
 
         if (!empty($data['recurring'])) {
             $recurring = json_decode($data['recurring'], true);
-            $po->service()->createRecurringPurchaseOrder($recurring);
+            $purchase_order->service()->createRecurringPurchaseOrder($recurring);
         }
 
 
-        event(new PurchaseOrderWasCreated($po));
+        event(new PurchaseOrderWasCreated($purchase_order));
 
-        return $po;
+        return $purchase_order;
     }
 
     /**
@@ -72,13 +69,13 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
      * @param Quote $quote
      * @return Quote|null
      */
-    public function updatePurchaseOrder(array $data, PurchaseOrder $po): ?PurchaseOrder
+    public function updatePurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
     {
-        $po = $this->save($data, $po);
+        $purchase_order = $this->save($data, $purchase_order);
 
-        event(new PurchaseOrderWasUpdated($po));
+        event(new PurchaseOrderWasUpdated($purchase_order));
 
-        return $po;
+        return $purchase_order;
     }
 
     /**
@@ -86,16 +83,34 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
      * @param Quote $quote
      * @return Quote|null
      */
-    public function save($data, PurchaseOrder $po): ?PurchaseOrder
+    public function save($data, PurchaseOrder $purchase_order): ?PurchaseOrder
     {
-        $po->fill($data);
+        $purchase_order->fill($data);
 
-        $po = $po->service()->calculateInvoiceTotals();
-        $po->setNumber();
+        $purchase_order = $purchase_order->service()->calculateInvoiceTotals();
 
-        $po->save();
+        $purchase_order->setNumber();
 
-        return $po->fresh();
+        $purchase_order->save();
+
+        $this->saveInvitationsForPurchaseOrder($purchase_order, 'purchaseOrder', $data);
+
+        return $purchase_order->fresh();
+    }
+
+    private function saveInvitationsForPurchaseOrder($entity, $key, array $data)
+    {
+        if (empty($data['invitations']) && $entity->invitations->count() === 0) {
+            $created = $entity->company->contacts->pluck(
+                'id'
+            )->toArray();
+
+            $this->createNewInvitation($created, 'purchaseOrder', $entity, 'purchase_order');
+
+            return true;
+        }
+
+        return $this->generateInvitations($entity, $key, $data, 'purchase_order');
     }
 
     /**

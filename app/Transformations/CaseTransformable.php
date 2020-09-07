@@ -3,6 +3,7 @@
 namespace App\Transformations;
 
 
+use App\Models\CaseInvitation;
 use App\Models\Cases;
 use App\Models\Email;
 use App\Models\File;
@@ -43,6 +44,7 @@ trait CaseTransformable
             'custom_value2' => (string)$cases->custom_value2 ?: '',
             'custom_value3' => (string)$cases->custom_value3 ?: '',
             'custom_value4' => (string)$cases->custom_value4 ?: '',
+            'invitations'   => $this->transformCaseInvitations($cases->invitations),
         ];
     }
 
@@ -72,6 +74,23 @@ trait CaseTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformCaseInvitations($invitations)
+    {
+        if (empty($invitations)) {
+            return [];
+        }
+
+        return $invitations->map(
+            function (CaseInvitation $invitation) {
+                return (new CaseInvitationTransformable())->transformCaseInvitations($invitation);
             }
         )->all();
     }

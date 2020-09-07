@@ -3,7 +3,6 @@
 namespace App\Events\PurchaseOrder;
 
 use App\Models\PurchaseOrder;
-use App\Models\Quote;
 use Illuminate\Queue\SerializesModels;
 
 class PurchaseOrderWasArchived

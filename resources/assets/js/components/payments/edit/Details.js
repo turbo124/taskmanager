@@ -30,7 +30,7 @@ export default class Details extends React.Component {
     render () {
         const customer_disabled = this.props.payment.payable_invoices.length > 0
         return (<React.Fragment>
-            {!this.props.hide_amount && 
+            {!this.props.hide_amount &&
             <FormGroup className="mb-3">
                 <Label>{translations.amount}(*):</Label>
                 <Input value={this.props.payment.amount}

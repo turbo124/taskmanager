@@ -6,9 +6,9 @@ use App\Models\Address;
 use App\Models\ClientContact;
 use App\Models\Customer;
 use App\Models\CustomerGateway;
+use App\Models\ErrorLog;
 use App\Models\File;
 use App\Models\Transaction;
-use App\Models\ErrorLog;
 use Exception;
 
 trait CustomerTransformable

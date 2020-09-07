@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 
-class ClientContact extends Model implements HasLocalePreference
+class ClientContact extends Model implements ContactInterface
 {
     use PresentableTrait;
     use SoftDeletes;

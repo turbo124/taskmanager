@@ -11,7 +11,7 @@ use Laracasts\Presenter\PresentableTrait;
 //use App\Notifications\ClientContactResetPassword as ResetPasswordNotification;
 //use App\Notifications\ClientContactResetPassword;
 
-class CompanyContact extends Model
+class CompanyContact extends Model implements ContactInterface
 {
     use Notifiable;
     use PresentableTrait;

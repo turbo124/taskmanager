@@ -105,18 +105,18 @@ class BaseController extends Controller
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
         return [
-            'account_id' => $default_account->id,
-            'id' => $user->id,
-            'auth_token' => $user->auth_token,
-            'name' => $user->name,
-            'email' => $user->email,
-            'accounts' => $accounts,
-            'currencies' => Currency::all(),
-            'languages' => Language::all(),
-            'countries' => Country::all(),
+            'account_id'    => $default_account->id,
+            'id'            => $user->id,
+            'auth_token'    => $user->auth_token,
+            'name'          => $user->name,
+            'email'         => $user->email,
+            'accounts'      => $accounts,
+            'currencies'    => Currency::all(),
+            'languages'     => Language::all(),
+            'countries'     => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'gateways' => Gateway::all(),
-            'users' => User::where('is_active', '=', 1)->get(
+            'gateways'      => Gateway::all(),
+            'users'         => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];

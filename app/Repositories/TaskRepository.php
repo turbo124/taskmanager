@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Task\TaskWasCreated;
+use App\Events\Task\TaskWasUpdated;
 use App\Filters\TaskFilter;
 use App\Models\Account;
 use App\Models\Project;
@@ -171,13 +173,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $task->fresh();
     }
 
-    /**
-     * @param $data
-     * @param Task $task
-     * @return Task|null
-     * @throws Exception
-     */
-    public function save($data, Task $task): ?Task
+    public function createTask($data, Task $task): ?Task
     {
         if (empty($data['customer_id']) && !empty($data['project_id'])) {
             $project = $this->project_repo->findProjectById($data['project_id']);
@@ -187,6 +183,36 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
         $data['source_type'] = empty($data['source_type']) ? 1 : $data['source_type'];
 
+        $task = $this->save($data, $task);
+
+        event(new TaskWasCreated($task));
+
+        return $task;
+    }
+
+    /**
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     * @throws Exception
+     */
+    public function updateTask($data, Task $task): ?Task
+    {
+        $task = $this->save($data, $task);
+
+        event(new TaskWasUpdated($task));
+
+        return $task;
+    }
+
+    /**
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     * @throws Exception
+     */
+    public function save($data, Task $task): ?Task
+    {
         $task->setNumber();
 
         $task->fill($data);

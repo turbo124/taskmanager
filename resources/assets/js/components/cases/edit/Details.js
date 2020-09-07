@@ -30,16 +30,16 @@ export default class Details extends Component {
                     {this.props.renderErrorFor('message')}
                 </FormGroup>
 
-                <FormGroup>
-                    <Label for="description">{translations.customer}(*):</Label>
-                    <CustomerDropdown
-                        customer={this.props.case.customer_id}
-                        errors={this.props.errors}
-                        renderErrorFor={this.props.renderErrorFor}
-                        handleInputChanges={this.props.handleInput}
-                        customers={this.props.customers}
-                    />
-                </FormGroup>
+                {/* <FormGroup> */}
+                {/*    <Label for="description">{translations.customer}(*):</Label> */}
+                {/*    <CustomerDropdown */}
+                {/*        customer={this.props.case.customer_id} */}
+                {/*        errors={this.props.errors} */}
+                {/*        renderErrorFor={this.props.renderErrorFor} */}
+                {/*        handleInputChanges={this.props.handleInput} */}
+                {/*        customers={this.props.customers} */}
+                {/*    /> */}
+                {/* </FormGroup> */}
 
                 <FormGroup>
                     <Label for="examplePassword">{translations.due_date}</Label>

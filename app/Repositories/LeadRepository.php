@@ -8,6 +8,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Lead\LeadWasCreated;
+use App\Events\Lead\LeadWasUpdated;
 use App\Models\Lead;
 use App\Models\Message;
 use App\Repositories\Base\BaseRepository;
@@ -28,6 +30,34 @@ class LeadRepository extends BaseRepository
     {
         parent::__construct($lead);
         $this->model = $lead;
+    }
+
+    /**
+     * @param Lead $lead
+     * @param array $data
+     * @return Lead|null
+     */
+    public function createLead(Lead $lead, array $data): ?Lead
+    {
+        $lead = $this->save($lead, $data);
+
+        event(new LeadWasCreated($lead));
+
+        return $lead;
+    }
+
+    /**
+     * @param Lead $lead
+     * @param array $data
+     * @return Lead|null
+     */
+    public function updateLead(Lead $lead, array $data): ?Lead
+    {
+        $lead = $this->save($lead, $data);
+
+        event(new LeadWasUpdated($lead));
+
+        return $lead;
     }
 
     /**

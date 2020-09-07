@@ -71,7 +71,7 @@ class CaseController extends Controller
     public function update(int $id, UpdateCaseRequest $request)
     {
         $case = $this->case_repo->findCaseById($id);
-        $case = $this->case_repo->save($request->all(), $case);
+        $case = $this->case_repo->updateCase($request->all(), $case);
         return response()->json($this->transform($case->fresh()));
     }
 
@@ -91,7 +91,7 @@ class CaseController extends Controller
             $user,
             Customer::find($request->customer_id)->first()
         );
-        $this->case_repo->save($request->all(), $case);
+        $this->case_repo->createCase($request->all(), $case);
         return response()->json($this->transform($case));
     }
 

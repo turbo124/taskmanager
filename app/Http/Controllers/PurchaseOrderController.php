@@ -55,7 +55,10 @@ class PurchaseOrderController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $pos = (new PurchaseOrderFilter($this->purchase_order_repo))->filter($request, auth()->user()->account_user()->account);
+        $pos = (new PurchaseOrderFilter($this->purchase_order_repo))->filter(
+            $request,
+            auth()->user()->account_user()->account
+        );
         return response()->json($pos);
     }
 
@@ -75,6 +78,7 @@ class PurchaseOrderController extends BaseController
      */
     public function store(CreatePurchaseOrderRequest $request)
     {
+
         $company = Company::find($request->input('company_id'));
         $po = $this->purchase_order_repo->createPurchaseOrder(
             $request->all(),

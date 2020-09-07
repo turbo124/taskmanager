@@ -4,6 +4,8 @@
 namespace App\Repositories;
 
 
+use App\Events\Cases\CaseWasCreated;
+use App\Events\Cases\CaseWasUpdated;
 use App\Models\Cases;
 use App\Repositories\Base\BaseRepository;
 
@@ -33,15 +35,41 @@ class CaseRepository extends BaseRepository
         return $this->findOneOrFail($id);
     }
 
+    public function createCase(array $data, Cases $case): ?Cases
+    {
+        $case = $this->save($data, $case);
+
+        event(new CaseWasCreated($case));
+
+        return $case;
+    }
+
+    /**
+     * @param array $data
+     * @param Cases $case
+     * @return Cases|null
+     */
+    public function updateCase(array $data, Cases $case): ?Cases
+    {
+        $case = $this->save($data, $case);
+
+        event(new CaseWasUpdated($case));
+
+        return $case;
+    }
+
     /**
      * @param array $data
      * @param Cases $case
      */
-    public function save(array $data, Cases $case)
+    public function save(array $data, Cases $case): ?Cases
     {
         $case->fill($data);
         $case->setNumber();
         $case->save();
+
+        $this->saveInvitations($case, 'case', $data);
+
         return $case;
     }
 }

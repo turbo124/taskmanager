@@ -6,6 +6,7 @@ use App\Helpers\InvoiceCalculator\Invoice;
 use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
 use App\Models\ClientContact;
+use App\Models\ContactInterface;
 
 class ServiceBase
 {
@@ -81,7 +82,7 @@ class ServiceBase
         if ($contact !== null) {
             $invitation = $this->entity->invitations->first();
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
-            return $this->dispatchEmail($contact, $subject, $body, $template, $footer);
+            return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
         }
 
         if ($this->entity->invitations->count() === 0) {
@@ -91,7 +92,7 @@ class ServiceBase
         foreach ($this->entity->invitations as $invitation) {
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
 
-            $this->dispatchEmail($invitation->contact, $subject, $body, $template, $footer);
+            $this->dispatchEmail($invitation->contact, $subject, $body, $template, $footer, $invitation);
         }
 
         return true;
@@ -106,14 +107,23 @@ class ServiceBase
      * @return bool
      */
     private function dispatchEmail(
-        ClientContact $contact,
+        ContactInterface $contact,
         string $subject,
         string $body,
         string $template,
-        array $footer
+        array $footer,
+        $invitation = null
     ) {
         if ($contact->send_email && $contact->email) {
             SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
+        }
+
+        $entity_class = (new \ReflectionClass($this->entity))->getShortName();
+        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasEmailed";
+
+        if (class_exists($event_class) && $invitation !== null) {
+
+            event(new $event_class($invitation));
         }
 
         return true;
