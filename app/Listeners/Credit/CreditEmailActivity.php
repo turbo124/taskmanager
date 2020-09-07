@@ -32,7 +32,7 @@ class CreditEmailActivity implements ShouldQueue
         $fields['data']['id'] = $event->invitation->credit->id;
         $fields['data']['customer_id'] = $event->invitation->credit->customer_id;
         $fields['data']['message'] = 'An credit was emailed';
-        $fields['data']['client_contact_id'] = $event->invitation->credit->client_contact_id;
+        $fields['data']['contact_id'] = $event->invitation->credit->contact_id;
         $fields['notifiable_id'] = $event->invitation->credit->user_id;
         $fields['account_id'] = $event->invitation->credit->account_id;
         $fields['notifiable_type'] = get_class($event->invitation->credit);
