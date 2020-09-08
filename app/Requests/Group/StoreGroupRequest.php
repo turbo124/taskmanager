@@ -10,7 +10,7 @@ class StoreGroupRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+             'name' => ['required', 'unique:groups']
         ];
     }
 }
