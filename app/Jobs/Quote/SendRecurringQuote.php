@@ -62,11 +62,18 @@ class SendRecurringQuote implements ShouldQueue
         foreach ($recurring_quotes as $recurring_quote) {
             $quote = RecurringQuoteToQuoteFactory::create($recurring_quote, $recurring_quote->customer);
             $quote = $this->quote_repo->save(['recurring_quote_id' => $recurring_quote->id], $quote);
-
-            $quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
+            $this->quote_repo->markSent($quote);
+            $quote->service()->sendEmail(
+                null,
+                $quote->customer->getSetting('email_subject_quote'),
+                $quote->customer->getSetting('email_template_quote')
+            );
 
             $recurring_quote->last_sent_date = Carbon::today();
-            $recurring_quote->next_send_date = Carbon::today()->addDays($recurring_quote->frequency);
+            $recurring_quote->cycles_remaining--;
+            $recurring_quote->next_send_date = $recurring_quote->cycles_remaining === 0 ? null
+                : Carbon::today()->addDays($recurring_quote->frequency);
+            $recurring_quote->status_id = $recurring_quote->cycles_remaining === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;
             $recurring_quote->save();
         }
     }

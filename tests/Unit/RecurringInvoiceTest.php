@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Console\Commands\SendRecurring;
 use App\Factory\RecurringInvoiceFactory;
 use App\Filters\RecurringInvoiceFilter;
 use App\Jobs\Invoice\SendRecurringInvoice;
@@ -108,10 +107,10 @@ class RecurringInvoiceTest extends TestCase
     public function it_can_create_a_invoice()
     {
         $data = [
-            'account_id'  => $this->account->id,
-            'user_id'     => $this->user->id,
+            'account_id' => $this->account->id,
+            'user_id' => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total'       => 200
+            'total' => 200
         ];
 
         $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);
@@ -122,25 +121,58 @@ class RecurringInvoiceTest extends TestCase
         $this->assertEquals($data['total'], $recurring_invoice->total);
     }
 
-    public function test_send_recurring_invoice () {
+    public function test_send_recurring_invoice()
+    {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
         $recurring_invoice->next_send_date = Carbon::now();
+        $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
         $recurring_invoice->end_date = Carbon::now()->addDays(15);
+        $recurring_invoice->auto_billing_enabled = 0;
+        $recurring_invoice->cycles_remaining = 2;
         $recurring_invoice->save();
 
         SendRecurringInvoice::dispatchNow(new InvoiceRepository(new Invoice()));
 
         $updated_recurring_invoice = $recurring_invoice->fresh();
 
-        $this->assertTrue($updated_recurring_invoice->next_send_date->eq(Carbon::today()->addDays($recurring_invoice->frequency)));
+        $this->assertTrue(
+            $updated_recurring_invoice->next_send_date->eq(Carbon::today()->addDays($recurring_invoice->frequency))
+        );
         $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
-        $quote = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
-        $this->assertInstanceOf(Invoice::class, $quote);
+        $this->assertEquals(1, $updated_recurring_invoice->cycles_remaining);
+        $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
+        $this->assertInstanceOf(Invoice::class, $invoice);
+        $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
     }
-    
-    public function test_send_recurring_invoice_fails () {
+
+    public function test_send_recurring_invoice_last_cycle()
+    {
+        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice->next_send_date = Carbon::now();
+        $recurring_invoice->customer_id = 5;
+        $recurring_invoice->date = Carbon::now()->subDays(15);
+        $recurring_invoice->start_date = Carbon::now()->subDays(1);
+        $recurring_invoice->end_date = Carbon::now()->addDays(15);
+        $recurring_invoice->auto_billing_enabled = 0;
+        $recurring_invoice->cycles_remaining = 1;
+        $recurring_invoice->save();
+
+        SendRecurringInvoice::dispatchNow(new InvoiceRepository(new Invoice()));
+
+        $updated_recurring_invoice = $recurring_invoice->fresh();
+
+        $this->assertNull($updated_recurring_invoice->next_send_date);
+        $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
+        $this->assertEquals(0, $updated_recurring_invoice->cycles_remaining);
+        $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
+        $this->assertInstanceOf(Invoice::class, $invoice);
+        $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
+    }
+
+    public function test_send_recurring_invoice_fails()
+    {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
         $recurring_invoice->next_send_date = Carbon::now();
         $recurring_invoice->last_sent_date = Carbon::now();

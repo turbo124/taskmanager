@@ -474,6 +474,34 @@ class PdfBuilder
         return $this;
     }
 
+    public function setCustomerBalance($customer): self
+    {
+        if (!isset($customer->balance)) {
+            return $this;
+        }
+
+        $this->data['$customer_balance'] = [
+            'value' => $customer->getFormattedCustomerBalance() ?: '&nbsp;',
+            'label' => trans('texts.customer_balance')
+        ];
+
+        return $this;
+    }
+
+    public function setCustomerPaidToDate($customer): self
+    {
+        if (!isset($customer->paid_to_date)) {
+            return $this;
+        }
+
+        $this->data['$customer_paid_to_date'] = [
+            'value' => $customer->getFormattedPaidToDate() ?: '&nbsp;',
+            'label' => trans('texts.customer_paid_to_date')
+        ];
+
+        return $this;
+    }
+
     public function setSubTotal($customer, $sub_total): self
     {
         if (!isset($this->entity->sub_total)) {

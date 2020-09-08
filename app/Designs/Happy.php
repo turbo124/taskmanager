@@ -65,6 +65,11 @@ $table_here
             <span style="margin-right: 20px"> $tax_label </span> $tax <br>
             <span style="margin-right: 20px"> $shipping_label </span> $shipping_cost <br>
             <span style="margin-right: 20px"> $voucher_label </span> $voucher <br>
+            
+             <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
         </div>
     </div>
 </div>

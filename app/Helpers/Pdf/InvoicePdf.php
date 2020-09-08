@@ -45,6 +45,8 @@ class InvoicePdf extends PdfBuilder
              ->setSubTotal($customer, $this->entity->sub_total)
              ->setBalance($customer, $this->entity->balance)
              ->setTotal($customer, $this->entity->total)
+             ->setCustomerBalance($customer)
+             ->setCustomerPaidToDate($customer)
              ->setNotes($this->entity->public_notes)
              ->setInvoiceCustomValues()
              ->buildProduct()

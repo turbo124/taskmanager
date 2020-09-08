@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Balancer;
+use App\Traits\Money;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +14,7 @@ use Laracasts\Presenter\PresentableTrait;
 class Customer extends Model implements HasLocalePreference
 {
 
-    use SoftDeletes, PresentableTrait, Balancer;
+    use SoftDeletes, PresentableTrait, Balancer, Money;
 
     protected $presenter = 'App\Presenters\CustomerPresenter';
 
@@ -214,5 +215,15 @@ class Customer extends Model implements HasLocalePreference
     public function increasePaidToDateAmount(float $amount)
     {
         $this->paid_to_date += $amount;
+    }
+
+    public function getFormattedCustomerBalance()
+    {
+        return $this->formatCurrency($this->balance, $this);
+    }
+
+    public function getFormattedPaidToDate()
+    {
+        return $this->formatCurrency($this->paid_to_date, $this);
     }
 }

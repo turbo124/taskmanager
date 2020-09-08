@@ -26,6 +26,7 @@ class Cases extends Model
         'user_id',
         'account_id',
         'customer_id',
+        'contact_id',
         'assigned_to',
         'parent_id',
         'custom_value1',
@@ -47,7 +48,7 @@ class Cases extends Model
     ];
 
     private $arrPriorities = [
-        1 => 'High',
+        1 => 'Low',
         2 => 'Medium',
         3 => 'High'
     ];

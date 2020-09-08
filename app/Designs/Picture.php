@@ -45,7 +45,7 @@ class Picture
 
 $table_here
 
-<div class="mt-2 px-4 pb-4">
+<div class="px-4 pb-4" style="margin-top: 80px">
 <div class="inline-block mt-4" style="width: 70%">
     <div>
         <p>$entity.public_notes</p>
@@ -53,11 +53,16 @@ $table_here
 </div>
 <div class="inline-block" style="width: 20%">
     <div class="px-3 mt-2">
-        <div class="inline-block col-6 text-right">
+        <div class="col-6 text-right">
             <span style="margin-right: 20px">$discount_label</span> $discount<br>
             <span style="margin-right: 20px">$tax_label</span> $tax<br>
             <span style="margin-right: 20px">$shipping_cost_label</span> $shipping_cost<br>
             <span style="margin-right: 20px">$voucher_label</span> $voucher<br>
+            
+             <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
         </div>
     </div>
 </div>

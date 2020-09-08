@@ -352,7 +352,7 @@ class BaseRepository implements BaseRepositoryInterface
             $variables['$due_date'] = $entity->due_date;
         }
 
-        if(!empty($entity->priority_id) && method_exists($this->entity, 'getPriorityName')) {
+        if(!empty($entity->priority_id) && method_exists($entity, 'getPriorityName')) {
              $variables['$priority'] = $entity->getPriorityName();
         }
 
@@ -361,7 +361,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         if(!empty($entity->assigned_to)) {
-            $variables['$agent'] = $entity->assignee->name
+            $variables['$agent'] = $entity->assignee->first_name . ' ' . $entity->assignee->last_name;
         }
 
         return str_replace(array_keys($variables), array_values($variables), $content);

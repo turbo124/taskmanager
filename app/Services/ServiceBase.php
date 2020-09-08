@@ -122,7 +122,6 @@ class ServiceBase
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasEmailed";
 
         if (class_exists($event_class) && $invitation !== null) {
-
             event(new $event_class($invitation));
         }
 

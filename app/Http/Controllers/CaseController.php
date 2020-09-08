@@ -16,6 +16,8 @@ use App\Transformations\CaseTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
+use Illuminate\Support\Facades\Log;
+
 use function request;
 
 class CaseController extends Controller
@@ -91,6 +93,9 @@ class CaseController extends Controller
             $user,
             Customer::find($request->customer_id)->first()
         );
+
+        Log::emergency($request->all());
+
         $this->case_repo->createCase($request->all(), $case);
         return response()->json($this->transform($case));
     }
