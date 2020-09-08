@@ -11,13 +11,11 @@ import TotalsBox from '../../common/entityContainers/TotalsBox'
 import PurchaseOrderPresenter from '../../presenters/PurchaseOrderPresenter'
 
 export default function Overview (props) {
-    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
-
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.total} value_1={props.entity.total}
             heading_2={translations.balance} value_2={props.entity.balance}/>
 
-        <QuotePresenter entity={props.entity} field="status_field"/>
+        <PurchaseOrderPresenter entity={props.entity} field="status_field"/>
 
         {!!props.entity.private_notes.length &&
         <Row>
@@ -27,7 +25,7 @@ export default function Overview (props) {
 
         <Row>
             <EntityListTile entity={translations.company} title={props.company[0].name}
-                icon={icons.customer}/>
+                icon={icons.company}/>
         </Row>
 
         {!!props.user &&

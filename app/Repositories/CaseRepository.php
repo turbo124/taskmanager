@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Events\Cases\CaseWasCreated;
 use App\Events\Cases\CaseWasUpdated;
+use App\Factory\CommentFactory;
 use App\Models\Cases;
 use App\Repositories\Base\BaseRepository;
 
@@ -39,6 +40,10 @@ class CaseRepository extends BaseRepository
     {
         $case = $this->save($data, $case);
 
+        $comment = CommentFactory::create($case->user_id, $case->account_id);
+        $comment->comment = $data['message'];
+        $case->comments()->save($comment);
+
         event(new CaseWasCreated($case));
 
         return $case;
@@ -66,6 +71,7 @@ class CaseRepository extends BaseRepository
     {
         $case->fill($data);
         $case->setNumber();
+        $case->message = $this->parseTemplateVariables($data['message'], $case);
         $case->save();
 
         $this->saveInvitations($case, 'case', $data);

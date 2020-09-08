@@ -177,6 +177,110 @@ class EmailFields extends Component {
                     }
                 ]
             },
+            email_template_deal: {
+                name: 'Deal',
+                is_remider: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_deal',
+                        label: translations.subject,
+                        type: 'text',
+                        placeholder: translations.subject,
+                        value: settings.email_subject_deal,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_deal',
+                        label: translations.body,
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: translations.body,
+                        value: settings.email_template_deal,
+                        group: 1
+                    }
+                ]
+            },
+            email_template_task: {
+                name: 'Task',
+                is_remider: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_task',
+                        label: translations.subject,
+                        type: 'text',
+                        placeholder: translations.subject,
+                        value: settings.email_subject_task,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_task',
+                        label: translations.body,
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: translations.body,
+                        value: settings.email_template_task,
+                        group: 1
+                    }
+                ]
+            },
+            email_template_case: {
+                name: 'Cases',
+                is_remider: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_case',
+                        label: translations.subject,
+                        type: 'text',
+                        placeholder: translations.subject,
+                        value: settings.email_subject_case,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_case',
+                        label: translations.body,
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: translations.body,
+                        value: settings.email_template_case,
+                        group: 1
+                    }
+                ]
+            },
+            email_template_purchase_order: {
+                name: 'Purchase Order',
+                is_remider: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_purchase_order',
+                        label: translations.subject,
+                        type: 'text',
+                        placeholder: translations.subject,
+                        value: settings.email_subject_purchase_order,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_purchase_order',
+                        label: translations.body,
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: translations.body,
+                        value: settings.email_template_purchase_order,
+                        group: 1
+                    }
+                ]
+            },
             email_template_order_received: {
                 name: 'Order Received',
                 is_reminder: false,

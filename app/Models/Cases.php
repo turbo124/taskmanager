@@ -26,6 +26,7 @@ class Cases extends Model
         'user_id',
         'account_id',
         'customer_id',
+        'contact_id',
         'assigned_to',
         'parent_id',
         'custom_value1',
@@ -41,6 +42,16 @@ class Cases extends Model
     const PRIORITY_LOW = 1;
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 3;
+
+    private $arrStatuses = [
+        1 => 'Pending'
+    ];
+
+    private $arrPriorities = [
+        1 => 'Low',
+        2 => 'Medium',
+        3 => 'High'
+    ];
 
     public function account()
     {
@@ -78,6 +89,14 @@ class Cases extends Model
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function assignee()
+    {
+        return $this->hasOne(User::class, 'id', 'assigned_to');
     }
 
     /**
@@ -138,5 +157,14 @@ class Cases extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/cases/' . $this->number . '.pdf';
+    }
+
+    public function getStatusName()
+    {
+        return $this->arrStatuses[$this->status_id];
+    }
+
+    public function getPriorityName() {
+        return $this->arrPriorities[$this->priority_id];
     }
 }

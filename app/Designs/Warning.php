@@ -43,21 +43,26 @@ $table_here
 			            $entity.public_notes
 			        </div>
 			        <div class="inline-block" style="page-break-inside: avoid; width: 20%">
-			            <div class="inline-block col-6 text-left" style="page-break-inside: avoid;">
+			            <div class="col-6 text-left" style="page-break-inside: avoid;">
 			            	<span style="margin-right: 20px">$discount_label</span> <span style="margin-left: 16px"> $discount </span> <br>
 			                <span style="margin-right: 20px">$tax_label</span> <span style="margin-left: 16px">$tax</span> <br>
 			                <span style="margin-right: 20px">$shipping_cost_label</span> <span style="margin-left: 16px"> $shipping_cost</span> <br>
 			                <span style="margin-right: 20px">$voucher_label</span> <span style="margin-left: 16px">$voucher</span> <br>
+			                
+			                 <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
 			            </div>
 			        </div>
 			    </div>
-			    <div class="px-4 mt-4 mt-4" style="page-break-inside: avoid; width: 100%">
+			    <div class="px-4 mt-4 mt-4 inline-block" style="page-break-inside: avoid; width: 100%">
 			        <div style="page-break-inside: avoid; width: 70%">
 			            <p class="font-weight-bold">$terms_label</p>
 			            $terms
 			        </div>
 			    </div>
-			    <div class="mt-4 px-4 py-2 bg-secondary text-white" style="page-break-inside: avoid; width: 20%; float: right">
+			    <div class="px-4 py-2 bg-secondary text-white inline-block" style="page-break-inside: avoid; width: 20%; float: right">
 			        <div class="inline-block" style="width: 70%"></div>
 			        <div class="" style="page-break-inside: avoid; width: 100%" >
 			            <div style="page-break-inside: avoid;">
@@ -109,7 +114,7 @@ $table_here
     public function footer()
     {
         return '
-		 <div style="width: 100%; margin-left: 20px">
+		 <div style="width: 100%; margin-left: 20px; margin-top: 90px;">
              <div style="width: 45%;" class="inline-block mb-2">
                $signature_here
            </div>

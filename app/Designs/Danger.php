@@ -50,7 +50,7 @@ class Danger
 $table_here
 
 <div class="border-top-4 border-danger">
-<div class="mt-4 px-4 pb-4">
+<div class="px-4 pb-4" style="margin-top: 70px">
     <div class="inline-block" style="width: 70%">
         <div class="">
             <p>$entity.public_notes</p>
@@ -58,13 +58,18 @@ $table_here
     </div>
     <div class="inline-block" style="width: 20%">
         <div class="px-3 mt-2">
-            <div class="inline-block col-6 text-left">
+            <div class="col-6 text-left">
                 <span style="margin-right: 80px">$subtotal_label</span> $subtotal <br>
                 <span style="margin-right: 80px">$discount_label</span> $discount <br>
                 <span style="margin-right: 80px">$tax_label</span> $tax <br>
                 <span style="margin-right: 80px">$shipping_cost_label</span> $shipping_cost <br>
                 <span style="margin-right: 80px">$voucher_label</span> $voucher <br>
                 <span style="margin-right: 80px">$balance_due_label</span> <span class="text-danger font-weight-bold">$balance_due</span> <br>
+                
+                 <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
             </div>
         </div>
     </div>

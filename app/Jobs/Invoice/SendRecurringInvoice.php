@@ -56,14 +56,28 @@ class SendRecurringInvoice implements ShouldQueue
                                               ->get();
 
         foreach ($recurring_invoices as $recurring_invoice) {
-            $quote = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
-            $quote = $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $quote);
-
-            $quote->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
+            $invoice = RecurringInvoiceToInvoiceFactory::create($recurring_invoice, $recurring_invoice->customer);
+            $invoice = $this->invoice_repo->save(['recurring_invoice_id' => $recurring_invoice->id], $invoice);
+            $this->invoice_repo->markSent($invoice);
+            $invoice->service()->sendEmail(
+                null,
+                $invoice->customer->getSetting('email_subject_invoice'),
+                $invoice->customer->getSetting('email_template_invoice')
+            );
 
             $recurring_invoice->last_sent_date = Carbon::today();
-            $recurring_invoice->next_send_date = Carbon::today()->addDays($recurring_invoice->frequency);
+            $recurring_invoice->cycles_remaining--;
+            $recurring_invoice->next_send_date = $recurring_invoice->cycles_remaining === 0 ? null : Carbon::today()->addDays($recurring_invoice->frequency);
+            $recurring_invoice->status_id = $recurring_invoice->cycles_remaining === 0 ? RecurringInvoice::STATUS_COMPLETED : $recurring_invoice->status_id;
             $recurring_invoice->save();
+
+            if ($recurring_invoice->auto_billing_enabled) {
+                AutobillInvoice::dispatchNow($invoice, $this->invoice_repo);
+            }
         }
+    }
+
+    private function completeRecurringInvoice() {
+
     }
 }

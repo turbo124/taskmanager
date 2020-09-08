@@ -23,6 +23,7 @@ import Token from '../tokens/view/Token'
 import Group from '../partials/Group'
 import Gateway from '../gateways/view/Gateway'
 import Deal from '../deals/view/Deal'
+import PurchaseOrder from "../purchase_orders/view/PurchaseOrder";
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -119,6 +120,9 @@ export default class ViewEntity extends Component {
 
                         {this.props.entity && this.props.entity_type && ['Gateway'].includes(this.props.entity_type) &&
                         <Gateway entity={this.props.entity}/>}
+
+                        {this.props.entity && this.props.entity_type && ['PurchaseOrder'].includes(this.props.entity_type) &&
+                        <PurchaseOrder entity={this.props.entity} companies={this.props.companies}/>}
 
                     </ModalBody>
                     <ModalFooter>

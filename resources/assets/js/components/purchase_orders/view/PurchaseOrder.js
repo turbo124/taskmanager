@@ -21,14 +21,14 @@ export default class PurchaseOrder extends Component {
             show_success: false
         }
 
-        this.quoteModel = new PurchaseOrderModel(this.props.entity)
+        this.purchaseOrderModel = new PurchaseOrderModel(this.props.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
     }
 
     triggerAction (action) {
-        this.quoteModel.completeAction(this.props.entity, action).then(response => {
+        this.purchaseOrderModel.completeAction(this.props.entity, action).then(response => {
             this.setState({ show_success: true })
 
             setTimeout(
@@ -42,7 +42,7 @@ export default class PurchaseOrder extends Component {
     }
 
     loadPdf () {
-        this.quoteModel.loadPdf().then(url => {
+        this.purchaseOrderModel.loadPdf().then(url => {
             console.log('url', url)
             this.setState({ obj_url: url }, () => URL.revokeObjectURL(url))
         })
@@ -73,36 +73,36 @@ export default class PurchaseOrder extends Component {
         const fields = []
 
         if (this.props.entity.custom_value1.length) {
-            const label1 = this.quoteModel.getCustomFieldLabel('Quote', 'custom_value1')
-            fields[label1] = this.quoteModel.formatCustomValue(
-                'Quote',
+            const label1 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value1')
+            fields[label1] = this.purchaseOrderModel.formatCustomValue(
+                'PurchaseOrder',
                 'custom_value1',
                 this.props.entity.custom_value1
             )
         }
 
         if (this.props.entity.custom_value2.length) {
-            const label2 = this.quoteModel.getCustomFieldLabel('Quote', 'custom_value2')
-            fields[label2] = this.quoteModel.formatCustomValue(
-                'Quote',
+            const label2 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value2')
+            fields[label2] = this.purchaseOrderModel.formatCustomValue(
+                'PurchaseOrder',
                 'custom_value2',
                 this.props.entity.custom_value2
             )
         }
 
         if (this.props.entity.custom_value3.length) {
-            const label3 = this.quoteModel.getCustomFieldLabel('Quote', 'custom_value3')
-            fields[label3] = this.quoteModel.formatCustomValue(
-                'Quote',
+            const label3 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value3')
+            fields[label3] = this.purchaseOrderModel.formatCustomValue(
+                'PurchaseOrder',
                 'custom_value3',
                 this.props.entity.custom_value3
             )
         }
 
         if (this.props.entity.custom_value4.length) {
-            const label4 = this.quoteModel.getCustomFieldLabel('Quote', 'custom_value4')
-            fields[label4] = this.quoteModel.formatCustomValue(
-                'Quote',
+            const label4 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value4')
+            fields[label4] = this.purchaseOrderModel.formatCustomValue(
+                'PurchaseOrder',
                 'custom_value4',
                 this.props.entity.custom_value4
             )
@@ -123,8 +123,8 @@ export default class PurchaseOrder extends Component {
                 amount={this.props.entity.discount_total}/>
         }
 
-        const button_2_action = this.quoteModel.hasInvoice ? 'clone_to_quote' : 'approve'
-        const button_2_text = this.quoteModel.hasInvoice ? translations.clone_quote : translations.convert_quote_to_invoice
+        const button_2_action = this.purchaseOrderModel.hasInvoice ? 'clone_to_PurchaseOrder' : 'approve'
+        const button_2_text = this.purchaseOrderModel.hasInvoice ? translations.clone_PurchaseOrder : translations.convert_PurchaseOrder_to_invoice
 
         return (
             <React.Fragment>
@@ -159,7 +159,7 @@ export default class PurchaseOrder extends Component {
                                 this.toggleTab('3')
                             }}
                         >
-                            {translations.documents} ({this.quoteModel.fileCount})
+                            {translations.documents} ({this.purchaseOrderModel.fileCount})
                         </NavLink>
                     </NavItem>
 
@@ -176,14 +176,14 @@ export default class PurchaseOrder extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} customers={this.props.customers} customer={customer}
+                        <Overview entity={this.props.entity} companies={this.props.companies} company={company}
                             user={user} fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <ViewContacts entity={this.quoteModel} companies={this.props.companies}/>
+                                <ViewContacts entity={this.purchaseOrderModel} companies={this.props.companies}/>
                             </Col>
                         </Row>
                     </TabPane>

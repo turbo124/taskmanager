@@ -125,22 +125,54 @@ class RecurringQuoteTest extends TestCase
         $this->assertEquals($data['total'], $recurring_quote->total);
     }
 
-    public function test_send_recurring_quote () {
+    public function test_send_recurring_quote()
+    {
         $recurring_quote = factory(RecurringQuote::class)->create();
         $recurring_quote->next_send_date = Carbon::now();
+        $recurring_quote->customer_id = 5;
         $recurring_quote->date = Carbon::now()->subDays(15);
         $recurring_quote->start_date = Carbon::now()->subDays(1);
         $recurring_quote->end_date = Carbon::now()->addDays(15);
+        $recurring_quote->auto_billing_enabled = 0;
+        $recurring_quote->cycles_remaining = 2;
         $recurring_quote->save();
 
         SendRecurringQuote::dispatchNow(new QuoteRepository(new Quote()));
 
         $updated_recurring_quote = $recurring_quote->fresh();
 
-        $this->assertTrue($updated_recurring_quote->next_send_date->eq(Carbon::today()->addDays($recurring_quote->frequency)));
+        $this->assertTrue(
+            $updated_recurring_quote->next_send_date->eq(Carbon::today()->addDays($recurring_quote->frequency))
+        );
         $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
-        $quote = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
-        $this->assertInstanceOf(Quote::class, $quote);
+        $this->assertEquals(1, $updated_recurring_quote->cycles_remaining);
+        $invoice = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
+        $this->assertInstanceOf(Quote::class, $invoice);
+        $this->assertEquals(Quote::STATUS_SENT, $invoice->status_id);
+    }
+
+    public function test_send_recurring_quote_last_cycle()
+    {
+        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote->next_send_date = Carbon::now();
+        $recurring_quote->customer_id = 5;
+        $recurring_quote->date = Carbon::now()->subDays(15);
+        $recurring_quote->start_date = Carbon::now()->subDays(1);
+        $recurring_quote->end_date = Carbon::now()->addDays(15);
+        $recurring_quote->auto_billing_enabled = 0;
+        $recurring_quote->cycles_remaining = 1;
+        $recurring_quote->save();
+
+        SendRecurringQuote::dispatchNow(new QuoteRepository(new Quote()));
+
+        $updated_recurring_quote = $recurring_quote->fresh();
+
+        $this->assertNull($updated_recurring_quote->next_send_date);
+        $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
+        $this->assertEquals(0, $updated_recurring_quote->cycles_remaining);
+        $invoice = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
+        $this->assertInstanceOf(Quote::class, $invoice);
+        $this->assertEquals(Quote::STATUS_SENT, $invoice->status_id);
     }
 
     public function tearDown(): void

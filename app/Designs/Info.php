@@ -40,7 +40,7 @@ class Info
 
 $table_here
 
-   <div class="px-4 mt-4" style="width: 100%">
+   <div class="px-4" style="width: 100%; margin-top: 80px; margin-bottom: 80px">
     <div class="inline-block" style="width: 70%">
         $entity.public_notes
     </div>
@@ -53,6 +53,11 @@ $table_here
              <span style="margin-right: 20px">$voucher_label</span> $voucher<br>
             <span class="font-weight-bold" style="margin-right: 20px">$balance_due_label</span> 
             <span class="text-info"> $balance_due</span><br>
+            
+             <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
         </div>
     </div>
 </div>

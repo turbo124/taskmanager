@@ -334,4 +334,37 @@ class BaseRepository implements BaseRepositoryInterface
         return $entity;
     }
 
+    protected function parseTemplateVariables(string $content, $entity)
+    {
+        $variables = [];
+
+        $variables['$status'] = $entity->getStatusName();
+
+        if(!empty($entity->description)) {
+            $variables['$description'] = $entity->description;
+        }
+
+        if(!empty($entity->number)) {
+            $variables['$number'] = $entity->number;
+        }
+
+        if(!empty($entity->due_date)) {
+            $variables['$due_date'] = $entity->due_date;
+        }
+
+        if(!empty($entity->priority_id) && method_exists($entity, 'getPriorityName')) {
+             $variables['$priority'] = $entity->getPriorityName();
+        }
+
+        if(!empty($entity->customer_id)) {
+            $variables['$customer'] = $entity->customer->name;
+        }
+
+        if(!empty($entity->assigned_to)) {
+            $variables['$agent'] = $entity->assignee->first_name . ' ' . $entity->assignee->last_name;
+        }
+
+        return str_replace(array_keys($variables), array_values($variables), $content);
+    }
+
 }

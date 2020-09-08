@@ -52,13 +52,18 @@ $table_here
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block px-3 mt-1" style="width: 20%">
+    <div class="inline-block px-3 mt-1" style="width: 20%; padding-top: 30px">
             <div class="col-6 text-left">
                 <span style="margin-right: 40px">$discount_label </span>$discount <br>
                 <span style="margin-right: 40px">$tax_label </span>$tax <br>
                 <span style="margin-right: 40px">$shipping_cost_label </span>$shipping_cost <br>
                 <span style="margin-right: 40px">$voucher_label </span>$voucher <br>
                 <span style="margin-right: 40px">$balance_due_label </span>$balance_due <br>
+                
+                 <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
             </div>
     </div>
 </div>
