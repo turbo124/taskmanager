@@ -41,7 +41,7 @@ class CaseRepository extends BaseRepository
         $case = $this->save($data, $case);
 
         $comment = CommentFactory::create($case->user_id, $case->account_id);
-        $comment->comment = $data['message'];
+        $comment->comment = $case->message;
         $case->comments()->save($comment);
 
         event(new CaseWasCreated($case));
