@@ -8,11 +8,11 @@ use App\Repositories\Interfaces\CaseTemplateRepositoryInterface;
 use Exception;
 use Illuminate\Support\Collection;
 
-class CaseTemplateRepository extends BaseRepository implements BrandRepositoryInterface
+class CaseTemplateRepository extends BaseRepository implements CaseTemplateRepositoryInterface
 {
     /**
      * BrandRepository constructor.
-     * @param Brand $brand
+     * @param CaseTemplate $template
      */
     public function __construct(CaseTemplate $template)
     {
