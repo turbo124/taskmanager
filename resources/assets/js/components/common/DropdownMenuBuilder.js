@@ -118,6 +118,10 @@ export default class DropdownMenuBuilder extends Component {
                 message = `${translations.deal} ${response.number} ${translations.has_been_created}`
             }
 
+            if (action === 'clone_case_to_project') {
+                message = `${translations.case} ${response.number} ${translations.has_been_created}`
+            }
+
             if (action === 'clone_to_order') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
@@ -396,6 +400,12 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={13} className="primary"
                     onClick={() => this.changeStatus('clone_lead_to_task')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_task}
+                </DropdownItem>
+
+            case 'cloneCaseToProject':
+                return <DropdownItem key={13} className="primary"
+                                     onClick={() => this.changeStatus('clone_case_to_project')}>
+                    <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
                 </DropdownItem>
         }
     }

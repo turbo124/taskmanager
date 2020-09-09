@@ -14,8 +14,9 @@ class UpdateCaseRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'subject' => 'required',
-            'message' => 'required',
+            'status_id' => 'required',
+            'subject'   => 'required',
+            'message'   => 'required',
         ];
     }
 }

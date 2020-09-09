@@ -19,6 +19,10 @@ class Cases extends Model
         'priority_id',
         'category_id',
         'due_date',
+        'date_opened',
+        'date_closed',
+        'opened_by',
+        'closed_by',
         'private_notes',
         'subject',
         'number',
@@ -38,13 +42,17 @@ class Cases extends Model
     protected $presenter = 'App\Presenters\CasesPresenter';
 
     const STATUS_DRAFT = 1;
+    const STATUS_OPEN = 2;
+    const STATUS_CLOSED = 3;
 
     const PRIORITY_LOW = 1;
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 3;
 
     private $arrStatuses = [
-        1 => 'Pending'
+        1 => 'Draft',
+        2 => 'Open',
+        3 => 'Closed'
     ];
 
     private $arrPriorities = [
@@ -164,7 +172,8 @@ class Cases extends Model
         return $this->arrStatuses[$this->status_id];
     }
 
-    public function getPriorityName() {
+    public function getPriorityName()
+    {
         return $this->arrPriorities[$this->priority_id];
     }
 }

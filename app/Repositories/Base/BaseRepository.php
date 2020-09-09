@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Base;
 
-use App\Helpers\Arrays;
+use App\Helpers\Invitations;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -251,30 +251,6 @@ class BaseRepository implements BaseRepositoryInterface
         return $invitation;
     }
 
-    protected function generateInvitations($entity, $key, $data, $extra_key = null)
-    {
-        if (empty($data['invitations'])) {
-            return true;
-        }
-
-        $invitation_class = sprintf("App\Models\\%sInvitation", ucfirst($key));
-
-        $id_key = $extra_key !== null ? $extra_key . '_id' : $key . '_id';
-
-        $old_values = $invitation_class::where($id_key, $entity->id)->get()->pluck('contact_id')->toArray();
-        $new_values = array_column(collect($data['invitations'])->toArray(), 'contact_id');
-
-        if ($deleted = Arrays::keysDeleted($new_values, $old_values)) {
-            $invitation_class::whereIn('contact_id', $deleted)->forceDelete();
-        }
-
-        if ($created = Arrays::keysCreated($new_values, $old_values)) {
-            $this->createNewInvitation($created, $key, $entity, $extra_key);
-        }
-
-        return true;
-    }
-
     /**
      * @param $entity
      * @param $key
@@ -287,34 +263,12 @@ class BaseRepository implements BaseRepositoryInterface
             $created = $entity->customer->contacts->pluck(
                 'id'
             )->toArray();
-            $this->createNewInvitation($created, $key, $entity);
+            (new Invitations())->createNewInvitation($created, $key, $entity);
 
             return true;
         }
 
-        return $this->generateInvitations($entity, $key, $data);
-    }
-
-    protected function createNewInvitation($created, $key, $entity, $extra_key = null)
-    {
-        $invitation_factory_class = sprintf("App\\Factory\\%sInvitationFactory", ucfirst($key));
-
-        $id_key = $extra_key !== null ? $extra_key . '_id' : $key . '_id';
-
-        foreach ($created as $contact_id) {
-            /* $invitation = $invitation__class::where($id_key, $entity->id)->where('contact_id', $contact_id)->first();
-
-            if($invitation) {
-                continue;
-            } */
-
-            $new_invitation = $invitation_factory_class::create($entity->account_id, $entity->user_id);
-            $new_invitation->{$id_key} = $entity->id;
-            $new_invitation->contact_id = $contact_id;
-            $new_invitation->save();
-        }
-
-        return true;
+        return (new Invitations())->generateInvitations($entity, $key, $data);
     }
 
     protected function populateDefaults($entity)
@@ -340,27 +294,27 @@ class BaseRepository implements BaseRepositoryInterface
 
         $variables['$status'] = $entity->getStatusName();
 
-        if(!empty($entity->description)) {
+        if (!empty($entity->description)) {
             $variables['$description'] = $entity->description;
         }
 
-        if(!empty($entity->number)) {
+        if (!empty($entity->number)) {
             $variables['$number'] = $entity->number;
         }
 
-        if(!empty($entity->due_date)) {
+        if (!empty($entity->due_date)) {
             $variables['$due_date'] = $entity->due_date;
         }
 
-        if(!empty($entity->priority_id) && method_exists($entity, 'getPriorityName')) {
-             $variables['$priority'] = $entity->getPriorityName();
+        if (!empty($entity->priority_id) && method_exists($entity, 'getPriorityName')) {
+            $variables['$priority'] = $entity->getPriorityName();
         }
 
-        if(!empty($entity->customer_id)) {
+        if (!empty($entity->customer_id)) {
             $variables['$customer'] = $entity->customer->name;
         }
 
-        if(!empty($entity->assigned_to)) {
+        if (!empty($entity->assigned_to)) {
             $variables['$agent'] = $entity->assignee->first_name . ' ' . $entity->assignee->last_name;
         }
 

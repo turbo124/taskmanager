@@ -538,6 +538,7 @@ Route::group(
 
         // cases
         Route::resource('cases', 'CaseController');
+        Route::post('cases/{case}/{action}', 'CaseController@action')->name('invoices.action');
 
         // case categories
         Route::resource('case-categories', 'CaseCategoryController');

@@ -84,18 +84,8 @@ class PurchaseOrder extends Model
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
-    const STATUS_INVOICED = 5;
-    const STATUS_ON_ORDER = 6;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
-
-    const PRODUCT_TYPE = 1;
-    const COMMISSION_TYPE = 2;
-    const TASK_TYPE = 3;
-    const LATE_FEE_TYPE = 4;
-    const SUBSCRIPTION_TYPE = 5;
-    const EXPENSE_TYPE = 6;
-    const GATEWAY_FEE_TYPE = 7;
 
     public function tasks()
     {

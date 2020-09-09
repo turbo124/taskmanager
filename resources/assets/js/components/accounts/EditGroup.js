@@ -719,6 +719,7 @@ class EditGroup extends Component {
 
     handleClick () {
         const formData = {
+            account_id: this.state.account_id,
             name: this.state.name,
             settings: this.state.settings
         }

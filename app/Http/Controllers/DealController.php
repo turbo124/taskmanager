@@ -139,7 +139,7 @@ class DealController extends Controller
         switch ($action) {
             case 'clone_to_task':
                 $task = (new TaskRepository(new Task(), new ProjectRepository(new Project())))->save(
-                    [],
+                    $request->all(),
                     CloneLeadToTaskFactory::create(
                         $deal,
                         auth()->user()

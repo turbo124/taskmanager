@@ -77,12 +77,13 @@ class CaseTest extends TestCase
     public function it_can_update_the_case()
     {
         $case = factory(Cases::class)->create();
-        $data = ['message' => $this->faker->sentence];
+        $data = ['message' => $this->faker->sentence, 'status_id' => 2];
         $caseRepo = new CaseRepository($case);
-        $task = $caseRepo->updateCase($data, $case);
-        $found = $caseRepo->findCaseById($case->id);
+        $case = $caseRepo->updateCase($data, $case, $case->user);
         $this->assertInstanceOf(Cases::class, $case);
-        $this->assertEquals($data['message'], $found->message);
+        $this->assertEquals($data['message'], $case->message);
+        $this->assertEquals($case->status_id, $data['status_id']);
+        $this->assertNotEmpty($case->date_opened);
     }
 
     /** @test */

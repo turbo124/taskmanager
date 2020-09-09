@@ -7,6 +7,8 @@ import CustomerDropdown from '../common/CustomerDropdown'
 import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
 import CasePriorityDropdown from '../common/CasePriorityDropdown'
 import StatusDropdown from '../common/StatusDropdown'
+import { consts } from '../common/_consts'
+import { translations } from '../common/_translations'
 
 export default class CaseFilters extends Component {
     constructor (props) {
@@ -24,6 +26,21 @@ export default class CaseFilters extends Component {
                 priority_id: ''
             }
         }
+
+        this.statuses = [
+            {
+                value: consts.case_status_draft,
+                label: translations.draft
+            },
+            {
+                value: consts.case_status_open,
+                label: translations.open
+            },
+            {
+                value: consts.case_status_closed,
+                label: translations.closed
+            }
+        ]
 
         this.filterCases = this.filterCases.bind(this)
         this.getFilters = this.getFilters.bind(this)
@@ -80,7 +97,7 @@ export default class CaseFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <StatusDropdown name="status" filterStatus={this.filterCases}/>
+                        <StatusDropdown name="status" filterStatus={this.filterCases} statuses={this.statuses}/>
                     </FormGroup>
                 </Col>
 
