@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Events\PurchaseOrder\PurchaseOrderWasCreated;
 use App\Events\PurchaseOrder\PurchaseOrderWasUpdated;
 use App\Filters\PurchaseOrderFilter;
+use App\Helpers\Invitations;
 use App\Models\Account;
 use App\Models\PurchaseOrder;
 use App\Repositories\Base\BaseRepository;
@@ -105,12 +106,12 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
                 'id'
             )->toArray();
 
-            $this->createNewInvitation($created, 'purchaseOrder', $entity, 'purchase_order');
+            (new Invitations())->createNewInvitation($created, 'purchaseOrder', $entity, 'purchase_order');
 
             return true;
         }
 
-        return $this->generateInvitations($entity, $key, $data, 'purchase_order');
+        return (new Invitations())->generateInvitations($entity, $key, $data, 'purchase_order');
     }
 
     /**

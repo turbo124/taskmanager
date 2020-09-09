@@ -17,6 +17,7 @@ export default class CustomerModel extends BaseModel {
         this._fields = {
             modal: false,
             id: null,
+            account_id: null,
             name: '',
             activeTab: '1',
             settings: {},

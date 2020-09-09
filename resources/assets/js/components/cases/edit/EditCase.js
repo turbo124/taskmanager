@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    Button,
     Card,
     CardBody,
     CardHeader,
@@ -23,6 +24,7 @@ import DefaultModalFooter from '../../common/ModalFooter'
 import FileUploads from '../../attachments/FileUploads'
 import Emails from '../../emails/Emails'
 import Contacts from './Contacts'
+import { consts } from '../../common/_consts'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -38,6 +40,8 @@ export default class EditCase extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleContactChange = this.handleContactChange.bind(this)
+        this.openCase = this.openCase.bind(this)
+        this.closeCase = this.closeCase.bind(this)
     }
 
     componentDidMount () {
@@ -96,7 +100,8 @@ export default class EditCase extends React.Component {
             priority_id: this.state.priority_id,
             private_notes: this.state.private_notes,
             category_id: this.state.category_id,
-            assigned_to: this.state.assigned_to
+            assigned_to: this.state.assigned_to,
+            status_id: this.state.status_id
         }
     }
 
@@ -106,7 +111,7 @@ export default class EditCase extends React.Component {
         this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
     }
 
-    handleClick () {
+    handleClick (action = 'save') {
         const formData = this.getFormData()
 
         this.caseModel.update(formData).then(response => {
@@ -122,7 +127,9 @@ export default class EditCase extends React.Component {
                 editMode: false,
                 changesMade: false
             })
-            this.toggle()
+            if (action === 'save') {
+                this.toggle()
+            }
         })
     }
 
@@ -130,6 +137,26 @@ export default class EditCase extends React.Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
         }
+    }
+
+    openCase () {
+        this.setState(
+            {
+                status_id: consts.case_status_open
+            }, () => {
+                this.handleClick('open')
+            }
+        )
+    }
+
+    closeCase () {
+        this.setState(
+            {
+                status_id: consts.case_status_closed
+            }, () => {
+                this.handleClick('close')
+            }
+        )
     }
 
     toggle () {
@@ -153,6 +180,10 @@ export default class EditCase extends React.Component {
                 customers={this.props.customers} entity_object={this.state} entity="cases"
                 entity_id={this.state.id}/> : null
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+
+        const extra_button = (this.state.status_id === 1) ? (<Button onClick={this.openCase}
+            color="primary">{translations.open_case}</Button>) : ((this.state.status_id === 2) ? (
+            <Button onClick={this.closeCase} color="primary">{translations.close_case}</Button>) : null)
 
         return (
             <React.Fragment>
@@ -241,7 +272,7 @@ export default class EditCase extends React.Component {
                         </TabContent>
                     </ModalBody>
 
-                    <DefaultModalFooter show_success={true} toggle={this.toggle}
+                    <DefaultModalFooter extra_button={extra_button} show_success={true} toggle={this.toggle}
                         saveData={this.handleClick.bind(this)}
                         loading={false}/>
                 </Modal>

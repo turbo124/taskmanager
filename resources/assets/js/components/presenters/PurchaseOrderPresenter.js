@@ -2,7 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { quoteStatusColors, quoteStatuses } from '../common/_consts'
+import { purchaseOrderStatusColors, purchaseOrderStatuses } from '../common/_consts'
 import PurchaseOrderModel from '../models/PurchaseOrderModel'
 import { translations } from '../common/_translations'
 
@@ -14,7 +14,7 @@ export default function PurchaseOrderPresenter (props) {
     const entity_status = is_late === true ? 100 : entity.status_id
 
     const status = !entity.deleted_at
-        ? <Badge color={quoteStatusColors[entity_status]}>{quoteStatuses[entity_status]}</Badge>
+        ? <Badge color={purchaseOrderStatusColors[entity_status]}>{purchaseOrderStatuses[entity_status]}</Badge>
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {

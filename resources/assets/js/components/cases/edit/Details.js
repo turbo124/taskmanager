@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../common/_translations'
-import CustomerDropdown from '../../common/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
 import CaseCategoryDropdown from '../../common/CaseCategoryDropdown'
 import CasePriorityDropdown from '../../common/CasePriorityDropdown'

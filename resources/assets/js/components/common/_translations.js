@@ -1,5 +1,10 @@
 const _localizedValues = []
 _localizedValues.en = {
+    new: 'New',
+    open: 'Open',
+    closed: 'Closed',
+    open_case: 'Open Case',
+    close_case: 'Close Case',
     about: 'About',
     history: 'History',
     customise: 'Customise',
@@ -528,6 +533,7 @@ _localizedValues.en = {
     recurring_expenses: 'Recurring Expenses',
     recurring_tasks: 'Recurring Tasks',
     cases: 'Cases',
+    case: 'Case',
     events: 'Events',
     should_send_email_for_manual_payment: 'Send Email for Manual Payments',
     should_send_email_for_manual_payment_help_text: 'Will send a receipt to the customer when a manual payment is created',

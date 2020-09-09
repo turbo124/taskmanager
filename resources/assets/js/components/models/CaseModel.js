@@ -61,11 +61,8 @@ export default class CaseModel extends BaseModel {
 
     buildDropdownMenu () {
         const actions = []
-        if (!this.fields.is_deleted) {
-            actions.push('newInvoice')
-        }
 
-        actions.push('cloneExpense')
+        actions.push('cloneCaseToProject')
 
         return actions
     }

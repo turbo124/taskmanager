@@ -51,6 +51,10 @@ export const consts = {
     quote_status_invoiced: 5,
     quote_status_on_order: 6,
     quote_status_approved: 4,
+    purchase_order_status_expired: '-1',
+    purchase_order_status_draft: 1,
+    purchase_order_status_sent: 2,
+    purchase_order_status_approved: 4,
     quote_status_expired_text: 'Expired',
     recurring_invoice_status_draft: 2,
     recurring_invoice_status_active: 3,
@@ -82,6 +86,8 @@ export const consts = {
     credit_status_partial: 3,
     credit_status_applied: 4,
     case_status_draft: 1,
+    case_status_open: 2,
+    case_status_closed: 3,
     credit_status_draft_text: 'Draft',
     credit_status_sent_text: 'Sent',
     credit_status_partial_text: 'Partial',
@@ -178,6 +184,22 @@ export const quoteStatusColors = {
     100: 'danger'
 }
 
+export const purchaseOrderStatuses = {
+    [consts.quote_status_draft]: translations.draft,
+    [consts.quote_status_sent]: translations.sent,
+    [consts.quote_status_approved]: translations.status_approved,
+    [consts.quote_status_invoiced]: translations.invoiced,
+    [consts.quote_status_on_order]: translations.on_order,
+    100: translations.expired
+}
+
+export const purchaseOrderStatusColors = {
+    [consts.purchase_order_status_draft]: 'secondary',
+    [consts.purchase_order_status_sent]: 'primary',
+    [consts.purchase_order_status_approved]: 'success',
+    100: 'danger'
+}
+
 export const creditStatuses = {
     [consts.credit_status_draft]: translations.draft,
     [consts.credit_status_sent]: translations.sent,
@@ -253,7 +275,7 @@ export const recurringInvoiceStatuses = {
 }
 
 export const recurringInvoiceStatusColors = {
-    [consts.recurring_invoice_status_draft]: 'primary',
+    [consts.recurring_invoice_status_draft]: 'secondary',
     [consts.recurring_invoice_status_active]: 'primary',
     [consts.recurring_invoice_status_cancelled]: 'danger',
     [consts.recurring_invoice_status_pending]: 'primary',
@@ -269,7 +291,7 @@ export const recurringQuoteStatuses = {
 }
 
 export const recurringQuoteStatusColors = {
-    [consts.recurring_quote_status_draft]: 'primary',
+    [consts.recurring_quote_status_draft]: 'secondary',
     [consts.recurring_quote_status_active]: 'primary',
     [consts.recurring_quote_status_cancelled]: 'danger',
     [consts.recurring_quote_status_pending]: 'primary',
@@ -277,11 +299,15 @@ export const recurringQuoteStatusColors = {
 }
 
 export const caseStatuses = {
-    [consts.case_status_draft]: translations.draft
+    [consts.case_status_draft]: translations.draft,
+    [consts.case_status_open]: translations.open,
+    [consts.case_status_closed]: translations.closed
 }
 
 export const caseStatusColors = {
-    [consts.case_status_draft]: 'secondary'
+    [consts.case_status_draft]: 'secondary',
+    [consts.case_status_open]: 'primary',
+    [consts.case_status_closed]: 'success'
 }
 
 export const casePriorityColors = {

@@ -26,24 +26,16 @@ export default class PurchaseOrderFilters extends Component {
 
         this.statuses = [
             {
-                value: consts.quote_status_draft,
+                value: consts.purchase_order_status_draft,
                 label: translations.draft
             },
             {
-                value: consts.quote_status_sent,
+                value: consts.purchase_order_status_sent,
                 label: translations.sent
             },
             {
-                value: consts.quote_status_approved,
+                value: consts.purchase_order_status_approved,
                 label: translations.approved
-            },
-            {
-                value: consts.quote_status_invoiced,
-                label: translations.invoiced
-            },
-            {
-                value: consts.quote_status_on_order,
-                label: translations.on_order
             },
             {
                 value: 'overdue',

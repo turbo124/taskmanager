@@ -8,7 +8,9 @@ use App\Events\Cases\CaseWasCreated;
 use App\Events\Cases\CaseWasUpdated;
 use App\Factory\CommentFactory;
 use App\Models\Cases;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use Carbon\Carbon;
 
 class CaseRepository extends BaseRepository
 {
@@ -41,7 +43,7 @@ class CaseRepository extends BaseRepository
         $case = $this->save($data, $case);
 
         $comment = CommentFactory::create($case->user_id, $case->account_id);
-        $comment->comment = $data['message'];
+        $comment->comment = $case->message;
         $case->comments()->save($comment);
 
         event(new CaseWasCreated($case));
@@ -54,8 +56,18 @@ class CaseRepository extends BaseRepository
      * @param Cases $case
      * @return Cases|null
      */
-    public function updateCase(array $data, Cases $case): ?Cases
+    public function updateCase(array $data, Cases $case, User $user): ?Cases
     {
+        if ($case->status_id === Cases::STATUS_DRAFT && (int)$data['status_id'] === Cases::STATUS_OPEN) {
+            $case->date_opened = Carbon::now();
+            $case->opened_by = $user->id;
+        }
+
+        if ($case->status_id === Cases::STATUS_OPEN && (int)$data['status_id'] === Cases::STATUS_CLOSED) {
+            $case->date_closed = Carbon::now();
+            $case->closed_by = $user->id;
+        }
+
         $case = $this->save($data, $case);
 
         event(new CaseWasUpdated($case));
@@ -69,9 +81,9 @@ class CaseRepository extends BaseRepository
      */
     public function save(array $data, Cases $case): ?Cases
     {
+        $case->message = $this->parseTemplateVariables($data['message'], $case);
         $case->fill($data);
         $case->setNumber();
-        $case->message = $this->parseTemplateVariables($data['message'], $case);
         $case->save();
 
         $this->saveInvitations($case, 'case', $data);

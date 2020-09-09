@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 
 use App\Factory\CaseFactory;
+use App\Factory\CloneCaseToProjectFactory;
 use App\Filters\CaseFilter;
 use App\Models\Cases;
 use App\Models\CompanyToken;
 use App\Models\Customer;
+use App\Models\Project;
 use App\Repositories\CaseRepository;
+use App\Repositories\ProjectRepository;
 use App\Requests\Cases\CreateCaseRequest;
 use App\Requests\Cases\UpdateCaseRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\CaseTransformable;
+use App\Transformations\ProjectTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use function request;
@@ -23,6 +27,7 @@ use function request;
 class CaseController extends Controller
 {
     use CaseTransformable;
+    use ProjectTransformable;
 
     /**
      * @var CaseRepository
@@ -73,7 +78,7 @@ class CaseController extends Controller
     public function update(int $id, UpdateCaseRequest $request)
     {
         $case = $this->case_repo->findCaseById($id);
-        $case = $this->case_repo->updateCase($request->all(), $case);
+        $case = $this->case_repo->updateCase($request->all(), $case, auth()->user());
         return response()->json($this->transform($case->fresh()));
     }
 
@@ -125,5 +130,23 @@ class CaseController extends Controller
         $cases = Cases::withTrashed()->find($ids);
 
         return response()->json($cases);
+    }
+
+    public function action(Request $request, Cases $case, $action)
+    {
+        switch ($action) {
+            case 'clone_case_to_project':
+                $project = (new ProjectRepository(new Project))->save(
+                    $request->all(),
+                    CloneCaseToProjectFactory::create(
+                        $case,
+                        auth()->user()
+                    )
+                );
+
+                return response()->json($this->transformProject($project));
+
+                break;
+        }
     }
 }

@@ -10,7 +10,7 @@ class UpdateGroupRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'unique:groups,name,' . $this->group_id . ',id,account_id,' . $this->account_id
         ];
     }
 }
