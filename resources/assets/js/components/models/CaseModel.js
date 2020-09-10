@@ -20,6 +20,8 @@ export default class CaseModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            link_type: '',
+            link_value: '',
             assigned_to: '',
             subject: '',
             message: '',
@@ -63,6 +65,7 @@ export default class CaseModel extends BaseModel {
         const actions = []
 
         actions.push('cloneCaseToProject')
+        actions.push('mergeCase')
 
         return actions
     }

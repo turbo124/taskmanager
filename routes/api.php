@@ -542,5 +542,8 @@ Route::group(
 
         // case categories
         Route::resource('case-categories', 'CaseCategoryController');
+
+        // case templates
+        Route::resource('case_template', 'CaseTemplateController');
     }
 );

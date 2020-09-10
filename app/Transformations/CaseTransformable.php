@@ -33,6 +33,8 @@ trait CaseTransformable
             'user_id'       => (int)$cases->user_id,
             'assigned_to'   => (int)$cases->assigned_to,
             'parent_id'     => (int)$cases->parent_id,
+            'link_type'     => (int)$cases->link_type,
+            'link_value'    => (int)$cases->link_value,
             'status_id'     => (int)$cases->status_id,
             'category_id'   => (int)$cases->category_id,
             'priority_id'   => (int)$cases->priority_id,

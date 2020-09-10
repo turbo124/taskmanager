@@ -1,0 +1,20 @@
+import React from 'react'
+import { Badge } from 'reactstrap'
+import { caseStatusColors, caseStatuses } from '../common/_consts'
+import { translations } from '../common/_translations'
+
+export default function CaseTemplatePresenter (props) {
+    const { field, entity } = props
+
+    const status = !entity.deleted_at
+        ? <Badge color={caseStatusColors[entity.send_on]}>{caseStatuses[entity.send_on]}</Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
+
+    switch (field) {
+        case 'send_on':
+            return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Send On">{status}</td>
+        default:
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
+                data-label={field}>{entity[field]}</td>
+    }
+}

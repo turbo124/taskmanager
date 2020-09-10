@@ -1,6 +1,6 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import { casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../common/_consts'
+import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../common/_consts'
 import { translations } from '../common/_translations'
 import FormatDate from '../common/FormatDate'
 
@@ -19,6 +19,9 @@ export default function CasePresenter (props) {
             return status
         case 'priority_field':
             return priority
+        case 'link_type':
+            return <td>{entity.link_type.toString().length ? caseLinkTypes[entity.link_type] : ''}</td>
+
         case 'status_id':
             return <td onClick={() => props.toggleViewedEntity(entity)} data-label="Status">{status}</td>
         case 'priority_id':

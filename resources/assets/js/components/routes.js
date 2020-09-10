@@ -52,6 +52,7 @@ import Localisation from './accounts/LocalisationSettings'
 import DeviceSettings from './accounts/DeviceSettings'
 import WorkflowSettings from './accounts/WorkflowSettings'
 import Cases from './cases/Cases'
+import CaseTemplates from './case_templates/CaseTemplates'
 import PurchaseOrders from './purchase_orders/PurchaseOrders'
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -333,6 +334,12 @@ const routes = [
         exact: true,
         name: 'Cases List',
         component: Cases
+    },
+    {
+        path: '/case_templates',
+        exact: true,
+        name: 'Case Templates',
+        component: CaseTemplates
     },
     {
         path: '/users/:username',

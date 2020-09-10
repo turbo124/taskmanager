@@ -72,7 +72,8 @@ export const icons = {
     powerpoint_file: 'fa-file-powerpoint-o',
     image_file: 'fa-file-image-o',
     desktop: 'fa-desktop',
-    info: 'fa-info-circle'
+    info: 'fa-info-circle',
+    industry: 'fa-industry'
 }
 
 export function getEntityIcon (entity) {
@@ -92,6 +93,11 @@ export function getEntityIcon (entity) {
         case 'Quote':
         case 'Order':
             return icons.document
+        case 'RecurringInvoice':
+        case 'RecurringQuote':
+            return icons.clone
+        case 'PurchaseOrder':
+            return icons.industry
     }
 }
 

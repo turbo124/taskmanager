@@ -104,6 +104,12 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'default_case_priority'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'string'
+        ],
         'allow_partial_orders'                 => [
             'required'         => false,
             'translated_value' => '',

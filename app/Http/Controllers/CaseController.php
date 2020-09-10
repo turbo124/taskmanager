@@ -147,6 +147,14 @@ class CaseController extends Controller
                 return response()->json($this->transformProject($project));
 
                 break;
+
+            case 'merge_case':
+                if (empty($request->input('parent_id'))) {
+                    return response()->json('You must select a parent');
+                }
+                $case = $case->service()->mergeCase($request, auth()->user());
+                return response()->json($case);
+                break;
         }
     }
 }
