@@ -22,7 +22,7 @@ class AddCaseTemplate extends React.Component {
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-       
+
         this.handleInput = this.handleInput.bind(this)
     }
 
@@ -47,9 +47,11 @@ class AddCaseTemplate extends React.Component {
     }
 
     handleClick () {
-       
-
-        axios.post('/api/case_template', {name: this.state.name, description: this.state.description, send_on: this.state.send_on)
+        axios.post('/api/case_template', {
+            name: this.state.name,
+            description: this.state.description,
+            send_on: this.state.send_on
+        })
             .then((response) => {
                 this.toggle()
                 const newUser = response.data
@@ -62,7 +64,6 @@ class AddCaseTemplate extends React.Component {
                 })
             })
             .catch((error) => {
-                
                 this.setState({
                     errors: error.response.data.errors
                 })

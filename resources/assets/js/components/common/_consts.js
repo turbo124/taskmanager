@@ -88,6 +88,8 @@ export const consts = {
     case_status_draft: 1,
     case_status_open: 2,
     case_status_closed: 3,
+    case_link_type_product: 1,
+    case_link_type_project: 2,
     credit_status_draft_text: 'Draft',
     credit_status_sent_text: 'Sent',
     credit_status_partial_text: 'Partial',
@@ -308,6 +310,11 @@ export const caseStatusColors = {
     [consts.case_status_draft]: 'secondary',
     [consts.case_status_open]: 'primary',
     [consts.case_status_closed]: 'success'
+}
+
+export const caseLinkTypes = {
+    [consts.case_link_type_product]: translations.product,
+    [consts.case_link_type_project]: translations.project
 }
 
 export const casePriorityColors = {

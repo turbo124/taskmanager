@@ -25,6 +25,7 @@ import FileUploads from '../../attachments/FileUploads'
 import Emails from '../../emails/Emails'
 import Contacts from './Contacts'
 import { consts } from '../../common/_consts'
+import Links from './Links'
 
 export default class EditCase extends React.Component {
     constructor (props) {
@@ -101,7 +102,10 @@ export default class EditCase extends React.Component {
             private_notes: this.state.private_notes,
             category_id: this.state.category_id,
             assigned_to: this.state.assigned_to,
-            status_id: this.state.status_id
+            status_id: this.state.status_id,
+            parent_id: this.state.parent_id,
+            link_type: this.state.link_type,
+            link_value: this.state.link_value
         }
     }
 
@@ -240,15 +244,28 @@ export default class EditCase extends React.Component {
                                     model={this.caseModel}
                                     action={this.props.action}/>
 
-                                <Details cases={this.props.cases} customers={this.props.customers}
-                                    errors={this.state.errors}
-                                    hasErrorFor={this.hasErrorFor} case={this.state}
-                                    handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                <Card>
+                                    <CardBody>
+                                        <Details cases={this.props.cases} customers={this.props.customers}
+                                            errors={this.state.errors}
+                                            hasErrorFor={this.hasErrorFor} case={this.state}
+                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                    </CardBody>
+                                </Card>
 
                                 <Contacts handleInput={this.handleInput} case={this.state} errors={this.state.errors}
                                     contacts={this.state.contacts}
                                     invitations={this.state.invitations}
                                     handleContactChange={this.handleContactChange}/>
+
+                                <Card>
+                                    <CardBody>
+                                        <Links cases={this.props.cases} customers={this.props.customers}
+                                            errors={this.state.errors}
+                                            hasErrorFor={this.hasErrorFor} case={this.state}
+                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                    </CardBody>
+                                </Card>
                             </TabPane>
 
                             <TabPane tabId="2">

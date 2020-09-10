@@ -122,6 +122,13 @@ export default class DropdownMenuBuilder extends Component {
                 message = `${translations.case} ${response.number} ${translations.has_been_created}`
             }
 
+            if (action === 'merge_case') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
+                message = `The ${this.props.model.entity} ${translations.case_merged}`
+            }
+
             if (action === 'clone_to_order') {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
@@ -406,6 +413,12 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={13} className="primary"
                                      onClick={() => this.changeStatus('clone_case_to_project')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
+                </DropdownItem>
+
+            case 'mergeCase':
+                return <DropdownItem key={13} className="primary"
+                                     onClick={() => this.changeStatus('merge_case')}>
+                    <i className={`fa ${icons.clone} mr-2`}/>{translations.merge_case}
                 </DropdownItem>
         }
     }

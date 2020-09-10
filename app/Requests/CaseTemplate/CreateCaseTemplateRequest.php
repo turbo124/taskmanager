@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Requests\Brand;
+namespace App\Requests\CaseTemplate;
 
 
 use App\Repositories\Base\BaseFormRequest;

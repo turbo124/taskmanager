@@ -298,6 +298,39 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
+    getCaseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'default_case_priority',
+                    label: translations.default_case_priority,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.low_priority,
+                            text: translations.low
+                        },
+                        {
+                            value: consts.medium_priority,
+                            text: translations.medium
+                        },
+                        {
+                            value: consts.high_priority,
+                            text: translations.high
+                        }
+                    ],
+                    value: settings.default_case_priority,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     handleClose () {
         this.setState({ success: false, error: false })
     }
@@ -384,6 +417,16 @@ export default class WorkflowSettings extends Component {
                                         {translations.purchase_orders}
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '7' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('7')
+                                        }}>
+                                        {translations.cases}
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
                         </CardBody>
                     </Card>
@@ -451,6 +494,17 @@ export default class WorkflowSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPurchaseOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="pr-0 pl-0" tabId="7">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseFields()}
                                 />
                             </CardBody>
                         </Card>

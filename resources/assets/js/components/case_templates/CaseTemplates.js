@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import AddBrand from './edit/AddBrand'
+import AddCaseTemplate from './edit/AddCaseTemplate'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
-import BrandFilters from './BrandFilters'
-import BrandItem from './BrandItem'
+import CaseTemplateFilters from './CaseTemplateFilters'
+import CaseTemplateItem from './CaseTemplateItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
 
@@ -44,7 +44,7 @@ export default class CaseTemplates extends Component {
     }
 
     componentDidMount () {
-        //this.getCustomers()
+        // this.getCustomers()
     }
 
     addUserToState (templates) {
@@ -122,7 +122,7 @@ export default class CaseTemplates extends Component {
     render () {
         const { searchText, status, start_date, end_date } = this.state.filters
         const { view, templates, error, isOpen, error_message, success_message, show_success } = this.state
-        const fetchUrl = `/api/case_templates?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
+        const fetchUrl = `/api/case_template?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
@@ -133,14 +133,16 @@ export default class CaseTemplates extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CaseTemplateFilters setFilterOpen={this.setFilterOpen.bind(this)} templates={templates}
-                                    
+                                <CaseTemplateFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    templates={templates}
+
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterTemplates}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddCaseTemplate
-                                    
+
                                     templates={templates}
                                     action={this.addUserToState}
                                 />
@@ -173,7 +175,7 @@ export default class CaseTemplates extends Component {
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="CaseTemplate"
-                                    bulk_save_url="/api/case_templates/bulk"
+                                    bulk_save_url="/api/case_template/bulk"
                                     view={view}
                                     ignore={this.state.ignoredColumns}
                                     userList={this.userList}

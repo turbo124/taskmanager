@@ -5,6 +5,7 @@ import ProductDropdown from '../common/ProductDropdown'
 import TaskDropdown from '../common/TaskDropdown'
 import ExpenseDropdown from '../common/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
+import { translations } from "./_translations";
 
 class LineItem extends Component {
     constructor (props) {
@@ -56,7 +57,7 @@ class LineItem extends Component {
                     {this.props.line_type === 1 &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
-                            <Label>Product</Label>
+                            <Label>{translations.product}</Label>
                             <ProductDropdown
                                 dataId={index}
                                 renderErrorFor={this.renderErrorFor}

@@ -33,6 +33,8 @@ class Cases extends Model
         'contact_id',
         'assigned_to',
         'parent_id',
+        'link_type',
+        'link_value',
         'custom_value1',
         'custom_value2',
         'custom_value3',
@@ -44,10 +46,15 @@ class Cases extends Model
     const STATUS_DRAFT = 1;
     const STATUS_OPEN = 2;
     const STATUS_CLOSED = 3;
+    const STATUS_MERGED = 4;
 
     const PRIORITY_LOW = 1;
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 3;
+
+    const CASE_LINK_TYPE_PRODUCT = 1;
+    const CASE_LINK_TYPE_PROJECT = 2;
+
 
     private $arrStatuses = [
         1 => 'Draft',

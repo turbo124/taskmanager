@@ -23,7 +23,7 @@ class EditCaseTemplate extends React.Component {
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-       
+        this.handleInput = this.handleInput.bind(this)
     }
 
     handleInput (e) {
@@ -47,11 +47,15 @@ class EditCaseTemplate extends React.Component {
     }
 
     handleClick () {
-       axios.put(`/api/brands/${this.state.id}`, {name: this.state.name, description: this.state.description, send_on: this.state.sent_on)
+        axios.put(`/api/case_template/${this.state.id}`, {
+            name: this.state.name,
+            description: this.state.description,
+            send_on: this.state.send_on
+        })
             .then((response) => {
                 this.toggle()
                 const index = this.props.templates.findIndex(template => template.id === this.state.id)
-                this.props.templates[index] = response
+                this.props.templates[index] = response.data
                 this.props.action(this.props.templates)
             })
             .catch((error) => {
@@ -79,7 +83,7 @@ class EditCaseTemplate extends React.Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_template}/>
 
                     <ModalBody className={theme}>
-                        <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
+                        <Details template={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
                             renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
