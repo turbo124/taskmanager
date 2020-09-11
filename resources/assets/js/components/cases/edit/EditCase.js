@@ -180,7 +180,8 @@ export default class EditCase extends React.Component {
 
     render () {
         const email_editor = this.state.id
-            ? <Emails model={this.caseModel} emails={this.state.emails} template="email_template_case" show_editor={true}
+            ? <Emails width={400} model={this.caseModel} emails={this.state.emails} template="email_template_case"
+                show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="cases"
                 entity_id={this.state.id}/> : null
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'

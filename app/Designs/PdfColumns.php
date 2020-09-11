@@ -196,16 +196,34 @@ class PdfColumns
         );
     }
 
+    private function getTableColumns()
+    {
+        switch ($this->entity_string) {
+            case 'case':
+                return $this->input_variables['case_columns'];
+            case 'task':
+                return $this->input_variables['task_columns'];
+            case 'deal':
+                return $this->input_variables['deal_columns'];
+            default:
+                return $this->input_variables['product_columns'];
+        }
+    }
+
     private function buildTables()
     {
         $this->objPdf->build();
 
-        $product_table = $this->objPdf->buildTable(
-            $this->input_variables['product_columns'],
-            $this->design->product,
-            'product'
-        );
-        $task_table = $this->objPdf->buildTable($this->input_variables['task_columns'], $this->design->task, 'task');
+//        $product_table = $this->objPdf->buildTable(
+//            $this->input_variables['product_columns'],
+//            $this->design->product,
+//            'product'
+//        );
+
+        $task_columns = $this->getTableColumns();
+
+        $task_table = $this->objPdf->buildTable($task_columns, $this->design->task, 'task');
+
         $this->exported_variables['$task_table_header'] = '';
         $this->exported_variables['$product_table_header'] = '';
         $this->exported_variables['$product_table_body'] = '';

@@ -51,7 +51,15 @@ $table_here
         <p>$entity.public_notes</p>
     </div>
 </div>
-<div class="inline-block" style="width: 20%">
+$costs
+</div>
+</div>';
+    }
+
+    public function totals()
+    {
+        return '
+<div class="inline-block" style="width: 30%">
     <div class="px-3 mt-2">
         <div class="col-6 text-right">
             <span style="margin-right: 20px">$discount_label</span> $discount<br>
@@ -79,8 +87,6 @@ $table_here
         <p class="text-right">$balance_due_label</p>
         <p class="text-right">$balance_due</p>
     </section>
-</div>
-</div>
 </div>
 </div>';
     }

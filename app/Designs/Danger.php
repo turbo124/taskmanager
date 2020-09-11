@@ -51,12 +51,30 @@ $table_here
 
 <div class="border-top-4 border-danger">
 <div class="px-4 pb-4" style="margin-top: 70px">
-    <div class="inline-block" style="width: 70%">
+    <div class="inline-block" style="width: 65%">
         <div class="">
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block" style="width: 20%">
+    $costs
+</div>
+<div class="mt-1 pb-4 px-4">
+    <div style="width: 70%">
+        <div>
+            <p class="font-weight-bold">$terms_label</p>
+            <p>$terms</p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+';
+    }
+
+    public function totals()
+    {
+        return '<div class="inline-block" style="width: 30%">
         <div class="px-3 mt-2">
             <div class="col-6 text-left">
                 <span style="margin-right: 80px">$subtotal_label</span> $subtotal <br>
@@ -72,20 +90,7 @@ $table_here
             </p>
             </div>
         </div>
-    </div>
-</div>
-<div class="mt-1 pb-4 px-4">
-    <div style="width: 70%">
-        <div>
-            <p class="font-weight-bold">$terms_label</p>
-            <p>$terms</p>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-';
+    </div>';
     }
 
     public function table()

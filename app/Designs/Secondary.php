@@ -52,7 +52,22 @@ $table_here
             <p>$entity.public_notes</p>
         </div>
     </div>
-    <div class="inline-block px-3 mt-1" style="width: 20%; padding-top: 30px">
+    $costs
+</div>
+<div class="mt-4 pb-4 px-4" style="width: 100%">
+<div class="inline-block" style="width: 70%">
+    <div class="">
+        <p class="font-weight-bold">$terms_label</p>
+        <p>$terms</p>
+    </div>
+</div>
+</div>
+</div>';
+    }
+
+    public function totals()
+    {
+        return '<div class="inline-block px-3 mt-1" style="width: 20%; padding-top: 30px">
             <div class="col-6 text-left">
                 <span style="margin-right: 40px">$discount_label </span>$discount <br>
                 <span style="margin-right: 40px">$tax_label </span>$tax <br>
@@ -65,17 +80,7 @@ $table_here
                 <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
             </p>
             </div>
-    </div>
-</div>
-<div class="mt-4 pb-4 px-4" style="width: 100%">
-<div class="inline-block" style="width: 70%">
-    <div class="">
-        <p class="font-weight-bold">$terms_label</p>
-        <p>$terms</p>
-    </div>
-</div>
-</div>
-</div>';
+    </div>';
     }
 
     public function table()

@@ -9,6 +9,9 @@ use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Models\Project;
+use App\Models\Timer;
+use App\Repositories\TimerRepository;
 use App\Traits\Money;
 use ReflectionClass;
 use ReflectionException;
@@ -235,16 +238,20 @@ class PdfBuilder
 
     public function buildTask(): self
     {
-        $this->data['$task.date'] = ['value' => '', 'label' => trans('texts.date')];
-        $this->data['$task.discount'] = ['value' => '', 'label' => trans('texts.discount')];
-        $this->data['$task.product_key'] = ['value' => '', 'label' => trans('texts.product_name')];
-        $this->data['$task.notes'] = ['value' => '', 'label' => trans('texts.notes')];
-        $this->data['$task.cost'] = ['value' => '', 'label' => trans('texts.cost')];
-        $this->data['$task.quantity'] = ['value' => '', 'label' => trans('texts.quantity')];
-        $this->data['$task.tax_name1'] = ['value' => '', 'label' => trans('texts.tax')];
-        $this->data['$task.tax_name2'] = ['value' => '', 'label' => trans('texts.tax')];
-        $this->data['$task.tax_name3'] = ['value' => '', 'label' => trans('texts.tax')];
-        $this->data['$task.line_total'] = ['value' => '', 'label' => trans('texts.sub_total')];
+        //$this->data['$task.date'] = ['value' => '', 'label' => trans('texts.date')];
+        $this->data['$task.name'] = ['value' => $this->entity->name, 'label' => trans('texts.name')];
+        $this->data['$task.description'] = [
+            'value' => $this->entity->description,
+            'label' => trans('texts.description')
+        ];
+        $this->data['$task.hours'] = ['value' => 4, 'label' => trans('texts.hours')];
+        $this->data['$task.rate'] = ['value' => 4, 'label' => trans('texts.rate')];
+        $this->data['$task.cost'] = ['value' => 4, 'label' => trans('texts.total')];
+
+        if ($this->class === 'deal') {
+            $this->data['$task.value'] = ['value' => $this->entity->valued_at, 'label' => trans('texts.valued_at')];
+        }
+
         return $this;
     }
 
@@ -666,10 +673,6 @@ class PdfBuilder
      */
     public function buildTable($columns, $user_columns = null, string $table_prefix = null): array
     {
-        if (empty($this->line_items)) {
-            return [];
-        }
-
         $labels = $this->getLabels();
         $values = $this->getValues();
 
@@ -686,10 +689,60 @@ class PdfBuilder
 
         $table_row .= '</tr>';
 
-        foreach ($this->line_items as $key => $item) {
+        $item['$task.name'] = $this->entity->name;
+        $item['$task.description'] = $this->entity->description;
+        $item['$task.hours'] = 0;
+        $item['$task.rate'] = 0;
+        $item['$task.cost'] = 0;
+
+        switch ($this->class) {
+            case 'task':
+                $project = !empty($this->entity->project_id) ? Project::where('id', '=', $this->entity->project_id)->first() : false;
+                $duration = (new TimerRepository(new Timer()))->getTotalDuration($this->entity);
+                $budgeted_hours = 0;
+                $task_rate = 0;
+
+                if(!empty($duration)) {
+                    $budgeted_hours = $duration;
+                }
+
+                if (!empty($project)) {
+                   $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
+                   $task_rate = $project->task_rate;
+                }
+
+                $cost = !empty($task_rate) && !empty($budgeted_hours) ? $task_rate * $budgeted_hours : 0;
+
+                $item['$task.hours'] = !empty($budgeted_hours) ? $budgeted_hours : 0;
+                $item['$task.rate'] = !empty($task_rate) ? $task_rate : 0;
+                $item['$task.cost'] = !empty($cost) ? $cost : 0;
+                break;
+            case 'cases':
+                $item['$task.name'] = $this->entity->subject;
+                $item['$task.description'] = $this->entity->message;
+                break;
+            case 'deal':
+                $item['$task.cost'] = $this->entity->valued_at;
+                break;
+            default:
+
+                break;
+        }
+
+        if (in_array($this->class, ['task', 'deal', 'cases'])) {
             $tmp = strtr($table_row, $item);
             $tmp = strtr($tmp, $values);
             $table[$table_prefix]->body .= $tmp;
+        } else {
+            if (empty($this->line_items)) {
+                return [];
+            }
+
+            foreach ($this->line_items as $key => $item) {
+                $tmp = strtr($table_row, $item);
+                $tmp = strtr($tmp, $values);
+                $table[$table_prefix]->body .= $tmp;
+            }
         }
 
         $table[$table_prefix]->header .= '</tr>';
