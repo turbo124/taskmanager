@@ -26,7 +26,7 @@ export default class BaseModel {
     }
 
     handleError (error) {
-        if (error.response.data.message) {
+        if (error.response && error.response.data.message) {
             this.error_message = error.response.data.message
         }
 

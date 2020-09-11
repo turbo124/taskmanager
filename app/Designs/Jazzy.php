@@ -63,7 +63,15 @@ $table_here
         </div>
     </div>
 </div>
-<div class="inline-block" style="width: 20%">
+$costs
+</div>
+</div>
+';
+    }
+
+    public function totals()
+    {
+        return '<div class="inline-block" style="width: 20%">
         <div class="col-6 text-left">
             <span style="margin-right: 60px">$discount_label</span> $discount<br>
             <span style="margin-right: 60px">$tax_label</span> $tax<br>
@@ -76,10 +84,7 @@ $table_here
                 <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
             </p>
         </div>
-</div>
-</div>
-</div>
-';
+</div>';
     }
 
     public function table()

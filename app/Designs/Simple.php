@@ -49,19 +49,7 @@ $table_here
     <div class="inline-block" style="width: 80%">
         $entity.public_notes
     </div>
-    <div class="inline-block" style="width: 20% !important;">
-        <div class="col-6 text-left">
-            <span style="margin-right: 20px"> $discount_label </span> $discount <br>
-            <span style="margin-right: 20px"> $tax_label </span> $tax<br>
-            <span style="margin-right: 20px"> $shipping_cost_label </span> $shipping_cost
-            <span style="margin-right: 20px"> $voucher_label </span> $voucher
-            
-             <p>
-                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
-                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
-            </p>
-        </div>
-    </div>
+    $costs
 </div>
     <div class="px-4 mt-4" style="width: 100%">
         <div class="inline-block" style="width: 80%">
@@ -75,6 +63,23 @@ $table_here
         </div>
     </div>
 </div>';
+    }
+
+    public function totals()
+    {
+        return '<div class="inline-block" style="width: 20% !important;">
+        <div class="col-6 text-left">
+            <span style="margin-right: 20px"> $discount_label </span> $discount <br>
+            <span style="margin-right: 20px"> $tax_label </span> $tax<br>
+            <span style="margin-right: 20px"> $shipping_cost_label </span> $shipping_cost
+            <span style="margin-right: 20px"> $voucher_label </span> $voucher
+            
+             <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
+        </div>
+    </div>';
     }
 
     public function table()

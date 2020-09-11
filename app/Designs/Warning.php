@@ -42,19 +42,7 @@ $table_here
 			        <div class="inline-block" style="width: 70%">
 			            $entity.public_notes
 			        </div>
-			        <div class="inline-block" style="page-break-inside: avoid; width: 20%">
-			            <div class="col-6 text-left" style="page-break-inside: avoid;">
-			            	<span style="margin-right: 20px">$discount_label</span> <span style="margin-left: 16px"> $discount </span> <br>
-			                <span style="margin-right: 20px">$tax_label</span> <span style="margin-left: 16px">$tax</span> <br>
-			                <span style="margin-right: 20px">$shipping_cost_label</span> <span style="margin-left: 16px"> $shipping_cost</span> <br>
-			                <span style="margin-right: 20px">$voucher_label</span> <span style="margin-left: 16px">$voucher</span> <br>
-			                
-			                 <p>
-                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
-                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
-            </p>
-			            </div>
-			        </div>
+			        $costs
 			    </div>
 			    <div class="px-4 mt-4 mt-4 inline-block" style="page-break-inside: avoid; width: 100%">
 			        <div style="page-break-inside: avoid; width: 70%">
@@ -74,6 +62,23 @@ $table_here
 </div>
 </td></tr></tbody><tfoot><tr><td><div class="footer-space"></div></td></tr></tfoot></table>
 ';
+    }
+
+    public function totals()
+    {
+        return '<div class="inline-block" style="page-break-inside: avoid; width: 20%">
+			            <div class="col-6 text-left" style="page-break-inside: avoid;">
+			            	<span style="margin-right: 20px">$discount_label</span> <span style="margin-left: 16px"> $discount </span> <br>
+			                <span style="margin-right: 20px">$tax_label</span> <span style="margin-left: 16px">$tax</span> <br>
+			                <span style="margin-right: 20px">$shipping_cost_label</span> <span style="margin-left: 16px"> $shipping_cost</span> <br>
+			                <span style="margin-right: 20px">$voucher_label</span> <span style="margin-left: 16px">$voucher</span> <br>
+			                
+			                 <p>
+                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
+                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
+            </p>
+			            </div>
+			        </div>';
     }
 
     public function table()

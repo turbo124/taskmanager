@@ -237,7 +237,7 @@ export default class Emails extends Component {
                         <Card>
                             <CardHeader>{translations.pdf}</CardHeader>
                             <CardBody>
-                                <ViewPdf model={this.props.model}/>
+                                <ViewPdf width={this.props.width} model={this.props.model}/>
                             </CardBody>
                         </Card>
                     </TabPane>

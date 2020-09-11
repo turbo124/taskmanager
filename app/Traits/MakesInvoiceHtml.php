@@ -41,7 +41,11 @@ trait MakesInvoiceHtml
 
         $designer->buildDesign();
 
-        $table = $designer->getSection('table');
+        $table = in_array(
+            get_class($entity),
+            ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal']
+        ) ? $designer->getSection('task_table') : $designer->getSection('table');
+
         $settings = $entity->account->settings;
 
         $client_signature = $this->getClientSignature($entity, $contact);
@@ -60,22 +64,30 @@ trait MakesInvoiceHtml
             ) === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
         }
 
-
         $footer = $designer->getSection('footer');
         $footer = str_replace('$signature_here', $signature, $footer);
         $footer = str_replace('$client_signature_here', $client_signature, $footer);
 
         $data = [
-            'entity'   => $entity,
-            'lang'     => $lang,
+            'entity' => $entity,
+            'lang' => $lang,
             'settings' => $settings,
-            'header'   => $designer->getSection('header'),
-            'body'     => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer'   => $footer
+            'header' => $designer->getSection('header'),
+            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer' => $footer
         ];
 
         $html = view('pdf.stub', $data)->render();
         $html = $this->generateCustomCSS($settings, $html);
+
+        if (in_array(
+            get_class($entity),
+            ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal', 'App\Models\Lead']
+        )) {
+            $html = str_replace('$costs', '', $html);
+        } else {
+            $html = str_replace('$costs', $designer->getSection('totals'), $html);
+        }
 
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
