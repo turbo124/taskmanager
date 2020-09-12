@@ -38,6 +38,7 @@ class RecurringQuote extends Model
         'po_number',
         'date',
         'due_date',
+        'grace_period',
         'valid_until',
         'line_items',
         'settings',
