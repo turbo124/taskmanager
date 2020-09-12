@@ -33,6 +33,7 @@ use App\Transformations\TaskTransformable;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -307,9 +308,20 @@ class TaskController extends Controller
      */
     public function action(Request $request, Task $task, $action)
     {
-        if ($action === 'clone_task_to_deal') {
-            $deal = (new DealRepository(new Deal()))->save([], CloneTaskToDealFactory::create($task, auth()->user()));
-            return response()->json($this->transformDeal($deal));
+        switch ($action) {
+            case 'clone_task_to_deal':
+                $deal = (new DealRepository(new Deal()))->save(
+                    [],
+                    CloneTaskToDealFactory::create($task, auth()->user())
+                );
+                return response()->json($this->transformDeal($deal));
+
+            case 'download': //done
+                $disk = config('filesystems.default');
+                $content = Storage::disk($disk)->get($task->service()->generatePdf(null));
+                $response = ['data' => base64_encode($content)];
+                return response()->json($response);
+                break;
         }
     }
 }

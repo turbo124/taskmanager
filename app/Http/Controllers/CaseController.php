@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Factory\CaseFactory;
 use App\Factory\CloneCaseToProjectFactory;
 use App\Filters\CaseFilter;
+use App\Jobs\Utils\UploadFile;
 use App\Models\Cases;
 use App\Models\CompanyToken;
 use App\Models\Customer;
@@ -20,7 +21,8 @@ use App\Transformations\ProjectTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
+use Illuminate\Support\Facades\Storage;
 
 use function request;
 
@@ -88,6 +90,7 @@ class CaseController extends Controller
      */
     public function store(CreateCaseRequest $request)
     {
+        //Log::emergency($request->all());
         $token_sent = request()->bearerToken();
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
@@ -99,9 +102,14 @@ class CaseController extends Controller
             Customer::find($request->customer_id)->first()
         );
 
-        Log::emergency($request->all());
-
         $this->case_repo->createCase($request->all(), $case);
+
+        if ($request->hasFile('file')) {
+            foreach ($request->file('file') as $count => $file) {
+                UploadFile::dispatchNow($file, $user, $account, $case);
+            }
+        }
+
         return response()->json($this->transform($case));
     }
 
@@ -154,6 +162,12 @@ class CaseController extends Controller
                 }
                 $case = $case->service()->mergeCase($request, auth()->user());
                 return response()->json($case);
+                break;
+            case 'download': //done
+                $disk = config('filesystems.default');
+                $content = Storage::disk($disk)->get($case->service()->generatePdf(null));
+                $response = ['data' => base64_encode($content)];
+                return response()->json($response);
                 break;
         }
     }

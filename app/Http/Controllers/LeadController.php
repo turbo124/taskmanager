@@ -153,6 +153,11 @@ class LeadController extends Controller
                 );
                 return response()->json($this->transformDeal($deal));
                 break;
+            case 'download': //done
+                $disk = config('filesystems.default');
+                $content = Storage::disk($disk)->get($lead->service()->generatePdf(null));
+                $response = ['data' => base64_encode($content)];
+                break;
         }
     }
 }

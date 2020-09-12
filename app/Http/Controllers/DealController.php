@@ -23,6 +23,7 @@ use App\Transformations\TaskTransformable;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DealController extends Controller
 {
@@ -156,6 +157,12 @@ class DealController extends Controller
                     []
                 );
                 return response()->json($this->transformLead($lead));
+                break;
+            case 'download': //done
+                $disk = config('filesystems.default');
+                $content = Storage::disk($disk)->get($deal->service()->generatePdf(null));
+                $response = ['data' => base64_encode($content)];
+                return response()->json($response);
                 break;
         }
     }

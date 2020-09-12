@@ -200,7 +200,7 @@ export default class Task extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Overview user={user} customer={customer} recurring={recurring}
-                            totalDuration={formatDuration(this.taskModel.getTotalDuration())}
+                            totalDuration={formatDuration(this.taskModel.duration)}
                             calculatedAmount={this.taskModel.calculateAmount(this.props.entity.task_rate)}
                             entity={this.props.entity} fields={fields} task_times={task_times}/>
                     </TabPane>

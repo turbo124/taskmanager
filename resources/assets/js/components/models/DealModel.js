@@ -81,11 +81,14 @@ export default class DealModel extends BaseModel {
 
         if (!this.fields.deleted_at) {
             actions.push('archive')
+            actions.push('cloneToTask')
+            actions.push('cloneToLead')
+            actions.push('cloneToProject')
         }
 
-        actions.push('cloneToTask')
-        actions.push('cloneToLead')
-        actions.push('cloneToProject')
+        if (this.fields.customer_id.toString().length) {
+            actions.push('pdf')
+        }
 
         return actions
     }
