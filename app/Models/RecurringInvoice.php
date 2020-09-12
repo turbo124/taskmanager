@@ -135,7 +135,8 @@ class RecurringInvoice extends Model
 
     public function setDueDate()
     {
-        $days = (!empty($this->grace_period)) ? $this->grace_period : ((!empty($this->customer->getSetting('payment_terms'))) ? this->customer->getSetting('payment_terms')  : null);
-        $this->due_date = !empty($days) ? Carbon::now()->addDays($days)->format('Y-m-d H:i:s') : null;
+        $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
+            $this->customer->getSetting('payment_terms')
+        )->format('Y-m-d H:i:s') : null;
     }
 }
