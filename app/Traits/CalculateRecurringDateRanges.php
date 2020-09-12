@@ -7,6 +7,11 @@ trait CalculateRecurringDateRanges
 
     public function calculate($start_date, $end_date) {
         $begin = new DateTime($start_date);
+
+        if(empty($end_date) || $endless === true) {
+            $end_date = date('Y-m-d', strtotime('+1 years'));
+        }
+
         $end = new DateTime($end_date);
 
         $interval = DateInterval::createFromDateString('1 day');
