@@ -67,6 +67,10 @@ export default class CaseModel extends BaseModel {
         actions.push('cloneCaseToProject')
         actions.push('mergeCase')
 
+        if (this.fields.customer_id.toString().length) {
+            actions.push('pdf')
+        }
+
         return actions
     }
 

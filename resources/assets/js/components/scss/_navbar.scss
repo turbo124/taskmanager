@@ -84,9 +84,10 @@
 }
 
 /** Dashboard **/
-.dashboard-tabs {
-  top: 60px !important;
-}
+//.dashboard-tabs {
+//  border-top-width: 4px;
+//  top: 60px !important;
+//}
 
 @media(min-width: 1024px) and (max-width: 1200px) {
   .dashboard-tabs {
@@ -231,7 +232,7 @@
 
 .topbar {
   z-index: 999;
-  top: 36px;
+  top: 32px;
   left: 6px;
   width: 100%;
   margin-right: auto;

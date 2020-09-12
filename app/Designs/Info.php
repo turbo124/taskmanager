@@ -27,7 +27,7 @@ class Info
     {
         return '<div class="mt-4 pl-4">
     <div class="inline-block col-6 mr-4" style="width: 40%">
-        <h2 class="text-uppercase font-weight-bolder text-info">$entity_label</h2> $customer_details
+        <h2 class="text-uppercase font-weight-bolder text-info">$pdf_type</h2> $customer_details
     </div>
     <div class="inline-block col-6">
         <div class="bg-info px-4 py-3 text-white">
@@ -36,6 +36,7 @@ class Info
             </div>
         </div>
     </div>
+ 
 </div>
 
 $table_here

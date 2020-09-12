@@ -54,9 +54,9 @@ class Task extends Model
 
     protected $presenter = 'App\Presenters\TaskPresenter';
 
-    public function projects()
+    public function project()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsTo(Project::class);
     }
 
     public function comments()

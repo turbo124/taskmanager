@@ -1813,7 +1813,7 @@ export default class Dashboard extends Component {
         }
 
         return <React.Fragment>
-            <Row className="mt-4">
+            <Row>
                 <Col className="dashboard-content-wrapper" lg={7}>
                     <div className="topbar pl-0 dashboard-tabs">
                         <Card>

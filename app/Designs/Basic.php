@@ -6,28 +6,29 @@ class Basic
 {
     public function header()
     {
-        return ' <div class="px-2 py-4">
+        return '<style>body { padding-leftt: 20px; padding-right: 20px }</style> <div class="px-2 py-4">
 <div>
     $account_logo
     <div class="inline-block" style="word-break: break-word">
         $account_details <br>
         $account_address
     </div>
-</div>
-    <div class="inline-block mr-4 mt-4" style="width: 60%;">
-        <div class="">
-            <section class="">
-                $entity_details
-            </section>
-        </div>
 </div>';
     }
 
     public function body()
     {
-        return '<div class="inline-block">
-    $customer_details
-</div>
+        return '<div class="inline-block mr-4" style="width: 60%;">
+                    $entity_details
+        </div>
+
+        <div class="inline-block">
+            $customer_details
+        </div>
+        
+        <div style="margin-top: 5px; margin-left: 30px">
+            <h2>$pdf_type</h2>
+        </div>
 
 $table_here
 

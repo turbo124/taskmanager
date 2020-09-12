@@ -25,11 +25,10 @@ class Simple
     public function body()
     {
         return '<h1 class="mt-4 text-uppercase text-primary ml-4">
-    $entity_label
+    $pdf_type
 </h1>
 <div class="border-bottom border-secondary"></div>
-<div class="ml-4 py-4">
-    <div class="">
+<div class="ml-4 mb-4">
         <div>
             $entity_labels
         </div>
@@ -39,7 +38,6 @@ class Simple
         <div class="inline-block mt-4">
             $customer_details
         </div>
-    </div>
 </div>
 <div class="border-bottom border-secondary"></div>
 

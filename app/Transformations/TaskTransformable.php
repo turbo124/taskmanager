@@ -49,7 +49,7 @@ trait TaskTransformable
             'public_notes'           => $task->public_notes ?: '',
             'private_notes'          => $task->private_notes ?: '',
             'duration'               => (new TimerRepository(new Timer()))->getTotalDuration($task),
-            'task_rate'              => 1.0,
+            'task_rate'              => !empty($task->project) ? $task->project->task_rate : 0,
             'task_status_sort_order' => (int)$task->task_status_sort_order,
             'files'                  => $this->transformTaskFiles($task->files),
             'emails'                 => $this->transformTaskEmails($task->emails()),

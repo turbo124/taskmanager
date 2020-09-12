@@ -27,7 +27,7 @@ class Secondary
     {
         return '<div class="mt-4">
     <div class="inline-block" style="width: 40%">
-        <span>$entity_label</span>
+        <span>$pdf_type</span>
         <section class="text-warning mt-4">
             $customer_details
         </section>

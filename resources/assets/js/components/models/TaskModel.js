@@ -85,6 +85,10 @@ export default class TaskModel extends BaseModel {
         return this._time_log
     }
 
+    get duration () {
+        return this.fields.duration
+    }
+
     get fields () {
         return this._fields
     }
@@ -115,13 +119,14 @@ export default class TaskModel extends BaseModel {
     }
 
     calculateAmount (taskRate) {
-        const total_duration = this.getTotalDuration()
+        const total_duration = this.duration
 
         if (!total_duration) {
             return 0
         }
 
-        return taskRate * Math.round(total_duration / 3600, 3)
+        const duration = taskRate * total_duration
+        return Math.round(duration, 3)
     }
 
     getTotalDuration () {
@@ -165,9 +170,12 @@ export default class TaskModel extends BaseModel {
 
         if (!this.fields.deleted_at) {
             actions.push('archive')
+            actions.push('cloneTaskToDeal')
         }
 
-        actions.push('cloneTaskToDeal')
+        if (this.fields.customer_id.toString().length) {
+            actions.push('pdf')
+        }
 
         return actions
     }

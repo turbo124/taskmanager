@@ -10,21 +10,23 @@ class Danger
 
     public function header()
     {
-        return '<div class="py-4 px-4 mt-2">
+        return '<div class="py-4 px-4 mt-4">
             <div style="width: 100%">
-                <div class="inline-block mt-4" style="width: 30%">
-                    <div class="inline-block">
+                         
+                <div class="inline-block" style="width: 80%">
+                    <div class="inline-block" style="width: 30%">
                         $customer_details
                     </div>
-                    <div class="inline-block ml-4">
+                    <div class="inline-block" style="width: 30%; margin-right: 60px">
                         $account_details
                     </div>
-                    <div class="inline-block ml-4 mr-4">
-                        $account_address
+                    
+                    <div class="inline-block" style="width: 30%; margin-right: 60px">
+                         $account_address
                     </div>
                 </div>
                 
-                <div class="mt-4" style="width: 60%">
+                <div class="inline-block" style="width: 10%">
     $account_logo
     </div>
 </div>';
@@ -34,8 +36,7 @@ class Danger
     {
         return '<div class="mt-4">
 <div class="inline-block" style="width: 60%">
-    <h1 class="text-uppercase font-weight-bold">$entity_label</h1>
-    <i class="ml-4 text-danger">$entity_number</i>
+    <h1 class="text-uppercase font-weight-bold">$pdf_type</h1>
 </div>
 <div class="inline-block text-left" style="width: 30%">
     <div class="inline-block">
