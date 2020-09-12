@@ -5,23 +5,24 @@ namespace App\Traits;
 trait CalculateRecurringDateRanges
 {
 
-    public function calculate($start_date, $end_date) {
-        $begin = new DateTime($start_date);
+    public function calculate() {
+        $begin = new DateTime($this->start_date);
 
-        if(empty($end_date) || $endless === true) {
-            $end_date = date('Y-m-d', strtotime('+1 years'));
+        if(empty($this->end_date) || $endless === true) {
+            $this->end_date = date('Y-m-d', strtotime('+1 years'));
         }
 
-        $end = new DateTime($end_date);
+        $end = new DateTime($this->end_date);
 
-        $interval = DateInterval::createFromDateString('1 day');
+        $interval = DateInterval::createFromDateString($this->frequency . ' day');
         $period = new DatePeriod($begin, $interval, $end);
 
         $date_ranges = [];
 
         foreach ($period as $dt) {
             $date_ranges[] = [
-                'next_send_date' => $dt->format("l Y-m-d H:i:s\n"),
+                'start_date' => $dt->format("l Y-m-d H:i:s\n"),
+                'next_send_date' => null,
                 'due_date' => $this->calculateDueDate()
             ];
         }
