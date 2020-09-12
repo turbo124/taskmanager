@@ -27,9 +27,9 @@ trait CalculateRecurringDateRanges
         }
     }
 
-    private function calculateDueDate()
+    private function calculateDueDate($end_date)
     {
         $days = (!empty($this->grace_period)) ? $this->grace_period : ((!empty($this->customer->getSetting('payment_terms'))) ? this->customer->getSetting('payment_terms')  : null);
-        return !empty($days) ? Carbon::now()->addDays($days)->format('Y-m-d H:i:s') : null;
+        return !empty($days) ? Carbon($end_date)->addDays($days)->format('Y-m-d H:i:s') : null;
     }
 }
