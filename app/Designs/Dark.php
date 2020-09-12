@@ -7,8 +7,8 @@ class Dark
 
     public function header()
     {
-        return '<div class="py-4 px-4">
-<div class="border-4 border-dark mb-4">
+        return '<div class="pt-4 px-4">
+<div class="border-4 border-dark">
     <div class="inline-block mt-2" style="margin-bottom: 15px; width: 60%; margin-top: 20px;">
         $account_logo
     </div>
@@ -21,7 +21,7 @@ class Dark
         </div>
     </div>
 </div>
-<div class="border-bottom border-dark mt-1"></div>';
+<div class="border-bottom border-dark"></div>';
     }
 
     public function body()
@@ -41,6 +41,10 @@ $account_address
 </div>
 
 </div>
+
+<div style="margin-top: 5px; margin-left: 30px">
+            <h2>$pdf_type</h2>
+        </div>
 
 $table_here
 

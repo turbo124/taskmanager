@@ -30,7 +30,7 @@ class Happy
         return '<div class="mt-4 border-dashed border-top-4 border-bottom-4 border-info">
 <div class="inline-block" style="width: 50%">
     <div>
-        <p class="font-weight-bold bg-info pl-4">$entity_label</p>
+        <p class="font-weight-bold bg-info pl-4 pt-4 pb-4">$pdf_type</p>
         <div class="py-4 mt-4 pl-4">
             <section>
                 $customer_details
@@ -41,7 +41,7 @@ class Happy
 <div class="inline-block col-6 ml-4" style="width: 40%">
     <div>
         <p class="font-weight-bold text-info pl-4">$from_label:</p>
-        <div class="border-dashed border-top-4 border-bottom-4 border-info py-4 mt-2 pl-4">
+        <div class="border-dashed border-top-4 border-bottom-4 border-info pl-4">
             <section>
                 $account_details
             </section>

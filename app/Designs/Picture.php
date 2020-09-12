@@ -43,6 +43,10 @@ class Picture
 </div>
 </div>
 
+<div style="margin-top: 5px; margin-left: 30px">
+            <h2>$pdf_type</h2>
+        </div>
+
 $table_here
 
 <div class="px-4 pb-4" style="margin-top: 80px">

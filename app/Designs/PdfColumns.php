@@ -214,13 +214,13 @@ class PdfColumns
     {
         $this->objPdf->build();
 
-//        $product_table = $this->objPdf->buildTable(
-//            $this->input_variables['product_columns'],
-//            $this->design->product,
-//            'product'
-//        );
-
         $task_columns = $this->getTableColumns();
+
+        $product_table = $this->objPdf->buildTable(
+            $task_columns,
+            $this->design->product,
+            'product'
+        );
 
         $task_table = $this->objPdf->buildTable($task_columns, $this->design->task, 'task');
 

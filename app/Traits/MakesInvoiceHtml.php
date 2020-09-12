@@ -69,12 +69,12 @@ trait MakesInvoiceHtml
         $footer = str_replace('$client_signature_here', $client_signature, $footer);
 
         $data = [
-            'entity' => $entity,
-            'lang' => $lang,
+            'entity'   => $entity,
+            'lang'     => $lang,
             'settings' => $settings,
-            'header' => $designer->getSection('header'),
-            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer' => $footer
+            'header'   => $designer->getSection('header'),
+            'body'     => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer'   => $footer
         ];
 
         $html = view('pdf.stub', $data)->render();
@@ -89,12 +89,21 @@ trait MakesInvoiceHtml
             $html = str_replace('$costs', $designer->getSection('totals'), $html);
         }
 
+        $entity_class = (new ReflectionClass($entity))->getShortName();
+
+
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
+        $html = str_replace('$pdf_type', ucfirst($entity_class), $html);
+        $html = str_replace('$entity_number', $entity->number, $html);
+
 
         if (empty($entity->voucher_code)) {
             $html = str_replace(['$voucher_label', '$voucher'], '', $html);
         }
+
+//        echo $html;
+//        die;
 
         return $html;
     }
@@ -143,8 +152,10 @@ trait MakesInvoiceHtml
         if ($settings->all_pages_header && $settings->all_pages_footer) {
             $html = str_replace('header_class', 'header', $html);
             $html = str_replace('footer_class', 'footer', $html);
+            $html = str_replace('header-space', 'header-margin', $html);
         } elseif ($settings->all_pages_header && !$settings->all_pages_footer) {
             $html = str_replace('header_class', 'header', $html);
+            $html = str_replace('header-space', 'header-margin', $html);
         } elseif (!$settings->all_pages_header && $settings->all_pages_footer) {
             $html = str_replace('footer_class', 'footer', $html);
         }

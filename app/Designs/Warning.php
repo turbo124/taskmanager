@@ -24,16 +24,19 @@ class Warning
 
     public function body()
     {
-        return '<table class="container"><thead><tr><td><div class="header-space"></div></td></tr></thead>
-<tbody><tr><td>
-<div class="px-4 pt-4" style="width: 100%">
-    <div class="inline-block p-3" style="width: 50%">
-		$account_logo
-	</div>
-    <div class="inline-block" style="width: 40%">
-		$customer_details
-    </div>
+        return '<div class="px-4 pt-4 header-space" style="width: 100%">
+            <div class="inline-block p-3" style="width: 50%">
+                $account_logo
+            </div>
+            <div class="inline-block" style="width: 40%">
+                $customer_details
+            </div>
+        </div>
+
+<div style="margin-top: 5px; float: left; margin-left: 30px">
+<h2>$pdf_type</h2>
 </div>
+
 <div class="px-4 pt-4 pb-4">
 
 $table_here
@@ -60,7 +63,7 @@ $table_here
 			        </div>
 			    </div>
 </div>
-</td></tr></tbody><tfoot><tr><td><div class="footer-space"></div></td></tr></tfoot></table>
+<div class="footer-space"></div>
 ';
     }
 

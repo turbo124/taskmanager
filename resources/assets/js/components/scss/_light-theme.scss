@@ -181,18 +181,18 @@ body {
 
 @media(min-width: 768px) and(max-width: 1024px) {
   .topbar {
-    top: 36px !important;
+    top: 32px !important;
   }
   .app-body {
     margin-top: 5px !important;
   }
 }
 
-@media(max-width: 768px) {
-  .topbar {
-    top: 42px !important;
-  }
-}
+//@media(max-width: 768px) {
+//  .topbar {
+//    top: 42px !important;
+//  }
+//}
 
 .disable-scrollbars {
   scrollbar-width: none;
@@ -217,6 +217,10 @@ body {
 }
 
 .light-theme {
+  .topbar {
+    border-top: 3px solid #e4e5e6;
+  }
+
   .status-dropdown {
     text-align: left;
     padding-left: 20px;

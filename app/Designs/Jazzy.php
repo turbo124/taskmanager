@@ -33,7 +33,7 @@ class Jazzy
     public function body()
     {
         return '<div class="mx-4 mt-4">
-<h1 class="font-weight-bold text-uppercase">$entity_label</h1>
+<h1 class="font-weight-bold text-uppercase">$pdf_type</h1>
 <div class="mt-1">
     <span class="font-weight-bold text-uppercase text-info">$entity_number</span>
     <div class="inline-block ml-4">
