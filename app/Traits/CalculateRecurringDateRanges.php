@@ -17,8 +17,19 @@ trait CalculateRecurringDateRanges
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($begin, $interval, $end);
 
+        $date_ranges = [];
+
         foreach ($period as $dt) {
-            echo $dt->format("l Y-m-d H:i:s\n");
+            $date_ranges[] = [
+                'next_send_date' => $dt->format("l Y-m-d H:i:s\n"),
+                'due_date' => $this->calculateDueDate()
+            ];
         }
+    }
+
+    private function calculateDueDate()
+    {
+        $days = (!empty($this->grace_period)) ? $this->grace_period : ((!empty($this->customer->getSetting('payment_terms'))) ? this->customer->getSetting('payment_terms')  : null);
+        return !empty($days) ? Carbon::now()->addDays($days)->format('Y-m-d H:i:s') : null;
     }
 }
