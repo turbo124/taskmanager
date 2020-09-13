@@ -28,6 +28,7 @@ trait RecurringQuoteTransformable
             'start_date'          => $quote->start_date ?: '',
             'end_date'            => $quote->end_date ?: '',
             'frequency'           => (int)$quote->frequency,
+            'grace_period'        => (int)$quote->grace_period,
             'total'               => $quote->total,
             'sub_total'           => $quote->sub_total,
             'tax_total'           => $quote->tax_total,
