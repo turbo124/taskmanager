@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models;
 use App\Services\RecurringInvoice\RecurringInvoiceService;
+use App\Traits\CalculateRecurringDateRanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -14,6 +15,7 @@ use Illuminate\Support\Carbon;
 class RecurringInvoice extends Model
 {
     use SoftDeletes;
+    use CalculateRecurringDateRanges;
 
     /**
      * Invoice Statuses

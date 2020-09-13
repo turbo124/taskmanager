@@ -129,7 +129,6 @@ Route::group(
                 Route::post('order/{order}/{action}', 'OrderController@action')->name('invoices.action');
 
 // uploads
-                Route::post('uploads', 'UploadController@store');
                 Route::get('uploads/{entity}/{entity_id}', 'UploadController@index');
                 Route::delete('uploads/{file_id}', 'UploadController@destroy');
 
@@ -545,5 +544,7 @@ Route::group(
 
         // case templates
         Route::resource('case_template', 'CaseTemplateController');
+
+        Route::post('uploads', 'UploadController@store');
     }
 );
