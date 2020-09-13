@@ -375,7 +375,9 @@ class EditInvoice extends Component {
             shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations,
             gateway_fee: this.state.gateway_fee,
-            gateway_percentage: this.state.gateway_percentage
+            gateway_percentage: this.state.gateway_percentage,
+            grace_period: this.state.grace_period,
+            auto_billing_enabled: this.state.auto_billing_enabled
         }
     }
 
