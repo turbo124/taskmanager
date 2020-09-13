@@ -14,7 +14,8 @@ class File extends Model
         'name',
         'file_path',
         'user_id',
-        'account_id'
+        'account_id',
+        'uploaded_by_customer'
     ];
 
     /**
