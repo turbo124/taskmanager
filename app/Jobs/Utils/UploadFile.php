@@ -31,6 +31,8 @@ class UploadFile implements ShouldQueue
      */
     protected Account $account;
 
+    protected $uploaded_by_customer;
+
     public $entity;
 
     /**
@@ -40,12 +42,13 @@ class UploadFile implements ShouldQueue
      * @param Account $account
      * @param $entity
      */
-    public function __construct($file, User $user, Account $account, $entity)
+    public function __construct($file, User $user, Account $account, $entity, $uploaded_by_customer = false)
     {
         $this->file = $file;
         $this->user = $user;
         $this->account = $account;
         $this->entity = $entity;
+        $this->uploaded_by_customer = $uploaded_by_customer;
     }
 
     /**
@@ -78,6 +81,7 @@ class UploadFile implements ShouldQueue
         $file->type = $extension;
         $file->width = $width;
         $file->height = $height;
+        $file->uploaded_by_customer = $uploaded_by_customer;
 
         $this->entity->files()->save($file);
 
