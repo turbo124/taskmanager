@@ -56,13 +56,14 @@ class UploadController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
         $user = $token->user;
+        $uploaded_by_customer = !empty($request->input('uploaded_by_customer')) ? true : false;
 
         $arrAddedFiles = [];
 
         if ($request->hasFile('file')) {
             foreach ($request->file('file') as $count => $file) {
 
-                $file = UploadFile::dispatchNow($file, $user, $account, $obj);
+                $file = UploadFile::dispatchNow($file, $user, $account, $obj, $uploaded_by_customer);
 
                 $arrAddedFiles[$count] = $file;
                 $arrAddedFiles[$count]['user'] = $user->toArray();
