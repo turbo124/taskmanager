@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Input, Label } from 'reactstrap'
+import { FormGroup, Input, Label, CustomInput } from 'reactstrap'
 import { translations } from '../../common/_translations'
 import Datepicker from '../../common/Datepicker'
 
@@ -49,7 +49,32 @@ export default function Recurring (props) {
                     id='grace_period'
                     onChange={props.handleInput}
                 />
+
+                <h6 id="passwordHelpBlock" className="form-text text-muted">
+                    Help text here
+                </h6>
             </FormGroup>
+
+             <a href="#"
+                className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">
+                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={field.icon}/>
+                        {translations.auto_billing_enabled}
+                    </h5>
+                    <CustomInput
+                        checked={props.recurring_invoice.auto_billing_enabled}
+                        type="switch"
+                        id="auto_billing_enabled"
+                        name="auto_billing_enabled"
+                        label=""
+                        onChange={this.props.handleInput}/>
+                </div>
+                
+                <h6 id="passwordHelpBlock" className="form-text text-muted">
+                    Help text here
+                </h6>
+            </a>
         </React.Fragment>
 
     )
