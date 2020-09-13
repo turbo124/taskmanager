@@ -38,6 +38,18 @@ export default function Recurring (props) {
                     onChange={props.handleInput}
                 />
             </FormGroup>
+
+            <FormGroup>
+                <Label>{translations.frequency}</Label>
+                <Input
+                    value={props.recurring_quote.grace_period}
+                    type='text'
+                    name='grace_period'
+                    placeholder="Days"
+                    id='grace_period'
+                    onChange={props.handleInput}
+                />
+            </FormGroup>
         </React.Fragment>
 
     )
