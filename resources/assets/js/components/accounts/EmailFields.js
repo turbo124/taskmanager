@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import FormBuilder from './FormBuilder'
 import { translations } from '../common/_translations'
-import { consts } from '../common/_consts'
+import { consts, frequencyOptions } from '../common/_consts'
 
 class EmailFields extends Component {
     constructor (props) {
@@ -19,6 +19,18 @@ class EmailFields extends Component {
 
     getFormFields (key = null) {
         const settings = this.props.settings
+        const frequencies = []
+
+        Object.keys(frequencyOptions).map((frequency) => {
+            console.log('frequency', frequency)
+            frequencies.push(
+                {
+                    value: frequency,
+                    text: translations[frequencyOptions[frequency]]
+                }
+            )
+        })
+
         const formFields = {
             email_template_invoice: {
                 name: 'Invoice',
@@ -362,56 +374,7 @@ class EmailFields extends Component {
                         name: 'endless_reminder_frequency_id',
                         label: 'Schedule',
                         type: 'select',
-                        options: [
-                            {
-                                value: '1',
-                                text: 'Daily'
-                            },
-                            {
-                                value: '2',
-                                text: 'Weekly'
-                            },
-                            {
-                                value: '3',
-                                text: 'Every 2 weeks'
-                            },
-                            {
-                                value: '4',
-                                text: 'Every 4 weeks'
-                            },
-                            {
-                                value: '5',
-                                text: 'Monthly'
-                            },
-                            {
-                                value: '6',
-                                text: 'Every 2 months'
-                            },
-                            {
-                                value: '7',
-                                text: 'Every 3 months'
-                            },
-                            {
-                                value: '8',
-                                text: 'Every 4 months'
-                            },
-                            {
-                                value: '9',
-                                text: 'Every 6 months'
-                            },
-                            {
-                                value: '10',
-                                text: 'Annually'
-                            },
-                            {
-                                value: '11',
-                                text: 'Every 2 years'
-                            },
-                            {
-                                value: '12',
-                                text: 'Every 3 years'
-                            }
-                        ],
+                        options: frequencies,
                         value: settings.endless_reminder_frequency_id
                     },
                     {

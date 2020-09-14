@@ -27,6 +27,11 @@ class RecurringQuoteService extends ServiceBase
         $this->quote = $quote;
     }
 
+    public function generatePdf($contact = null, $update = false)
+    {
+        return (new GeneratePdf($this->invoice, $contact, $update))->execute();
+    }
+
     public function calculateInvoiceTotals(): RecurringQuote
     {
         return $this->calculateTotals($this->quote);

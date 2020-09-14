@@ -49,6 +49,7 @@ export default class Contact extends Component {
 
     render () {
         const { contacts } = this.state
+
         return contacts.length ? (
             <Form>
                 <ContactInputs handleChange={this.handleChange} contacts={contacts} removeContact={this.removeContact}/>

@@ -58,6 +58,11 @@ export default class GatewayModel extends BaseModel {
         return actions
     }
 
+    set gateway_ids (ids) {
+        this.settings.company_gateway_ids = ids
+        this.fields.company_gateways_ids = ids
+    }
+
     get gateway_ids () {
         return this.settings.company_gateway_ids || ''
     }

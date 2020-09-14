@@ -1,5 +1,9 @@
 const _localizedValues = []
 _localizedValues.en = {
+    auto_billing_enabled: 'Autobilling Enabled',
+    auto_billing_enabled_help_text: 'Should autimatically bill customer',
+    grace_period: 'Grace Period',
+    grace_period_help_text: 'How many days to allow customer to pay after sending email',
     new: 'New',
     open: 'Open',
     closed: 'Closed',
@@ -167,6 +171,8 @@ _localizedValues.en = {
     total: 'Total',
     paid_to_date: 'Paid To Date',
     balance: 'Balance',
+    copy_shipping: 'Copy Shipping',
+    copy_billing: 'Copy Billing',
     billing_address: 'Billing Address',
     shipping_address: 'Shipping Address',
     number: 'Number',
@@ -576,7 +582,19 @@ _localizedValues.en = {
     convert_product_currency_help_text: 'Automatically convert product prices to customer currency',
     has_minimum_quantity: 'Has minimum line item quantity',
     has_minimum_quantity_help_text: 'Automatically set the line item quantity to 1',
-    return_to_stock: 'Return to Stock'
+    return_to_stock: 'Return to Stock',
+    frequency_daily: 'Daily',
+    frequency_weekly: 'Weekly',
+    frequency_two_weeks: 'Two Weeks',
+    frequency_four_weeks: 'Four Weeks',
+    frequency_monthly: 'Monthly',
+    frequency_two_months: 'Two Months',
+    frequency_three_months: 'Three Months',
+    frequency_four_months: 'Four Months',
+    frequency_six_months: 'Six Months',
+    frequency_annually: 'Annually',
+    frequency_two_years: 'Two Years',
+    frequency_three_years: 'Three Years'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

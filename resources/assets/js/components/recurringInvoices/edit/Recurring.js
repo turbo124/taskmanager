@@ -2,6 +2,8 @@ import React from 'react'
 import { FormGroup, Input, Label, CustomInput } from 'reactstrap'
 import { translations } from '../../common/_translations'
 import Datepicker from '../../common/Datepicker'
+import { icons } from '../../common/_icons'
+import { frequencyOptions } from "../../common/_consts";
 
 export default function Recurring (props) {
     return (
@@ -31,16 +33,20 @@ export default function Recurring (props) {
                 <Label>{translations.frequency}</Label>
                 <Input
                     value={props.recurring_invoice.frequency}
-                    type='text'
+                    type='select'
                     name='frequency'
                     placeholder="Days"
                     id='frequency'
                     onChange={props.handleInput}
-                />
+                >
+                    {Object.keys(frequencyOptions).map((frequency) => (
+                        <option value={frequency}>{translations[frequencyOptions[frequency]]}</option>
+                    ))}
+                </Input>
             </FormGroup>
 
             <FormGroup>
-                <Label>{translations.frequency}</Label>
+                <Label>{translations.grace_period}</Label>
                 <Input
                     value={props.recurring_invoice.grace_period}
                     type='text'
@@ -51,15 +57,15 @@ export default function Recurring (props) {
                 />
 
                 <h6 id="passwordHelpBlock" className="form-text text-muted">
-                    Help text here
+                    {translations.grace_period_help_text}
                 </h6>
             </FormGroup>
 
-             <a href="#"
+            <a href="#"
                 className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">
-                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={field.icon}/>
+                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
                         {translations.auto_billing_enabled}
                     </h5>
                     <CustomInput
@@ -68,11 +74,11 @@ export default function Recurring (props) {
                         id="auto_billing_enabled"
                         name="auto_billing_enabled"
                         label=""
-                        onChange={this.props.handleInput}/>
+                        onChange={props.handleInput}/>
                 </div>
-                
+
                 <h6 id="passwordHelpBlock" className="form-text text-muted">
-                    Help text here
+                    {translations.auto_billing_enabled_help_text}
                 </h6>
             </a>
         </React.Fragment>

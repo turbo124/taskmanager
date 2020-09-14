@@ -37,6 +37,7 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import CustomerModel from '../../models/CustomerModel'
+import Emails from '../../emails/Emails'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -537,12 +538,11 @@ class EditInvoice extends Component {
 
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
-        // const email_editor = this.state.id
-        //     ? <Emails emails={this.state.emails} template="email_template_quote" show_editor={true}
-        //         customers={this.props.customers} entity_object={this.state} entity="recurringQuote"
-        //         entity_id={this.state.id}/> : null
-
-        const email_editor = null
+        const email_editor = this.state.id
+            ? <Emails model={this.quoteModel} emails={this.state.emails} template="email_template_quote"
+                show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="recurringQuote"
+                entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
             ? <DropdownMenuBuilder invoices={this.props.invoices}

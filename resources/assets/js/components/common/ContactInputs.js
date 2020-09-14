@@ -24,7 +24,8 @@ export default class ContactInputs extends Component {
     }
 
     render () {
-        const { contacts, collapse } = this.state
+        const { collapse } = this.state
+        const { contacts } = this.props
 
         return (
             <div className="container">

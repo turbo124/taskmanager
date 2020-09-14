@@ -20,7 +20,7 @@ trait CalculateRecurringDateRanges
 
         // Variable that store the date interval
         // of period 1 day
-        $interval = new \DateInterval('P30D');
+        $interval = new \DateInterval('P' . $this->frequency . 'D');
 
         $realEnd = new \DateTime($this->end_date);
 

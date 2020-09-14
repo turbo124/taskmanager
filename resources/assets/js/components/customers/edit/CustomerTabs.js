@@ -337,8 +337,7 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.billing_address}</CardHeader>
                         <CardBody>
                             <AddressForm errors={errors} onChange={setBilling} customer={billing}/>
-                            <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>Copy
-                                Shipping</Button>
+                            <Button className="mt-2" onClick={copyShipping} color="primary" size="lg" block>{translations.copy_shipping}</Button>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -347,8 +346,7 @@ export default function CustomerTabs (props) {
                         <CardHeader>{translations.shipping_address}</CardHeader>
                         <CardBody>
                             <AddressForm onChange={setShipping} customer={shipping}/>
-                            <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>Copy
-                                Billing</Button>
+                            <Button className="mt-2" onClick={copyBilling} color="primary" size="lg" block>{translations.copy_billing}</Button>
                         </CardBody>
                     </Card>
                 </TabPane>

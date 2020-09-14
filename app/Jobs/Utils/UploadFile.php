@@ -81,7 +81,7 @@ class UploadFile implements ShouldQueue
         $file->type = $extension;
         $file->width = $width;
         $file->height = $height;
-        $file->uploaded_by_customer = $uploaded_by_customer;
+        $file->uploaded_by_customer = $this->uploaded_by_customer;
 
         $this->entity->files()->save($file);
 

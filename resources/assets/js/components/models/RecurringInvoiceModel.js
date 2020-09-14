@@ -25,7 +25,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             end_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-            frequency: 1,
+            frequency: 30,
             grace_period: 0,
             is_mobile: window.innerWidth <= 768,
             modalOpen: false,
