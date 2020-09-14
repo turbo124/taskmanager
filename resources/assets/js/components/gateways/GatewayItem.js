@@ -4,8 +4,8 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditGateway from './edit/EditGateway'
-import { Input } from 'reactstrap'
-import GatewayPresenter from '../presenters/GatewayPresenter'
+import { Input, Row, Col } from 'reactstrap'
+import { ReactSortable } from 'react-sortablejs'
 
 export default class GatewayItem extends Component {
     constructor (props) {
@@ -30,50 +30,76 @@ export default class GatewayItem extends Component {
     }
 
     render () {
-        const { customer_id, group_id, gateways, ignoredColumns, customers } = this.props
-        if (gateways && gateways.length) {
-            return gateways.map(gateway => {
-                const restoreButton = gateway.deleted_at
-                    ? <RestoreModal id={gateway.id} entities={gateways} updateState={this.props.addUserToState}
-                        url={`/api/gateways/restore/${gateway.id}`}/> : null
-                const deleteButton = !gateway.deleted_at
-                    ? <DeleteModal archive={false} deleteFunction={this.deleteGateway} id={gateway.id}/> : null
-                const archiveButton = !gateway.deleted_at
-                    ? <DeleteModal archive={true} deleteFunction={this.deleteGateway} id={gateway.id}/> : null
+        const { customer_id, group_id, gateways, ignoredColumns, customers, gateway_ids } = this.props
 
-                const editButton = !gateway.deleted_at ? <EditGateway
-                    customer_id={customer_id}
-                    group_id={group_id}
-                    gateways={gateways}
-                    customers={customers}
-                    gateway={gateway}
-                    action={this.props.addUserToState}
-                /> : null
+        const gateway_list = []
 
-                const columnList = Object.keys(gateway).filter(key => {
-                    return ignoredColumns && !ignoredColumns.includes(key)
-                }).map(key => {
-                    return <GatewayPresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={gateway}/>
+        if (gateway_ids.length && gateways.length) {
+            gateway_ids.map(item => {
+                const gateway = gateways.filter(gateway => parseInt(gateway.id) === parseInt(item))
+
+                gateway_list.push({
+                    name: gateway[0].name,
+                    id: gateway[0].id,
+                    deleted_at: gateway[0].deleted_at
                 })
-
-                const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(gateway.id)
-                const selectedRow = this.props.viewId === gateway.id ? 'table-row-selected' : ''
-                const actionMenu = this.props.showCheckboxes !== true
-                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                        restore={restoreButton}/> : null
-
-                return <tr className={selectedRow} key={gateway.id}>
-                    <td>
-                        <Input checked={isChecked} className={checkboxClass} value={gateway.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        {actionMenu}
-                    </td>
-                    {columnList}
-                </tr>
             })
+        }
+
+        if (gateways && gateways.length && gateway_ids.length) {
+            const gateway_item = gateway_list.length
+                ? <ReactSortable
+                    tag="ul"
+                    className="list-group"
+                    list={gateway_list}
+                    setList={this.props.setList}
+                >
+                    {gateway_list.map(item => {
+                        let gateway = gateways.filter(gateway => parseInt(gateway.id) === parseInt(item.id))
+                        gateway = gateway[0]
+
+                        const restoreButton = gateway.deleted_at
+                            ? <RestoreModal id={gateway.id} entities={gateways} updateState={this.props.addUserToState}
+                                url={`/api/gateways/restore/${gateway.id}`}/> : null
+                        const deleteButton = !gateway.deleted_at
+                            ? <DeleteModal archive={false} deleteFunction={this.deleteGateway} id={gateway.id}/> : null
+                        const archiveButton = !gateway.deleted_at
+                            ? <DeleteModal archive={true} deleteFunction={this.deleteGateway} id={gateway.id}/> : null
+
+                        const editButton = !gateway.deleted_at ? <EditGateway
+                            customer_id={customer_id}
+                            group_id={group_id}
+                            gateways={gateways}
+                            customers={customers}
+                            gateway={gateway}
+                            action={this.props.addUserToState}
+                        /> : null
+
+                        const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
+                        const isChecked = this.props.bulk.includes(gateway.id)
+                        const selectedRow = this.props.viewId === gateway.id ? 'table-row-selected' : ''
+                        const actionMenu = this.props.showCheckboxes !== true
+                            ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                                restore={restoreButton}/> : null
+
+                        return <li key={item.id} className="list-group-item d-flex align-items-center">
+                            <div>
+                                <Input style={{ marginLeft: '8px' }} checked={isChecked} className={checkboxClass} value={gateway.id} type="checkbox"
+                                    onChange={this.props.onChangeBulk}/>
+                                {actionMenu}
+                            </div>
+
+                            <h4 style={{ marginLeft: '40px' }}
+                                onClick={() => this.props.toggleViewedEntity(gateway, gateway.name)}>{item.name} </h4>
+                        </li>
+                    })}
+                </ReactSortable> : null
+
+            return <Row className="mt-2 mb-2">
+                <Col sm={8}>
+                    {gateway_item}
+                </Col>
+            </Row>
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

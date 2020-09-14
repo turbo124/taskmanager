@@ -332,19 +332,21 @@ export default class DataTable extends Component {
 
         const table_dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' || false
 
-        const table = <Table className={table_class} responsive striped bordered hover dark={table_dark}>
+        const list = this.props.userList({
+            bulk: this.state.bulk,
+            ignoredColumns: this.state.ignoredColumns,
+            toggleViewedEntity: this.toggleViewedEntity,
+            viewId: this.state.view.viewedId ? this.state.view.viewedId.id : null,
+            showCheckboxes: this.state.showCheckboxes,
+            onChangeBulk: this.onChangeBulk
+        })
+
+        const table = !this.props.hide_table ? <Table className={table_class} responsive striped bordered hover dark={table_dark}>
             {tableSort}
             <tbody>
-                {this.props.userList({
-                    bulk: this.state.bulk,
-                    ignoredColumns: this.state.ignoredColumns,
-                    toggleViewedEntity: this.toggleViewedEntity,
-                    viewId: this.state.view.viewedId ? this.state.view.viewedId.id : null,
-                    showCheckboxes: this.state.showCheckboxes,
-                    onChangeBulk: this.onChangeBulk
-                })}
+                {list}
             </tbody>
-        </Table>
+        </Table> : list
 
         return (
             <React.Fragment>
