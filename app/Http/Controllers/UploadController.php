@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\Utils\UploadFile;
+use App\Models\CompanyToken;
 use App\Models\File;
 use App\Repositories\FileRepository;
 use App\Repositories\Interfaces\FileRepositoryInterface;
@@ -13,6 +14,7 @@ use App\Transformations\FileTransformable;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UploadController extends Controller
 {
@@ -49,13 +51,19 @@ class UploadController extends Controller
     {
         $class = "App\Models\\" . ucfirst($request->entity_type);
         $obj = $class::where('id', $request->entity_id)->first();
-        $user = Auth::user();
-        $account = auth()->user()->account_user()->account;
+
+        $token_sent = request()->bearerToken();
+        $token = CompanyToken::whereToken($token_sent)->first();
+        $account = $token->account;
+        $user = $token->user;
+        $uploaded_by_customer = !empty($request->input('uploaded_by_customer')) ? true : false;
+
         $arrAddedFiles = [];
 
         if ($request->hasFile('file')) {
             foreach ($request->file('file') as $count => $file) {
-                $file = UploadFile::dispatchNow($file, $user, $account, $obj);
+
+                $file = UploadFile::dispatchNow($file, $user, $account, $obj, $uploaded_by_customer);
 
                 $arrAddedFiles[$count] = $file;
                 $arrAddedFiles[$count]['user'] = $user->toArray();

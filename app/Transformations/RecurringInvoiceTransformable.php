@@ -28,6 +28,7 @@ trait RecurringInvoiceTransformable
             'start_date'          => $invoice->start_date ?: '',
             'end_date'            => $invoice->end_date ?: '',
             'frequency'           => (int)$invoice->frequency,
+            'grace_period'        => (int)$invoice->grace_period,
             'total'               => $invoice->total,
             'sub_total'           => $invoice->sub_total,
             'tax_total'           => $invoice->tax_total,

@@ -27,6 +27,7 @@ class VerifyCsrfToken extends Middleware
         '/api/refund/*',
         '/api/cases/*',
         '/api/cases',
+        '/api/uploads',
         '/api/case-categories/*',
         '/api/promocode/*',
         '/api/shipping/getRates',

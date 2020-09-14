@@ -27,7 +27,7 @@ import Notes from '../../common/Notes'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
 import InvoiceSettings from '../../common/InvoiceSettings'
 import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../common/InvoiceCalculations'
-import InvoiceModel from '../../models/RecurringInvoiceModel'
+import RecurringInvoiceModel from '../../models/RecurringInvoiceModel'
 import { icons } from '../../common/_icons'
 import { translations } from '../../common/_translations'
 import NoteTabs from '../../common/NoteTabs'
@@ -37,13 +37,14 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
+import Emails from '../../emails/Emails'
 
 class EditInvoice extends Component {
     constructor (props, context) {
         super(props, context)
 
         const data = this.props.invoice ? this.props.invoice : null
-        this.invoiceModel = new InvoiceModel(data, this.props.customers)
+        this.invoiceModel = new RecurringInvoiceModel(data, this.props.customers)
         this.initialState = this.invoiceModel.fields
         this.state = this.initialState
 
@@ -286,7 +287,9 @@ class EditInvoice extends Component {
                     company_id: null,
                     status_id: null,
                     line_items: [],
-                    invitations: []
+                    invitations: [],
+                    grace_period: 0,
+                    auto_billing_enabled: false
                 }, () => localStorage.removeItem('recurringInvoiceForm'))
             }
         })
@@ -415,7 +418,9 @@ class EditInvoice extends Component {
             shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations,
             gateway_fee: this.state.gateway_fee,
-            gateway_percentage: this.state.gateway_percentage
+            gateway_percentage: this.state.gateway_percentage,
+            grace_period: this.state.grace_period,
+            auto_billing_enabled: this.state.auto_billing_enabled
         }
     }
 
@@ -575,12 +580,11 @@ class EditInvoice extends Component {
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
 
-        // const email_editor = this.state.id
-        //     ? <Emails emails={this.state.emails} template="email_template_invoice" show_editor={true}
-        //         customers={this.props.customers} entity_object={this.state} entity="invoice"
-        //         entity_id={this.state.id}/> : null
-
-        const email_editor = null
+        const email_editor = this.state.id
+            ? <Emails model={this.invoiceModel} emails={this.state.emails} template="email_template_invoice"
+                show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="recurringInvoice"
+                entity_id={this.state.id}/> : null
 
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 

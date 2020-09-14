@@ -8,6 +8,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
 import queryString from 'query-string'
 import GatewayModel from '../models/GatewayModel'
+import { ReactSortable } from 'react-sortablejs'
 
 export default class Gateways extends Component {
     constructor (props) {
@@ -16,7 +17,7 @@ export default class Gateways extends Component {
         this.gatewayModel = new GatewayModel()
 
         this.state = {
-            gateway_ids: this.gatewayModel.gateway_ids,
+            gateway_ids: this.gatewayModel.gateway_ids.split(','),
             customer_id: queryString.parse(this.props.location.search).customer_id || '',
             group_id: queryString.parse(this.props.location.search).group_id || '',
             isOpen: window.innerWidth > 670,
@@ -46,6 +47,7 @@ export default class Gateways extends Component {
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
         this.filterGateways = this.filterGateways.bind(this)
+        this.setList = this.setList.bind(this)
     }
 
     addUserToState (gateways) {
@@ -96,13 +98,33 @@ export default class Gateways extends Component {
         })
     }
 
+    setList (list) {
+        const ids = []
+        list.map(gateway => {
+            ids.push(gateway.id)
+        })
+
+        this.setState({ gateway_ids: ids }, () => {
+            console.log('ids', ids)
+        })
+    }
+
     render () {
         const { searchText, error } = this.state.filters
-        const { view, gateways, isOpen, customer_id, group_id, error_message, success_message, show_success } = this.state
+        const { gateway_ids, view, gateways, isOpen, customer_id, group_id, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/company_gateways?search_term=${searchText} `
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
+
+        const gateway_list = []
+        if (gateway_ids.length && gateways.length) {
+            gateway_ids.map(item => {
+                const gateway = gateways.filter(gateway => parseInt(gateway.id) === parseInt(item))
+
+                gateway_list.push({ name: gateway[0].name, id: gateway[0].id })
+            })
+        }
 
         return (
             <Row>
@@ -150,6 +172,19 @@ export default class Gateways extends Component {
 
                         <Card>
                             <CardBody>
+                                {gateway_list.length &&
+                                <ReactSortable
+                                    tag="ul"
+                                    className="list-group"
+                                    list={gateway_list}
+                                    setList={this.setList}
+                                >
+                                    {gateway_list.map(item => {
+                                        return <li key={item.id} className="list-group-item">{item.name}</li>
+                                    })}
+                                </ReactSortable>
+                                }
+
                                 <DataTable
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}

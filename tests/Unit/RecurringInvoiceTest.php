@@ -107,10 +107,10 @@ class RecurringInvoiceTest extends TestCase
     public function it_can_create_a_invoice()
     {
         $data = [
-            'account_id' => $this->account->id,
-            'user_id' => $this->user->id,
+            'account_id'  => $this->account->id,
+            'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total' => 200
+            'total'       => 200
         ];
 
         $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);
@@ -121,6 +121,26 @@ class RecurringInvoiceTest extends TestCase
         $this->assertEquals($data['total'], $recurring_invoice->total);
     }
 
+    /** @test */
+    public function test_date_ranges()
+    {
+        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice->next_send_date = Carbon::now();
+        $recurring_invoice->customer_id = 5;
+        $recurring_invoice->date = Carbon::now()->subDays(15);
+        $recurring_invoice->start_date = Carbon::now()->subDays(1);
+        $recurring_invoice->end_date = Carbon::now()->addYears(1);
+        $recurring_invoice->auto_billing_enabled = 0;
+        $recurring_invoice->frequency = 30;
+        $recurring_invoice->grace_period = 10;
+        $recurring_invoice->cycles_remaining = 2;
+        $recurring_invoice->save();
+
+        $date_ranges = $recurring_invoice->calculateDateRanges();
+        $this->assertEquals(13, count($date_ranges));
+    }
+
+    /** @test */
     public function test_send_recurring_invoice()
     {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
@@ -147,6 +167,7 @@ class RecurringInvoiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
     }
 
+    /** @test */
     public function test_send_recurring_invoice_last_cycle()
     {
         $recurring_invoice = factory(RecurringInvoice::class)->create();
@@ -171,6 +192,7 @@ class RecurringInvoiceTest extends TestCase
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
     }
 
+    /** @test */
     public function test_send_recurring_invoice_fails()
     {
         $recurring_invoice = factory(RecurringInvoice::class)->create();

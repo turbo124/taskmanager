@@ -328,3 +328,18 @@ export const casePriorities = {
     [consts.medium_priority]: translations.medium,
     [consts.high_priority]: translations.high
 }
+
+export const frequencyOptions = {
+    1: 'frequency_daily',
+    7: 'frequency_weekly',
+    14: 'frequency_two_weeks',
+    28: 'frequency_four_weeks',
+    31: 'frequency_monthly',
+    60: 'frequency_two_months',
+    91: 'frequency_three_months',
+    121: 'frequency_four_months',
+    182: 'frequency_six_months',
+    365: 'frequency_annually',
+    730: 'frequency_two_years',
+    1095: 'frequency_three_years'
+}

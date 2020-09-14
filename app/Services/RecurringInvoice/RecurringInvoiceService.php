@@ -27,6 +27,11 @@ class RecurringInvoiceService extends ServiceBase
         $this->invoice = $invoice;
     }
 
+    public function generatePdf($contact = null, $update = false)
+    {
+        return (new GeneratePdf($this->invoice, $contact, $update))->execute();
+    }
+
     public function calculateInvoiceTotals(): RecurringInvoice
     {
         return $this->calculateTotals($this->invoice);

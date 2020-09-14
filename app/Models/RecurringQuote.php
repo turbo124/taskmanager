@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Services\RecurringQuote\RecurringQuoteService;
+use App\Traits\Balancer;
+use App\Traits\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class for Recurring Invoices.
@@ -13,6 +16,11 @@ use Illuminate\Support\Carbon;
 class RecurringQuote extends Model
 {
     use SoftDeletes;
+    use PresentableTrait;
+    use Balancer;
+    use Money;
+
+    protected $presenter = 'App\Presenters\QuotePresenter';
 
     /**
      * Invoice Statuses
@@ -38,6 +46,7 @@ class RecurringQuote extends Model
         'po_number',
         'date',
         'due_date',
+        'grace_period',
         'valid_until',
         'line_items',
         'settings',
@@ -137,5 +146,15 @@ class RecurringQuote extends Model
         $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
             $this->customer->getSetting('payment_terms')
         )->format('Y-m-d H:i:s') : null;
+    }
+
+    public function getPdfFilename()
+    {
+        return 'storage/' . $this->account->id . '/' . $this->customer->id . '/recurring_quotes/' . $this->number . '.pdf';
+    }
+
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->customer->getSetting('quote_design_id');
     }
 }
