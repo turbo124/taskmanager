@@ -36,12 +36,14 @@ class CaseEmail
     }
 
     /**
-     * Builds the correct template to send
-     * @param string $reminder_template The template name ie reminder1
-     * @return array
+     * @return bool
      */
     public function execute()
     {
+        if (empty($this->case->customer->contacts->first())) {
+            return true;
+        }
+
         $subject = strlen($this->subject) > 0 ? $this->subject : $this->case->account->getSetting('email_subject_case');
         $body = strlen($this->body) > 0 ? $this->body : $this->case->account->getSetting('email_template_case');
 

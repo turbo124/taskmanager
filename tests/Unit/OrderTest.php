@@ -261,25 +261,23 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function shipOrder()
-    {
-        $order = factory(Order::class)->create();
-        $order->customer_id = 5;
-
-        $order->save();
-        $objShipping = new ShippoShipment(
-            $order->customer, json_decode(json_encode($order->line_items), true)
-        );
-        $shipping = $objShipping->createShippingProcess();
-
-        $this->assertArrayHasKey('rates', $shipping);
-
-        $rates = $objShipping->getRates();
-        $order->shipping_id = $rates[0]['object_id'];
-        $order->save();
-//        $shipping = $objShipping->createLabel($order);
-//        $this->assertTrue($shipping);
-    }
+//    public function shipOrder()
+//    {
+//        $order = factory(Order::class)->create();
+//        $order->customer_id = 5;
+//
+//        $order->save();
+//        $objShipping = new ShippoShipment(
+//            $order->customer, json_decode(json_encode($order->line_items), true)
+//        );
+//        $shipping = $objShipping->createShippingProcess();
+//
+//        $this->assertArrayHasKey('rates', $shipping);
+//
+//        $rates = $objShipping->getRates();
+//        $order->shipping_id = $rates[0]['object_id'];
+//        $order->save();
+//    }
 
     /** @test */
     public function cancelOrder()

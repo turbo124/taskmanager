@@ -1,7 +1,7 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
-export default class CustomerModel extends BaseModel {
+export default class GroupModel extends BaseModel {
     constructor (data = null) {
         super()
 
@@ -47,6 +47,15 @@ export default class CustomerModel extends BaseModel {
         this._file_count = files ? files.length : 0
     }
 
+    set gateway_ids (ids) {
+        this.settings.company_gateway_ids = ids
+        this.fields.settings.company_gateways_ids = ids
+    }
+    //
+    // get gateway_ids () {
+    //     return this.settings.company_gateway_ids || ''
+    // }
+
     buildDropdownMenu () {
         const actions = []
 
@@ -72,8 +81,6 @@ export default class CustomerModel extends BaseModel {
 
         this.errors = []
         this.error_message = ''
-
-        alert('here')
 
         try {
             const res = await axios.put(`${this.url}/${this.fields.id}`, data)
@@ -136,13 +143,14 @@ export default class CustomerModel extends BaseModel {
     removeGateway (gateway) {
         let company_gateway_ids = this.gateways
         company_gateway_ids = company_gateway_ids.filter(item => item !== parseInt(gateway))
+        this.settings.company_gateway_ids = company_gateway_ids
         this.fields.settings.company_gateway_ids = company_gateway_ids
         return company_gateway_ids
     }
 
     async saveSettings () {
-        if (this.fields.settings.company_gateway_ids && this.fields.settings.company_gateway_ids.length) {
-            this.fields.settings.company_gateway_ids = this.fields.settings.company_gateway_ids.join(',')
+        if (this.settings.company_gateway_ids && this.settings.company_gateway_ids.length) {
+            this.fields.settings.company_gateway_ids = this.settings.company_gateway_ids.join(',')
         }
 
         this.save({ name: this.fields.name, settings: this.fields.settings }).then(response => {
