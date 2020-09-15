@@ -69,7 +69,7 @@ export default class CustomerModel extends BaseModel {
             modal: false,
             name: '',
             default_payment_method: null,
-            group_settings_id: null,
+            group_id: null,
             phone: '',
             address_1: '',
             address_2: '',
@@ -180,6 +180,15 @@ export default class CustomerModel extends BaseModel {
         }
     }
 
+    set gateway_ids (ids) {
+        this.settings.company_gateway_ids = ids
+        this.fields.settings.company_gateways_ids = ids
+    }
+
+    get gateway_ids () {
+        return this.settings.company_gateway_ids || ''
+    }
+
     get gateways () {
         if (!this.fields.settings) {
             return []
@@ -245,13 +254,14 @@ export default class CustomerModel extends BaseModel {
     removeGateway (gateway) {
         let company_gateway_ids = this.gateways
         company_gateway_ids = company_gateway_ids.filter(item => item !== parseInt(gateway))
+        this.settings.company_gateway_ids = company_gateway_ids
         this.fields.settings.company_gateway_ids = company_gateway_ids
         return company_gateway_ids
     }
 
     async saveSettings () {
-        if (this.fields.settings.company_gateway_ids && this.fields.settings.company_gateway_ids.length) {
-            this.fields.settings.company_gateway_ids = this.fields.settings.company_gateway_ids.join(',')
+        if (this.settings.company_gateway_ids && this.settings.company_gateway_ids.length) {
+            this.fields.settings.company_gateway_ids = this.settings.company_gateway_ids.join(',')
         }
 
         this.save({ name: this.fields.name, settings: this.fields.settings }).then(response => {

@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditGateway from './edit/EditGateway'
-import { Input, Row, Col } from 'reactstrap'
+import { Col, Input, Row } from 'reactstrap'
 import { ReactSortable } from 'react-sortablejs'
 
 export default class GatewayItem extends Component {
@@ -30,7 +30,7 @@ export default class GatewayItem extends Component {
     }
 
     render () {
-        const { customer_id, group_id, gateways, ignoredColumns, customers, gateway_ids } = this.props
+        const { customer_id, group_id, gateways, customers, gateway_ids } = this.props
 
         const gateway_list = []
 
@@ -82,15 +82,23 @@ export default class GatewayItem extends Component {
                             ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                                 restore={restoreButton}/> : null
 
-                        return <li key={item.id} className="list-group-item d-flex align-items-center">
-                            <div>
-                                <Input style={{ marginLeft: '8px' }} checked={isChecked} className={checkboxClass} value={gateway.id} type="checkbox"
+                        return <li key={item.id}
+                            className="list-group-item d-flex justify-content-between align-items-center">
+                            <div className="d-flex justify-content-between">
+                                <Input style={{ marginLeft: '8px' }} checked={isChecked} className={checkboxClass}
+                                    value={gateway.id} type="checkbox"
                                     onChange={this.props.onChangeBulk}/>
                                 {actionMenu}
+
+                                <h4 style={{ marginLeft: '40px' }}
+                                    onClick={() => this.props.toggleViewedEntity(gateway, gateway.name)}>{item.name} </h4>
                             </div>
 
-                            <h4 style={{ marginLeft: '40px' }}
-                                onClick={() => this.props.toggleViewedEntity(gateway, gateway.name)}>{item.name} </h4>
+                            {!!this.props.isFiltered &&
+                            <span style={{ cursor: 'pointer' }}
+                                onClick={() => this.props.removeFromList(gateway.id)}>Remove</span>
+                            }
+
                         </li>
                     })}
                 </ReactSortable> : null

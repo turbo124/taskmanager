@@ -8,6 +8,10 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../common/_translations'
 import queryString from 'query-string'
 import GatewayModel from '../models/GatewayModel'
+import axios from 'axios'
+import CustomerModel from '../models/CustomerModel'
+import GroupModel from '../models/GroupModel'
+import AccountModel from '../models/AccountModel'
 
 export default class Gateways extends Component {
     constructor (props) {
@@ -43,11 +47,71 @@ export default class Gateways extends Component {
             }
         }
 
+        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+
         this.addUserToState = this.addUserToState.bind(this)
         this.userList = this.userList.bind(this)
         this.filterGateways = this.filterGateways.bind(this)
         this.setList = this.setList.bind(this)
+        this.removeFromList = this.removeFromList.bind(this)
         this.save = this.save.bind(this)
+        this.loadCustomer = this.loadCustomer.bind(this)
+        this.loadGroup = this.loadGroup.bind(this)
+        this.loadAccount = this.loadAccount.bind(this)
+    }
+
+    componentDidMount () {
+        if (this.state.customer_id.length) {
+            this.loadCustomer()
+        } else if (this.state.group_id.length) {
+            this.loadGroup()
+        } else {
+            this.loadAccount()
+        }
+    }
+
+    loadCustomer () {
+        axios.get(`/api/customers/${this.state.customer_id}`)
+            .then((r) => {
+                console.log('data', r.data)
+                this.model = new CustomerModel(r.data)
+                this.setState({ gateway_ids: this.model.gateways })
+            })
+            .catch((e) => {
+                this.setState({
+                    loading: false,
+                    error: e
+                })
+            })
+    }
+
+    loadGroup () {
+        axios.get(`/api/group/${this.state.group_id}`)
+            .then((r) => {
+                console.log('data', r.data)
+                this.model = new GroupModel(r.data)
+                this.setState({ gateway_ids: this.model.gateways })
+            })
+            .catch((e) => {
+                this.setState({
+                    loading: false,
+                    error: e
+                })
+            })
+    }
+
+    loadAccount () {
+        axios.get(`/api/accounts/${this.account_id}`)
+            .then((r) => {
+                this.model = new AccountModel(r.data)
+                this.setState({ gateway_ids: this.model.gateways })
+            })
+            .catch((e) => {
+                this.setState({
+                    loading: false,
+                    error: e
+                })
+            })
     }
 
     addUserToState (gateways) {
@@ -60,6 +124,17 @@ export default class Gateways extends Component {
 
     save () {
         console.log('save')
+
+        this.model.saveSettings().then(response => {
+            if (!response) {
+                this.setState({
+                    showErrorMessage: true,
+                    loading: false,
+                    errors: this.model.errors,
+                    message: this.model.error_message
+                })
+            }
+        })
     }
 
     filterGateways (filters) {
@@ -77,7 +152,11 @@ export default class Gateways extends Component {
     userList (props) {
         const { gateways, customer_id, group_id, gateway_ids } = this.state
 
-        return <GatewayItem setList={this.setList} gateway_ids={gateway_ids} showCheckboxes={props.showCheckboxes}
+        return <GatewayItem removeFromList={this.removeFromList}
+            isFiltered={this.state.customer_id.length || this.state.group_id.length}
+            setList={this.setList}
+            gateway_ids={gateway_ids}
+            showCheckboxes={props.showCheckboxes}
             gateways={gateways}
             viewId={props.viewId}
             customer_id={customer_id}
@@ -104,12 +183,26 @@ export default class Gateways extends Component {
     }
 
     arraysEqual (arr1, arr2) {
-        if (arr1.length !== arr2.length) { return false }
+        if (arr1.length !== arr2.length) {
+            return false
+        }
         for (var i = arr1.length; i--;) {
-            if (arr1[i] != arr2[i]) { return false }
+            if (arr1[i] != arr2[i]) {
+                return false
+            }
         }
 
         return true
+    }
+
+    removeFromList (gateway, archive = false) {
+        const gateway_ids = this.model.removeGateway(gateway)
+
+        this.setState({ gateway_ids: gateway_ids }, () => {
+            setTimeout(() => {
+                this.save()
+            }, 2000)
+        })
     }
 
     setList (list) {
@@ -125,7 +218,7 @@ export default class Gateways extends Component {
                 return
             }
 
-            this.gatewayModel.gateway_ids = ids
+            this.model.gateway_ids = ids
             console.log('ids', ids)
 
             setTimeout(() => {

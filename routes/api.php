@@ -311,6 +311,7 @@ Route::group(
 
         // groups
         Route::get('groups', 'GroupController@index');
+        Route::get('group/{group_id}', 'GroupController@show');
         Route::delete('groups/archive/{group_id}', 'GroupController@archive');
         Route::delete('groups/{group_id}', 'GroupController@destroy');
         Route::put('groups/{group_id}', 'GroupController@update');
