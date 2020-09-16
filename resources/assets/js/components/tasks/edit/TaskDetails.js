@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import CustomerDropdown from '../../common/CustomerDropdown'
-import { translations } from '../../common/_translations'
-import TaskStatusDropdown from '../../common/TaskStatusDropdown'
-import UserDropdown from '../../common/UserDropdown'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
+import { translations } from '../../utils/_translations'
+import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
 
 export default function TaskDetails (props) {
     let userContent

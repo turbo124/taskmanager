@@ -4,9 +4,9 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import UserDropdown from '../common/UserDropdown'
-import CustomerDropdown from '../common/CustomerDropdown'
-import TaskStatusDropdown from '../common/TaskStatusDropdown'
+import UserDropdown from '../common/dropdowns/UserDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
+import TaskStatusDropdown from '../common/dropdowns/TaskStatusDropdown'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class DealFilters extends Component {

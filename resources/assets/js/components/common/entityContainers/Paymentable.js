@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap'
-import { icons } from '../../common/_icons'
+import { icons } from '../../utils/_icons'
 import FormatMoney from '../../common/FormatMoney'
 import FormatDate from '../../common/FormatDate'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { ButtonDropdown, DropdownMenu, DropdownToggle, FormGroup, Input, Label } from 'reactstrap'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class StatusDropdown extends Component {
     constructor (props) {

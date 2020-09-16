@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import CustomerDropdown from '../../common/CustomerDropdown'
-import { translations } from '../../common/_translations'
-import UserDropdown from '../../common/UserDropdown'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
+import { translations } from '../../utils/_translations'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
 import Datepicker from '../../common/Datepicker'
 
 export default function Details (props) {

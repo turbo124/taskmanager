@@ -1,6 +1,6 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
-import { consts } from '../common/_consts'
+import { consts } from '../utils/_consts'
 
 export default class GatewayModel extends BaseModel {
     constructor (data = null) {

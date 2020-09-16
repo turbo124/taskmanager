@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, CardHeader } from 'reactstrap'
-import FormBuilder from '../accounts/FormBuilder'
-import { translations } from './_translations'
+import FormBuilder from '../settings/FormBuilder'
+import { translations } from '../utils/_translations'
 
 export default function CustomFieldsForm (props) {
     const customFields = props.custom_fields ? props.custom_fields : []

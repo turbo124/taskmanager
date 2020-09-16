@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormGroup, Input, Label, CustomInput } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
-import { icons } from '../../common/_icons'
-import { frequencyOptions } from "../../common/_consts";
+import { icons } from '../../utils/_icons'
+import { frequencyOptions } from "../../utils/_consts";
 
 export default function Recurring (props) {
     return (

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardBody, FormGroup, Input, Label } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Config from './Config'
 
 export default class Details extends React.Component {

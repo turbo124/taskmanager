@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { icons } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import PaymentModel from '../../models/PaymentModel'
 import SectionItem from '../../common/entityContainers/SectionItem'
 import Transaction from './Transaction'
 import CustomerSettings from '../edit/CustomerSettings'
 import CustomerModel from '../../models/CustomerModel'
 import GatewayModel from '../../models/GatewayModel'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import CustomerGateways from '../../gateways/CustomerGateways'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import MetaItem from '../../common/entityContainers/MetaItem'
@@ -246,15 +246,6 @@ export default class Customer extends Component {
                         <CustomerSettings customer={this.props.entity}/>
                     </TabPane>
 
-                    <TabPane tabId="6">
-                        <CustomerGateways model={this.customerModel}/>
-
-                        <Button block onClick={(e) => {
-                            e.preventDefault()
-                            window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
-                        }}>{translations.gateways} </Button>
-                    </TabPane>
-
                     <TabPane tabId="7">
                         <ErrorLog error_logs={this.props.entity.error_logs} />
                     </TabPane>
@@ -262,7 +253,10 @@ export default class Customer extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.settings }}
-                    button2_click={(e) => this.toggleTab('6')}
+                    button2_click={(e) => {
+                        e.preventDefault()
+                        window.location.href = `/#/gateway-settings?customer_id=${this.props.entity.id}`
+                    }}
                     button2={{ label: translations.gateways }}/>
 
             </React.Fragment>

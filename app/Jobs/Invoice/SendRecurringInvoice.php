@@ -66,8 +66,13 @@ class SendRecurringInvoice implements ShouldQueue
             );
 
             $recurring_invoice->last_sent_date = Carbon::today();
-            $recurring_invoice->cycles_remaining--; // TODO don't do this if endless
-            $recurring_invoice->next_send_date = $recurring_invoice->cycles_remaining === 0 ? null : Carbon::today()->addDays($recurring_invoice->frequency);
+
+            if ($recurring_invoice->frequency !== 9000) {
+                $recurring_invoice->cycles_remaining--;
+            }
+
+            $recurring_invoice->next_send_date = $recurring_invoice->cycles_remaining === 0 ? null
+                : Carbon::today()->addDays($recurring_invoice->frequency);
             $recurring_invoice->status_id = $recurring_invoice->cycles_remaining === 0 ? RecurringInvoice::STATUS_COMPLETED : $recurring_invoice->status_id;
             $recurring_invoice->save();
 
@@ -77,7 +82,7 @@ class SendRecurringInvoice implements ShouldQueue
         }
     }
 
-    private function completeRecurringInvoice() {
-
+    private function completeRecurringInvoice()
+    {
     }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Collapse, Form } from 'reactstrap'
-import { icons } from './_icons'
+import { icons } from '../utils/_icons'
 
 export default class FilterTile extends Component {
     constructor (props) {

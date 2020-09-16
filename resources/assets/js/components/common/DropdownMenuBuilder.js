@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
-import { icons } from './_icons'
-import { translations } from './_translations'
+import { icons } from '../utils/_icons'
+import { translations } from '../utils/_translations'
 
 export default class DropdownMenuBuilder extends Component {
     constructor (props, context) {

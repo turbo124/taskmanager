@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Form, FormGroup, Input } from 'reactstrap'
 import FilterTile from '../common/FilterTile'
-import TaskDropdown from '../common/TaskDropdown'
-import UserDropdown from '../common/UserDropdown'
-import CustomerDropdown from '../common/CustomerDropdown'
-import EventTypeDropdown from '../common/EventTypeDropdown'
+import TaskDropdown from '../common/dropdowns/TaskDropdown'
+import UserDropdown from '../common/dropdowns/UserDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
+import EventTypeDropdown from '../common/dropdowns/EventTypeDropdown'
 
 export default class CalendarFilter extends Component {
     constructor (props) {

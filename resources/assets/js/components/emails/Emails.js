@@ -4,9 +4,9 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import EmailEditorForm from '../emails/EmailEditorForm'
 import ViewEmails from '../emails/ViewEmails'
-import EmailFields from '../accounts/EmailFields'
-import EmailPreview from '../accounts/EmailPreview'
-import { translations } from '../common/_translations'
+import EmailFields from '../settings/EmailFields'
+import EmailPreview from '../settings/EmailPreview'
+import { translations } from '../utils/_translations'
 import ViewPdf from './ViewPdf'
 
 export default class Emails extends Component {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import CountryDropdown from '../../common/CountryDropdown'
-import { translations } from '../../common/_translations'
+import CountryDropdown from '../../common/dropdowns/CountryDropdown'
+import { translations } from '../../utils/_translations'
 
 export default class AddressForm extends React.Component {
     constructor (props) {

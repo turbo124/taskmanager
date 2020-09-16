@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, FormGroup, Row } from 'reactstrap'
-import CustomerDropdown from '../common/CustomerDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'

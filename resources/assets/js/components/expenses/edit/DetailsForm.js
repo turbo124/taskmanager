@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import CompanyDropdown from '../../common/CompanyDropdown'
-import CustomerDropdown from '../../common/CustomerDropdown'
+import CompanyDropdown from '../../common/dropdowns/CompanyDropdown'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
-import { translations } from '../../common/_translations'
-import ExpenseCategoryDropdown from '../../common/ExpenseCategoryDropdown'
-import UserDropdown from '../../common/UserDropdown'
+import { translations } from '../../utils/_translations'
+import ExpenseCategoryDropdown from '../../common/dropdowns/ExpenseCategoryDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
 import RecurringForm from '../../common/RecurringForm'
 
 export default class DetailsForm extends React.Component {

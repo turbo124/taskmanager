@@ -14,7 +14,7 @@ import {
 import axios from 'axios'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class SupportModal extends Component {
     constructor (props) {

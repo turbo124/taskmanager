@@ -2,9 +2,9 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { orderStatusColors, orderStatuses } from '../common/_consts'
+import { orderStatusColors, orderStatuses } from '../utils/_consts'
 import OrderModel from '../models/OrderModel'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default function OrderPresenter (props) {
     const { field, entity } = props

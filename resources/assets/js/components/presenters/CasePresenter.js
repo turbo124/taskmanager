@@ -1,7 +1,7 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../common/_consts'
-import { translations } from '../common/_translations'
+import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function CasePresenter (props) {

@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import QuoteItem from './QuoteItem'
 import QuoteFilters from './QuoteFilters'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Quotes extends Component {
     constructor (props) {

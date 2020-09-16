@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroup, Row } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Paymentable from '../../common/entityContainers/Paymentable'
 
 export default function Paymentables (props) {

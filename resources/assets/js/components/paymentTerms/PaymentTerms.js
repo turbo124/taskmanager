@@ -5,7 +5,7 @@ import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import PaymentTermFilters from './PaymentTermFilters'
 import PaymentTermItem from './PaymentTermItem'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 
 export default class PaymentTerms extends Component {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 export default class ImageForm extends React.Component {
     constructor (props) {

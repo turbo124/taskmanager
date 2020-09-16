@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../../common/AddButtons'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import TokenModel from '../../models/TokenModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'

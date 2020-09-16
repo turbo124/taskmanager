@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
-import ProductAttributeDropdown from '../common/ProductAttributeDropdown'
-import ProductDropdown from '../common/ProductDropdown'
-import TaskDropdown from '../common/TaskDropdown'
-import ExpenseDropdown from '../common/ExpenseDropdown'
+import ProductAttributeDropdown from './dropdowns/ProductAttributeDropdown'
+import ProductDropdown from './dropdowns/ProductDropdown'
+import TaskDropdown from './dropdowns/TaskDropdown'
+import ExpenseDropdown from './dropdowns/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
-import { translations } from "./_translations";
+import { translations } from "../utils/_translations";
 
 class LineItem extends Component {
     constructor (props) {

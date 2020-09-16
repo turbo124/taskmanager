@@ -7,7 +7,7 @@ import DealItem from './DealItem'
 import AddDeal from './edit/AddDeal'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class DealList extends Component {
     constructor (props) {

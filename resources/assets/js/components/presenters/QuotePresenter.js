@@ -2,9 +2,9 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { quoteStatusColors, quoteStatuses } from '../common/_consts'
+import { quoteStatusColors, quoteStatuses } from '../utils/_consts'
 import QuoteModel from '../models/QuoteModel'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default function QuotePresenter (props) {
     const { field, entity } = props

@@ -5,7 +5,7 @@ import { Alert, Card, CardBody, Row } from 'reactstrap'
 import TaxRateFilters from './TaxRateFilters'
 import TaxRateItem from './TaxRateItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class TaxRates extends Component {
     constructor (props) {

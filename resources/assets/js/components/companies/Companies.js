@@ -6,7 +6,7 @@ import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CompanyFilters from './CompanyFilters'
 import CompanyItem from './CompanyItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Companies extends Component {
     constructor (props) {

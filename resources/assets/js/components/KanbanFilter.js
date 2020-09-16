@@ -3,9 +3,9 @@ import { Button, Card, CardBody, CardTitle, Col, Form, Input, Row } from 'reacts
 import axios from 'axios'
 import AddStory from './projects/edit/AddStory'
 import EditProject from './projects/edit/EditProject'
-import UserDropdown from './common/UserDropdown'
-import CustomerDropdown from './common/CustomerDropdown'
-import TaskStatusDropdown from './common/TaskStatusDropdown'
+import UserDropdown from './common/dropdowns/UserDropdown'
+import CustomerDropdown from './common/dropdowns/CustomerDropdown'
+import TaskStatusDropdown from './common/dropdowns/TaskStatusDropdown'
 import TableSearch from './common/TableSearch'
 
 export default class KanbanFilter extends Component {

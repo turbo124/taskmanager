@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import CustomerFilters from './CustomerFilters'
 import CustomerItem from './CustomerItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 import queryString from 'query-string'
 
 export default class Customers extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { CustomInput, Label } from 'reactstrap'
-import { consts } from './_consts'
-import { translations } from './_translations'
+import { consts } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 
 export default class Notifications extends Component {
     constructor (props) {

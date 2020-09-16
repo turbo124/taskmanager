@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TabList from './TabList'
 import Comments from '../comments/Comments'
-import FileUploads from '../attachments/FileUploads'
+import FileUploads from '../documents/FileUploads'
 import EditTask from '../tasks/edit/EditTask'
 import EditCustomer from '../customers/edit/EditCustomer'
 import EventTab from './EventTab'

@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button, Input, InputGroup, InputGroupAddon, InputGroupText, Label, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 

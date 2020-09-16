@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 import axios from 'axios'
 import DefaultModalHeader from './ModalHeader'
 import DefaultModalFooter from './ModalFooter'

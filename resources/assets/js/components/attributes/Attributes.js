@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import AttributeFilters from './AttributeFilters'
 import AttributeItem from './AttributeItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Attributes extends Component {
     constructor (props) {

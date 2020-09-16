@@ -3,12 +3,12 @@ import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import FilterTile from '../common/FilterTile'
-import CustomerDropdown from '../common/CustomerDropdown'
-import CaseCategoryDropdown from '../common/CaseCategoryDropdown'
-import CasePriorityDropdown from '../common/CasePriorityDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
+import CaseCategoryDropdown from '../common/dropdowns/CaseCategoryDropdown'
+import CasePriorityDropdown from '../common/dropdowns/CasePriorityDropdown'
 import StatusDropdown from '../common/StatusDropdown'
-import { consts } from '../common/_consts'
-import { translations } from '../common/_translations'
+import { consts } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 
 export default class CaseFilters extends Component {
     constructor (props) {

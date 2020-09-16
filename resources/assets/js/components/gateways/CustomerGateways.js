@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Card, CardBody } from 'reactstrap'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 import GatewayModel from '../models/GatewayModel'
-import { icons } from '../common/_icons'
+import { icons } from '../utils/_icons'
 import { toast, ToastContainer } from 'react-toastify'
 
 export default class CustomerGateways extends React.Component {

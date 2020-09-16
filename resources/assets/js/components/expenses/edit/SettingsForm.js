@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, Col, Collapse, CustomInput, FormGroup, Input, Label, Row } from 'reactstrap'
-import CurrencyDropdown from '../../common/CurrencyDropdown'
-import PaymentTypeDropdown from '../../common/PaymentTypeDropdown'
+import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
+import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
 import Datepicker from '../../common/Datepicker'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {

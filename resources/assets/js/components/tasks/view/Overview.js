@@ -1,12 +1,12 @@
 import React from 'react'
 import { ListGroup, Row } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import InfoMessage from '../../common/entityContainers/InfoMessage'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
 import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../common/_icons'
+import { icons } from '../../utils/_icons'
 
 export default function Overview (props) {
     return <React.Fragment>

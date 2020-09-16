@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import SuccessMessage from '../common/SucessMessage'
 import ErrorMessage from '../common/ErrorMessage'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 import CustomerModel from '../models/CustomerModel'
 
 export default class EmailEditorForm extends Component {

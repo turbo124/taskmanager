@@ -7,7 +7,7 @@ import ProjectFilters from './ProjectFilters'
 import ProjectItem from './ProjectItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class ProjectList extends Component {
     constructor (props) {

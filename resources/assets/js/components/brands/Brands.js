@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import BrandFilters from './BrandFilters'
 import BrandItem from './BrandItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Brands extends Component {
     constructor (props) {

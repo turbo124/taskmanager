@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import { translations } from '../../common/_translations'
-import ProductDropdown from '../../common/ProductDropdown'
-import ProjectDropdown from '../../common/ProjectDropdown'
-import { consts } from '../../common/_consts'
+import { translations } from '../../utils/_translations'
+import ProductDropdown from '../../common/dropdowns/ProductDropdown'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import { consts } from '../../utils/_consts'
 
 export default class Links extends Component {
     render () {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import CustomerDropdown from '../../common/CustomerDropdown'
-import FormBuilder from '../../accounts/FormBuilder'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
+import FormBuilder from '../../settings/FormBuilder'
 import Datepicker from '../../common/Datepicker'
-import { translations } from '../../common/_translations'
-import UserDropdown from '../../common/UserDropdown'
-import CompanyDropdown from '../../common/CompanyDropdown'
+import { translations } from '../../utils/_translations'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import CompanyDropdown from '../../common/dropdowns/CompanyDropdown'
 
 export default class Detailsm extends Component {
     constructor (props, context) {

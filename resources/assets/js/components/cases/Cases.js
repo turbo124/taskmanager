@@ -7,7 +7,7 @@ import CaseFilters from './CaseFilters'
 import CaseItem from './CaseItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Cases extends Component {
     constructor (props) {

@@ -6,7 +6,7 @@ import AddRole from './AddRole'
 import { Alert, Button } from 'reactstrap'
 import DataTable from '../common/DataTable'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Roles extends Component {
     constructor (props) {

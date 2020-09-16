@@ -1,12 +1,12 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Label } from 'reactstrap'
-import PaymentTypeDropdown from '../../common/PaymentTypeDropdown'
-import CompanyDropdown from '../../common/CompanyDropdown'
-import CurrencyDropdown from '../../common/CurrencyDropdown'
-import UserDropdown from '../../common/UserDropdown'
-import GroupSettingsDropdown from '../../common/GroupSettingsDropdown'
-import PaymentTermsDropdown from '../../common/PaymentTermsDropdown'
-import { translations } from '../../common/_translations'
+import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
+import CompanyDropdown from '../../common/dropdowns/CompanyDropdown'
+import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import GroupSettingsDropdown from '../../common/dropdowns/GroupSettingsDropdown'
+import PaymentTermsDropdown from '../../common/dropdowns/PaymentTermsDropdown'
+import { translations } from '../../utils/_translations'
 
 export default function SettingsForm (props) {
     const hasErrorFor = (field) => {

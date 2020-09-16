@@ -1,7 +1,7 @@
 import React from 'react'
 import { Badge } from 'reactstrap'
-import { caseStatusColors, caseStatuses } from '../common/_consts'
-import { translations } from '../common/_translations'
+import { caseStatusColors, caseStatuses } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 
 export default function CaseTemplatePresenter (props) {
     const { field, entity } = props

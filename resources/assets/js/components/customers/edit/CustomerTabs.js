@@ -8,8 +8,8 @@ import Contact from '../../common/Contact'
 import NotesForm from './NotesForm'
 import Notes from '../../common/Notes'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
-import { translations } from '../../common/_translations'
-import FileUploads from '../../attachments/FileUploads'
+import { translations } from '../../utils/_translations'
+import FileUploads from '../../documents/FileUploads'
 import CustomerModel from '../../models/CustomerModel'
 
 export default function CustomerTabs (props) {

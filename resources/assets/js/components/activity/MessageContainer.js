@@ -4,7 +4,7 @@ import MessageBoard from './MessageBoard'
 import axios from 'axios'
 import { Card, CardBody, CardHeader, ListGroup } from 'reactstrap'
 import Event from './Event'
-import { getEntityIcon } from '../common/_icons'
+import { getEntityIcon } from '../utils/_icons'
 import InfoItem from '../common/entityContainers/InfoItem'
 import FormatDate from '../common/FormatDate'
 

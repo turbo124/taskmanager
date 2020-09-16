@@ -1,8 +1,8 @@
 import React from 'react'
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import CustomerModel from '../../models/CustomerModel'
-import { icons } from '../_icons'
-import { translations } from '../_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import FormatDate from '../FormatDate'
 
 export default function ViewContacts (props) {

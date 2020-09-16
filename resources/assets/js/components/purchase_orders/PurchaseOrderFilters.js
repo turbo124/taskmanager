@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Col, FormGroup, Row } from 'reactstrap'
-import CompanyDropdown from '../common/CompanyDropdown'
+import CompanyDropdown from '../common/dropdowns/CompanyDropdown'
 import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import { translations } from '../common/_translations'
-import { consts } from '../common/_consts'
+import { translations } from '../utils/_translations'
+import { consts } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class PurchaseOrderFilters extends Component {

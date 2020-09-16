@@ -70,7 +70,11 @@ class SendRecurringQuote implements ShouldQueue
             );
 
             $recurring_quote->last_sent_date = Carbon::today();
-            $recurring_quote->cycles_remaining--;
+
+            if ($recurring_quote->frequency !== 9000) {
+                $recurring_quote->cycles_remaining--;
+            }
+
             $recurring_quote->next_send_date = $recurring_quote->cycles_remaining === 0 ? null
                 : Carbon::today()->addDays($recurring_quote->frequency);
             $recurring_quote->status_id = $recurring_quote->cycles_remaining === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;

@@ -7,7 +7,7 @@ import Contact from './Contact'
 import Address from './Address'
 import Details from './Details'
 import Notes from '../../common/Notes'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row } from 'reactstrap'
 import SimpleSectionItem from './SimpleSectionItem'
-import { translations } from '../_translations'
+import { translations } from '../../utils/_translations'
 
 export default function FieldGrid (props) {
     const fieldWidgets = []

@@ -18,7 +18,7 @@ import Notifications from '../../common/Notifications'
 import DetailsForm from './DetailsForm'
 import PermissionsForm from './PermissionsForm'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 

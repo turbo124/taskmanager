@@ -3,8 +3,8 @@ import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import PaymentModel from '../models/PaymentModel'
-import { paymentStatusColors, paymentStatuses } from '../common/_consts'
-import { translations } from '../common/_translations'
+import { paymentStatusColors, paymentStatuses } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 
 export default function PaymentPresenter (props) {
     const { field, entity } = props

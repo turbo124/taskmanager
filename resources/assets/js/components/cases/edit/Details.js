@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
-import CaseCategoryDropdown from '../../common/CaseCategoryDropdown'
-import CasePriorityDropdown from '../../common/CasePriorityDropdown'
-import UserDropdown from '../../common/UserDropdown'
-import CaseDropdown from '../../common/CaseDropdown'
+import CaseCategoryDropdown from '../../common/dropdowns/CaseCategoryDropdown'
+import CasePriorityDropdown from '../../common/dropdowns/CasePriorityDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import CaseDropdown from '../../common/dropdowns/CaseDropdown'
 
 export default class Details extends Component {
     render () {

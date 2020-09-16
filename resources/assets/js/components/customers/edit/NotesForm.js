@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import IndustryDropdown from '../../common/IndustryDropdown'
+import IndustryDropdown from '../../common/dropdowns/IndustryDropdown'
 
 export default function NotesForm (props) {
     const hasErrorFor = (field) => {

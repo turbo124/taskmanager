@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
-import FormBuilder from '../../accounts/FormBuilder'
+import FormBuilder from '../../settings/FormBuilder'
 import DropdownDate from '../../common/DropdownDate'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 export default class DetailsForm extends React.Component {
     constructor (props) {

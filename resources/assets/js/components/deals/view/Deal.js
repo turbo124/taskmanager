@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import DealModel from '../../models/DealModel'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../common/_icons'
+import { icons } from '../../utils/_icons'
 
 export default class Deal extends Component {
     constructor (props) {

@@ -12,7 +12,7 @@ import {
     ModalHeader
 } from 'reactstrap'
 import axios from 'axios'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 class EditRole extends React.Component {
     constructor (props) {

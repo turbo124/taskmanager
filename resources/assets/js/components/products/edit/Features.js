@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 import FeatureInputs from './FeatureInputs'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 export default class Features extends Component {
     constructor (props) {

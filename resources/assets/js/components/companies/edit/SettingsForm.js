@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Label } from 'reactstrap'
-import CurrencyDropdown from '../../common/CurrencyDropdown'
-import IndustryDropdown from '../../common/IndustryDropdown'
-import UserDropdown from '../../common/UserDropdown'
-import { translations } from '../../common/_translations'
+import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
+import IndustryDropdown from '../../common/dropdowns/IndustryDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import { translations } from '../../utils/_translations'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {
