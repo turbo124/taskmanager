@@ -3,7 +3,7 @@ import { Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import CustomerTabs from './CustomerTabs'
 import AddButtons from '../../common/AddButtons'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 

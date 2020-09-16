@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import CustomerDropdown from '../../common/CustomerDropdown'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
-import { translations } from '../../common/_translations'
-import UserDropdown from '../../common/UserDropdown'
+import { translations } from '../../utils/_translations'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
 
 export default class Detailsm extends Component {
     constructor (props, context) {

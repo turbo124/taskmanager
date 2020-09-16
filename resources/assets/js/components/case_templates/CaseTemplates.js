@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import CaseTemplateFilters from './CaseTemplateFilters'
 import CaseTemplateItem from './CaseTemplateItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class CaseTemplates extends Component {
     constructor (props) {

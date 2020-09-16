@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import FormatMoney from '../../common/FormatMoney'
 import FormatDate from '../../common/FormatDate'
-import { icons } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import InvoiceModel from '../../models/InvoiceModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
-import Audit from '../../partials/Audit'
+import Audit from '../../common/Audit'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import AddPayment from '../../payments/edit/AddPayment'
@@ -61,7 +61,6 @@ export default class Invoice extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
-        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         let user = null
 

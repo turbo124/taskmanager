@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
-import AttributeValueDropdown from '../../common/AttributeValueDropdown'
+import AttributeValueDropdown from '../../common/dropdowns/AttributeValueDropdown'
 
 const VariationInputs = (props) => {
     return (

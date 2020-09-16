@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Input, Label, UncontrolledTooltip } from 'reactstrap'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class CheckboxFilterBar extends Component {
     render () {

@@ -13,18 +13,18 @@ import {
     TabContent,
     TabPane
 } from 'reactstrap'
-import { icons } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import Details from './Details'
 import CaseModel from '../../models/CaseModel'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 import Comments from '../../comments/Comments'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import Emails from '../../emails/Emails'
 import Contacts from './Contacts'
-import { consts } from '../../common/_consts'
+import { consts } from '../../utils/_consts'
 import Links from './Links'
 
 export default class EditCase extends React.Component {

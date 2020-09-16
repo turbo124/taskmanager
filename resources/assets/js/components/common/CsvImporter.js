@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { UncontrolledTooltip } from 'reactstrap'
-import { translations } from './_translations'
-import { icons } from './_icons'
+import { translations } from '../utils/_translations'
+import { icons } from '../utils/_icons'
 
 export default class CsvImporter extends Component {
     constructor (props) {

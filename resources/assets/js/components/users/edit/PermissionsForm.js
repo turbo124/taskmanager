@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row } from 'reactstrap'
-import DepartmentDropdown from '../../common/DepartmentDropdown'
-import RoleDropdown from '../../common/RoleDropdown'
+import DepartmentDropdown from '../../common/dropdowns/DepartmentDropdown'
+import RoleDropdown from '../../common/dropdowns/RoleDropdown'
 
 export default class PermissionsForm extends React.Component {
     constructor (props) {

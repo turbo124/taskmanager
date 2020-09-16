@@ -4,7 +4,7 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import EditUser from './edit/EditUser'
-import { monthByNumber } from '../common/helper'
+import { monthByNumber } from '../utils/helper'
 
 class UserProfile extends React.Component {
     constructor (props) {

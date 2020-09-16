@@ -19,7 +19,6 @@ export default class GroupModel extends BaseModel {
             id: null,
             account_id: null,
             name: '',
-            activeTab: '1',
             settings: {},
             loading: false,
             changesMade: false,

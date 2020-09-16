@@ -1,11 +1,11 @@
 import React from 'react'
 import { Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import CasePresenter from '../../presenters/CasePresenter'
 import InfoMessage from '../../common/entityContainers/InfoMessage'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../common/_icons'
+import { icons } from '../../utils/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 
 export default function Overview (props) {

@@ -2,8 +2,8 @@ import React from 'react'
 import FormatMoney from '../../common/FormatMoney'
 import FormatDate from '../../common/FormatDate'
 import { Badge, ListGroup, ListGroupItem } from 'reactstrap'
-import { getEntityIcon } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { getEntityIcon } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 
 export default function Transaction (props) {
     const transactions = props.transactions.length ? props.transactions.map((transaction, index) => {

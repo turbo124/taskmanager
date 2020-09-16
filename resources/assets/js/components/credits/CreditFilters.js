@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import CustomerDropdown from '../common/CustomerDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
 import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
 import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
-import { translations } from '../common/_translations'
-import { consts } from '../common/_consts'
+import { translations } from '../utils/_translations'
+import { consts } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class CreditFilters extends Component {

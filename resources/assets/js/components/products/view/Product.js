@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, Col, ListGroup, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { icons } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import InfoItem from '../../common/entityContainers/InfoItem'
 import FormatMoney from '../../common/FormatMoney'
 import ProductModel from '../../models/ProductModel'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import Overview from './Overview'
 
 export default class Product extends Component {

@@ -6,7 +6,7 @@ import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
 import EditCredit from './edit/EditCredit'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Credits extends Component {
     constructor (props) {

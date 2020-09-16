@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import UserItem from './UserItem'
 import UserFilters from './UserFilters'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class UserList extends Component {
     constructor (props) {

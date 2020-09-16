@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody } from 'reactstrap'
-import { translations } from '../../common/_translations'
-import FormBuilder from '../../accounts/FormBuilder'
+import { translations } from '../../utils/_translations'
+import FormBuilder from '../../settings/FormBuilder'
 
 export default class FeesAndLimits extends React.Component {
     constructor (props) {

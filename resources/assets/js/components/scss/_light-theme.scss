@@ -229,19 +229,6 @@ body {
     background-color: $white;
   }
 
-  .select__single-value {
-    color: $black !important;
-  }
-
-  .select__option {
-    color: $black !important;
-    background-color: $white !important;
-
-    &:hover {
-      background-color: $color_science_blue_approx !important;
-    }
-  }
-
   .primary-info-alert {
     color: $white;
     background-color: $color_science_blue_approx;

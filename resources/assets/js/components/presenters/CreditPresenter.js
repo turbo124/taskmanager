@@ -2,8 +2,8 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { creditStatusColors, creditStatuses } from '../common/_consts'
-import { translations } from '../common/_translations'
+import { creditStatusColors, creditStatuses } from '../utils/_consts'
+import { translations } from '../utils/_translations'
 
 export default function CreditPresenter (props) {
     const { field, entity } = props

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import UserDropdown from '../../common/UserDropdown'
-import { translations } from '../../common/_translations'
-import CustomerDropdown from '../../common/CustomerDropdown'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import { translations } from '../../utils/_translations'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
-import TaskStatusDropdown from '../../common/TaskStatusDropdown'
+import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import FormBuilder from '../../accounts/FormBuilder'
+import FormBuilder from '../../settings/FormBuilder'
 import { Button, Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import CustomerModel from '../../models/CustomerModel'
-import { icons } from '../../common/_icons'
-import { consts } from '../../common/_consts'
+import { icons } from '../../utils/_icons'
+import { consts } from '../../utils/_consts'
 
 class CustomerSettings extends Component {
     constructor (props) {

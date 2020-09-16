@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, Col, FormGroup, Row } from 'reactstrap'
-import { translations } from '../../common/_translations'
-import FormBuilder from '../../accounts/FormBuilder'
+import { translations } from '../../utils/_translations'
+import FormBuilder from '../../settings/FormBuilder'
 import Checkbox from '../../common/Checkbox'
 
 export default class Settings extends React.Component {

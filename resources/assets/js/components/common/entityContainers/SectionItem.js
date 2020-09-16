@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroupItemHeading } from 'reactstrap'
-import { icons } from '../_icons'
+import { icons } from '../../utils/_icons'
 
 export default function SectionItem (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''

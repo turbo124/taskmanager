@@ -4,9 +4,9 @@ import { Button, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
 import FormatMoney from './FormatMoney'
 import CustomerModel from '../models/CustomerModel'
-import { getExchangeRateWithMap } from './_money'
+import { getExchangeRateWithMap } from '../utils/_money'
 import CompanyModel from '../models/CompanyModel'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 class LineItemEditor extends Component {
     constructor (props) {

@@ -1,8 +1,8 @@
 import React from 'react'
 import BulkActionDropdown from './BulkActionDropdown'
-import { icons } from './_icons'
+import { icons } from '../utils/_icons'
 import { UncontrolledTooltip } from 'reactstrap'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default function TableToolbar (props) {
     const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'

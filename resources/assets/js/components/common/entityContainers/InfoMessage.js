@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
-import { icons } from '../_icons'
+import { icons } from '../../utils/_icons'
 
 export default function InfoMessage (props) {
     const bg_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'dark dark-info-alert' : 'primary primary-info-alert'

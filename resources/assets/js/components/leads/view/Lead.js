@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import LeadModel from '../../models/LeadModel'
 import axios from 'axios'
-import FileUploads from '../../attachments/FileUploads'
+import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
 

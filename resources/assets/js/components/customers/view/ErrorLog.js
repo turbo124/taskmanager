@@ -1,9 +1,9 @@
 import React from 'react'
 import FormatDate from '../../common/FormatDate'
 import { ListGroup, ListGroupItem, UncontrolledCollapse } from 'reactstrap'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import ErrorLogModel from '../../models/ErrorLogModel'
-import { icons } from '../../common/_icons'
+import { icons } from '../../utils/_icons'
 import ReactJson from 'react-json-view'
 
 export default function ErrorLog (props) {

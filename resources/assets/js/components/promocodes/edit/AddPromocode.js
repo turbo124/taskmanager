@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../../common/AddButtons'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
 import PromocodeModel from '../../models/PromocodeModel'
 import DefaultModalHeader from '../../common/ModalHeader'

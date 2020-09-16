@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../../common/AddButtons'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Details from './Details'
 import GatewayModel from '../../models/GatewayModel'
 import Settings from './Settings'

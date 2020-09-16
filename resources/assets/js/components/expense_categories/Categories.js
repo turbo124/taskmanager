@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import CategoryFilters from './CategoryFilters'
 import CategoryItem from './CategoryItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Categories extends Component {
     constructor (props) {

@@ -14,8 +14,8 @@ import {
 } from 'reactstrap'
 import axios from 'axios'
 import InvoiceLine from './InvoiceLine'
-import { icons } from '../../common/_icons'
-import { translations } from '../../common/_translations'
+import { icons } from '../../utils/_icons'
+import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 

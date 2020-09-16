@@ -1,7 +1,7 @@
 import React from 'react'
 import { ListGroup, Row } from 'reactstrap'
-import { translations } from '../../common/_translations'
-import { icons } from '../../common/_icons'
+import { translations } from '../../utils/_translations'
+import { icons } from '../../utils/_icons'
 import InfoItem from '../../common/entityContainers/InfoItem'
 
 export default function Details (props) {

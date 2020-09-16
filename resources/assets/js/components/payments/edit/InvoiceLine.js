@@ -3,7 +3,7 @@ import InvoiceLineInputs from './InvoiceLineInputs'
 import CreditLineInputs from './CreditLineInputs'
 import PaymentModel from '../../models/PaymentModel'
 import axios from 'axios'
-import { consts } from '../../common/_consts'
+import { consts } from '../../utils/_consts'
 
 export default class InvoiceLine extends Component {
     constructor (props) {

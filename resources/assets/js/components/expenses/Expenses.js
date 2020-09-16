@@ -7,7 +7,7 @@ import ExpenseFilters from './ExpenseFilters'
 import ExpenseItem from './ExpenseItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Expenses extends Component {
     constructor (props) {

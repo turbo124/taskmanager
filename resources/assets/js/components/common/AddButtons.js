@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button, UncontrolledTooltip } from 'reactstrap'
-import { icons } from './_icons'
+import { icons } from '../utils/_icons'
 import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class AddButtons extends Component {
     render () {

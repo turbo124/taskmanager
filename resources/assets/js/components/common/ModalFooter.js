@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, ModalFooter } from 'reactstrap'
-import { translations } from './_translations'
-import { icons } from './_icons'
+import { translations } from '../utils/_translations'
+import { icons } from '../utils/_icons'
 
 export default function DefaultModalFooter (props) {
     const device_settings = Object.prototype.hasOwnProperty.call(localStorage, 'device_settings') ? JSON.parse(localStorage.getItem('device_settings')) : ''

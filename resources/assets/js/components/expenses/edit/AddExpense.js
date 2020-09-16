@@ -6,7 +6,7 @@ import DetailsForm from './DetailsForm'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
 import Notes from '../../common/Notes'
 import ExpenseModel from '../../models/ExpenseModel'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 

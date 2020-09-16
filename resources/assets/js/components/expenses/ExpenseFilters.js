@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Col, FormGroup, Row } from 'reactstrap'
 import TableSearch from '../common/TableSearch'
-import CustomerDropdown from '../common/CustomerDropdown'
-import CompanyDropdown from '../common/CompanyDropdown'
+import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
+import CompanyDropdown from '../common/dropdowns/CompanyDropdown'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import ExpenseCategoryDropdown from '../common/ExpenseCategoryDropdown'
+import ExpenseCategoryDropdown from '../common/dropdowns/ExpenseCategoryDropdown'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class ExpenseFilters extends Component {

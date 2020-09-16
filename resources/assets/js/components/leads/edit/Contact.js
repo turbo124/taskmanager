@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import IndustryDropdown from '../../common/IndustryDropdown'
-import { translations } from '../../common/_translations'
+import IndustryDropdown from '../../common/dropdowns/IndustryDropdown'
+import { translations } from '../../utils/_translations'
 
 export default class Contact extends React.Component {
     constructor (props) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, ModalBody } from 'reactstrap'
 import AddButtons from '../../common/AddButtons'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 import Details from './Details'
 import TaxRateModel from '../../models/TaxRateModel'
 import DefaultModalHeader from '../../common/ModalHeader'

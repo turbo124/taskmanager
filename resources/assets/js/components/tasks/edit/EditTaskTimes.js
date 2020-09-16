@@ -5,7 +5,7 @@ import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'rea
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 class EditTaskTimes extends Component {
     constructor (props, context) {

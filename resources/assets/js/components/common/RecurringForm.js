@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, Collapse, Form, FormGroup, Input, Label } from 'reactstrap'
-import { icons } from './_icons'
-import { translations } from './_translations'
+import { icons } from '../utils/_icons'
+import { translations } from '../utils/_translations'
 import Datepicker from './Datepicker'
 
 export default class RecurringForm extends Component {

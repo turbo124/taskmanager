@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, CardBody, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class NoteTabs extends Component {
     constructor (props) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import FormBuilder from '../../accounts/FormBuilder'
-import { translations } from '../../common/_translations'
-import { consts } from '../../common/_consts'
+import FormBuilder from '../../settings/FormBuilder'
+import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 
 export default class Config extends Component {
     constructor (props) {

@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import RecurringQuoteItem from './RecurringQuoteItem'
 import RecurringQuoteFilters from './RecurringQuoteFilters'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import CountryDropdown from '../../common/CountryDropdown'
-import { translations } from '../../common/_translations'
+import CountryDropdown from '../../common/dropdowns/CountryDropdown'
+import { translations } from '../../utils/_translations'
 
 export default function AddressForm (props) {
     const hasErrorFor = (field) => {

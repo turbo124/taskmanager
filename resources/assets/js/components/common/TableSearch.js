@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Input, InputGroup, UncontrolledTooltip } from 'reactstrap'
-import { icons } from './_icons'
-import { translations } from './_translations'
+import { icons } from '../utils/_icons'
+import { translations } from '../utils/_translations'
 
 export default class TableSearch extends Component {
     constructor (props) {

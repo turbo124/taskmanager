@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, FormGroup, Input, Label, Row } from 'reactstrap'
-import CreditDropdown from '../../common/CreditDropdown'
-import { translations } from '../../common/_translations'
+import CreditDropdown from '../../common/dropdowns/CreditDropdown'
+import { translations } from '../../utils/_translations'
 
 const CreditLineInputs = (props) => {
     return (

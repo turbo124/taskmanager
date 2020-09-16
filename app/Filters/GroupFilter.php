@@ -52,6 +52,10 @@ class GroupFilter extends QueryFilter
             $this->filterDates($request);
         }
 
+        if ($request->has('group_id') && !empty($request->search_term)) {
+            $this->where('id', '=', $request->search_term);
+        }
+
         $this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);

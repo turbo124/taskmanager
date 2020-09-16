@@ -13,10 +13,10 @@ import {
     TabPane
 } from 'reactstrap'
 import axios from 'axios'
-import DesignDropdown from '../common/DesignDropdown'
+import DesignDropdown from '../common/dropdowns/DesignDropdown'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 class Designs extends React.Component {
     constructor (props) {

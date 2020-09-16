@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
-import { consts } from '../common/_consts'
+import { consts } from '../utils/_consts'
 
 export default class OrderModel extends BaseModel {
     constructor (data = null, customers = []) {

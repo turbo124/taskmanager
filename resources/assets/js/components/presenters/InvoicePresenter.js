@@ -2,9 +2,9 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { invoiceStatusColors, invoiceStatuses } from '../common/_consts'
+import { invoiceStatusColors, invoiceStatuses } from '../utils/_consts'
 import InvoiceModel from '../models/InvoiceModel'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default function InvoicePresenter (props) {
     const { field, entity } = props

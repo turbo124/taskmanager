@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { CustomInput, FormGroup, Input, Label } from 'reactstrap'
-import { translations } from '../../common/_translations'
-import { consts } from '../../common/_consts'
+import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 
 export default class Details extends Component {
     render () {

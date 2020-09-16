@@ -6,7 +6,7 @@ import DataTable from '../common/DataTable'
 import PromocodeFilters from './PromocodeFilters'
 import PromocodeItem from './PromocodeItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import { translations } from '../common/_translations'
+import { translations } from '../utils/_translations'
 
 export default class Promocodes extends Component {
     constructor (props) {

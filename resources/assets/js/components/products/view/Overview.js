@@ -1,8 +1,8 @@
 import React from 'react'
 import { ListGroup, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import { translations } from '../../common/_translations'
-import { icons } from '../../common/_icons'
+import { translations } from '../../utils/_translations'
+import { icons } from '../../utils/_icons'
 import FormatMoney from '../../common/FormatMoney'
 import InfoItem from '../../common/entityContainers/InfoItem'
 

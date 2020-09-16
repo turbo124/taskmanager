@@ -10,7 +10,7 @@ import {
     UncontrolledTooltip
 } from 'reactstrap'
 import axios from 'axios'
-import { translations } from './_translations'
+import { translations } from '../utils/_translations'
 
 export default class AboutModal extends Component {
     constructor (props) {

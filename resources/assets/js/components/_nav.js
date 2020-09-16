@@ -1,4 +1,4 @@
-import { getSettingsIcon, icons } from './common/_icons'
+import { getSettingsIcon, icons } from './utils/_icons'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import AddRecurringQuote from '../../recurringQuotes/edit/AddRecurringQuote'
-import { translations } from '../../common/_translations'
+import { translations } from '../../utils/_translations'
 
 export default class Recurring extends Component {
     constructor (props, context) {
