@@ -12,6 +12,7 @@ class NewAccountCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $is_system;
     /**
      * Create a new notification instance.
      *
@@ -19,10 +20,7 @@ class NewAccountCreated extends Notification implements ShouldQueue
      */
 
     protected $user;
-
     protected $account;
-
-    public $is_system;
 
     public function __construct($user, $account, $is_system = false)
     {

@@ -39,52 +39,6 @@ class AccountSettings extends BaseSettings
         $this->account_settings['pdf_variables']['default_value'] = $this->getPdfVariables();
     }
 
-    public function getAccountDefaults()
-    {
-        $defaults = array_filter(
-            array_combine(array_keys($this->account_settings), array_column($this->account_settings, 'default_value'))
-        );
-        $translated = array_filter(
-            array_combine(
-                array_keys($this->account_settings),
-                array_column($this->account_settings, 'translated_value')
-            )
-        );
-        $translated = array_map(array($this, 'translate'), $translated);
-
-        return (object)array_merge($defaults, $translated);
-    }
-
-    private function translate($value)
-    {
-        return trans($value);
-    }
-
-    /**
-     * @param Account $account
-     * @param $settings
-     * @param bool $full_validation
-     * @return Account
-     */
-    public function save(Account $account, $settings, $full_validation = false): Account
-    {
-        try {
-            $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
-
-            if (!$settings && $full_validation === true) {
-                return false;
-            }
-
-            $account->settings = $settings;
-            $account->save();
-
-            return $account;
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            die('here');
-        }
-    }
-
     private function getPdfVariables()
     {
         $variables = [
@@ -185,5 +139,51 @@ class AccountSettings extends BaseSettings
         ];
 
         return json_decode(json_encode($variables));
+    }
+
+    public function getAccountDefaults()
+    {
+        $defaults = array_filter(
+            array_combine(array_keys($this->account_settings), array_column($this->account_settings, 'default_value'))
+        );
+        $translated = array_filter(
+            array_combine(
+                array_keys($this->account_settings),
+                array_column($this->account_settings, 'translated_value')
+            )
+        );
+        $translated = array_map(array($this, 'translate'), $translated);
+
+        return (object)array_merge($defaults, $translated);
+    }
+
+    /**
+     * @param Account $account
+     * @param $settings
+     * @param bool $full_validation
+     * @return Account
+     */
+    public function save(Account $account, $settings, $full_validation = false): Account
+    {
+        try {
+            $settings = $this->validate($settings, array_merge($this->account_settings, $this->settings));
+
+            if (!$settings && $full_validation === true) {
+                return false;
+            }
+
+            $account->settings = $settings;
+            $account->save();
+
+            return $account;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die('here');
+        }
+    }
+
+    private function translate($value)
+    {
+        return trans($value);
     }
 }

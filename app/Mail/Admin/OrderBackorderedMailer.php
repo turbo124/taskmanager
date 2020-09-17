@@ -46,6 +46,15 @@ class OrderBackorderedMailer extends AdminMailer
         $this->subject = trans('texts.notification_order_backordered_subject', $this->getDataArray());
     }
 
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->order->getFormattedTotal(),
+            'customer' => $this->order->customer->present()->name(),
+            'order'    => $this->order->getNumber(),
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans('texts.notification_order_backordered', $this->getDataArray());
@@ -60,15 +69,6 @@ class OrderBackorderedMailer extends AdminMailer
             'button_text' => trans('texts.view_invoice'),
             'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
             'logo'        => $this->order->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->order->getFormattedTotal(),
-            'customer' => $this->order->customer->present()->name(),
-            'order'    => $this->order->getNumber(),
         ];
     }
 }

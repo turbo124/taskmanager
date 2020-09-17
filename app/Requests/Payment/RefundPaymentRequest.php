@@ -11,20 +11,6 @@ use App\Rules\Refund\RefundValidation;
 
 class RefundPaymentRequest extends BaseFormRequest
 {
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-        if (!isset($input['gateway_refund'])) {
-            $input['gateway_refund'] = false;
-        }
-
-        if (!isset($input['send_email'])) {
-            $input['send_email'] = false;
-        }
-
-        $this->replace($input);
-    }
-
     public function rules()
     {
         $input = $this->all();
@@ -48,5 +34,19 @@ class RefundPaymentRequest extends BaseFormRequest
         $input = $this->all();
 
         return Payment::whereId($input['id'])->first();
+    }
+
+    protected function prepareForValidation()
+    {
+        $input = $this->all();
+        if (!isset($input['gateway_refund'])) {
+            $input['gateway_refund'] = false;
+        }
+
+        if (!isset($input['send_email'])) {
+            $input['send_email'] = false;
+        }
+
+        $this->replace($input);
     }
 }

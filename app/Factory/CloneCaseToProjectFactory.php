@@ -5,7 +5,6 @@ namespace App\Factory;
 
 
 use App\Models\Cases;
-use App\Models\Deal;
 use App\Models\Project;
 use App\Models\User;
 

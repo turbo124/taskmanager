@@ -9,15 +9,6 @@ class File extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [
-        'task_id',
-        'name',
-        'file_path',
-        'user_id',
-        'account_id',
-        'uploaded_by_customer'
-    ];
-
     /**
      * @var array
      */
@@ -68,13 +59,20 @@ class File extends Model
             'mime' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         ],
     ];
-
     /**
      * @var array
      */
     public static $extraExtensions = [
         'jpg' => 'jpeg',
         'tif' => 'tiff',
+    ];
+    protected $fillable = [
+        'task_id',
+        'name',
+        'file_path',
+        'user_id',
+        'account_id',
+        'uploaded_by_customer'
     ];
 
     public function task()

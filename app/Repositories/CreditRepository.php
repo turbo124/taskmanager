@@ -54,20 +54,6 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      * @param Credit $credit
      * @return Credit|null
      */
-    public function updateCreditNote(array $data, Credit $credit): ?Credit
-    {
-        $credit = $this->save($data, $credit);
-
-        event(new CreditWasUpdated($credit));
-
-        return $credit;
-    }
-
-    /**
-     * @param array $data
-     * @param Credit $credit
-     * @return Credit|null
-     */
     public function save(array $data, Credit $credit): ?Credit
     {
         $credit->fill($data);
@@ -80,6 +66,20 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         $this->saveInvitations($credit, 'credit', $data);
 
         return $credit->fresh();
+    }
+
+    /**
+     * @param array $data
+     * @param Credit $credit
+     * @return Credit|null
+     */
+    public function updateCreditNote(array $data, Credit $credit): ?Credit
+    {
+        $credit = $this->save($data, $credit);
+
+        event(new CreditWasUpdated($credit));
+
+        return $credit;
     }
 
     public function getCreditForCustomer(Customer $objCustomer)

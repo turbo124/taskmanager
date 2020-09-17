@@ -17,8 +17,14 @@ class Payment extends Model
     use SoftDeletes;
     use Money;
 
+    const STATUS_PENDING = 1;
+    const STATUS_VOIDED = 2;
+    const STATUS_FAILED = 3;
+    const STATUS_COMPLETED = 4;
+    const STATUS_PARTIALLY_REFUNDED = 5;
+    const STATUS_REFUNDED = 6;
+    const TYPE_CUSTOMER_CREDIT = 2;
     protected $presenter = 'App\Presenters\OrderPresenter';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,33 +49,21 @@ class Payment extends Model
         'custom_value3',
         'custom_value4'
     ];
-
     protected $casts = [
         'exchange_rate' => 'float',
         'updated_at'    => 'timestamp',
         'deleted_at'    => 'timestamp',
         'is_deleted'    => 'boolean',
     ];
-
     protected $with = [
         'paymentables',
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [];
-
-    const STATUS_PENDING = 1;
-    const STATUS_VOIDED = 2;
-    const STATUS_FAILED = 3;
-    const STATUS_COMPLETED = 4;
-    const STATUS_PARTIALLY_REFUNDED = 5;
-    const STATUS_REFUNDED = 6;
-
-    const TYPE_CUSTOMER_CREDIT = 2;
 
     /**
      * @return BelongsTo
@@ -90,16 +84,6 @@ class Payment extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
-    }
-
-    public function invoices()
-    {
-        return $this->morphedByMany(Invoice::class, 'paymentable')->withPivot('amount')->withTrashed();
-    }
-
-    public function credits()
-    {
-        return $this->morphedByMany(Credit::class, 'paymentable')->withPivot('amount', 'refunded')->withTimestamps();
     }
 
     public function account()
@@ -149,6 +133,11 @@ class Payment extends Model
         return $this;
     }
 
+    public function invoices()
+    {
+        return $this->morphedByMany(Invoice::class, 'paymentable')->withPivot('amount')->withTrashed();
+    }
+
     /**
      * @param Credit $credit
      * @param $amount
@@ -164,6 +153,11 @@ class Payment extends Model
         );
 
         return $this;
+    }
+
+    public function credits()
+    {
+        return $this->morphedByMany(Credit::class, 'paymentable')->withPivot('amount', 'refunded')->withTimestamps();
     }
 
     public function deletePayment(): bool

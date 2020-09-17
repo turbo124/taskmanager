@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import PaymentModel from '../../models/PaymentModel'
@@ -9,7 +9,6 @@ import CustomerSettings from '../edit/CustomerSettings'
 import CustomerModel from '../../models/CustomerModel'
 import GatewayModel from '../../models/GatewayModel'
 import FileUploads from '../../documents/FileUploads'
-import CustomerGateways from '../../gateways/CustomerGateways'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import MetaItem from '../../common/entityContainers/MetaItem'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
@@ -247,7 +246,7 @@ export default class Customer extends Component {
                     </TabPane>
 
                     <TabPane tabId="7">
-                        <ErrorLog error_logs={this.props.entity.error_logs} />
+                        <ErrorLog error_logs={this.props.entity.error_logs}/>
                     </TabPane>
                 </TabContent>
 

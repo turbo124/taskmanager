@@ -50,10 +50,23 @@ export default class GroupModel extends BaseModel {
         this.settings.company_gateway_ids = ids
         this.fields.settings.company_gateways_ids = ids
     }
+
     //
     // get gateway_ids () {
     //     return this.settings.company_gateway_ids || ''
     // }
+
+    get gateways () {
+        if (!this.fields.settings) {
+            return []
+        }
+
+        if (this.fields.settings.company_gateway_ids && typeof this.fields.settings.company_gateway_ids === 'string') {
+            return this.fields.settings.company_gateway_ids.split(',').map(Number)
+        }
+
+        return this.fields.settings.company_gateway_ids || []
+    }
 
     buildDropdownMenu () {
         const actions = []
@@ -117,18 +130,6 @@ export default class GroupModel extends BaseModel {
             this.handleError(e)
             return false
         }
-    }
-
-    get gateways () {
-        if (!this.fields.settings) {
-            return []
-        }
-
-        if (this.fields.settings.company_gateway_ids && typeof this.fields.settings.company_gateway_ids === 'string') {
-            return this.fields.settings.company_gateway_ids.split(',').map(Number)
-        }
-
-        return this.fields.settings.company_gateway_ids || []
     }
 
     addGateway (gateway) {

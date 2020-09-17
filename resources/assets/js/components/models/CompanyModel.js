@@ -51,6 +51,18 @@ export default class CompanyModel extends BaseModel {
         return this._url
     }
 
+    get hasCurrency () {
+        return this.fields.currency_id != null && this.fields.currency_id.toString().length
+    }
+
+    get currencyId () {
+        if (!this.fields.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.currency_id)
+    }
+
     buildDropdownMenu () {
         const actions = []
 
@@ -63,18 +75,6 @@ export default class CompanyModel extends BaseModel {
         }
 
         return actions
-    }
-
-    get hasCurrency () {
-        return this.fields.currency_id != null && this.fields.currency_id.toString().length
-    }
-
-    get currencyId () {
-        if (!this.fields.currency_id) {
-            return null
-        }
-
-        return parseInt(this.fields.currency_id)
     }
 
     performAction () {

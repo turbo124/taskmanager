@@ -72,17 +72,17 @@ class NumberGenerator
         return true;
     }
 
-    /**
-     *  Saves counters at both the account and customer level
-     * @param $entity
-     * @param string $counter_name
-     */
-    private function updateEntityCounter($entity, string $counter_name): void
+    private function checkEntityNumber($class, $customer, $counter, $padding)
     {
-        $settings = $entity->settings;
-        $settings->{$counter_name} = !empty($settings->{$counter_name}) ? $settings->{$counter_name} + 1 : 1;
-        $entity->settings = $settings;
-        $entity->save();
+        $check = false;
+        do {
+            $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
+            $check = $class::whereAccountId($this->entity_obj->account->id)->whereNumber($number)->withTrashed()->first(
+            );
+
+            $counter++;
+        } while ($check);
+        return $number;
     }
 
     /**
@@ -104,16 +104,16 @@ class NumberGenerator
         return $number;
     }
 
-    private function checkEntityNumber($class, $customer, $counter, $padding)
+    /**
+     *  Saves counters at both the account and customer level
+     * @param $entity
+     * @param string $counter_name
+     */
+    private function updateEntityCounter($entity, string $counter_name): void
     {
-        $check = false;
-        do {
-            $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
-            $check = $class::whereAccountId($this->entity_obj->account->id)->whereNumber($number)->withTrashed()->first(
-            );
-
-            $counter++;
-        } while ($check);
-        return $number;
+        $settings = $entity->settings;
+        $settings->{$counter_name} = !empty($settings->{$counter_name}) ? $settings->{$counter_name} + 1 : 1;
+        $entity->settings = $settings;
+        $entity->save();
     }
 }

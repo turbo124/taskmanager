@@ -81,23 +81,6 @@ trait OrderTransformable
      * @param $invitations
      * @return array
      */
-    private function transformOrderFiles($files)
-    {
-        if (empty($files)) {
-            return [];
-        }
-
-        return $files->map(
-            function (File $file) {
-                return (new FileTransformable())->transformFile($file);
-            }
-        )->all();
-    }
-
-    /**
-     * @param $invitations
-     * @return array
-     */
     private function transformOrderEmails($emails)
     {
         if ($emails->count() === 0) {
@@ -120,6 +103,23 @@ trait OrderTransformable
         return $audits->map(
             function (Audit $audit) {
                 return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $invitations
+     * @return array
+     */
+    private function transformOrderFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

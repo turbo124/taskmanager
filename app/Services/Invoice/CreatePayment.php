@@ -57,6 +57,18 @@ class CreatePayment
 
     /**
      * @param Payment $payment
+     * @return Invoice
+     */
+    private function updateInvoice(Payment $payment): Invoice
+    {
+        $new_balance = $this->invoice->reduceBalance($payment->amount);
+        $this->invoice->setStatus(Invoice::STATUS_PAID);
+        $this->invoice->save();
+        return $this->invoice;
+    }
+
+    /**
+     * @param Payment $payment
      * @return Customer
      */
     private function updateCustomer(Payment $payment): Customer
@@ -66,18 +78,6 @@ class CreatePayment
         $customer->increasePaidToDateAmount($payment->amount);
         $customer->save();
         return $customer;
-    }
-
-    /**
-     * @param Payment $payment
-     * @return Invoice
-     */
-    private function updateInvoice(Payment $payment): Invoice
-    {
-        $new_balance = $this->invoice->reduceBalance($payment->amount);
-        $this->invoice->setStatus(Invoice::STATUS_PAID);
-        $this->invoice->save();
-        return $this->invoice;
     }
 
 }

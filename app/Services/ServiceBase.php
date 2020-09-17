@@ -7,12 +7,12 @@ use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
 use App\Models\ClientContact;
 use App\Models\ContactInterface;
+use ReflectionClass;
 
 class ServiceBase
 {
-    private $entity;
-
     protected array $config = [];
+    private $entity;
 
     public function __construct($entity, array $config = [])
     {
@@ -118,7 +118,7 @@ class ServiceBase
             SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
         }
 
-        $entity_class = (new \ReflectionClass($this->entity))->getShortName();
+        $entity_class = (new ReflectionClass($this->entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasEmailed";
 
         if (class_exists($event_class) && $invitation !== null) {

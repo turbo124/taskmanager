@@ -66,23 +66,6 @@ trait InvoiceTransformable
     }
 
     /**
-     * @param $files
-     * @return array
-     */
-    private function transformInvoiceFiles($files)
-    {
-        if (empty($files)) {
-            return [];
-        }
-
-        return $files->map(
-            function (File $file) {
-                return (new FileTransformable())->transformFile($file);
-            }
-        )->all();
-    }
-
-    /**
      * @param $invitations
      * @return array
      */
@@ -138,6 +121,23 @@ trait InvoiceTransformable
         return $audits->map(
             function (Audit $audit) {
                 return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformInvoiceFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

@@ -91,13 +91,6 @@ class PaymentController extends Controller
         return response()->json($this->transformPayment($payment));
     }
 
-    public function archive(int $id)
-    {
-        $payment = Payment::withTrashed()->where('id', '=', $id)->first();
-        $this->payment_repo->archive($payment);
-        return response()->json([], 200);
-    }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -147,6 +140,13 @@ class PaymentController extends Controller
         if ($action === 'archive') {
             return $this->archive($payment->id);
         }
+    }
+
+    public function archive(int $id)
+    {
+        $payment = Payment::withTrashed()->where('id', '=', $id)->first();
+        $this->payment_repo->archive($payment);
+        return response()->json([], 200);
     }
 
     /**

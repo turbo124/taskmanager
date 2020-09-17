@@ -121,7 +121,7 @@ export default class TaskFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <Button color="primary" onClick={() => {
-                        location.href = '/#/kanban/projects'
+                        location.href = '/#/kanban?type=task'
                     }}>Kanban view </Button>
                 </Col>
             </Row>

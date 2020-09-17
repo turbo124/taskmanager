@@ -123,8 +123,6 @@ export default class Gateways extends Component {
     }
 
     save () {
-        console.log('save')
-
         this.model.saveSettings().then(response => {
             if (!response) {
                 this.setState({

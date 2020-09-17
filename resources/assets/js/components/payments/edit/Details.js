@@ -31,14 +31,14 @@ export default class Details extends React.Component {
         const customer_disabled = this.props.payment.payable_invoices.length > 0
         return (<React.Fragment>
             {!this.props.hide_amount &&
-            <FormGroup className="mb-3">
-                <Label>{translations.amount}(*):</Label>
-                <Input value={this.props.payment.amount}
-                    className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
-                    type="text" name="amount"
-                    onChange={this.props.handleInput}/>
-                {this.renderErrorFor('amount')}
-            </FormGroup>
+                <FormGroup className="mb-3">
+                    <Label>{translations.amount}(*):</Label>
+                    <Input value={this.props.payment.amount}
+                        className={this.hasErrorFor('amount') ? 'is-invalid' : ''}
+                        type="text" name="amount"
+                        onChange={this.props.handleInput}/>
+                    {this.renderErrorFor('amount')}
+                </FormGroup>
             }
 
             <FormGroup className="mr-2">

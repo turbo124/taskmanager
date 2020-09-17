@@ -3,9 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\CaseTemplate;
-use App\Models\Product;
 use App\Repositories\Base\BaseRepositoryInterface;
-use Illuminate\Support\Collection;
 
 interface CaseTemplateRepositoryInterface extends BaseRepositoryInterface
 {
@@ -22,5 +20,5 @@ interface CaseTemplateRepositoryInterface extends BaseRepositoryInterface
      */
     public function findCaseTemplateById(int $id): CaseTemplate;
 
-   
+
 }

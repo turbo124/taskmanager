@@ -7,7 +7,7 @@ import GroupFilters from './GroupFilters'
 import GroupItem from './GroupItem'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
-import queryString from "query-string";
+import queryString from 'query-string'
 
 export default class Groups extends Component {
     constructor (props) {

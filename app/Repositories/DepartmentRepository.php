@@ -38,17 +38,6 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     }
 
     /**
-     * @param int $id
-     *
-     * @return Department
-     * @throws DepartmentNotFoundErrorException
-     */
-    public function findDepartmentById(int $id): Department
-    {
-        return $this->findOneOrFail($id);
-    }
-
-    /**
      * @return bool
      * @throws DeleteDepartmentErrorException
      */
@@ -85,6 +74,17 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
         $department->save();
 
         return $department->fresh();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Department
+     * @throws DepartmentNotFoundErrorException
+     */
+    public function findDepartmentById(int $id): Department
+    {
+        return $this->findOneOrFail($id);
     }
 
 }

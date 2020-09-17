@@ -70,18 +70,6 @@ class RecurringInvoiceFilter extends QueryFilter
         return $invoices;
     }
 
-    private function transformList()
-    {
-        $list = $this->query->get();
-        $invoices = $list->map(
-            function (RecurringInvoice $invoice) {
-                return $this->transformRecurringInvoice($invoice);
-            }
-        )->all();
-
-        return $invoices;
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -95,5 +83,17 @@ class RecurringInvoiceFilter extends QueryFilter
                       ->orWhere('recurring_invoices.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+    }
+
+    private function transformList()
+    {
+        $list = $this->query->get();
+        $invoices = $list->map(
+            function (RecurringInvoice $invoice) {
+                return $this->transformRecurringInvoice($invoice);
+            }
+        )->all();
+
+        return $invoices;
     }
 }

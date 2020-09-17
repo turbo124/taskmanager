@@ -100,12 +100,12 @@ export default class OrderModel extends BaseModel {
         }
     }
 
-    set exchange_rate (exchange_rate) {
-        this.fields.exchange_rate = exchange_rate
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
     }
 
     get customer () {
@@ -148,10 +148,6 @@ export default class OrderModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.held
     }
 
-    hasInvoice () {
-        return this.fields.invoice_id && this.fields.invoice_id.length
-    }
-
     get fileCount () {
         return this._file_count || 0
     }
@@ -170,6 +166,32 @@ export default class OrderModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this._fields.customer_id = customer_id
+    }
+
+    get isDeleted () {
+        return this.fields.deleted_at && this.fields.deleted_at.length > 0
+    }
+
+    get isEditable () {
+        return !this.isCancelled && !this.isHeld && !this.isDeleted
+    }
+
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
+    }
+
+    set task_id (task_id) {
+        this._fields.task_id = task_id
+    }
+
+    hasInvoice () {
+        return this.fields.invoice_id && this.fields.invoice_id.length
     }
 
     addItem () {
@@ -191,14 +213,6 @@ export default class OrderModel extends BaseModel {
         const pending_statuses = [consts.order_status_draft, consts.order_status_backorder, consts.order_status_held, consts.order_status_partial]
 
         return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
-    }
-
-    get isDeleted () {
-        return this.fields.deleted_at && this.fields.deleted_at.length > 0
-    }
-
-    get isEditable () {
-        return !this.isCancelled && !this.isHeld && !this.isDeleted
     }
 
     buildDropdownMenu () {
@@ -318,12 +332,6 @@ export default class OrderModel extends BaseModel {
         return invitations
     }
 
-    get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
-        return customer.contacts ? customer.contacts : []
-    }
-
     async update (data) {
         if (!this.fields.id) {
             return false
@@ -367,14 +375,6 @@ export default class OrderModel extends BaseModel {
             this.handleError(e)
             return false
         }
-    }
-
-    set task_id (task_id) {
-        this._fields.task_id = task_id
-    }
-
-    set customer_id (customer_id) {
-        this._fields.customer_id = customer_id
     }
 
     customerChange (customer_id) {

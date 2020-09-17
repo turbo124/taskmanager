@@ -54,6 +54,15 @@ class PaymentFailed extends AdminMailer
         $this->message = trans('texts.notification_payment_failed', $this->getDataArray());
     }
 
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->payment->getFormattedTotal(),
+            'customer' => $this->payment->customer->present()->name(),
+            'invoice'  => $this->payment->getFormattedInvoices(),
+        ];
+    }
+
     private function buildMessage()
     {
         $this->message_array = [
@@ -63,15 +72,6 @@ class PaymentFailed extends AdminMailer
             'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
             'button_text' => trans('texts.view_payment'),
             'logo'        => $this->payment->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->payment->getFormattedTotal(),
-            'customer' => $this->payment->customer->present()->name(),
-            'invoice'  => $this->payment->getFormattedInvoices(),
         ];
     }
 }

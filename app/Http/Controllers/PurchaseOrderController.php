@@ -78,7 +78,6 @@ class PurchaseOrderController extends BaseController
      */
     public function store(CreatePurchaseOrderRequest $request)
     {
-
         $company = Company::find($request->input('company_id'));
         $po = $this->purchase_order_repo->createPurchaseOrder(
             $request->all(),

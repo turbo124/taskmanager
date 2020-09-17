@@ -54,7 +54,7 @@ class DealFilter extends QueryFilter
         }
 
         if ($request->filled('task_status')) {
-            $this->status('deals', $request->task_status);
+            $this->status('deals', $request->task_status, 'task_status');
         }
 
         if ($request->filled('task_type')) {

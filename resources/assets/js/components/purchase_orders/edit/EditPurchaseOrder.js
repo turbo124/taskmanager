@@ -37,7 +37,6 @@ import Contactsm from './Contactsm'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
-import CustomerModel from '../../models/CustomerModel'
 import CompanyModel from '../../models/CompanyModel'
 
 class EditPurchaseOrder extends Component {
@@ -502,7 +501,8 @@ class EditPurchaseOrder extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.purchaseOrderModel} companies={this.props.companies} purchase_order={this.state} errors={this.state.errors}
+        const items = <Items model={this.purchaseOrderModel} companies={this.props.companies}
+            purchase_order={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}

@@ -70,19 +70,6 @@ class RecurringQuoteFilter extends QueryFilter
         return $quotes;
     }
 
-    private function transformList()
-    {
-        $list = $this->query->get();
-
-        $quotes = $list->map(
-            function (RecurringQuote $quote) {
-                return $this->transformRecurringQuote($quote);
-            }
-        )->all();
-
-        return $quotes;
-    }
-
     public function searchFilter(string $filter = '')
     {
         if (strlen($filter) == 0) {
@@ -96,6 +83,19 @@ class RecurringQuoteFilter extends QueryFilter
                       ->orWhere('recurring_quotes.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+    }
+
+    private function transformList()
+    {
+        $list = $this->query->get();
+
+        $quotes = $list->map(
+            function (RecurringQuote $quote) {
+                return $this->transformRecurringQuote($quote);
+            }
+        )->all();
+
+        return $quotes;
     }
 
 }

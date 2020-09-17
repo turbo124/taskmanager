@@ -21,10 +21,9 @@ class CompanyGatewayController extends Controller
 {
     use CompanyGatewayTransformable;
 
+    public $forced_includes = [];
     private $account_repo;
     private $company_gateway_repo;
-
-    public $forced_includes = [];
 
     /**
      * CompanyGatewayController constructor.

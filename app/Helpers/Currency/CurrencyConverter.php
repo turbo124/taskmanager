@@ -54,11 +54,6 @@ class CurrencyConverter
         return $this;
     }
 
-    private function getCurrency($currency)
-    {
-        return $this->currency_repository->findCurrencyById($currency);
-    }
-
     public function calculate()
     {
         if (empty($this->amount) || empty($this->base_currency)) {
@@ -102,5 +97,10 @@ class CurrencyConverter
         );
         $list = json_decode($response->getBody(), true);
         $this->exchange_rates = $list['rates'];
+    }
+
+    private function getCurrency($currency)
+    {
+        return $this->currency_repository->findCurrencyById($currency);
     }
 }

@@ -74,22 +74,6 @@ export default class ExpenseModel extends BaseModel {
         return this._url
     }
 
-    getExchangeRateForCurrency (currency_id) {
-        const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
-        return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
-    }
-
-    buildDropdownMenu () {
-        const actions = []
-        if (!this.fields.is_deleted) {
-            actions.push('newInvoice')
-        }
-
-        actions.push('cloneExpense')
-
-        return actions
-    }
-
     get convertedAmount () {
         return (this.fields.amount * this.fields.exchange_rate).toFixed(2)
     }
@@ -112,6 +96,22 @@ export default class ExpenseModel extends BaseModel {
 
     set fileCount (files) {
         this._file_count = files ? files.length : 0
+    }
+
+    getExchangeRateForCurrency (currency_id) {
+        const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
+        return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
+    }
+
+    buildDropdownMenu () {
+        const actions = []
+        if (!this.fields.is_deleted) {
+            actions.push('newInvoice')
+        }
+
+        actions.push('cloneExpense')
+
+        return actions
     }
 
     async completeAction (data, action) {

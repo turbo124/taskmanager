@@ -21,8 +21,12 @@ class Account extends Model
 {
     use PresentableTrait, SoftDeletes;
 
+    const SUBSCRIPTION_STANDARD = 1;
+    const SUBSCRIPTION_ADVANCED = 2;
+    const SUBSCRIPTION_FREE = 3;
+    const SUBSCRIPTION_PERIOD_YEAR = 2;
+    const SUBSCRIPTION_PERIOD_MONTH = 1;
     protected $presenter = 'App\Presenters\AccountPresenter';
-
     protected $dispatchesEvents = [
         'deleted' => AccountWasDeleted::class,
     ];
@@ -33,7 +37,6 @@ class Account extends Model
         'support_email',
         'settings'
     ];
-
     protected $casts = [
         'country_id'    => 'string',
         'custom_fields' => 'object',
@@ -43,24 +46,9 @@ class Account extends Model
         'deleted_at'    => 'timestamp',
     ];
 
-    const SUBSCRIPTION_STANDARD = 1;
-    const SUBSCRIPTION_ADVANCED = 2;
-    const SUBSCRIPTION_FREE = 3;
-
-    const SUBSCRIPTION_PERIOD_YEAR = 2;
-    const SUBSCRIPTION_PERIOD_MONTH = 1;
-
     public function locale()
     {
         return $this->getLocale();
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function language()
-    {
-        return Language::find($this->settings->language_id);
     }
 
     public function getLocale()
@@ -70,6 +58,14 @@ class Account extends Model
             : config(
                 'taskmanager.locale'
             );
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function language()
+    {
+        return Language::find($this->settings->language_id);
     }
 
     public function getSettings()

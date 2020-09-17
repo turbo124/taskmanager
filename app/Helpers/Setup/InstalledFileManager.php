@@ -5,6 +5,16 @@ namespace App\Helpers\Setup;
 class InstalledFileManager
 {
     /**
+     * Update installed file.
+     *
+     * @return int
+     */
+    public function update()
+    {
+        return $this->create();
+    }
+
+    /**
      * Create installed file.
      *
      * @return int
@@ -26,15 +36,5 @@ class InstalledFileManager
         }
 
         return $message;
-    }
-
-    /**
-     * Update installed file.
-     *
-     * @return int
-     */
-    public function update()
-    {
-        return $this->create();
     }
 }

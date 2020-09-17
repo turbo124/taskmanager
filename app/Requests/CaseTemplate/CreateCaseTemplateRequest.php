@@ -15,9 +15,9 @@ class CreateCaseTemplateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:case_templates'],
+            'name'        => ['required', 'unique:case_templates'],
             'description' => 'required',
-            'send_on' => 'required'
+            'send_on'     => 'required'
         ];
     }
 }

@@ -105,6 +105,15 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     }
 
     /**
+     * @param int $id
+     * @return Category
+     */
+    public function findCategoryById(int $id): Category
+    {
+        return $this->findOneOrFail($id);
+    }
+
+    /**
      * Update the category
      *
      * @param array $params
@@ -140,15 +149,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $category->update($merge->all());
 
         return $category;
-    }
-
-    /**
-     * @param int $id
-     * @return Category
-     */
-    public function findCategoryById(int $id): Category
-    {
-        return $this->findOneOrFail($id);
     }
 
     /**

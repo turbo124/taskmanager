@@ -65,6 +65,35 @@ class AutobillInvoice implements ShouldQueue
         return $gateway_obj->build($amount, $this->invoice);
     }
 
+    private function findGatewayFee(): ?CustomerGateway
+    {
+        //TODO
+        $gateways = $this->invoice->customer->gateways()->orderBy('is_default', 'DESC')->get();
+        $amount = $this->invoice->total;
+
+        foreach ($gateways as $gateway) {
+            $company_gateway = $gateway->company_gateway;
+
+            if (empty($company_gateway->fees_and_limits)) {
+                continue;
+            }
+
+            $fees_and_limits = $company_gateway->fees_and_limits[0];
+
+            if (!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) {
+                continue;
+            }
+
+            if (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit) {
+                continue;
+            }
+
+            return $gateway;
+        }
+
+        return null;
+    }
+
     private function calculateFee(CompanyGateway $company_gateway, float $amount)
     {
         $fees_and_limits = $company_gateway->fees_and_limits[0];
@@ -95,34 +124,5 @@ class AutobillInvoice implements ShouldQueue
         $this->invoice_repo->save(['gateway_fee' => $fee], $this->invoice);
 
         return $fee;
-    }
-
-    private function findGatewayFee(): ?CustomerGateway
-    {
-        //TODO
-        $gateways = $this->invoice->customer->gateways()->orderBy('is_default', 'DESC')->get();
-        $amount = $this->invoice->total;
-
-        foreach ($gateways as $gateway) {
-            $company_gateway = $gateway->company_gateway;
-
-            if (empty($company_gateway->fees_and_limits)) {
-                continue;
-            }
-
-            $fees_and_limits = $company_gateway->fees_and_limits[0];
-
-            if (!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) {
-                continue;
-            }
-
-            if (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit) {
-                continue;
-            }
-
-            return $gateway;
-        }
-
-        return null;
     }
 }

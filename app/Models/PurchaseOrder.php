@@ -17,8 +17,11 @@ class PurchaseOrder extends Model
     use MoneyVendor;
     use Balancer;
 
+    const STATUS_DRAFT = 1;
+    const STATUS_SENT = 2;
+    const STATUS_APPROVED = 4;
+    const STATUS_EXPIRED = -1;
     protected $presenter = 'App\Presenters\QuotePresenter';
-
     protected $casts = [
         'company_id' => 'integer',
         'account_id' => 'integer',
@@ -28,7 +31,6 @@ class PurchaseOrder extends Model
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',
     ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -81,11 +83,6 @@ class PurchaseOrder extends Model
         'gateway_fee',
         'gateway_percentage',
     ];
-
-    const STATUS_DRAFT = 1;
-    const STATUS_SENT = 2;
-    const STATUS_APPROVED = 4;
-    const STATUS_EXPIRED = -1;
 
     public function tasks()
     {

@@ -55,36 +55,6 @@ class Stripe extends BasePaymentGateway
         return true;
     }
 
-    private function convertToStripeAmount($amount, $precision)
-    {
-        return $amount * pow(10, $precision);
-    }
-
-    private function findCreditCard()
-    {
-        $stripe_customer = $this->getStripeCustomer();
-
-        $payment_methods = array_filter(
-            (array)$stripe_customer->sources['data'],
-            function ($var) {
-                return ($var->object == 'card');
-            }
-        );
-
-        if (empty($payment_methods)) {
-            return false;
-        }
-
-        $payment_method = array_values($payment_methods)[0];
-
-        return $payment_method;
-    }
-
-    private function getStripeCustomer(): Customer
-    {
-        return $this->stripe->customers->retrieve($this->customer_gateway->gateway_customer_reference);
-    }
-
     /**
      * @param float $amount
      * @param Invoice|null $invoice
@@ -197,5 +167,35 @@ class Stripe extends BasePaymentGateway
         }
 
         return true;
+    }
+
+    private function findCreditCard()
+    {
+        $stripe_customer = $this->getStripeCustomer();
+
+        $payment_methods = array_filter(
+            (array)$stripe_customer->sources['data'],
+            function ($var) {
+                return ($var->object == 'card');
+            }
+        );
+
+        if (empty($payment_methods)) {
+            return false;
+        }
+
+        $payment_method = array_values($payment_methods)[0];
+
+        return $payment_method;
+    }
+
+    private function getStripeCustomer(): Customer
+    {
+        return $this->stripe->customers->retrieve($this->customer_gateway->gateway_customer_reference);
+    }
+
+    private function convertToStripeAmount($amount, $precision)
+    {
+        return $amount * pow(10, $precision);
     }
 }

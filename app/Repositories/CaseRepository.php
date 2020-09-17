@@ -57,27 +57,15 @@ class CaseRepository extends BaseRepository
     /**
      * @param array $data
      * @param Cases $case
-     * @return Cases|null
      */
-    public function updateCase(array $data, Cases $case, User $user): ?Cases
+    public function save(array $data, Cases $case): ?Cases
     {
-        if ($case->status_id === Cases::STATUS_DRAFT && (int)$data['status_id'] === Cases::STATUS_OPEN) {
-            $case->date_opened = Carbon::now();
-            $case->opened_by = $user->id;
+        $case->message = $this->parseTemplateVariables($data['message'], $case);
+        $case->fill($data);
+        $case->setNumber();
+        $case->save();
 
-            $this->sendEmail($case, Cases::STATUS_OPEN);
-        }
-
-        if ($case->status_id === Cases::STATUS_OPEN && (int)$data['status_id'] === Cases::STATUS_CLOSED) {
-            $case->date_closed = Carbon::now();
-            $case->closed_by = $user->id;
-
-            $this->sendEmail($case, Cases::STATUS_CLOSED);
-        }
-
-        $case = $this->save($data, $case);
-
-        event(new CaseWasUpdated($case));
+        $this->saveInvitations($case, 'case', $data);
 
         return $case;
     }
@@ -100,15 +88,27 @@ class CaseRepository extends BaseRepository
     /**
      * @param array $data
      * @param Cases $case
+     * @return Cases|null
      */
-    public function save(array $data, Cases $case): ?Cases
+    public function updateCase(array $data, Cases $case, User $user): ?Cases
     {
-        $case->message = $this->parseTemplateVariables($data['message'], $case);
-        $case->fill($data);
-        $case->setNumber();
-        $case->save();
+        if ($case->status_id === Cases::STATUS_DRAFT && (int)$data['status_id'] === Cases::STATUS_OPEN) {
+            $case->date_opened = Carbon::now();
+            $case->opened_by = $user->id;
 
-        $this->saveInvitations($case, 'case', $data);
+            $this->sendEmail($case, Cases::STATUS_OPEN);
+        }
+
+        if ($case->status_id === Cases::STATUS_OPEN && (int)$data['status_id'] === Cases::STATUS_CLOSED) {
+            $case->date_closed = Carbon::now();
+            $case->closed_by = $user->id;
+
+            $this->sendEmail($case, Cases::STATUS_CLOSED);
+        }
+
+        $case = $this->save($data, $case);
+
+        event(new CaseWasUpdated($case));
 
         return $case;
     }

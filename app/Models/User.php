@@ -21,12 +21,9 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable, SoftDeletes, HasPermissionsTrait, PresentableTrait;
     use HasRelationships;
 
-    protected $presenter = 'App\Presenters\UserPresenter';
-
-    protected $with = ['accounts'];
-
     public $account;
-
+    protected $presenter = 'App\Presenters\UserPresenter';
+    protected $with = ['accounts'];
     /**
      * The attributes that are mass assignable.
      *
@@ -157,29 +154,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->account_user->is_owner;
     }
 
-    /**
-     * @return BelongsToMany
-     */
-    public function accounts()
-    {
-        return $this->belongsToMany(Account::class)->using(Models\AccountUser::class)
-                    ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked');
-    }
-
-
-    // Example, just to showcase the API.
     public function uploads()
     {
         return $this->hasMany(Upload::class);
     }
 
-    public static function notificationDefaults()
-    {
-        $notification = new stdClass;
-        $notification->email = [];
 
-        return $notification;
-    }
+    // Example, just to showcase the API.
 
     public function attachUserToAccount(Account $account, $is_admin, array $notifications = [])
     {
@@ -193,5 +174,22 @@ class User extends Authenticatable implements JWTSubject
             ]
         );
         return true;
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function accounts()
+    {
+        return $this->belongsToMany(Account::class)->using(Models\AccountUser::class)
+                    ->withPivot('permissions', 'settings', 'is_admin', 'is_owner', 'is_locked');
+    }
+
+    public static function notificationDefaults()
+    {
+        $notification = new stdClass;
+        $notification->email = [];
+
+        return $notification;
     }
 }

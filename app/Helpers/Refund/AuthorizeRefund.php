@@ -82,27 +82,6 @@ class AuthorizeRefund
         return true;
     }
 
-    private function buildPaymentProfile($customer_payment_profile_id)
-    {
-        // set payment profile for customer
-
-        $this->paymentProfile = new PaymentProfileType();
-
-        $this->paymentProfile->setpaymentProfileId($customer_payment_profile_id);
-    }
-
-    private function buildCustomerProfile($customer_profile_id)
-    {
-        // set customer profile
-
-        $this->customerProfile = new CustomerProfilePaymentType();
-
-        $this->customerProfile->setCustomerProfileId($customer_profile_id);
-
-        $this->customerProfile->setPaymentProfile($this->paymentProfile);
-    }
-
-
     private function getTransactionDetails($transactionId)
     {
         // Set the transaction's refId
@@ -128,6 +107,38 @@ class AuthorizeRefund
         echo "Response : " . $errorMessages[0]->getCode() . "  " . $errorMessages[0]->getText() . "\n";
     }
 
+    private function buildPaymentProfile($customer_payment_profile_id)
+    {
+        // set payment profile for customer
+
+        $this->paymentProfile = new PaymentProfileType();
+
+        $this->paymentProfile->setpaymentProfileId($customer_payment_profile_id);
+    }
+
+    private function buildCustomerProfile($customer_profile_id)
+    {
+        // set customer profile
+
+        $this->customerProfile = new CustomerProfilePaymentType();
+
+        $this->customerProfile->setCustomerProfileId($customer_profile_id);
+
+        $this->customerProfile->setPaymentProfile($this->paymentProfile);
+    }
+
+    private function createCreditCard($credit_card_details)
+    {
+        // Create the payment data for a credit card
+        $creditCard = new CreditCardType();
+        $creditCard->setCardNumber($credit_card_details->getCardNumber());
+        $creditCard->setExpirationDate("XXXX");
+        $this->payment_data = new PaymentType();
+        $this->payment_data->setCreditCard($creditCard);
+
+        return true;
+    }
+
     private function createTransaction()
     {
         $amount = $this->data['amount'] ?? $this->payment->amount;
@@ -142,18 +153,6 @@ class AuthorizeRefund
         }
 
         $this->transactionRequest->setRefTransId($this->payment->transaction_reference);
-
-        return true;
-    }
-
-    private function createCreditCard($credit_card_details)
-    {
-        // Create the payment data for a credit card
-        $creditCard = new CreditCardType();
-        $creditCard->setCardNumber($credit_card_details->getCardNumber());
-        $creditCard->setExpirationDate("XXXX");
-        $this->payment_data = new PaymentType();
-        $this->payment_data->setCreditCard($creditCard);
 
         return true;
     }

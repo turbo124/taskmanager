@@ -70,14 +70,6 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function getMessage()
-    {
-        $this->subject = trans(
-            'texts.notification_partial_payment_paid_subject',
-            ['customer' => $this->payment->customer->present()->name()]
-        );
-    }
-
     public function toSlack($notifiable)
     {
         $logo = $this->payment->account->present()->logo();
@@ -86,6 +78,14 @@ class NewPartialPaymentNotification extends Notification implements ShouldQueue
                                  ->from("System")->image($logo)->content(
                 $this->getMessage()
             );
+    }
+
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_partial_payment_paid_subject',
+            ['customer' => $this->payment->customer->present()->name()]
+        );
     }
 
 }

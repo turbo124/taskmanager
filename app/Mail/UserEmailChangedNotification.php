@@ -52,6 +52,21 @@ class UserEmailChangedNotification extends Mailable
                     );
     }
 
+    private function setSubject()
+    {
+        $this->subject = trans(
+            'texts.email_changed_subject',
+            $this->buildDataArray()
+        );
+    }
+
+    private function buildDataArray()
+    {
+        return [
+            'email' => $this->user->email
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans(
@@ -61,27 +76,12 @@ class UserEmailChangedNotification extends Mailable
         );
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.email_changed_subject',
-            $this->buildDataArray()
-        );
-    }
-
     private function buildMessage()
     {
         $this->message_array = [
             'title'   => $this->subject,
             'message' => $this->message,
             'logo'    => $this->user->account_user()->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'email' => $this->user->email
         ];
     }
 

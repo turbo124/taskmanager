@@ -42,43 +42,34 @@ class PdfBuilder
         $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
     }
 
-    protected function setDefaults(Customer $customer): self
+    public function buildContact($contact = null): self
     {
-        $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $this->class)];
-        $this->data['$invoice.partial_due'] = [
-            'value' => $this->formatCurrency(
-                $this->entity->partial,
-                $customer
-            ) ?: '&nbsp;',
-            'label' => trans('texts.partial_due_label')
+        if ($contact === null) {
+            return $this;
+        }
+
+        $this->data['$contact.full_name'] = ['value' => $contact->present()->name(), 'label' => trans('texts.name')];
+        $this->data['$contact.email'] = ['value' => $contact->email, 'label' => trans('texts.email_address')];
+        $this->data['$contact.phone'] = ['value' => $contact->phone, 'label' => trans('texts.phone_number')];
+
+        $this->data['$contact_name'] = ['value' => $contact->present()->name(), 'label' => trans('texts.contact_name')];
+        $this->data['$contact.custom1'] = [
+            'value' => isset($contact) ? $contact->custom_value1 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value1')
         ];
-        $this->data['$from'] = ['value' => '', 'label' => trans('texts.from')];
-        $this->data['$to'] = ['value' => '', 'label' => trans('texts.to')];
+        $this->data['$contact.custom2'] = [
+            'value' => isset($contact) ? $contact->custom_value2 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value2')
+        ];
+        $this->data['$contact.custom3'] = [
+            'value' => isset($contact) ? $contact->custom_value3 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value3')
+        ];
+        $this->data['$contact.custom4'] = [
+            'value' => isset($contact) ? $contact->custom_value4 : '&nbsp;',
+            'label' => $this->makeCustomField('Contact', 'custom_value4')
+        ];
         return $this;
-    }
-
-    private function findCustomType($entity, $field)
-    {
-        $custom_fields = $entity->account->custom_fields;
-
-        if (!isset($custom_fields->{$entity})) {
-            return '';
-        }
-
-        $new_array = array_filter(
-            $custom_fields->{$entity},
-            function ($obj) use ($field) {
-                if ($field === $obj->name) {
-                    return $obj;
-                }
-            }
-        );
-
-        if (empty($new_array) || empty($new_array[0]->type)) {
-            return '';
-        }
-
-        return $new_array[0]->type;
     }
 
     /**
@@ -108,36 +99,6 @@ class PdfBuilder
         }
 
         return $new_array[0]->label;
-    }
-
-    public function buildContact($contact = null): self
-    {
-        if ($contact === null) {
-            return $this;
-        }
-
-        $this->data['$contact.full_name'] = ['value' => $contact->present()->name(), 'label' => trans('texts.name')];
-        $this->data['$contact.email'] = ['value' => $contact->email, 'label' => trans('texts.email_address')];
-        $this->data['$contact.phone'] = ['value' => $contact->phone, 'label' => trans('texts.phone_number')];
-
-        $this->data['$contact_name'] = ['value' => $contact->present()->name(), 'label' => trans('texts.contact_name')];
-        $this->data['$contact.custom1'] = [
-            'value' => isset($contact) ? $contact->custom_value1 : '&nbsp;',
-            'label' => $this->makeCustomField('Contact', 'custom_value1')
-        ];
-        $this->data['$contact.custom2'] = [
-            'value' => isset($contact) ? $contact->custom_value2 : '&nbsp;',
-            'label' => $this->makeCustomField('Contact', 'custom_value2')
-        ];
-        $this->data['$contact.custom3'] = [
-            'value' => isset($contact) ? $contact->custom_value3 : '&nbsp;',
-            'label' => $this->makeCustomField('Contact', 'custom_value3')
-        ];
-        $this->data['$contact.custom4'] = [
-            'value' => isset($contact) ? $contact->custom_value4 : '&nbsp;',
-            'label' => $this->makeCustomField('Contact', 'custom_value4')
-        ];
-        return $this;
     }
 
     public function buildCustomer(Customer $customer): self
@@ -268,6 +229,34 @@ class PdfBuilder
         return $this;
     }
 
+    public function buildCustomerAddress(Customer $customer): self
+    {
+        $this->data['$customer.address1'] = [
+            'value' => $customer->present()->address() ?: '&nbsp;',
+            'label' => trans('texts.address')
+        ];
+
+        $addresses = $customer->addresses;
+        $billing = null;
+        $shipping = null;
+
+        if ($addresses->count() > 0) {
+            foreach ($addresses as $address) {
+                if ($address->address_type === 1) {
+                    $billing = $address;
+                } else {
+                    $shipping = $address;
+                }
+            }
+        }
+
+        if (!empty($billing)) {
+            $this->buildAddress($customer, $billing);
+        }
+
+        return $this;
+    }
+
     public function buildAddress($entity, $address)
     {
         $this->data['$customer.address1'] = [
@@ -300,35 +289,6 @@ class PdfBuilder
             'value' => isset($address->country->name) ? $address->country->name : 'No Country Set',
             'label' => trans('texts.country')
         ];
-
-        return $this;
-    }
-
-
-    public function buildCustomerAddress(Customer $customer): self
-    {
-        $this->data['$customer.address1'] = [
-            'value' => $customer->present()->address() ?: '&nbsp;',
-            'label' => trans('texts.address')
-        ];
-
-        $addresses = $customer->addresses;
-        $billing = null;
-        $shipping = null;
-
-        if ($addresses->count() > 0) {
-            foreach ($addresses as $address) {
-                if ($address->address_type === 1) {
-                    $billing = $address;
-                } else {
-                    $shipping = $address;
-                }
-            }
-        }
-
-        if (!empty($billing)) {
-            $this->buildAddress($customer, $billing);
-        }
 
         return $this;
     }
@@ -649,6 +609,46 @@ class PdfBuilder
         return $data;
     }
 
+    private function buildTaxMap()
+    {
+        if (!isset($this->entity->line_items)) {
+            return [];
+        }
+
+        $invoice = $this->entity->service()->calculateInvoiceTotals();
+        $line_items = $invoice->line_items;
+        $tax_collection = collect([]);
+
+        foreach ($line_items as $key => $line_item) {
+            $group_tax = [
+                'key'      => $key,
+                'total'    => $line_item->tax_total,
+                'tax_name' => $line_item->tax_rate_name . ' ' . $line_item->unit_tax . '%'
+            ];
+            $tax_collection->push(collect($group_tax));
+        }
+
+        $keys = $tax_collection->pluck('key')->unique();
+
+        foreach ($keys as $key) {
+            $tax_name = $tax_collection->filter(
+                function ($value, $k) use ($key) {
+                    return $value['key'] == $key;
+                }
+            )->pluck('tax_name')->first();
+
+            $total_line_tax = $tax_collection->filter(
+                function ($value, $k) use ($key) {
+                    return $value['key'] == $key;
+                }
+            )->sum('total');
+
+            $tax_map[] = ['name' => $tax_name, 'total' => $total_line_tax];
+
+            return $tax_map;
+        }
+    }
+
     /**
      * @param $due_date
      * @return $this
@@ -697,18 +697,22 @@ class PdfBuilder
 
         switch ($this->class) {
             case 'task':
-                $project = !empty($this->entity->project_id) ? Project::where('id', '=', $this->entity->project_id)->first() : false;
+                $project = !empty($this->entity->project_id) ? Project::where(
+                    'id',
+                    '=',
+                    $this->entity->project_id
+                )->first() : false;
                 $duration = (new TimerRepository(new Timer()))->getTotalDuration($this->entity);
                 $budgeted_hours = 0;
                 $task_rate = 0;
 
-                if(!empty($duration)) {
+                if (!empty($duration)) {
                     $budgeted_hours = $duration;
                 }
 
                 if (!empty($project)) {
-                   $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
-                   $task_rate = $project->task_rate;
+                    $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
+                    $task_rate = $project->task_rate;
                 }
 
                 $cost = !empty($task_rate) && !empty($budgeted_hours) ? $task_rate * $budgeted_hours : 0;
@@ -752,6 +756,18 @@ class PdfBuilder
         return $table;
     }
 
+    public
+    function getLabels()
+    {
+        return $this->labels;
+    }
+
+    public
+    function getValues()
+    {
+        return $this->values;
+    }
+
     /**
      * @param $labels
      * @param $html
@@ -770,6 +786,29 @@ class PdfBuilder
     public function parseValues($values, $html): string
     {
         return str_replace(array_keys($values), array_values($values), $html);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    protected function setDefaults(Customer $customer): self
+    {
+        $this->data['$entity_label'] = ['value' => '', 'label' => trans('texts.' . $this->class)];
+        $this->data['$invoice.partial_due'] = [
+            'value' => $this->formatCurrency(
+                $this->entity->partial,
+                $customer
+            ) ?: '&nbsp;',
+            'label' => trans('texts.partial_due_label')
+        ];
+        $this->data['$from'] = ['value' => '', 'label' => trans('texts.from')];
+        $this->data['$to'] = ['value' => '', 'label' => trans('texts.to')];
+        return $this;
     }
 
     /**
@@ -832,63 +871,27 @@ class PdfBuilder
         return $this;
     }
 
-    private function buildTaxMap()
+    private function findCustomType($entity, $field)
     {
-        if (!isset($this->entity->line_items)) {
-            return [];
+        $custom_fields = $entity->account->custom_fields;
+
+        if (!isset($custom_fields->{$entity})) {
+            return '';
         }
 
-        $invoice = $this->entity->service()->calculateInvoiceTotals();
-        $line_items = $invoice->line_items;
-        $tax_collection = collect([]);
-
-        foreach ($line_items as $key => $line_item) {
-            $group_tax = [
-                'key'      => $key,
-                'total'    => $line_item->tax_total,
-                'tax_name' => $line_item->tax_rate_name . ' ' . $line_item->unit_tax . '%'
-            ];
-            $tax_collection->push(collect($group_tax));
-        }
-
-        $keys = $tax_collection->pluck('key')->unique();
-
-        foreach ($keys as $key) {
-            $tax_name = $tax_collection->filter(
-                function ($value, $k) use ($key) {
-                    return $value['key'] == $key;
+        $new_array = array_filter(
+            $custom_fields->{$entity},
+            function ($obj) use ($field) {
+                if ($field === $obj->name) {
+                    return $obj;
                 }
-            )->pluck('tax_name')->first();
+            }
+        );
 
-            $total_line_tax = $tax_collection->filter(
-                function ($value, $k) use ($key) {
-                    return $value['key'] == $key;
-                }
-            )->sum('total');
-
-            $tax_map[] = ['name' => $tax_name, 'total' => $total_line_tax];
-
-            return $tax_map;
+        if (empty($new_array) || empty($new_array[0]->type)) {
+            return '';
         }
-    }
 
-    public
-    function getValues()
-    {
-        return $this->values;
-    }
-
-    public
-    function getLabels()
-    {
-        return $this->labels;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntity()
-    {
-        return $this->entity;
+        return $new_array[0]->type;
     }
 }

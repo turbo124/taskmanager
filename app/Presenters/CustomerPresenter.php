@@ -35,6 +35,11 @@ class CustomerPresenter extends EntityPresenter
         null ? $this->entity->primary_contact->first()->email : 'No Email Set';
     }
 
+    public function shipping_address()
+    {
+        return $this->address(2);
+    }
+
     public function address($type = 1)
     {
         $fields = ['address_1', 'address_2', 'city', 'country_id'];
@@ -62,11 +67,6 @@ class CustomerPresenter extends EntityPresenter
         }
 
         return $str;
-    }
-
-    public function shipping_address()
-    {
-        return $this->address(2);
     }
 
     public function phone()

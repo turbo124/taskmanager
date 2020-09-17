@@ -17,25 +17,6 @@ trait EntityDataBuilder
 
     private $filter_class;
 
-    public function setEntity($entity_class)
-    {
-        $this->entity_string = (new ReflectionClass($entity_class))->getShortName();
-        $this->entity_class = $entity_class;
-    }
-
-    public function setRepositoryClass()
-    {
-        $repo = 'App\Repositories\\' . $this->entity_string . 'Repository';
-
-        if (!class_exists($repo)) {
-            $this->errors[] = 'Unable to find repo';
-        }
-
-        $this->repository = new $repo($this->entity);
-
-        return true;
-    }
-
     public function buildEntityData($entity)
     {
         $this->setEntity($entity);
@@ -62,6 +43,25 @@ trait EntityDataBuilder
         }
 
         return $entity_data;
+    }
+
+    public function setEntity($entity_class)
+    {
+        $this->entity_string = (new ReflectionClass($entity_class))->getShortName();
+        $this->entity_class = $entity_class;
+    }
+
+    public function setRepositoryClass()
+    {
+        $repo = 'App\Repositories\\' . $this->entity_string . 'Repository';
+
+        if (!class_exists($repo)) {
+            $this->errors[] = 'Unable to find repo';
+        }
+
+        $this->repository = new $repo($this->entity);
+
+        return true;
     }
 
     public function getErrors()

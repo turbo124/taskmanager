@@ -20,12 +20,11 @@ class OrderWasCreated implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'order-created';
-
     /**
      * @var Order
      */
     public Order $order;
+    protected $meter = 'order-created';
 
     /**
      * Create a new event instance.

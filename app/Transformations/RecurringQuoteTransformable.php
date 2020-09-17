@@ -61,6 +61,19 @@ trait RecurringQuoteTransformable
         ];
     }
 
+    public function transformAuditsForRecurringQuote($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
     /**
      * @param $files
      * @return array
@@ -74,6 +87,19 @@ trait RecurringQuoteTransformable
         return $files->map(
             function (File $file) {
                 return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
+    private function transformQuotesCreated($quotes)
+    {
+        if ($quotes->count() === 0) {
+            return [];
+        }
+
+        return $quotes->map(
+            function (Quote $quote) {
+                return $this->transformQuote($quote);
             }
         )->all();
     }
@@ -108,32 +134,6 @@ trait RecurringQuoteTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
-            }
-        )->all();
-    }
-
-    public function transformAuditsForRecurringQuote($audits)
-    {
-        if (empty($audits)) {
-            return [];
-        }
-
-        return $audits->map(
-            function (Audit $audit) {
-                return (new AuditTransformable)->transformAudit($audit);
-            }
-        )->all();
-    }
-
-    private function transformQuotesCreated($quotes)
-    {
-        if ($quotes->count() === 0) {
-            return [];
-        }
-
-        return $quotes->map(
-            function (Quote $quote) {
-                return $this->transformQuote($quote);
             }
         )->all();
     }

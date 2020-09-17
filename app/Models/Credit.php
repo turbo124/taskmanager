@@ -19,8 +19,18 @@ class Credit extends Model
     use Money;
     use Balancer;
 
+    const STATUS_DRAFT = 1;
+    const STATUS_SENT = 2;
+    const STATUS_PARTIAL = 3;
+    const STATUS_APPLIED = 4;
+    const PRODUCT_TYPE = 1;
+    const COMMISSION_TYPE = 2;
+    const TASK_TYPE = 3;
+    const LATE_FEE_TYPE = 4;
+    const SUBSCRIPTION_TYPE = 5;
+    const EXPENSE_TYPE = 6;
+    const GATEWAY_FEE_TYPE = 7;
     protected $presenter = 'App\Presenters\CreditPresenter';
-
     /**
      * @var array
      */
@@ -61,7 +71,6 @@ class Credit extends Model
         'shipping_cost_tax',
         'design_id'
     ];
-
     protected $casts = [
         'account_id'  => 'integer',
         'user_id'     => 'integer',
@@ -70,19 +79,6 @@ class Credit extends Model
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
     ];
-
-    const STATUS_DRAFT = 1;
-    const STATUS_SENT = 2;
-    const STATUS_PARTIAL = 3;
-    const STATUS_APPLIED = 4;
-
-    const PRODUCT_TYPE = 1;
-    const COMMISSION_TYPE = 2;
-    const TASK_TYPE = 3;
-    const LATE_FEE_TYPE = 4;
-    const SUBSCRIPTION_TYPE = 5;
-    const EXPENSE_TYPE = 6;
-    const GATEWAY_FEE_TYPE = 7;
 
     /**
      * @return BelongsTo

@@ -411,13 +411,13 @@ export default class DropdownMenuBuilder extends Component {
 
             case 'cloneCaseToProject':
                 return <DropdownItem key={13} className="primary"
-                                     onClick={() => this.changeStatus('clone_case_to_project')}>
+                    onClick={() => this.changeStatus('clone_case_to_project')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
                 </DropdownItem>
 
             case 'mergeCase':
                 return <DropdownItem key={13} className="primary"
-                                     onClick={() => this.changeStatus('merge_case')}>
+                    onClick={() => this.changeStatus('merge_case')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.merge_case}
                 </DropdownItem>
         }

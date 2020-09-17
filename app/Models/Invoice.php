@@ -18,8 +18,20 @@ class Invoice extends Model
 
     use PresentableTrait, SoftDeletes, Money, Balancer;
 
+    const STATUS_DRAFT = 1;
+    const STATUS_SENT = 2;
+    const STATUS_PARTIAL = 4;
+    const STATUS_PAID = 3;
+    const STATUS_CANCELLED = 5;
+    const STATUS_REVERSED = 6;
+    const PRODUCT_TYPE = 1;
+    const COMMISSION_TYPE = 2;
+    const TASK_TYPE = 3;
+    const LATE_FEE_TYPE = 4;
+    const SUBSCRIPTION_TYPE = 5;
+    const EXPENSE_TYPE = 6;
+    const GATEWAY_FEE_TYPE = 7;
     protected $presenter = 'App\Presenters\InvoicePresenter';
-
     protected $casts = [
         'customer_id' => 'integer',
         'account_id'  => 'integer',
@@ -29,7 +41,6 @@ class Invoice extends Model
         'deleted_at'  => 'timestamp',
         'is_deleted'  => 'boolean',
     ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -87,26 +98,9 @@ class Invoice extends Model
         'gateway_percentage',
         'recurring_invoice_id'
     ];
-
     protected $dates = [
         'next_send_date',
     ];
-
-    const STATUS_DRAFT = 1;
-    const STATUS_SENT = 2;
-    const STATUS_PARTIAL = 4;
-    const STATUS_PAID = 3;
-    const STATUS_CANCELLED = 5;
-    const STATUS_REVERSED = 6;
-
-    const PRODUCT_TYPE = 1;
-    const COMMISSION_TYPE = 2;
-    const TASK_TYPE = 3;
-    const LATE_FEE_TYPE = 4;
-    const SUBSCRIPTION_TYPE = 5;
-    const EXPENSE_TYPE = 6;
-    const GATEWAY_FEE_TYPE = 7;
-
 
     public function service(): InvoiceService
     {
@@ -195,11 +189,6 @@ class Invoice extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function transaction_service()
-    {
-        return new TransactionService($this);
-    }
-
     public function isCancellable(): bool
     {
         return in_array(
@@ -237,6 +226,11 @@ class Invoice extends Model
         return true;
     }
 
+    public function setStatus(int $status)
+    {
+        $this->status_id = $status;
+    }
+
     /********************** Getters and setters ************************************/
     public function setUser(User $user)
     {
@@ -263,11 +257,6 @@ class Invoice extends Model
     public function setCustomer(Customer $customer)
     {
         $this->customer_id = (int)$customer->id;
-    }
-
-    public function setStatus(int $status)
-    {
-        $this->status_id = $status;
     }
 
     public function setPreviousStatus()
@@ -319,5 +308,10 @@ class Invoice extends Model
         if ($this->id) {
             $this->transaction_service()->createTransaction($amount, $customer->balance);
         }
+    }
+
+    public function transaction_service()
+    {
+        return new TransactionService($this);
     }
 }

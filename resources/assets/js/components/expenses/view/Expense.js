@@ -172,15 +172,15 @@ export default class Expense extends Component {
 
         if (this.props.entity.is_recurring === true) {
             if (this.props.entity.recurring_start_date.length) {
-                recurring.start_date = <FormatDate date={this.props.entity.recurring_start_date} />
+                recurring.start_date = <FormatDate date={this.props.entity.recurring_start_date}/>
             }
 
             if (this.props.entity.recurring_end_date.length) {
-                recurring.end_date = <FormatDate date={this.props.entity.recurring_end_date} />
+                recurring.end_date = <FormatDate date={this.props.entity.recurring_end_date}/>
             }
 
             if (this.props.entity.recurring_due_date.length) {
-                recurring.due_date = <FormatDate date={this.props.entity.recurring_due_date} />
+                recurring.due_date = <FormatDate date={this.props.entity.recurring_due_date}/>
             }
 
             if (this.props.entity.recurring_frequency.toString().length) {

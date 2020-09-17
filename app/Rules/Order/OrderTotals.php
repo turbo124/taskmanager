@@ -53,6 +53,29 @@ class OrderTotals implements Rule
         return count($this->arrErrors) === 0;
     }
 
+    private function calculateSubTotal()
+    {
+        $this->sub_total = 0;
+
+        foreach ($this->request['line_items'] as $product) {
+            $this->sub_total += ($product->unit_price * $product->quantity);
+        }
+
+        return true;
+    }
+
+    private function calculateTax()
+    {
+        $tax_rate = (float)str_replace('%', '', $this->request['tax_rate']);
+
+        $tax = (($tax_rate / 100) * $this->sub_total);
+
+        $this->tax = round($tax, 2);
+        $this->sub_total += $this->tax;
+
+        return true;
+    }
+
     private function calculateDiscount()
     {
         if (!isset($this->request['voucher_code'])) {
@@ -85,29 +108,6 @@ class OrderTotals implements Rule
         }
 
         $this->sub_total += (float)$this->request['shipping_cost'];
-
-        return true;
-    }
-
-    private function calculateTax()
-    {
-        $tax_rate = (float)str_replace('%', '', $this->request['tax_rate']);
-
-        $tax = (($tax_rate / 100) * $this->sub_total);
-
-        $this->tax = round($tax, 2);
-        $this->sub_total += $this->tax;
-
-        return true;
-    }
-
-    private function calculateSubTotal()
-    {
-        $this->sub_total = 0;
-
-        foreach ($this->request['line_items'] as $product) {
-            $this->sub_total += ($product->unit_price * $product->quantity);
-        }
 
         return true;
     }

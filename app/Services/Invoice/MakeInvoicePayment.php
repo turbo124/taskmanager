@@ -68,6 +68,17 @@ class MakeInvoicePayment
     /**
      * @return Invoice
      */
+    private function updateInvoiceTotal(): Invoice
+    {
+        $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
+        $invoice->pivot->amount = $this->payment_amount;
+        $invoice->pivot->save();
+        return $invoice;
+    }
+
+    /**
+     * @return Invoice
+     */
     private function updateInvoice($partial = false): Invoice
     {
         if ($partial) {
@@ -80,39 +91,6 @@ class MakeInvoicePayment
         $this->save();
 
         return $this->invoice;
-    }
-
-    private function updateBalance(float $amount)
-    {
-        $this->invoice->reduceBalance($amount);
-    }
-
-    private function setStatus()
-    {
-        $this->invoice->setStatus(
-            $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID
-        );
-    }
-
-    private function setDueDate()
-    {
-        $this->invoice->setDueDate();
-    }
-
-    private function save()
-    {
-        $this->invoice->save();
-    }
-
-    /**
-     * @return Invoice
-     */
-    private function updateInvoiceTotal(): Invoice
-    {
-        $invoice = $this->payment->invoices->where('id', $this->invoice->id)->first();
-        $invoice->pivot->amount = $this->payment_amount;
-        $invoice->pivot->save();
-        return $invoice;
     }
 
     /**
@@ -132,5 +110,27 @@ class MakeInvoicePayment
         $this->invoice->partial_due_date = null;
 
         return true;
+    }
+
+    private function setDueDate()
+    {
+        $this->invoice->setDueDate();
+    }
+
+    private function updateBalance(float $amount)
+    {
+        $this->invoice->reduceBalance($amount);
+    }
+
+    private function setStatus()
+    {
+        $this->invoice->setStatus(
+            $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID
+        );
+    }
+
+    private function save()
+    {
+        $this->invoice->save();
     }
 }

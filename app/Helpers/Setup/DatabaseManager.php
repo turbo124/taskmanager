@@ -26,6 +26,23 @@ class DatabaseManager
     }
 
     /**
+     * Check database type. If SQLite, then create the database file.
+     *
+     * @param BufferedOutput $outputLog
+     */
+    private function sqlite(BufferedOutput $outputLog)
+    {
+        if (DB::connection() instanceof SQLiteConnection) {
+            $database = DB::connection()->getDatabaseName();
+            if (!file_exists($database)) {
+                touch($database);
+                DB::reconnect(Config::get('database.default'));
+            }
+            $outputLog->write('Using SqlLite database: ' . $database, 1);
+        }
+    }
+
+    /**
      * Run the migration and call the seeder.
      *
      * @param BufferedOutput $outputLog
@@ -40,23 +57,6 @@ class DatabaseManager
         }
 
         return $this->seed($outputLog);
-    }
-
-    /**
-     * Seed the database.
-     *
-     * @param BufferedOutput $outputLog
-     * @return array
-     */
-    private function seed(BufferedOutput $outputLog)
-    {
-        try {
-            Artisan::call('db:seed', ['--force' => true], $outputLog);
-        } catch (Exception $e) {
-            return $this->response($e->getMessage(), 'error', $outputLog);
-        }
-
-        return $this->response(trans('texts.final.finished'), 'success', $outputLog);
     }
 
     /**
@@ -77,19 +77,19 @@ class DatabaseManager
     }
 
     /**
-     * Check database type. If SQLite, then create the database file.
+     * Seed the database.
      *
      * @param BufferedOutput $outputLog
+     * @return array
      */
-    private function sqlite(BufferedOutput $outputLog)
+    private function seed(BufferedOutput $outputLog)
     {
-        if (DB::connection() instanceof SQLiteConnection) {
-            $database = DB::connection()->getDatabaseName();
-            if (!file_exists($database)) {
-                touch($database);
-                DB::reconnect(Config::get('database.default'));
-            }
-            $outputLog->write('Using SqlLite database: ' . $database, 1);
+        try {
+            Artisan::call('db:seed', ['--force' => true], $outputLog);
+        } catch (Exception $e) {
+            return $this->response($e->getMessage(), 'error', $outputLog);
         }
+
+        return $this->response(trans('texts.final.finished'), 'success', $outputLog);
     }
 }

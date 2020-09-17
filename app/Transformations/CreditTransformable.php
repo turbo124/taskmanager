@@ -67,23 +67,6 @@ trait CreditTransformable
     }
 
     /**
-     * @param $files
-     * @return array
-     */
-    private function transformCreditFiles($files)
-    {
-        if (empty($files)) {
-            return [];
-        }
-
-        return $files->map(
-            function (File $file) {
-                return (new FileTransformable())->transformFile($file);
-            }
-        )->all();
-    }
-
-    /**
      * @param $invitations
      * @return array
      */
@@ -126,6 +109,23 @@ trait CreditTransformable
         return $audits->map(
             function (Audit $audit) {
                 return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $files
+     * @return array
+     */
+    private function transformCreditFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

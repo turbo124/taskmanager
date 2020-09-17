@@ -76,6 +76,40 @@ trait CustomerTransformable
     }
 
     /**
+     * @param $addresses
+     * @return array
+     */
+    private function transformAddress($addresses)
+    {
+        if (empty($addresses)) {
+            return [];
+        }
+
+        return $addresses->map(
+            function (Address $address) {
+                return (new AddressTransformable())->transformAddress($address);
+            }
+        )->all();
+    }
+
+    /**
+     * @param $contacts
+     * @return array
+     */
+    private function transformContacts($contacts)
+    {
+        if (empty($contacts)) {
+            return [];
+        }
+
+        return $contacts->map(
+            function (ClientContact $contact) {
+                return (new ContactTransformable())->transformClientContact($contact);
+            }
+        )->all();
+    }
+
+    /**
      * @param $transactions
      * @return array
      */
@@ -118,40 +152,6 @@ trait CustomerTransformable
         return $files->map(
             function (File $file) {
                 return (new FileTransformable())->transformFile($file);
-            }
-        )->all();
-    }
-
-    /**
-     * @param $contacts
-     * @return array
-     */
-    private function transformContacts($contacts)
-    {
-        if (empty($contacts)) {
-            return [];
-        }
-
-        return $contacts->map(
-            function (ClientContact $contact) {
-                return (new ContactTransformable())->transformClientContact($contact);
-            }
-        )->all();
-    }
-
-    /**
-     * @param $addresses
-     * @return array
-     */
-    private function transformAddress($addresses)
-    {
-        if (empty($addresses)) {
-            return [];
-        }
-
-        return $addresses->map(
-            function (Address $address) {
-                return (new AddressTransformable())->transformAddress($address);
             }
         )->all();
     }

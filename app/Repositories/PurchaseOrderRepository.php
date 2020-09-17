@@ -66,20 +66,6 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
     }
 
     /**
-     * @param array $data
-     * @param Quote $quote
-     * @return Quote|null
-     */
-    public function updatePurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
-    {
-        $purchase_order = $this->save($data, $purchase_order);
-
-        event(new PurchaseOrderWasUpdated($purchase_order));
-
-        return $purchase_order;
-    }
-
-    /**
      * @param $data
      * @param Quote $quote
      * @return Quote|null
@@ -112,6 +98,20 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
         }
 
         return (new Invitations())->generateInvitations($entity, $key, $data, 'purchase_order');
+    }
+
+    /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function updatePurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
+    {
+        $purchase_order = $this->save($data, $purchase_order);
+
+        event(new PurchaseOrderWasUpdated($purchase_order));
+
+        return $purchase_order;
     }
 
     /**

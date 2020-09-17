@@ -71,16 +71,6 @@ class NewLeadNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function getMessage()
-    {
-        $this->subject = trans(
-            'texts.notification_lead_subject',
-            [
-                'customer' => $this->lead->present()->name()
-            ]
-        );
-    }
-
     public function toSlack($notifiable)
     {
         $logo = $this->lead->account->present()->logo();
@@ -89,6 +79,16 @@ class NewLeadNotification extends Notification implements ShouldQueue
                                  ->from("System")->image($logo)->content(
                 $this->getMessage()
             );
+    }
+
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_lead_subject',
+            [
+                'customer' => $this->lead->present()->name()
+            ]
+        );
     }
 
 }

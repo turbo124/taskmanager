@@ -47,20 +47,6 @@ class LeadRepository extends BaseRepository
     }
 
     /**
-     * @param Lead $lead
-     * @param array $data
-     * @return Lead|null
-     */
-    public function updateLead(Lead $lead, array $data): ?Lead
-    {
-        $lead = $this->save($lead, $data);
-
-        event(new LeadWasUpdated($lead));
-
-        return $lead;
-    }
-
-    /**
      * Create the message
      *
      * @param array $data
@@ -72,6 +58,20 @@ class LeadRepository extends BaseRepository
         $lead = $lead->fill($data);
         $lead->setNumber();
         $lead->save();
+        return $lead;
+    }
+
+    /**
+     * @param Lead $lead
+     * @param array $data
+     * @return Lead|null
+     */
+    public function updateLead(Lead $lead, array $data): ?Lead
+    {
+        $lead = $this->save($lead, $data);
+
+        event(new LeadWasUpdated($lead));
+
         return $lead;
     }
 

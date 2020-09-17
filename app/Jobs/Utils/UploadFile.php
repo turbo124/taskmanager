@@ -19,21 +19,17 @@ class UploadFile implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $entity;
     protected $file;
-
     /**
      * @var User
      */
     protected User $user;
-
     /**
      * @var Account
      */
     protected Account $account;
-
     protected $uploaded_by_customer;
-
-    public $entity;
 
     /**
      * UploadFile constructor.

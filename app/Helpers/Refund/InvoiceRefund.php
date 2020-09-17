@@ -60,20 +60,6 @@ class InvoiceRefund extends BaseRefund
     }
 
     /**
-     * @param CreditRefund|null $objCreditRefund
-     * @return bool
-     */
-    private function reduceCreditedAmount(CreditRefund $objCreditRefund = null)
-    {
-        if ($objCreditRefund === null || $objCreditRefund->getAmount() <= 0) {
-            return true;
-        }
-
-        $this->reduceRefundAmount($objCreditRefund->getAmount());
-        return true;
-    }
-
-    /**
      * @param Invoice $invoice
      * @param $amount
      * @return bool
@@ -90,6 +76,20 @@ class InvoiceRefund extends BaseRefund
 
         $paymentable_invoice->refunded += $amount;
         $paymentable_invoice->save();
+        return true;
+    }
+
+    /**
+     * @param CreditRefund|null $objCreditRefund
+     * @return bool
+     */
+    private function reduceCreditedAmount(CreditRefund $objCreditRefund = null)
+    {
+        if ($objCreditRefund === null || $objCreditRefund->getAmount() <= 0) {
+            return true;
+        }
+
+        $this->reduceRefundAmount($objCreditRefund->getAmount());
         return true;
     }
 }

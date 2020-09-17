@@ -37,14 +37,17 @@ export default class PurchaseOrderItem extends Component {
         if (purchase_orders && purchase_orders.length && companies.length) {
             return purchase_orders.map(purchase_order => {
                 const restoreButton = purchase_order.deleted_at
-                    ? <RestoreModal id={purchase_order.id} entities={purchase_orders} updateState={this.props.updateInvoice}
+                    ? <RestoreModal id={purchase_order.id} entities={purchase_orders}
+                        updateState={this.props.updateInvoice}
                         url={`/api/purchase_order/restore/${purchase_order.id}`}/> : null
 
                 const deleteButton = !purchase_order.deleted_at
-                    ? <DeleteModal archive={false} deleteFunction={this.deletePurchaseOrder} id={purchase_order.id}/> : null
+                    ? <DeleteModal archive={false} deleteFunction={this.deletePurchaseOrder}
+                        id={purchase_order.id}/> : null
 
                 const archiveButton = !purchase_order.deleted_at
-                    ? <DeleteModal archive={true} deleteFunction={this.deletePurchaseOrder} id={purchase_order.id}/> : null
+                    ? <DeleteModal archive={true} deleteFunction={this.deletePurchaseOrder}
+                        id={purchase_order.id}/> : null
 
                 const editButton = !purchase_order.deleted_at ? <EditPurchaseOrder
                     custom_fields={custom_fields}
@@ -75,7 +78,8 @@ export default class PurchaseOrderItem extends Component {
                 return (
                     <tr className={selectedRow} key={purchase_order.id}>
                         <td>
-                            <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
+                            <Input checked={isChecked} className={checkboxClass} value={purchase_order.id}
+                                type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>

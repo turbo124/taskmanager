@@ -27,23 +27,19 @@ class BaseRefund
      * @var Payment
      */
     protected Payment $payment;
-
-    /**
-     * @var float
-     */
-    private float $amount = 0;
-
-    /**
-     * @var bool
-     */
-    private bool $has_invoices = false;
-
-    private CreditRepository $credit_repo;
-
     /**
      * @var array
      */
     protected array $data;
+    /**
+     * @var float
+     */
+    private float $amount = 0;
+    /**
+     * @var bool
+     */
+    private bool $has_invoices = false;
+    private CreditRepository $credit_repo;
 
     /**
      * BaseRefund constructor.
@@ -58,39 +54,14 @@ class BaseRefund
         $this->credit_repo = $credit_repo;
     }
 
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
     protected function setCustomer()
     {
         $this->customer = $this->payment->customer;
-    }
-
-    private function setStatus()
-    {
-        $status = (float)abs(
-            $this->payment->refunded
-        ) === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
-
-        $this->payment->setStatus($status);
-    }
-
-    private function reduceRefundTotal()
-    {
-        $this->payment->refunded -= $this->amount;
-    }
-
-    private function increaseRefundTotal()
-    {
-        $this->payment->refunded += $this->amount;
-    }
-
-    /**
-     * @return mixed
-     */
-    private function updateCustomer()
-    {
-        $this->payment->customer->reducePaidToDateAmount($this->amount);
-        $this->payment->customer->increaseBalance($this->amount);
-        $this->payment->customer->save();
-        return $this;
     }
 
     /**
@@ -142,9 +113,40 @@ class BaseRefund
         return $this;
     }
 
-    public function getAmount()
+    protected function save()
     {
-        return $this->amount;
+        $this->increaseRefundTotal();
+        $this->setStatus();
+        $this->updateCustomer();
+        $this->createCreditNote();
+        $this->payment->save();
+
+        event(new PaymentWasRefunded($this->payment, $this->data));
+    }
+
+    private function increaseRefundTotal()
+    {
+        $this->payment->refunded += $this->amount;
+    }
+
+    private function setStatus()
+    {
+        $status = (float)abs(
+            $this->payment->refunded
+        ) === (float)$this->payment->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+
+        $this->payment->setStatus($status);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function updateCustomer()
+    {
+        $this->payment->customer->reducePaidToDateAmount($this->amount);
+        $this->payment->customer->increaseBalance($this->amount);
+        $this->payment->customer->save();
+        return $this;
     }
 
     /**
@@ -168,17 +170,6 @@ class BaseRefund
         return $this;
     }
 
-    protected function save()
-    {
-        $this->increaseRefundTotal();
-        $this->setStatus();
-        $this->updateCustomer();
-        $this->createCreditNote();
-        $this->payment->save();
-
-        event(new PaymentWasRefunded($this->payment, $this->data));
-    }
-
     protected function completeCreditRefund()
     {
         if (!empty($this->data['invoices'])) {
@@ -190,5 +181,10 @@ class BaseRefund
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));
+    }
+
+    private function reduceRefundTotal()
+    {
+        $this->payment->refunded -= $this->amount;
     }
 }

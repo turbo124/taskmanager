@@ -62,22 +62,6 @@ class CreateProduct
         return $this->product;
     }
 
-    private function saveCategories()
-    {
-        if (isset($this->data['category']) && !empty($this->data['category'])) {
-            $categories = !is_array($this->data['category']) ? explode(
-                ',',
-                $this->data['category']
-            ) : $this->data['category'];
-            $this->product_repo->syncCategories($categories, $this->product);
-            return true;
-        }
-
-        $this->product_repo->detachCategories($this->product);
-
-        return true;
-    }
-
     /**
      * @param Product $product
      * @param $fields
@@ -96,6 +80,22 @@ class CreateProduct
         foreach ($features as $feature) {
             $product->features()->create($feature);
         }
+
+        return true;
+    }
+
+    private function saveCategories()
+    {
+        if (isset($this->data['category']) && !empty($this->data['category'])) {
+            $categories = !is_array($this->data['category']) ? explode(
+                ',',
+                $this->data['category']
+            ) : $this->data['category'];
+            $this->product_repo->syncCategories($categories, $this->product);
+            return true;
+        }
+
+        $this->product_repo->detachCategories($this->product);
 
         return true;
     }

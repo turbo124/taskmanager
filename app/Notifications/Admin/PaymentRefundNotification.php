@@ -72,20 +72,20 @@ class PaymentRefundNotification extends Notification implements ShouldQueue
         ];
     }
 
-    private function getMessage()
-    {
-        $this->subject = trans(
-            'texts.notification_refund_subject',
-            ['customer' => $this->payment->customer->present()->name()]
-        );
-    }
-
     public function toSlack($notifiable)
     {
         return (new SlackMessage)->success()
                                  ->from("System")->image($this->payment->account->present()->logo())->content(
                 $this->getMessage()
             );
+    }
+
+    private function getMessage()
+    {
+        $this->subject = trans(
+            'texts.notification_refund_subject',
+            ['customer' => $this->payment->customer->present()->name()]
+        );
     }
 
 }

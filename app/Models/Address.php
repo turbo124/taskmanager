@@ -40,7 +40,12 @@ class Address extends Model
         'status',
         'address_type'
     ];
-
+    public $relation = [
+        'belongsTo' => [
+            'customer' => 'App\Models\Customer',
+            'country'  => 'App\Models\Country',
+        ],
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -48,14 +53,6 @@ class Address extends Model
      */
     protected $hidden = [];
     protected $dates = ['deleted_at'];
-
-    public $relation = [
-        'belongsTo' => [
-            'customer' => 'App\Models\Customer',
-            'country'  => 'App\Models\Country',
-        ],
-    ];
-
     protected $casts = [
         'customer_id' => 'integer',
         'country_id'  => 'integer',

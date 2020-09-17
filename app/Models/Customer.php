@@ -16,10 +16,8 @@ class Customer extends Model implements HasLocalePreference
 
     use SoftDeletes, PresentableTrait, Balancer, Money;
 
-    protected $presenter = 'App\Presenters\CustomerPresenter';
-
     const CUSTOMER_TYPE_WON = 1;
-
+    protected $presenter = 'App\Presenters\CustomerPresenter';
     /**
      * The attributes that are mass assignable.
      *
@@ -135,9 +133,9 @@ class Customer extends Model implements HasLocalePreference
         return $this->belongsTo(Group::class);
     }
 
-    public function language()
+    public function preferredLocale()
     {
-        return Language::find($this->getSetting('language_id'));
+        return $this->locale();
     }
 
     public function locale()
@@ -147,19 +145,9 @@ class Customer extends Model implements HasLocalePreference
         return !empty($language) ? $this->language()->locale : 'en';
     }
 
-    public function preferredLocale()
+    public function language()
     {
-        return $this->locale();
-    }
-
-    public function gateways()
-    {
-        return $this->hasMany(CustomerGateway::class);
-    }
-
-    private function checkObjectEmpty($var)
-    {
-        return is_object($var) && empty((array)$var);
+        return Language::find($this->getSetting('language_id'));
     }
 
     /**
@@ -188,6 +176,16 @@ class Customer extends Model implements HasLocalePreference
         }
 
         return false;
+    }
+
+    private function checkObjectEmpty($var)
+    {
+        return is_object($var) && empty((array)$var);
+    }
+
+    public function gateways()
+    {
+        return $this->hasMany(CustomerGateway::class);
     }
 
     public function getCountryId(): ?Country

@@ -61,6 +61,19 @@ trait RecurringInvoiceTransformable
         ];
     }
 
+    public function transformAuditsForRecurringInvoice($audits)
+    {
+        if (empty($audits)) {
+            return [];
+        }
+
+        return $audits->map(
+            function (Audit $audit) {
+                return (new AuditTransformable)->transformAudit($audit);
+            }
+        )->all();
+    }
+
     /**
      * @param $files
      * @return array
@@ -74,6 +87,19 @@ trait RecurringInvoiceTransformable
         return $files->map(
             function (File $file) {
                 return (new FileTransformable())->transformFile($file);
+            }
+        )->all();
+    }
+
+    private function transformInvoicesCreated($invoices)
+    {
+        if ($invoices->count() === 0) {
+            return [];
+        }
+
+        return $invoices->map(
+            function (Invoice $invoice) {
+                return $this->transformInvoice($invoice);
             }
         )->all();
     }
@@ -108,32 +134,6 @@ trait RecurringInvoiceTransformable
         return $emails->map(
             function (Email $email) {
                 return (new EmailTransformable())->transformEmail($email);
-            }
-        )->all();
-    }
-
-    public function transformAuditsForRecurringInvoice($audits)
-    {
-        if (empty($audits)) {
-            return [];
-        }
-
-        return $audits->map(
-            function (Audit $audit) {
-                return (new AuditTransformable)->transformAudit($audit);
-            }
-        )->all();
-    }
-
-    private function transformInvoicesCreated($invoices)
-    {
-        if ($invoices->count() === 0) {
-            return [];
-        }
-
-        return $invoices->map(
-            function (Invoice $invoice) {
-                return $this->transformInvoice($invoice);
             }
         )->all();
     }

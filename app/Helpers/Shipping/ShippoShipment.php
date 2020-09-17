@@ -77,30 +77,6 @@ class ShippoShipment
     }
 
     /**
-     * @param Order $order
-     * @return bool
-     */
-    public function createLabel(Order $order)
-    {
-        $transaction = Shippo_Transaction::create(
-            array(
-                'rate'            => $order->shipping_id,
-                'label_file_type' => "PDF",
-                'async'           => false
-            )
-        );
-
-        if ($transaction["status"] == "SUCCESS" && !empty($transaction["label_url"])) {
-            $order->shipping_label_url = $transaction["label_url"];
-            $order->save();
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Address where the shipment will be picked up
      */
     private function setPickupAddress()
@@ -152,44 +128,6 @@ class ShippoShipment
     }
 
     /**
-     * @return Shippo_Shipment
-     */
-    private function readyShipment()
-    {
-        $shipment = Shippo_Shipment::create(
-            array(
-                'address_from' => $this->warehouseAddress,
-                'address_to'   => $this->deliveryAddress,
-                'parcels'      => $this->parcel,
-                'async'        => false
-            )
-        );
-
-        foreach ($shipment['rates'] as $key => $rate) {
-            $this->rates[$key]['amount'] = $rate->amount;
-            $this->rates[$key]['name'] = $rate->provider;
-            $this->rates[$key]['object_id'] = $rate->object_id;
-        }
-
-        return $shipment;
-    }
-
-    public function getRates()
-    {
-        return $this->rates;
-    }
-
-    /**
-     * @param string $id
-     * @param string $currency
-     * @return Shippo_Get_Shipping_Rates
-     */
-//    public function getRates(string $id, string $currency = 'USD')
-//    {
-//        return Shippo_Shipment::get_shipping_rates(compact('id', 'currency'));
-//    }
-
-    /**
      * @param Collection $collection
      *
      * @return void
@@ -236,5 +174,67 @@ class ShippoShipment
         );
 
         $this->parcel = $parcel;
+    }
+
+    /**
+     * @return Shippo_Shipment
+     */
+    private function readyShipment()
+    {
+        $shipment = Shippo_Shipment::create(
+            array(
+                'address_from' => $this->warehouseAddress,
+                'address_to'   => $this->deliveryAddress,
+                'parcels'      => $this->parcel,
+                'async'        => false
+            )
+        );
+
+        foreach ($shipment['rates'] as $key => $rate) {
+            $this->rates[$key]['amount'] = $rate->amount;
+            $this->rates[$key]['name'] = $rate->provider;
+            $this->rates[$key]['object_id'] = $rate->object_id;
+        }
+
+        return $shipment;
+    }
+
+    /**
+     * @param Order $order
+     * @return bool
+     */
+    public function createLabel(Order $order)
+    {
+        $transaction = Shippo_Transaction::create(
+            array(
+                'rate'            => $order->shipping_id,
+                'label_file_type' => "PDF",
+                'async'           => false
+            )
+        );
+
+        if ($transaction["status"] == "SUCCESS" && !empty($transaction["label_url"])) {
+            $order->shipping_label_url = $transaction["label_url"];
+            $order->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $id
+     * @param string $currency
+     * @return Shippo_Get_Shipping_Rates
+     */
+//    public function getRates(string $id, string $currency = 'USD')
+//    {
+//        return Shippo_Shipment::get_shipping_rates(compact('id', 'currency'));
+//    }
+
+    public function getRates()
+    {
+        return $this->rates;
     }
 }

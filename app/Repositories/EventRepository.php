@@ -65,33 +65,6 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
 
     /**
      *
-     * @param Event $objEvent
-     * @param array $arrUsers
-     */
-    public function attachUsers(Event $objEvent, array $arrUsers)
-    {
-        $objEvent->users()->detach();
-
-        foreach ($arrUsers as $userId) {
-            $objUser = (new UserRepository(new User))->findUserById($userId);
-            $objEvent->users()->attach($objUser);
-        }
-
-        return true;
-    }
-
-    /**
-     * Sync the categories
-     *
-     * @param array $params
-     */
-    public function syncTask(Event $event, int $task_id)
-    {
-        return $event->tasks()->sync($task_id);
-    }
-
-    /**
-     *
      * @param Task $objTask
      * @return Collection
      */
@@ -143,5 +116,32 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
         }
 
         return $event->fresh();
+    }
+
+    /**
+     *
+     * @param Event $objEvent
+     * @param array $arrUsers
+     */
+    public function attachUsers(Event $objEvent, array $arrUsers)
+    {
+        $objEvent->users()->detach();
+
+        foreach ($arrUsers as $userId) {
+            $objUser = (new UserRepository(new User))->findUserById($userId);
+            $objEvent->users()->attach($objUser);
+        }
+
+        return true;
+    }
+
+    /**
+     * Sync the categories
+     *
+     * @param array $params
+     */
+    public function syncTask(Event $event, int $task_id)
+    {
+        return $event->tasks()->sync($task_id);
     }
 }

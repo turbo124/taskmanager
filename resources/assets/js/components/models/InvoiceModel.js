@@ -118,12 +118,12 @@ export default class InvoiceModel extends BaseModel {
         return this._fields
     }
 
-    set exchange_rate (exchange_rate) {
-        this.fields.exchange_rate = exchange_rate
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
     }
 
     get customer () {
@@ -132,22 +132,6 @@ export default class InvoiceModel extends BaseModel {
 
     set customer (customer) {
         this._customer = customer
-    }
-
-    buildInvitations (contact, add = false) {
-        const invitations = this.fields.invitations
-
-        // check if the check box is checked or unchecked
-        if (add) {
-            // add the numerical value of the checkbox to options array
-            invitations.push({ contact_id: contact })
-        } else {
-            // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex(contact => contact.contact_id === contact)
-            invitations.splice(index, 1)
-        }
-
-        return invitations
     }
 
     get isApproved () {
@@ -200,6 +184,32 @@ export default class InvoiceModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
+    }
+
+    get url () {
+        return this._url
+    }
+
+    buildInvitations (contact, add = false) {
+        const invitations = this.fields.invitations
+
+        // check if the check box is checked or unchecked
+        if (add) {
+            // add the numerical value of the checkbox to options array
+            invitations.push({ contact_id: contact })
+        } else {
+            // or remove the value from the unchecked checkbox from the array
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
+            invitations.splice(index, 1)
+        }
+
+        return invitations
     }
 
     buildDropdownMenu () {
@@ -277,12 +287,6 @@ export default class InvoiceModel extends BaseModel {
         return array
     }
 
-    get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
-        return customer.contacts ? customer.contacts : []
-    }
-
     async getInvoices () {
         this.errors = []
         this.error_message = ''
@@ -354,10 +358,6 @@ export default class InvoiceModel extends BaseModel {
         const pending_statuses = [consts.invoice_status_draft, consts.invoice_status_sent, consts.invoice_status_partial]
 
         return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
-    }
-
-    get url () {
-        return this._url
     }
 
     async save (data) {

@@ -21,13 +21,11 @@ class Lead extends Model
     use PresentableTrait;
     use Notifiable;
 
-    protected $presenter = 'App\Presenters\LeadPresenter';
-
     const NEW_LEAD = 98;
     const IN_PROGRESS = 99;
     const STATUS_COMPLETED = 100;
     const UNQUALIFIED = 100;
-
+    protected $presenter = 'App\Presenters\LeadPresenter';
     protected $fillable = [
         'number',
         'account_id',
@@ -51,7 +49,7 @@ class Lead extends Model
         'industry_id',
         'private_notes',
         'public_notes',
-        'status_id'
+        'task_status'
     ];
 
     public function setNumber()

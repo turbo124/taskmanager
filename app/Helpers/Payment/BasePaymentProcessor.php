@@ -37,10 +37,48 @@ class BasePaymentProcessor
         $this->data = $data;
     }
 
-    private function setStatus()
+    public function getAmount()
     {
-        $status = $this->payment->refunded == $this->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
-        $this->payment->setStatus($status);
+        return $this->amount;
+    }
+
+    /**
+     * @param float $amount
+     */
+    protected function increasePaymentAmount(float $amount)
+    {
+        if (empty($amount)) {
+            return $this;
+        }
+
+        $this->amount += $amount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     */
+    protected function reducePaymentAmount(float $amount)
+    {
+        if (empty($amount)) {
+            return $this;
+        }
+
+        $this->amount -= $amount;
+        return $this;
+    }
+
+    protected function save(): ?Payment
+    {
+        $this->applyPayment();
+        //$this->setStatus();
+        $this->updateCustomer();
+
+        $this->payment->save();
+
+        return $this->payment;
+        //event(new PaymentWasRefunded($this->payment, $this->data));
     }
 
     private function applyPayment()
@@ -74,47 +112,9 @@ class BasePaymentProcessor
         return $this;
     }
 
-    /**
-     * @param float $amount
-     */
-    protected function increasePaymentAmount(float $amount)
+    private function setStatus()
     {
-        if (empty($amount)) {
-            return $this;
-        }
-
-        $this->amount += $amount;
-
-        return $this;
-    }
-
-    /**
-     * @param float $amount
-     */
-    protected function reducePaymentAmount(float $amount)
-    {
-        if (empty($amount)) {
-            return $this;
-        }
-
-        $this->amount -= $amount;
-        return $this;
-    }
-
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    protected function save(): ?Payment
-    {
-        $this->applyPayment();
-        //$this->setStatus();
-        $this->updateCustomer();
-
-        $this->payment->save();
-
-        return $this->payment;
-        //event(new PaymentWasRefunded($this->payment, $this->data));
+        $status = $this->payment->refunded == $this->amount ? Payment::STATUS_REFUNDED : Payment::STATUS_PARTIALLY_REFUNDED;
+        $this->payment->setStatus($status);
     }
 }

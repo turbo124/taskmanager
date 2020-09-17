@@ -18,12 +18,11 @@ class DealWasCreated implements PerformsMetrics
     use Dispatchable;
     use Measurable;
 
-    protected $meter = 'deal-created';
-
     /**
      * @var array $payment
      */
     public $deal;
+    protected $meter = 'deal-created';
 
     /**
      * DealWasCreated constructor.

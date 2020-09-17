@@ -8,23 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PaymentMethod extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'gateway_type_id'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
     const CREDIT = 1;
     const ACH = 5;
     const VISA = 6;
@@ -48,6 +31,21 @@ class PaymentMethod extends Model
     const SEPA = 30;
     const GOCARDLESS = 31;
     const CRYPTO = 32;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'gateway_type_id'
+    ];
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
 
     public static function parseCardType($cardName)
     {

@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Order;
 
-use App\Events\Deal\DealWasCreated;
 use App\Factory\CustomerFactory;
 use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
@@ -149,45 +148,6 @@ class CreateOrder implements ShouldQueue
         }
     }
 
-    /**
-     * @param Customer $customer
-     * @return Task|null
-     */
-    private function saveTask(Customer $customer): ?Task
-    {
-        try {
-            $task = TaskFactory::create($this->user, $this->account);
-            $date = new DateTime(); // Y-m-d
-            $date->add(new DateInterval('P30D'));
-            $due_date = $date->format('Y-m-d');
-
-            $task = $this->task_repo->save(
-                [
-                    'due_date'    => $due_date,
-                    'created_by'  => $this->user->id,
-                    'source_type' => $this->request->source_type,
-                    'name'        => $this->request->title,
-                    'description' => isset($this->request->description) ? $this->request->description : '',
-                    'customer_id' => $customer->id,
-                    'valued_at'   => $this->request->valued_at,
-                    'task_type'   => $this->is_deal === true ? 3 : 2,
-                    'task_status' => $this->request->task_status
-                ],
-                $task
-            );
-
-            if (!empty($this->request->contributors)) {
-                $task->users()->sync($this->request->input('contributors'));
-            }
-
-            return $task;
-        } catch (Exception $e) {
-            Log::emergency($e->getMessage());
-            DB::rollback();
-            return null;
-        }
-    }
-
     private function saveCustomer(): ?Customer
     {
         $this->customer = CustomerFactory::create($this->account, $this->user);
@@ -280,6 +240,45 @@ class CreateOrder implements ShouldQueue
             Log::emergency($e->getMessage());
             DB::rollback();
             return false;
+        }
+    }
+
+    /**
+     * @param Customer $customer
+     * @return Task|null
+     */
+    private function saveTask(Customer $customer): ?Task
+    {
+        try {
+            $task = TaskFactory::create($this->user, $this->account);
+            $date = new DateTime(); // Y-m-d
+            $date->add(new DateInterval('P30D'));
+            $due_date = $date->format('Y-m-d');
+
+            $task = $this->task_repo->save(
+                [
+                    'due_date'    => $due_date,
+                    'created_by'  => $this->user->id,
+                    'source_type' => $this->request->source_type,
+                    'name'        => $this->request->title,
+                    'description' => isset($this->request->description) ? $this->request->description : '',
+                    'customer_id' => $customer->id,
+                    'valued_at'   => $this->request->valued_at,
+                    'task_type'   => $this->is_deal === true ? 3 : 2,
+                    'task_status' => $this->request->task_status
+                ],
+                $task
+            );
+
+            if (!empty($this->request->contributors)) {
+                $task->users()->sync($this->request->input('contributors'));
+            }
+
+            return $task;
+        } catch (Exception $e) {
+            Log::emergency($e->getMessage());
+            DB::rollback();
+            return null;
         }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane, Card, CardBody } from 'reactstrap'
+import { Card, CardBody, Modal, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
 import Details from './Details'

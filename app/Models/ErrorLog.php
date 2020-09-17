@@ -11,6 +11,17 @@ class ErrorLog extends Authenticatable
     use Notifiable, SoftDeletes;
 
     /**
+     * type
+     */
+    const PAYMENT = 'payment';
+    const EMAIL = 'email';
+    /**
+     * result
+     */
+    const SUCCESS = 'success';
+    const NEUTRAL = 'neutral';
+    const FAILURE = 'failure';
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -26,23 +37,8 @@ class ErrorLog extends Authenticatable
         'customer_id',
 
     ];
-
     protected $casts = [
         'data' => 'object'
     ];
-
-    /**
-     * type
-     */
-    const PAYMENT = 'payment';
-    const EMAIL = 'email';
-
-    /**
-     * result
-     */
-    const SUCCESS = 'success';
-    const NEUTRAL = 'neutral';
-    const FAILURE = 'failure';
-
     protected $table = 'error_log';
 }

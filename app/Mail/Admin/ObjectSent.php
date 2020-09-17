@@ -46,6 +46,15 @@ class ObjectSent extends AdminMailer
         $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
     }
 
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->entity->getFormattedTotal(),
+            'customer' => $this->contact->present()->name(),
+            'invoice'  => $this->entity->getNumber(),
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray());
@@ -60,15 +69,6 @@ class ObjectSent extends AdminMailer
             'button_text' => trans("texts.view_{$this->entity_name}"),
             'signature'   => $this->invitation->account->settings->email_signature,
             'logo'        => $this->invitation->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->entity->getFormattedTotal(),
-            'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->getNumber(),
         ];
     }
 }

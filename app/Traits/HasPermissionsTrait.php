@@ -27,6 +27,26 @@ trait HasPermissionsTrait
         return false;
     }
 
+    public function hasPermissionThroughRole($permission)
+    {
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains($role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasPermissionTo($permission)
+    {
+        return $this->userHasPermission($permission) || $this->checkIfRoleHasPermission($permission);
+    }
+
+    protected function userHasPermission($permission)
+    {
+        return (bool)$this->permissions->where('name', $permission)->count();
+    }
+
     /**
      *
      * @param type $permission
@@ -41,26 +61,6 @@ trait HasPermissionsTrait
         }
 
         return false;
-    }
-
-    protected function userHasPermission($permission)
-    {
-        return (bool)$this->permissions->where('name', $permission)->count();
-    }
-
-    public function hasPermissionThroughRole($permission)
-    {
-        foreach ($permission->roles as $role) {
-            if ($this->roles->contains($role)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function hasPermissionTo($permission)
-    {
-        return $this->userHasPermission($permission) || $this->checkIfRoleHasPermission($permission);
     }
 
     public function givePermissionsTo(...$permissions)

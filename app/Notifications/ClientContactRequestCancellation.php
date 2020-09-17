@@ -19,22 +19,19 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The callback that should be used to build the mail message.
+     *
+     * @var Closure|null
+     */
+    public static $toMailCallback;
+    /**
      * Create a new notification instance.
      *
      * @return void
      */
 
     protected $recurring_invoice;
-
     protected $client_contact;
-
-    /**
-     * The callback that should be used to build the mail message.
-     *
-     * @var Closure|null
-     */
-    public static $toMailCallback;
-
 
     /**
      * ClientContactRequestCancellation constructor.
@@ -45,6 +42,17 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
     {
         $this->recurring_invoice = $recurring_invoice;
         $this->client_contact = $client_contact;
+    }
+
+    /**
+     * Set a callback that should be used when building the notification mail message.
+     *
+     * @param Closure $callback
+     * @return void
+     */
+    public static function toMailUsing($callback)
+    {
+        static::$toMailCallback = $callback;
     }
 
     /**
@@ -113,17 +121,5 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
             ->content(
                 "Contact {$name} from client {$client_name} requested to cancel Recurring Invoice #{$recurring_invoice_number}"
             );
-    }
-
-
-    /**
-     * Set a callback that should be used when building the notification mail message.
-     *
-     * @param Closure $callback
-     * @return void
-     */
-    public static function toMailUsing($callback)
-    {
-        static::$toMailCallback = $callback;
     }
 }

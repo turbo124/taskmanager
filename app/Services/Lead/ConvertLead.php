@@ -73,7 +73,6 @@ class ConvertLead
             }
 
             $this->lead->task_status = Lead::STATUS_COMPLETED;
-            $this->lead->status_id = Lead::STATUS_COMPLETED;
 
             if (!$this->lead->save()) {
                 DB::rollback();

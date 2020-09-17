@@ -25,8 +25,8 @@ class AccountController extends BaseController
 {
     use DispatchesJobs, AccountTransformable, UploadableTrait;
 
-    protected $account_repo;
     public $forced_includes = [];
+    protected $account_repo;
 
     /**
      * AccountController constructor.
