@@ -41,27 +41,26 @@ class Promocodes
     }
 
     /**
-     * Generates promocodes as many as you wish.
-     *
+     * Save one-time use promocodes into database
+     * Successful insert returns generated promocodes
+     * Fail will return empty collection.
+     * @param Account $account
      * @param int $amount
-     *
-     * @return array
+     * @param null $reward
+     * @param array $data
+     * @param null $expires_in
+     * @param null $quantity
+     * @return \Illuminate\Support\Collection
      */
-    public function output($amount = 1)
-    {
-        $collection = [];
-
-        for ($i = 1; $i <= $amount; $i++) {
-            $random = $this->generate();
-
-            while (!$this->validate($collection, $random)) {
-                $random = $this->generate();
-            }
-
-            array_push($collection, $random);
-        }
-
-        return $collection;
+    public function createDisposable(
+        Account $account,
+        $amount = 1,
+        $reward = null,
+        array $data = [],
+        $expires_in = null,
+        $quantity = null
+    ) {
+        return $this->create($account, $amount, $reward, $data, $expires_in, $quantity, true);
     }
 
     /**
@@ -118,181 +117,27 @@ class Promocodes
     }
 
     /**
-     * Save one-time use promocodes into database
-     * Successful insert returns generated promocodes
-     * Fail will return empty collection.
-     * @param Account $account
+     * Generates promocodes as many as you wish.
+     *
      * @param int $amount
-     * @param null $reward
-     * @param array $data
-     * @param null $expires_in
-     * @param null $quantity
-     * @return \Illuminate\Support\Collection
+     *
+     * @return array
      */
-    public function createDisposable(
-        Account $account,
-        $amount = 1,
-        $reward = null,
-        array $data = [],
-        $expires_in = null,
-        $quantity = null
-    ) {
-        return $this->create($account, $amount, $reward, $data, $expires_in, $quantity, true);
-    }
-
-    /**
-     * Check promocode in database if it is valid.
-     * @param Account $account
-     * @param $code
-     * @return bool
-     */
-    public function check(Account $account, $code, Order $order, Customer $customer)
+    public function output($amount = 1)
     {
-        Log::emergency($code);
+        $collection = [];
 
-        $promocode = Promocode::byCode($code)->where('account_id', '=', $account->id)->first();
+        for ($i = 1; $i <= $amount; $i++) {
+            $random = $this->generate();
 
-        if ($promocode === null) {
-            return false;
-        }
-
-        if ($promocode->isExpired() || ($promocode->isDisposable() && $promocode->users()->exists(
-                )) || $promocode->isOverAmount()) {
-            return false;
-        }
-
-        if (!empty($promocode->data['scope']) && !$this->validateScope($promocode->data, $order, $customer)) {
-            return false;
-        }
-
-        return $promocode;
-    }
-
-    /**
-     * @param $data
-     * @param Order $order
-     * @param Customer $customer
-     * @return bool
-     */
-    private function validateScope($data, Order $order, Customer $customer)
-    {
-        $scope_class = 'App\Helpers\Promocodes\Scopes\\' . ucfirst($data['scope']);
-        $scope_obj = new $scope_class();
-        $scope_obj->setOrder($order);
-        $scope_obj->setScopeValue($data['scope_value']);
-        return $scope_obj->validate();
-    }
-
-    /**
-     * Apply promocode to user that it's used from now.
-     * @param Account $account
-     * @param $code
-     * @param User $user
-     * @return Promocode|bool
-     */
-    public function apply(Order $order, Account $account, $code, Customer $customer)
-    {
-        try {
-            $promocode = $promocode = $this->check($account, $code, $order, $customer);
-
-            if ($promocode) {
-//                if ($this->isSecondUsageAttempt($promocode, $customer)) {
-//                    throw new \Exception('already used');
-//                }
-
-                $promocode->customers()->attach(
-                    $customer->id,
-                    [
-                        'order_id'     => $order->id,
-                        'promocode_id' => $promocode->id,
-                        'used_at'      => Carbon::now(),
-                    ]
-                );
-
-                if (!is_null($promocode->quantity)) {
-                    $promocode->quantity -= 1;
-                    $promocode->save();
-                }
-
-                return $promocode->load('customers');
+            while (!$this->validate($collection, $random)) {
+                $random = $this->generate();
             }
-        } catch (Exception $exception) {
-            //
+
+            array_push($collection, $random);
         }
 
-        Log::emergency('here mike');
-
-        return false;
-    }
-
-    /**
-     * Reedem promocode to user that it's used from now.
-     *
-     * @param string $code
-     *
-     * @return bool|Promocode
-     * @throws AlreadyUsedException
-     * @throws UnauthenticatedException
-     */
-    public function redeem($code)
-    {
-        return $this->apply($code);
-    }
-
-    /**
-     * Expire code as it won't usable anymore.
-     *
-     * @param string $code
-     * @return bool
-     * @throws InvalidPromocodeException
-     */
-    public function disable($code)
-    {
-        $promocode = Promocode::byCode($code)->first();
-
-        if ($promocode === null) {
-            throw new InvalidPromocodeException;
-        }
-
-        $promocode->expires_at = Carbon::now();
-        $promocode->quantity = 0;
-
-        $promocode->save();
-        $promocode->delete();
-    }
-
-    /**
-     * Clear all expired and used promotion codes
-     * that can not be used anymore.
-     *
-     * @return void
-     */
-    public function clearRedundant()
-    {
-        Promocode::all()->each(
-            function (Promocode $promocode) {
-                if ($promocode->isExpired() || ($promocode->isDisposable() && $promocode->users()->exists(
-                        )) || $promocode->isOverAmount()) {
-                    $promocode->users()->detach();
-                    $promocode->delete();
-                }
-            }
-        );
-    }
-
-    /**
-     * Get the list of valid promocodes
-     *
-     * @return Promocode[]|Collection
-     */
-    public function all()
-    {
-        return Promocode::all()->filter(
-            function (Promocode $promocode) {
-                return !$promocode->isExpired() && !($promocode->isDisposable() && $promocode->users()->exists(
-                        )) && !$promocode->isOverAmount();
-            }
-        );
+        return $collection;
     }
 
     /**
@@ -362,6 +207,161 @@ class Promocodes
     private function validate($collection, $new)
     {
         return !in_array($new, array_merge($collection, $this->codes));
+    }
+
+    /**
+     * Reedem promocode to user that it's used from now.
+     *
+     * @param string $code
+     *
+     * @return bool|Promocode
+     * @throws AlreadyUsedException
+     * @throws UnauthenticatedException
+     */
+    public function redeem($code)
+    {
+        return $this->apply($code);
+    }
+
+    /**
+     * Apply promocode to user that it's used from now.
+     * @param Account $account
+     * @param $code
+     * @param User $user
+     * @return Promocode|bool
+     */
+    public function apply(Order $order, Account $account, $code, Customer $customer)
+    {
+        try {
+            $promocode = $promocode = $this->check($account, $code, $order, $customer);
+
+            if ($promocode) {
+//                if ($this->isSecondUsageAttempt($promocode, $customer)) {
+//                    throw new \Exception('already used');
+//                }
+
+                $promocode->customers()->attach(
+                    $customer->id,
+                    [
+                        'order_id'     => $order->id,
+                        'promocode_id' => $promocode->id,
+                        'used_at'      => Carbon::now(),
+                    ]
+                );
+
+                if (!is_null($promocode->quantity)) {
+                    $promocode->quantity -= 1;
+                    $promocode->save();
+                }
+
+                return $promocode->load('customers');
+            }
+        } catch (Exception $exception) {
+            //
+        }
+
+        Log::emergency('here mike');
+
+        return false;
+    }
+
+    /**
+     * Check promocode in database if it is valid.
+     * @param Account $account
+     * @param $code
+     * @return bool
+     */
+    public function check(Account $account, $code, Order $order, Customer $customer)
+    {
+        Log::emergency($code);
+
+        $promocode = Promocode::byCode($code)->where('account_id', '=', $account->id)->first();
+
+        if ($promocode === null) {
+            return false;
+        }
+
+        if ($promocode->isExpired() || ($promocode->isDisposable() && $promocode->users()->exists(
+                )) || $promocode->isOverAmount()) {
+            return false;
+        }
+
+        if (!empty($promocode->data['scope']) && !$this->validateScope($promocode->data, $order, $customer)) {
+            return false;
+        }
+
+        return $promocode;
+    }
+
+    /**
+     * @param $data
+     * @param Order $order
+     * @param Customer $customer
+     * @return bool
+     */
+    private function validateScope($data, Order $order, Customer $customer)
+    {
+        $scope_class = 'App\Helpers\Promocodes\Scopes\\' . ucfirst($data['scope']);
+        $scope_obj = new $scope_class();
+        $scope_obj->setOrder($order);
+        $scope_obj->setScopeValue($data['scope_value']);
+        return $scope_obj->validate();
+    }
+
+    /**
+     * Expire code as it won't usable anymore.
+     *
+     * @param string $code
+     * @return bool
+     * @throws InvalidPromocodeException
+     */
+    public function disable($code)
+    {
+        $promocode = Promocode::byCode($code)->first();
+
+        if ($promocode === null) {
+            throw new InvalidPromocodeException;
+        }
+
+        $promocode->expires_at = Carbon::now();
+        $promocode->quantity = 0;
+
+        $promocode->save();
+        $promocode->delete();
+    }
+
+    /**
+     * Clear all expired and used promotion codes
+     * that can not be used anymore.
+     *
+     * @return void
+     */
+    public function clearRedundant()
+    {
+        Promocode::all()->each(
+            function (Promocode $promocode) {
+                if ($promocode->isExpired() || ($promocode->isDisposable() && $promocode->users()->exists(
+                        )) || $promocode->isOverAmount()) {
+                    $promocode->users()->detach();
+                    $promocode->delete();
+                }
+            }
+        );
+    }
+
+    /**
+     * Get the list of valid promocodes
+     *
+     * @return Promocode[]|Collection
+     */
+    public function all()
+    {
+        return Promocode::all()->filter(
+            function (Promocode $promocode) {
+                return !$promocode->isExpired() && !($promocode->isDisposable() && $promocode->users()->exists(
+                        )) && !$promocode->isOverAmount();
+            }
+        );
     }
 
     /**

@@ -341,12 +341,13 @@ export default class DataTable extends Component {
             onChangeBulk: this.onChangeBulk
         })
 
-        const table = !this.props.hide_table ? <Table className={table_class} responsive striped bordered hover dark={table_dark}>
-            {tableSort}
-            <tbody>
-                {list}
-            </tbody>
-        </Table> : list
+        const table = !this.props.hide_table
+            ? <Table className={table_class} responsive striped bordered hover dark={table_dark}>
+                {tableSort}
+                <tbody>
+                    {list}
+                </tbody>
+            </Table> : list
 
         return (
             <React.Fragment>

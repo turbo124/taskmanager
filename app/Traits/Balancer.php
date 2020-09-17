@@ -32,11 +32,6 @@ trait Balancer
         return $this->setBalance($balance);
     }
 
-    public function setTotal(float $total)
-    {
-        $this->total = (float)$total;
-    }
-
     /**
      * @param float $balance
      */
@@ -44,5 +39,10 @@ trait Balancer
     {
         $this->balance = (float)$balance;
         return $this->balance;
+    }
+
+    public function setTotal(float $total)
+    {
+        $this->total = (float)$total;
     }
 }

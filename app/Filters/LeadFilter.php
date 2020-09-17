@@ -65,6 +65,20 @@ class LeadFilter extends QueryFilter
         return $leads;
     }
 
+    public function searchFilter(string $filter = '')
+    {
+        if (strlen($filter) == 0) {
+            return $this->query;
+        }
+
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('leads.name', 'like', '%' . $filter . '%')
+                      ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
+                      ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
+            }
+        );
+    }
 
     /**
      * @param $list
@@ -80,20 +94,5 @@ class LeadFilter extends QueryFilter
         )->all();
 
         return $leads;
-    }
-
-    public function searchFilter(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        return $this->query->where(
-            function ($query) use ($filter) {
-                $query->where('leads.name', 'like', '%' . $filter . '%')
-                      ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
-                      ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
-            }
-        );
     }
 }

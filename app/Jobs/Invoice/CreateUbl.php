@@ -177,115 +177,6 @@ class CreateUbl implements ShouldQueue
         return $client;
     }
 
-    public function costWithDiscount($item)
-    {
-        $cost = $item->unit_price;
-
-        if ($item->unit_discount != 0) {
-            if ($this->invoice->is_amount_discount) {
-                $cost -= $item->unit_discount / $item->quantity;
-            } else {
-                $cost -= $cost * $item->unit_discount / 100;
-            }
-        }
-
-        return $cost;
-    }
-
-
-    private
-    function createInvoiceLine(
-        $line_item,
-        $taxable
-    ) {
-        $product = Product::find($line_item->product_id);
-
-        $item = new Item();
-        $item->setName(!empty($product) ? $product->name : 'Untitled');
-
-        $price = new Price();
-        $price->setBaseQuantity($line_item->quantity);
-        $price->setUnitCode('Unit');
-        $price->setPriceAmount($line_item->unit_price);
-        //$item->setDescription('');
-
-        $invoiceLine = new InvoiceLine();
-        $invoiceLine->setId(0);
-        $invoiceLine->setItem($item);
-        $invoiceLine->setPrice($price);
-        $invoiceLine->setInvoicedQuantity($line_item->quantity);
-        $invoiceLine->setLineExtensionAmount($this->costWithDiscount($line_item));
-
-        $taxtotal = new TaxTotal();
-        $itemTaxAmount1 = $this->createTaxRate($taxtotal, $taxable, $line_item->unit_tax);
-
-        $taxtotal->setTaxAmount($itemTaxAmount1);
-        $invoiceLine->setTaxTotal($taxtotal);
-
-        return $invoiceLine;
-    }
-
-    private
-    function createTaxRate(
-        &$taxtotal,
-        $taxable,
-        $taxRate,
-        $taxName = 'test'
-    ) {
-        $invoice = $this->invoice;
-        $taxAmount = $this->taxAmount($taxable, $taxRate);
-        $taxScheme = ((new TaxScheme()))->setId($taxName);
-
-        $taxtotal->addTaxSubTotal(
-            (new TaxSubTotal())
-                ->setTaxAmount($taxAmount)
-                ->setTaxableAmount($taxable)
-                ->setTaxCategory(
-                    (new TaxCategory())
-                        ->setId(0)
-                        ->setName($taxName)
-                        ->setTaxScheme($taxScheme)
-                        ->setPercent($taxRate)
-                )
-        );
-
-        return $taxAmount;
-    }
-
-    /**
-     * @param $invoiceItem
-     * @param $invoiceTotal
-     *
-     * @return float|int
-     */
-    private
-    function getItemTaxable(
-        $item,
-        $invoice_total
-    ) {
-        $total = $item->quantity * $item->unit_price;
-
-        if ($this->invoice->discount_total != 0) { // check here
-            if ($this->invoice->is_amount_discount) {
-                if ($invoice_total + $this->invoice->discount_total != 0) {
-                    $total -= $invoice_total ? ($total / ($invoice_total + $this->invoice->discount_total) * $this->invoice->discount_total) : 0;
-                }
-            } else {
-                $total *= (100 - $this->invoice->discount_total) / 100;
-            }
-        }
-
-        if ($item->unit_discount != 0) {
-            if ($this->invoice->is_amount_discount) {
-                $total -= $item->unit_discount;
-            } else {
-                $total -= $total * $item->unit_discount / 100;
-            }
-        }
-
-        return round($total, 2);
-    }
-
     /**
      * @return float|int|mixed
      */
@@ -327,6 +218,114 @@ class CreateUbl implements ShouldQueue
         }
 
         return $total;
+    }
+
+    /**
+     * @param $invoiceItem
+     * @param $invoiceTotal
+     *
+     * @return float|int
+     */
+    private
+    function getItemTaxable(
+        $item,
+        $invoice_total
+    ) {
+        $total = $item->quantity * $item->unit_price;
+
+        if ($this->invoice->discount_total != 0) { // check here
+            if ($this->invoice->is_amount_discount) {
+                if ($invoice_total + $this->invoice->discount_total != 0) {
+                    $total -= $invoice_total ? ($total / ($invoice_total + $this->invoice->discount_total) * $this->invoice->discount_total) : 0;
+                }
+            } else {
+                $total *= (100 - $this->invoice->discount_total) / 100;
+            }
+        }
+
+        if ($item->unit_discount != 0) {
+            if ($this->invoice->is_amount_discount) {
+                $total -= $item->unit_discount;
+            } else {
+                $total -= $total * $item->unit_discount / 100;
+            }
+        }
+
+        return round($total, 2);
+    }
+
+    private
+    function createInvoiceLine(
+        $line_item,
+        $taxable
+    ) {
+        $product = Product::find($line_item->product_id);
+
+        $item = new Item();
+        $item->setName(!empty($product) ? $product->name : 'Untitled');
+
+        $price = new Price();
+        $price->setBaseQuantity($line_item->quantity);
+        $price->setUnitCode('Unit');
+        $price->setPriceAmount($line_item->unit_price);
+        //$item->setDescription('');
+
+        $invoiceLine = new InvoiceLine();
+        $invoiceLine->setId(0);
+        $invoiceLine->setItem($item);
+        $invoiceLine->setPrice($price);
+        $invoiceLine->setInvoicedQuantity($line_item->quantity);
+        $invoiceLine->setLineExtensionAmount($this->costWithDiscount($line_item));
+
+        $taxtotal = new TaxTotal();
+        $itemTaxAmount1 = $this->createTaxRate($taxtotal, $taxable, $line_item->unit_tax);
+
+        $taxtotal->setTaxAmount($itemTaxAmount1);
+        $invoiceLine->setTaxTotal($taxtotal);
+
+        return $invoiceLine;
+    }
+
+    public function costWithDiscount($item)
+    {
+        $cost = $item->unit_price;
+
+        if ($item->unit_discount != 0) {
+            if ($this->invoice->is_amount_discount) {
+                $cost -= $item->unit_discount / $item->quantity;
+            } else {
+                $cost -= $cost * $item->unit_discount / 100;
+            }
+        }
+
+        return $cost;
+    }
+
+    private
+    function createTaxRate(
+        &$taxtotal,
+        $taxable,
+        $taxRate,
+        $taxName = 'test'
+    ) {
+        $invoice = $this->invoice;
+        $taxAmount = $this->taxAmount($taxable, $taxRate);
+        $taxScheme = ((new TaxScheme()))->setId($taxName);
+
+        $taxtotal->addTaxSubTotal(
+            (new TaxSubTotal())
+                ->setTaxAmount($taxAmount)
+                ->setTaxableAmount($taxable)
+                ->setTaxCategory(
+                    (new TaxCategory())
+                        ->setId(0)
+                        ->setName($taxName)
+                        ->setTaxScheme($taxScheme)
+                        ->setPercent($taxRate)
+                )
+        );
+
+        return $taxAmount;
     }
 
     private

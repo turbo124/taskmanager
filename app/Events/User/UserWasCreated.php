@@ -18,12 +18,11 @@ class UserWasCreated implements PerformsMetrics
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, Measurable;
 
-    protected $meter = 'user-created';
-
     /**
      * @var $user
      */
     public $user;
+    protected $meter = 'user-created';
 
     /**
      * Create a new event instance.

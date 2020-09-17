@@ -41,11 +41,6 @@ class ObjectViewed extends AdminMailer
         $this->execute();
     }
 
-    private function setMessage()
-    {
-        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray());
-    }
-
     private function setSubject()
     {
         $this->subject = trans(
@@ -57,6 +52,19 @@ class ObjectViewed extends AdminMailer
         );
     }
 
+    private function setMessage()
+    {
+        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray());
+    }
+
+    private function getDataArray()
+    {
+        return [
+            'total'            => $this->entity->getFormattedTotal(),
+            'customer'         => $this->contact->present()->name(),
+            $this->entity_name => $this->entity->getNumber()
+        ];
+    }
 
     public function buildMessage()
     {
@@ -70,15 +78,6 @@ class ObjectViewed extends AdminMailer
             'button_text' => trans("texts.view_{$this->entity_name}"),
             'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
             'logo'        => $this->entity->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'            => $this->entity->getFormattedTotal(),
-            'customer'         => $this->contact->present()->name(),
-            $this->entity_name => $this->entity->getNumber()
         ];
     }
 }

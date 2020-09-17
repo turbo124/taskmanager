@@ -37,14 +37,6 @@ class UpdateQuoteRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
-
-        $this->replace($input);
-    }
-
     /**
      * Custom message for validation
      *
@@ -57,5 +49,13 @@ class UpdateQuoteRequest extends FormRequest
             'task_id.required' => 'There was an unexpected error!',
             'user_id.required' => 'There was an unexpected error!',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $input = $this->all();
+        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
+
+        $this->replace($input);
     }
 }

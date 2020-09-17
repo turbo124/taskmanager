@@ -107,12 +107,12 @@ export default class PurchaseOrderModel extends BaseModel {
         }
     }
 
-    set exchange_rate (exchange_rate) {
-        this.fields.exchange_rate = exchange_rate
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
     }
 
     get company () {
@@ -161,6 +161,12 @@ export default class PurchaseOrderModel extends BaseModel {
 
     get hasInvoice () {
         return this.fields.invoice_id.toString().length
+    }
+
+    get contacts () {
+        const index = this.companies.findIndex(company => company.id === this.fields.company_id)
+        const company = this.companies[index]
+        return company.contacts ? company.contacts : []
     }
 
     buildDropdownMenu () {
@@ -239,12 +245,6 @@ export default class PurchaseOrderModel extends BaseModel {
         array.splice(index, 1)
         this.fields.line_items = array
         return array
-    }
-
-    get contacts () {
-        const index = this.companies.findIndex(company => company.id === this.fields.company_id)
-        const company = this.companies[index]
-        return company.contacts ? company.contacts : []
     }
 
     isLate () {

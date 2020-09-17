@@ -164,6 +164,20 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
     }
 
     /**
+     * @param $data
+     * @param Deal $deal
+     * @return Deal|null
+     */
+    public function save($data, Deal $deal): ?Deal
+    {
+        $deal->fill($data);
+        $deal->setNumber();
+        $deal->save();
+
+        return $deal->fresh();
+    }
+
+    /**
      * @param array $data
      * @param Deal $deal
      * @return Deal|Task|null
@@ -176,21 +190,6 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
         event(new DealWasUpdated($deal));
 
         return $deal;
-    }
-
-
-    /**
-     * @param $data
-     * @param Deal $deal
-     * @return Deal|null
-     */
-    public function save($data, Deal $deal): ?Deal
-    {
-        $deal->fill($data);
-        $deal->setNumber();
-        $deal->save();
-
-        return $deal->fresh();
     }
 
 }

@@ -37,19 +37,6 @@ class Authorize extends BasePaymentGateway
         return $this->chargeCustomerProfile($amount, $invoice);
     }
 
-    private function setupConfig()
-    {
-        $gateway_config = $this->company_gateway->config;
-
-        /* Create a merchantAuthenticationType object with authentication details
-        retrieved from the constants file */
-        $config = new MerchantAuthenticationType();
-        $config->setName($gateway_config->apiLoginId);
-        $config->setTransactionKey($gateway_config->transactionKey);
-
-        return $config;
-    }
-
     private function chargeCustomerProfile($amount, Invoice $invoice = null): ?Payment
     {
         $config = $this->setupConfig();
@@ -116,5 +103,18 @@ class Authorize extends BasePaymentGateway
         }
 
         return null;
+    }
+
+    private function setupConfig()
+    {
+        $gateway_config = $this->company_gateway->config;
+
+        /* Create a merchantAuthenticationType object with authentication details
+        retrieved from the constants file */
+        $config = new MerchantAuthenticationType();
+        $config->setName($gateway_config->apiLoginId);
+        $config->setTransactionKey($gateway_config->transactionKey);
+
+        return $config;
     }
 }

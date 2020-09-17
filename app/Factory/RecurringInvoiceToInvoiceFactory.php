@@ -48,6 +48,7 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->shipping_cost_tax = $recurring_invoice->shipping_cost_tax;
         $invoice->gateway_fee = $recurring_invoice->gateway_fee ?: 0;
         $invoice->gateway_percentage = $recurring_invoice->gateway_percentage;
+        $invoice->auto_billing_enabled = $recurring_invoice->auto_billing_enabled;
 
         return $invoice;
     }

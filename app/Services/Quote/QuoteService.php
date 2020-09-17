@@ -4,7 +4,6 @@ namespace App\Services\Quote;
 
 use App\Events\Quote\PurchaseOrderWasApproved;
 use App\Events\Quote\QuoteWasApproved;
-use App\Events\Quote\QuoteWasEmailed;
 use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Models\Invoice;
 use App\Models\Order;

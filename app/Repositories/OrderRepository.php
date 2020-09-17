@@ -82,6 +82,25 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param array $data
      * @param Order $order
+     * @return Order
+     */
+    public function save(array $data, Order $order): Order
+    {
+        $order->fill($data);
+        $order = $this->populateDefaults($order);
+        $order = $order->service()->calculateInvoiceTotals();
+        $order->setNumber();
+
+        $order->save();
+
+        $this->saveInvitations($order, 'order', $data);
+
+        return $order->fresh();
+    }
+
+    /**
+     * @param array $data
+     * @param Order $order
      * @return Order|null
      */
     public function createOrder(array $data, Order $order): ?Order
@@ -109,25 +128,6 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         event(new OrderWasCreated($order));
 
         return $order;
-    }
-
-    /**
-     * @param array $data
-     * @param Order $order
-     * @return Order
-     */
-    public function save(array $data, Order $order): Order
-    {
-        $order->fill($data);
-        $order = $this->populateDefaults($order);
-        $order = $order->service()->calculateInvoiceTotals();
-        $order->setNumber();
-
-        $order->save();
-
-        $this->saveInvitations($order, 'order', $data);
-
-        return $order->fresh();
     }
 
     public function getOrdersForTask(Task $task): Collection

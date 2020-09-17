@@ -23,8 +23,6 @@ class RecurringInvoice extends Model
     use Balancer;
     use Money;
 
-    protected $presenter = 'App\Presenters\InvoicePresenter';
-
     /**
      * Invoice Statuses
      */
@@ -33,8 +31,7 @@ class RecurringInvoice extends Model
     const STATUS_CANCELLED = 4;
     const STATUS_PENDING = -1;
     const STATUS_COMPLETED = -2;
-
-
+    protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $fillable = [
         'status_id',
         'account_id',
@@ -61,6 +58,7 @@ class RecurringInvoice extends Model
         'end_date',
         'due_date',
         'grace_period',
+        'auto_billing_enabled',
         'custom_value1',
         'custom_value2',
         'custom_value3',

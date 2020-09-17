@@ -27,14 +27,6 @@ class Role extends Model
     protected $fillable = ['name', 'description'];
 
     /**
-     * @return BelongsToMany
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
-    }
-
-    /**
      *
      * @param type $permissions
      * @return type
@@ -46,6 +38,14 @@ class Role extends Model
         foreach ($permissions as $permission) {
             $this->permissions()->sync($permission, false);
         }
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
     }
 
     public function attachPermission(Permission $permission)

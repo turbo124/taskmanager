@@ -57,6 +57,22 @@ class CreatePayment implements ShouldQueue
         return $this->createPaymentFromInvoice();
     }
 
+    /**
+     * @return Payment
+     */
+    private function createInvoiceFromOrder(): Payment
+    {
+        // order to invoice
+        $order = Order::where('id', '=', $this->data['order_id'])->first();
+        $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
+        $this->ids = $order->invoice_id;
+        $this->customer = $order->customer;
+        $payment = $this->createPayment();
+        $this->attachInvoices($payment);
+
+        return $payment;
+    }
+
     private function createPayment()
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
@@ -75,35 +91,6 @@ class CreatePayment implements ShouldQueue
         $payment = $this->payment_repo->save($data, $payment);
 
         Log::emergency($payment);
-
-        return $payment;
-    }
-
-    /**
-     * @return Payment
-     */
-    private function createPaymentFromInvoice(): Payment
-    {
-        $this->ids = $this->data['ids'];
-        $this->customer = Customer::find($this->data['customer_id']);
-        $payment = $this->createPayment();
-        $this->attachInvoices($payment);
-
-        return $payment;
-    }
-
-    /**
-     * @return Payment
-     */
-    private function createInvoiceFromOrder(): Payment
-    {
-        // order to invoice
-        $order = Order::where('id', '=', $this->data['order_id'])->first();
-        $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
-        $this->ids = $order->invoice_id;
-        $this->customer = $order->customer;
-        $payment = $this->createPayment();
-        $this->attachInvoices($payment);
 
         return $payment;
     }
@@ -147,5 +134,18 @@ class CreatePayment implements ShouldQueue
         $payment->customer->increaseBalance($invoice->balance * -1);
         $payment->customer->increasePaidToDateAmount($invoice->balance);
         $payment->customer->save();
+    }
+
+    /**
+     * @return Payment
+     */
+    private function createPaymentFromInvoice(): Payment
+    {
+        $this->ids = $this->data['ids'];
+        $this->customer = Customer::find($this->data['customer_id']);
+        $payment = $this->createPayment();
+        $this->attachInvoices($payment);
+
+        return $payment;
     }
 }

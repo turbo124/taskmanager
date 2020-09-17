@@ -20,12 +20,11 @@ class OrderWasCancelled implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'order-cancelled';
-
     /**
      * @var Order
      */
     public Order $order;
+    protected $meter = 'order-cancelled';
 
     /**
      * Create a new event instance.

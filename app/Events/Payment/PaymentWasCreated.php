@@ -19,12 +19,11 @@ class PaymentWasCreated implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'payment-created';
-
     /**
      * @var Payment
      */
     public Payment $payment;
+    protected $meter = 'payment-created';
 
     /**
      * Create a new event instance.

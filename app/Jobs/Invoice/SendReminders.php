@@ -65,28 +65,6 @@ class SendReminders implements ShouldQueue
         $this->build();
     }
 
-    private function updateNextReminderDate($reminder_type, $number_of_days)
-    {
-        switch ($reminder_type) {
-            case 'after_invoice_date':
-                $next_send_date = Carbon::parse($this->invoice->date)->addDays($number_of_days)->format('Y-m-d');
-                break;
-
-            case 'before_due_date':
-                $next_send_date = Carbon::parse($this->invoice->due_date)->subDays($number_of_days)->format('Y-m-d');
-                break;
-
-            case 'after_due_date':
-                $next_send_date = Carbon::parse($this->invoice->due_date)->addDays($number_of_days)->format('Y-m-d');
-                break;
-        }
-
-        $this->invoice->next_send_date = $next_send_date;
-        $this->invoice->date_reminder_last_sent = Carbon::now();
-        $this->invoice->save();
-        return true;
-    }
-
     private function build()
     {
         $message_sent = false;
@@ -115,6 +93,12 @@ class SendReminders implements ShouldQueue
         }
     }
 
+    private function addCharge(float $amount)
+    {
+        $this->invoice->late_fee_charge = $amount;
+        $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
+    }
+
     private function sendEmail($template)
     {
         $subject = $this->invoice->customer->getSetting('email_subject_' . $template);
@@ -122,9 +106,25 @@ class SendReminders implements ShouldQueue
         $this->invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 
-    private function addCharge(float $amount)
+    private function updateNextReminderDate($reminder_type, $number_of_days)
     {
-        $this->invoice->late_fee_charge = $amount;
-        $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
+        switch ($reminder_type) {
+            case 'after_invoice_date':
+                $next_send_date = Carbon::parse($this->invoice->date)->addDays($number_of_days)->format('Y-m-d');
+                break;
+
+            case 'before_due_date':
+                $next_send_date = Carbon::parse($this->invoice->due_date)->subDays($number_of_days)->format('Y-m-d');
+                break;
+
+            case 'after_due_date':
+                $next_send_date = Carbon::parse($this->invoice->due_date)->addDays($number_of_days)->format('Y-m-d');
+                break;
+        }
+
+        $this->invoice->next_send_date = $next_send_date;
+        $this->invoice->date_reminder_last_sent = Carbon::now();
+        $this->invoice->save();
+        return true;
     }
 }

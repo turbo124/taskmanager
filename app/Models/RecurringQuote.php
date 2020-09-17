@@ -20,8 +20,6 @@ class RecurringQuote extends Model
     use Balancer;
     use Money;
 
-    protected $presenter = 'App\Presenters\QuotePresenter';
-
     /**
      * Invoice Statuses
      */
@@ -30,7 +28,7 @@ class RecurringQuote extends Model
     const STATUS_PENDING = -1;
     const STATUS_COMPLETED = -2;
     const STATUS_CANCELLED = -3;
-
+    protected $presenter = 'App\Presenters\QuotePresenter';
     protected $fillable = [
         'account_id',
         'status_id',
@@ -47,6 +45,7 @@ class RecurringQuote extends Model
         'date',
         'due_date',
         'grace_period',
+        'auto_billing_enabled',
         'valid_until',
         'line_items',
         'settings',

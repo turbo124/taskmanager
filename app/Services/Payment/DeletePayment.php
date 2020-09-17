@@ -33,10 +33,20 @@ class DeletePayment
         return $this->payment;
     }
 
-    private function updateCustomer(): bool
+    /**
+     * @return bool
+     */
+    private function updateCredit(): bool
     {
-        $customer = $this->payment->customer;
-        $customer->reducePaidToDateAmount($this->payment->amount);
+        if ($this->payment->credits()->count() === 0) {
+            return true;
+        }
+
+        foreach ($this->payment->credits as $credit) {
+            $credit->increaseBalance($credit->total);
+            $credit->setStatus(Credit::STATUS_SENT);
+            $credit->save();
+        }
 
         return true;
     }
@@ -73,20 +83,10 @@ class DeletePayment
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    private function updateCredit(): bool
+    private function updateCustomer(): bool
     {
-        if ($this->payment->credits()->count() === 0) {
-            return true;
-        }
-
-        foreach ($this->payment->credits as $credit) {
-            $credit->increaseBalance($credit->total);
-            $credit->setStatus(Credit::STATUS_SENT);
-            $credit->save();
-        }
+        $customer = $this->payment->customer;
+        $customer->reducePaidToDateAmount($this->payment->amount);
 
         return true;
     }

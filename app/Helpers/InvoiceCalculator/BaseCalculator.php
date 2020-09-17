@@ -5,21 +5,17 @@ namespace App\Helpers\InvoiceCalculator;
 
 class BaseCalculator
 {
+    protected $entity;
     private $customer;
-
     private $decimals = 2;
-
     /**
      * @var float
      */
     private $line_tax_total = 0.00;
-
     /**
      * @var float
      */
     private $line_discount_total = 0.00;
-
-    protected $entity;
 
     public function __construct($entity)
     {
@@ -28,6 +24,40 @@ class BaseCalculator
         }
 
         $this->decimals = $entity !== null && $this->customer ? $this->customer->currency->precision : 2;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineTaxTotal(): float
+    {
+        return $this->line_tax_total;
+    }
+
+    /**
+     * @param float $tax_total
+     */
+    public function setLineTaxTotal(float $tax_total): self
+    {
+        $this->line_tax_total = $tax_total;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineDiscountTotal(): float
+    {
+        return $this->line_discount_total;
+    }
+
+    /**
+     * @param float $line_discount_total
+     */
+    public function setLineDiscountTotal(float $line_discount_total): self
+    {
+        $this->line_discount_total = $line_discount_total;
+        return $this;
     }
 
     /**
@@ -113,40 +143,6 @@ class BaseCalculator
     protected function applyQuantity(float $price, float $quantity)
     {
         return round($price * $quantity, $this->decimals);
-    }
-
-    /**
-     * @return float
-     */
-    public function getLineTaxTotal(): float
-    {
-        return $this->line_tax_total;
-    }
-
-    /**
-     * @param float $tax_total
-     */
-    public function setLineTaxTotal(float $tax_total): self
-    {
-        $this->line_tax_total = $tax_total;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLineDiscountTotal(): float
-    {
-        return $this->line_discount_total;
-    }
-
-    /**
-     * @param float $line_discount_total
-     */
-    public function setLineDiscountTotal(float $line_discount_total): self
-    {
-        $this->line_discount_total = $line_discount_total;
-        return $this;
     }
 
 

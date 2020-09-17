@@ -90,16 +90,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $this->model;
     }
 
-    /**
-     * Sync the users
-     *
-     * @param array $params
-     */
-    public function syncUsers(Task $task, array $params)
-    {
-        return $task->users()->sync($params);
-    }
-
     public function getTasksWithProducts(): Support
     {
         return $this->model->join('product_task', 'product_task.task_id', '=', 'tasks.id')->select('tasks.*')
@@ -157,22 +147,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return !empty($result[0]) ? $result[0]['total'] : 0;
     }
 
-    private function saveProjectTask($data, Task $task)
-    {
-        $objProject = (new ProjectRepository(new Project))->findProjectById($data['project_id']);
-        $data['customer_id'] = $objProject->customer_id;
-        $task->fill($data);
-
-        $task->save();
-        $objProject->tasks()->attach($task);
-
-        if (isset ($data['contributors']) && !empty($data['contributors'])) {
-            $this->syncUsers($task, $data['contributors']);
-        }
-
-        return $task->fresh();
-    }
-
     public function createTask($data, Task $task): ?Task
     {
         if (empty($data['customer_id']) && !empty($data['project_id'])) {
@@ -196,21 +170,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      * @return Task|null
      * @throws Exception
      */
-    public function updateTask($data, Task $task): ?Task
-    {
-        $task = $this->save($data, $task);
-
-        event(new TaskWasUpdated($task));
-
-        return $task;
-    }
-
-    /**
-     * @param $data
-     * @param Task $task
-     * @return Task|null
-     * @throws Exception
-     */
     public function save($data, Task $task): ?Task
     {
         $task->setNumber();
@@ -223,6 +182,47 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         }
 
         return $task->fresh();
+    }
+
+    /**
+     * @param $data
+     * @param Task $task
+     * @return Task|null
+     * @throws Exception
+     */
+    public function updateTask($data, Task $task): ?Task
+    {
+        $task = $this->save($data, $task);
+
+        event(new TaskWasUpdated($task));
+
+        return $task;
+    }
+
+    private function saveProjectTask($data, Task $task)
+    {
+        $objProject = (new ProjectRepository(new Project))->findProjectById($data['project_id']);
+        $data['customer_id'] = $objProject->customer_id;
+        $task->fill($data);
+
+        $task->save();
+        $objProject->tasks()->attach($task);
+
+        if (isset ($data['contributors']) && !empty($data['contributors'])) {
+            $this->syncUsers($task, $data['contributors']);
+        }
+
+        return $task->fresh();
+    }
+
+    /**
+     * Sync the users
+     *
+     * @param array $params
+     */
+    public function syncUsers(Task $task, array $params)
+    {
+        return $task->users()->sync($params);
     }
 
 }

@@ -14,6 +14,15 @@ class Cases extends Model
     use SoftDeletes;
     use PresentableTrait;
 
+    const STATUS_DRAFT = 1;
+    const STATUS_OPEN = 2;
+    const STATUS_CLOSED = 3;
+    const STATUS_MERGED = 4;
+    const PRIORITY_LOW = 1;
+    const PRIORITY_MEDIUM = 2;
+    const PRIORITY_HIGH = 3;
+    const CASE_LINK_TYPE_PRODUCT = 1;
+    const CASE_LINK_TYPE_PROJECT = 2;
     protected $fillable = [
         'status_id',
         'priority_id',
@@ -40,22 +49,7 @@ class Cases extends Model
         'custom_value3',
         'custom_value4'
     ];
-
     protected $presenter = 'App\Presenters\CasesPresenter';
-
-    const STATUS_DRAFT = 1;
-    const STATUS_OPEN = 2;
-    const STATUS_CLOSED = 3;
-    const STATUS_MERGED = 4;
-
-    const PRIORITY_LOW = 1;
-    const PRIORITY_MEDIUM = 2;
-    const PRIORITY_HIGH = 3;
-
-    const CASE_LINK_TYPE_PRODUCT = 1;
-    const CASE_LINK_TYPE_PROJECT = 2;
-
-
     private $arrStatuses = [
         1 => 'Draft',
         2 => 'Open',

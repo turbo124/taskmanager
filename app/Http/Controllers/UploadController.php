@@ -13,8 +13,6 @@ use App\Requests\UploadRequest;
 use App\Transformations\FileTransformable;
 use Exception;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class UploadController extends Controller
 {
@@ -62,7 +60,6 @@ class UploadController extends Controller
 
         if ($request->hasFile('file')) {
             foreach ($request->file('file') as $count => $file) {
-
                 $file = UploadFile::dispatchNow($file, $user, $account, $obj, $uploaded_by_customer);
 
                 $arrAddedFiles[$count] = $file;

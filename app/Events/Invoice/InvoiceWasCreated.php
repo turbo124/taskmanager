@@ -19,12 +19,11 @@ class InvoiceWasCreated implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'invoice-created';
-
     /**
      * @var Invoice
      */
     public $invoice;
+    protected $meter = 'invoice-created';
 
     /**
      * Create a new event instance.

@@ -28,8 +28,6 @@ class Order extends Model
     use Money;
     use Balancer;
 
-    protected $presenter = 'App\Presenters\OrderPresenter';
-
     const STATUS_DRAFT = 1;
     const STATUS_PARTIAL = 7;
     const STATUS_ORDER_FAILED = 9;
@@ -40,7 +38,7 @@ class Order extends Model
     const STATUS_COMPLETE = 3;
     const STATUS_BACKORDERED = 6;
     const STATUS_EXPIRED = -1;
-
+    protected $presenter = 'App\Presenters\OrderPresenter';
     protected $casts = [
         'account_id'  => 'integer',
         'user_id'     => 'integer',

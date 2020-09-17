@@ -17,12 +17,11 @@ class OrderWasDispatched implements PerformsMetrics
     use Dispatchable;
     use Measurable;
 
-    protected $meter = 'order-dispatched';
-
     /**
      * @var Order
      */
     public Order $order;
+    protected $meter = 'order-dispatched';
 
     /**
      * Create a new event instance.

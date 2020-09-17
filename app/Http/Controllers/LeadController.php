@@ -22,6 +22,8 @@ use App\Requests\SearchRequest;
 use App\Transformations\DealTransformable;
 use App\Transformations\LeadTransformable;
 use App\Transformations\TaskTransformable;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
@@ -126,8 +128,8 @@ class LeadController extends Controller
      * @param Request $request
      * @param Lead $lead
      * @param $action
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function action(Request $request, Lead $lead, $action)
     {

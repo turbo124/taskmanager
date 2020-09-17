@@ -2,12 +2,16 @@
 
 namespace App\Traits;
 
+use DateInterval;
+use DatePeriod;
+use DateTime;
+
 trait CalculateRecurringDateRanges
 {
 
     public function calculateDateRanges()
     {
-        $begin = new \DateTime($this->start_date);
+        $begin = new DateTime($this->start_date);
 
         $endless = false;
 
@@ -20,11 +24,11 @@ trait CalculateRecurringDateRanges
 
         // Variable that store the date interval
         // of period 1 day
-        $interval = new \DateInterval('P' . $this->frequency . 'D');
+        $interval = new DateInterval('P' . $this->frequency . 'D');
 
-        $realEnd = new \DateTime($this->end_date);
+        $realEnd = new DateTime($this->end_date);
 
-        $period = new \DatePeriod(new \DateTime($this->start_date), $interval, $realEnd);
+        $period = new DatePeriod(new DateTime($this->start_date), $interval, $realEnd);
 
         $date_ranges = [];
 

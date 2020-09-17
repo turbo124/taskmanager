@@ -56,6 +56,28 @@ export default class CaseModel extends BaseModel {
         return this._url
     }
 
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
+    }
+
+    get convertedAmount () {
+        return (this.fields.amount * this.fields.exchange_rate).toFixed(2)
+    }
+
+    get convertedAmountWithTax () {
+        return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
+    }
+
     getExchangeRateForCurrency (currency_id) {
         const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
         return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
@@ -72,12 +94,6 @@ export default class CaseModel extends BaseModel {
         }
 
         return actions
-    }
-
-    get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
-        return customer.contacts ? customer.contacts : []
     }
 
     customerChange (customer_id) {
@@ -115,22 +131,6 @@ export default class CaseModel extends BaseModel {
         }
 
         return invitations
-    }
-
-    get convertedAmount () {
-        return (this.fields.amount * this.fields.exchange_rate).toFixed(2)
-    }
-
-    get convertedAmountWithTax () {
-        return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
-    }
-
-    get fileCount () {
-        return this._file_count || 0
-    }
-
-    set fileCount (files) {
-        this._file_count = files ? files.length : 0
     }
 
     async completeAction (data, action) {

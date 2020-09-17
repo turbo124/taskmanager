@@ -56,7 +56,8 @@ export default class Details extends Component {
                 <CardBody>
                     <FormGroup>
                         <Label for="date">{translations.date}(*):</Label>
-                        <Datepicker name="date" date={this.props.purchase_order.date} handleInput={this.props.handleInput}
+                        <Datepicker name="date" date={this.props.purchase_order.date}
+                            handleInput={this.props.handleInput}
                             className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
                         {this.renderErrorFor('due_date')}
                     </FormGroup>

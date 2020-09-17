@@ -2,7 +2,6 @@
 
 namespace App\Events\PurchaseOrder;
 
-use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderInvitation;
 use Illuminate\Queue\SerializesModels;
 

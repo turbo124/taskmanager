@@ -70,6 +70,16 @@ class NewOrderNotification extends Notification implements ShouldQueue
         ];
     }
 
+    public function toSlack($notifiable)
+    {
+        $logo = $this->order->account->present()->logo();
+
+        return (new SlackMessage)->success()
+                                 ->from("System")->image($logo)->content(
+                $this->getMessage()
+            );
+    }
+
     private function getMessage()
     {
         $this->subject = trans(
@@ -80,16 +90,6 @@ class NewOrderNotification extends Notification implements ShouldQueue
                 'order'    => $this->order->getNumber(),
             ]
         );
-    }
-
-    public function toSlack($notifiable)
-    {
-        $logo = $this->order->account->present()->logo();
-
-        return (new SlackMessage)->success()
-                                 ->from("System")->image($logo)->content(
-                $this->getMessage()
-            );
     }
 
 }

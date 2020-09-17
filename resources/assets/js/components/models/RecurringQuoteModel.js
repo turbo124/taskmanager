@@ -76,7 +76,7 @@ export default class RecurringQuoteModel extends BaseModel {
             transaction_fee: 0,
             shipping_cost: 0,
             gateway_fee: 0,
-            gateway_percentage: false, 
+            gateway_percentage: false,
             auto_billing_enabled: false,
             tax: 0,
             discount: 0,

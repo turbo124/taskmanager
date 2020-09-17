@@ -20,11 +20,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProductImage extends Model
 {
 
+    public $timestamps = false;
     protected $fillable = [
         'product_id',
         'src'
     ];
-    public $timestamps = false;
 
     /**
      * @return BelongsTo

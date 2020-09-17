@@ -95,31 +95,45 @@ class BaseController extends Controller
         $this->entity_string = $entity_string;
     }
 
-    protected function getIncludes()
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws FileNotFoundException
+     */
+    public function bulk(Request $request)
     {
-        $user = auth()->user();
+        $action = $request->action;
 
-        $default_account = $user->accounts->first()->domains->default_company;
-        //$user->setAccount($default_account);
+        $ids = $request->ids;
 
-        $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
+        $class = "App\Models\\{$this->entity_string}";
 
-        return [
-            'account_id'    => $default_account->id,
-            'id'            => $user->id,
-            'auth_token'    => $user->auth_token,
-            'name'          => $user->name,
-            'email'         => $user->email,
-            'accounts'      => $accounts,
-            'currencies'    => Currency::all(),
-            'languages'     => Language::all(),
-            'countries'     => Country::all(),
-            'payment_types' => PaymentMethod::all(),
-            'gateways'      => Gateway::all(),
-            'users'         => User::where('is_active', '=', 1)->get(
-                ['first_name', 'last_name', 'phone_number', 'id']
-            )
-        ];
+        $entities = $class::withTrashed()->whereIn('id', $ids)->get();
+
+        if (!$entities) {
+            return response()->json(['message' => "No {$this->entity_string} Found"]);
+        }
+
+        if ($action == 'download' && $entities->count() >= 1) {
+            Download::dispatch($entities, $entities->first()->account, auth()->user()->email);
+
+            return response()->json(['message' => 'The email was sent successfully!'], 200);
+        }
+
+        $responses = [];
+
+        foreach ($entities as $entity) {
+            $response = $this->performAction($request, $entity, $action, true);
+
+            if ($response === false) {
+                $responses[] = "FAILED";
+                continue;
+            }
+
+            $responses[] = $response;
+        }
+
+        return response()->json($responses);
     }
 
     /**
@@ -391,47 +405,6 @@ class BaseController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws FileNotFoundException
-     */
-    public function bulk(Request $request)
-    {
-        $action = $request->action;
-
-        $ids = $request->ids;
-
-        $class = "App\Models\\{$this->entity_string}";
-
-        $entities = $class::withTrashed()->whereIn('id', $ids)->get();
-
-        if (!$entities) {
-            return response()->json(['message' => "No {$this->entity_string} Found"]);
-        }
-
-        if ($action == 'download' && $entities->count() >= 1) {
-            Download::dispatch($entities, $entities->first()->account, auth()->user()->email);
-
-            return response()->json(['message' => 'The email was sent successfully!'], 200);
-        }
-
-        $responses = [];
-
-        foreach ($entities as $entity) {
-            $response = $this->performAction($request, $entity, $action, true);
-
-            if ($response === false) {
-                $responses[] = "FAILED";
-                continue;
-            }
-
-            $responses[] = $response;
-        }
-
-        return response()->json($responses);
-    }
-
     public function downloadPdf()
     {
         $ids = request()->input('ids');
@@ -475,5 +448,32 @@ class BaseController extends Controller
         }
 
         return response()->json(['data' => base64_encode($content)]);
+    }
+
+    protected function getIncludes()
+    {
+        $user = auth()->user();
+
+        $default_account = $user->accounts->first()->domains->default_company;
+        //$user->setAccount($default_account);
+
+        $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
+
+        return [
+            'account_id'    => $default_account->id,
+            'id'            => $user->id,
+            'auth_token'    => $user->auth_token,
+            'name'          => $user->name,
+            'email'         => $user->email,
+            'accounts'      => $accounts,
+            'currencies'    => Currency::all(),
+            'languages'     => Language::all(),
+            'countries'     => Country::all(),
+            'payment_types' => PaymentMethod::all(),
+            'gateways'      => Gateway::all(),
+            'users'         => User::where('is_active', '=', 1)->get(
+                ['first_name', 'last_name', 'phone_number', 'id']
+            )
+        ];
     }
 }

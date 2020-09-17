@@ -42,20 +42,27 @@ class LeadCreated extends AdminMailer
         $this->execute();
     }
 
+    private function setSubject()
+    {
+        $this->subject = trans(
+            'texts.notification_lead_subject',
+            $this->buildDataArray()
+        );
+    }
+
+    private function buildDataArray()
+    {
+        return [
+            'customer' => $this->lead->present()->name()
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans(
             'texts.notification_lead',
             $this->buildDataArray()
 
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_lead_subject',
-            $this->buildDataArray()
         );
     }
 
@@ -68,13 +75,6 @@ class LeadCreated extends AdminMailer
             'button_text' => trans('texts.view_deal'),
             'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
             'logo'        => $this->lead->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'customer' => $this->lead->present()->name()
         ];
     }
 }

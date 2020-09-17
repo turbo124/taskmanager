@@ -16,21 +16,19 @@ use Illuminate\Support\Carbon;
  */
 class CalculateCommission extends Command
 {
-    private $calculate_total = true;
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = 'calculate-commission';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Calculates outstanding commission on invoices.';
+    private $calculate_total = true;
 
     /**
      * Create a new command instance.
@@ -122,6 +120,16 @@ class CalculateCommission extends Command
     }
 
     /**
+     * @param $commission_amount
+     * @param $total
+     * @return float
+     */
+    public function calculate($commission_amount, $total): float
+    {
+        return $total * $commission_amount / 100;
+    }
+
+    /**
      * @param Account $account
      * @param Invoice $invoice
      * @param float $total_paid
@@ -150,15 +158,5 @@ class CalculateCommission extends Command
         echo 'created invoice ' . $invoice->getNumber();
 
         return $invoice;
-    }
-
-    /**
-     * @param $commission_amount
-     * @param $total
-     * @return float
-     */
-    public function calculate($commission_amount, $total): float
-    {
-        return $total * $commission_amount / 100;
     }
 }

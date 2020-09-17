@@ -96,14 +96,33 @@ trait SearchableTrait
     }
 
     /**
-     * Returns database driver Ex: mysql, pgsql, sqlite.
+     * Adds the sql joins to the query.
+     *
+     * @param Builder $query
+     */
+    protected function makeJoins(Builder $query)
+    {
+        foreach ($this->getJoins() as $table => $keys) {
+            $query->leftJoin(
+                $table,
+                function ($join) use ($keys) {
+                    $join->on($keys[0], '=', $keys[1]);
+                    if (isset($keys[2]) && isset($keys[3])) {
+                        $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
+                    }
+                }
+            );
+        }
+    }
+
+    /**
+     * Returns the tables that are to be joined.
      *
      * @return array
      */
-    protected function getDatabaseDriver()
+    protected function getJoins()
     {
-        $key = $this->connection ?: Config::get('database.default');
-        return Config::get('database.connections.' . $key . '.driver');
+        return Arr::get($this->searchable, 'joins', []);
     }
 
     /**
@@ -127,124 +146,14 @@ trait SearchableTrait
     }
 
     /**
-     * Returns whether or not to keep duplicates.
+     * Returns database driver Ex: mysql, pgsql, sqlite.
      *
      * @return array
      */
-    protected function getGroupBy()
+    protected function getDatabaseDriver()
     {
-        if (isset($this->searchable['groupBy'])) {
-            return $this->searchable['groupBy'];
-        }
-        return false;
-    }
-
-    /**
-     * Returns the table columns.
-     *
-     * @return array
-     */
-    public function getTableColumns()
-    {
-        return $this->searchable['table_columns'];
-    }
-
-    /**
-     * Returns the tables that are to be joined.
-     *
-     * @return array
-     */
-    protected function getJoins()
-    {
-        return Arr::get($this->searchable, 'joins', []);
-    }
-
-    /**
-     * Adds the sql joins to the query.
-     *
-     * @param Builder $query
-     */
-    protected function makeJoins(Builder $query)
-    {
-        foreach ($this->getJoins() as $table => $keys) {
-            $query->leftJoin(
-                $table,
-                function ($join) use ($keys) {
-                    $join->on($keys[0], '=', $keys[1]);
-                    if (isset($keys[2]) && isset($keys[3])) {
-                        $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
-                    }
-                }
-            );
-        }
-    }
-
-    /**
-     * Makes the query not repeat the results.
-     *
-     * @param Builder $query
-     */
-    protected function makeGroupBy(Builder $query)
-    {
-        if ($groupBy = $this->getGroupBy()) {
-            $query->groupBy($groupBy);
-        } else {
-            $driver = $this->getDatabaseDriver();
-            if ($driver == 'sqlsrv') {
-                $columns = $this->getTableColumns();
-            } else {
-                $columns = $this->getTable() . '.' . $this->primaryKey;
-            }
-            $query->groupBy($columns);
-            $joins = array_keys(($this->getJoins()));
-            foreach ($this->getColumns() as $column => $relevance) {
-                array_map(
-                    function ($join) use ($column, $query) {
-                        if (Str::contains($column, $join)) {
-                            $query->groupBy($column);
-                        }
-                    },
-                    $joins
-                );
-            }
-        }
-    }
-
-    /**
-     * Puts all the select clauses to the main query.
-     *
-     * @param Builder $query
-     * @param array $selects
-     */
-    protected function addSelectsToQuery(Builder $query, array $selects)
-    {
-        if (!empty($selects)) {
-            $query->selectRaw(
-                'max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(),
-                $this->search_bindings
-            );
-        }
-    }
-
-    /**
-     * Adds the relevance filter to the query.
-     *
-     * @param Builder $query
-     * @param array $selects
-     * @param float $relevance_count
-     */
-    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevance_count)
-    {
-        $comparator = $this->getDatabaseDriver() != 'mysql' ? implode(' + ', $selects) : $this->getRelevanceField();
-        $relevance_count = number_format($relevance_count, 2, '.', '');
-        if ($this->getDatabaseDriver() == 'mysql') {
-            $bindings = [];
-        } else {
-            $bindings = $this->search_bindings;
-        }
-        $query->havingRaw("$comparator >= $relevance_count", $bindings);
-        $query->orderBy($this->getRelevanceField(), 'desc');
-        // add bindings to postgres
+        $key = $this->connection ?: Config::get('database.default');
+        return Config::get('database.connections.' . $key . '.driver');
     }
 
     /**
@@ -316,6 +225,111 @@ trait SearchableTrait
     }
 
     /**
+     * Puts all the select clauses to the main query.
+     *
+     * @param Builder $query
+     * @param array $selects
+     */
+    protected function addSelectsToQuery(Builder $query, array $selects)
+    {
+        if (!empty($selects)) {
+            $query->selectRaw(
+                'max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(),
+                $this->search_bindings
+            );
+        }
+    }
+
+    /**
+     * Returns the relevance field name, alias of ratio column in the query.
+     *
+     * @return string
+     */
+    protected function getRelevanceField()
+    {
+        if ($this->relevanceField ?? false) {
+            return $this->relevanceField;
+        }
+        // If property $this->relevanceField is not setted, return the default
+        return 'relevance';
+    }
+
+    /**
+     * Adds the relevance filter to the query.
+     *
+     * @param Builder $query
+     * @param array $selects
+     * @param float $relevance_count
+     */
+    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevance_count)
+    {
+        $comparator = $this->getDatabaseDriver() != 'mysql' ? implode(' + ', $selects) : $this->getRelevanceField();
+        $relevance_count = number_format($relevance_count, 2, '.', '');
+        if ($this->getDatabaseDriver() == 'mysql') {
+            $bindings = [];
+        } else {
+            $bindings = $this->search_bindings;
+        }
+        $query->havingRaw("$comparator >= $relevance_count", $bindings);
+        $query->orderBy($this->getRelevanceField(), 'desc');
+        // add bindings to postgres
+    }
+
+    /**
+     * Makes the query not repeat the results.
+     *
+     * @param Builder $query
+     */
+    protected function makeGroupBy(Builder $query)
+    {
+        if ($groupBy = $this->getGroupBy()) {
+            $query->groupBy($groupBy);
+        } else {
+            $driver = $this->getDatabaseDriver();
+            if ($driver == 'sqlsrv') {
+                $columns = $this->getTableColumns();
+            } else {
+                $columns = $this->getTable() . '.' . $this->primaryKey;
+            }
+            $query->groupBy($columns);
+            $joins = array_keys(($this->getJoins()));
+            foreach ($this->getColumns() as $column => $relevance) {
+                array_map(
+                    function ($join) use ($column, $query) {
+                        if (Str::contains($column, $join)) {
+                            $query->groupBy($column);
+                        }
+                    },
+                    $joins
+                );
+            }
+        }
+    }
+
+    /**
+     * Returns whether or not to keep duplicates.
+     *
+     * @return array
+     */
+    protected function getGroupBy()
+    {
+        if (isset($this->searchable['groupBy'])) {
+            return $this->searchable['groupBy'];
+        }
+        return false;
+    }
+
+    /**
+     * Returns the table columns.
+     *
+     * @return array
+     */
+    public function getTableColumns()
+    {
+        return $this->searchable['table_columns'];
+    }
+
+    /**
      * Merge our cloned query builder with the original one.
      *
      * @param Builder $clone
@@ -334,20 +348,6 @@ trait SearchableTrait
         // Then apply bindings WITHOUT global scopes which are already included. If not, there is a strange behaviour
         // with some scope's bindings remaning
         $original->withoutGlobalScopes()->setBindings($mergedBindings);
-    }
-
-    /**
-     * Returns the relevance field name, alias of ratio column in the query.
-     *
-     * @return string
-     */
-    protected function getRelevanceField()
-    {
-        if ($this->relevanceField ?? false) {
-            return $this->relevanceField;
-        }
-        // If property $this->relevanceField is not setted, return the default
-        return 'relevance';
     }
 
 }

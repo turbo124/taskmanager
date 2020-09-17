@@ -39,20 +39,28 @@ class TaskCreated extends AdminMailer
         $this->execute();
     }
 
+    private function setSubject()
+    {
+        $this->subject = trans(
+            'texts.notification_deal_subject',
+            $this->buildDataArray()
+        );
+    }
+
+    private function buildDataArray()
+    {
+        return [
+            'total'    => $this->formatCurrency($this->task->valued_at, $this->task->customer),
+            'customer' => $this->task->customer->present()->name()
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans(
             'texts.notification_deal',
             $this->buildDataArray()
 
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_deal_subject',
-            $this->buildDataArray()
         );
     }
 
@@ -65,14 +73,6 @@ class TaskCreated extends AdminMailer
             'button_text' => trans('texts.view_deal'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
             'logo'        => $this->task->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'total'    => $this->formatCurrency($this->task->valued_at, $this->task->customer),
-            'customer' => $this->task->customer->present()->name()
         ];
     }
 }

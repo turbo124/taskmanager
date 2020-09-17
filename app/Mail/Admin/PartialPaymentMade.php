@@ -42,17 +42,26 @@ class PartialPaymentMade extends AdminMailer
         $this->execute();
     }
 
-    private function setMessage()
-    {
-        $this->message = trans('texts.notification_partial_payment_paid', $this->getDataArray());
-    }
-
     private function setSubject()
     {
         $this->subject = trans(
             'texts.notification_partial_payment_paid_subject',
             ['customer' => $this->payment->customer->present()->name()]
         );
+    }
+
+    private function setMessage()
+    {
+        $this->message = trans('texts.notification_partial_payment_paid', $this->getDataArray());
+    }
+
+    private function getDataArray()
+    {
+        return [
+            'total'    => $this->payment->getFormattedTotal(),
+            'customer' => $this->payment->customer->present()->name(),
+            'invoice'  => $this->payment->getFormattedInvoices(),
+        ];
     }
 
     private function buildMessage()
@@ -64,15 +73,6 @@ class PartialPaymentMade extends AdminMailer
             'button_text' => trans('texts.view_payment'),
             'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
             'logo'        => $this->payment->account->present()->logo(),
-        ];
-    }
-
-    private function getDataArray()
-    {
-        return [
-            'total'    => $this->payment->getFormattedTotal(),
-            'customer' => $this->payment->customer->present()->name(),
-            'invoice'  => $this->payment->getFormattedInvoices(),
         ];
     }
 }

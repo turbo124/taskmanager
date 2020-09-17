@@ -75,20 +75,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param array $roleIds
-     */
-    public function syncRoles(User $user, array $roleIds)
-    {
-        $mappedObjects = [];
-
-        foreach ($roleIds[0] as $roleId) {
-            $mappedObjects[] = $roleId;
-        }
-
-        return $user->roles()->sync($mappedObjects);
-    }
-
-    /**
      *
      * @param string $username
      * @return User
@@ -121,16 +107,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function saveUserImage(UploadedFile $file): string
     {
         return $file->store('users', ['disk' => 'public']);
-    }
-
-    /**
-     * Sync the categories
-     *
-     * @param array $params
-     */
-    public function syncDepartment(User $user, int $department_id)
-    {
-        return $user->departments()->sync($department_id);
     }
 
     /**
@@ -190,6 +166,30 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         }
 
         return $user->fresh();
+    }
+
+    /**
+     * @param array $roleIds
+     */
+    public function syncRoles(User $user, array $roleIds)
+    {
+        $mappedObjects = [];
+
+        foreach ($roleIds[0] as $roleId) {
+            $mappedObjects[] = $roleId;
+        }
+
+        return $user->roles()->sync($mappedObjects);
+    }
+
+    /**
+     * Sync the categories
+     *
+     * @param array $params
+     */
+    public function syncDepartment(User $user, int $department_id)
+    {
+        return $user->departments()->sync($department_id);
     }
 
     /**

@@ -101,12 +101,12 @@ export default class CreditModel extends BaseModel {
         }
     }
 
-    set exchange_rate (exchange_rate) {
-        this.fields.exchange_rate = exchange_rate
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
     }
 
     get customer () {
@@ -151,6 +151,12 @@ export default class CreditModel extends BaseModel {
 
     get isApproved () {
         return parseInt(this.fields.status_id) === this.approved
+    }
+
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
     }
 
     addItem () {
@@ -218,12 +224,6 @@ export default class CreditModel extends BaseModel {
         }
 
         return invitations
-    }
-
-    get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
-        return customer.contacts ? customer.contacts : []
     }
 
     async update (data) {

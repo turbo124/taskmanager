@@ -20,31 +20,6 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    private function getToken($email, $password)
-    {
-        $token = null;
-        //$credentials = $request->only('email', 'password');
-        try {
-            if (!$token = JWTAuth::attempt(['email' => $email, 'password' => $password])) {
-                return response()->json(
-                    [
-                        'response' => 'error',
-                        'message'  => 'Password or email is invalid',
-                        'token'    => $token
-                    ]
-                );
-            }
-        } catch (JWTAuthException $e) {
-            return response()->json(
-                [
-                    'response' => 'error',
-                    'message'  => 'Token creation failed',
-                ]
-            );
-        }
-        return $token;
-    }
-
     public function doLogin(LoginRequest $request)
     {
         $this->forced_includes = ['company_users'];
@@ -103,6 +78,31 @@ class LoginController extends Controller
         }
 
         return response()->json(['success' => false, 'data' => 'Record doesnt exists']);
+    }
+
+    private function getToken($email, $password)
+    {
+        $token = null;
+        //$credentials = $request->only('email', 'password');
+        try {
+            if (!$token = JWTAuth::attempt(['email' => $email, 'password' => $password])) {
+                return response()->json(
+                    [
+                        'response' => 'error',
+                        'message'  => 'Password or email is invalid',
+                        'token'    => $token
+                    ]
+                );
+            }
+        } catch (JWTAuthException $e) {
+            return response()->json(
+                [
+                    'response' => 'error',
+                    'message'  => 'Token creation failed',
+                ]
+            );
+        }
+        return $token;
     }
 
     public function showLogin()

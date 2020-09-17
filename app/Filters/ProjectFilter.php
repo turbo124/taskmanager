@@ -69,6 +69,19 @@ class ProjectFilter extends QueryFilter
         return $projects;
     }
 
+    public function searchFilter(string $filter = '')
+    {
+        if (strlen($filter) == 0) {
+            return $this->query;
+        }
+
+        return $this->query->where(
+            function ($query) use ($filter) {
+                $query->where('projects.name', 'like', '%' . $filter . '%');
+            }
+        );
+    }
+
     /**
      * @param $list
      * @return mixed
@@ -83,18 +96,5 @@ class ProjectFilter extends QueryFilter
         )->all();
 
         return $projects;
-    }
-
-    public function searchFilter(string $filter = '')
-    {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
-
-        return $this->query->where(
-            function ($query) use ($filter) {
-                $query->where('projects.name', 'like', '%' . $filter . '%');
-            }
-        );
     }
 }

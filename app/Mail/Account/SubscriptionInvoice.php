@@ -68,18 +68,6 @@ class SubscriptionInvoice extends Mailable
         $this->message = trans('texts.subscription_invoice_created_message', $this->getDataArray());
     }
 
-    private function buildMessage()
-    {
-        $this->message_array = [
-            'title'       => $this->subject,
-            'message'     => $this->message,
-            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->invoice->id,
-            'button_text' => trans('texts.view_invoice'),
-            //'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
-            'logo'        => $this->invoice->account->present()->logo(),
-        ];
-    }
-
     private function getDataArray()
     {
         $cost = $this->account->subscription_period === Account::SUBSCRIPTION_PERIOD_YEAR ? env(
@@ -91,6 +79,18 @@ class SubscriptionInvoice extends Mailable
             'number'   => $this->invoice->getNumber(),
             'due_date' => date('d-m-Y', strtotime($this->account->subscription_expiry_date)),
             'amount'   => self::formatCurrency($cost, $this->invoice->customer)
+        ];
+    }
+
+    private function buildMessage()
+    {
+        $this->message_array = [
+            'title'       => $this->subject,
+            'message'     => $this->message,
+            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->invoice->id,
+            'button_text' => trans('texts.view_invoice'),
+            //'signature'   => isset($this->invoice->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
+            'logo'        => $this->invoice->account->present()->logo(),
         ];
     }
 }

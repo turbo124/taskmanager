@@ -19,12 +19,11 @@ class CustomerWasCreated implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'customer-created';
-
     /**
      * @var Customer
      */
     public $customer;
+    protected $meter = 'customer-created';
 
     /**
      * Create a new event instance.

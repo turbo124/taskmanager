@@ -4,15 +4,6 @@ namespace App\Helpers;
 
 class Arrays
 {
-    public static function keysCreated($new, $old)
-    {
-        if (empty($old)) {
-            return $new;
-        }
-
-        return array_diff($new, $old);
-    }
-
     public static function keysDeleted($new, $old)
     {
         return array_diff($old, $new);
@@ -24,5 +15,14 @@ class Arrays
             array_diff_assoc($new, $old),
             static::keysCreated($new, $old)
         );
+    }
+
+    public static function keysCreated($new, $old)
+    {
+        if (empty($old)) {
+            return $new;
+        }
+
+        return array_diff($new, $old);
     }
 }

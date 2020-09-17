@@ -68,20 +68,6 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     }
 
     /**
-     * @param array $data
-     * @param Quote $quote
-     * @return Quote|null
-     */
-    public function updateQuote(array $data, Quote $quote): ?Quote
-    {
-        $quote = $this->save($data, $quote);
-        QuoteOrders::dispatchNow($quote);
-        event(new QuoteWasUpdated($quote));
-
-        return $quote;
-    }
-
-    /**
      * @param $data
      * @param Quote $quote
      * @return Quote|null
@@ -102,6 +88,20 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
         //}
 
         return $quote->fresh();
+    }
+
+    /**
+     * @param array $data
+     * @param Quote $quote
+     * @return Quote|null
+     */
+    public function updateQuote(array $data, Quote $quote): ?Quote
+    {
+        $quote = $this->save($data, $quote);
+        QuoteOrders::dispatchNow($quote);
+        event(new QuoteWasUpdated($quote));
+
+        return $quote;
     }
 
     /**

@@ -32,6 +32,15 @@ class CreateCustomerRequest extends BaseFormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'unique'                    => trans('validation.unique', ['attribute' => 'email']),
+            //'required' => trans('validation.required', ['attribute' => 'email']),
+            'contacts.*.email.required' => trans('validation.email', ['attribute' => 'email']),
+        ];
+    }
+
     protected function prepareForValidation()
     {
         $input = $this->all();
@@ -51,14 +60,5 @@ class CreateCustomerRequest extends BaseFormRequest
         }
 
         $this->replace($input);
-    }
-
-    public function messages()
-    {
-        return [
-            'unique'                    => trans('validation.unique', ['attribute' => 'email']),
-            //'required' => trans('validation.required', ['attribute' => 'email']),
-            'contacts.*.email.required' => trans('validation.email', ['attribute' => 'email']),
-        ];
     }
 }

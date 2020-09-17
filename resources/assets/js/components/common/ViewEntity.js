@@ -23,7 +23,7 @@ import Token from '../tokens/view/Token'
 import Group from '../groups/view/Group'
 import Gateway from '../gateways/view/Gateway'
 import Deal from '../deals/view/Deal'
-import PurchaseOrder from "../purchase_orders/view/PurchaseOrder";
+import PurchaseOrder from '../purchase_orders/view/PurchaseOrder'
 
 export default class ViewEntity extends Component {
     constructor (props) {

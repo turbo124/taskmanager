@@ -65,6 +65,26 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     }
 
     /**
+     * @param array $data
+     * @param Customer $customer
+     * @return Customer|null
+     * @throws Exception
+     */
+    public function save(array $data, Customer $customer): ?Customer
+    {
+        $customer->fill($data);
+        $customer->save();
+
+        if ($customer->number == "" || !$customer->number) {
+            $customer->number = (new NumberGenerator)->getNextNumberForEntity($customer, $customer);
+        }
+
+        $customer->save();
+
+        return $customer->fresh();
+    }
+
+    /**
      * Delete a customer
      *
      * @return bool
@@ -102,26 +122,6 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     public function findAddresses(): Support
     {
         return $this->model->addresses;
-    }
-
-    /**
-     * @param array $data
-     * @param Customer $customer
-     * @return Customer|null
-     * @throws Exception
-     */
-    public function save(array $data, Customer $customer): ?Customer
-    {
-        $customer->fill($data);
-        $customer->save();
-
-        if ($customer->number == "" || !$customer->number) {
-            $customer->number = (new NumberGenerator)->getNextNumberForEntity($customer, $customer);
-        }
-
-        $customer->save();
-
-        return $customer->fresh();
     }
 
 }

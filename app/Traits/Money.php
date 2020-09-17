@@ -9,6 +9,11 @@ use NumberFormatter;
  */
 trait Money
 {
+    public function getFormattedTotal()
+    {
+        return $this->formatCurrency($this->total, $this->customer);
+    }
+
     public static function formatCurrency($value, $customer): string
     {
         $currency = $customer->currency;
@@ -41,11 +46,6 @@ trait Money
         }
 
         return $fmt->formatCurrency($value, $currency->iso_code);
-    }
-
-    public function getFormattedTotal()
-    {
-        return $this->formatCurrency($this->total, $this->customer);
     }
 
     public function getFormattedSubtotal()

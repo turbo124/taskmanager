@@ -84,6 +84,14 @@ class EntityViewedNotification extends Notification implements ShouldQueue
         ];
     }
 
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)->from(trans('texts.from_slack'))->success()
+                                 ->content(
+                                     $this->getMessage()
+                                 );
+    }
+
     private function getMessage()
     {
         return trans(
@@ -93,13 +101,5 @@ class EntityViewedNotification extends Notification implements ShouldQueue
                 $this->entity_name => $this->entity->number,
             ]
         );
-    }
-
-    public function toSlack($notifiable)
-    {
-        return (new SlackMessage)->from(trans('texts.from_slack'))->success()
-                                 ->content(
-                                     $this->getMessage()
-                                 );
     }
 }

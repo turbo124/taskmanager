@@ -72,6 +72,14 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
         ];
     }
 
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)->success()
+                                 ->from("System")->image($this->payment->account->present()->logo())->content(
+                $this->getMessage()
+            );
+    }
+
     private function getMessage()
     {
         $this->subject = trans(
@@ -81,14 +89,6 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
                 'quote' => $this->quote->getNumber(),
             ]
         );
-    }
-
-    public function toSlack($notifiable)
-    {
-        return (new SlackMessage)->success()
-                                 ->from("System")->image($this->payment->account->present()->logo())->content(
-                $this->getMessage()
-            );
     }
 
 }

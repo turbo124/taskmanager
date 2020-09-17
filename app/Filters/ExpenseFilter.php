@@ -80,23 +80,6 @@ class ExpenseFilter extends QueryFilter
         return $expenses;
     }
 
-
-    /**
-     * @param $list
-     * @return mixed
-     */
-    private function transformList()
-    {
-        $list = $this->query->get();
-        $expenses = $list->map(
-            function (Expense $expense) {
-                return $this->transformExpense($expense);
-            }
-        )->all();
-
-        return $expenses;
-    }
-
     /**
      * Filter based on search text
      *
@@ -124,5 +107,21 @@ class ExpenseFilter extends QueryFilter
                       ->orWhere('expenses.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+    }
+
+    /**
+     * @param $list
+     * @return mixed
+     */
+    private function transformList()
+    {
+        $list = $this->query->get();
+        $expenses = $list->map(
+            function (Expense $expense) {
+                return $this->transformExpense($expense);
+            }
+        )->all();
+
+        return $expenses;
     }
 }

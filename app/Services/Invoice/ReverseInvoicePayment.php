@@ -92,15 +92,6 @@ class ReverseInvoicePayment
         $this->note = "Credit for reversal of " . $this->invoice->getNumber();
     }
 
-    private function createTransaction()
-    {
-        $this->invoice->transaction_service()->createTransaction(
-            $this->balance * -1,
-            $this->invoice->customer->balance,
-            $this->note
-        );
-    }
-
     /**
      * @param float $total_paid
      */
@@ -121,6 +112,29 @@ class ReverseInvoicePayment
     }
 
     /**
+     * @param float $total_paid
+     * @return bool
+     */
+    private function updateCustomer(float $total_paid): bool
+    {
+        $customer = $this->invoice->customer;
+        $customer->reduceBalance($this->balance);
+        $customer->reducePaidToDateAmount($total_paid);
+        $customer->save();
+
+        return true;
+    }
+
+    private function createTransaction()
+    {
+        $this->invoice->transaction_service()->createTransaction(
+            $this->balance * -1,
+            $this->invoice->customer->balance,
+            $this->note
+        );
+    }
+
+    /**
      * @return bool
      */
     private function updateInvoice(): bool
@@ -133,20 +147,6 @@ class ReverseInvoicePayment
         $this->invoice->save();
 
         event(new InvoiceWasReversed($invoice));
-
-        return true;
-    }
-
-    /**
-     * @param float $total_paid
-     * @return bool
-     */
-    private function updateCustomer(float $total_paid): bool
-    {
-        $customer = $this->invoice->customer;
-        $customer->reduceBalance($this->balance);
-        $customer->reducePaidToDateAmount($total_paid);
-        $customer->save();
 
         return true;
     }

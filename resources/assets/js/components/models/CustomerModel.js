@@ -111,6 +111,59 @@ export default class CustomerModel extends BaseModel {
         this._file_count = files ? files.length : 0
     }
 
+    get gateway_ids () {
+        return this.settings.company_gateway_ids || ''
+    }
+
+    set gateway_ids (ids) {
+        this.settings.company_gateway_ids = ids
+        this.fields.settings.company_gateways_ids = ids
+    }
+
+    get gateways () {
+        if (!this.fields.settings) {
+            return []
+        }
+
+        if (this.fields.settings.company_gateway_ids && typeof this.fields.settings.company_gateway_ids === 'string') {
+            return this.fields.settings.company_gateway_ids.split(',').map(Number)
+        }
+
+        return this.fields.settings.company_gateway_ids || []
+    }
+
+    get hasLanguage () {
+        return this.fields.settings && this.fields.settings.language_id != null && this.fields.settings.language_id.toString().length
+    }
+
+    get languageId () {
+        if (!this.fields.settings || !this.fields.settings.language_id) {
+            return null
+        }
+
+        return parseInt(this.fields.settings.language_id)
+    }
+
+    get hasCurrency () {
+        return this.fields.currency_id != null && this.fields.currency_id.toString().length
+    }
+
+    get currencyId () {
+        if (!this.fields.currency_id || !this.fields.currency_id) {
+            return null
+        }
+
+        return parseInt(this.fields.currency_id)
+    }
+
+    get gateway_tokens () {
+        return this.fields.gateway_tokens
+    }
+
+    get displayName () {
+        return this.fields.name
+    }
+
     hasEmailAddress () {
         const has_email = this.fields.contacts && this.fields.contacts.length ? this.fields.contacts.filter(contact => contact.email && contact.email.length) : []
         return has_email.length > 0
@@ -178,59 +231,6 @@ export default class CustomerModel extends BaseModel {
             this.handleError(e)
             return false
         }
-    }
-
-    set gateway_ids (ids) {
-        this.settings.company_gateway_ids = ids
-        this.fields.settings.company_gateways_ids = ids
-    }
-
-    get gateway_ids () {
-        return this.settings.company_gateway_ids || ''
-    }
-
-    get gateways () {
-        if (!this.fields.settings) {
-            return []
-        }
-
-        if (this.fields.settings.company_gateway_ids && typeof this.fields.settings.company_gateway_ids === 'string') {
-            return this.fields.settings.company_gateway_ids.split(',').map(Number)
-        }
-
-        return this.fields.settings.company_gateway_ids || []
-    }
-
-    get hasLanguage () {
-        return this.fields.settings && this.fields.settings.language_id != null && this.fields.settings.language_id.toString().length
-    }
-
-    get languageId () {
-        if (!this.fields.settings || !this.fields.settings.language_id) {
-            return null
-        }
-
-        return parseInt(this.fields.settings.language_id)
-    }
-
-    get hasCurrency () {
-        return this.fields.currency_id != null && this.fields.currency_id.toString().length
-    }
-
-    get currencyId () {
-        if (!this.fields.currency_id || !this.fields.currency_id) {
-            return null
-        }
-
-        return parseInt(this.fields.currency_id)
-    }
-
-    get gateway_tokens () {
-        return this.fields.gateway_tokens
-    }
-
-    get displayName () {
-        return this.fields.name
     }
 
     findContact (contact_id) {

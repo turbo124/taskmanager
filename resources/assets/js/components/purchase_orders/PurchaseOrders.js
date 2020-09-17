@@ -70,7 +70,8 @@ export default class PurchaseOrders extends Component {
 
     userList (props) {
         const { purchase_orders, custom_fields, companies } = this.state
-        return <PurchaseOrderItem showCheckboxes={props.showCheckboxes} purchase_orders={purchase_orders} companies={companies}
+        return <PurchaseOrderItem showCheckboxes={props.showCheckboxes} purchase_orders={purchase_orders}
+            companies={companies}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
@@ -147,11 +148,13 @@ export default class PurchaseOrders extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <PurchaseOrderFilters setFilterOpen={this.setFilterOpen.bind(this)} purchase_orders={purchase_orders}
+                                <PurchaseOrderFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    purchase_orders={purchase_orders}
                                     companies={companies}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>

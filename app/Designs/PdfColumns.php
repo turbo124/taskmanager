@@ -187,27 +187,42 @@ class PdfColumns
         return true;
     }
 
-    public function getSection($section): string
+    private function process()
     {
-        return str_replace(
-            array_keys($this->exported_variables),
-            array_values($this->exported_variables),
-            $this->design->{$section}
+        foreach ($this->default_columns as $key => $default) {
+            $this->exported_variables['$' . $key] = $this->formatVariables(
+                array_values($this->input_variables[$key]),
+                $default
+            );
+        }
+
+        $this->exported_variables['$entity_details'] = $this->formatVariables(
+            array_values($this->input_variables[$this->entity_string]),
+            $this->entity_columns[$this->entity_string],
+            '<br>'
         );
+        $this->exported_variables['$entity_labels'] = $this->formatVariables(
+            array_keys($this->input_variables[$this->entity_string]),
+            $this->entity_columns[$this->entity_string],
+            'label'
+        );
+
+        return true;
     }
 
-    private function getTableColumns()
+    private function formatVariables($values, $variables, $appends = '', $type = 'values'): string
     {
-        switch ($this->entity_string) {
-            case 'case':
-                return $this->input_variables['case_columns'];
-            case 'task':
-                return $this->input_variables['task_columns'];
-            case 'deal':
-                return $this->input_variables['deal_columns'];
-            default:
-                return $this->input_variables['product_columns'];
+        $output = '';
+
+        foreach ($values as $value) {
+            if (isset($variables[$value])) {
+                $tmp = str_replace("</span>", "_label</span>", $variables[$value]);
+                $output .= $type === 'label' ? $tmp : $variables[$value] . $appends;
+                continue;
+            }
         }
+
+        return $output;
     }
 
     private function buildTables()
@@ -243,42 +258,27 @@ class PdfColumns
         return true;
     }
 
-    private function formatVariables($values, $variables, $appends = '', $type = 'values'): string
+    private function getTableColumns()
     {
-        $output = '';
-
-        foreach ($values as $value) {
-            if (isset($variables[$value])) {
-                $tmp = str_replace("</span>", "_label</span>", $variables[$value]);
-                $output .= $type === 'label' ? $tmp : $variables[$value] . $appends;
-                continue;
-            }
+        switch ($this->entity_string) {
+            case 'case':
+                return $this->input_variables['case_columns'];
+            case 'task':
+                return $this->input_variables['task_columns'];
+            case 'deal':
+                return $this->input_variables['deal_columns'];
+            default:
+                return $this->input_variables['product_columns'];
         }
-
-        return $output;
     }
 
-    private function process()
+    public function getSection($section): string
     {
-        foreach ($this->default_columns as $key => $default) {
-            $this->exported_variables['$' . $key] = $this->formatVariables(
-                array_values($this->input_variables[$key]),
-                $default
-            );
-        }
-
-        $this->exported_variables['$entity_details'] = $this->formatVariables(
-            array_values($this->input_variables[$this->entity_string]),
-            $this->entity_columns[$this->entity_string],
-            '<br>'
+        return str_replace(
+            array_keys($this->exported_variables),
+            array_values($this->exported_variables),
+            $this->design->{$section}
         );
-        $this->exported_variables['$entity_labels'] = $this->formatVariables(
-            array_keys($this->input_variables[$this->entity_string]),
-            $this->entity_columns[$this->entity_string],
-            'label'
-        );
-
-        return true;
     }
 
     public function getDefaultColumns()

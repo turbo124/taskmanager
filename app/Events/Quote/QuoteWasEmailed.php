@@ -2,7 +2,6 @@
 
 namespace App\Events\Quote;
 
-use App\Models\CreditInvitation;
 use App\Models\QuoteInvitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

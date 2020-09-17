@@ -93,9 +93,9 @@ class Company extends Model
         return $this->hasMany(CompanyContact::class)->orderBy('is_primary', 'desc');
     }
 
-    public function language()
+    public function preferredLocale()
     {
-        return Language::find($this->account->settings->language_id);
+        return $this->locale();
     }
 
     public function locale()
@@ -105,9 +105,9 @@ class Company extends Model
         return !empty($language) ? $this->language()->locale : 'en';
     }
 
-    public function preferredLocale()
+    public function language()
     {
-        return $this->locale();
+        return Language::find($this->account->settings->language_id);
     }
 
     public function primary_contact()

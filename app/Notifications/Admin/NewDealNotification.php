@@ -3,7 +3,6 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\DealCreated;
-use App\Mail\Admin\TaskCreated;
 use App\Traits\Money;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -72,6 +71,16 @@ class NewDealNotification extends Notification implements ShouldQueue
         ];
     }
 
+    public function toSlack($notifiable)
+    {
+        $logo = $this->deal->account->present()->logo();
+
+        return (new SlackMessage)->success()
+                                 ->from("System")->image($logo)->content(
+                $this->getMessage()
+            );
+    }
+
     private function getMessage()
     {
         $this->subject = trans(
@@ -81,16 +90,6 @@ class NewDealNotification extends Notification implements ShouldQueue
                 'customer' => $this->deal->customer->present()->name()
             ]
         );
-    }
-
-    public function toSlack($notifiable)
-    {
-        $logo = $this->deal->account->present()->logo();
-
-        return (new SlackMessage)->success()
-                                 ->from("System")->image($logo)->content(
-                $this->getMessage()
-            );
     }
 
 }

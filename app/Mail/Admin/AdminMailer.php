@@ -11,15 +11,12 @@ use Illuminate\Mail\Mailable;
 class AdminMailer extends Mailable
 {
 
+    public $subject;
     /**
      * @var User
      */
     protected User $user;
-
     protected $message;
-
-    public $subject;
-
     /**
      * @var array
      */

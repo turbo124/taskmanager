@@ -102,6 +102,17 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
+     * Store vendors in bulk.
+     *
+     * @param array $vendor
+     * @return vendor|null
+     */
+    public function create($company): ?Company
+    {
+        return $this->save($company, CompanyFactory::create(auth()->user()->company()->id, auth()->user()->id));
+    }
+
+    /**
      * Saves the client and its contacts
      *
      * @param array $data The data
@@ -116,17 +127,5 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
         $company->save();
 
         return $company;
-    }
-
-
-    /**
-     * Store vendors in bulk.
-     *
-     * @param array $vendor
-     * @return vendor|null
-     */
-    public function create($company): ?Company
-    {
-        return $this->save($company, CompanyFactory::create(auth()->user()->company()->id, auth()->user()->id));
     }
 }

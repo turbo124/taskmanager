@@ -35,11 +35,6 @@ class UpdateUserRequest extends BaseFormRequest
         return $rules;
     }
 
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-    }
-
     /**
      * Custom message for validation
      *
@@ -53,6 +48,11 @@ class UpdateUserRequest extends BaseFormRequest
             'first_name.required' => 'First Name is required!',
             'last_name.required'  => 'Last Name is required!'
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $input = $this->all();
     }
 
 }

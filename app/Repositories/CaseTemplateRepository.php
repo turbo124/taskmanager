@@ -5,8 +5,6 @@ namespace App\Repositories;
 use App\Models\CaseTemplate;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CaseTemplateRepositoryInterface;
-use Exception;
-use Illuminate\Support\Collection;
 
 class CaseTemplateRepository extends BaseRepository implements CaseTemplateRepositoryInterface
 {

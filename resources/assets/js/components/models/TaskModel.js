@@ -77,12 +77,12 @@ export default class TaskModel extends BaseModel {
         this.fields.due_date = moment(due_date, 'YYYY-MM-DD')
     }
 
-    set time_log (time_log) {
-        this._time_log = time_log
-    }
-
     get time_log () {
         return this._time_log
+    }
+
+    set time_log (time_log) {
+        this._time_log = time_log
     }
 
     get duration () {

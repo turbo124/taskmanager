@@ -41,20 +41,28 @@ class QuoteApproved extends AdminMailer
         $this->execute();
     }
 
+    private function setSubject()
+    {
+        $this->subject = trans(
+            'texts.notification_quote_approved_subject',
+            $this->buildDataArray()
+        );
+    }
+
+    private function buildDataArray()
+    {
+        return [
+            'total' => $this->quote->getFormattedTotal(),
+            'quote' => $this->quote->getNumber(),
+        ];
+    }
+
     private function setMessage()
     {
         $this->message = trans(
             'texts.notification_quote_approved',
             $this->buildDataArray()
 
-        );
-    }
-
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_quote_approved_subject',
-            $this->buildDataArray()
         );
     }
 
@@ -67,14 +75,6 @@ class QuoteApproved extends AdminMailer
             'button_text' => trans('texts.view_quote'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
             'logo'        => $this->quote->account->present()->logo(),
-        ];
-    }
-
-    private function buildDataArray()
-    {
-        return [
-            'total' => $this->quote->getFormattedTotal(),
-            'quote' => $this->quote->getNumber(),
         ];
     }
 }

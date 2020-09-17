@@ -43,6 +43,22 @@ class FinalInstallManager
     }
 
     /**
+     * Return a formatted error messages.
+     *
+     * @param $message
+     * @param BufferedOutput $outputLog
+     * @return array
+     */
+    private static function response($message, BufferedOutput $outputLog)
+    {
+        return [
+            'status'      => 'error',
+            'message'     => $message,
+            'dbOutputLog' => $outputLog->fetch(),
+        ];
+    }
+
+    /**
      * Publish vendor assets.
      *
      * @param BufferedOutput $outputLog
@@ -59,21 +75,5 @@ class FinalInstallManager
         }
 
         return $outputLog;
-    }
-
-    /**
-     * Return a formatted error messages.
-     *
-     * @param $message
-     * @param BufferedOutput $outputLog
-     * @return array
-     */
-    private static function response($message, BufferedOutput $outputLog)
-    {
-        return [
-            'status'      => 'error',
-            'message'     => $message,
-            'dbOutputLog' => $outputLog->fetch(),
-        ];
     }
 }

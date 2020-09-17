@@ -20,12 +20,11 @@ class OrderWasBackordered implements PerformsMetrics
     use Measurable;
     use SendSubscription;
 
-    protected $meter = 'order-backordered';
-
     /**
      * @var Order
      */
     public Order $order;
+    protected $meter = 'order-backordered';
 
     /**
      * Create a new event instance.

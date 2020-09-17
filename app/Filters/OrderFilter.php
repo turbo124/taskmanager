@@ -72,33 +72,6 @@ class OrderFilter extends QueryFilter
         return $orders;
     }
 
-    private function transformList()
-    {
-        $list = $this->query->get();
-
-        $orders = $list->map(
-            function (Order $order) {
-                return $this->transformOrder($order);
-            }
-        )->all();
-        return $orders;
-    }
-
-    private function baseQuery()
-    {
-        $this->query = $this->model->join('products', 'products.id', '=', 'product_task.product_id')
-                                   ->select('product_task.*', 'products.price', 'product_task.id as order_id');
-    }
-
-    /**
-     * @param Task $objTask
-     */
-    private function addTaskToQuery(Task $objTask)
-    {
-        $this->baseQuery();
-        $this->query->where('product_task.task_id', $objTask->id);
-    }
-
     /**
      * Filter based on search text
      *
@@ -127,19 +100,16 @@ class OrderFilter extends QueryFilter
         );
     }
 
-    /**
-     * @param $filter
-     * @return mixed
-     */
-    private function addStatusToQuery($filter)
+    private function transformList()
     {
-        if (strlen($filter) == 0) {
-            return $this->query;
-        }
+        $list = $this->query->get();
 
-        $filters = explode(',', $filter);
-
-        $this->query->whereIn('product_task.status', $filters);
+        $orders = $list->map(
+            function (Order $order) {
+                return $this->transformOrder($order);
+            }
+        )->all();
+        return $orders;
     }
 
     /**
@@ -151,6 +121,21 @@ class OrderFilter extends QueryFilter
         $this->baseQuery();
         $this->addTaskToQuery($task);
         return $this->transformList();
+    }
+
+    private function baseQuery()
+    {
+        $this->query = $this->model->join('products', 'products.id', '=', 'product_task.product_id')
+                                   ->select('product_task.*', 'products.price', 'product_task.id as order_id');
+    }
+
+    /**
+     * @param Task $objTask
+     */
+    private function addTaskToQuery(Task $objTask)
+    {
+        $this->baseQuery();
+        $this->query->where('product_task.task_id', $objTask->id);
     }
 
     /**
@@ -165,5 +150,20 @@ class OrderFilter extends QueryFilter
         $this->addStatusToQuery($status);
 
         return $this->transformList();
+    }
+
+    /**
+     * @param $filter
+     * @return mixed
+     */
+    private function addStatusToQuery($filter)
+    {
+        if (strlen($filter) == 0) {
+            return $this->query;
+        }
+
+        $filters = explode(',', $filter);
+
+        $this->query->whereIn('product_task.status', $filters);
     }
 }

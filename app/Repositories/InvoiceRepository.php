@@ -87,26 +87,6 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     /**
      * @param array $data
      * @param Invoice $invoice
-     */
-    public function createInvoice(array $data, Invoice $invoice): ?Invoice
-    {
-        $invoice = $this->save($data, $invoice);
-
-        InvoiceOrders::dispatchNow($invoice);
-
-        if (!empty($data['recurring'])) {
-            $recurring = json_decode($data['recurring'], true);
-            $invoice->service()->createRecurringInvoice($recurring);
-        }
-
-        event(new InvoiceWasCreated($invoice));
-
-        return $invoice;
-    }
-
-    /**
-     * @param array $data
-     * @param Invoice $invoice
      * @return Invoice|null
      */
     public function save(array $data, Invoice $invoice): ?Invoice
@@ -129,6 +109,26 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
 
         return $invoice->fresh();
+    }
+
+    /**
+     * @param array $data
+     * @param Invoice $invoice
+     */
+    public function createInvoice(array $data, Invoice $invoice): ?Invoice
+    {
+        $invoice = $this->save($data, $invoice);
+
+        InvoiceOrders::dispatchNow($invoice);
+
+        if (!empty($data['recurring'])) {
+            $recurring = json_decode($data['recurring'], true);
+            $invoice->service()->createRecurringInvoice($recurring);
+        }
+
+        event(new InvoiceWasCreated($invoice));
+
+        return $invoice;
     }
 
     public function getInvoicesForAutoBilling()
