@@ -65,7 +65,7 @@ export default class CsvImporter extends Component {
                 target="exportTooltip">
                 {translations.export}
             </UncontrolledTooltip>
-            <fa style={{ fontSize: '24px', lineHeight: '32px' }} id="exportTooltip" onClick={this.export}
+            <i style={{ fontSize: '24px', lineHeight: '32px' }} id="exportTooltip" onClick={this.export}
                 className={`fa ${icons.cloud_download}`}/>
         </React.Fragment>
     }

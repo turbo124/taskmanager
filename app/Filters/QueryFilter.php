@@ -38,13 +38,14 @@ class QueryFilter
      * @param string $filter
      * @return mixed
      */
-    protected function status(string $table, $filter = '')
+    protected function status(string $table, $filter = '', $column = '')
     {
         if ($filter === null || strlen($filter) == 0) {
             return $this->query;
         }
 
         $statuses = explode(',', $filter);
+        $column = $column !== '' ? $column : 'status_id';
         $filtered_statuses = [];
 
         foreach ($statuses as $status) {
@@ -58,7 +59,7 @@ class QueryFilter
 
         if (!empty($filtered_statuses)) {
             $this->query->whereIn(
-                'status_id',
+                $column,
                 $filtered_statuses
             );
         }

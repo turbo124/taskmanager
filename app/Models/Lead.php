@@ -49,7 +49,7 @@ class Lead extends Model
         'industry_id',
         'private_notes',
         'public_notes',
-        'status_id'
+        'task_status'
     ];
 
     public function setNumber()

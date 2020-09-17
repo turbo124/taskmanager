@@ -40,7 +40,7 @@ class LeadFilter extends QueryFilter
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status('leads', $request->status);
+            $this->status('leads', $request->status, 'task_status');
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {

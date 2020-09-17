@@ -121,7 +121,7 @@ export default class DealFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <Button color="primary" onClick={() => {
-                        location.href = '/#/kanban/deals'
+                        location.href = '/#/kanban?type=deal'
                     }}>Kanban view </Button>
                 </Col>
             </Row>

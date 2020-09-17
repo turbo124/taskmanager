@@ -344,3 +344,9 @@ export const frequencyOptions = {
     1095: 'frequency_three_years',
     9000: 'frequency_endless'
 }
+
+export const taskTypes = {
+    task: 1,
+    deal: 2,
+    lead: 3
+}

@@ -54,7 +54,7 @@ class TaskFilter extends QueryFilter
         }
 
         if ($request->filled('task_status')) {
-            $this->status('tasks', $request->task_status);
+            $this->status('tasks', $request->task_status, 'task_status');
         }
 
         if ($request->filled('task_type')) {

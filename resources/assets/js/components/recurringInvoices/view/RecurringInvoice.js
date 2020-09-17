@@ -60,7 +60,6 @@ export default class RecurringInvoice extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
-        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
         let user = null
 
         if (this.props.entity.assigned_to) {

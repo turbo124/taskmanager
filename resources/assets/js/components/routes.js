@@ -3,6 +3,7 @@ import React from 'react'
 import UserList from './users/Userlist'
 import ProductList from './products/ProductList'
 import Kanban from './Kanban'
+import KanbanNew from './tasks/KanbanNew'
 import Calendar from './calendar/Calendars'
 import Roles from './roles/Roles'
 import Invoice from './invoice/Invoice'
@@ -90,19 +91,9 @@ const routes = [
         component: ProductList
     },
     {
-        path: '/kanban/projects',
-        name: 'Projects',
-        component: Kanban
-    },
-    {
-        path: '/kanban/leads',
-        name: 'Leads',
-        component: Kanban
-    },
-    {
-        path: '/kanban/deals',
-        name: 'Deals',
-        component: Kanban
+        path: '/kanban',
+        name: 'Tasks',
+        component: KanbanNew
     },
     {
         path: '/calendar',
