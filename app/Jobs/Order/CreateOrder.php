@@ -7,12 +7,12 @@ use App\Factory\OrderFactory;
 use App\Factory\TaskFactory;
 use App\Models\Account;
 use App\Models\Address;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Task;
 use App\Models\User;
-use App\Repositories\ClientContactRepository;
+use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\TaskRepository;
@@ -153,7 +153,7 @@ class CreateOrder implements ShouldQueue
         $this->customer = CustomerFactory::create($this->account, $this->user);
 
         try {
-            $contact = ClientContact::where('email', '=', $this->request->email)->where(
+            $contact = CustomerContact::where('email', '=', $this->request->email)->where(
                 'account_id',
                 '=',
                 $this->account->id
@@ -191,7 +191,7 @@ class CreateOrder implements ShouldQueue
                     'phone'      => $this->request->phone,
                 ];
 
-                (new ClientContactRepository(new ClientContact))->save($contacts, $this->customer);
+                (new CustomerContactRepository(new CustomerContact))->save($contacts, $this->customer);
             }
 
             return $this->customer;

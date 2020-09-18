@@ -6,7 +6,7 @@ use App\Factory\CloneRecurringInvoiceFactory;
 use App\Factory\CloneRecurringInvoiceToQuoteFactory;
 use App\Factory\RecurringInvoiceFactory;
 use App\Filters\RecurringInvoiceFilter;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
@@ -168,7 +168,7 @@ class RecurringInvoiceController extends BaseController
     public function requestCancellation(Request $request)
     {
         $recurring_invoice = $this->recurring_invoice_repo->findInvoiceById($request->invoice_id);
-        $client_contact = ClientContact::find($request->contact_id);
+        $client_contact = CustomerContact::find($request->contact_id);
         $recurring_invoice->user->notify(new ClientContactRequestCancellation($recurring_invoice, $client_contact));
         return response()->json(['code' => 200]);
     }

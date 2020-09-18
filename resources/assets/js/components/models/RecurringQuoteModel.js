@@ -31,6 +31,8 @@ export default class RecurringQuoteModel extends BaseModel {
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             frequency: 30,
             grace_period: 0,
+            next_send_date: '',
+            last_sent_date: '',
             is_mobile: window.innerWidth <= 768,
             modalOpen: false,
             is_amount_discount: false,

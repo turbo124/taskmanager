@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\InvoiceInvitation;
 use App\Models\Quote;
 use App\Models\RecurringQuote;
+use App\Models\RecurringQuoteInvitation;
 
 trait RecurringQuoteTransformable
 {
@@ -27,6 +28,8 @@ trait RecurringQuoteTransformable
             'due_date'            => $quote->due_date,
             'start_date'          => $quote->start_date ?: '',
             'end_date'            => $quote->end_date ?: '',
+            'next_send_date'      => $quote->next_send_date ?: '',
+            'last_sent_date'      => $quote->last_sent_date ?: '',
             'frequency'           => (int)$quote->frequency,
             'grace_period'        => (int)$quote->grace_period,
             'total'               => $quote->total,
@@ -115,8 +118,8 @@ trait RecurringQuoteTransformable
         }
 
         return $invitations->map(
-            function (InvoiceInvitation $invitation) {
-                return (new QuoteInvitationTransformable())->transformInvoiceInvitation($invitation);
+            function (RecurringQuoteInvitation $invitation) {
+                return (new RecurringQuoteInvitationTransformable())->transformInvoiceInvitation($invitation);
             }
         )->all();
     }

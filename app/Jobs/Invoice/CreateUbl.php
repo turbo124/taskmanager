@@ -61,10 +61,12 @@ class CreateUbl implements ShouldQueue
 
         $taxable = $this->getTaxable();
 
-        foreach ($this->invoice->line_items as $line_item) {
-            $itemTaxable = $this->getItemTaxable($line_item, $taxable);
+        if (!empty($this->invoice->line_items)) {
+            foreach ($this->invoice->line_items as $line_item) {
+                $itemTaxable = $this->getItemTaxable($line_item, $taxable);
 
-            $invoiceLines[] = $this->createInvoiceLine($line_item, $itemTaxable);
+                $invoiceLines[] = $this->createInvoiceLine($line_item, $itemTaxable);
+            }
         }
 
         // taxe TVA
@@ -185,18 +187,20 @@ class CreateUbl implements ShouldQueue
     {
         $total = 0;
 
-        foreach ($this->invoice->line_items as $item) {
-            $line_total = $item->quantity * $item->unit_price; // check here
+        if (!empty($this->invoice->line_items)) {
+            foreach ($this->invoice->line_items as $item) {
+                $line_total = $item->quantity * $item->unit_price; // check here
 
-            if ($item->unit_discount != 0) {
-                if ($this->invoice->is_amount_discount) {
-                    $line_total -= $item->unit_discount;
-                } else {
-                    $line_total -= $line_total * $item->unit_discount / 100;
+                if ($item->unit_discount != 0) {
+                    if ($this->invoice->is_amount_discount) {
+                        $line_total -= $item->unit_discount;
+                    } else {
+                        $line_total -= $line_total * $item->unit_discount / 100;
+                    }
                 }
-            }
 
-            $total += $line_total;
+                $total += $line_total;
+            }
         }
 
         if ($this->invoice->discount_total > 0) {

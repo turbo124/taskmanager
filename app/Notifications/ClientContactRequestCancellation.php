@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\RecurringInvoice;
 use Closure;
 use Illuminate\Bus\Queueable;
@@ -36,9 +36,9 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
     /**
      * ClientContactRequestCancellation constructor.
      * @param RecurringInvoice $recurring_invoice
-     * @param ClientContact $client_contact
+     * @param CustomerContact $client_contact
      */
-    public function __construct(RecurringInvoice $recurring_invoice, ClientContact $client_contact)
+    public function __construct(RecurringInvoice $recurring_invoice, CustomerContact $client_contact)
     {
         $this->recurring_invoice = $recurring_invoice;
         $this->client_contact = $client_contact;

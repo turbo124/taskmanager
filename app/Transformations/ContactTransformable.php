@@ -2,15 +2,15 @@
 
 namespace App\Transformations;
 
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 
 class ContactTransformable
 {
     /**
-     * @param ClientContact $contact
+     * @param CustomerContact $contact
      * @return array
      */
-    public function transformClientContact(ClientContact $contact)
+    public function transformClientContact(CustomerContact $contact)
     {
         return [
             'id'            => (int)$contact->id,

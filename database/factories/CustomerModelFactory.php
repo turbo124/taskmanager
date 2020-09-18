@@ -17,10 +17,12 @@ use App\Models\Company;
 use App\Models\Account;
 use App\Models\User;
 
+
 $factory->define(Customer::class, function (Faker\Generator $faker) {
 
     $company = factory(Company::class)->create();
     $user = factory(User::class)->create();
+    //$contact = factory(\App\Models\CustomerContact::class)->create();
     //$account = factory(Account::class)->create();
 
     return [

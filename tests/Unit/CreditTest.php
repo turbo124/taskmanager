@@ -7,6 +7,7 @@ use App\Filters\CreditFilter;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Requests\SearchRequest;
@@ -35,6 +36,8 @@ class CreditTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
         $this->account = Account::where('id', 1)->first();
         $this->user = factory(User::class)->create();
     }
@@ -107,5 +110,6 @@ class CreditTest extends TestCase
         $credit = $creditRepo->createCreditNote($data, $factory);
         $this->assertInstanceOf(Credit::class, $credit);
         $this->assertEquals($data['customer_id'], $credit->customer_id);
+        $this->assertNotEmpty($credit->invitations);
     }
 }

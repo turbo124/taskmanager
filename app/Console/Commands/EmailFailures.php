@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Email;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
@@ -62,7 +62,7 @@ class EmailFailures extends Command
 
             $contact = $entity_string === 'App\\Models\\Lead'
                 ? $entity
-                : ClientContact::where(
+                : CustomerContact::where(
                     'email',
                     $failed_email->recipient_email
                 )->first();

@@ -3,7 +3,7 @@
 namespace App\Factory\Account;
 
 use App\Models\Account;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -14,11 +14,11 @@ class CloneAccountToContactFactory
      * @param Account $account
      * @param Customer $customer
      * @param User $user
-     * @return ClientContact
+     * @return CustomerContact
      */
-    public static function create(Account $account, Customer $customer, User $user): ClientContact
+    public static function create(Account $account, Customer $customer, User $user): CustomerContact
     {
-        $client_contact = new ClientContact();
+        $client_contact = new CustomerContact();
         $client_contact->account_id = $account->id;
         $client_contact->user_id = $user->id;
         $client_contact->customer_id = $customer->id;

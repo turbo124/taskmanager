@@ -3,7 +3,7 @@
 namespace App\Factory\Lead;
 
 use App\Models\Account;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\User;
@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 
 class CloneLeadToContactFactory
 {
-    public static function create(Lead $lead, Customer $customer, User $user, Account $account): ClientContact
+    public static function create(Lead $lead, Customer $customer, User $user, Account $account): CustomerContact
     {
-        $client_contact = new ClientContact();
+        $client_contact = new CustomerContact();
         $client_contact->account_id = $account->id;
         $client_contact->user_id = $user->id;
         $client_contact->customer_id = $customer->id;

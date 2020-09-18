@@ -12,7 +12,7 @@ use App\Models\Account;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\CustomerType;
-use App\Repositories\ClientContactRepository;
+use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerTypeRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -42,9 +42,9 @@ class CustomerController extends Controller
     /**
      * CustomerController constructor.
      * @param CustomerRepositoryInterface $customer_repo
-     * @param ClientContactRepository $contact_repo
+     * @param CustomerContactRepository $contact_repo
      */
-    public function __construct(CustomerRepositoryInterface $customer_repo, ClientContactRepository $contact_repo)
+    public function __construct(CustomerRepositoryInterface $customer_repo, CustomerContactRepository $contact_repo)
     {
         $this->customer_repo = $customer_repo;
         $this->contact_repo = $contact_repo;

@@ -6,8 +6,8 @@ use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
 use App\Models\Invoice;
-use App\Models\InvoiceInvitation;
 use App\Models\RecurringInvoice;
+use App\Models\RecurringInvoiceInvitation;
 
 trait RecurringInvoiceTransformable
 {
@@ -27,6 +27,8 @@ trait RecurringInvoiceTransformable
             'due_date'            => $invoice->due_date,
             'start_date'          => $invoice->start_date ?: '',
             'end_date'            => $invoice->end_date ?: '',
+            'next_send_date'      => $invoice->next_send_date ?: '',
+            'last_sent_date'      => $invoice->last_sent_date ?: '',
             'frequency'           => (int)$invoice->frequency,
             'grace_period'        => (int)$invoice->grace_period,
             'total'               => $invoice->total,
@@ -115,8 +117,8 @@ trait RecurringInvoiceTransformable
         }
 
         return $invitations->map(
-            function (InvoiceInvitation $invitation) {
-                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            function (RecurringInvoiceInvitation $invitation) {
+                return (new RecurringInvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
             }
         )->all();
     }

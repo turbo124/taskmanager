@@ -17,6 +17,7 @@ use App\Jobs\Invoice\SendReminders;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
@@ -73,6 +74,8 @@ class InvoiceTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
         $this->account = factory(Account::class)->create();
         $this->user = factory(User::class)->create();
         $this->main_account = Account::where('id', 1)->first();
@@ -171,6 +174,7 @@ class InvoiceTest extends TestCase
         $invoice = $invoiceRepo->createInvoice($data, $factory);
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals($data['customer_id'], $invoice->customer_id);
+        $this->assertNotEmpty($invoice->invitations);
     }
 
     public function test_it_can_create_a_recurring_invoice()

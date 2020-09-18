@@ -2,11 +2,11 @@
 
 namespace App\Helpers\Customer;
 
-use App\Factory\ClientContactFactory;
+use App\Factory\CustomerContactFactory;
 use App\Factory\CustomerFactory;
 use App\Models\Account;
 use App\Models\Address;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +42,7 @@ class ContactRegister
     }
 
     /**
-     * @return ClientContact
+     * @return CustomerContact
      */
     public function create()
     {
@@ -104,11 +104,11 @@ class ContactRegister
 
     /**
      * @param Customer $customer
-     * @return ClientContact
+     * @return CustomerContact
      */
     private function createContact(Customer $customer)
     {
-        $client_contact = ClientContactFactory::create($this->account, $this->user);
+        $client_contact = CustomerContactFactory::create($this->account, $this->user);
         $client_contact->fill($this->data);
 
         $client_contact->customer_id = $customer->id;

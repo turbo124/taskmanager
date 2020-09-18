@@ -32,12 +32,12 @@ import { translations } from '../../utils/_translations'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
-import Recurring from '../../quotes/edit/Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import CustomerModel from '../../models/CustomerModel'
 import Emails from '../../emails/Emails'
+import Recurring from "./Recurring";
 
 class EditInvoice extends Component {
     constructor (props, context) {

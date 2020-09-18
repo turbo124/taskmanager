@@ -3,7 +3,7 @@
 namespace App\Transformations;
 
 use App\Models\Address;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\CustomerGateway;
 use App\Models\ErrorLog;
@@ -103,7 +103,7 @@ trait CustomerTransformable
         }
 
         return $contacts->map(
-            function (ClientContact $contact) {
+            function (CustomerContact $contact) {
                 return (new ContactTransformable())->transformClientContact($contact);
             }
         )->all();

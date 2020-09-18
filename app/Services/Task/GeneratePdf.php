@@ -6,7 +6,7 @@ use App\Designs\PdfColumns;
 use App\Helpers\Pdf\TaskPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Cases;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Deal;
 use App\Models\Design;
 use App\Models\Task;
@@ -29,10 +29,10 @@ class GeneratePdf
     /**
      * GeneratePdf constructor.
      * @param Task $task
-     * @param ClientContact|null $contact
+     * @param CustomerContact|null $contact
      * @param bool $update
      */
-    public function __construct(Task $task, ClientContact $contact = null, $update = false)
+    public function __construct(Task $task, CustomerContact $contact = null, $update = false)
     {
         $this->contact = $contact;
         $this->task = $task;
