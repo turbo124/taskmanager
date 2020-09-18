@@ -5,7 +5,7 @@ namespace App\Services\Lead;
 use App\Designs\PdfColumns;
 use App\Helpers\Pdf\LeadPdf;
 use App\Jobs\Pdf\CreatePdf;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Deal;
 use App\Models\Design;
 use App\Models\Lead;
@@ -28,10 +28,10 @@ class GeneratePdf
     /**
      * GeneratePdf constructor.
      * @param Lead $lead
-     * @param ClientContact|null $contact
+     * @param CustomerContact|null $contact
      * @param bool $update
      */
-    public function __construct(Lead $lead, ClientContact $contact = null, $update = false)
+    public function __construct(Lead $lead, CustomerContact $contact = null, $update = false)
     {
         $this->contact = $contact;
         $this->lead = $lead;

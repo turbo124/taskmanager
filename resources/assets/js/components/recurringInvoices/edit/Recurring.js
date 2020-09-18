@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, Input, Label, CustomInput } from 'reactstrap'
+import { CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
 import { icons } from '../../utils/_icons'
@@ -8,12 +8,22 @@ import { frequencyOptions } from '../../utils/_consts'
 export default function Recurring (props) {
     return (
         <React.Fragment>
-            <FormGroup>
-                <Label for="start_date">{translations.start_date}(*):</Label>
-                <Datepicker name="start_date" date={props.recurring_invoice.start_date} handleInput={props.handleInput}
-                    className={props.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
-                {props.renderErrorFor('start_date')}
-            </FormGroup>
+            {props.recurring_invoice.last_sent_date.length
+                ? <FormGroup>
+                    <Label for="next_send_date">{translations.next_send_date}(*):</Label>
+                    <Datepicker name="next_send_date" date={props.recurring_invoice.next_send_date}
+                        handleInput={props.handleInput}
+                        className={props.hasErrorFor('next_send_date') ? 'form-control is-invalid' : 'form-control'}/>
+                    {props.renderErrorFor('next_send_date')}
+                </FormGroup>
+                : <FormGroup>
+                    <Label for="start_date">{translations.start_date}(*):</Label>
+                    <Datepicker name="start_date" date={props.recurring_invoice.start_date}
+                        handleInput={props.handleInput}
+                        className={props.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
+                    {props.renderErrorFor('start_date')}
+                </FormGroup>
+            }
 
             <FormGroup>
                 <Label for="end_date">{translations.end_date}(*):</Label>

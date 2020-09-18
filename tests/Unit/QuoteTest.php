@@ -12,6 +12,7 @@ use App\Factory\QuoteFactory;
 use App\Filters\QuoteFilter;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Order;
@@ -54,6 +55,8 @@ class QuoteTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
         $this->account = Account::where('id', 1)->first();
         $this->user = factory(User::class)->create();
         $this->objNumberGenerator = new NumberGenerator;
@@ -109,6 +112,7 @@ class QuoteTest extends TestCase
         $quote = $quoteRepo->createQuote($data, $factory);
         $this->assertInstanceOf(Quote::class, $quote);
         $this->assertEquals($data['customer_id'], $quote->customer_id);
+        $this->assertNotEmpty($quote->invitations);
     }
 
     public function test_it_can_create_a_recurring_quote()

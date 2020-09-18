@@ -29,7 +29,7 @@ class RecurringQuoteService extends ServiceBase
 
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->invoice, $contact, $update))->execute();
+        return (new GeneratePdf($this->quote, $contact, $update))->execute();
     }
 
     public function calculateInvoiceTotals(): RecurringQuote

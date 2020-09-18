@@ -38,6 +38,8 @@ class RecurringQuoteRepository extends BaseRepository
 
         $quote->save();
 
+        $this->saveInvitations($quote, 'recurringQuote', $data, 'recurring_quote');
+
         return $quote->fresh();
     }
 

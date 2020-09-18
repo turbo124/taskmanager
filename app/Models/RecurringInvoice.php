@@ -104,7 +104,7 @@ class RecurringInvoice extends Model
 
     public function invitations()
     {
-        $this->morphMany(InvoiceInvitation::class);
+        return $this->hasMany(RecurringInvoiceInvitation::class);
     }
 
     public function service(): RecurringInvoiceService

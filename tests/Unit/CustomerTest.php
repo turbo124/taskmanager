@@ -5,11 +5,11 @@ namespace Tests\Unit;
 use App\Factory\CustomerFactory;
 use App\Filters\CustomerFilter;
 use App\Models\Account;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\User;
-use App\Repositories\ClientContactRepository;
+use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CustomerTransformable;
@@ -131,7 +131,7 @@ class CustomerTest extends TestCase
         $collection = collect($data)->except('password');
         $this->assertDatabaseHas('customers', $collection->all());
 
-        $clients = (new ClientContactRepository(new ClientContact))->save($contacts, $created);
+        $clients = (new CustomerContactRepository(new CustomerContact))->save($contacts, $created);
         $this->assertTrue($clients);
     }
 

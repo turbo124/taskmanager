@@ -10,7 +10,7 @@ class Review extends Model
 {
     public function contact()
     {
-        return $this->belongsTo(ClientContact::class);
+        return $this->belongsTo(CustomerContact::class);
     }
 
 }

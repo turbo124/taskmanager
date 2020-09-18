@@ -43,7 +43,7 @@ class Invitations
                 continue;
             } */
 
-            $new_invitation = $invitation_factory_class::create($entity->account_id, $entity->user_id);
+            $new_invitation = $invitation_factory_class::create($entity->account, $entity->user);
             $new_invitation->{$id_key} = $entity->id;
             $new_invitation->contact_id = $contact_id;
             $new_invitation->save();

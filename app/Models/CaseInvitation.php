@@ -46,7 +46,7 @@ class CaseInvitation extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(ClientContact::class, 'contact_id', 'id')->withTrashed();
+        return $this->belongsTo(CustomerContact::class, 'contact_id', 'id')->withTrashed();
     }
 
     /**

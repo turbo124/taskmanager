@@ -5,7 +5,7 @@ namespace App\Services\Invoice;
 use App\Designs\PdfColumns;
 use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Design;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Storage;
@@ -27,10 +27,10 @@ class GeneratePdf
     /**
      * GeneratePdf constructor.
      * @param Invoice $invoice
-     * @param ClientContact|null $contact
+     * @param CustomerContact|null $contact
      * @param bool $update
      */
-    public function __construct(Invoice $invoice, ClientContact $contact = null, $update = false)
+    public function __construct(Invoice $invoice, CustomerContact $contact = null, $update = false)
     {
         $this->contact = $contact;
         $this->invoice = $invoice;

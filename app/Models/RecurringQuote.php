@@ -103,7 +103,7 @@ class RecurringQuote extends Model
 
     public function invitations()
     {
-        $this->morphMany(QuoteInvitation::class);
+        return $this->hasMany(RecurringQuoteInvitation::class);
     }
 
     public function service(): RecurringQuoteService

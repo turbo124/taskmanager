@@ -7,6 +7,7 @@ use App\Filters\RecurringInvoiceFilter;
 use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Models\User;
@@ -48,6 +49,8 @@ class RecurringInvoiceTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
     }
 
     /** @test */
@@ -119,6 +122,7 @@ class RecurringInvoiceTest extends TestCase
 
         $this->assertInstanceOf(RecurringInvoice::class, $recurring_invoice);
         $this->assertEquals($data['total'], $recurring_invoice->total);
+        $this->assertNotEmpty($recurring_invoice->invitations);
     }
 
     /** @test */

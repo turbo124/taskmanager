@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 use App\Models\Design;
 use App\Models\Invoice;
@@ -66,7 +66,7 @@ class PreviewController extends Controller
             ]
         );
 
-        $contact = factory(ClientContact::class)->create(
+        $contact = factory(CustomerContact::class)->create(
             [
                 'user_id'     => auth()->user()->id,
                 'account_id'  => auth()->user()->account_user()->account_id,

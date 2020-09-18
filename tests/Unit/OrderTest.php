@@ -9,6 +9,7 @@ use App\Jobs\Order\CreateOrder;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Order;
@@ -55,6 +56,8 @@ class OrderTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
         $this->product = factory(Product::class)->create();
         $this->objNumberGenerator = new NumberGenerator;
     }
@@ -116,6 +119,7 @@ class OrderTest extends TestCase
         $order = $orderRepo->createOrder($data, $factory);
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($data['customer_id'], $order->customer_id);
+        $this->assertNotEmpty($order->invitations);
     }
 
     /**

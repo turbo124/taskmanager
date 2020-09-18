@@ -110,7 +110,7 @@ class Customer extends Model implements HasLocalePreference
 
     public function contacts()
     {
-        return $this->hasMany(ClientContact::class)->orderBy('is_primary', 'desc');
+        return $this->hasMany(CustomerContact::class)->orderBy('is_primary', 'desc');
     }
 
     public function transactions()
@@ -120,7 +120,7 @@ class Customer extends Model implements HasLocalePreference
 
     public function primary_contact()
     {
-        return $this->hasMany(ClientContact::class)->whereIsPrimary(true);
+        return $this->hasMany(CustomerContact::class)->whereIsPrimary(true);
     }
 
     public function user()

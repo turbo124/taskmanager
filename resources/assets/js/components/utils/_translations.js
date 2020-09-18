@@ -209,6 +209,7 @@ _localizedValues.en = {
     start_date: 'Start Date',
     end_date: 'End Date',
     frequency: 'Frequency (in days)',
+    next_send_date: 'Next Send Date',
     purchase_order: 'Purchase Order',
     purchase_orders: 'Purchase Orders',
     edit_purchase_order: 'Edit Purchase Order',

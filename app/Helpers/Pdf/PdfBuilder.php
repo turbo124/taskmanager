@@ -3,7 +3,7 @@
 namespace App\Helpers\Pdf;
 
 use App\Models\Account;
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
@@ -34,7 +34,7 @@ class PdfBuilder
     /**
      * PdfData constructor.
      * @param $entity
-     * @param ClientContact $contact
+     * @param CustomerContact $contact
      */
     public function __construct($entity)
     {

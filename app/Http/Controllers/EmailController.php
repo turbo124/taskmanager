@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\EmailRepository;
 use App\Requests\Email\SendEmailRequest;
@@ -53,7 +53,7 @@ class EmailController extends Controller
         $contact = null;
 
         if (!empty($to)) {
-            $contact = ClientContact::where('id', '=', $to)->first();
+            $contact = CustomerContact::where('id', '=', $to)->first();
         } elseif (!in_array($entity, ['App\Models\Lead', 'App\Models\Deal', 'App\Models\Task', 'App\Models\Cases'])) {
             $contact = $entity_obj->invitations->first()->contact;
         }

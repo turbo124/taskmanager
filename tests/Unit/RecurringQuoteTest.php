@@ -8,6 +8,7 @@ use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Jobs\Quote\SendRecurringQuote;
 use App\Models\Account;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\Quote;
 use App\Models\RecurringInvoice;
@@ -52,6 +53,8 @@ class RecurringQuoteTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->account = Account::where('id', 1)->first();
         $this->customer = factory(Customer::class)->create();
+        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer->contacts()->save($contact);
     }
 
     /** @test */
@@ -123,6 +126,7 @@ class RecurringQuoteTest extends TestCase
 
         $this->assertInstanceOf(RecurringQuote::class, $recurring_quote);
         $this->assertEquals($data['total'], $recurring_quote->total);
+        $this->assertNotEmpty($recurring_quote->invitations);
     }
 
     public function test_send_recurring_quote()

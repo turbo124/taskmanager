@@ -2,14 +2,14 @@
 
 namespace App\Factory;
 
-use App\Models\ClientContact;
+use App\Models\CustomerContact;
 use App\Models\Customer;
 
 class CloneCustomerToContactFactory
 {
-    public static function create(Customer $customer, $user_id, $account_id): ?ClientContact
+    public static function create(Customer $customer, $user_id, $account_id): ?CustomerContact
     {
-        $client_contact = new ClientContact();
+        $client_contact = new CustomerContact();
         $client_contact->account_id = $account_id;
         $client_contact->customer_id = $customer->id;
         $client_contact->user_id = $user_id;

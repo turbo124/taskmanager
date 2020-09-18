@@ -47,7 +47,7 @@ class OrderInvitation extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(Models\ClientContact::class, 'contact_id', 'id')->withTrashed();
+        return $this->belongsTo(Models\CustomerContact::class, 'contact_id', 'id')->withTrashed();
     }
 
     /**

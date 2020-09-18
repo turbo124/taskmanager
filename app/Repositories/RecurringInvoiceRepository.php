@@ -38,6 +38,8 @@ class RecurringInvoiceRepository extends BaseRepository
 
         $invoice->save();
 
+        $this->saveInvitations($invoice, 'recurringInvoice', $data, 'recurring_invoice');
+
         return $invoice->fresh();
     }
 
