@@ -55,7 +55,7 @@ export default class ExpenseItem extends Component {
                 }).map(key => {
                     return <ExpensePresenter key={key} companies={companies} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={expense}/>
+                        field={key} entity={expense} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

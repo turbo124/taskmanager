@@ -53,7 +53,7 @@ export default class UserItem extends Component {
                 const columnList = Object.keys(user).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <UserPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                    return <UserPresenter key={key} edit={editButton} toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={user}/>
                 })
 

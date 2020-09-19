@@ -56,6 +56,7 @@ export default class DealItem extends Component {
                 }).map(key => {
                     return <DealPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={deal} custom_fields={custom_fields}
+                        edit={editButton}
                         users={users}
                         customers={this.props.customers}
                         deals={deals}

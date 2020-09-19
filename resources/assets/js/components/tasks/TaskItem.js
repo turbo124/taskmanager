@@ -60,6 +60,7 @@ export default class TaskItem extends Component {
                         customers={this.props.customers}
                         tasks={tasks}
                         action={this.props.action}
+                        edit={editButton}
                         task={task}/>
                 })
 

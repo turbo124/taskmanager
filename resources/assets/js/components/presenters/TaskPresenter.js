@@ -19,7 +19,7 @@ export default function TaskPresenter (props) {
                 action={props.action}
                 task={props.task}/></td>
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.title)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.title, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

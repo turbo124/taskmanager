@@ -51,7 +51,7 @@ export default class SubscriptionItem extends Component {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <SubscriptionPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={subscription}/>
+                        field={key} entity={subscription} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

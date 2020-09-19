@@ -41,6 +41,7 @@ export default class GroupItem extends Component {
                     ? <DeleteModal archive={true} deleteFunction={this.deleteGroup} id={group.id}/> : null
 
                 const editButton = !group.deleted_at ? <EditGroup
+                    modal={true}
                     groups={groups}
                     group={group}
                     action={this.props.addUserToState}

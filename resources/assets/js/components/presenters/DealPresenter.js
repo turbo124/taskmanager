@@ -8,7 +8,7 @@ export default function TaskPresenter (props) {
         case 'due_date':
             return <td><FormatDate date={entity[field]}/></td>
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.title)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.title, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

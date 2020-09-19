@@ -51,7 +51,7 @@ export default class TaskStatusItem extends Component {
                 const columnList = Object.keys(taskStatus).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TaskStatusPresenter key={key} customers={customers}
+                    return <TaskStatusPresenter edit={editButton} key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={taskStatus}/>
                 })

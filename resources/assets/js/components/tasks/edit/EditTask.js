@@ -144,14 +144,16 @@ class EditTask extends Component {
                 return
             }
 
-            const index = this.props.allTasks.findIndex(task => task.id === this.props.task.id)
-            this.props.allTasks[index] = response
-            this.props.action(this.props.allTasks)
-            this.setState({
-                editMode: false,
-                changesMade: false
-            })
-            this.toggle()
+            if (this.props.allTasks) {
+                const index = this.props.allTasks.findIndex(task => task.id === this.props.task.id)
+                this.props.allTasks[index] = response
+                this.props.action(this.props.allTasks)
+                this.setState({
+                    editMode: false,
+                    changesMade: false
+                })
+                this.toggle()
+            }
         })
     }
 

@@ -93,8 +93,6 @@ class Refund extends React.Component {
             return el.amount !== 0 && el.invoice_id !== null
         })
 
-        console.log('credits', this.state.payable_credits)
-
         const credits = this.state.payable_credits.filter(function (el) {
             return el.amount !== 0 && el.credit_id !== null
         })

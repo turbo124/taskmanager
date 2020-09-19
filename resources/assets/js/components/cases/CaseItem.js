@@ -51,7 +51,7 @@ export default class CaseItem extends Component {
                 const columnList = Object.keys(case_file).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <CasePresenter key={key} customers={customers}
+                    return <CasePresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={case_file}/>
                 })

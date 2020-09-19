@@ -151,7 +151,7 @@ class InvoiceService extends ServiceBase
             return null;
         }
 
-        event(new InvoiceWasEmailed($this->invoice->invitations->first()));
+        //event(new InvoiceWasEmailed($this->invoice->invitations->first()));
         return $this->invoice;
     }
 

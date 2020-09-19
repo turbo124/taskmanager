@@ -17,17 +17,17 @@ export default function PaymentPresenter (props) {
 
     switch (field) {
         case 'amount':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Total">{
                 <FormatMoney
                     customers={props.customers} customer_id={entity.customer_id}
                     amount={entity.amount}/>}</td>
         case 'applied':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Applied">{
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Applied">{
                 <FormatMoney
                     customers={props.customers} customer_id={entity.customer_id}
                     amount={entity.applied}/>}</td>
         case 'date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date"><FormatDate
                 field={field} date={entity[field]}/></td>
         }
 
@@ -35,13 +35,13 @@ export default function PaymentPresenter (props) {
             return status
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Customer">{customer.name}</td>
         }
 

@@ -88,6 +88,8 @@ export default class Task extends Component {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         let user = null
 
+        console.log('entity', this.props.entity)
+
         if (this.props.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
             user = <EntityListTile entity={translations.user}

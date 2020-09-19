@@ -16,7 +16,7 @@ export default function ExpensePresenter (props) {
 
     switch (field) {
         case 'amount':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Total">{
                 <FormatMoney
                     customers={props.customers} customer_id={entity.customer_id}
                     amount={entity.amount}/>}</td>
@@ -24,25 +24,25 @@ export default function ExpensePresenter (props) {
             return status
         case 'date':
         case 'payment_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Date"><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date"><FormatDate
                 field={field} date={entity[field]}/></td>
         }
 
         case 'status':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.transaction_reference)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
 
         case 'customer_id': {
             const customerIndex = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[customerIndex]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Customer">{customer.name}</td>
         }
 
         case 'company_id': {
             const companyIndex = props.companies.findIndex(company => company.id === entity[field])
             const company = props.companies[companyIndex]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Company">{company.name}</td>
         }
 
@@ -50,7 +50,7 @@ export default function ExpensePresenter (props) {
             return <td data-label="Invoices">{paymentInvoices}</td>
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.transaction_reference)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

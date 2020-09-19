@@ -58,7 +58,7 @@ export default class CreditItem extends Component {
                 }).map(key => {
                     return <CreditPresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={credit}/>
+                        field={key} entity={credit} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

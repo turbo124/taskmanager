@@ -8,10 +8,10 @@ export default function TaxRatePresenter (props) {
         case 'due_date':
             return <td><FormatDate date={entity[field]}/></td>
         case 'rate':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
                 data-label={field}>{`${parseFloat(entity[field]).toFixed(2)}%`}</td>
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

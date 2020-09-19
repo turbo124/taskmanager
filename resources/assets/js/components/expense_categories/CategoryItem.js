@@ -53,7 +53,7 @@ export default class CategoryItem extends Component {
                 }).map(key => {
                     return <CategoryPresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={category}/>
+                        field={key} entity={category} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

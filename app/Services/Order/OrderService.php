@@ -58,7 +58,7 @@ class OrderService extends ServiceBase
             return null;
         }
 
-        event(new OrderWasEmailed($this->order->invitations->first()));
+        //event(new OrderWasEmailed($this->order->invitations->first()));
         return $this->order;
     }
 
