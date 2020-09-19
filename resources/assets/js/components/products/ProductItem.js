@@ -54,7 +54,7 @@ export default class ProductItem extends Component {
                 const columnList = Object.keys(product).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ProductPresenter key={key} companies={companies}
+                    return <ProductPresenter key={key} companies={companies} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={product}/>
                 })

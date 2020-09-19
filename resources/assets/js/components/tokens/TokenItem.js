@@ -50,7 +50,7 @@ export default class TokenItem extends Component {
                 const columnList = Object.keys(token).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TokenPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                    return <TokenPresenter edit={editButton} key={key} toggleViewedEntity={this.props.toggleViewedEntity}
                         users={this.props.users}
                         field={key} entity={token}/>
                 })

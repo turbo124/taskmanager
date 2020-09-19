@@ -24,6 +24,7 @@ import Group from '../groups/view/Group'
 import Gateway from '../gateways/view/Gateway'
 import Deal from '../deals/view/Deal'
 import PurchaseOrder from '../purchase_orders/view/PurchaseOrder'
+import { translations } from '../utils/_translations'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -36,11 +37,11 @@ export default class ViewEntity extends Component {
         this.toggle = this.toggle.bind(this)
     }
 
-    toggle () {
+    toggle (edit = false) {
         this.setState({
             modal: false,
             errors: []
-        }, () => this.props.toggle())
+        }, () => this.props.toggle(this.props.entity, this.props.title, edit))
     }
 
     render () {
@@ -52,6 +53,10 @@ export default class ViewEntity extends Component {
                     className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>{this.props.title ? this.props.title : 'Details'}</ModalHeader>
                     <ModalBody className={`${theme} view-entity`}>
+                        {this.props.edit &&
+                        this.props.edit
+                        }
+
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
                         <Invoice customers={this.props.customers} entity={this.props.entity}/>}
 

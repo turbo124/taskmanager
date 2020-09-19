@@ -50,7 +50,7 @@ export default class CaseTemplateItem extends Component {
                 const columnList = Object.keys(template).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <CaseTemplatePresenter key={key} customers={customers}
+                    return <CaseTemplatePresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={template}/>
                 })

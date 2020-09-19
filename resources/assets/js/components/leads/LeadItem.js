@@ -59,7 +59,7 @@ export default class LeadItem extends Component {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <LeadPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={lead}/>
+                        field={key} entity={lead} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

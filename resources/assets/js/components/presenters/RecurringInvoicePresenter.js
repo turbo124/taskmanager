@@ -15,7 +15,7 @@ export default function RecurringInvoicePresenter (props) {
 
     switch (field) {
         case 'total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label="Total">{
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Total">{
                 <FormatMoney
                     customers={props.customers} customer_id={entity.customer_id}
                     amount={entity.total}/>}</td>
@@ -23,13 +23,13 @@ export default function RecurringInvoicePresenter (props) {
         case 'due_date':
         case 'start_date':
         case 'end_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
         case 'status_field':
             return status
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
 
         case 'customer_id': {
@@ -40,7 +40,7 @@ export default function RecurringInvoicePresenter (props) {
         }
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

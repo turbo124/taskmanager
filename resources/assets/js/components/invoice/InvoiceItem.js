@@ -62,7 +62,7 @@ export default class InvoiceItem extends Component {
                 }).map(key => {
                     return <InvoicePresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={invoice}/>
+                        field={key} entity={invoice} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

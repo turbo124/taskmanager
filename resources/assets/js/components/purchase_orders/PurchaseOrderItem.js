@@ -63,7 +63,7 @@ export default class PurchaseOrderItem extends Component {
                 const columnList = Object.keys(purchase_order).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <PurchaseOrderPresenter key={key} companies={companies}
+                    return <PurchaseOrderPresenter key={key} companies={companies} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={purchase_order}/>
                 })

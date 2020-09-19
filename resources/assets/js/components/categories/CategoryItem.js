@@ -51,7 +51,7 @@ export default class CategoryItem extends Component {
                 const columnList = Object.keys(category).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <CategoryPresenter key={key} customers={customers}
+                    return <CategoryPresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={category}/>
                 })

@@ -60,7 +60,7 @@ export default class QuoteItem extends Component {
                 const columnList = Object.keys(user).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <QuotePresenter key={key} customers={customers}
+                    return <QuotePresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={user}/>
                 })

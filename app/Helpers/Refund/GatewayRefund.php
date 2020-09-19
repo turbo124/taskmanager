@@ -7,7 +7,7 @@ namespace App\Helpers\Refund;
 use App\Models\CompanyGateway;
 use App\Models\Payment;
 use App\Repositories\CreditRepository;
-use Omnipay\Omnipay;
+use Stripe\StripeClient;
 
 class GatewayRefund extends BaseRefund
 {
@@ -50,23 +50,25 @@ class GatewayRefund extends BaseRefund
 
     private function doRefund(CompanyGateway $company_gateway)
     {
-        $gateway = Omnipay::create($company_gateway->gateway->provider);
+        //https://stripe.com/docs/api/refunds/object
 
-        $gateway->initialize((array)$company_gateway->config);
+        $stripe = new StripeClient(
+            $company_gateway->config->apiKey
+        );
 
-        $response = $gateway
-            ->refund(
-                [
-                    'transactionReference' => $this->payment->transaction_reference,
-                    'amount'               => $this->data['amount'] ?? $this->payment->amount,
-                    'currency'             => $this->payment->customer->currency->code
-                ]
-            )
-            ->send();
+        $response = $stripe->refunds->create(
+            [
+                'charge' => $this->payment->transaction_reference,
+            ]
+        );
 
-        if ($response->isSuccessful()) {
+        if ($response->status == $response::STATUS_SUCCEEDED) {
+            $this->payment->transaction_reference = $response->charge;
+            $this->payment->save();
+
             return true;
         }
-    }
 
+        return false;
+    }
 }

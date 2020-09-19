@@ -190,7 +190,7 @@ export default class InvoiceLine extends Component {
             lines: lines,
             credit_lines: credit_lines
         }, () => {
-            if (is_invoice === true) {
+            if (is_invoice === true && lines.length < this.props.allInvoices.length) {
                 this.props.onChange(this.state.lines)
                 this.addLine()
             }

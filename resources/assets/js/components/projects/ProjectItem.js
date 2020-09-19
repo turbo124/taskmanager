@@ -58,7 +58,7 @@ export default class ProjectItem extends Component {
                 const columnList = Object.keys(project).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ProjectPresenter key={key} customers={this.props.customers}
+                    return <ProjectPresenter key={key} customers={this.props.customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={project}/>
                 })

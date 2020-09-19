@@ -24,30 +24,30 @@ export default function PurchaseOrderPresenter (props) {
         case 'tax_total':
         case 'sub_total':
         case 'exchange_rate':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}>
                 <FormatMoney customer_id={entity.company_id} customers={props.companies} amount={entity[field]}/>
             </td>
         case 'status_field':
             return status
         case 'date':
         case 'due_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} data-label={field}><FormatDate
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
 
         case 'company_id': {
             const index = props.companies.findIndex(company => company.id === entity[field])
             const company = props.companies[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Company">{company.name}</td>
         }
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>
     }
 }

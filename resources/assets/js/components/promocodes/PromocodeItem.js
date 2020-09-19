@@ -50,7 +50,7 @@ export default class PromocodeItem extends Component {
                 const columnList = Object.keys(promocode).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <PromocodePresenter key={key} customers={this.props.customers}
+                    return <PromocodePresenter key={key} customers={this.props.customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={promocode}/>
                 })

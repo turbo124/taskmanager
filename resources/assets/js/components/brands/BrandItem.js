@@ -51,7 +51,7 @@ export default class BrandItem extends Component {
                 const columnList = Object.keys(brand).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <BrandPresenter key={key} customers={customers}
+                    return <BrandPresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={brand}/>
                 })

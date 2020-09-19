@@ -1,6 +1,10 @@
 export default function formatDuration (duration, showSeconds = false) {
     // const time = duration.toString().split('.')[0]
 
+    if (!duration) {
+        return null
+    }
+
     if (showSeconds) {
         return time
     } else {

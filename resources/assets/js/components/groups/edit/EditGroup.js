@@ -75,14 +75,16 @@ class EditGroup extends Component {
                 return
             }
 
-            const index = this.props.groups.findIndex(group => group.id === this.state.id)
-            this.props.groups[index] = response
-            this.props.action(this.props.groups)
-            this.setState({
-                editMode: false,
-                changesMade: false
-            })
-            this.toggle()
+            if (this.props.groups && this.props.action) {
+                const index = this.props.groups.findIndex(group => group.id === this.state.id)
+                this.props.groups[index] = response
+                this.props.action(this.props.groups)
+                this.setState({
+                    editMode: false,
+                    changesMade: false
+                })
+                this.toggle()
+            }
         })
     }
 
@@ -102,16 +104,17 @@ class EditGroup extends Component {
     }
 
     render () {
-        return (
+        const settings = <Settings hasErrorFor={this.hasErrorFor} group={this.state} settings={this.state.settings}
+            handleInput={this.handleInput.bind(this)} renderErrorFor={this.renderErrorFor}
+            handleSettingsChange={this.handleSettingsChange}
+            handleFileChange={this.handleFileChange}/>
+        return this.props.modal ? (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
                 <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_group}/>
                     <ModalBody>
-                        <Settings hasErrorFor={this.hasErrorFor} group={this.state} settings={this.state.settings}
-                            handleInput={this.handleInput.bind(this)} renderErrorFor={this.renderErrorFor}
-                            handleSettingsChange={this.handleSettingsChange}
-                            handleFileChange={this.handleFileChange}/>
+                        {settings}
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
@@ -119,7 +122,7 @@ class EditGroup extends Component {
                         loading={false}/>
                 </Modal>
             </React.Fragment>
-        )
+        ) : settings
     }
 }
 

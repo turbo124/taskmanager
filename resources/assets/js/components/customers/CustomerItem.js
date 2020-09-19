@@ -47,7 +47,7 @@ export default class CustomerItem extends Component {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <CustomerPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={customer}/>
+                        field={key} entity={customer} edit={editButton}/>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'

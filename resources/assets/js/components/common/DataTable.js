@@ -177,13 +177,25 @@ export default class DataTable extends Component {
         }
     }
 
-    toggleViewedEntity (id, title = null) {
-        console.log('entity', id)
+    toggleViewedEntity (id, title = null, edit = null) {
+        if (this.state.view.viewMode === true) {
+            this.setState({
+                view: {
+                    ...this.state.view,
+                    viewMode: false,
+                    viewedId: null
+                }
+            }, () => console.log('view', this.state.view))
+
+            return
+        }
+
         this.setState({
             view: {
                 ...this.state.view,
                 viewMode: !this.state.view.viewMode,
                 viewedId: id,
+                edit: edit,
                 title: title
             }
         }, () => console.log('view', this.state.view))
@@ -377,10 +389,10 @@ export default class DataTable extends Component {
                 {table}
 
                 {this.props.view && <ViewEntity
-                    ignore={this.state.view.ignore}
                     toggle={this.toggleViewedEntity}
                     title={this.state.view.title}
                     viewed={this.state.view.viewMode}
+                    edit={this.state.view.edit}
                     companies={this.props.companies}
                     customers={this.props.customers && this.props.customers.length ? this.props.customers : []}
                     entity={this.state.view.viewedId}
