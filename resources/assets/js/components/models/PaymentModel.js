@@ -47,8 +47,8 @@ export default class PaymentModel extends BaseModel {
         }
 
         this.completed = consts.payment_status_completed
-        this.cancelled = consts.payment_status_cancelled
-        this.cancelled = 5
+        this.cancelled = consts.payment_status_voided
+        this.failed = consts.payment_status_failed
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
