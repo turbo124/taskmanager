@@ -6,7 +6,27 @@ import { translations } from '../../utils/_translations'
 const InvoiceLineInputs = (props) => {
     return (
         props.lines.map((val, idx) => {
-            const amount = props.invoices && props.invoices.length === 1 && props.invoices[0].paymentables.length === 1 && props.lines[idx].amount === 0 ? props.invoices[0].paymentables[0].amount : props.lines[idx].amount
+            let amount = props.lines[idx].amount
+
+            if(props.invoices && props.invoices.length === 1 && && props.lines[idx].amount === 0) {
+                let paymentTotal = 0	
+	        let creditTotal = 0;
+	        props.invoices.forEach((invoice) {
+	            paymentTotal += invoice.total
+	        })
+
+	        creditPaymentables.forEach((credit) {
+	            creditTotal += credit.amount
+	        })
+
+                if (paymentTotal !== 0) {
+                    if (creditTotal == 0) {
+	                amount = paymentTotal;
+	            } else {
+	                amount = paymentTotal - creditTotal
+	            }
+                }
+            }
 
             return (
                 <div key={idx}>
