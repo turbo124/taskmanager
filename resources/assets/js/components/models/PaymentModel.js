@@ -28,6 +28,8 @@ export default class PaymentModel extends BaseModel {
             transaction_reference: '',
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             amount: 0,
+            refunded: 0,
+            applied: 0,
             type_id: '',
             loading: false,
             custom_value1: '',
@@ -45,6 +47,8 @@ export default class PaymentModel extends BaseModel {
         }
 
         this.completed = consts.payment_status_completed
+        this.cancelled = consts.payment_status_cancelled
+        this.cancelled = 5
 
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
@@ -103,6 +107,14 @@ export default class PaymentModel extends BaseModel {
         return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0
     }
 
+    get isCancelled () {
+       return this.fields.status_id === this.cancelled
+    }
+
+    get isFailed () {
+        return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0
+    }
+
     get isArchived () {
         return this.fields.deleted_at && this.fields.deleted_at.toString().length > 0 && this.fields.is_deleted === false
     }
@@ -139,19 +151,40 @@ export default class PaymentModel extends BaseModel {
             actions.push('email')
         }
 
-        if (!this.fields.is_deleted) {
+        if (!this.isDeleted) {
             actions.push('delete')
         }
 
-        if (!this.fields.is_deleted) {
+        if (!this.isDeleted) {
             actions.push('refund')
         }
 
-        if (!this.fields.deleted_at) {
+        if (!this.isDeleted) {
             actions.push('archive')
         }
 
+        if (this.fields.applied < this.fields.amount) {	
+	    actions.push('apply')
+	}
+	
+	if (this.completedAmount > 0) {
+	    actions.push('refund')
+        }
+
         return actions
+    }
+
+    get completedAmount () {	
+	if (this.isDeleted) {
+            return 0;
+	}
+	
+	if ([this.cancelled, this.failed].includes(this.fields.status_id)) {
+	return 0;
+	}
+	
+	return this.fields.amount - (this.fields.refunded ?? 0)
+	
     }
 
     getInvoice (invoice_id) {
