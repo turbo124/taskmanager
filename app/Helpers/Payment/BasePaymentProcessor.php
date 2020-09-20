@@ -18,6 +18,8 @@ class BasePaymentProcessor
      */
     private float $amount = 0;
 
+    private float $gateway_fee = 0;
+
     private array $data;
 
 
@@ -69,9 +71,20 @@ class BasePaymentProcessor
         return $this;
     }
 
+    protected function applyGatewayFee()
+    {
+
+    }
+
+    protected function setGatewayFee(float $gateway_fee)
+    {
+        this.gateway_fee = $gateway_fee;
+    }
+
     protected function save(): ?Payment
     {
         $this->applyPayment();
+        $this->applyGatewayFee();
         //$this->setStatus();
         $this->updateCustomer();
 
@@ -83,9 +96,9 @@ class BasePaymentProcessor
 
     private function applyPayment()
     {
-//        if ($this->amount > $this->payment->amount) {
-//            return true;
-//        }
+        if ($this->amount > $this->payment->amount) {
+            return true;
+        }
 
         //TODO - Need to check this
         $this->payment->amount = $this->amount;
