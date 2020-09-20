@@ -41,7 +41,7 @@ class InvoicePayment extends BasePaymentProcessor
             $amount = $payment_invoices[$invoice->id]['amount'];
 
             if ($invoice->gateway_fee > 0) {
-                $amount += $invoice->gateway_fee;
+                $this->setGatewayFee($invoice->gateway_fee);
             }
 
             $this->payment->attachInvoice($invoice, $amount);
