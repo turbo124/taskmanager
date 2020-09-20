@@ -96,7 +96,7 @@ class InvoiceService extends ServiceBase
         return $invoice;
     }
 
-    private function sendPaymentEmail(InvoiceRepository $invoice_repo)
+    public function sendPaymentEmail(InvoiceRepository $invoice_repo)
     {
         // trigger
         $subject = trans('texts.invoice_paid_subject');
@@ -104,22 +104,6 @@ class InvoiceService extends ServiceBase
         $this->trigger($subject, $body, $invoice_repo);
 
         return true;
-    }
-
-    /**
-     * @param Payment $payment
-     * @param float $payment_amount
-     * @return Invoice
-     */
-    public function makeInvoicePayment(Payment $payment, float $payment_amount): Invoice
-    {
-        $invoice = (new MakeInvoicePayment($this->invoice, $payment, $payment_amount))->execute();
-
-        event(new InvoiceWasPaid($invoice));
-
-        $this->sendPaymentEmail(new InvoiceRepository($this->invoice));
-
-        return $invoice;
     }
 
     /**

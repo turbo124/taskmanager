@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, CardBody, Modal, ModalBody } from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import InvoiceLine from './InvoiceLine'
 import AddButtons from '../../common/AddButtons'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
@@ -144,6 +144,14 @@ class AddPayment extends React.Component {
                         customerChange={this.handleCustomerChange}
                         onChange={this.setInvoices}
                         onCreditChange={this.setCredits}/>
+
+                    <FormGroup check>
+                        <Label check>
+                            <Input checked={this.state.send_email} onChange={this.handleCheck}
+                                type="checkbox"/>
+                            {translations.send_email}
+                        </Label>
+                    </FormGroup>
 
                     {!!this.props.custom_fields &&
                     <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}

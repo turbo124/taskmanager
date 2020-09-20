@@ -4,6 +4,7 @@
 namespace App\Helpers\Payment;
 
 
+use App\Helpers\Payment\Invoice\InvoicePayment;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 

@@ -250,6 +250,7 @@ class PaymentUnitTest extends TestCase
         $new_total = 800 + $invoice->gateway_fee;
 
         $this->assertEquals($created->amount, $new_total);
+
         $this->assertEquals((float)$created->customer->balance, ($balance - $new_total));
         $this->assertEquals($created->customer->paid_to_date, ($paid_to_date + $new_total));
         $this->assertEquals($data['customer_id'], $created->customer_id);

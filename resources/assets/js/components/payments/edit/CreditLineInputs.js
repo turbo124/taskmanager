@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import CreditDropdown from '../../common/dropdowns/CreditDropdown'
 import { translations } from '../../utils/_translations'
 
@@ -40,16 +40,9 @@ const CreditLineInputs = (props) => {
                         </Col>
                     </Row>
 
-                    {/* {props.credits.length > 1 && */}
-                    {/*    <React.Fragment> */}
-                    {/*        <Button color="danger" onClick={() => props.removeLine(idx)}> */}
-                    {/*            {translations.remove} */}
-                    {/*        </Button> */}
-                    {/*        <Button color="primary" onClick={() => props.addLine(idx)}> */}
-                    {/*            {translations.add} */}
-                    {/*        </Button> */}
-                    {/*    </React.Fragment> */}
-                    {/* } */}
+                    <Button className="btn-sm" color="danger" onClick={() => props.removeLine(idx)}>
+                        {translations.remove}
+                    </Button>
                 </div>
             )
         })

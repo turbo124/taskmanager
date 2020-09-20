@@ -410,7 +410,6 @@ _localizedValues.en = {
     custom_designs: 'Custom Designs',
     designs: 'Designs',
     new_design: 'New Design',
-    edit: 'Edit',
     edit_design: 'Edit Design',
     created_design: 'Successfully created design',
     updated_design: 'Successfully updated design',

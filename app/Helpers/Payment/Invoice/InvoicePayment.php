@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Helpers\Payment;
+namespace App\Helpers\Payment\Invoice;
 
+use App\Helpers\Payment\BasePaymentProcessor;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
@@ -48,7 +49,7 @@ class InvoicePayment extends BasePaymentProcessor
 
             $this->increasePaymentAmount($amount);
 
-            $invoice->service()->makeInvoicePayment($this->payment->fresh(), $amount);
+            (new RecalculateInvoice($invoice, $this->payment, $amount))->execute();
         }
 
         $this->reduceCreditedAmount($objCreditPayment);

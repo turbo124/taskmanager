@@ -16,6 +16,10 @@ export default class PaymentModel extends BaseModel {
         this._url = '/api/payments'
         this.entity = 'Payment'
 
+        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(this.account_id))
+        this.settings = user_account[0].account.settings
+
         this._fields = {
             modal: false,
             deleted_at: null,
@@ -30,7 +34,7 @@ export default class PaymentModel extends BaseModel {
             amount: 0,
             refunded: 0,
             applied: 0,
-            type_id: '',
+            type_id: this.settings.payment_type_id || '',
             loading: false,
             custom_value1: '',
             custom_value2: '',
@@ -38,7 +42,7 @@ export default class PaymentModel extends BaseModel {
             custom_value4: '',
             private_notes: '',
             errors: [],
-            send_email: true,
+            send_email: this.settings.should_send_email_for_manual_payment || false,
             selectedInvoices: [],
             payable_invoices: [],
             payable_credits: [],
@@ -108,7 +112,7 @@ export default class PaymentModel extends BaseModel {
     }
 
     get isCancelled () {
-       return this.fields.status_id === this.cancelled
+        return this.fields.status_id === this.cancelled
     }
 
     get isFailed () {
@@ -163,28 +167,27 @@ export default class PaymentModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (this.fields.applied < this.fields.amount) {	
-	    actions.push('apply')
-	}
-	
-	if (this.completedAmount > 0) {
-	    actions.push('refund')
+        if (this.fields.applied < this.fields.amount) {
+            actions.push('apply')
+        }
+
+        if (this.completedAmount > 0) {
+            actions.push('refund')
         }
 
         return actions
     }
 
-    get completedAmount () {	
-	if (this.isDeleted) {
-            return 0;
-	}
-	
-	if ([this.cancelled, this.failed].includes(this.fields.status_id)) {
-	return 0;
-	}
-	
-	return this.fields.amount - (this.fields.refunded ?? 0)
-	
+    get completedAmount () {
+        if (this.isDeleted) {
+            return 0
+        }
+
+        if ([this.cancelled, this.failed].includes(this.fields.status_id)) {
+            return 0
+        }
+
+        return this.fields.amount - (this.fields.refunded)
     }
 
     getInvoice (invoice_id) {

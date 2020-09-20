@@ -73,13 +73,12 @@ class BasePaymentProcessor
 
     protected function setGatewayFee(float $gateway_fee)
     {
-        $this.gateway_fee += $gateway_fee;
+        $this->gateway_fee += $gateway_fee;
     }
 
     protected function save(): ?Payment
     {
         $this->applyPayment();
-        $this->applyGatewayFee();
         //$this->setStatus();
         $this->updateCustomer();
 
@@ -98,12 +97,12 @@ class BasePaymentProcessor
         //TODO - Need to check this
         $this->payment->amount = $this->amount;
         $this->payment->applied += $this->amount;
-        
-        if($this->gateway_fee > 0) {
+
+        if ($this->gateway_fee > 0) {
             $this->payment->amount += $this->gateway_fee;
             $this->payment->applied += $this->gateway_fee;
+            $this->amount += $this->gateway_fee;
         }
-
         //$this->payment->save();
     }
 
@@ -116,12 +115,17 @@ class BasePaymentProcessor
             return true;
         }
 
-        $amount = $this->amount == 0 ? $this->data['amount'] : $this->amount;
+        $amount = $this->amount == 0 ? ($this->data['amount'] + $this->gateway_fee) : $this->amount;
         $customer = $this->payment->customer;
 
         $customer->increasePaidToDateAmount($amount);
-        //$payment->customer->increaseBalance($payment->amount);
+        $customer->reduceBalance($this->amount);
         $customer->save();
+
+        $this->payment->transaction_service()->createTransaction(
+            $this->amount * -1,
+            $customer->balance
+        );
 
         return $this;
     }

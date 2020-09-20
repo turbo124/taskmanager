@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Services\Invoice;
+namespace App\Helpers\Payment\Invoice;
 
+use App\Events\Invoice\InvoiceWasPaid;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Repositories\InvoiceRepository;
 
 /**
- * Class MakeInvoicePayment
+ * Class RecalculateInvoice
  * @package App\Services\Invoice
  */
-class MakeInvoicePayment
+class RecalculateInvoice
 {
 
     /**
@@ -32,12 +34,9 @@ class MakeInvoicePayment
 
     public function execute()
     {
-        $this->updateCustomer();
-
-        $this->payment->transaction_service()->createTransaction(
-            $this->payment_amount * -1,
-            $this->payment->customer->balance
-        );
+        if (!empty($this->invoice->gateway_fee)) {
+            $this->payment_amount += $this->invoice->gateway_fee;
+        }
 
         $this->updateInvoiceTotal();
 
@@ -53,16 +52,6 @@ class MakeInvoicePayment
         $this->updateInvoice();
 
         return $this->invoice;
-    }
-
-    /**
-     * @return bool
-     */
-    private function updateCustomer(): bool
-    {
-        $this->payment->customer->reduceBalance($this->payment_amount);
-        $this->payment->customer->save();
-        return true;
     }
 
     /**
@@ -83,11 +72,14 @@ class MakeInvoicePayment
     {
         if ($partial) {
             $this->resetPartialInvoice();
-            $this->setDueDate();
+            $this->invoice->setDueDate();
         }
 
-        $this->updateBalance($this->payment_amount);
-        $this->setStatus();
+        $this->invoice->reduceBalance($this->payment_amount);
+
+        $status = $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID;
+        $this->invoice->setStatus($status);
+
         $this->save();
 
         return $this->invoice;
@@ -112,25 +104,12 @@ class MakeInvoicePayment
         return true;
     }
 
-    private function setDueDate()
-    {
-        $this->invoice->setDueDate();
-    }
-
-    private function updateBalance(float $amount)
-    {
-        $this->invoice->reduceBalance($amount);
-    }
-
-    private function setStatus()
-    {
-        $this->invoice->setStatus(
-            $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID
-        );
-    }
-
     private function save()
     {
         $this->invoice->save();
+
+        event(new InvoiceWasPaid($this->invoice));
+
+        $this->invoice->service()->sendPaymentEmail(new InvoiceRepository($this->invoice));
     }
 }
