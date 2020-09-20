@@ -73,7 +73,7 @@ class BasePaymentProcessor
 
     protected function setGatewayFee(float $gateway_fee)
     {
-        $this.gateway_fee = $gateway_fee;
+        $this.gateway_fee += $gateway_fee;
     }
 
     protected function save(): ?Payment
