@@ -71,14 +71,9 @@ class BasePaymentProcessor
         return $this;
     }
 
-    protected function applyGatewayFee()
-    {
-
-    }
-
     protected function setGatewayFee(float $gateway_fee)
     {
-        this.gateway_fee = $gateway_fee;
+        $this.gateway_fee = $gateway_fee;
     }
 
     protected function save(): ?Payment
@@ -103,6 +98,12 @@ class BasePaymentProcessor
         //TODO - Need to check this
         $this->payment->amount = $this->amount;
         $this->payment->applied += $this->amount;
+        
+        if($this->gateway_fee > 0) {
+            $this->payment->amount += $this->gateway_fee;
+            $this->payment->applied += $this->gateway_fee;
+        }
+
         //$this->payment->save();
     }
 
