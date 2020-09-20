@@ -1,13 +1,11 @@
 import React from 'react'
-import { Col, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap'
 import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 import { translations } from '../../utils/_translations'
 
 const InvoiceLineInputs = (props) => {
     return (
         props.lines.map((val, idx) => {
-            const amount = props.invoices && props.invoices.length === 1 && props.invoices[0].paymentables.length === 1 && props.lines[idx].amount === 0 ? props.invoices[0].paymentables[0].amount : props.lines[idx].amount
-
             return (
                 <div key={idx}>
                     <Row form>
@@ -34,7 +32,7 @@ const InvoiceLineInputs = (props) => {
                                     data-invoice={props.invoices.length === 1 ? props.invoices[0].id : 'test'}
                                     data-id={idx}
                                     onChange={props.onChange}
-                                    value={amount}
+                                    value={props.lines[idx].amount}
                                     autoFocus={(props.invoices && props.invoices.length === 1) || idx === 0}
                                     name="amount"
                                 />
@@ -42,16 +40,12 @@ const InvoiceLineInputs = (props) => {
                         </Col>
                     </Row>
 
-                    {/* {props.invoices.length > 1 && */}
-                    {/*    <React.Fragment> */}
-                    {/*        <Button color="danger" onClick={() => props.removeLine(idx)}> */}
-                    {/*            {translations.remove} */}
-                    {/*        </Button> */}
-                    {/*        <Button color="primary" onClick={() => props.addLine(idx)}> */}
-                    {/*            {translations.add} */}
-                    {/*        </Button> */}
-                    {/*    </React.Fragment> */}
-                    {/* } */}
+                    {idx !== 0 &&
+                    <Button className="btn-sm" color="danger" onClick={() => props.removeLine(idx)}>
+                        {translations.remove}
+                    </Button>
+                    }
+
                 </div>
             )
         })

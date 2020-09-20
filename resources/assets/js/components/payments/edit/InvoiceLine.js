@@ -15,8 +15,16 @@ export default class InvoiceLine extends Component {
             this.getInvoices()
         }
 
+        let amount = 0
+
+        if (this.props.refund && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
+            this.props.allInvoices[0].paymentables.forEach(function (paymentable) {
+                amount += paymentable.amount
+            })
+        }
+
         this.state = {
-            lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: 0 }],
+            lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: amount }],
             credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{
                 credit_id: null,
                 amount: 0
@@ -99,8 +107,7 @@ export default class InvoiceLine extends Component {
             }
 
             if ((refunded_amount + invoice_total) > invoice.total) {
-                const amount_remaining = invoice.total - refunded_amount
-                invoice_total = amount_remaining
+                invoice_total = invoice.total - refunded_amount
                 manual_update = true
             }
 
@@ -154,8 +161,7 @@ export default class InvoiceLine extends Component {
             }
 
             if ((refunded_amount + credit_total) > credit.total) {
-                const amount_remaining = credit.total - refunded_amount
-                credit_total = amount_remaining
+                credit_total = credit.total - refunded_amount
                 manual_update = true
             }
 
@@ -190,12 +196,12 @@ export default class InvoiceLine extends Component {
             lines: lines,
             credit_lines: credit_lines
         }, () => {
-            if (is_invoice === true && lines.length < this.props.allInvoices.length) {
+            if (name === 'invoice_id' && is_invoice === true) {
                 this.props.onChange(this.state.lines)
                 this.addLine()
             }
 
-            if (is_credit === true) {
+            if (name === 'credit_id' && is_credit === true) {
                 this.props.onCreditChange(this.state.credit_lines)
                 this.addCredit()
             }
@@ -224,9 +230,9 @@ export default class InvoiceLine extends Component {
     addCredit (e) {
         const allowedCredits = this.paymentModel.getCreditsByStatus(2)
 
-        // if (this.state.lines.length >= allowedCredits.length || this.props.invoice_id) {
-        //     return
-        // }
+        if (this.state.credit_lines.length >= allowedCredits.length) {
+            return
+        }
 
         this.setState((prevState) => ({
             credit_lines: [...prevState.credit_lines, { credit_id: null, amount: 0 }]
@@ -270,6 +276,8 @@ export default class InvoiceLine extends Component {
         if (this.props.invoice_id) {
             this.allowed_invoices.push(this.props.invoice_id)
         }
+
+        console.log('test', this.paymentModel.paymentable_invoices)
 
         return (
             <form>

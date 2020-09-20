@@ -22,10 +22,15 @@ import DefaultModalFooter from '../../common/ModalFooter'
 class Refund extends React.Component {
     constructor (props) {
         super(props)
+
+        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(this.account_id))
+        this.settings = user_account[0].account.settings
+
         this.state = {
             modal: false,
             loading: false,
-            send_email: false,
+            send_email: this.settings.should_send_email_for_manual_payment || false,
             errors: [],
             amount: this.props.payment.amount,
             date: this.props.payment.date,
@@ -196,7 +201,7 @@ class Refund extends React.Component {
                 <CardBody>
                     <FormGroup check>
                         <Label check>
-                            <Input value={this.state.send_email} onChange={this.handleCheck}
+                            <Input checked={this.state.send_email} onChange={this.handleCheck}
                                 type="checkbox"/>
                             {translations.send_email}
                         </Label>

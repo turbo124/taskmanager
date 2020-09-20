@@ -92,14 +92,6 @@ export default class Details extends React.Component {
                     {this.renderErrorFor('customer_id')}
                 </FormGroup>
             }
-
-            <FormGroup check>
-                <Label check>
-                    <Input value={this.props.payment.send_email} onChange={this.props.handleCheck}
-                        type="checkbox"/>
-                    {translations.send_email}
-                </Label>
-            </FormGroup>
         </React.Fragment>
         )
     }

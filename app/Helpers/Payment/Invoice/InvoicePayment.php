@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Helpers\Payment;
+namespace App\Helpers\Payment\Invoice;
 
+use App\Helpers\Payment\BasePaymentProcessor;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
@@ -41,14 +42,14 @@ class InvoicePayment extends BasePaymentProcessor
             $amount = $payment_invoices[$invoice->id]['amount'];
 
             if ($invoice->gateway_fee > 0) {
-                $amount += $invoice->gateway_fee;
+                $this->setGatewayFee($invoice->gateway_fee);
             }
 
             $this->payment->attachInvoice($invoice, $amount);
 
             $this->increasePaymentAmount($amount);
 
-            $invoice->service()->makeInvoicePayment($this->payment->fresh(), $amount);
+            (new RecalculateInvoice($invoice, $this->payment, $amount))->execute();
         }
 
         $this->reduceCreditedAmount($objCreditPayment);
