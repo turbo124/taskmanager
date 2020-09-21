@@ -1,5 +1,8 @@
 const _localizedValues = []
 _localizedValues.en = {
+    payment_term: 'Payment Term',
+    cycles_remaining: 'Cycles Remaining',
+    paused: 'Paused',
     auto_billing_enabled: 'Autobilling Enabled',
     auto_billing_enabled_help_text: 'Should autimatically bill customer',
     grace_period: 'Grace Period',

@@ -23,14 +23,11 @@ class RecurringInvoice extends Model
     use Balancer;
     use Money;
 
-    /**
-     * Invoice Statuses
-     */
-    const STATUS_DRAFT = 2;
+    const STATUS_DRAFT = 1;
+    const STATUS_PENDING = 2;
     const STATUS_ACTIVE = 3;
-    const STATUS_CANCELLED = 4;
-    const STATUS_PENDING = -1;
-    const STATUS_COMPLETED = -2;
+    const STATUS_PAUSED = 4;
+    const STATUS_COMPLETED = 5;
     protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $fillable = [
         'status_id',

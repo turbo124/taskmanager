@@ -50,6 +50,7 @@ class SendRecurringQuote implements ShouldQueue
     {
         $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', Carbon::today())
                                           ->whereDate('date', '!=', Carbon::today())
+                                          ->where('status_id', '=', RecurringQuote::STATUS_ACTIVE)
                                           ->whereDate('start_date', '<=', Carbon::today())
                                           ->where(
                                               function ($query) {

@@ -155,7 +155,7 @@ class InvoiceTest extends TestCase
         $user = factory(User::class)->create();
         $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);
 
-        $total = $this->faker->randomFloat();
+        $total = 1200;
 
         $data = [
             'date'           => Carbon::now()->format('Y-m-d'),
@@ -175,6 +175,15 @@ class InvoiceTest extends TestCase
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals($data['customer_id'], $invoice->customer_id);
         $this->assertNotEmpty($invoice->invitations);
+
+        $customer_balance = $invoice->customer->balance;
+
+        $invoiceRepo->markSent($invoice);
+        $this->assertCount(1, $invoice->transactions);
+        $transaction = $invoice->transactions->first();
+        $this->assertEquals($invoice->total, $transaction->amount);
+        $this->assertEquals($customer_balance + $invoice->total, $transaction->updated_balance);
+        $this->assertEquals($invoice->total, $invoice->balance);
     }
 
     public function test_it_can_create_a_recurring_invoice()
