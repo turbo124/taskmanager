@@ -56,16 +56,16 @@ export const consts = {
     purchase_order_status_sent: 2,
     purchase_order_status_approved: 4,
     quote_status_expired_text: 'Expired',
-    recurring_invoice_status_draft: 2,
+    recurring_invoice_status_draft: 1,
+    recurring_invoice_status_pending: 2,
     recurring_invoice_status_active: 3,
-    recurring_invoice_status_cancelled: 4,
-    recurring_invoice_status_pending: -1,
-    recurring_invoice_status_completed: -2,
-    recurring_quote_status_draft: 2,
+    recurring_invoice_status_paused: 4,
+    recurring_invoice_status_completed: 5,
+    recurring_quote_status_draft: 1,
+    recurring_quote_status_pending: 2,
     recurring_quote_status_active: 3,
-    recurring_quote_status_cancelled: 4,
-    recurring_quote_status_pending: -1,
-    recurring_quote_status_completed: -2,
+    recurring_quote_status_paused: 4,
+    recurring_quote_status_completed: 5,
     quote_status_draft_text: 'Draft',
     quote_status_sent_text: 'Sent',
     quote_status_approved_text: 'Approved',
@@ -270,33 +270,33 @@ export const expenseStatusColors = {
 
 export const recurringInvoiceStatuses = {
     [consts.recurring_invoice_status_draft]: translations.draft,
-    [consts.recurring_invoice_status_active]: translations.active,
-    [consts.recurring_invoice_status_cancelled]: translations.cancelled,
     [consts.recurring_invoice_status_pending]: translations.pending,
+    [consts.recurring_invoice_status_active]: translations.active,
+    [consts.recurring_invoice_status_paused]: translations.paused,
     [consts.recurring_invoice_status_completed]: translations.complete
 }
 
 export const recurringInvoiceStatusColors = {
     [consts.recurring_invoice_status_draft]: 'secondary',
+    [consts.recurring_invoice_status_pending]: 'secondary',
     [consts.recurring_invoice_status_active]: 'primary',
-    [consts.recurring_invoice_status_cancelled]: 'danger',
-    [consts.recurring_invoice_status_pending]: 'primary',
+    [consts.recurring_invoice_status_paused]: 'warning',
     [consts.recurring_invoice_status_completed]: 'success'
 }
 
 export const recurringQuoteStatuses = {
     [consts.recurring_invoice_status_draft]: translations.draft,
-    [consts.recurring_invoice_status_active]: translations.active,
-    [consts.recurring_invoice_status_cancelled]: translations.cancelled,
     [consts.recurring_invoice_status_pending]: translations.pending,
+    [consts.recurring_invoice_status_active]: translations.active,
+    [consts.recurring_invoice_status_paused]: translations.paused,
     [consts.recurring_invoice_status_completed]: translations.complete
 }
 
 export const recurringQuoteStatusColors = {
     [consts.recurring_quote_status_draft]: 'secondary',
+    [consts.recurring_quote_status_pending]: 'secondary',
     [consts.recurring_quote_status_active]: 'primary',
-    [consts.recurring_quote_status_cancelled]: 'danger',
-    [consts.recurring_quote_status_pending]: 'primary',
+    [consts.recurring_quote_status_paused]: 'warning',
     [consts.recurring_quote_status_completed]: 'success'
 }
 

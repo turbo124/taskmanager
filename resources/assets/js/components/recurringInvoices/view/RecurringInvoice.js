@@ -119,6 +119,20 @@ export default class RecurringInvoice extends Component {
                 amount={this.props.entity.discount_total}/>
         }
 
+        if (this.props.entity.frequency && this.props.entity.frequency.toString().length) {
+            fields.frequency = this.props.entity.frequency
+        }
+
+        if (this.props.entity.next_send_date && this.props.entity.next_send_date.length) {
+            fields.next_send_date = this.props.entity.next_send_date
+        }
+
+        if (this.props.entity.cycles_remaining && this.props.entity.cycles_remaining.length) {
+            fields.cycles_remaining = parseInt(this.props.entity.cycles_remaining) === 9000 ? translations.frequency_endless : this.props.entity.cycles_remaining
+        }
+
+        fields.due_date = this.props.entity.grace_period.toString().length ? this.props.entity.grace_period : translations.payment_term
+
         return (
             <React.Fragment>
 
