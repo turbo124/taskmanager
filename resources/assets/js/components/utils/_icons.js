@@ -73,7 +73,9 @@ export const icons = {
     image_file: 'fa-file-image-o',
     desktop: 'fa-desktop',
     info: 'fa-info-circle',
-    industry: 'fa-industry'
+    industry: 'fa-industry',
+    start: 'fa-play',
+    stop: 'fa-stop'
 }
 
 export function getEntityIcon (entity) {

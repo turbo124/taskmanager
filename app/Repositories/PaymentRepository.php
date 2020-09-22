@@ -6,6 +6,7 @@ use App\Events\Payment\PaymentWasCreated;
 use App\Filters\PaymentFilter;
 use App\Helpers\Currency\CurrencyConverter;
 use App\Models\Account;
+use App\Models\Credit;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Paymentable;
@@ -113,25 +114,5 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         }
 
         return $payment;
-    }
-
-    public function reversePaymentsForInvoice(Invoice $invoice)
-    {
-        $total_paid = $invoice->total - $invoice->balance;
-
-        $paymentables = Paymentable::wherePaymentableType(Invoice::class)
-                                   ->wherePaymentableId($invoice->id)
-                                   ->get();
-
-        foreach ($paymentables as $paymentable) {
-            $reversable_amount = $paymentable->amount - $paymentable->refunded;
-
-            $total_paid -= $reversable_amount;
-
-            $paymentable->amount = $paymentable->refunded;
-            $paymentable->save();
-        }
-
-        return $total_paid;
     }
 }

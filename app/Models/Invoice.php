@@ -226,12 +226,39 @@ class Invoice extends Model
         return true;
     }
 
+    /************** Paymentables **************************/
+
+    public function paymentables()
+    {
+        $paymentables = Paymentable::wherePaymentableType(self::class)
+                                   ->wherePaymentableId($this->id);
+
+        return $paymentables;
+    }
+
+    public function reversePaymentsForInvoice()
+    {
+        $total_paid = $this->total - $this->balance;
+
+        foreach ($this->paymentables() as $paymentable) {
+            $reversable_amount = $paymentable->amount - $paymentable->refunded;
+
+            $total_paid -= $reversable_amount;
+
+            $paymentable->amount = $paymentable->refunded;
+            $paymentable->save();
+        }
+
+        return $total_paid;
+    }
+
+    /********************** Getters and setters ************************************/
+
     public function setStatus(int $status)
     {
         $this->status_id = $status;
     }
 
-    /********************** Getters and setters ************************************/
     public function setUser(User $user)
     {
         $this->user_id = (int)$user->id;

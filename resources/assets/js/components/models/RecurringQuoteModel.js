@@ -136,12 +136,32 @@ export default class RecurringQuoteModel extends BaseModel {
         return this._url
     }
 
-    get isApproved () {
-        return parseInt(this.fields.status_id) === this.approved
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_draft
     }
 
-    get isSent () {
-        return parseInt(this.fields.status_id) === this.sent
+    get isPaused () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_paused
+    }
+
+    get isPending () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_pending
+    }
+
+    get isActive () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_active
+    }
+
+    get isCompleted () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_completed
+    }
+
+    get isDeleted () {
+        return this.fields.deleted_at && this.fields.deleted_at.length > 0
+    }
+
+    get isEditable () {
+        return !this.isCompleted
     }
 
     get fileCount () {
@@ -179,9 +199,13 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('email')
         }
 
-        // if (!this.isSent) {
-        //     actions.push('markSent')
-        // }
+        if (this.isDraft || this.isPaused) {
+            actions.push('start_recurring')
+        }
+
+        if (this.isPending || this.isActive) {
+            actions.push('stop_recurring')
+        }
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -191,23 +215,7 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('archive')
         }
 
-        // if (!this.isApproved) {
-        //     actions.push('approve')
-        // }
-        //
-        // actions.push('cloneToQuote')
-        //
-        // if (this.isModuleEnabled('orders')) {
-        //     actions.push('clone_to_order')
-        // }
-        //
-        // if (this.isModuleEnabled('credits')) {
-        //     actions.push('cloneToCredit')
-        // }
-        //
-        // if (this.isModuleEnabled('invoices')) {
-        //     actions.push('cloneQuoteToInvoice')
-        // }
+        actions.push('cloneRecurringToQuote')
 
         return actions
     }

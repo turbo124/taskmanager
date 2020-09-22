@@ -62,13 +62,13 @@ class ReverseInvoicePayment
 
         $this->setBalance();
 
-        $total_paid = $this->payment_repo->reversePaymentsForInvoice($this->invoice);
-
         $this->setNote();
 
+        $total_paid = $this->invoice->reversePaymentsForInvoice();
+
+        // create Credit note
         if ($total_paid > 0) {
-            // create Credit note
-            $this->createCreditNote($total_paid);
+            $credit_note = $this->createCreditNote($total_paid);
         }
 
         // update customer
@@ -109,6 +109,15 @@ class ReverseInvoicePayment
         $credit = $this->credit_repo->save(['line_items' => $line_items], $credit);
 
         $this->credit_repo->markSent($credit);
+
+        if ($this->invoice->payments()->count() > 0) {
+            $payment = $this->invoice->payments->first();
+
+            $payment->attachCredit($credit, $credit->total);
+            $credit->reversePaymentsForCredit($total_paid);
+        }
+
+        return $credit;
     }
 
     /**

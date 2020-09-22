@@ -98,6 +98,16 @@ export default class DropdownMenuBuilder extends Component {
                 message = `${translations.task} ${response.number} ${translations.has_been_created}`
             }
 
+            if (action === 'start_recurring') {
+                const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
+                message = `${recurring_text} ${response.number} ${translations.has_started}`
+            }
+
+            if (action === 'stop_recurring') {
+                const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
+                message = `${recurring_text} ${response.number} ${translations.has_stopped}`
+            }
+
             if (action === 'clone_to_lead') {
                 message = `${translations.lead} ${response.number} ${translations.has_been_created}`
             }
@@ -420,6 +430,18 @@ export default class DropdownMenuBuilder extends Component {
                     onClick={() => this.changeStatus('merge_case')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.merge_case}
                 </DropdownItem>
+
+            case 'start_recurring':
+                return <DropdownItem key={13} className="primary"
+                    onClick={() => this.changeStatus('start_recurring')}>
+                    <i className={`fa ${icons.start} mr-2`}/>{translations.start}
+                </DropdownItem>
+
+            case 'stop_recurring':
+                return <DropdownItem key={13} className="primary"
+                    onClick={() => this.changeStatus('stop_recurring')}>
+                    <i className={`fa ${icons.stop} mr-2`}/>{translations.stop}
+                </DropdownItem>
         }
     }
 
@@ -441,7 +463,7 @@ export default class DropdownMenuBuilder extends Component {
             <React.Fragment>
                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
                     <DropdownToggle caret>
-                        Actions
+                        {translations.action}
                     </DropdownToggle>
 
                     <DropdownMenu className="text-white">

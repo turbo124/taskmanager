@@ -128,15 +128,24 @@ export default class RecurringQuote extends Component {
             fields.frequency = this.props.entity.frequency
         }
 
+        if (this.props.entity.start_date && this.props.entity.start_date.length) {
+            fields.start_date = <FormatDate date={this.props.entity.start_date} />
+        }
+
+        if (this.props.entity.end_date && this.props.entity.end_date.length) {
+            fields.end_date = <FormatDate date={this.props.entity.end_date} />
+        }
+
         if (this.props.entity.next_send_date && this.props.entity.next_send_date.length) {
-            fields.next_send_date = this.props.entity.next_send_date
+            fields.next_send_date = <FormatDate date={this.props.entity.next_send_date} />
         }
 
         if (this.props.entity.cycles_remaining && this.props.entity.cycles_remaining.length) {
             fields.cycles_remaining = parseInt(this.props.entity.cycles_remaining) === 9000 ? translations.frequency_endless : this.props.entity.cycles_remaining
         }
 
-        fields.due_date = this.props.entity.grace_period.toString().length ? this.props.entity.grace_period : translations.payment_term
+        fields.grace_period = this.props.entity.grace_period > 0 ? this.props.entity.grace_period : translations.payment_term
+        fields.auto_billing_enabled = this.props.entity.auto_billing_enabled === true ? translations.yes : translations.no
 
         return (
             <React.Fragment>

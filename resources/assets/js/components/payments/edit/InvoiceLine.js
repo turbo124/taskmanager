@@ -15,13 +15,13 @@ export default class InvoiceLine extends Component {
             this.getInvoices()
         }
 
-        let amount = 0
+        const amount = 0
 
-        if (this.props.refund && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
-            this.props.allInvoices[0].paymentables.forEach(function (paymentable) {
-                amount += paymentable.amount
-            })
-        }
+        // if (this.props.refund && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
+        //     this.props.allInvoices[0].paymentables.forEach(function (paymentable) {
+        //         amount += paymentable.amount
+        //     })
+        // }
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: amount }],
@@ -196,13 +196,13 @@ export default class InvoiceLine extends Component {
             lines: lines,
             credit_lines: credit_lines
         }, () => {
+            this.props.onChange(this.state.lines)
             if (name === 'invoice_id' && is_invoice === true) {
-                this.props.onChange(this.state.lines)
                 this.addLine()
             }
 
+            this.props.onCreditChange(this.state.credit_lines)
             if (name === 'credit_id' && is_credit === true) {
-                this.props.onCreditChange(this.state.credit_lines)
                 this.addCredit()
             }
 

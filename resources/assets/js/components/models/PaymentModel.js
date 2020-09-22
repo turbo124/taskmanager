@@ -26,6 +26,7 @@ export default class PaymentModel extends BaseModel {
             is_deleted: false,
             assigned_to: '',
             customer_id: '',
+            company_gateway_id: null,
             account_id: null,
             status_id: null,
             invoice_id: null,
@@ -129,6 +130,10 @@ export default class PaymentModel extends BaseModel {
 
     get isCompleted () {
         return this.fields.status_id === this.completed
+    }
+
+    get isOnline () {
+        return this.fields.company_gateway_id && this.fields.company_gateway_id.toString().length
     }
 
     buildPaymentables () {

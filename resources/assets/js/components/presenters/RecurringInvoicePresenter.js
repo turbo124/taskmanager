@@ -22,10 +22,17 @@ export default function RecurringInvoicePresenter (props) {
         case 'date':
         case 'due_date':
         case 'start_date':
+        case 'last_sent_date':
+        case 'next_send_date':
         case 'end_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }
+
+        case 'auto_billing_enabled':
+            return <td onClick={() => this.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{entity[field] === true ? translations.yes : translations.no}</td>
+
         case 'status_field':
             return status
         case 'status_id':

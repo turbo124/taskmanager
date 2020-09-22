@@ -68,7 +68,7 @@ export default class InvoiceDropdown extends Component {
             this.count = invoices.length
 
             invoiceList = invoices.map((invoice, index) => (
-                <option key={index} value={invoice.id}>{invoice.number} ({invoice.balance})</option>
+                <option key={index} value={invoice.id}>{invoice.number} ({invoice.total})</option>
             ))
         }
 
