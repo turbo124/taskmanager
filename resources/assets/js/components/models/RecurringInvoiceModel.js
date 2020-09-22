@@ -136,28 +136,24 @@ export default class RecurringInvoiceModel extends BaseModel {
         return this._fields
     }
 
-    get isApproved () {
-        return parseInt(this.fields.status_id) === this.approved
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_draft
     }
 
-    get isReversed () {
-        return parseInt(this.fields.status_id) === this.reversed
+    get isPaused () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_paused
     }
 
-    get isCancelled () {
-        return parseInt(this.fields.status_id) === this.cancelled
+    get isPending () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_pending
     }
 
-    get isPaid () {
-        return parseInt(this.fields.status_id) === this.paid
+    get isActive () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_active
     }
 
-    get isSent () {
-        return parseInt(this.fields.status_id) === this.sent
-    }
-
-    get isPartial () {
-        return parseInt(this.fields.status_id) === this.partial
+    get isCompleted () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_completed
     }
 
     get isDeleted () {
@@ -165,7 +161,7 @@ export default class RecurringInvoiceModel extends BaseModel {
     }
 
     get isEditable () {
-        return !this.isReversed && !this.isCancelled && !this.isDeleted
+        return !this.isCompleted
     }
 
     get fileCount () {
@@ -229,21 +225,13 @@ export default class RecurringInvoiceModel extends BaseModel {
             actions.push('email')
         }
 
-        // if (!this.isPaid) {
-        //     actions.push('newPayment')
-        // }
-        //
-        // if (!this.isSent && this.isEditable) {
-        //     actions.push('markSent')
-        // }
-        //
-        // if (this.isCancelled || this.isReversed) {
-        //     actions.push('reverse_status')
-        // }
-        //
-        // if ((this.isSent || this.isPartial) && !this.isPaid && this.isEditable) {
-        //     actions.push('markPaid')
-        // }
+        if (this.isDraft || this.isPaused) {
+            actions.push('start_recurring')
+        }
+
+        if (this.isPending || this.isActive) {
+            actions.push('stop_recurring')
+        }
 
         if (!this.fields.is_deleted) {
             actions.push('delete')
@@ -254,30 +242,6 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
 
         actions.push('cloneRecurringToInvoice')
-
-        // if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
-        //     actions.push('cancel')
-        // }
-
-        // if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {
-        //     actions.push('reverse')
-        // }
-
-        // if (this.fields.task_id && this.fields.task_id !== '' && this.isEditable) {
-        //     actions.push('getProducts')
-        // }
-        //
-        // if (this.isEditable) {
-        //     actions.push('cloneToInvoice')
-        // }
-        //
-        // if (this.isModuleEnabled('quotes') && this.isEditable) {
-        //     actions.push('cloneInvoiceToQuote')
-        // }
-        //
-        // if (this.isModuleEnabled('credits') && this.isEditable) {
-        //     actions.push('cloneToCredit')
-        // }
 
         return actions
     }

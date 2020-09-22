@@ -22,6 +22,8 @@ export default function RecurringQuotePresenter (props) {
         case 'date':
         case 'due_date':
         case 'start_date':
+        case 'last_sent_date':
+        case 'next_send_date':
         case 'end_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
@@ -32,6 +34,10 @@ export default function RecurringQuotePresenter (props) {
         case 'status_id':
             return <td onClick={() => this.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
+
+        case 'auto_billing_enabled':
+            return <td onClick={() => this.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{entity[field] === true ? translations.yes : translations.no}</td>
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])

@@ -7,11 +7,14 @@ namespace App\Helpers\Refund;
 use App\Models\CompanyGateway;
 use App\Models\Payment;
 use App\Repositories\CreditRepository;
+use Omnipay\Omnipay;
 use Stripe\StripeClient;
 
 class GatewayRefund extends BaseRefund
 {
-    const AUTHORIZE_ID = 6;
+    const AUTHORIZE_ID = '8ab2dce2';
+    const STRIPE_ID = '13bb8d58';
+    const PAYPAL_ID = '64bcbdce';
 
     /**
      * GatewayRefund constructor.
@@ -41,14 +44,22 @@ class GatewayRefund extends BaseRefund
             return false;
         }
 
-        if ($company_gateway->id === self::AUTHORIZE_ID) {
+        if ($company_gateway->gateway->key === self::AUTHORIZE_ID) {
             return (new AuthorizeRefund($this->payment, $company_gateway, $this->data))->build();
         }
 
-        return $this->doRefund($company_gateway);
+        if ($company_gateway->gateway->key === self::STRIPE_ID) {
+            return $this->doStripeRefund($company_gateway);
+        }
+
+        if ($company_gateway->gateway->key === self::PAYPAL_ID) {
+            return $this->doPaypalRefund($company_gateway);
+        }
+
+        return false;
     }
 
-    private function doRefund(CompanyGateway $company_gateway)
+    private function doStripeRefund(CompanyGateway $company_gateway)
     {
         //https://stripe.com/docs/api/refunds/object
 
@@ -71,4 +82,28 @@ class GatewayRefund extends BaseRefund
 
         return false;
     }
+
+    private function doPaypalRefund(CompanyGateway $company_gateway)
+    {
+        $gateway = Omnipay::create($company_gateway->gateway->provider);
+
+        $gateway->initialize((array)$company_gateway->config);
+
+        $response = $gateway
+            ->refund(
+                [
+                    'transactionReference' => $this->payment->transaction_reference,
+                    'amount'               => $this->data['amount'] ?? $this->payment->amount,
+                    'currency'             => $this->payment->customer->currency->code
+                ]
+            )
+            ->send();
+
+        if ($response->isSuccessful()) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

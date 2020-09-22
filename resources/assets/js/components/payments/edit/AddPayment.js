@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, CardBody, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
+import { Button, Card, CardBody, CustomInput, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
 import InvoiceLine from './InvoiceLine'
 import AddButtons from '../../common/AddButtons'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
@@ -10,6 +10,7 @@ import { translations } from '../../utils/_translations'
 import Documents from './Documents'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import { icons } from '../../utils/_icons'
 
 class AddPayment extends React.Component {
     constructor (props) {
@@ -45,7 +46,7 @@ class AddPayment extends React.Component {
     }
 
     handleCheck () {
-        this.setState({ send_email: !this.state.checked }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
+        this.setState({ send_email: !this.state.send_email }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
     }
 
     setAmount (amount) {
@@ -145,13 +146,26 @@ class AddPayment extends React.Component {
                         onChange={this.setInvoices}
                         onCreditChange={this.setCredits}/>
 
-                    <FormGroup check>
-                        <Label check>
-                            <Input checked={this.state.send_email} onChange={this.handleCheck}
-                                type="checkbox"/>
-                            {translations.send_email}
-                        </Label>
-                    </FormGroup>
+                    <a href="#"
+                        className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">
+                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                {translations.send_email}
+                            </h5>
+                            <CustomInput
+                                checked={this.state.send_email}
+                                type="switch"
+                                id="send_email"
+                                name="send_email"
+                                label=""
+                                onChange={this.handleCheck}/>
+                        </div>
+
+                        <h6 id="passwordHelpBlock" className="form-text text-muted">
+                            {translations.email_receipt}
+                        </h6>
+                    </a>
 
                     {!!this.props.custom_fields &&
                     <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}

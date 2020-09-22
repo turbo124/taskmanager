@@ -148,6 +148,24 @@ class Credit extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
+    /************* Paymentables ******************************/
+    public function paymentables()
+    {
+        $paymentables = Paymentable::wherePaymentableType(self::class)
+                                   ->wherePaymentableId($this->id);
+
+        return $paymentables;
+    }
+
+    public function reversePaymentsForCredit($total_paid): ?bool
+    {
+        $paymentable = $this->paymentables()->first();
+        $paymentable->amount = $total_paid;
+        $paymentable->save();
+
+        return true;
+    }
+
     /********************** Getters and setters ************************************/
 
     public function setDueDate()

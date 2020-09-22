@@ -1,9 +1,8 @@
 import React from 'react'
 import {
     Card,
-    CardBody,
+    CardBody, CustomInput,
     DropdownItem,
-    FormGroup,
     Input,
     InputGroup,
     InputGroupAddon,
@@ -18,6 +17,7 @@ import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import PaymentModel from '../../models/PaymentModel'
 
 class Refund extends React.Component {
     constructor (props) {
@@ -27,10 +27,13 @@ class Refund extends React.Component {
         const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(this.account_id))
         this.settings = user_account[0].account.settings
 
+        this.model = new PaymentModel(null, this.props.payment)
+
         this.state = {
             modal: false,
             loading: false,
             send_email: this.settings.should_send_email_for_manual_payment || false,
+            refund_gateway: false,
             errors: [],
             amount: this.props.payment.amount,
             date: this.props.payment.date,
@@ -59,8 +62,9 @@ class Refund extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleCheck () {
-        this.setState({ send_email: !this.state.checked })
+    handleCheck (e) {
+        const name = e.target.name
+        this.setState({ [name]: !this.state.checked })
     }
 
     setAmount (amount) {
@@ -112,6 +116,7 @@ class Refund extends React.Component {
             credits: credits,
             invoices: invoices,
             send_email: this.state.send_email,
+            refund_gateway: this.state.refund_gateway,
             date: this.state.date,
             id: this.props.payment.id
         })
@@ -199,13 +204,50 @@ class Refund extends React.Component {
 
             <Card>
                 <CardBody>
-                    <FormGroup check>
-                        <Label check>
-                            <Input checked={this.state.send_email} onChange={this.handleCheck}
-                                type="checkbox"/>
-                            {translations.send_email}
-                        </Label>
-                    </FormGroup>
+                    <a href="#"
+                        className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">
+                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                {translations.send_email}
+                            </h5>
+                            <CustomInput
+                                checked={this.state.send_email}
+                                type="switch"
+                                id="send_email"
+                                name="send_email"
+                                label=""
+                                onChange={this.handleCheck}/>
+                        </div>
+
+                        <h6 id="passwordHelpBlock" className="form-text text-muted">
+                            {translations.email_receipt}
+                        </h6>
+                    </a>
+
+                    {this.model.isOnline &&
+                    <a href="#"
+                        className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">
+                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                {translations.gateway_refund}
+                            </h5>
+                            <CustomInput
+                                checked={this.state.refund_gateway}
+                                type="switch"
+                                id="refund_gateway"
+                                name="refund_gateway"
+                                label=""
+                                onChange={this.handleCheck}/>
+                        </div>
+
+                        <h6 id="passwordHelpBlock" className="form-text text-muted">
+                            {translations.gateway_refund_help}
+                        </h6>
+                    </a>
+                    }
+
                 </CardBody>
             </Card>
         </React.Fragment>

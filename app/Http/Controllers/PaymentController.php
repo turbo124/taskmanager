@@ -155,6 +155,11 @@ class PaymentController extends Controller
      */
     public function refund(RefundPaymentRequest $request)
     {
+
+//        echo '<pre>';
+//        print_r($request->all());
+//        die;
+
         $payment = $request->payment();
 
         $payment = (new RefundFactory())->createRefund($payment, $request->all(), new CreditRepository(new Credit));
