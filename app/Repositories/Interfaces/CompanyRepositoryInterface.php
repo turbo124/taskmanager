@@ -14,12 +14,12 @@ interface CompanyRepositoryInterface extends BaseRepositoryInterface
      *
      * @param int $id
      */
-    public function findBrandById(int $id): Company;
+    public function findCompanyById(int $id): Company;
 
     /**
      *
      */
-    public function deleteBrand(): bool;
+    public function deleteCompany(): bool;
 
     /**
      *

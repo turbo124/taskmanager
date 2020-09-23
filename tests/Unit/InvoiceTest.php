@@ -375,6 +375,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals($invoice->customer->balance, $invoice->balance);
 
         $client_paid_to_date = $invoice->customer->paid_to_date;
+
         $client_balance = $invoice->customer->balance;
         $invoice_balance = $invoice->balance;
         $invoice_total = $invoice->total;
@@ -397,11 +398,12 @@ class InvoiceTest extends TestCase
         $payment = $invoice->payments->first();
 
         $this->assertEquals($invoice->customer->balance, $client_balance);
+
         $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date + $invoice_balance));
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals(Invoice::STATUS_PAID, $invoice->status_id);
 
-        $client_paid_to_date = $invoice->customer->paid_to_date;
+        //$client_paid_to_date = $invoice->customer->paid_to_date;
 
         $invoice = $invoice->service()->reverseInvoicePayment(
             new CreditRepository(new Credit),
@@ -414,7 +416,7 @@ class InvoiceTest extends TestCase
         $new_customer_balance = $client_balance - ($invoice_total - $invoice_balance);
 
         $this->assertEquals($new_customer_balance, $invoice->customer->balance);
-        $this->assertEquals($invoice->customer->paid_to_date, ($client_paid_to_date - ($payment->amount - $payment->refunded)));
+        $this->assertEquals($invoice->customer->paid_to_date, $client_paid_to_date);
     }
 
     /** @test */
@@ -534,6 +536,7 @@ class InvoiceTest extends TestCase
         // auto bill
         AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
         $invoice = $original_invoice->fresh();
+
         $this->assertEquals($line_item_count + 1, count($invoice->line_items));
         $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
 

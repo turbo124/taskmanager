@@ -37,7 +37,7 @@ class CompanyUnitTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_all_the_brands()
+    public function it_can_show_all_the_companies()
     {
         $insertedbrand = factory(Company::class)->create();
         $list = (new CompanyFilter(
@@ -51,7 +51,7 @@ class CompanyUnitTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_the_brand()
+    public function it_can_delete_the_company()
     {
         $brand = factory(Company::class)->create();
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
@@ -60,7 +60,7 @@ class CompanyUnitTest extends TestCase
     }
 
     /** @test */
-    public function it_can_archive_the_brand()
+    public function it_can_archive_the_company()
     {
         $brand = factory(Company::class)->create();
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
@@ -69,29 +69,29 @@ class CompanyUnitTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_the_brand()
+    public function it_can_update_the_company()
     {
         $brand = factory(Company::class)->create();
         $data = ['name' => $this->faker->company];
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
         $updated = $brandRepo->save($data, $brand);
-        $found = $brandRepo->findBrandById($brand->id);
+        $found = $brandRepo->findCompanyById($brand->id);
         $this->assertInstanceOf(Company::class, $updated);
         $this->assertEquals($data['name'], $found->name);
     }
 
     /** @test */
-    public function it_can_show_the_brand()
+    public function it_can_show_the_company()
     {
         $brand = factory(Company::class)->create();
         $brandRepo = new CompanyRepository(new Company, new CompanyContactRepository(new CompanyContact));
-        $found = $brandRepo->findBrandById($brand->id);
+        $found = $brandRepo->findCompanyById($brand->id);
         $this->assertInstanceOf(Company::class, $found);
         $this->assertEquals($brand->name, $found->name);
     }
 
     /** @test */
-    public function it_can_create_a_brand()
+    public function it_can_create_a_company()
     {
         $factory = (new CompanyFactory)->create($this->user, $this->account);
 

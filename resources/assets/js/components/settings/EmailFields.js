@@ -740,7 +740,7 @@ class EmailFields extends Component {
 
         return <React.Fragment>
             <FormGroup>
-                <Label>Template</Label>
+                <Label>{translations.template}</Label>
                 <Input type="select"
                     name="template_type"
                     onChange={this.props.handleChange}

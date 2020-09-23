@@ -180,7 +180,7 @@ class SendEmail implements ShouldQueue
             return false;
         }
 
-        $email = EmailFactory::create($user->id, $user->account_user()->account_id);
+        $email = EmailFactory::create($user->id, $this->entity->account_id);
 
         (new EmailRepository(new Email))->save(
             [

@@ -40,7 +40,7 @@ class RefundFactory
 
         $completed_payment = (new PaymentRefund($payment, $data, $credit_repo))->refund();
 
-        if ($data['refund_gateway']) {
+        if (!empty($data['refund_gateway'])) {
             $this->sendRefundToGateway($completed_payment, $data, $credit_repo);
         }
 

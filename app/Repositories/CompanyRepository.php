@@ -31,7 +31,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
      *
      * @return Brand
      */
-    public function findBrandById(int $id): Company
+    public function findCompanyById(int $id): Company
     {
         return $this->findOneOrFail($id);
     }
@@ -40,7 +40,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
      * @return bool
      * @throws Exception
      */
-    public function deleteBrand(): bool
+    public function deleteCompany(): bool
     {
         return $this->delete();
     }
