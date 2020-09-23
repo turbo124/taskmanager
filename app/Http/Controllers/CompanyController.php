@@ -87,7 +87,7 @@ class CompanyController extends Controller
      */
     public function show(int $id)
     {
-        $brand = $this->company_repo->findBrandById($id);
+        $brand = $this->company_repo->findCompanyById($id);
         return response()->json($this->transformCompany($brand));
     }
 
@@ -98,7 +98,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, $id)
     {
-        $company = $this->company_repo->findBrandById($id);
+        $company = $this->company_repo->findCompanyById($id);
 
         $this->company_repo->save($request->all(), $company);
 
@@ -143,10 +143,10 @@ class CompanyController extends Controller
      */
     public function archive(int $id)
     {
-        $brand = $this->company_repo->findBrandById($id);
+        $brand = $this->company_repo->findCompanyById($id);
         $brandRepo = new CompanyRepository($brand);
         //$brandRepo->dissociateProducts();
-        $brandRepo->deleteBrand();
+        $brandRepo->deleteCompany();
     }
 
     public function destroy(int $id)

@@ -106,6 +106,7 @@ _localizedValues.en = {
     to: 'To',
     add_case: 'Add Case',
     edit_case: 'Edit Case',
+    template: 'Template',
     add_template: 'Add Template',
     edit_template: 'Edit Template',
     default_case_priority: 'Default Case Priority',

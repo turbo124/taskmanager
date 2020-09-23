@@ -79,9 +79,7 @@ export default class LeadModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (this.fields.customer_id.toString().length) {
-            actions.push('pdf')
-        }
+        actions.push('pdf')
 
         // actions.push('cloneLeadToDeal')
         // actions.push('cloneLeadToTask')
