@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Factory\CustomerContactFactory;
-use App\Models\CustomerContact;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 

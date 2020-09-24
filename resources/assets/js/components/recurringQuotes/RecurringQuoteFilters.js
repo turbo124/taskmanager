@@ -90,7 +90,7 @@ export default class RecurringQuoteFilters extends Component {
                         url={`/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
-                <Col sm={12} md={3} className="mt-3 mt-md-0">
+                <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
                         <DateFilter onChange={this.filterInvoices}/>
                     </FormGroup>

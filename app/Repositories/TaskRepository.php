@@ -185,6 +185,16 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     }
 
     /**
+     * Sync the users
+     *
+     * @param array $params
+     */
+    public function syncUsers(Task $task, array $params)
+    {
+        return $task->users()->sync($params);
+    }
+
+    /**
      * @param $data
      * @param Task $task
      * @return Task|null
@@ -213,16 +223,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         }
 
         return $task->fresh();
-    }
-
-    /**
-     * Sync the users
-     *
-     * @param array $params
-     */
-    public function syncUsers(Task $task, array $params)
-    {
-        return $task->users()->sync($params);
     }
 
 }

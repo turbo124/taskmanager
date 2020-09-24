@@ -26,6 +26,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Quote;
+use App\Models\RecurringInvoice;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
@@ -38,6 +39,9 @@ use App\Transformations\InvoiceTransformable;
 use App\Transformations\OrderTransformable;
 use App\Transformations\PurchaseOrderTransformable;
 use App\Transformations\QuoteTransformable;
+use App\Transformations\RecurringInvoiceTransformable;
+use App\Transformations\RecurringQuoteTransformable;
+use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,8 +55,8 @@ use ReflectionException;
 class BaseController extends Controller
 {
     use CreditTransformable;
-    use QuoteTransformable;
-    use InvoiceTransformable;
+    use RecurringQuoteTransformable;
+    use RecurringInvoiceTransformable;
     use OrderTransformable;
     use PurchaseOrderTransformable;
 
@@ -157,7 +161,7 @@ class BaseController extends Controller
                 );
 
                 $this->invoice_repo->createInvoice($request->all(), $invoice);
-                $response = $this->transformInvoice($invoice);
+                $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 break;
             case 'clone_order_to_quote': // done
                 $quote = CloneOrderToQuoteFactory::create(
@@ -166,7 +170,7 @@ class BaseController extends Controller
                     auth()->user()->account_user()->account
                 );
                 $this->quote_repo->createQuote($request->all(), $quote);
-                $response = $this->transformQuote($quote);
+                $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
 
             case 'hold_order':
@@ -222,7 +226,7 @@ class BaseController extends Controller
                 if (!$invoice) {
                     $response = false;
                 } else {
-                    $response = $this->transformInvoice($invoice);
+                    $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 }
 
                 break;
@@ -238,7 +242,7 @@ class BaseController extends Controller
             case 'clone_to_quote': // done
                 $quote = CloneQuoteFactory::create($entity, auth()->user());
                 $this->quote_repo->createQuote($request->all(), $quote);
-                $response = $this->transformQuote($quote);
+                $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
             case 'mark_sent': //done
                 $entity = $this->invoice_repo->markSent($entity);
@@ -264,7 +268,7 @@ class BaseController extends Controller
             case 'clone_credit_to_quote': //done
                 $quote = CloneCreditToQuoteFactory::create($entity, auth()->user());
                 (new QuoteRepository(new Quote))->createQuote($request->all(), $quote);
-                $response = $this->transformQuote($quote);
+                $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
 
             case 'approve': //done
@@ -311,12 +315,12 @@ class BaseController extends Controller
                     auth()->user()->account_user()->account
                 );
                 $this->invoice_repo->createInvoice([], $invoice);
-                $response = $this->transformInvoice($invoice);
+                $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 break;
             case 'clone_invoice_to_quote': // done
                 $quote = CloneInvoiceToQuoteFactory::create($entity, auth()->user());
                 (new QuoteRepository(new Quote))->createQuote($request->all(), $quote);
-                $response = $this->transformQuote($quote);
+                $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
             case 'create_payment': // done
                 $invoice = $entity->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
@@ -325,20 +329,20 @@ class BaseController extends Controller
                     $response = false;
                     $message = 'Unable to mark invoice as paid';
                 } else {
-                    $response = $this->transformInvoice($invoice);
+                    $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 }
 
                 break;
             case 'clone_recurring_to_quote':
                 $quote = RecurringQuoteToQuoteFactory::create($entity, $entity->customer);
                 (new QuoteRepository(new Quote()))->createQuote([], $quote);
-                $response = $this->transformQuote($quote);
+                $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
 
             case 'clone_recurring_to_invoice':
                 $invoice = RecurringInvoiceToInvoiceFactory::create($entity, $entity->customer);
                 (new InvoiceRepository(new Invoice))->createInvoice([], $invoice);
-                $response = $this->transformInvoice($invoice);
+                $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 break;
             case 'reverse': // done
                 $invoice = $entity->service()->reverseInvoicePayment(
@@ -350,7 +354,7 @@ class BaseController extends Controller
                     $response = false;
                     $message = 'Unable to reverse invoice payment';
                 } else {
-                    $response = $this->transformInvoice($invoice);
+                    $response = (new InvoiceTransformable())->transformInvoice($invoice);
                 }
 
                 break;
@@ -360,6 +364,24 @@ class BaseController extends Controller
                 $entity = $entity->service()->{$method}();
                 $response = $this->transformEntity($entity);
 
+                break;
+            case 'start_recurring':
+                $todays_date = Carbon::now()->addHours(1);
+
+                if (empty($entity->next_send_date) || $entity->next_send_date->lte($todays_date)) {
+                    return response()->json('The next send date must be in the future', 422);
+                }
+
+                $entity->status_id = RecurringInvoice::STATUS_ACTIVE;
+                $entity->save();
+                $response = $this->transformEntity($entity->fresh());
+
+                break;
+
+            case 'stop_recurring':
+                $entity->status_id = RecurringInvoice::STATUS_PAUSED;
+                $entity->save();
+                $response = $this->transformEntity($entity->fresh());
                 break;
             default:
                 $response = false;
@@ -390,13 +412,19 @@ class BaseController extends Controller
     {
         switch ($this->entity_string) {
             case 'Invoice':
-                return $this->transformInvoice($entity);
+                return (new InvoiceTransformable())->transformInvoice($entity);
+
+            case 'RecurringInvoice':
+                return $this->transformRecurringInvoice($entity);
+
+            case 'RecurringQuote':
+                return $this->transformRecurringQuote($entity);
 
             case 'Credit':
                 return $this->transformCredit($entity);
 
             case 'Quote':
-                return $this->transformQuote($entity);
+                return (new QuoteTransformable())->transformQuote($entity);
 
             case 'Order':
                 return $this->transformOrder($entity);

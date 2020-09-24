@@ -226,14 +226,11 @@ class Invoice extends Model
         return true;
     }
 
-    /************** Paymentables **************************/
+    /********************** Getters and setters ************************************/
 
-    public function paymentables()
+    public function setStatus(int $status)
     {
-        $paymentables = Paymentable::wherePaymentableType(self::class)
-                                   ->wherePaymentableId($this->id);
-
-        return $paymentables;
+        $this->status_id = $status;
     }
 
     public function reversePaymentsForInvoice()
@@ -252,11 +249,14 @@ class Invoice extends Model
         return $total_paid;
     }
 
-    /********************** Getters and setters ************************************/
+    /************** Paymentables **************************/
 
-    public function setStatus(int $status)
+    public function paymentables()
     {
-        $this->status_id = $status;
+        $paymentables = Paymentable::wherePaymentableType(self::class)
+                                   ->wherePaymentableId($this->id);
+
+        return $paymentables;
     }
 
     public function setUser(User $user)

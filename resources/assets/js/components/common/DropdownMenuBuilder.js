@@ -99,11 +99,17 @@ export default class DropdownMenuBuilder extends Component {
             }
 
             if (action === 'start_recurring') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
                 message = `${recurring_text} ${response.number} ${translations.has_started}`
             }
 
             if (action === 'stop_recurring') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
                 const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
                 message = `${recurring_text} ${response.number} ${translations.has_stopped}`
             }

@@ -13,7 +13,6 @@ use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Requests\PurchaseOrder\CreatePurchaseOrderRequest;
 use App\Requests\Quote\UpdatePurchaseOrderRequest;
 use App\Requests\SearchRequest;
-use App\Transformations\InvoiceTransformable;
 use App\Transformations\PurchaseOrderTransformable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -26,7 +25,7 @@ use Illuminate\Http\Request;
 class PurchaseOrderController extends BaseController
 {
 
-    use PurchaseOrderTransformable, InvoiceTransformable;
+    use PurchaseOrderTransformable;
 
     /**
      * @var PurchaseOrderRepositoryInterface

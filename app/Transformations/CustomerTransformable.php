@@ -3,8 +3,8 @@
 namespace App\Transformations;
 
 use App\Models\Address;
-use App\Models\CustomerContact;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\CustomerGateway;
 use App\Models\ErrorLog;
 use App\Models\File;
