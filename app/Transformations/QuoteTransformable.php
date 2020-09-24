@@ -8,13 +8,13 @@ use App\Models\File;
 use App\Models\Quote;
 use App\Models\QuoteInvitation;
 
-trait QuoteTransformable
+class QuoteTransformable
 {
     /**
      * @param Quote $quote
      * @return array
      */
-    protected function transformQuote(Quote $quote)
+    public function transformQuote(Quote $quote)
     {
         return [
             'id'                  => (int)$quote->id,

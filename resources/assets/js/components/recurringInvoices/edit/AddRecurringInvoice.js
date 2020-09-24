@@ -141,6 +141,7 @@ class AddRecurringInvoice extends Component {
                         <FormGroup>
                             <Label>{translations.invoice}</Label>
                             <InvoiceDropdown
+                                is_recurring={true}
                                 invoices={this.props.allInvoices}
                                 handleInputChanges={this.handleInput}
                                 name="invoice_id"

@@ -30,7 +30,7 @@ export default class RecurringQuotes extends Component {
             customers: [],
             allQuotes: [],
             bulk: [],
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['download', 'start_recurring', 'stop_recurring'],
             filters: {
                 status_id: 'Draft',
                 customer_id: '',

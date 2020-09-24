@@ -16,7 +16,6 @@ use App\Requests\Invoice\CreateInvoiceRequest;
 use App\Requests\Invoice\UpdateInvoiceRequest;
 use App\Requests\SearchRequest;
 use App\Transformations\InvoiceTransformable;
-use App\Transformations\QuoteTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,9 +26,6 @@ use Illuminate\Http\Request;
  */
 class InvoiceController extends BaseController
 {
-
-    use InvoiceTransformable, QuoteTransformable;
-
     /**
      * @var InvoiceRepositoryInterface|InvoiceRepository
      */
@@ -80,7 +76,7 @@ class InvoiceController extends BaseController
             InvoiceFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
 
-        return response()->json($this->transformInvoice($invoice));
+        return response()->json((new InvoiceTransformable())->transformInvoice($invoice));
     }
 
     /**
@@ -90,7 +86,7 @@ class InvoiceController extends BaseController
     public function show(int $invoice_id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($invoice_id);
-        return response()->json($this->transformInvoice($invoice));
+        return response()->json((new InvoiceTransformable())->transformInvoice($invoice));
     }
 
     /**
@@ -129,7 +125,7 @@ class InvoiceController extends BaseController
         }
 
         $invoice = $this->invoice_repo->updateInvoice($request->all(), $invoice);
-        return response()->json($this->transformInvoice($invoice));
+        return response()->json((new InvoiceTransformable())->transformInvoice($invoice));
     }
 
     public function action(Request $request, Invoice $invoice, $action)

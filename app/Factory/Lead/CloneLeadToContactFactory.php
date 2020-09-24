@@ -3,8 +3,8 @@
 namespace App\Factory\Lead;
 
 use App\Models\Account;
-use App\Models\CustomerContact;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Support\Str;

@@ -11,8 +11,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class InvoiceFilter extends QueryFilter
 {
-    use InvoiceTransformable;
-
     private $invoiceRepository;
 
     private $model;
@@ -109,7 +107,7 @@ class InvoiceFilter extends QueryFilter
 
         $invoices = $list->map(
             function (Invoice $invoice) {
-                return $this->transformInvoice($invoice);
+                return (new InvoiceTransformable())->transformInvoice($invoice);
             }
         )->all();
 

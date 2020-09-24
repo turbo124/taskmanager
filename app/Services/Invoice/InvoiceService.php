@@ -2,12 +2,10 @@
 
 namespace App\Services\Invoice;
 
-use App\Events\Invoice\InvoiceWasEmailed;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Factory\InvoiceToRecurringInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Payment;
 use App\Models\RecurringInvoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;

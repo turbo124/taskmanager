@@ -15,7 +15,6 @@ use App\Requests\Quote\CreateQuoteRequest;
 use App\Requests\Quote\UpdateOrderRequest;
 use App\Requests\Quote\UpdateQuoteRequest;
 use App\Requests\SearchRequest;
-use App\Transformations\InvoiceTransformable;
 use App\Transformations\QuoteTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -28,8 +27,6 @@ use Illuminate\Http\Request;
  */
 class QuoteController extends BaseController
 {
-
-    use QuoteTransformable, InvoiceTransformable;
 
     /**
      * @var InvoiceRepositoryInterface
@@ -88,7 +85,7 @@ class QuoteController extends BaseController
             QuoteFactory::create(auth()->user()->account_user()->account, auth()->user(), $customer)
         );
 
-        return response()->json($this->transformQuote($quote));
+        return response()->json((new QuoteTransformable())->transformQuote($quote));
     }
 
     /**
@@ -102,7 +99,7 @@ class QuoteController extends BaseController
 
         $quote = $this->quote_repo->updateQuote($request->all(), $quote);
 
-        return response()->json($this->transformQuote($quote));
+        return response()->json((new QuoteTransformable())->transformQuote($quote));
     }
 
     /**

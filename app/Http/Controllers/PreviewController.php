@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
-use App\Models\CustomerContact;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Design;
 use App\Models\Invoice;
 use App\Traits\MakesInvoiceHtml;

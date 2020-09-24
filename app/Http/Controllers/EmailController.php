@@ -24,8 +24,6 @@ class EmailController extends Controller
     use MakesInvoiceHtml;
     use CreditTransformable;
     use OrderTransformable;
-    use QuoteTransformable;
-    use InvoiceTransformable;
     use LeadTransformable;
     use DealTransformable;
     use TaskTransformable;
@@ -93,9 +91,9 @@ class EmailController extends Controller
             case 'Order':
                 return $this->transformOrder($entity_object);
             case 'Quote':
-                return $this->transformQuote($entity_object);
+                return (new QuoteTransformable())->transformQuote($entity_object);
             case 'Invoice':
-                return $this->transformInvoice($entity_object);
+                return (new InvoiceTransformable())->transformInvoice($entity_object);
             case 'PurchaseOrder':
                 return $this->transformPurchaseOrder($entity_object);
         }

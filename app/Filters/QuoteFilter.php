@@ -11,8 +11,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class QuoteFilter extends QueryFilter
 {
-    use QuoteTransformable;
-
     private $quoteRepository;
 
     private $model;
@@ -95,7 +93,7 @@ class QuoteFilter extends QueryFilter
         $list = $this->query->get();
         $quotes = $list->map(
             function (Quote $quote) {
-                return $this->transformQuote($quote);
+                return (new QuoteTransformable())->transformQuote($quote);
             }
         )->all();
 

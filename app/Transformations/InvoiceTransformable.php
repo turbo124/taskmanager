@@ -9,7 +9,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
 use App\Models\Payment;
 
-trait InvoiceTransformable
+class InvoiceTransformable
 {
     use PaymentTransformable;
 
@@ -17,7 +17,7 @@ trait InvoiceTransformable
      * @param Invoice $invoice
      * @return array
      */
-    protected function transformInvoice(Invoice $invoice)
+    public function transformInvoice(Invoice $invoice)
     {
         return [
             'id'                  => (int)$invoice->id,

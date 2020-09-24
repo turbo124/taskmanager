@@ -15,13 +15,13 @@ class UpdateTaskRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'valued_at'    => 'nullable|string',
-            'rating'       => 'nullable|numeric',
-            'customer_id'  => 'nullable|numeric',
-            'name'         => 'required',
+            'valued_at'   => 'nullable|string',
+            'rating'      => 'nullable|numeric',
+            'customer_id' => 'nullable|numeric',
+            'name'        => 'required',
             //'content'      => 'required',
             //'contributors' => 'required|array',
-            'due_date'     => 'required',
+            'due_date'    => 'required',
         ];
     }
 

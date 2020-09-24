@@ -6,8 +6,8 @@ use App\Factory\CustomerContactFactory;
 use App\Factory\CustomerFactory;
 use App\Models\Account;
 use App\Models\Address;
-use App\Models\CustomerContact;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 

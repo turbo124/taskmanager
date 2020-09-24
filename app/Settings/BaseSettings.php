@@ -1202,6 +1202,24 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
+        'under_payments_allowed'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'over_payments_allowed'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'minimum_amount_required'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
     ];
 
     protected function validate($saved_settings, $actual_settings)

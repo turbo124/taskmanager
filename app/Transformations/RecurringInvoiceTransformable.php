@@ -11,8 +11,6 @@ use App\Models\RecurringInvoiceInvitation;
 
 trait RecurringInvoiceTransformable
 {
-    use InvoiceTransformable;
-
     /**
      * @param RecurringInvoice $invoice
      * @return array
@@ -57,7 +55,7 @@ trait RecurringInvoiceTransformable
             'transaction_fee_tax'  => (bool)$invoice->transaction_fee_tax,
             'shipping_cost_tax'    => (bool)$invoice->shipping_cost_tax,
             'audits'               => $this->transformAuditsForRecurringInvoice($invoice->audits),
-            'files'                => $this->transformInvoiceFiles($invoice->files),
+            'files'                => $this->transformRecurringInvoiceFiles($invoice->files),
             'invitations'          => [],
             'invoices'             => $this->transformInvoicesCreated($invoice->invoices)
 
@@ -81,7 +79,7 @@ trait RecurringInvoiceTransformable
      * @param $files
      * @return array
      */
-    private function transformInvoiceFiles($files)
+    private function transformRecurringInvoiceFiles($files)
     {
         if (empty($files)) {
             return [];
@@ -102,7 +100,7 @@ trait RecurringInvoiceTransformable
 
         return $invoices->map(
             function (Invoice $invoice) {
-                return $this->transformInvoice($invoice);
+                return (new InvoiceTransformable())->transformInvoice($invoice);
             }
         )->all();
     }
@@ -128,7 +126,7 @@ trait RecurringInvoiceTransformable
      * @param $invitations
      * @return array
      */
-    private function transformEmails($emails)
+    private function transformRecurringInvoiceEmails($emails)
     {
         if ($emails->count() === 0) {
             return [];

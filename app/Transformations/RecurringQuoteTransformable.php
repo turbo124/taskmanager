@@ -11,8 +11,6 @@ use App\Models\RecurringQuoteInvitation;
 
 trait RecurringQuoteTransformable
 {
-    use QuoteTransformable;
-
     /**
      * @param RecurringQuote $quote
      * @return array
@@ -57,7 +55,7 @@ trait RecurringQuoteTransformable
             'transaction_fee_tax'  => (bool)$quote->transaction_fee_tax,
             'shipping_cost_tax'    => (bool)$quote->shipping_cost_tax,
             'audits'               => $this->transformAuditsForRecurringQuote($quote->audits),
-            'files'                => $this->transformInvoiceFiles($quote->files),
+            'files'                => $this->transformRecurringQuoteFiles($quote->files),
             'invitations'          => [],
             'quotes'               => $this->transformQuotesCreated($quote->quotes)
 
@@ -81,7 +79,7 @@ trait RecurringQuoteTransformable
      * @param $files
      * @return array
      */
-    private function transformInvoiceFiles($files)
+    private function transformRecurringQuoteFiles($files)
     {
         if (empty($files)) {
             return [];
@@ -102,7 +100,7 @@ trait RecurringQuoteTransformable
 
         return $quotes->map(
             function (Quote $quote) {
-                return $this->transformQuote($quote);
+                return (new QuoteTransformable())->transformQuote($quote);
             }
         )->all();
     }
@@ -128,7 +126,7 @@ trait RecurringQuoteTransformable
      * @param $invitations
      * @return array
      */
-    private function transformEmails($emails)
+    private function transformRecurringQuoteEmails($emails)
     {
         if ($emails->count() === 0) {
             return [];

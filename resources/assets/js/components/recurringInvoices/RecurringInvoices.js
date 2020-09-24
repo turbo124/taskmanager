@@ -29,7 +29,7 @@ export default class RecurringInvoices extends Component {
             cachedData: [],
             customers: [],
             bulk: [],
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['download', 'start_recurring', 'stop_recurring'],
             filters: {
                 status_id: 'Draft',
                 customer_id: '',

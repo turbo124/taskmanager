@@ -14,7 +14,6 @@ use App\Requests\Credit\UpdateCreditRequest;
 use App\Requests\SearchRequest;
 use App\Services\CreditService;
 use App\Transformations\CreditTransformable;
-use App\Transformations\QuoteTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -25,7 +24,6 @@ use Illuminate\Http\Request;
 class CreditController extends BaseController
 {
     use CreditTransformable;
-    use QuoteTransformable;
 
     protected $credit_repo;
 

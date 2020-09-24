@@ -4,7 +4,7 @@ _localizedValues.en = {
     cycles_remaining: 'Cycles Remaining',
     paused: 'Paused',
     auto_billing_enabled: 'Autobilling Enabled',
-    auto_billing_enabled_help_text: 'Should autimatically bill customer',
+    auto_billing_enabled_help_text: 'Should automatically bill customer',
     grace_period: 'Grace Period',
     grace_period_help_text: 'Allow the customer n number of days to pay after being sent. If left blank the payment terms will be used.',
     new: 'New',
