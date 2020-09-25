@@ -43,7 +43,7 @@ export default class DropdownMenuBuilder extends Component {
             return false
         }
 
-        const data = this.removeByKey(this.props.formData, ['invitations', 'next_send_date', 'created_at'])
+        const data = this.removeByKey(this.props.formData, ['invitations', 'date_to_send', 'created_at'])
 
         this.props.model.completeAction(data, action).then(response => {
             if (!response) {

@@ -41,7 +41,7 @@ class CreateRecurringInvoicesTable extends Migration {
 			$table->integer('frequency')->unsigned();
 			$table->dateTime('start_date')->nullable();
 			$table->dateTime('last_sent_date')->nullable();
-			$table->dateTime('next_send_date')->nullable();
+			$table->dateTime('date_to_send')->nullable();
 			$table->integer('cycles_remaining')->unsigned()->nullable();
 			$table->timestamps();
 			$table->softDeletes();
@@ -54,7 +54,7 @@ class CreateRecurringInvoicesTable extends Migration {
 			$table->text('private_notes', 65535)->nullable();
 			$table->decimal('tax_rate', 13, 3)->default(0.000);
 			$table->string('tax_rate_name')->nullable();
-			$table->date('end_date')->nullable();
+			$table->date('expiry_date')->nullable();
 			$table->decimal('shipping_cost', 16, 4)->nullable();
 			$table->decimal('transaction_fee', 16, 4)->nullable();
 			$table->boolean('transaction_fee_tax')->default(0);

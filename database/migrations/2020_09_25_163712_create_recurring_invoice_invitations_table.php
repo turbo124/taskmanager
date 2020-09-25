@@ -31,8 +31,8 @@ class CreateRecurringInvoiceInvitationsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->text('client_signature', 65535)->nullable();
-			$table->index(['deleted_at','recurring_invoice_id'], 'invoice_invitations_deleted_at_invoice_id_index');
 			$table->unique(['contact_id','recurring_invoice_id'], 'invoice_invitations_customer_id_invoice_id_unique');
+			$table->index(['deleted_at','recurring_invoice_id'], 'invoice_invitations_deleted_at_invoice_id_index');
 		});
 	}
 

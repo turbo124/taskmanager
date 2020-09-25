@@ -119,7 +119,7 @@ class Settings extends Component {
     getAddressFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'address1',
@@ -171,14 +171,12 @@ class Settings extends Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     getFormFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'name',
@@ -287,11 +285,17 @@ class Settings extends Component {
                             text: translations.no
                         }
                     ]
+                },
+                {
+                    name: 'autobilling_enabled',
+                    label: translations.auto_billing_enabled,
+                    type: 'switch',
+                    placeholder: translations.auto_billing_enabled,
+                    value: settings.auto_billing_enabled,
+                    help_text: translations.auto_billing_enabled_help_text
                 }
             ]
         ]
-
-        return formFields
     }
 
     getPaymentTermFields () {

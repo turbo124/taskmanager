@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader, Col, FormGroup, Row } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import FormBuilder from '../../settings/FormBuilder'
 import Checkbox from '../../common/Checkbox'
+import { consts } from '../../utils/_consts'
 
 export default class Settings extends React.Component {
     constructor (props) {
@@ -37,7 +38,7 @@ export default class Settings extends React.Component {
 
         const gateway = this.props.gateway.gateway_key.length ? JSON.parse(localStorage.getItem('gateways')).filter(gateway => gateway.key === this.props.gateway.gateway_key) : []
         const is_offsite = gateway.length && parseInt(gateway[0].offsite_only) === 1
-
+        const supports_token_billing = [consts.stripe_gateway, consts.authorize_gateway].includes(this.props.gateway.gateway_key) || false
         const fields = [
             {
                 name: 'require_cvv',
@@ -83,6 +84,19 @@ export default class Settings extends React.Component {
                     placeholder: translations.show_shipping_address,
                     value: settings.show_shipping_address ? settings.show_shipping_address : '',
                     group: 1,
+                    class_name: 'col-12'
+                }
+            )
+        }
+
+        if (supports_token_billing) {
+            fields.push(
+                {
+                    name: 'should_store_card',
+                    label: translations.store_card,
+                    type: 'switch',
+                    placeholder: translations.store_card,
+                    value: settings.should_store_card,
                     class_name: 'col-12'
                 }
             )

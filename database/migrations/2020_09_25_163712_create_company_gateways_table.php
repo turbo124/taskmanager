@@ -30,6 +30,7 @@ class CreateCompanyGatewaysTable extends Migration {
 			$table->boolean('exclude_from_checkout')->default(0);
 			$table->boolean('token_billing_enabled')->default(0);
 			$table->string('name');
+			$table->boolean('should_store_card')->default(0);
 		});
 	}
 

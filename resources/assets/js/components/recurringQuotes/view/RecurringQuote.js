@@ -116,7 +116,7 @@ export default class RecurringQuote extends Component {
         }
 
         if (this.props.entity.due_date && this.props.entity.due_date.length) {
-            fields.expiry_date = <FormatDate date={this.props.entity.due_date}/>
+            fields.due_date = <FormatDate date={this.props.entity.due_date}/>
         }
 
         if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
@@ -132,12 +132,12 @@ export default class RecurringQuote extends Component {
             fields.start_date = <FormatDate date={this.props.entity.start_date} />
         }
 
-        if (this.props.entity.end_date && this.props.entity.end_date.length) {
-            fields.end_date = <FormatDate date={this.props.entity.end_date} />
+        if (this.props.entity.expiry_date && this.props.entity.expiry_date.length) {
+            fields.expiry_date = <FormatDate date={this.props.entity.expiry_date} />
         }
 
-        if (this.props.entity.next_send_date && this.props.entity.next_send_date.length) {
-            fields.next_send_date = <FormatDate date={this.props.entity.next_send_date} />
+        if (this.props.entity.date_to_send && this.props.entity.date_to_send.length) {
+            fields.date_to_send = <FormatDate date={this.props.entity.date_to_send} />
         }
 
         if (this.props.entity.cycles_remaining && this.props.entity.cycles_remaining.length) {

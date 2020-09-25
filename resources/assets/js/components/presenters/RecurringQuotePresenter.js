@@ -23,8 +23,8 @@ export default function RecurringQuotePresenter (props) {
         case 'due_date':
         case 'start_date':
         case 'last_sent_date':
-        case 'next_send_date':
-        case 'end_date': {
+        case 'date_to_send':
+        case 'expiry_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
                 field={field} date={entity[field]}/></td>
         }

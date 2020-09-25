@@ -153,7 +153,7 @@ class InvoiceService extends ServiceBase
         }
 
         $arrRecurring['start_date'] = $recurring['start_date'];
-        $arrRecurring['end_date'] = $recurring['end_date'];
+        $arrRecurring['expiry_date'] = $recurring['expiry_date'];
         $arrRecurring['frequency'] = $recurring['frequency'];
         $arrRecurring['recurring_due_date'] = $recurring['recurring_due_date'];
         $recurringInvoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(

@@ -112,6 +112,38 @@ export default class CustomerPortalSettings extends Component {
         ]
     }
 
+    getBillingFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'under_payments_allowed',
+                    label: translations.under_payments_allowed,
+                    type: 'switch',
+                    placeholder: translations.under_payments_allowed,
+                    value: settings.under_payments_allowed,
+                    help_text: translations.under_payments_allowed_help_text
+                },
+                {
+                    name: 'over_payments_allowed',
+                    label: translations.over_payments_allowed,
+                    type: 'switch',
+                    placeholder: translations.over_payments_allowed,
+                    value: settings.over_payments_allowed,
+                    help_text: translations.over_payments_allowed_help_text
+                },
+                {
+                    name: 'minimum_amount_required',
+                    label: translations.minimum_amount_required,
+                    type: 'text',
+                    placeholder: translations.minimum_amount_required,
+                    value: settings.minimum_amount_required
+                }
+            ]
+        ]
+    }
+
     getSecurityFields () {
         const settings = this.state.settings
 
@@ -200,6 +232,16 @@ export default class CustomerPortalSettings extends Component {
                                         {translations.security}
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '3' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('3')
+                                        }}>
+                                        {translations.billing}
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
                         </CardBody>
                     </Card>
@@ -223,6 +265,17 @@ export default class CustomerPortalSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getSecurityFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="3" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getBillingFields()}
                                 />
                             </CardBody>
                         </Card>

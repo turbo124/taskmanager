@@ -66,7 +66,7 @@ class Invoice extends Model
         'start_date',
         'line_items',
         'po_number',
-        'end_date',
+        'expiry_date',
         'frequency',
         'recurring_due_date',
         'public_notes',
@@ -99,7 +99,7 @@ class Invoice extends Model
         'recurring_invoice_id'
     ];
     protected $dates = [
-        'next_send_date',
+        'date_to_send',
     ];
 
     public function service(): InvoiceService

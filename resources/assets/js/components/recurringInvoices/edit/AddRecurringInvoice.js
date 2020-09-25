@@ -50,7 +50,7 @@ class AddRecurringInvoice extends Component {
             start_date: this.state.start_date,
             invoice_id: this.state.invoice_id,
             customer_id: this.state.customer_id,
-            end_date: this.state.end_date,
+            expiry_date: this.state.expiry_date,
             due_date: this.state.due_date,
             frequency: this.state.frequency,
             custom_value1: this.state.custom_value1,

@@ -210,7 +210,7 @@ class InvoiceTest extends TestCase
 //        $arrRecurring = [];
 //
 //        $arrRecurring['start_date'] = date('Y-m-d');
-//        $arrRecurring['end_date'] = date('Y-m-d', strtotime('+1 year'));;
+//        $arrRecurring['expiry_date'] = date('Y-m-d', strtotime('+1 year'));;
 //        $arrRecurring['frequency'] = 30;
 //        $arrRecurring['recurring_due_date'] = date('Y-m-d', strtotime('+1 month'));
 //        $recurring_invoice = $invoice->service()->createRecurringInvoice($arrRecurring);
@@ -555,7 +555,7 @@ class InvoiceTest extends TestCase
         $invoice = factory(Invoice::class)->create();
         $invoice->customer_id = 5;
         $invoice->account_id = $this->account->id;
-        $invoice->next_send_date = Carbon::now();
+        $invoice->date_to_send = Carbon::now();
         $invoice->save();
 
         $settings = $this->account->settings;
@@ -573,10 +573,10 @@ class InvoiceTest extends TestCase
 
         $updated_invoice = $invoice->fresh();
 
-        $next_send_date = Carbon::parse($invoice->date)->addDays($settings->num_days_reminder1)->format('Y-m-d');
+        $date_to_send = Carbon::parse($invoice->date)->addDays($settings->num_days_reminder1)->format('Y-m-d');
 
         $this->assertEquals(count($invoice->line_items) + 1, count($updated_invoice->line_items));
         $this->assertEquals($this->main_account->settings->late_fee_amount1, $updated_invoice->late_fee_charge);
-        $this->assertEquals($updated_invoice->next_send_date->format('Y-m-d'), $next_send_date);
+        $this->assertEquals($updated_invoice->date_to_send->format('Y-m-d'), $date_to_send);
     }
 }

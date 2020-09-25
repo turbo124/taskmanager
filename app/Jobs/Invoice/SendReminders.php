@@ -36,7 +36,7 @@ class SendReminders implements ShouldQueue
 
     private function processReminders()
     {
-        $invoices = Invoice::whereDate('next_send_date', '=', Carbon::today()->toDateString())->get();
+        $invoices = Invoice::whereDate('date_to_send', '=', Carbon::today()->toDateString())->get();
 
         $invoices->each(
             function ($invoice) {
@@ -57,7 +57,7 @@ class SendReminders implements ShouldQueue
                     Invoice::STATUS_DRAFT
                 ]
             )) {
-            $this->invoice->next_send_date = null;
+            $this->invoice->date_to_send = null;
             $this->invoice->save();
             return; //exit early
         }
@@ -70,7 +70,7 @@ class SendReminders implements ShouldQueue
         $message_sent = false;
 
         for ($x = 1; $x <= 3; $x++) {
-            $reminder_date = $this->invoice->next_send_date;
+            $reminder_date = $this->invoice->date_to_send;
 
             if ($this->invoice->customer->getSetting(
                     "enable_reminder{$x}"
@@ -122,7 +122,7 @@ class SendReminders implements ShouldQueue
                 break;
         }
 
-        $this->invoice->next_send_date = $next_send_date;
+        $this->invoice->date_to_send = $next_send_date;
         $this->invoice->date_reminder_last_sent = Carbon::now();
         $this->invoice->save();
         return true;

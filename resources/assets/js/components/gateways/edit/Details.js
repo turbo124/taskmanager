@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardBody, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import Config from './Config'
+import { consts } from '../../utils/_consts'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -9,15 +10,15 @@ export default class Details extends React.Component {
 
         this.providers = [
             {
-                key: '13bb8d58',
+                key: consts.stripe_gateway,
                 name: translations.stripe
             },
             {
-                key: '8ab2dce2',
+                key: consts.authorize_gateway,
                 name: translations.authorize
             },
             {
-                key: '64bcbdce',
+                key: consts.paypal_gateway,
                 name: translations.paypal
             }
         ]
