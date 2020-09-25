@@ -27,7 +27,7 @@ class CreateInvoicesTable extends Migration {
 			$table->date('date')->nullable();
 			$table->dateTime('due_date')->nullable();
 			$table->date('start_date')->nullable();
-			$table->date('end_date')->nullable();
+			$table->date('expiry_date')->nullable();
 			$table->date('recurring_due_date')->nullable();
 			$table->boolean('is_deleted')->default(0);
 			$table->text('line_items', 65535)->nullable();
@@ -76,7 +76,7 @@ class CreateInvoicesTable extends Migration {
 			$table->decimal('exchange_rate', 12)->default(0.00);
 			$table->boolean('gateway_fee_applied')->default(0);
 			$table->decimal('late_fee_charge', 12)->default(0.00);
-			$table->dateTime('next_send_date')->nullable();
+			$table->dateTime('date_to_send')->nullable();
 			$table->text('temp_data', 65535)->nullable();
 			$table->boolean('auto_billing_enabled')->default(0);
 		});

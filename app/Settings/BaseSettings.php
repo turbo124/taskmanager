@@ -1217,9 +1217,9 @@ class BaseSettings
         'minimum_amount_required'              => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => false,
-            'type'             => 'bool'
-        ],
+            'default_value'    => '',
+            'type'             => 'string'
+        ]
     ];
 
     protected function validate($saved_settings, $actual_settings)

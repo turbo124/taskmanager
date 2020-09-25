@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Quote;
 use App\Models\Customer;
 use App\Models\User;
 
@@ -41,7 +40,7 @@ $factory->define(
             'line_items'     => $line_items,
             'frequency'      => 1,
             'start_date'     => $faker->date(),
-            'end_date'       => $faker->date()
+            'expiry_date'    => $faker->date()
         ];
     }
 );

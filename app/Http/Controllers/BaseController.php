@@ -368,7 +368,7 @@ class BaseController extends Controller
             case 'start_recurring':
                 $todays_date = Carbon::now()->addHours(1);
 
-                if (empty($entity->next_send_date) || $entity->next_send_date->lte($todays_date)) {
+                if (empty($entity->date_to_send) || $entity->date_to_send->lte($todays_date)) {
                     return response()->json('The next send date must be in the future', 422);
                 }
 

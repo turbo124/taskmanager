@@ -48,14 +48,14 @@ class SendRecurringQuote implements ShouldQueue
 
     private function processRecurringInvoices()
     {
-        $recurring_quotes = RecurringQuote::whereDate('next_send_date', '=', Carbon::today())
+        $recurring_quotes = RecurringQuote::whereDate('date_to_send', '=', Carbon::today())
                                           ->whereDate('date', '!=', Carbon::today())
                                           ->where('status_id', '=', RecurringQuote::STATUS_ACTIVE)
                                           ->whereDate('start_date', '<=', Carbon::today())
                                           ->where(
                                               function ($query) {
-                                                  $query->whereNull('end_date')
-                                                        ->orWhere('end_date', '>=', Carbon::today());
+                                                  $query->whereNull('expiry_date')
+                                                        ->orWhere('expiry_date', '>=', Carbon::today());
                                               }
                                           )
                                           ->get();
@@ -76,7 +76,7 @@ class SendRecurringQuote implements ShouldQueue
                 $recurring_quote->cycles_remaining--;
             }
 
-            $recurring_quote->next_send_date = $recurring_quote->cycles_remaining === 0 ? null
+            $recurring_quote->date_to_send = $recurring_quote->cycles_remaining === 0 ? null
                 : Carbon::today()->addDays($recurring_quote->frequency);
             $recurring_quote->status_id = $recurring_quote->cycles_remaining === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;
             $recurring_quote->save();

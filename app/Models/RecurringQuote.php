@@ -53,7 +53,7 @@ class RecurringQuote extends Model
         'terms',
         'frequency',
         'start_date',
-        'end_date',
+        'expiry_date',
         'due_date',
         'custom_value1',
         'custom_value2',
@@ -61,11 +61,11 @@ class RecurringQuote extends Model
         'custom_value4',
         'tax_rate_name',
         'tax_rate',
-        'next_send_date'
+        'date_to_send'
     ];
 
     protected $casts = [
-        'next_send_date' => 'datetime',
+        'date_to_send' => 'datetime',
         'settings'       => 'object',
         'line_items'     => 'object',
         'updated_at'     => 'timestamp',
@@ -73,10 +73,10 @@ class RecurringQuote extends Model
     ];
 
     protected $dates = [
-        'next_send_date',
+        'date_to_send',
         'last_sent_date',
         'start_date',
-        'end_date'
+        'expiry_date'
     ];
 
     public function customer()

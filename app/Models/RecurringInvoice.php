@@ -52,7 +52,7 @@ class RecurringInvoice extends Model
         'partial',
         'frequency',
         'start_date',
-        'end_date',
+        'expiry_date',
         'due_date',
         'grace_period',
         'auto_billing_enabled',
@@ -73,10 +73,10 @@ class RecurringInvoice extends Model
     ];
 
     protected $dates = [
-        'next_send_date',
+        'date_to_send',
         'last_sent_date',
         'start_date',
-        'end_date'
+        'expiry_date'
     ];
 
     public function customer()

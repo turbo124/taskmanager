@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\User;
 
@@ -41,7 +40,7 @@ $factory->define(
             'terms'          => $faker->text(500),
             'frequency'      => 1,
             'start_date'     => $faker->date(),
-            'end_date'       => $faker->date()
+            'expiry_date'    => $faker->date()
         ];
     }
 );
