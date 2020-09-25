@@ -15,8 +15,8 @@ trait CalculateRecurringDateRanges
 
         $endless = false;
 
-        if (empty($this->end_date) || $endless === true) {
-            $this->end_date = date('Y-m-d', strtotime('+1 years'));
+        if (empty($this->expiry_date) || $endless === true) {
+            $this->expiry_date = date('Y-m-d', strtotime('+1 years'));
         }
 
         // Declare an empty array
@@ -26,7 +26,7 @@ trait CalculateRecurringDateRanges
         // of period 1 day
         $interval = new DateInterval('P' . $this->frequency . 'D');
 
-        $realEnd = new DateTime($this->end_date);
+        $realEnd = new DateTime($this->expiry_date);
 
         $period = new DatePeriod(new DateTime($this->start_date), $interval, $realEnd);
 
@@ -36,14 +36,14 @@ trait CalculateRecurringDateRanges
         foreach ($period as $date) {
             $due_date = $this->calculateDueDate($date);
 
-            $next_send_date = clone $date;
-            $next_send_date = $next_send_date->modify('+' . $this->frequency . ' day');
+            $date_to_send = clone $date;
+            $date_to_send = $date_to_send->modify('+' . $this->frequency . ' day');
 
 
             $date_ranges[] = [
                 'send_date'      => $date->format('Y-m-d'),
                 'due_date'       => $due_date->format('Y-m-d'),
-                'next_send_date' => $next_send_date->format('Y-m-d')
+                'date_to_send'   => $date_to_send->format('Y-m-d')
             ];
         }
 
