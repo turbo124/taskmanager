@@ -35,7 +35,7 @@ export default class RecurringInvoices extends Component {
                 customer_id: '',
                 searchText: '',
                 start_date: '',
-                expiry_date: ''
+                end_date: ''
             },
             showRestoreButton: false,
             custom_fields: [],
@@ -146,8 +146,8 @@ export default class RecurringInvoices extends Component {
 
     render () {
         const { invoices, custom_fields, customers, allInvoices, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, expiry_date } = this.state.filters
-        const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&expiry_date=${expiry_date}`
+        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
+        const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
             ? <AddRecurringInvoice
                 allInvoices={allInvoices}
