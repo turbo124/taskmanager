@@ -337,6 +337,7 @@ class EditInvoice extends Component {
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
             start_date: this.state.start_date,
+            date_to_send: this.state.date_to_send,
             quote_id: this.state.quote_id,
             expiry_date: this.state.expiry_date,
             frequency: this.state.frequency,

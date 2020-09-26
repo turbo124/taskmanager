@@ -113,7 +113,7 @@ class Customer extends Model implements HasLocalePreference
         return $this->hasMany(CustomerContact::class)->orderBy('is_primary', 'desc');
     }
 
-    public function markSent()
+    public function transactions()
     {
         return $this->hasMany(Transaction::class)->orderBy('id', 'desc');
     }

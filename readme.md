@@ -11,6 +11,7 @@ TamTam CRM is an all in one invoicing, order management and CRM system. It was b
 * Credits
 * Refunds
 * Expenses
+* Document Management 
 * Vendor Management with contacts
 * Events
 * Tasks with time management
@@ -18,11 +19,11 @@ TamTam CRM is an all in one invoicing, order management and CRM system. It was b
 * Leads
 * Deals
 * Customer Portal
-* Online Orders / Payments
+* Purchase Orders
 * Shippo shipping integration
 * Case Management
 * User Management with roles, permissions and departments
-* Product Management with categories, images, reviews, features, variations and attributes
+* Product Management with categories, images, reviews, features, variations and attributes, brands
 * Voucher/Coupon Management
 * Order Management System
 
@@ -43,6 +44,7 @@ To run then php ./vendor/phpunit/phpunit/phpunit
 
 * Laravel 6.0 - The backend web framework used
 * React - Frontend JavaScript framework
+* reference - https://laravel-taiwan.github.io/php-the-right-way/pages/Design-Patterns.html
 
 ## Contributing
 
