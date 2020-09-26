@@ -52,7 +52,7 @@ export default class ProductAttributeDropdown extends Component {
 
     render () {
         let valueList = null
-        if (!this.state.values.length) {
+        if (!this.state.values || !this.state.values.length) {
             valueList = <option value="">Loading...</option>
         } else {
             valueList = this.state.values.map(value => {

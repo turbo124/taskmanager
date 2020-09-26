@@ -141,7 +141,9 @@ class ServiceBase
                 ->setQuantity($line_item->quantity)
                 ->setAttributeId(isset($line_item->attribute_id) ? $line_item->attribute_id : 0)
                 ->setUnitPrice($line_item->unit_price)
-                ->setProductId($line_item->product_id)
+                ->setProductId(
+                    (!empty($line_item->expense_id)) ? $line_item->expense_id : ((!empty($line_item->task_id)) ? $line_item->task_id : $line_item->product_id)
+                )
                 ->setSubTotal(isset($line_item->sub_total) ? $line_item->sub_total : 0)
                 ->setTransactionFee(isset($line_item->transaction_fee) ? $line_item->transaction_fee : 0)
                 ->setTypeId(!isset($line_item->type_id) ? 1 : $line_item->type_id)
@@ -151,6 +153,8 @@ class ServiceBase
                 ->setUnitDiscount($line_item->unit_discount)
                 ->setIsAmountDiscount(isset($entity->is_amount_discount) ? $entity->is_amount_discount : false)
                 ->setInclusiveTaxes($entity->account->settings->inclusive_taxes)
+                ->setNotes(!empty($line_item->notes) ? $line_item->notes : '')
+                ->setDescription(!empty($line_item->description) ? $line_item->description : '')
                 ->build();
 
 

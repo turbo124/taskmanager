@@ -99,6 +99,10 @@ export default class CreditModel extends BaseModel {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
             this.exchange_rate = currency[0].exchange_rate
         }
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get exchange_rate () {
@@ -145,8 +149,16 @@ export default class CreditModel extends BaseModel {
         return `http://${this.account.account.subdomain}portal/credits/$key`
     }
 
+    get getInvitationViewLink () {
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/credit/${this.invitations[0].key}`
+    }
+
     get isSent () {
         return parseInt(this.fields.status_id) === this.sent
+    }
+
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.credit_status_draft
     }
 
     get isApproved () {
@@ -197,6 +209,10 @@ export default class CreditModel extends BaseModel {
         if (!this.fields.deleted_at) {
             actions.push('archive')
             actions.push('cloneToCredit')
+        }
+
+        if (!this.fields.deleted_at && !this.isDraft) {
+            actions.push('portal')
         }
 
         if (this.isModuleEnabled('invoices') && !this.isApproved) {

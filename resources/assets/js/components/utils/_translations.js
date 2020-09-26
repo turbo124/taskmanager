@@ -430,6 +430,7 @@ _localizedValues.en = {
     updated_design: 'Successfully updated design',
     images: 'Images',
     variations: 'Variations',
+    variation: 'ProductVariation',
     add_subscription: 'Add Subscription',
     add_attribute: 'Add Attribute',
     edit_attribute: 'Edit Attribute',
@@ -618,7 +619,8 @@ _localizedValues.en = {
     frequency_annually: 'Annually',
     frequency_two_years: 'Two Years',
     frequency_three_years: 'Three Years',
-    frequency_endless: 'Endless'
+    frequency_endless: 'Endless',
+    portal: 'Customer Portal'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

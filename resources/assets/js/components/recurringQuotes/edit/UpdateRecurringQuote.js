@@ -305,7 +305,7 @@ class EditInvoice extends Component {
         })
     }
 
-    handleAddFiled () {
+    handleAddFiled (type_id = 1) {
         this.setState((prevState, props) => {
             return {
                 line_items: this.state.line_items.concat({
@@ -313,7 +313,8 @@ class EditInvoice extends Component {
                     unit_tax: 0,
                     quantity: 0,
                     unit_price: 0,
-                    product_id: 0
+                    product_id: 0,
+                    type_id: type_id
                 })
             }
         })

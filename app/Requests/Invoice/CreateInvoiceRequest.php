@@ -62,6 +62,7 @@ class CreateInvoiceRequest extends FormRequest
     protected function prepareForValidation()
     {
         $input = $this->all();
+
         $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
 
         $this->replace($input);

@@ -1266,6 +1266,10 @@ class BaseSettings
         }
 
         if (count($this->validationFailures) > 0) {
+            echo '<pre>';
+            print_r($this->validationFailures);
+            die;
+            die('here');
             return false;
         }
 

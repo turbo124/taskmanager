@@ -41,7 +41,7 @@ trait CalculateRecurringDateRanges
 
 
             $date_ranges[] = [
-                'send_date'      => $date->format('Y-m-d'),
+                'expiry_date'    => $date->format('Y-m-d'),
                 'due_date'       => $due_date->format('Y-m-d'),
                 'date_to_send'   => $date_to_send->format('Y-m-d')
             ];

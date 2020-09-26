@@ -150,6 +150,10 @@ export default class InvoiceModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.paid
     }
 
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.invoice_status_draft
+    }
+
     get isSent () {
         return parseInt(this.fields.status_id) === this.sent
     }
@@ -180,6 +184,10 @@ export default class InvoiceModel extends BaseModel {
 
     get invitation_link () {
         return `http://${this.account.account.subdomain}portal/invoices/$key`
+    }
+
+    get getInvitationViewLink () {
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/invoice/${this.invitations[0].key}`
     }
 
     get customer_id () {
@@ -249,6 +257,10 @@ export default class InvoiceModel extends BaseModel {
 
         if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
             actions.push('cancel')
+        }
+
+        if (!this.fields.deleted_at && !this.isDraft && !this.isCancelled) {
+            actions.push('portal')
         }
 
         if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {

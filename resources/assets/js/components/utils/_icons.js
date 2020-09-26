@@ -60,6 +60,7 @@ export const icons = {
     double_right: 'fa-angle-double-right',
     cloud: 'fa-cloud',
     cloud_download: 'fa-cloud-download',
+    portal: 'fa-search-plus',
     header: 'fa-header',
     group: 'fa-group',
     pound_sign: 'fa-gbp',

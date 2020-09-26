@@ -307,12 +307,13 @@ class EditInvoice extends Component {
 
     handleFieldChange (line_items, row) {
         this.setState({ line_items: line_items }, () => {
+            console.log('items', this.state.line_items)
             this.calculateTotals()
             this.updatePriceData(row)
         })
     }
 
-    handleAddFiled () {
+    handleAddFiled (type_id = 1) {
         this.setState((prevState, props) => {
             return {
                 line_items: this.state.line_items.concat({
@@ -320,7 +321,8 @@ class EditInvoice extends Component {
                     unit_tax: 0,
                     quantity: 0,
                     unit_price: 0,
-                    product_id: 0
+                    product_id: 0,
+                    type_id: type_id
                 })
             }
         })
@@ -421,6 +423,7 @@ class EditInvoice extends Component {
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
                 localStorage.removeItem('invoiceForm')
+                localStorage.removeItem('recurringInvoiceForm')
                 this.setState(this.initialState)
                 return
             }

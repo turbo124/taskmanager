@@ -24,14 +24,13 @@ class NumberGenerator
         $counter_var = "{$entity_id}_number_counter";
 
         $this->setType($pattern_entity, $counter_var, $resource, $customer);
+        $this->setPrefix($customer);
 
         $padding = $customer !== null ? $customer->getSetting(
             'counter_padding'
         ) : $entity_obj->account->settings->counter_padding;
 
         $number = $this->checkEntityNumber($resource, $customer, $this->counter, $padding);
-
-        $number = $this->addPrefixToCounter($number, $resource, $customer);
 
         $this->updateEntityCounter($this->counter_entity, $counter_var);
 
@@ -52,9 +51,11 @@ class NumberGenerator
             : trim(
                 $this->entity_obj->account->settings->{$pattern_entity}
             );
+
         $this->counter = $customer !== null ? $customer->getSetting(
             $counter_var
         ) : $this->entity_obj->account->settings->{$counter_var};
+
         $this->counter_entity = $this->entity_obj->account;
 
         if ($customer === null) {
@@ -77,12 +78,29 @@ class NumberGenerator
         $check = false;
         do {
             $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
+
+            if ($this->isRecurring($class)) {
+                $number = $this->addPrefixToCounter($number, $class, $customer);
+            }
+
             $check = $class::whereAccountId($this->entity_obj->account->id)->whereNumber($number)->withTrashed()->first(
             );
 
             $counter++;
         } while ($check);
         return $number;
+    }
+
+    private function isRecurring($resource)
+    {
+        return in_array($resource, [RecurringInvoice::class, RecurringQuote::class]) && !empty($this->recurring_prefix);
+    }
+
+    private function setPrefix(Customer $customer = null)
+    {
+        $this->recurring_prefix = $customer !== null ? $customer->getSetting(
+            'recurring_number_prefix'
+        ) : $this->entity_obj->account->settings->recurring_number_prefix;
     }
 
     /**
@@ -93,15 +111,11 @@ class NumberGenerator
      */
     private function addPrefixToCounter($number, $resource, Customer $customer = null): string
     {
-        $recurring_prefix = $customer !== null ? $customer->getSetting(
-            'recurring_number_prefix'
-        ) : $this->entity_obj->account->settings->recurring_number_prefix;
-
-        if (in_array($resource, [RecurringInvoice::class, RecurringQuote::class]) && !empty($recurring_prefix)) {
-            return $recurring_prefix . $number;
+        if (!$this->isRecurring($resource)) {
+            return $number;
         }
 
-        return $number;
+        return $this->recurring_prefix . $number;
     }
 
     /**

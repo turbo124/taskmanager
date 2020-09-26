@@ -77,6 +77,14 @@ class Expense extends Model
         return $this->belongsTo('App\Models\Customer')->withTrashed();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(ExpenseCategory::class)->withTrashed();
+    }
+
     public function setNumber()
     {
         if (empty($this->number) || !isset($this->id)) {

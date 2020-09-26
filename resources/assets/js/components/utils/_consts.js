@@ -146,7 +146,10 @@ export const consts = {
     textarea: 'textarea',
     select: 'select',
     date: 'date',
-    currency_pound: 2
+    currency_pound: 2,
+    line_item_expense: 6,
+    line_item_task: 3,
+    line_item_product: 1
 }
 
 export const invoiceStatuses = {
