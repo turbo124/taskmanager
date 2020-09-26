@@ -305,7 +305,7 @@ class EditInvoice extends Component {
         })
     }
 
-    handleAddFiled () {
+    handleAddFiled (type_id = 1) {
         this.setState((prevState, props) => {
             return {
                 line_items: this.state.line_items.concat({
@@ -313,7 +313,8 @@ class EditInvoice extends Component {
                     unit_tax: 0,
                     quantity: 0,
                     unit_price: 0,
-                    product_id: 0
+                    product_id: 0,
+                    type_id: type_id
                 })
             }
         })
@@ -337,7 +338,7 @@ class EditInvoice extends Component {
             exchange_rate: this.state.exchange_rate,
             start_date: this.state.start_date,
             quote_id: this.state.quote_id,
-            end_date: this.state.end_date,
+            expiry_date: this.state.expiry_date,
             frequency: this.state.frequency,
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,

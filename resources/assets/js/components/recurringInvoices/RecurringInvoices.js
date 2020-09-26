@@ -35,11 +35,11 @@ export default class RecurringInvoices extends Component {
                 customer_id: '',
                 searchText: '',
                 start_date: '',
-                expiry_date: ''
+                end_date: ''
             },
             showRestoreButton: false,
             custom_fields: [],
-            ignoredColumns: ['grace_period', 'last_sent_date', 'invoices', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_sexpiry_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
+            ignoredColumns: ['grace_period', 'last_sent_date', 'invoices', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
 
@@ -146,8 +146,8 @@ export default class RecurringInvoices extends Component {
 
     render () {
         const { invoices, custom_fields, customers, allInvoices, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, expiry_date } = this.state.filters
-        const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&expiry_date=${expiry_date}`
+        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
+        const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
             ? <AddRecurringInvoice
                 allInvoices={allInvoices}

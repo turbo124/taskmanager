@@ -202,7 +202,8 @@ class EditExpense extends React.Component {
                         </Nav>
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <DetailsForm errors={this.state.errors}
+                                <DetailsForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                                    errors={this.state.errors}
                                     handleInput={this.handleInput} expense={this.state}
                                     customers={this.props.customers} companies={this.props.companies}/>
 

@@ -7,6 +7,11 @@ import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from '../utils/_money'
 import CompanyModel from '../models/CompanyModel'
 import { translations } from '../utils/_translations'
+import ExpenseModel from '../models/ExpenseModel'
+import { consts } from '../utils/_consts'
+import TaskModel from '../models/TaskModel'
+import InvoicePresenter from "../presenters/InvoicePresenter";
+import FormatDate, { formatDate } from "./FormatDate";
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -15,9 +20,10 @@ class LineItemEditor extends Component {
             rowData: [],
             products: [],
             taxRates: [],
+            tasks: [],
             expenses: [],
             attributes: [],
-            line_type: 1,
+            line_type: null,
             total: this.props.invoice.total
         }
 
@@ -35,10 +41,8 @@ class LineItemEditor extends Component {
     }
 
     componentDidMount () {
-        this.loadProducts()
         // this.loadAttributes()
         this.loadTaxRates()
-        this.loadExpenses()
     }
 
     loadProducts () {
@@ -65,24 +69,37 @@ class LineItemEditor extends Component {
         })
     }
 
+    loadTasks () {
+        axios.get('/api/tasks').then(data => {
+            this.setState({ tasks: data.data })
+        })
+    }
+
     handleLineTypeChange (e) {
-        this.setState({ line_type: e.target.value })
+        const line_type = parseInt(e.target.value)
+        this.setState({ line_type: line_type }, () => {
+            if (line_type === consts.line_item_expense && !this.state.expenses.length) {
+                this.loadExpenses()
+            }
+
+            if (line_type === consts.line_item_task && !this.state.tasks.length) {
+                this.loadTasks()
+            }
+
+            if (line_type === consts.line_item_product) {
+                if (!this.state.products.length) {
+                    this.loadProducts()
+                }
+
+                if (!this.state.attributes.length) {
+                    this.loadAttributes()
+                }
+            }
+        })
     }
 
     handleRowChange (e) {
         const rows = [...this.props.invoice.line_items]
-
-        if (e.target.name.includes('task_id')) {
-            const test = e.target.name.split('|')
-            const row = test[0]
-
-            rows[row].task_id = e.target.value
-            rows[row].quantity = 1
-            rows[row].type_id = 3
-            this.props.update(rows, row)
-
-            return
-        }
 
         const row = e.target.dataset.line
 
@@ -102,7 +119,7 @@ class LineItemEditor extends Component {
             rows[row].unit_price = product.cost
             rows[row].description = product.description
             rows[row].product_id = e.target.value
-            rows[row].type_id = 1
+            rows[row].type_id = consts.line_item_product
             rows[row].quantity = product.quantity
             this.props.update(rows, row)
             return
@@ -122,10 +139,43 @@ class LineItemEditor extends Component {
             const index = this.state.expenses.findIndex(expense => expense.id === parseInt(e.target.value))
             const expense = this.state.expenses[index]
 
-            rows[row].expense_id = e.target.value
-            rows[row].unit_price = expense.amount
-            rows[row].quantity = 1
-            rows[row].type_id = 6
+            const expenseModel = new ExpenseModel(expense, this.props.customers)
+
+            rows[row].expense_id = parseInt(e.target.value)
+            rows[row].unit_price = expenseModel.convertedAmount
+            rows[row].quantity = this.settings.has_minimum_quantity === true ? 1 : null
+            rows[row].type_id = consts.line_item_expense
+            rows[row].notes = expense.public_notes
+            rows[row].description = expense.category && Object.keys(expense.category).length ? expense.category.name : ''
+
+            this.props.update(rows, row)
+
+            return
+        }
+
+        if (e.target.name === 'task_id') {
+            const index = this.state.tasks.findIndex(task => task.id === parseInt(e.target.value))
+            const task = this.state.tasks[index]
+            const taskModel = new TaskModel(task, this.props.customers)
+
+            let notes = task.description + '\n'
+
+            console.log('task', task)
+
+            task.timers.filter(time => {
+                return time.date.length && time.end_date.length
+            }).map(time => {
+                const start = formatDate(`${time.date} ${time.start_time}`, true)
+                const end = formatDate(`${time.end_date} ${time.end_time}`, true)
+                notes += `\n### ${start} - ${end}`
+            })
+
+            rows[row].task_id = parseInt(e.target.value)
+            rows[row].unit_price = taskModel.calculateAmount(task.task_rate)
+            rows[row].quantity = Math.round(task.duration, 3)
+            rows[row].type_id = consts.line_item_task
+            rows[row].notes = notes
+
             this.props.update(rows, row)
 
             return
@@ -185,17 +235,20 @@ class LineItemEditor extends Component {
     }
 
     handleRowAdd () {
-        this.props.onAddFiled()
+        this.props.onAddFiled(parseInt(this.state.line_type))
     }
 
     render () {
-        const lineItemRows = this.state.products.length && this.state.taxRates.length
+        const variable = (this.state.line_type === consts.line_item_product) ? this.state.products : ((this.state.line_type === consts.line_item_task) ? (this.state.tasks) : (this.state.expenses))
+
+        const lineItemRows = variable.length && this.state.taxRates.length
             ? <LineItem
                 invoice={this.props.invoice}
                 line_type={parseInt(this.state.line_type)}
                 rows={this.props.invoice.line_items}
                 tax_rates={this.state.taxRates}
                 expenses={this.state.expenses}
+                tasks={this.state.tasks}
                 products={this.state.products}
                 attributes={this.state.attributes}
                 new={true}
@@ -238,14 +291,15 @@ class LineItemEditor extends Component {
                     {!this.props.entity &&
                     <Input name="line_type" type='select' value={this.state.line_type}
                         onChange={this.handleLineTypeChange} className='pa2 mr2 f6 form-control'>
-                        <option value="1">{translations.product}</option>
-                        <option value="2">{translations.task}</option>
-                        <option value="3">{translations.expense}</option>
+                        <option value="">Select Line Type</option>
+                        <option value={consts.line_item_product}>{translations.product}</option>
+                        <option value={consts.line_item_task}>{translations.task}</option>
+                        <option value={consts.line_item_expense}>{translations.expense}</option>
                     </Input>
                     }
 
                 </FormGroup>
-                {lineItemRows}
+                {!!this.state.line_type && lineItemRows}
 
                 <table id='lines-table'>
                     <tfoot>

@@ -67,6 +67,10 @@ class PaymentController extends Controller
 
         $payment = (new ProcessPayment())->process($request->all(), $this->payment_repo, $payment);
 
+        if ($request->input('send_email') === true) {
+            $payment->service()->sendEmail();
+        }
+
         event(new PaymentWasCreated($payment));
 
         return response()->json($this->transformPayment($payment));

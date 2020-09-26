@@ -56,8 +56,8 @@ trait ExpenseTransformable
             'recurring_due_date'    => $expense->recurring_due_date ?: '',
             'last_sent_date'        => $expense->last_sent_date ?: '',
             'next_send_date'        => $expense->next_send_date ?: '',
-            'recurring_frequency'   => (int)$expense->recurring_frequency ?: ''
-
+            'recurring_frequency'   => (int)$expense->recurring_frequency ?: '',
+            'category'              => $expense->category
         ];
     }
 

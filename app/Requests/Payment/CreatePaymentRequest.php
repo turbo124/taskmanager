@@ -38,6 +38,7 @@ class CreatePaymentRequest extends BaseFormRequest
         $input = $this->all();
 
         $invoices = [];
+        $credits = [];
 
         if (!empty($input['invoices'])) {
             foreach ($input['invoices'] as $key => $invoice) {
@@ -49,6 +50,18 @@ class CreatePaymentRequest extends BaseFormRequest
             }
 
             $input['invoices'] = $invoices;
+        }
+
+        if (!empty($input['credits'])) {
+            foreach ($input['credits'] as $key => $credit) {
+                if (empty($credit['credit_id'])) {
+                    continue;
+                }
+
+                $credits[] = $credit;
+            }
+
+            $input['credits'] = $credits;
         }
 
         $input['is_manual'] = true;

@@ -75,7 +75,7 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get convertedAmount () {
-        return (this.fields.amount * this.fields.exchange_rate).toFixed(2)
+        return parseFloat((this.fields.amount * this.fields.exchange_rate).toFixed(2))
     }
 
     get convertedAmountWithTax () {

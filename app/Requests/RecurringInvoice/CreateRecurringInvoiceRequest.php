@@ -18,7 +18,7 @@ class CreateRecurringInvoiceRequest extends BaseFormRequest
             'invitations.*.contact_id' => 'distinct',
             'frequency'                => 'required|integer',
             'start_date'               => 'required',
-            'end_date'                 => 'required',
+            'expiry_date'              => 'required',
             'customer_id'              => 'required|exists:customers,id,account_id,' . auth()->user()->account_user(
                 )->account_id,
         ];

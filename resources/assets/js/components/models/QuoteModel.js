@@ -105,6 +105,10 @@ export default class QuoteModel extends BaseModel {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
             this.exchange_rate = currency[0].exchange_rate
         }
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get exchange_rate () {
@@ -139,6 +143,10 @@ export default class QuoteModel extends BaseModel {
         return parseInt(this.fields.status_id) === this.sent
     }
 
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.quote_status_draft
+    }
+
     get fileCount () {
         return this._file_count || 0
     }
@@ -153,6 +161,10 @@ export default class QuoteModel extends BaseModel {
 
     get invitation_link () {
         return `http://${this.account.account.subdomain}portal/quotes/$key`
+    }
+
+    get getInvitationViewLink () {
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/quote/${this.invitations[0].key}`
     }
 
     get customer_id () {
@@ -198,6 +210,10 @@ export default class QuoteModel extends BaseModel {
 
         if (!this.isApproved) {
             actions.push('approve')
+        }
+
+        if (!this.fields.deleted_at && !this.isDraft) {
+            actions.push('portal')
         }
 
         actions.push('cloneToQuote')

@@ -6,6 +6,7 @@ import TaskDropdown from './dropdowns/TaskDropdown'
 import ExpenseDropdown from './dropdowns/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
 import { translations } from '../utils/_translations'
+import { consts } from "../utils/_consts";
 
 class LineItem extends Component {
     constructor (props) {
@@ -54,7 +55,7 @@ class LineItem extends Component {
 
             return <React.Fragment key={index}>
                 <Row className="border-bottom border-primary my-3" form>
-                    {this.props.line_type === 1 &&
+                    {lineItem.type_id === 1 &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
                             <Label>{translations.product}</Label>
@@ -70,33 +71,35 @@ class LineItem extends Component {
                     </Col>
                     }
 
-                    {this.props.line_type === 2 &&
+                    {lineItem.type_id === consts.line_item_task &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
-                            <Label>Task</Label>
+                            <Label>{translations.task}</Label>
                             <TaskDropdown
+                                tasks={this.props.tasks}
                                 dataId={index}
+                                single_only={true}
                                 renderErrorFor={this.renderErrorFor}
-                                name={`${index}|task_id`}
+                                name="task_id"
                                 handleInputChanges={this.props.onChange}
-                                task={lineItem.task_id}
+                                task={lineItem.product_id}
 
                             />
                         </FormGroup>
                     </Col>
                     }
 
-                    {this.props.line_type === 3 &&
+                    {lineItem.type_id === consts.line_item_expense &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
-                            <Label>Expense</Label>
+                            <Label>{translations.expense}</Label>
                             <ExpenseDropdown
                                 dataId={index}
                                 expenses={this.props.expenses}
                                 renderErrorFor={this.renderErrorFor}
                                 name="expense_id"
                                 handleInputChanges={this.props.onChange}
-                                expense={lineItem.expense_id}
+                                expense={lineItem.product_id}
 
                             />
                         </FormGroup>
@@ -105,7 +108,7 @@ class LineItem extends Component {
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>Price</Label>
+                            <Label>{translations.price}</Label>
                             <Input key={`a-${index}`} name="unit_price" data-line={index} type='text' data-column="5"
                                 value={lineItem.unit_price} onChange={this.props.onChange}
                                 className='pa2 mr2 f6 form-control'/>
@@ -114,7 +117,7 @@ class LineItem extends Component {
 
                     <Col md={1} data-id={index}>
                         <FormGroup>
-                            <Label>Quantity</Label>
+                            <Label>{translations.quantity}</Label>
                             <Input key={`b-${index}`} name="quantity" data-line={index} type='text'
                                 value={lineItem.quantity}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
@@ -123,7 +126,7 @@ class LineItem extends Component {
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>Discount</Label>
+                            <Label>{translations.discount}</Label>
                             <Input key={`c-${index}`} name="unit_discount" data-line={index} type='text'
                                 value={lineItem.unit_discount}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
@@ -132,7 +135,7 @@ class LineItem extends Component {
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>Tax</Label>
+                            <Label>{translations.tax}</Label>
                             <Input key={`d_${index}`} name="unit_tax" data-line={index} type='select'
                                 value={lineItem.tax_rate_id}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'>
@@ -151,24 +154,24 @@ class LineItem extends Component {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label>Sub Total</Label>
+                        <Label>{translations.subtotal}</Label>
                         <p className='pa2 mr2 f6'>{<FormatMoney
                             amount={total}/>}</p>
                     </FormGroup>
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>Description</Label>
+                            <Label>{translations.description}</Label>
                             <Input key={`e-${index}`} name="description" data-line={index} type='text'
                                 value={lineItem.description}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
 
-                    {this.props.line_type === 1 &&
+                    {lineItem.type_id === consts.line_item_product &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
-                            <Label>Product Variation</Label>
+                            <Label>{translations.variation}</Label>
                             <ProductAttributeDropdown
                                 dataId={index}
                                 renderErrorFor={this.renderErrorFor}
@@ -184,7 +187,7 @@ class LineItem extends Component {
                     <Col md={2} data-id={index}>
                         <Button color="danger" onClick={(event) => {
                             this.props.onDelete(index)
-                        }}>Delete</Button>
+                        }}>{translations.delete}</Button>
                     </Col>
                 </Row>
             </React.Fragment>

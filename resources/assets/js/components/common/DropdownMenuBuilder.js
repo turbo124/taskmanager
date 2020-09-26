@@ -38,6 +38,19 @@ export default class DropdownMenuBuilder extends Component {
             }, {})
     }
 
+    launchPortal () {
+        if (this.props.model.getInvitationViewLink.length) {
+            window.open(
+                this.props.model.getInvitationViewLink,
+                '_blank' // <- This is what makes it open in a new window.
+            )
+        }
+        // if(this.props.model.invitation_link && this.props.model.invitations && this.props.model.invitations.length) {
+        //     const invitation = this.props.model.invitations[0]
+        // }
+        // console.log('invitations', this.props.model.invitations)
+    }
+
     changeStatus (action) {
         if (!this.props.model.fields.id) {
             return false
@@ -447,6 +460,12 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={13} className="primary"
                     onClick={() => this.changeStatus('stop_recurring')}>
                     <i className={`fa ${icons.stop} mr-2`}/>{translations.stop}
+                </DropdownItem>
+
+            case 'portal':
+                return <DropdownItem key={13} className="primary"
+                    onClick={() => this.launchPortal()}>
+                    <i className={`fa ${icons.portal} mr-2`}/>{translations.portal}
                 </DropdownItem>
         }
     }

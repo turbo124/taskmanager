@@ -32,6 +32,8 @@ class LineItemSettings extends BaseSettings
             $formatted_items = [];
 
             foreach ($line_items as $line_id => $line_item) {
+                $line_item['product_id'] = (!empty($line_item['expense_id'])) ? $line_item['expense_id'] : ((!empty($line_item['task_id'])) ? $line_item['task_id'] : $line_item['product_id']);
+
                 $line_item = $this->validate((object)$line_item, $this->settings);
 
                 if (!$line_item) {
@@ -49,6 +51,7 @@ class LineItemSettings extends BaseSettings
                     ->setProductId($line_item->product_id)
                     ->setSubTotal($line_item->sub_total)
                     ->setTotal($line_item->sub_total)
+                    ->setTypeId(isset($line_item->type_id) ? $line_item->type_id : 1)
                     ->setIsAmountDiscount(
                         isset($line_item->is_amount_discount) ? $line_item->is_amount_discount : false
                     )

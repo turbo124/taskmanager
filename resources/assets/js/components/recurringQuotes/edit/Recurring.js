@@ -10,11 +10,11 @@ export default function Recurring (props) {
         <React.Fragment>
             {props.recurring_quote.last_sent_date.length
                 ? <FormGroup>
-                    <Label for="next_send_date">{translations.next_send_date}(*):</Label>
-                    <Datepicker name="next_send_date" date={props.recurring_quote.next_send_date}
+                    <Label for="date_to_send">{translations.next_send_date}(*):</Label>
+                    <Datepicker name="date_to_send" date={props.recurring_quote.date_to_send}
                         handleInput={props.handleInput}
-                        className={props.hasErrorFor('next_send_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {props.renderErrorFor('next_send_date')}
+                        className={props.hasErrorFor('date_to_send') ? 'form-control is-invalid' : 'form-control'}/>
+                    {props.renderErrorFor('date_to_send')}
                 </FormGroup>
                 : <FormGroup>
                     <Label for="start_date">{translations.start_date}(*):</Label>
@@ -26,10 +26,10 @@ export default function Recurring (props) {
             }
 
             <FormGroup>
-                <Label for="end_date">{translations.end_date}(*):</Label>
-                <Datepicker name="end_date" date={props.recurring_quote.end_date} handleInput={props.handleInput}
-                    className={props.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
-                {props.renderErrorFor('end_date')}
+                <Label for="expiry_date">{translations.end_date}(*):</Label>
+                <Datepicker name="expiry_date" date={props.recurring_quote.expiry_date} handleInput={props.handleInput}
+                    className={props.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
+                {props.renderErrorFor('expiry_date')}
             </FormGroup>
 
             <FormGroup>

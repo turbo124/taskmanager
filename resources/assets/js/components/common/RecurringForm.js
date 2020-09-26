@@ -53,19 +53,19 @@ export default class RecurringForm extends Component {
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="end_date">{translations.end_date}(*):</Label>
+                                <Label for="recurring_end_date">{translations.end_date}(*):</Label>
                                 <Datepicker name="recurring_end_date" date={this.props.recurring.recurring_end_date}
                                     handleInput={this.props.handleInput}
-                                    className={this.props.hasErrorFor('end_date') ? 'form-control is-invalid' : 'form-control'}/>
-                                {this.props.renderErrorFor('end_date')}
+                                    className={this.props.hasErrorFor('recurring_end_date') ? 'form-control is-invalid' : 'form-control'}/>
+                                {this.props.renderErrorFor('recurring_end_date')}
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="due_date">{translations.due_date}(*):</Label>
+                                <Label for="recurring_due_date">{translations.due_date}(*):</Label>
                                 <Datepicker name="recurring_due_date" date={this.props.recurring.recurring_due_date}
                                     handleInput={this.props.handleInput}
-                                    className={this.props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                                {this.props.renderErrorFor('due_date')}
+                                    className={this.props.hasErrorFor('recurring_due_date') ? 'form-control is-invalid' : 'form-control'}/>
+                                {this.props.renderErrorFor('recurring_due_date')}
                             </FormGroup>
 
                             <FormGroup>

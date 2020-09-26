@@ -93,6 +93,8 @@ class AddRecurringInvoice extends Component {
             customerId = invoice[0].customer_id
         }
 
+        alert(e.target.name)
+
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
         this.setState({
             customer_id: customerId,

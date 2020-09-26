@@ -98,6 +98,10 @@ export default class OrderModel extends BaseModel {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
             this.exchange_rate = currency[0].exchange_rate
         }
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get exchange_rate () {
@@ -125,27 +129,31 @@ export default class OrderModel extends BaseModel {
     }
 
     get isSent () {
-        return parseInt(this.fields.status_id) === this.sent
+        return parseInt(this.fields.status_id) === consts.order_status_sent
     }
 
     get isApproved () {
-        return parseInt(this.fields.status_id) === this.approved
+        return parseInt(this.fields.status_id) === consts.order_status_approved
     }
 
     get isCompleted () {
-        return parseInt(this.fields.status_id) === this.completed
+        return parseInt(this.fields.status_id) === consts.order_status_complete
     }
 
     get isCancelled () {
-        return parseInt(this.fields.status_id) === this.cancelled
+        return parseInt(this.fields.status_id) === consts.order_status_cancelled
     }
 
     get isBackorder () {
-        return parseInt(this.fields.status_id) === this.backorder
+        return parseInt(this.fields.status_id) === consts.order_status_backorder
     }
 
     get isHeld () {
-        return parseInt(this.fields.status_id) === this.held
+        return parseInt(this.fields.status_id) === consts.order_status_held
+    }
+
+    get isDraft () {
+        return parseInt(this.fields.status_id) === consts.order_status_draft
     }
 
     get fileCount () {
@@ -162,6 +170,10 @@ export default class OrderModel extends BaseModel {
 
     get invitation_link () {
         return `http://${this.account.account.subdomain}portal/orders/$key`
+    }
+
+    get getInvitationViewLink () {
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/order/${this.invitations[0].key}`
     }
 
     get customer_id () {
@@ -264,6 +276,10 @@ export default class OrderModel extends BaseModel {
 
         if (!this.hasInvoice() && !this.isCompleted && this.isEditable) {
             actions.push('holdOrder')
+        }
+
+        if (!this.fields.deleted_at && !this.isDraft) {
+            actions.push('portal')
         }
 
         if (this.isHeld) {
