@@ -57,6 +57,10 @@ export default class CompanyDropdown extends Component {
 
             this.setState({ companies: response }, () => {
                 console.log('companies', this.state.companies)
+
+                if (!this.props.multiple) {
+                    this.state.companies.unshift({ id: '', name: 'Select Company' })
+                }
             })
         })
     }
