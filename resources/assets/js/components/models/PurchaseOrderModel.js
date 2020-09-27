@@ -111,6 +111,10 @@ export default class PurchaseOrderModel extends BaseModel {
         return this.fields.exchange_rate
     }
 
+    get isNew () {
+        return this.fields.id && this.fields.id.toString().length && parseInt(this.fields.id) > 0
+    }
+
     set exchange_rate (exchange_rate) {
         this.fields.exchange_rate = exchange_rate
     }
