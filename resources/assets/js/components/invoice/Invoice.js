@@ -13,6 +13,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -88,18 +89,16 @@ export default class Invoice extends Component {
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getCustomFields () {

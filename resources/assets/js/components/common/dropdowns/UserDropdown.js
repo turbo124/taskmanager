@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
+import UserRepository from '../../repositories/UserRepository'
 
 export default class UserDropdown extends Component {
     constructor (props) {
@@ -36,19 +36,18 @@ export default class UserDropdown extends Component {
     }
 
     getUsers () {
-        axios.get('/api/users')
-            .then((r) => {
-                this.setState({
-                    users: r.data
-                }, function () {
-                    if (!this.props.multiple) {
-                        this.state.users.unshift({ id: '', first_name: 'Select User', last_name: '' })
-                    }
-                })
+        const userRepository = new UserRepository()
+        userRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ users: response }, () => {
+                if (!this.props.multiple) {
+                    this.state.users.unshift({ id: '', first_name: 'Select User', last_name: '' })
+                }
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     multiple (userList, name) {

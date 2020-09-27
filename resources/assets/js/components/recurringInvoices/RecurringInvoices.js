@@ -7,6 +7,8 @@ import RecurringInvoiceItem from './RecurringInvoiceItem'
 import RecurringInvoiceFilters from './RecurringInvoiceFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
+import InvoiceRepository from '../repositories/InvoiceRepository'
 
 export default class RecurringInvoices extends Component {
     constructor (props) {
@@ -58,18 +60,16 @@ export default class RecurringInvoices extends Component {
     }
 
     getInvoices () {
-        axios.get('/api/invoice')
-            .then((r) => {
-                this.setState({
-                    allInvoices: r.data
-                })
+        const invoiceRepository = new InvoiceRepository()
+        invoiceRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ allInvoices: response }, () => {
+                console.log('allInvoices', this.state.allInvoices)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     updateInvoice (invoices) {
@@ -115,18 +115,16 @@ export default class RecurringInvoices extends Component {
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     setFilterOpen (isOpen) {

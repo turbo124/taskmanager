@@ -1,6 +1,3 @@
-import { consts } from '../utils/_consts'
-import { translations } from '../utils/_translations'
-
 export default class BaseRepository {
     constructor () {
         this.errors = []
@@ -9,6 +6,13 @@ export default class BaseRepository {
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
         this.user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
         this.settings = this.user_account[0].account.settings
+    }
+
+    buildQueryParams (params) {
+        var esc = encodeURIComponent
+        return Object.keys(params)
+            .map(k => esc(k) + '=' + esc(params[k]))
+            .join('&')
     }
 
     handleError (error) {

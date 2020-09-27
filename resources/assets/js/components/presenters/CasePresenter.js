@@ -23,9 +23,11 @@ export default function CasePresenter (props) {
             return <td>{entity.link_type.toString().length ? caseLinkTypes[entity.link_type] : ''}</td>
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Status">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Status">{status}</td>
         case 'priority_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Priority">{priority}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Priority">{priority}</td>
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]

@@ -1,16 +1,15 @@
 import axios from 'axios'
 import BaseRepository from './BaseRepository'
-import { consts } from '../utils/_consts'
 
 export default class ProductRepository extends BaseRepository {
-    constructor (data = null, customers = []) {
+    constructor () {
         super()
-       
+
         this._url = '/api/products'
         this.entity = 'Invoice'
     }
 
-async get () {
+    async get () {
         this.errors = []
         this.error_message = ''
 

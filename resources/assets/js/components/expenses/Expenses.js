@@ -8,6 +8,8 @@ import ExpenseItem from './ExpenseItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
+import CompanyRepository from '../repositories/CompanyRepository'
 
 export default class Expenses extends Component {
     constructor (props) {
@@ -103,18 +105,16 @@ export default class Expenses extends Component {
     }
 
     getCompanies () {
-        axios.get('/api/companies')
-            .then((r) => {
-                this.setState({
-                    companies: r.data
-                })
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     filterExpenses (filters) {
@@ -122,18 +122,16 @@ export default class Expenses extends Component {
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     updateExpenses (expenses) {

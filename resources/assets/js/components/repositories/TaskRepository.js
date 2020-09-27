@@ -1,21 +1,54 @@
 import axios from 'axios'
 import BaseRepository from './BaseRepository'
-import { consts } from '../utils/_consts'
 
 export default class TaskRepository extends BaseRepository {
-    constructor (data = null, customers = []) {
+    constructor () {
         super()
-       
+
         this._url = '/api/tasks'
+        this._status_url = 'api/taskStatus'
         this.entity = 'Invoice'
     }
 
-    async get () {
+    async get (status = null, customer_id = null) {
         this.errors = []
         this.error_message = ''
 
+        const parameters = {}
+
+        if (customer_id !== null) {
+            parameters.customer_id = customer_id
+        }
+
+        if (status !== null) {
+            parameters.status = status
+        }
+
+        const url = Object.keys(parameters).length ? this._url + `?${this.buildQueryParams(parameters)}` : this._url
+
         try {
-            const res = await axios.get(this._url)
+            const res = await axios.get(url)
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
+
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async getStatuses (task_type) {
+        this.errors = []
+        this.error_message = ''
+        const url = `${this._status_url}?task_type=${task_type}`
+
+        try {
+            const res = await axios.get(url)
 
             if (res.status === 200) {
                 // test for status you want, etc

@@ -70,7 +70,7 @@ class PaymentMade extends AdminMailer
             'title'       => $this->subject,
             'body'        => $this->message,
             'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->payment->id,
+            'url'         => $this->getUrl() . 'payments/' . $this->payment->id,
             'button_text' => trans('texts.view_payment'),
             'logo'        => $this->payment->account->present()->logo(),
         ];

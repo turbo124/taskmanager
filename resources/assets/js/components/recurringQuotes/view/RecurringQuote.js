@@ -129,15 +129,15 @@ export default class RecurringQuote extends Component {
         }
 
         if (this.props.entity.start_date && this.props.entity.start_date.length) {
-            fields.start_date = <FormatDate date={this.props.entity.start_date} />
+            fields.start_date = <FormatDate date={this.props.entity.start_date}/>
         }
 
         if (this.props.entity.expiry_date && this.props.entity.expiry_date.length) {
-            fields.expiry_date = <FormatDate date={this.props.entity.expiry_date} />
+            fields.expiry_date = <FormatDate date={this.props.entity.expiry_date}/>
         }
 
         if (this.props.entity.date_to_send && this.props.entity.date_to_send.length) {
-            fields.date_to_send = <FormatDate date={this.props.entity.date_to_send} />
+            fields.date_to_send = <FormatDate date={this.props.entity.date_to_send}/>
         }
 
         if (this.props.entity.cycles_remaining && this.props.entity.cycles_remaining.length) {

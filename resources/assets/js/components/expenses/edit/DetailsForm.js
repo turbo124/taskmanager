@@ -9,7 +9,6 @@ import UserDropdown from '../../common/dropdowns/UserDropdown'
 import RecurringForm from '../../common/RecurringForm'
 
 export default class DetailsForm extends React.Component {
-
     render () {
         return (<Card>
             <CardHeader>{translations.settings}</CardHeader>

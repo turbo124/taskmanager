@@ -44,4 +44,16 @@ class AdminMailer extends Mailable
             event(new EmailFailedToSend($this->entity, $exception->getMessage()));
         }
     }
+
+    protected function getUrl () {
+        $url = $this->entity->account->subdomain;
+
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+
+        $url = rtrim($url, '/') . '/portal/';
+
+        return $url;
+    }
 }

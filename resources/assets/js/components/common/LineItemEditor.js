@@ -10,8 +10,11 @@ import { translations } from '../utils/_translations'
 import ExpenseModel from '../models/ExpenseModel'
 import { consts } from '../utils/_consts'
 import TaskModel from '../models/TaskModel'
-import InvoicePresenter from "../presenters/InvoicePresenter";
-import FormatDate, { formatDate } from "./FormatDate";
+import { formatDate } from './FormatDate'
+import ProductRepository from '../repositories/ProductRepository'
+import TaxRateRepository from '../repositories/TaxRateRepository'
+import ExpenseRepository from '../repositories/ExpenseRepository'
+import TaskRepository from '../repositories/TaskRepository'
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -46,8 +49,15 @@ class LineItemEditor extends Component {
     }
 
     loadProducts () {
-        axios.get('/api/products').then(data => {
-            this.setState({ products: data.data })
+        const productRepository = new ProductRepository()
+        productRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ products: response }, () => {
+                console.log('products', this.state.products)
+            })
         })
     }
 
@@ -58,20 +68,41 @@ class LineItemEditor extends Component {
     }
 
     loadTaxRates () {
-        axios.get('/api/taxRates').then(data => {
-            this.setState({ taxRates: data.data })
+        const taxRateRepository = new TaxRateRepository()
+        taxRateRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ taxRates: response }, () => {
+                console.log('taxRates', this.state.taxRates)
+            })
         })
     }
 
     loadExpenses () {
-        axios.get('/api/expenses').then(data => {
-            this.setState({ expenses: data.data })
+        const expenseRepository = new ExpenseRepository()
+        expenseRepository.get(consts.expense_status_pending, this.props.invoice.customer_id ? this.props.invoice.customer_id : null).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ expenses: response }, () => {
+                console.log('expenses', this.state.expenses)
+            })
         })
     }
 
     loadTasks () {
-        axios.get('/api/tasks').then(data => {
-            this.setState({ tasks: data.data })
+        const taskRepository = new TaskRepository()
+        taskRepository.get(null, this.props.invoice.customer_id ? this.props.invoice.customer_id : null).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ tasks: response }, () => {
+                console.log('tasks', this.state.tasks)
+            })
         })
     }
 
@@ -127,8 +158,7 @@ class LineItemEditor extends Component {
         }
 
         if (e.target.name === 'attribute_id') {
-            const price = e.target.options[e.target.selectedIndex].dataset.price
-            rows[row].unit_price = price
+            rows[row].unit_price = e.target.options[e.target.selectedIndex].dataset.price
             rows[row].attribute_id = e.target.value
             rows[row].type_id = 1
             this.props.update(rows, row)
@@ -160,8 +190,6 @@ class LineItemEditor extends Component {
             const taskModel = new TaskModel(task, this.props.customers)
 
             let notes = task.description + '\n'
-
-            console.log('task', task)
 
             task.timers.filter(time => {
                 return time.date.length && time.end_date.length
@@ -238,11 +266,22 @@ class LineItemEditor extends Component {
     }
 
     handleRowAdd () {
+        const variable = (this.state.line_type === consts.line_item_product) ? this.state.products : ((this.state.line_type === consts.line_item_task) ? (this.state.tasks) : (this.state.expenses))
+
+        if (!variable || !variable.length) {
+            return false
+        }
+
         this.props.onAddFiled(parseInt(this.state.line_type))
     }
 
     render () {
         const variable = (this.state.line_type === consts.line_item_product) ? this.state.products : ((this.state.line_type === consts.line_item_task) ? (this.state.tasks) : (this.state.expenses))
+
+        if (!variable) {
+            console.log(`There are no ${this.state.line_type}`)
+            return false
+        }
 
         const lineItemRows = variable.length && this.state.taxRates.length
             ? <LineItem

@@ -1,21 +1,20 @@
 import axios from 'axios'
 import BaseRepository from './BaseRepository'
 
-export default class InvoiceRepository extends BaseRepository {
+export default class TaxRateRepository extends BaseRepository {
     constructor () {
         super()
 
-        this._url = '/api/invoice'
+        this._url = '/api/taxRates'
         this.entity = 'Invoice'
     }
 
-    async get (status = null) {
-        const url = status !== null ? `api/invoice/getInvoicesByStatus/${this.props.status}` : this._url
+    async get () {
         this.errors = []
         this.error_message = ''
 
         try {
-            const res = await axios.get(url)
+            const res = await axios.get(this._url)
 
             if (res.status === 200) {
                 // test for status you want, etc

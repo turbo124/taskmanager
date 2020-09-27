@@ -4,9 +4,9 @@ import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import SectionItem from '../../common/entityContainers/SectionItem'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
-import PaymentModel from '../../models/PaymentModel'
 import FormatMoney from '../../common/FormatMoney'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
+import PaymentRepository from '../../repositories/PaymentRepository'
 
 export default class Gateway extends Component {
     constructor (props) {
@@ -24,8 +24,8 @@ export default class Gateway extends Component {
     }
 
     getPayments () {
-        const paymentModel = new PaymentModel()
-        paymentModel.getPayments().then(response => {
+        const paymentRepository = new PaymentRepository()
+        paymentRepository.get().then(response => {
             if (!response) {
                 alert('error')
             }

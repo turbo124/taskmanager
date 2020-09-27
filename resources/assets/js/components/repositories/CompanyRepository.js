@@ -1,11 +1,10 @@
 import axios from 'axios'
 import BaseRepository from './BaseRepository'
-import { consts } from '../utils/_consts'
 
 export default class CompanyRepository extends BaseRepository {
-    constructor (data = null, customers = []) {
+    constructor () {
         super()
-       
+
         this._url = '/api/companies'
         this.entity = 'Invoice'
     }

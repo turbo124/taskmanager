@@ -27,7 +27,8 @@ export default function Recurring (props) {
 
             <FormGroup>
                 <Label for="expiry_date">{translations.end_date}(*):</Label>
-                <Datepicker name="expiry_date" date={props.recurring_invoice.expiry_date} handleInput={props.handleInput}
+                <Datepicker name="expiry_date" date={props.recurring_invoice.expiry_date}
+                    handleInput={props.handleInput}
                     className={props.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
                 {props.renderErrorFor('expiry_date')}
             </FormGroup>

@@ -16,16 +16,18 @@ export default function ExpensePresenter (props) {
 
     switch (field) {
         case 'amount':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Total">{
-                <FormatMoney
-                    customers={props.customers} customer_id={entity.customer_id}
-                    amount={entity.amount}/>}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Total">{
+                    <FormatMoney
+                        customers={props.customers} customer_id={entity.customer_id}
+                        amount={entity.amount}/>}</td>
         case 'status_field':
             return status
         case 'date':
         case 'payment_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date"><FormatDate
-                field={field} date={entity[field]}/></td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date">
+                <FormatDate
+                    field={field} date={entity[field]}/></td>
         }
 
         case 'status':

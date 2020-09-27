@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import InvoiceRepository from '../../repositories/InvoiceRepository'
 
 export default class InvoiceDropdown extends Component {
     constructor (props) {
@@ -37,17 +37,16 @@ export default class InvoiceDropdown extends Component {
     }
 
     getInvoices () {
-        const url = this.props.status && this.props.status !== null ? `api/invoice/getInvoicesByStatus/${this.props.status}` : '/api/invoice'
+        const invoiceRepository = new InvoiceRepository()
+        invoiceRepository.get(this.props.status).then(response => {
+            if (!response) {
+                alert('error')
+            }
 
-        axios.get(url)
-            .then((r) => {
-                this.setState({
-                    invoices: r.data
-                }, () => console.log('invoices', this.state.invoices))
+            this.setState({ invoices: response }, () => {
+                console.log('invoices', this.state.invoices)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

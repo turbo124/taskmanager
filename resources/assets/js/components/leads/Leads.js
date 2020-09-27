@@ -7,6 +7,7 @@ import LeadFilters from './LeadFilters'
 import LeadItem from './LeadItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import UserRepository from '../repositories/UserRepository'
 
 export default class Leads extends Component {
     constructor (props) {
@@ -121,18 +122,16 @@ export default class Leads extends Component {
     }
 
     getUsers () {
-        axios.get('api/users')
-            .then((r) => {
-                this.setState({
-                    users: r.data
-                })
+        const userRepository = new UserRepository()
+        userRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ users: response }, () => {
+                console.log('users', this.state.users)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     setFilterOpen (isOpen) {

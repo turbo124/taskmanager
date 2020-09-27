@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
 import Select from 'react-select'
 import { translations } from '../../utils/_translations'
+import TaskRepository from '../../repositories/TaskRepository'
 
 export default class TaskDropdown extends Component {
     constructor (props) {
@@ -35,19 +35,20 @@ export default class TaskDropdown extends Component {
     }
 
     getTasks () {
-        axios.get('/api/tasks')
-            .then((r) => {
-                this.setState({
-                    tasks: r.data
-                }, function () {
-                    if (!this.props.multiple) {
-                        this.state.tasks.unshift({ id: '', title: 'Select Task' })
-                    }
-                })
+        const taskRepository = new TaskRepository()
+        taskRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ tasks: response }, () => {
+                console.log('tasks', this.state.tasks)
+
+                if (!this.props.multiple) {
+                    this.state.tasks.unshift({ id: '', title: 'Select Task' })
+                }
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

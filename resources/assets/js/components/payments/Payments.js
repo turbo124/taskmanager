@@ -8,6 +8,9 @@ import PaymentFilters from './PaymentFilters'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
+import CreditRepository from '../repositories/CreditRepository'
+import InvoiceRepository from '../repositories/InvoiceRepository'
 
 export default class Payments extends Component {
     constructor (props) {
@@ -79,48 +82,42 @@ export default class Payments extends Component {
     }
 
     getInvoices () {
-        axios.get('/api/invoice')
-            .then((r) => {
-                this.setState({
-                    invoices: r.data
-                })
+        const invoiceRepository = new InvoiceRepository()
+        invoiceRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ invoices: response }, () => {
+                console.log('invoices', this.state.invoices)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getCredits () {
-        axios.get('/api/credits')
-            .then((r) => {
-                this.setState({
-                    credits: r.data
-                })
+        const creditRepository = new CreditRepository()
+        creditRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ credits: response }, () => {
+                console.log('credits', this.state.credits)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     updateCustomers (payments) {

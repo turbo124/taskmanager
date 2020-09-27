@@ -104,14 +104,23 @@ export default class InvoiceModel extends BaseModel {
             }
         }
 
-        if (this.customer && this.customer.currency_id.toString().length) {
-            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
-            this.exchange_rate = currency[0].exchange_rate
-        }
+        console.log('currency', this.currency)
+
+        this.exchange_rate = this.currency ? this.currency.exchange_rate : 1
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
         const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
         this.account = user_account[0]
+    }
+
+    get currency () {
+        const currency_id = this.customer.length && this.customer.currency_id.toString().length ? this.customer.currency_id : this.settings.currency_id
+
+        if (!currency_id) {
+            return null
+        }
+
+        return JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id))[0]
     }
 
     get fields () {
@@ -127,7 +136,7 @@ export default class InvoiceModel extends BaseModel {
     }
 
     get customer () {
-        return this._customer
+        return this._customer || []
     }
 
     set customer (customer) {
@@ -297,26 +306,6 @@ export default class InvoiceModel extends BaseModel {
         array.splice(index, 1)
         this.fields.line_items = array
         return array
-    }
-
-    async getInvoices () {
-        this.errors = []
-        this.error_message = ''
-
-        try {
-            const res = await axios.get(this._url)
-
-            if (res.status === 200) {
-                // test for status you want, etc
-                console.log(res.status)
-            }
-
-            // Don't forget to return something
-            return res.data
-        } catch (e) {
-            this.handleError(e)
-            return false
-        }
     }
 
     async completeAction (data, action) {

@@ -14,7 +14,6 @@ export default class TaskModel extends BaseModel {
         this.customers = customers
         this.entity = 'Task'
         this._url = '/api/tasks'
-        this._status_url = 'api/taskStatus'
         this._timerUrl = '/api/timer'
         this._time_log = []
 
@@ -278,26 +277,6 @@ export default class TaskModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
-            // Don't forget to return something
-            return res.data
-        } catch (e) {
-            this.handleError(e)
-            return false
-        }
-    }
-
-    async getStatuses () {
-        this.errors = []
-        this.error_message = ''
-
-        try {
-            const res = await axios.get(this._status_url)
-
-            if (res.status === 200) {
-                // test for status you want, etc
-                console.log(res.status)
-            }
-
             // Don't forget to return something
             return res.data
         } catch (e) {

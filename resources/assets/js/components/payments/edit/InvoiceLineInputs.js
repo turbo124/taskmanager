@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 import { translations } from '../../utils/_translations'
 

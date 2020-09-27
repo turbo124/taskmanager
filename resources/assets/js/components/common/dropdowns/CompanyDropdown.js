@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Select from 'react-select'
 import { translations } from '../../utils/_translations'
+import CompanyRepository from '../../repositories/CompanyRepository'
 
 export default class CompanyDropdown extends Component {
     constructor (props) {
@@ -49,19 +49,16 @@ export default class CompanyDropdown extends Component {
     }
 
     getCompanies () {
-        axios.get('/api/companies')
-            .then((r) => {
-                this.setState({
-                    companies: r.data
-                }, function () {
-                    if (!this.props.multiple) {
-                        this.state.companies.unshift({ id: '', name: 'Select Company' })
-                    }
-                })
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

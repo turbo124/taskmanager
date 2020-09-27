@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, CardBody, CustomInput, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
+import { Button, Card, CardBody, CustomInput, Modal, ModalBody } from 'reactstrap'
 import InvoiceLine from './InvoiceLine'
 import AddButtons from '../../common/AddButtons'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
@@ -150,7 +150,8 @@ class AddPayment extends React.Component {
                         className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">
-                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                    className={`fa ${icons.credit_card}`}/>
                                 {translations.send_email}
                             </h5>
                             <CustomInput

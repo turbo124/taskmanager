@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import TaskRepository from '../../repositories/TaskRepository'
 
 export default class TaskStatusDropdown extends Component {
     constructor (props) {
@@ -36,15 +36,16 @@ export default class TaskStatusDropdown extends Component {
     }
 
     getStatuses () {
-        axios.get(`/api/taskStatus?task_type=${this.props.task_type}`)
-            .then((r) => {
-                this.setState({
-                    statuses: r.data
-                })
+        const taskRepository = new TaskRepository()
+        taskRepository.getStatuses(this.props.task_type).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ statuses: response }, () => {
+                console.log('statuses', this.state.statuses)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

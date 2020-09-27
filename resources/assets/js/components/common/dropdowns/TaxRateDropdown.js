@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
+import TaxRateRepository from '../../repositories/TaxRateRepository'
 
 export default class TaxRateDropdown extends Component {
     constructor (props) {
@@ -35,15 +35,16 @@ export default class TaxRateDropdown extends Component {
     }
 
     getTaxRates () {
-        axios.get('/api/taxRates')
-            .then((r) => {
-                this.setState({
-                    taxRates: r.data
-                })
+        const taxRateRepository = new TaxRateRepository()
+        taxRateRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ taxRates: response }, () => {
+                console.log('taxRates', this.state.taxRates)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {
