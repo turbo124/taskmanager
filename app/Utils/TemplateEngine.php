@@ -55,6 +55,9 @@ class TemplateEngine
         $body = strlen($this->body) > 0 ? $this->body : $entity_obj->account->settings->{$this->template};
 
         $subject = $this->objPdf->parseLabels($labels, $subject);
+        $subject = $this->objPdf->parseValues($values, $subject);
+
+        $body = $this->objPdf->parseLabels($labels, $body);
         $body = $this->objPdf->parseValues($values, $body);
 
         $converter = new CommonMarkConverter(
