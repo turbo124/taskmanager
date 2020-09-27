@@ -1,6 +1,16 @@
-export default class CompanyRepository {
+import axios from 'axios'
+import BaseRepository from './BaseRepository'
+import { consts } from '../utils/_consts'
 
-async get () {
+export default class CompanyRepository extends BaseRepository {
+    constructor (data = null, customers = []) {
+        super()
+       
+        this._url = '/api/invoice'
+        this.entity = 'Invoice'
+    }
+
+    async get () {
         this.errors = []
         this.error_message = ''
 
