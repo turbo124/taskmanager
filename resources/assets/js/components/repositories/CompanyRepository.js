@@ -6,7 +6,7 @@ export default class CompanyRepository extends BaseRepository {
     constructor (data = null, customers = []) {
         super()
        
-        this._url = '/api/invoice'
+        this._url = '/api/companies'
         this.entity = 'Invoice'
     }
 
