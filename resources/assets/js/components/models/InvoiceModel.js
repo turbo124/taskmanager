@@ -123,6 +123,10 @@ export default class InvoiceModel extends BaseModel {
         return JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id))[0]
     }
 
+    get isNew () {
+        return this.fields.id && this.fields.id.toString().length && parseInt(this.fields.id) > 0
+    }
+
     get fields () {
         return this._fields
     }
