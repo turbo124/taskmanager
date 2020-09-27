@@ -828,10 +828,23 @@ class PdfBuilder
         foreach ($entity->line_items as $key => $item) {
             $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
 
-            if (is_numeric($item->product_id) && $item->type_id === 1) {
-                $product = Product::find($item->product_id);
+            if (is_numeric($item->product_id)) {
+                switch($item->type_id) {
+                    case 1:
+                        $product = Product::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                    break;
 
-                $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                    case 3:
+                        $product = Task::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                    break;
+
+                    case 6:
+                        $product = Expense::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = $product->name; // TODO
+                    break;
+                }
 
                 if (!empty($item->attribute_id)) {
                     $product_attribute = ProductAttribute::find($item->attribute_id);
