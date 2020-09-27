@@ -121,6 +121,7 @@ class LineItemEditor extends Component {
             rows[row].product_id = e.target.value
             rows[row].type_id = consts.line_item_product
             rows[row].quantity = product.quantity
+            rows[row].notes = product.notes
             this.props.update(rows, row)
             return
         }
@@ -217,6 +218,7 @@ class LineItemEditor extends Component {
             }
 
             return {
+                notes: product.notes,
                 cost: cost,
                 quantity: (this.settings.quantity_can_be_changed === true && row.quantity) ? row.quantity : (this.settings.has_minimum_quantity === true) ? 1 : null,
                 description: product.description
@@ -224,6 +226,7 @@ class LineItemEditor extends Component {
         }
 
         return {
+            notes: product.notes,
             cost: product.price,
             quantity: (this.settings.quantity_can_be_changed === true && row.quantity) ? row.quantity : (this.settings.has_minimum_quantity === true) ? 1 : null,
             description: this.settings.fill_products ? product.description : ''
