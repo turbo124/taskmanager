@@ -73,7 +73,7 @@ class ObjectViewed extends AdminMailer
             'body'        => $this->message,
             'url'         => config(
                     'taskmanager.site_url'
-                ) . "/portal/{$this->entity_name}/" . $this->invitation->key .
+                ) . "/portal/view/{$this->entity_name}/" . $this->invitation->key .
                 "?silent=true",
             'button_text' => trans("texts.view_{$this->entity_name}"),
             'signature'   => isset($this->entity->account->settings->email_signature) ? $this->entity->account->settings->email_signature : '',
