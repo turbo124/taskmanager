@@ -112,12 +112,12 @@ export default class RecurringQuoteModel extends BaseModel {
         }
     }
 
-    set exchange_rate (exchange_rate) {
-        this.fields.exchange_rate = exchange_rate
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    set exchange_rate (exchange_rate) {
+        this.fields.exchange_rate = exchange_rate
     }
 
     get customer () {
@@ -188,6 +188,12 @@ export default class RecurringQuoteModel extends BaseModel {
         return this.fields.quotes
     }
 
+    get contacts () {
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
+        return customer.contacts ? customer.contacts : []
+    }
+
     buildDropdownMenu () {
         const actions = []
 
@@ -248,12 +254,6 @@ export default class RecurringQuoteModel extends BaseModel {
         array.splice(index, 1)
         this.fields.line_items = array
         return array
-    }
-
-    get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
-        return customer.contacts ? customer.contacts : []
     }
 
     isLate () {

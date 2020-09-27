@@ -15,18 +15,20 @@ export default function RecurringInvoicePresenter (props) {
 
     switch (field) {
         case 'total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Total">{
-                <FormatMoney
-                    customers={props.customers} customer_id={entity.customer_id}
-                    amount={entity.total}/>}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Total">{
+                    <FormatMoney
+                        customers={props.customers} customer_id={entity.customer_id}
+                        amount={entity.total}/>}</td>
         case 'date':
         case 'due_date':
         case 'start_date':
         case 'last_sent_date':
         case 'date_to_send':
         case 'expiry_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}><FormatDate
-                field={field} date={entity[field]}/></td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}><FormatDate
+                    field={field} date={entity[field]}/></td>
         }
 
         case 'auto_billing_enabled':

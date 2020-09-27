@@ -10,6 +10,8 @@ import InvoiceModel from '../../models/InvoiceModel'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import Overview from './Overview'
+import InvoiceRepository from '../../repositories/InvoiceRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -33,7 +35,8 @@ export default class Expense extends Component {
     }
 
     getCategories () {
-        this.expenseModel.getGateways().then(response => {
+        const expenseRepo = new ExpenseRepository()
+        expenseRepo.getCategories().then(response => {
             if (!response) {
                 alert('error')
             }
@@ -57,7 +60,8 @@ export default class Expense extends Component {
     }
 
     getInvoices () {
-        this.invoiceModel.getInvoices().then(response => {
+        const invoiceRepository = new InvoiceRepository()
+        invoiceRepository.get().then(response => {
             if (!response) {
                 alert('error')
             }

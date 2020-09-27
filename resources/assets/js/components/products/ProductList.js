@@ -7,6 +7,7 @@ import ProductItem from './ProductItem'
 import ProductFilters from './ProductFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CompanyRepository from '../repositories/CompanyRepository'
 
 export default class ProductList extends Component {
     constructor (props) {
@@ -108,18 +109,16 @@ export default class ProductList extends Component {
     }
 
     getCompanies () {
-        axios.get('/api/companies')
-            .then((r) => {
-                this.setState({
-                    companies: r.data
-                })
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getCustomFields () {

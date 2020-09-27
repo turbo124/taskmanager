@@ -692,7 +692,8 @@ class EditInvoice extends Component {
             return (
                 <React.Fragment>
                     {button}
-                    <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={`modal-test ${this.props.className}`}
+                    <Modal isOpen={this.state.modalOpen} toggle={this.toggle}
+                        className={`modal-test ${this.props.className}`}
                         size="lg">
                         <DefaultModalHeader toggle={this.toggle} title={translations.edit_invoice}/>
 

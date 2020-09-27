@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import QuoteRepository from '../../repositories/QuoteRepository'
 
 export default class QuoteDropdown extends Component {
     constructor (props) {
@@ -36,17 +36,16 @@ export default class QuoteDropdown extends Component {
     }
 
     getQuotes () {
-        const url = 'api/quote/'
+        const quoteRepository = new QuoteRepository()
+        quoteRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
 
-        axios.get(url)
-            .then((r) => {
-                this.setState({
-                    quotes: r.data
-                })
+            this.setState({ quotes: response }, () => {
+                console.log('quotes', this.state.quotes)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

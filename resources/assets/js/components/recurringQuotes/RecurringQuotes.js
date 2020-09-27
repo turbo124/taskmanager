@@ -7,6 +7,8 @@ import RecurringQuoteItem from './RecurringQuoteItem'
 import RecurringQuoteFilters from './RecurringQuoteFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
+import QuoteRepository from '../repositories/QuoteRepository'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {
@@ -65,18 +67,16 @@ export default class RecurringQuotes extends Component {
     }
 
     getQuotes () {
-        axios.get('/api/quote')
-            .then((r) => {
-                this.setState({
-                    allQuotes: r.data
-                })
+        const quoteRepository = new QuoteRepository()
+        quoteRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ allQuotes: response }, () => {
+                console.log('allQuotes', this.state.allQuotes)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     filterInvoices (filters) {
@@ -118,18 +118,16 @@ export default class RecurringQuotes extends Component {
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     setFilterOpen (isOpen) {

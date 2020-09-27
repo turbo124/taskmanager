@@ -65,7 +65,7 @@ class OrderCreated extends AdminMailer
         $this->message_array = [
             'title'       => $this->subject,
             'body'        => $this->message,
-            'url'         => config('taskmanager.site_url') . '/invoices/' . $this->order->id,
+            'url'         => $this->getUrl() . 'orders/' . $this->order->id,
             'button_text' => trans('texts.view_invoice'),
             'signature'   => isset($this->order->account->settings->email_signature) ? $this->order->account->settings->email_signature : '',
             'logo'        => $this->order->account->present()->logo(),

@@ -8,6 +8,8 @@ import AddModal from './edit/AddTask'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import CustomerRepository from '../repositories/CustomerRepository'
+import UserRepository from '../repositories/UserRepository'
 
 export default class TaskList extends Component {
     constructor (props) {
@@ -146,33 +148,29 @@ export default class TaskList extends Component {
     }
 
     getUsers () {
-        axios.get('api/users')
-            .then((r) => {
-                this.setState({
-                    users: r.data
-                })
+        const userRepository = new UserRepository()
+        userRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ users: response }, () => {
+                console.log('users', this.state.users)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getCustomers () {
-        axios.get('api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     setFilterOpen (isOpen) {

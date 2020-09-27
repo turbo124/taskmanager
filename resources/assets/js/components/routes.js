@@ -2,7 +2,6 @@ import React from 'react'
 // User Management
 import UserList from './users/Userlist'
 import ProductList from './products/ProductList'
-import Kanban from './Kanban'
 import KanbanNew from './tasks/KanbanNew'
 import Calendar from './calendar/Calendars'
 import Roles from './roles/Roles'

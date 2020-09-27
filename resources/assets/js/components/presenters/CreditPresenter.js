@@ -16,7 +16,8 @@ export default function CreditPresenter (props) {
         case 'status_field':
             return status
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Status">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Status">{status}</td>
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]
@@ -25,7 +26,8 @@ export default function CreditPresenter (props) {
         }
         case 'date':
         case 'due_date':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>
                 <FormatDate field={field} date={entity[field]}/></td>
         case 'balance':
         case 'total':
@@ -33,7 +35,8 @@ export default function CreditPresenter (props) {
         case 'tax_total':
         case 'sub_total':
         case 'exchange_rate':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>
                 <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
             </td>
         default:

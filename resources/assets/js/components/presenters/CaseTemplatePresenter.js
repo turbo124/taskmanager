@@ -12,7 +12,8 @@ export default function CaseTemplatePresenter (props) {
 
     switch (field) {
         case 'send_on':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} data-label="Send On">{status}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)}
+                data-label="Send On">{status}</td>
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>

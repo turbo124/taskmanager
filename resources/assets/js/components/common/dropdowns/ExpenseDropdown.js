@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
 
 export default class ExpenseDropdown extends Component {
     constructor (props) {
@@ -22,15 +22,16 @@ export default class ExpenseDropdown extends Component {
     }
 
     getExpenses () {
-        axios.get('/api/expenses')
-            .then((r) => {
-                this.setState({
-                    expenses: r.data
-                })
+        const expenseRepository = new ExpenseRepository()
+        expenseRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ expenses: response }, () => {
+                console.log('expenses', this.state.expenses)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     handleChange (value, name) {

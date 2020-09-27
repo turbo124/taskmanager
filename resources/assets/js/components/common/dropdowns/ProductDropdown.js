@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import ProductRepository from '../../repositories/ProductRepository'
 
 export default class ProductDropdown extends Component {
     constructor (props) {
@@ -22,15 +22,16 @@ export default class ProductDropdown extends Component {
     }
 
     getProducts () {
-        axios.get('/api/products')
-            .then((r) => {
-                this.setState({
-                    products: r.data
-                })
+        const productRepository = new ProductRepository()
+        productRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ products: response }, () => {
+                console.log('products', this.state.products)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     handleChange (value, name) {

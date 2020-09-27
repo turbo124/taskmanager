@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Button, Col, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Button, Col, FormGroup, Input, Label, Row, UncontrolledTooltip } from 'reactstrap'
 import ProductAttributeDropdown from './dropdowns/ProductAttributeDropdown'
 import ProductDropdown from './dropdowns/ProductDropdown'
 import TaskDropdown from './dropdowns/TaskDropdown'
 import ExpenseDropdown from './dropdowns/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
 import { translations } from '../utils/_translations'
-import { consts } from "../utils/_consts";
+import { consts } from '../utils/_consts'
 
 class LineItem extends Component {
     constructor (props) {
@@ -28,6 +28,7 @@ class LineItem extends Component {
 
     render () {
         const uses_inclusive_taxes = this.settings.inclusive_taxes
+        const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-secondary' : 'text-dark'
 
         return this.props.rows.map((lineItem, index) => {
             let total = 0
@@ -71,7 +72,7 @@ class LineItem extends Component {
                     </Col>
                     }
 
-                    {lineItem.type_id === consts.line_item_task &&
+                    {lineItem.type_id === consts.line_item_task && this.props.tasks.length &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
                             <Label>{translations.task}</Label>
@@ -89,7 +90,7 @@ class LineItem extends Component {
                     </Col>
                     }
 
-                    {lineItem.type_id === consts.line_item_expense &&
+                    {lineItem.type_id === consts.line_item_expense && this.props.expenses.length &&
                     <Col md={3} data-id={index}>
                         <FormGroup>
                             <Label>{translations.expense}</Label>
@@ -184,10 +185,19 @@ class LineItem extends Component {
                     </Col>
                     }
 
-                    <Col md={2} data-id={index}>
-                        <Button color="danger" onClick={(event) => {
+                    <Col className="pt-4" md={2} data-id={index}>
+                        <a href="#" style={{ fontSize: '18px' }} className={`mr-1 ${color}`} color="danger" id={'Tooltip-' + index} onClick={(event) => {
                             this.props.onDelete(index)
-                        }}>{translations.delete}</Button>
+                            event.preventDefault()
+                        }}>
+                            X
+                        </a>
+                        <UncontrolledTooltip
+                            placement="top"
+                            target={'Tooltip-' + index}
+                        >
+                            {translations.delete}
+                        </UncontrolledTooltip>
                     </Col>
                 </Row>
             </React.Fragment>

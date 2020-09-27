@@ -24,7 +24,10 @@ export default class InvoiceLine extends Component {
         // }
 
         this.state = {
-            lines: this.props.lines && this.props.lines.length ? this.props.lines : [{ invoice_id: null, amount: amount }],
+            lines: this.props.lines && this.props.lines.length ? this.props.lines : [{
+                invoice_id: null,
+                amount: amount
+            }],
             credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{
                 credit_id: null,
                 amount: 0

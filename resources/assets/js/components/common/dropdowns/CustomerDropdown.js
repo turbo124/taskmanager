@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 import { translations } from '../../utils/_translations'
+import CustomerRepository from '../../repositories/CustomerRepository'
 
 export default class CustomerDropdown extends Component {
     constructor (props) {
@@ -38,17 +38,17 @@ export default class CustomerDropdown extends Component {
     }
 
     getCustomers () {
-        axios.get('/api/customers')
-            .then((r) => {
-                this.setState({
-                    customers: r.data
-                }, function () {
-                    this.state.customers.unshift({ id: '', name: 'Select Customer' })
-                })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
+                this.state.customers.unshift({ id: '', name: 'Select Customer' })
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     handleChange (value, name) {

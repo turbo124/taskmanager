@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import CreditRepository from '../../repositories/CreditRepository'
 
 export default class CreditDropdown extends Component {
     constructor (props) {
@@ -36,17 +36,16 @@ export default class CreditDropdown extends Component {
     }
 
     getCredits () {
-        const url = this.props.status && this.props.status !== null ? `api/credits/getCreditsByStatus/${this.props.status}` : '/api/credits'
+        const creditRepository = new CreditRepository()
+        creditRepository.get(this.props.status).then(response => {
+            if (!response) {
+                alert('error')
+            }
 
-        axios.get(url)
-            .then((r) => {
-                this.setState({
-                    credits: r.data
-                }, () => console.log('credits', this.state.credits))
+            this.setState({ credits: response }, () => {
+                console.log('credits', this.state.credits)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     render () {

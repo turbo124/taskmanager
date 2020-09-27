@@ -46,6 +46,9 @@ class Expense extends Model
         'recurring_frequency'
     ];
 
+    const STATUS_LOGGED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_INVOICED = 3;
 
     protected $casts = [
         'is_deleted' => 'boolean',

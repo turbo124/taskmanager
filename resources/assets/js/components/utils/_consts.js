@@ -147,6 +147,7 @@ export const consts = {
     select: 'select',
     date: 'date',
     currency_pound: 2,
+    default_currency: 2,
     line_item_expense: 6,
     line_item_task: 3,
     line_item_product: 1

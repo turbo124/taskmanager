@@ -7,9 +7,12 @@ use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\CustomerContact;
+use App\Models\Expense;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\Timer;
 use App\Repositories\TimerRepository;
 use App\Traits\Money;
@@ -828,10 +831,24 @@ class PdfBuilder
         foreach ($entity->line_items as $key => $item) {
             $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
 
-            if (is_numeric($item->product_id) && $item->type_id === 1) {
-                $product = Product::find($item->product_id);
+            if (is_numeric($item->product_id)) {
+                switch ($item->type_id) {
+                    case Invoice::PRODUCT_TYPE:
+                        $product = Product::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                        break;
 
-                $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                    case Invoice::TASK_TYPE:
+                        $product = Task::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                        break;
+
+                    case Invoice::EXPENSE_TYPE:
+                        $product = Expense::find($item->product_id);
+                        $this->line_items[$key][$table_type . '.product_key'] = 'Expense'; // TODO
+
+                        break;
+                }
 
                 if (!empty($item->attribute_id)) {
                     $product_attribute = ProductAttribute::find($item->attribute_id);
@@ -846,6 +863,11 @@ class PdfBuilder
 
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
             $this->line_items[$key][$table_type . '.notes'] = $item->notes ?: '';
+
+            if (empty($this->line_items[$key][$table_type . '.notes']) && !empty($item->description)) {
+                $this->line_items[$key][$table_type . '.notes'] = $item->description;
+            }
+
             $this->line_items[$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
             $this->line_items[$key][$table_type . '.line_total'] = $this->formatCurrency($item->sub_total, $customer);
 

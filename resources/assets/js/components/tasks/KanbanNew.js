@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import axios from 'axios'
 import DealModel from '../models/DealModel'
 import LeadModel from '../models/LeadModel'
 import TaskModel from '../models/TaskModel'
@@ -9,6 +8,10 @@ import { taskTypes } from '../utils/_consts'
 import { Col, Row } from 'reactstrap'
 import ViewEntity from '../common/ViewEntity'
 import EditTask from './edit/EditTask'
+import TaskRepository from '../repositories/TaskRepository'
+import LeadRepository from '../repositories/LeadRepository'
+import DealRepository from '../repositories/DealRepository'
+import CustomerRepository from '../repositories/CustomerRepository'
 
 export default class KanbanNew extends Component {
     constructor (props) {
@@ -29,104 +32,95 @@ export default class KanbanNew extends Component {
 
         this.formatColumns = this.formatColumns.bind(this)
         this.save = this.save.bind(this)
-        this.getStatuses = this.getStatuses.bind(this)
+        this.load = this.load.bind(this)
         this.getCustomers = this.getCustomers.bind(this)
         this.toggleViewedEntity = this.toggleViewedEntity.bind(this)
     }
 
     componentDidMount () {
-        this.getStatuses().then(() => {
-            if (this.state.type === 'task') {
-                this.getTasks()
-            }
-
-            if (this.state.type === 'lead') {
-                this.getLeads()
-            }
-
-            if (this.state.type === 'deal') {
-                this.getDeals()
-            }
-
-            this.getCustomers()
-        })
+        this.load()
+        this.getCustomers()
     }
 
     getCustomers () {
-        axios.get('api/customers')
-            .then((r) => {
-                this.setState({ customers: r.data })
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
-    async getStatuses () {
+    async load () {
         const task_type = taskTypes[this.state.type]
-        try {
-            const res = await axios.get(`/api/taskStatus?task_type=${task_type}`)
-
-            if (res.status === 200) {
-                // test for status you want, etc
-                console.log(res.status)
+        const taskRepository = new TaskRepository()
+        taskRepository.getStatuses(task_type).then(response => {
+            if (!response) {
+                alert('error')
             }
-            // Don't forget to return something
 
-            this.setState({ statuses: res.data })
-            return res.data
-        } catch (e) {
-            this.handleError(e)
-            return false
-        }
+            this.setState({ statuses: response }, () => {
+                if (this.state.type === 'task') {
+                    this.getTasks()
+                }
+
+                if (this.state.type === 'lead') {
+                    this.getLeads()
+                }
+
+                if (this.state.type === 'deal') {
+                    this.getDeals()
+                }
+
+                console.log('statuses', this.state.statuses)
+            })
+        })
     }
 
     getTasks () {
-        axios.get('api/tasks')
-            .then((r) => {
-                this.setState({ entities: r.data }, () => {
-                    this.formatColumns()
-                })
+        const taskRepository = new TaskRepository()
+        taskRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getLeads () {
-        axios.get('api/leads')
-            .then((r) => {
-                this.setState({ entities: r.data }, () => {
-                    this.formatColumns()
-                })
+        const leadRepository = new LeadRepository()
+        leadRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     getDeals () {
-        axios.get('api/deals')
-            .then((r) => {
-                this.setState({ entities: r.data }, () => {
-                    this.formatColumns()
-                })
+        const dealRepository = new DealRepository()
+        dealRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
             })
-            .catch((e) => {
-                this.setState({
-                    loading: false,
-                    error: e
-                })
-            })
+        })
     }
 
     save (element, status) {

@@ -136,6 +136,18 @@ export default class PaymentModel extends BaseModel {
         return this.fields.company_gateway_id && this.fields.company_gateway_id.toString().length
     }
 
+    get completedAmount () {
+        if (this.isDeleted) {
+            return 0
+        }
+
+        if ([this.cancelled, this.failed].includes(this.fields.status_id)) {
+            return 0
+        }
+
+        return this.fields.amount - (this.fields.refunded)
+    }
+
     buildPaymentables () {
         if (!this.fields.id || !this.fields.paymentables) {
             return false
@@ -181,18 +193,6 @@ export default class PaymentModel extends BaseModel {
         }
 
         return actions
-    }
-
-    get completedAmount () {
-        if (this.isDeleted) {
-            return 0
-        }
-
-        if ([this.cancelled, this.failed].includes(this.fields.status_id)) {
-            return 0
-        }
-
-        return this.fields.amount - (this.fields.refunded)
     }
 
     getInvoice (invoice_id) {
@@ -311,26 +311,6 @@ export default class PaymentModel extends BaseModel {
                 // test for status you want, etc
                 console.log(res.status)
             }
-            // Don't forget to return something
-            return res.data
-        } catch (e) {
-            this.handleError(e)
-            return false
-        }
-    }
-
-    async getPayments () {
-        this.errors = []
-        this.error_message = ''
-
-        try {
-            const res = await axios.get(this.url)
-
-            if (res.status === 200) {
-                // test for status you want, etc
-                console.log(res.status)
-            }
-
             // Don't forget to return something
             return res.data
         } catch (e) {

@@ -24,7 +24,8 @@ export default function OrderPresenter (props) {
         case 'tax_total':
         case 'sub_total':
         case 'exchange_rate':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label={field}>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>
                 <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
             </td>
         case 'status_field':

@@ -65,7 +65,10 @@ class ObjectSent extends AdminMailer
         $this->message_array = [
             'title'       => $this->subject,
             'body'        => $this->message,
-            'url'         => $this->invitation->getLink() . '?silent=true',
+            'url'         => config(
+                    'taskmanager.site_url'
+                ) . "/portal/view/{$this->entity_name}/" . $this->invitation->key .
+                "?silent=true",
             'button_text' => trans("texts.view_{$this->entity_name}"),
             'signature'   => $this->invitation->account->settings->email_signature,
             'logo'        => $this->invitation->account->present()->logo(),

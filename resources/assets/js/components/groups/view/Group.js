@@ -29,7 +29,7 @@ export default class Group extends Component {
                         <a style={{ marginLeft: '12px' }} onClick={(e) => {
                             this.setState({ settings: false })
                         }}>{translations.back}</a>
-                        <EditGroup group={this.props.entity} />
+                        <EditGroup group={this.props.entity}/>
                     </Row>
                 }
 

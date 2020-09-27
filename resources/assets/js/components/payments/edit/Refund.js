@@ -1,7 +1,8 @@
 import React from 'react'
 import {
     Card,
-    CardBody, CustomInput,
+    CardBody,
+    CustomInput,
     DropdownItem,
     Input,
     InputGroup,
@@ -208,7 +209,8 @@ class Refund extends React.Component {
                         className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">
-                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                    className={`fa ${icons.credit_card}`}/>
                                 {translations.send_email}
                             </h5>
                             <CustomInput
@@ -230,7 +232,8 @@ class Refund extends React.Component {
                         className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">
-                                <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                    className={`fa ${icons.credit_card}`}/>
                                 {translations.gateway_refund}
                             </h5>
                             <CustomInput
