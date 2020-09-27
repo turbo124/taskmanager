@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Database\Seeder;
-use App\Models\PaymentTerm;
+use App\Models\PaymentTerms;
 
 class PaymentTermsSeeder extends Seeder
 {
@@ -8,21 +8,20 @@ class PaymentTermsSeeder extends Seeder
     {
         Eloquent::unguard();
         $paymentTerms = [
-            ['name' => 'Apply Credit'],
-            ['name' => 'Bank Transfer', 'gateway_type_id' => 2],
-            ['name' => 'Cash'],
-            ['name' => 'Debit', 'gateway_type_id' => 1],
-            ['name' => 'PayPal', 'gateway_type_id' => 3],
-            ['name' => 'Check'],
+            ['name' => 'Immediate', 'number_of_days' => 1],
+            ['name' => 'Net 30', 'number_of_days' => 30],
+            ['name' => 'Net 45', 'number_of_days' => 45],
+            ['name' => 'Net 60', 'number_of_days' => 60],
+           
         ];
         foreach ($paymentTerms as $paymentTerm) {
-            $record = \App\Models\PaymentTerm::where('name', '=', $paymentType['name'])->first();
+            $record = \App\Models\PaymentTerms::where('name', '=', $paymentType['name'])->first();
             if ($record) {
                 $record->name = $paymentTerm['name'];
                 $record->gateway_type_id = !empty($paymentType['gateway_type_id']) ? $paymentType['gateway_type_id'] : null;
                 $record->save();
             } else {
-                \App\Models\PaymentTerm::create($paymentTerm);
+                \App\Models\PaymentTerms::create($paymentTerm);
             }
         }
     }
