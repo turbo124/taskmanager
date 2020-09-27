@@ -30,7 +30,7 @@ export default class ExpenseModel extends BaseModel {
             public_notes: '',
             private_notes: '',
             customer_id: '',
-            currency_id: '',
+            currency_id: (this.company !== null && this.company.hasCurrency) ? (this.company.currency) : ((this.account.hasCurrency) ? (this.account.currency) : (consts.default_currency)),
             payment_type_id: '',
             exchange_rate: 1,
             transaction_reference: '',
@@ -101,6 +101,14 @@ export default class ExpenseModel extends BaseModel {
     getExchangeRateForCurrency (currency_id) {
         const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
         return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
+    }
+
+    get company () {
+        if(!this.fields.company_id.toString().length) {
+            return null;
+        }
+
+        // TODO
     }
 
     buildDropdownMenu () {
