@@ -71,7 +71,7 @@ class QuoteApproved extends AdminMailer
         $this->message_array = [
             'title'       => $this->subject,
             'body'        => $this->message,
-            'url'         => config('taskmanager.site_url') . 'portal/view/quote/' . $this->quote->id,
+            'url'         => config('taskmanager.site_url') . 'portal/quotes/' . $this->quote->id,
             'button_text' => trans('texts.view_quote'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
             'logo'        => $this->quote->account->present()->logo(),
