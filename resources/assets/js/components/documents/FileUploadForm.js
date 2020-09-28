@@ -71,7 +71,8 @@ class FileUpload extends Component {
     }
 
     handleInput (e) {
-
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+        this.setState({ [e.target.name]: value })
     }
 
     onClickHandler () {
