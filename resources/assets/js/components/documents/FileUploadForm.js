@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Progress } from 'reactstrap'
+import { Progress, CustomInput } from 'reactstrap'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './uploads.scss'
+import { translations } from '../../utils/_translations'
 
 class FileUpload extends Component {
     constructor (props) {
@@ -134,7 +135,7 @@ class FileUpload extends Component {
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">
                                         <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
-                                        {translations.auto_billing_enabled}
+                                        {translations.customer_can_view}
                                     </h5>
                                     <CustomInput
                                         checked={this.state.customer_can_view}
@@ -146,7 +147,7 @@ class FileUpload extends Component {
                                 </div>
 
                                 <h6 id="passwordHelpBlock" className="form-text text-muted">
-                                    {translations.auto_billing_enabled_help_text}
+                                    {translations.customer_can_view_help_text}
                                 </h6>
                             </a>
 
