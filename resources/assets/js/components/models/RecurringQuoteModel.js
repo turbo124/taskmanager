@@ -79,7 +79,7 @@ export default class RecurringQuoteModel extends BaseModel {
             shipping_cost: 0,
             gateway_fee: 0,
             gateway_percentage: false,
-            auto_billing_enabled: false,
+            auto_billing_enabled: this.settings.autobilling_enabled,
             tax: 0,
             discount: 0,
             total_custom_values: 0,
@@ -114,6 +114,10 @@ export default class RecurringQuoteModel extends BaseModel {
 
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    get isNew () {
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     set exchange_rate (exchange_rate) {

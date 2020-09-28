@@ -695,7 +695,7 @@ class EditInvoice extends Component {
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle}
                         className={`modal-test ${this.props.className}`}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_invoice}/>
+                        <DefaultModalHeader toggle={this.toggle} title={this.invoiceModel.isNew ? translations.add_invoice : translations.edit_invoice}/>
 
                         <ModalBody className={theme}>
                             {form}

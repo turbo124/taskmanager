@@ -13,6 +13,7 @@ use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -21,6 +22,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 {
+    use BuildVariables;
 
     /**
      * QuoteRepository constructor.
@@ -76,6 +78,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     {
         $quote->fill($data);
         $quote = $this->populateDefaults($quote);
+        $quote = $this->formatNotes($quote);
         $quote = $quote->service()->calculateInvoiceTotals();
         $quote->setNumber();
 

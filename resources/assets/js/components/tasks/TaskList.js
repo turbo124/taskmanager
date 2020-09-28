@@ -17,7 +17,7 @@ export default class TaskList extends Component {
 
         this.state = {
             isOpen: window.innerWidth > 670,
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['download', 'mark_in_progress'],
             tasks: [],
             users: [],
             customers: [],

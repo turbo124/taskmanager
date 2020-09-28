@@ -638,7 +638,7 @@ export default class EditCredit extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_credit}/>
+                        <DefaultModalHeader toggle={this.toggle} title={this.creditModel.isNew ? translations.add_credit : translations.edit_credit}/>
 
                         <ModalBody className={theme}>
                             {form}

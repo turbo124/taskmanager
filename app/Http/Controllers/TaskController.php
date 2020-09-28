@@ -6,6 +6,7 @@ use App\Factory\CloneTaskToDealFactory;
 use App\Factory\TaskFactory;
 use App\Filters\TaskFilter;
 use App\Jobs\Order\CreateOrder;
+use App\Jobs\Pdf\Download;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Deal;
@@ -31,6 +32,8 @@ use App\Requests\Task\UpdateTaskRequest;
 use App\Transformations\DealTransformable;
 use App\Transformations\TaskTransformable;
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -323,5 +326,50 @@ class TaskController extends Controller
                 return response()->json($response);
                 break;
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws FileNotFoundException
+     */
+    public function bulk(Request $request)
+    {
+        $action = $request->action;
+
+        $ids = $request->ids;
+
+        $tasks = Task::withTrashed()->whereIn('id', $ids)->get();
+
+        if (!$tasks) {
+            return response()->json(['message' => "No task Found"]);
+        }
+
+        if ($action == 'download' && $tasks->count() >= 1) {
+            Download::dispatch($tasks, $tasks->first()->account, auth()->user()->email);
+
+            return response()->json(['message' => 'The email was sent successfully!'], 200);
+        }
+
+        $responses = [];
+
+        foreach ($tasks as $task) {
+            if ($action === 'mark_in_progress') {
+                $task->setStatus(Task::STATUS_IN_PROGRESS);
+                $task->save();
+                return response()->json($this->transformTask($task->fresh()));
+            } else {
+                $response = $this->performAction($request, $task, $action, true);
+            }
+
+            if ($response === false) {
+                $responses[] = "FAILED";
+                continue;
+            }
+
+            $responses[] = $response;
+        }
+
+        return response()->json($responses);
     }
 }

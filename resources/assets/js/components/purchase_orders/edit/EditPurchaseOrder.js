@@ -382,6 +382,7 @@ class EditPurchaseOrder extends Component {
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
                 localStorage.removeItem('purchaseOrderForm')
+                this.setState(this.initialState)
                 return
             }
 
@@ -651,7 +652,7 @@ class EditPurchaseOrder extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_purchase_order}/>
+                        <DefaultModalHeader toggle={this.toggle} title={this.purchaseOrderModel.isNew ? translations.add_purchase_order : translations.edit_purchase_order}/>
 
                         <ModalBody className={theme}>
                             {form}

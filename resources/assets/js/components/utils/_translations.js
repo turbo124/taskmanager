@@ -239,6 +239,7 @@ _localizedValues.en = {
     edit_lead: 'Edit Lead',
     add_expense: 'Add Expense',
     edit_credit: 'Edit Credit',
+    add_credit: 'Add Credit',
     edit_expense: 'Edit Expense',
     edit_invoice: 'Edit Invoice',
     company: 'Company',

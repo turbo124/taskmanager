@@ -1,0 +1,57 @@
+<?php
+
+
+namespace App\Traits;
+
+
+use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\LeadPdf;
+use App\Helpers\Pdf\PurchaseOrderPdf;
+use App\Helpers\Pdf\TaskPdf;
+
+trait BuildVariables
+{
+    public function formatNotes($entity)
+    {
+        if (isset($entity->public_notes) && strlen($entity->public_notes) > 0) {
+            $entity->public_notes = $this->parseVariables($entity->public_notes, $entity);
+        }
+
+        if (isset($entity->private_notes) && strlen($entity->private_notes) > 0) {
+            $entity->private_notes = $this->parseVariables($entity->private_notes, $entity);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param $amount
+     */
+    public function parseVariables($content, $entity)
+    {
+        switch (get_class($entity)) {
+            case in_array(get_class($entity), ['App\Models\Cases', 'App\Models\Task', 'App\Models\Deal']):
+                $objPdf = new TaskPdf($entity);
+                break;
+            case 'App\Models\Lead':
+                $objPdf = new LeadPdf($entity);
+                break;
+            case 'App\Models\PurchaseOrder':
+                $objPdf = new PurchaseOrderPdf($entity);
+                break;
+            default:
+                $objPdf = new InvoicePdf($entity);
+                break;
+        }
+
+        $objPdf->build();
+
+        $labels = $objPdf->getLabels();
+        $values = $objPdf->getValues();
+
+        $content = $objPdf->parseLabels($labels, $content);
+        $content = $objPdf->parseValues($values, $content);
+
+        return $content;
+    }
+}

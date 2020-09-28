@@ -62,7 +62,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             partial: 0,
             partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             has_partial: false,
-            auto_billing_enabled: false,
+            auto_billing_enabled: this.settings.autobilling_enabled,
             public_notes: '',
             private_notes: '',
             terms: '',
@@ -118,6 +118,10 @@ export default class RecurringInvoiceModel extends BaseModel {
 
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    get isNew () {
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     set exchange_rate (exchange_rate) {

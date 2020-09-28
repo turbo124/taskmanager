@@ -422,6 +422,7 @@ Route::group(
         );
         Route::delete('tasks/archive/{task_id}', 'TaskController@archive');
         Route::post('tasks/{task}/{action}', 'TaskController@action')->name('invoices.action');
+        Route::post('task/bulk', 'TaskController@bulk');
 
 
         // leads

@@ -19,6 +19,7 @@ use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -28,6 +29,8 @@ use Illuminate\Support\Collection;
  */
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
+    use BuildVariables;
+
     /**
      * OrderRepository constructor.
      *
@@ -88,6 +91,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         $order->fill($data);
         $order = $this->populateDefaults($order);
+        $order = $this->formatNotes($order);
+
         $order = $order->service()->calculateInvoiceTotals();
         $order->setNumber();
 

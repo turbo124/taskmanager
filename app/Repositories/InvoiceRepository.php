@@ -12,6 +12,7 @@ use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,6 +20,8 @@ use Illuminate\Support\Collection;
 
 class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
 {
+
+    use BuildVariables;
 
     /**
      * InvoiceRepository constructor.
@@ -94,6 +97,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $original_amount = $invoice->total;
         $invoice->fill($data);
         $invoice = $this->populateDefaults($invoice);
+        $invoice = $this->formatNotes($invoice);
 
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();

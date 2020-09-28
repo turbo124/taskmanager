@@ -3,8 +3,8 @@ import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
-export const credit_pdf_fields = ['$credit.credit_number', '$credit.po_number', '$credit.credit_date', '$credit.credit_amount',
-    '$credit.balance_due', '$credit.partial_due', '$credit.credit1', '$credit.credit2', '$credit.credit3', '$credit.credit4',
+export const credit_pdf_fields = ['$credit.number', '$credit.po_number', '$credit.credit_date', '$credit.credit_amount',
+    '$credit.balance', '$credit.partial_due', '$credit.custom1', '$credit.custom2', '$credit.custom3', '$credit.custom4',
     '$credit.surcharge1', '$credit.surcharge2', '$credit.surcharge3', '$credit.surcharge4'
 ]
 
@@ -107,6 +107,10 @@ export default class CreditModel extends BaseModel {
 
     get exchange_rate () {
         return this.fields.exchange_rate
+    }
+
+    get isNew () {
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     set exchange_rate (exchange_rate) {

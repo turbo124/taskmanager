@@ -3,9 +3,9 @@ import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
-export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_number', '$invoice.invoice_date', '$invoice.due_date',
-    '$invoice.balance_due', '$invoice.invoice_total', '$invoice.partial_due', '$invoice.invoice1', '$invoice.invoice2', '$invoice.invoice3',
-    '$invoice.invoice4', '$invoice.surcharge1', '$invoice.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
+export const invoice_pdf_fields = ['$invoice.number', '$invoice.po_number', '$invoice.invoice_date', '$invoice.due_date',
+    '$invoice.balance', '$invoice.invoice_total', '$invoice.partial_due', '$invoice.custom1', '$invoice.custom2', '$invoice.custom3',
+    '$invoice.custom4', '$invoice.surcharge1', '$invoice.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
 ]
 
 export default class InvoiceModel extends BaseModel {
@@ -121,6 +121,10 @@ export default class InvoiceModel extends BaseModel {
         }
 
         return JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id))[0]
+    }
+
+    get isNew () {
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     get fields () {
