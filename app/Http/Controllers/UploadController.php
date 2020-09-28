@@ -55,12 +55,13 @@ class UploadController extends Controller
         $account = $token->account;
         $user = $token->user;
         $uploaded_by_customer = !empty($request->input('uploaded_by_customer')) ? true : false;
+        $customer_can_view = !empty($request->input('customer_can_view')) && $request->input('customer_can_view') === true ? true : false;
 
         $arrAddedFiles = [];
 
         if ($request->hasFile('file')) {
             foreach ($request->file('file') as $count => $file) {
-                $file = UploadFile::dispatchNow($file, $user, $account, $obj, $uploaded_by_customer);
+                $file = UploadFile::dispatchNow($file, $user, $account, $obj, $uploaded_by_customer, $customer_can_view);
 
                 $arrAddedFiles[$count] = $file;
                 $arrAddedFiles[$count]['user'] = $user->toArray();
