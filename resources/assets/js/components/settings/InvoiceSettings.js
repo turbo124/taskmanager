@@ -8,6 +8,8 @@ import { invoice_pdf_fields } from '../models/InvoiceModel'
 import PdfFields from './PdfFields'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import { order_pdf_fields } from "../models/OrderModel";
+import { purchase_order_pdf_fields } from "../models/PurchaseOrderModel";
 
 class InvoiceSettings extends Component {
     constructor (props) {
@@ -167,21 +169,29 @@ class InvoiceSettings extends Component {
     }
 
     getCustomerFields () {
-        return ['$client.name', '$client.id_number', '$client.vat_number', '$client.address1', '$client.address2', '$client.city_state_postal',
-            '$client.postal_city_state', '$client.country', '$client.email', '$client.client1', '$client.client2', '$client.client3',
-            '$client.client4'
+        return ['$customer.name', '$customer.number', '$customer.vat_number', '$customer.address1', '$customer.address2', '$customer.city_state_postal',
+            '$customer.postal_city_state', '$customer.country', '$contact.email', '$customer.custom1', '$customer.custom2', '$customer.custom3',
+            '$customer.custom4'
         ]
     }
 
     getAccountFields () {
         return [
-            '$company.name', '$company.id_number', '$client.vat_number', '$company.website', '$client.email', '$company.company1',
-            '$company.company2', '$company.company3', '$company.company4'
+            '$account.name', '$account.id_number', '$account.vat_number', '$account.website', '$account.email', '$account.account1',
+            '$account.account2', '$account.account3', '$account.account4'
         ]
     }
 
     getInvoiceFields () {
         return invoice_pdf_fields
+    }
+
+    getOrderFields () {
+        return order_pdf_fields
+    }
+
+    getPurchaseOrderFields () {
+        return purchase_order_pdf_fields
     }
 
     getQuoteFields () {
@@ -293,7 +303,7 @@ class InvoiceSettings extends Component {
                                         onClick={() => {
                                             this.toggle('7')
                                         }}>
-                                        {translations.credit}
+                                        {translations.order}
                                     </NavLink>
                                 </NavItem>
 
@@ -303,7 +313,7 @@ class InvoiceSettings extends Component {
                                         onClick={() => {
                                             this.toggle('8')
                                         }}>
-                                        {translations.product}
+                                        {translations.purchase_order}
                                     </NavLink>
                                 </NavItem>
 
@@ -312,6 +322,26 @@ class InvoiceSettings extends Component {
                                         className={this.state.activeTab === '9' ? 'active' : ''}
                                         onClick={() => {
                                             this.toggle('9')
+                                        }}>
+                                        {translations.credit}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '10' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('10')
+                                        }}>
+                                        {translations.product}
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab === '11' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggle('11')
                                         }}>
                                         {translations.task}
                                     </NavLink>
@@ -363,7 +393,7 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="invoice_details" columns={this.getInvoiceFields()}
+                                    section="invoice" columns={this.getInvoiceFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -373,7 +403,7 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="quote_details" columns={this.getQuoteFields()}
+                                    section="quote" columns={this.getQuoteFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -383,7 +413,7 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="credit_details" columns={this.getCreditFields()}
+                                    section="order" columns={this.getOrderFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -393,13 +423,33 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="product_columns" columns={this.getProductFields()}
+                                    section="purchase_order" columns={this.getPurchaseOrderFields()}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
 
                     <TabPane tabId="9" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="credit" columns={this.getCreditFields()}
+                                    ignored_columns={this.state.settings.pdf_variables}/>
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="10" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                    section="product_columns" columns={this.getProductFields()}
+                                    ignored_columns={this.state.settings.pdf_variables}/>
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="11" className="px-0">
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}

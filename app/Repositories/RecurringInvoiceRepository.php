@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\RecurringInvoice;
 use App\Repositories\Base\BaseRepository;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -14,6 +15,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class RecurringInvoiceRepository extends BaseRepository
 {
+    use BuildVariables;
+
     /**
      * RecurringInvoiceRepository constructor.
      * @param RecurringInvoice $invoice
@@ -32,7 +35,8 @@ class RecurringInvoiceRepository extends BaseRepository
     public function save($data, RecurringInvoice $invoice): ?RecurringInvoice
     {
         $invoice->fill($data);
-        //$invoice = $this->populateDefaults($invoice);
+        $invoice = $this->populateDefaults($invoice);
+        $invoice = $this->formatNotes($invoice);
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();
 

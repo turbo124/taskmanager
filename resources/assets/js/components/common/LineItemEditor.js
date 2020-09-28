@@ -330,15 +330,18 @@ class LineItemEditor extends Component {
 
                 <FormGroup>
                     <Label>{translations.line_type}</Label>
-                    {!this.props.entity &&
                     <Input name="line_type" type='select' value={this.state.line_type}
                         onChange={this.handleLineTypeChange} className='pa2 mr2 f6 form-control'>
                         <option value="">Select Line Type</option>
                         <option value={consts.line_item_product}>{translations.product}</option>
-                        <option value={consts.line_item_task}>{translations.task}</option>
-                        <option value={consts.line_item_expense}>{translations.expense}</option>
+
+                        {!this.props.entity &&
+                            <React.Fragment>
+                                <option value={consts.line_item_task}>{translations.task}</option>
+                                <option value={consts.line_item_expense}>{translations.expense}</option>
+                            </React.Fragment>
+                        }
                     </Input>
-                    }
 
                 </FormGroup>
                 {!!this.state.line_type && lineItemRows}

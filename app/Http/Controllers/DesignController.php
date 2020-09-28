@@ -40,6 +40,10 @@ class DesignController extends Controller
     {
         $designs = (new DesignFilter($this->design_repo))->filter($request, auth()->user()->account_user()->account);
 
+        foreach ($designs as $key => $design) {
+            $designs[$key]['design']->body = str_replace('$costs', $design['design']->totals, $design['design']->body);
+        }
+
         return response()->json($designs);
     }
 

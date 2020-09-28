@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\RecurringQuote;
 use App\Repositories\Base\BaseRepository;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -14,6 +15,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class RecurringQuoteRepository extends BaseRepository
 {
+    use BuildVariables;
+
     /**
      * RecurringQuoteRepository constructor.
      * @param RecurringQuote $quote
@@ -32,7 +35,8 @@ class RecurringQuoteRepository extends BaseRepository
     public function save($data, RecurringQuote $quote): ?RecurringQuote
     {
         $quote->fill($data);
-        //$invoice = $this->populateDefaults($invoice);
+        $quote = $this->populateDefaults($quote);
+        $quote = $this->formatNotes($quote);
         $quote = $quote->service()->calculateInvoiceTotals();
         $quote->setNumber();
 

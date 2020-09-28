@@ -204,9 +204,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $this->deleteUserAccount($user);
         }
 
+        event(new UserWasDeleted($user));
+
         $user->delete();
 
-        event(new UserWasDeleted($user));
         return $user->fresh();
     }
 

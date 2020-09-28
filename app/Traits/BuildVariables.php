@@ -4,15 +4,21 @@
 namespace App\Traits;
 
 
+use App\Helpers\Pdf\InvoicePdf;
+use App\Helpers\Pdf\LeadPdf;
+use App\Helpers\Pdf\PurchaseOrderPdf;
+use App\Helpers\Pdf\TaskPdf;
+
 trait BuildVariables
 {
-    public function formatNotes($entity) {
-        if(isset($entity->public_notes) && strlen($entity->public_notes) > 0) {
-            $entity->public_notes = $this->parseVariables($entity->public_notes);
+    public function formatNotes($entity)
+    {
+        if (isset($entity->public_notes) && strlen($entity->public_notes) > 0) {
+            $entity->public_notes = $this->parseVariables($entity->public_notes, $entity);
         }
 
-        if(isset($entity->private_notes) && strlen($entity->private_notes) > 0) {
-            $entity->private_notes = $this->parseVariables($entity->private_notes);
+        if (isset($entity->private_notes) && strlen($entity->private_notes) > 0) {
+            $entity->private_notes = $this->parseVariables($entity->private_notes, $entity);
         }
 
         return $entity;
@@ -21,15 +27,30 @@ trait BuildVariables
     /**
      * @param $amount
      */
-    public function parseVariables($content)
+    public function parseVariables($content, $entity)
     {
-        $this->objPdf->build();
+        switch (get_class($entity)) {
+            case in_array(get_class($entity), ['App\Models\Cases', 'App\Models\Task', 'App\Models\Deal']):
+                $objPdf = new TaskPdf($entity);
+                break;
+            case 'App\Models\Lead':
+                $objPdf = new LeadPdf($entity);
+                break;
+            case 'App\Models\PurchaseOrder':
+                $objPdf = new PurchaseOrderPdf($entity);
+                break;
+            default:
+                $objPdf = new InvoicePdf($entity);
+                break;
+        }
 
-        $labels = $this->objPdf->getLabels();
-        $values = $this->objPdf->getValues();
+        $objPdf->build();
 
-        $content = $this->objPdf->parseLabels($labels, $content);
-        $content = $this->objPdf->parseValues($values, $content);
+        $labels = $objPdf->getLabels();
+        $values = $objPdf->getValues();
+
+        $content = $objPdf->parseLabels($labels, $content);
+        $content = $objPdf->parseValues($values, $content);
 
         return $content;
     }

@@ -229,6 +229,7 @@ class Designs extends React.Component {
     }
 
     render () {
+        console.log('body', this.state.design.body)
         const title = this.state.is_custom === true ? <FormGroup>
             <Label for="name">Name <span className="text-danger">*</span></Label>
             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
@@ -244,6 +245,8 @@ class Designs extends React.Component {
         </FormGroup>
         return (
             <React.Fragment>
+                <link rel="stylesheet" type="text/css" href="public/css/pdf.css" />
+
                 <Nav tabs>
                     <NavItem>
                         <NavLink

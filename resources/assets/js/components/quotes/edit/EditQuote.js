@@ -382,6 +382,7 @@ class EditInvoice extends Component {
                 this.props.action(allInvoices)
                 localStorage.removeItem('quoteForm')
                 localStorage.removeItem('recurringQuoteForm')
+                this.setState(this.initialState)
                 return
             }
 

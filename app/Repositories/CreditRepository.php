@@ -13,10 +13,13 @@ use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Traits\BuildVariables;
 use Illuminate\Support\Collection;
 
 class CreditRepository extends BaseRepository implements CreditRepositoryInterface
 {
+    use BuildVariables;
+
     /**
      * PaymentRepository constructor.
      * @param Payment $payment
@@ -58,6 +61,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
     {
         $credit->fill($data);
         $credit = $this->populateDefaults($credit);
+        $credit = $this->formatNotes($credit);
         $credit = $credit->service()->calculateInvoiceTotals();
         $credit->setNumber();
 

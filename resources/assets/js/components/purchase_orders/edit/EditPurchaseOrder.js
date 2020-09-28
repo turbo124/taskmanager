@@ -382,6 +382,7 @@ class EditPurchaseOrder extends Component {
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
                 localStorage.removeItem('purchaseOrderForm')
+                this.setState(this.initialState)
                 return
             }
 

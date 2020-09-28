@@ -16,6 +16,7 @@ class Task extends Model
     use PresentableTrait;
 
     const TASK_TYPE_DEAL = 3;
+    const STATUS_IN_PROGRESS = 7;
 
     protected $fillable = [
         'name',
@@ -132,6 +133,12 @@ class Task extends Model
     public function getPdfFilename()
     {
         return 'storage/' . $this->account->id . '/' . $this->customer->id . '/tasks/' . $this->number . '.pdf';
+    }
+
+    public function setStatus(int $status_id)
+    {
+        $this->task_status = $status_id;
+        return true;
     }
 
     public function setNumber()
