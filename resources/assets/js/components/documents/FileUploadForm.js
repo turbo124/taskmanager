@@ -10,7 +10,8 @@ class FileUpload extends Component {
         super(props)
         this.state = {
             selectedFile: [],
-            loaded: 0
+            loaded: 0,
+            customer_can_view: false
         }
     }
 
@@ -69,11 +70,16 @@ class FileUpload extends Component {
         }
     }
 
+    handleInput (e) {
+
+    }
+
     onClickHandler () {
         const data = new FormData()
         data.append('user_id', this.props.user_id)
         data.append('entity_id', this.props.entity.id)
         data.append('entity_type', this.props.entity_type)
+        data.append('customer_can_view', this.props.customer_can_view)
         for (var x = 0; x < this.state.selectedFile.length; x++) {
             data.append('file[]', this.state.selectedFile[x])
         }
@@ -121,6 +127,27 @@ class FileUpload extends Component {
                                 <input type="file" multiple name="img-file-input"
                                     onChange={this.onChangeHandler.bind(this)}/>
                             </span>
+
+                            <a href="#"
+                                className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                                <div className="d-flex w-100 justify-content-between">
+                                    <h5 className="mb-1">
+                                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                        {translations.auto_billing_enabled}
+                                    </h5>
+                                    <CustomInput
+                                        checked={this.state.customer_can_view}
+                                        type="switch"
+                                        id="customer_can_view"
+                                        name="customer_can_view"
+                                        label=""
+                                        onChange={this.handleInput.bind(this)}/>
+                                </div>
+
+                                <h6 id="passwordHelpBlock" className="form-text text-muted">
+                                    {translations.auto_billing_enabled_help_text}
+                                </h6>
+                            </a>
 
                             <button type="button" className="btn btn-success btn-block col-4 pull-right"
                                 onClick={this.onClickHandler.bind(this)}>Upload
