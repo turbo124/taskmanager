@@ -81,7 +81,7 @@ class FileUpload extends Component {
         data.append('user_id', this.props.user_id)
         data.append('entity_id', this.props.entity.id)
         data.append('entity_type', this.props.entity_type)
-        data.append('customer_can_view', this.props.customer_can_view)
+        data.append('customer_can_view', this.state.customer_can_view)
         for (var x = 0; x < this.state.selectedFile.length; x++) {
             data.append('file[]', this.state.selectedFile[x])
         }
