@@ -72,7 +72,8 @@ class File extends Model
         'file_path',
         'user_id',
         'account_id',
-        'uploaded_by_customer'
+        'uploaded_by_customer',
+        'customer_can_view'
     ];
 
     public function task()
