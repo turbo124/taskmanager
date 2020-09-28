@@ -1,5 +1,7 @@
 const _localizedValues = []
 _localizedValues.en = {
+    customer_can_view: 'Customer can view the document',
+    customer_can_view_help_text: 'Should the customer be able to see the document in the portal',
     payment_term: 'Payment Term',
     cycles_remaining: 'Cycles Remaining',
     paused: 'Paused',
