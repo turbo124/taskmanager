@@ -7,6 +7,7 @@ use App\Events\Invoice\InvoiceWasUpdated;
 use App\Filters\InvoiceFilter;
 use App\Jobs\Order\InvoiceOrders;
 use App\Models\Account;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
@@ -101,10 +102,11 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();
-
         $invoice->save();
 
         $this->saveInvitations($invoice, 'invoice', $data);
+
+        $this->updateEntities($invoice);
 
         if ($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total) {
             $updated_amount = $invoice->total - $original_amount;
@@ -133,6 +135,35 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         event(new InvoiceWasCreated($invoice));
 
         return $invoice;
+    }
+
+    private function updateEntities(Invoice $invoice)
+    {
+        foreach ($invoice->line_items as $line_item) {
+            if ($line_item->type_id === Invoice::EXPENSE_TYPE) {
+                $expense = Expense::where('id', '=', $line_item->product_id)->first();
+
+                if (!$expense || $expense->status_id === Expense::STATUS_INVOICED) {
+                    continue;
+                }
+
+                $expense->setStatus(Expense::STATUS_INVOICED);
+                $expense->save();
+            }
+
+            if ($line_item->type_id === Invoice::TASK_TYPE) {
+                $task = Task::where('id', '=', $line_item->product_id)->first();
+
+                if (!$task || $task->task_status === Task::STATUS_INVOICED) {
+                    continue;
+                }
+
+                $task->setStatus(Task::STATUS_INVOICED);
+                $task->save();
+            }
+        }
+
+        return true;
     }
 
     public function getInvoicesForAutoBilling()

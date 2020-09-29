@@ -4,6 +4,7 @@ import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 
 export default function TaskDetails (props) {
     let userContent
@@ -48,11 +49,18 @@ export default function TaskDetails (props) {
                 {props.renderErrorFor('customer_id')}
             </FormGroup>
 
+            {/* <FormGroup> */}
+            {/*    <Label>{translations.assigned_user}</Label> */}
+            {/*    <UserDropdown handleInputChanges={props.handleInput} */}
+            {/*        user_id={props.task.assigned_to} name="assigned_to" */}
+            {/*        users={props.users}/> */}
+            {/* </FormGroup> */}
+
             <FormGroup>
-                <Label>{translations.assigned_user}</Label>
-                <UserDropdown handleInputChanges={props.handleInput}
-                    user_id={props.task.assigned_to} name="assigned_to"
-                    users={props.users}/>
+                <Label>{translations.project}</Label>
+                <ProjectDropdown handleInputChanges={props.handleInput}
+                    project={props.task.project_id} name="project_id"
+                />
             </FormGroup>
 
             <FormGroup>

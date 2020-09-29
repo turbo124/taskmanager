@@ -4,7 +4,8 @@ import { Progress, CustomInput } from 'reactstrap'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './uploads.scss'
-import { translations } from '../../utils/_translations'
+import { translations } from '../utils/_translations'
+import { icons } from '../utils/_icons'
 
 class FileUpload extends Component {
     constructor (props) {
@@ -131,10 +132,10 @@ class FileUpload extends Component {
                             </span>
 
                             <a href="#"
-                                className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                                className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">
-                                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.customer}`}/>
                                         {translations.customer_can_view}
                                     </h5>
                                     <CustomInput

@@ -17,6 +17,7 @@ class Task extends Model
 
     const TASK_TYPE_DEAL = 3;
     const STATUS_IN_PROGRESS = 7;
+    const STATUS_INVOICED = 2000;
 
     protected $fillable = [
         'name',
