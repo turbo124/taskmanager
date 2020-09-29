@@ -10,7 +10,7 @@ export default class TaskRepository extends BaseRepository {
         this.entity = 'Invoice'
     }
 
-    async get (status = null, customer_id = null) {
+    async get (status = null, customer_id = null, project_id = null) {
         this.errors = []
         this.error_message = ''
 
@@ -22,6 +22,10 @@ export default class TaskRepository extends BaseRepository {
 
         if (status !== null) {
             parameters.status = status
+        }
+
+        if (project_id !== null) {
+            parameters.project_id = project_id
         }
 
         const url = Object.keys(parameters).length ? this._url + `?${this.buildQueryParams(parameters)}` : this._url

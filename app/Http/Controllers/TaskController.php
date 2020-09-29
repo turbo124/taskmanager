@@ -7,9 +7,11 @@ use App\Factory\TaskFactory;
 use App\Filters\TaskFilter;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Pdf\Download;
+use App\Jobs\Task\GenerateInvoice;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Deal;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Project;
@@ -19,6 +21,7 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\DealRepository;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProjectRepository;
@@ -349,6 +352,11 @@ class TaskController extends Controller
             Download::dispatch($tasks, $tasks->first()->account, auth()->user()->email);
 
             return response()->json(['message' => 'The email was sent successfully!'], 200);
+        }
+
+        if ($action === 'create_invoice') {
+            GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), $tasks);
+            return response()->json(['message' => 'The invoice was created successfully!'], 200);
         }
 
         $responses = [];

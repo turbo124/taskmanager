@@ -117,7 +117,7 @@ class AddModal extends React.Component {
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
             public_notes: this.state.public_notes,
-            private_notes: this.state.private_notes
+            private_notes: this.state.private_notes,
         }
 
         this.taskModel.save(data).then(response => {

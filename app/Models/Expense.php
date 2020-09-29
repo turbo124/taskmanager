@@ -97,4 +97,14 @@ class Expense extends Model
 
         return true;
     }
+
+    /**
+     * @param int $status_id
+     * @return bool
+     */
+    public function setStatus(int $status_id)
+    {
+        $this->status_id = $status_id;
+        return true;
+    }
 }

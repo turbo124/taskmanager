@@ -19,6 +19,7 @@ export default class KanbanNew extends Component {
 
         this.state = {
             type: queryString.parse(this.props.location.search).type || 'task',
+            project_id: queryString.parse(this.props.location.search).project_id || '',
             columns: {},
             entities: {},
             statuses: {},
@@ -29,6 +30,17 @@ export default class KanbanNew extends Component {
                 viewedId: false
             }
         }
+
+        this.colorArray = ['#FF6633', '#32CD32', '#DC143C', '#FF1493', '#20B2AA',
+            '#9400D3', '#DA70D6', '#999966', '#FF7F50', '#B34D4D',
+            '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+            '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+            '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+            '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+            '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+            '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+            '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+            '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']
 
         this.formatColumns = this.formatColumns.bind(this)
         this.save = this.save.bind(this)
@@ -83,7 +95,7 @@ export default class KanbanNew extends Component {
 
     getTasks () {
         const taskRepository = new TaskRepository()
-        taskRepository.get().then(response => {
+        taskRepository.get(null, null, this.state.project_id.length ? this.state.project_id : null).then(response => {
             if (!response) {
                 alert('error')
             }
@@ -295,8 +307,14 @@ export default class KanbanNew extends Component {
                                             }}
                                             key={columnId}
                                         >
-                                            <h4>{column.name}</h4>
-                                            <div style={{ margin: 8 }}>
+                                            <div style={{ backgroundColor: this.colorArray[index] }} className="col-12">
+                                                <h4>{column.name}</h4>
+                                            </div>
+
+                                            <div style={{
+                                                margin: 8,
+                                                borderLeft: '4px solid ' + this.colorArray[index]
+                                            }}>
                                                 <Droppable droppableId={columnId} key={columnId}>
                                                     {(provided, snapshot) => {
                                                         return (
