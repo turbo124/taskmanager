@@ -379,7 +379,7 @@ class BaseController extends Controller
                 break;
 
             case 'stop_recurring':
-                $entity->status_id = RecurringInvoice::STATUS_PAUSED;
+                $entity->status_id = RecurringInvoice::STATUS_STOPPED;
                 $entity->save();
                 $response = $this->transformEntity($entity->fresh());
                 break;
