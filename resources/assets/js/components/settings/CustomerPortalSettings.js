@@ -150,6 +150,15 @@ export default class CustomerPortalSettings extends Component {
         return [
             [
                 {
+                    icon: `fa ${icons.shield}`,
+                    name: 'require_customer_portal_login',
+                    label: translations.enable_portal_password,
+                    type: 'switch',
+                    placeholder: translations.enable_portal_password_help,
+                    value: settings.require_customer_portal_login,
+                    help_text: translations.customer_registration_help_text
+                },
+                {
                     name: 'display_invoice_terms',
                     label: translations.display_invoice_terms,
                     icon: `fa ${icons.checkbox_o}`,

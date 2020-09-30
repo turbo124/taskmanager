@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Factory\ExpenseFactory;
 use App\Filters\ExpenseFilter;
+use App\Jobs\Expense\GenerateInvoice;
 use App\Models\Expense;
+use App\Models\Invoice;
 use App\Repositories\ExpenseRepository;
+use App\Repositories\InvoiceRepository;
 use App\Requests\Expense\CreateExpenseRequest;
 use App\Requests\Expense\UpdateExpenseRequest;
 use App\Requests\SearchRequest;
@@ -13,6 +16,7 @@ use App\Transformations\ExpenseTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class ExpenseController
@@ -120,16 +124,25 @@ class ExpenseController extends Controller
         $expenseRepo->archive($expense);
     }
 
-    /**
-     * @return JsonResponse
-     */
-    public function bulk()
+    public function bulk(Request $request)
     {
-        $action = request()->input('action');
+        $action = $request->action;
 
-        $ids = request()->input('ids');
-        $expenses = Expense::withTrashed()->find($ids);
+        $ids = $request->ids;
 
-        return response()->json($expenses);
+        $expenses = Expense::withTrashed()->whereIn('id', $ids)->get();
+
+        if (!$expenses) {
+            return response()->json(['message' => "No expense Found"]);
+        }
+
+        if ($action === 'create_invoice') {
+            GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), $expenses);
+            return response()->json(['message' => 'The invoice was created successfully!'], 200);
+        }
+
+        $responses = [];
+
+        return response()->json($responses);
     }
 }

@@ -75,11 +75,6 @@ $table_here
 			                <span style="margin-right: 20px">$tax_label</span> <span style="margin-left: 16px">$tax</span> <br>
 			                <span style="margin-right: 20px">$shipping_cost_label</span> <span style="margin-left: 16px"> $shipping_cost</span> <br>
 			                <span style="margin-right: 20px">$voucher_label</span> <span style="margin-left: 16px">$voucher</span> <br>
-			                
-			                 <p>
-                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
-                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
-            </p>
 			            </div>
 			        </div>';
     }

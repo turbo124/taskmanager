@@ -67,6 +67,11 @@ class Expense extends Model
         return $this->belongsTo(Models\User::class, 'assigned_to', 'id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withTrashed();
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');

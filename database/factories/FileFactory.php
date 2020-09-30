@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\File;
+use App\Models\Task;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 /*
@@ -15,10 +18,6 @@ use Faker\Generator as Faker;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\File;
-use App\Models\Task;
-use App\Models\User;
-
 $factory->define(
     File::class,
     function (Faker $faker) {
@@ -26,23 +25,24 @@ $factory->define(
         $task = factory(Task::class)->create();
 
         return [
-            'assigned_to'   => null,
-            'account_id'    => 1,
-            'company_id'    => null,
-            'is_active'     => 1,
-            'fileable_id'   => $task->id,
-            'fileable_type' => 'App\Models\Task',
-            'user_id'       => $user->id,
-            'name'          => $faker->text,
-            'file_path'     => $faker->word,
-            'preview'       => null,
-            'type'          => null,
-            'size'          => null,
-            'width'         => null,
-            'height'        => null,
-            'is_default'    => 0,
-            'deleted_at'    => null,
-            'uploaded_by_customer' => false
+            'assigned_to'          => null,
+            'account_id'           => 1,
+            'company_id'           => null,
+            'is_active'            => 1,
+            'fileable_id'          => $task->id,
+            'fileable_type'        => 'App\Models\Task',
+            'user_id'              => $user->id,
+            'name'                 => $faker->text,
+            'file_path'            => $faker->word,
+            'preview'              => null,
+            'type'                 => null,
+            'size'                 => null,
+            'width'                => null,
+            'height'               => null,
+            'is_default'           => 0,
+            'deleted_at'           => null,
+            'uploaded_by_customer' => false,
+            'customer_can_view'    => false
         ];
     }
 );

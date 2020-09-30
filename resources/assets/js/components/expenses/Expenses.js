@@ -31,7 +31,7 @@ export default class Expenses extends Component {
             companies: [],
             cachedData: [],
             bulk: [],
-            dropdownButtonActions: ['download'],
+            dropdownButtonActions: ['create_invoice'],
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',

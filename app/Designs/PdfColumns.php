@@ -18,6 +18,8 @@ class PdfColumns
 
     private $default_columns = [
         'customer_details' => [
+            '$customer.paid_to_date'      => '<span>$customer.paid_to_date_label: $customer.paid_to_date</span>',
+            '$customer.balance'           => '<span>$customer.balance_label: $customer.balance</span><br>',
             '$customer.name'              => '$customer.name<br>',
             '$customer.number'            => '$customer.number<br>',
             '$customer.vat_number'        => '$customer.vat_number<br>',
@@ -201,6 +203,7 @@ class PdfColumns
             $this->entity_columns[$this->entity_string],
             '<br>'
         );
+
         $this->exported_variables['$entity_labels'] = $this->formatVariables(
             array_keys($this->input_variables[$this->entity_string]),
             $this->entity_columns[$this->entity_string],
@@ -214,7 +217,7 @@ class PdfColumns
     {
         $output = '';
 
-        foreach ($values as $value) {
+        foreach ($values as $key => $value) {
             if (isset($variables[$value])) {
                 $tmp = str_replace("</span>", "_label</span>", $variables[$value]);
                 $output .= $type === 'label' ? $tmp : $variables[$value] . $appends;

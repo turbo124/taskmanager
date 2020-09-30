@@ -91,9 +91,12 @@ trait MakesInvoiceHtml
 
         $entity_class = (new ReflectionClass($entity))->getShortName();
 
-
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
+        $html = $objPdf->removeEmptyValues(['$customer.paid_to_date_label:', '$customer.balance_label:', '$customer.paid_to_date', '$customer.balance'], $html);
+
+        $html = str_replace(['<span> </span>', '&nbsp;<br>'], '', $html);
+
         $html = str_replace('$pdf_type', ucfirst($entity_class), $html);
         $html = str_replace('$entity_number', $entity->number, $html);
 

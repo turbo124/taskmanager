@@ -78,11 +78,6 @@ $costs
              <span style="margin-right: 60px">$balance_due_label</span> $balance_due<br>
              <span style="margin-right: 60px">$shipping_cost_label</span> $shipping_cost<br>
               <span style="margin-right: 60px">$voucher_label</span> $voucher<br>
-              
-               <p>
-                 <span style="margin-right: 20px"> $customer_balance_label </span>  $customer_balance<br>
-                <span style="margin-right: 20px"> $customer_paid_to_date_label </span>  $customer_paid_to_date<br>
-            </p>
         </div>
 </div>';
     }
