@@ -143,9 +143,11 @@ class AccountSettings extends BaseSettings
 
     public function getAccountDefaults()
     {
-        $defaults = array_filter(
-            array_combine(array_keys($this->account_settings), array_column($this->account_settings, 'default_value'))
+        $defaults = array_combine(
+            array_keys($this->account_settings),
+            array_column($this->account_settings, 'default_value')
         );
+
         $translated = array_filter(
             array_combine(
                 array_keys($this->account_settings),

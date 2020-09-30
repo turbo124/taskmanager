@@ -11,6 +11,9 @@ _localizedValues.en = {
     grace_period: 'Grace Period',
     store_card: 'Store Card',
     grace_period_help_text: 'Allow the customer n number of days to pay after being sent. If left blank the payment terms will be used.',
+    enable_portal_password: 'Password Protect Invoices',
+    enable_portal_password_help:
+        'Allows you to set a password for each contact. If a password is set, the contact will be required to enter a password before viewing invoices, quotes, orders or credits.',
     under_payments_allowed: 'Allow lower payments',
     under_payments_allowed_help_text: 'Customer can make payments less than the invoice total',
     over_payments_allowed: 'Allow over payments',

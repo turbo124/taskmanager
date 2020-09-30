@@ -149,6 +149,20 @@ class PdfBuilder
             'label' => $this->makeCustomField('Customer', 'custom_value4')
         ];
 
+        if (isset($customer->balance)) {
+            $this->data['$customer.balance'] = [
+                'value' => $customer->getFormattedCustomerBalance() ?: '&nbsp;',
+                'label' => trans('texts.customer_balance')
+            ];
+        }
+
+        if (isset($customer->paid_to_date)) {
+            $this->data['$customer.paid_to_date'] = [
+                'value' => $customer->getFormattedPaidToDate() ?: '&nbsp;',
+                'label' => trans('texts.customer_paid_to_date')
+            ];
+        }
+
         return $this;
     }
 
@@ -299,7 +313,7 @@ class PdfBuilder
     public function buildCompanyAddress(Company $company): self
     {
         $this->data['$customer.address1'] = [
-            'value' => $company->present()->address() ?: '&nbsp;',
+            'value' => $company->address_1 ?: '&nbsp;',
             'label' => trans('texts.address')
         ];
 
@@ -439,34 +453,6 @@ class PdfBuilder
         $this->data['$balance_due'] = [
             'value' => $this->entity->getFormattedBalance() ?: '&nbsp;',
             'label' => trans('texts.balance_due')
-        ];
-
-        return $this;
-    }
-
-    public function setCustomerBalance($customer): self
-    {
-        if (!isset($customer->balance)) {
-            return $this;
-        }
-
-        $this->data['$customer_balance'] = [
-            'value' => $customer->getFormattedCustomerBalance() ?: '&nbsp;',
-            'label' => trans('texts.customer_balance')
-        ];
-
-        return $this;
-    }
-
-    public function setCustomerPaidToDate($customer): self
-    {
-        if (!isset($customer->paid_to_date)) {
-            return $this;
-        }
-
-        $this->data['$customer_paid_to_date'] = [
-            'value' => $customer->getFormattedPaidToDate() ?: '&nbsp;',
-            'label' => trans('texts.customer_paid_to_date')
         ];
 
         return $this;
@@ -618,8 +604,8 @@ class PdfBuilder
             return [];
         }
 
-        $invoice = $this->entity->service()->calculateInvoiceTotals();
-        $line_items = $invoice->line_items;
+        $line_items = $this->entity->line_items;
+
         $tax_collection = collect([]);
 
         foreach ($line_items as $key => $line_item) {
@@ -789,6 +775,11 @@ class PdfBuilder
     public function parseValues($values, $html): string
     {
         return str_replace(array_keys($values), array_values($values), $html);
+    }
+
+    public function removeEmptyValues($values, $html): string
+    {
+        return str_replace($values, '', $html);
     }
 
     /**

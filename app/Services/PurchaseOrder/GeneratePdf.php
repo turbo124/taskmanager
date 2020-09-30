@@ -44,7 +44,6 @@ class GeneratePdf
         }
 
         $file_path = $this->purchase_order->getPdfFilename();
-
         $disk = config('filesystems.default');
         $file = Storage::disk($disk)->exists($file_path);
 

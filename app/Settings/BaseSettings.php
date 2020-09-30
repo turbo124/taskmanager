@@ -1219,7 +1219,13 @@ class BaseSettings
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
-        ]
+        ],
+        'require_customer_portal_login'        => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
     ];
 
     protected function validate($saved_settings, $actual_settings)

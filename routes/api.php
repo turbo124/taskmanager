@@ -247,6 +247,7 @@ Route::group(
         Route::get('expenses', 'ExpenseController@index');
         Route::put('expense/{expense_id}', 'ExpenseController@update');
         Route::post('expenses/restore/{id}', 'ExpenseController@restore');
+        Route::post('expense/bulk', 'ExpenseController@bulk');
 
         // quotes
         Route::get(
