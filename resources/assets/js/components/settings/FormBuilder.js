@@ -7,6 +7,7 @@ import PaymentTypeDropdown from '../common/dropdowns/PaymentTypeDropdown'
 import PaymentTermsDropdown from '../common/dropdowns/PaymentTermsDropdown'
 import { translations } from '../utils/_translations'
 import LanguageDropdown from '../common/dropdowns/LanguageDropdown'
+import { LearnMoreUrl } from '../common/LearnMore'
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -182,7 +183,13 @@ class FormBuilder extends React.Component {
             default:
                 returnedField = <React.Fragment>
                     <FormGroup>
-                        <Label>{field.label}</Label>
+                        <Label>
+                            {field.label}
+
+                            {field.help_url &&
+                            <LearnMoreUrl url={field.help_url} />
+                            }
+                        </Label>
                         <Input type={field.type}
                             className={field.inputClass || ''}
                             id={id}

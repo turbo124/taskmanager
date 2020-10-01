@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Base;
 
-use App\Helpers\Invitations;
+use App\Components\Invitations;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;

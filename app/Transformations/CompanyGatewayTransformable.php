@@ -3,7 +3,7 @@
 namespace App\Transformations;
 
 use App\Models\CompanyGateway;
-use App\Models\Gateway;
+use App\Models\PaymentGateway;
 
 trait CompanyGatewayTransformable
 {
@@ -34,10 +34,10 @@ trait CompanyGatewayTransformable
     }
 
     /**
-     * @param Gateway $gateway
+     * @param PaymentGateway $gateway
      * @return array
      */
-    public function transformGateway(Gateway $gateway)
+    public function transformGateway(PaymentGateway $gateway)
     {
         if (empty($gateway)) {
             return [];

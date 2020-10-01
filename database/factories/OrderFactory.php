@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Order;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\User;
 
 $factory->define(Order::class, function (Faker\Generator $faker) {
@@ -12,7 +12,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
     for ($x = 0; $x < 2; $x++) {
         $product = factory(\App\Models\Product::class)->create();
 
-        $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+        $line_items[] = (new \App\Components\InvoiceCalculator\LineItem)
             ->setQuantity(2)
             ->setUnitPrice(40)
             ->calculateSubTotal()->setUnitDiscount(0)

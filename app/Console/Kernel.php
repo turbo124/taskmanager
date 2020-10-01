@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\Cron\RecurringInvoicesCron;
 use App\Jobs\Invoice\SendReminders;
+use App\Console\Commands\SendRecurring;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,7 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new RecurringInvoicesCron)->hourly();
+        //$schedule->job(new RecurringInvoicesCron)->hourly();
+        $schedule->command(SendRecurring::class)->hourly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->json(new SendReminders)->daily();
     }

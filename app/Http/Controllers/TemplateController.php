@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Pdf\InvoicePdf;
-use App\Helpers\Pdf\LeadPdf;
-use App\Helpers\Pdf\PurchaseOrderPdf;
-use App\Helpers\Pdf\TaskPdf;
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\LeadPdf;
+use App\Components\Pdf\PurchaseOrderPdf;
+use App\Components\Pdf\TaskPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
 use Illuminate\Http\Response;

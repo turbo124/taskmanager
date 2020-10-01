@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const icons = {
+    help: 'fa-question',
     view: 'fa-eye',
     refresh: 'fa-gear',
     checkbox: 'fa-check-square',

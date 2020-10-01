@@ -8,8 +8,10 @@ import { invoice_pdf_fields } from '../models/InvoiceModel'
 import PdfFields from './PdfFields'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
-import { order_pdf_fields } from "../models/OrderModel";
-import { purchase_order_pdf_fields } from "../models/PurchaseOrderModel";
+import { order_pdf_fields } from '../models/OrderModel'
+import { purchase_order_pdf_fields } from '../models/PurchaseOrderModel'
+import { customer_pdf_fields } from '../models/CustomerModel'
+import { account_pdf_fields } from "../models/AccountModel";
 
 class InvoiceSettings extends Component {
     constructor (props) {
@@ -166,20 +168,6 @@ class InvoiceSettings extends Component {
         ]
 
         return formFields
-    }
-
-    getCustomerFields () {
-        return ['$customer.name', '$customer.number', '$customer.vat_number', '$customer.address1', '$customer.address2', '$customer.city_state_postal',
-            '$customer.postal_city_state', '$customer.country', '$contact.email', '$customer.custom1', '$customer.custom2', '$customer.custom3',
-            '$customer.custom4'
-        ]
-    }
-
-    getAccountFields () {
-        return [
-            '$account.name', '$account.id_number', '$account.vat_number', '$account.website', '$account.email', '$account.account1',
-            '$account.account2', '$account.account3', '$account.account4'
-        ]
     }
 
     getInvoiceFields () {
@@ -373,7 +361,7 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="client_details" columns={this.getCustomerFields()}
+                                    section="client_details" columns={customer_pdf_fields}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
@@ -383,7 +371,7 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="company_details" columns={this.getAccountFields()}
+                                    section="company_details" columns={account_pdf_fields}
                                     ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>

@@ -3,7 +3,7 @@
 namespace App\Transformations;
 
 use App\Models\Audit;
-use App\Models\Gateway;
+use App\Models\PaymentGateway;
 
 class GatewayTransformable
 {
@@ -11,7 +11,7 @@ class GatewayTransformable
      * @param Audit $audit
      * @return array
      */
-    public function transformGateway(Gateway $gateway)
+    public function transformGateway(PaymentGateway $gateway)
     {
         return [
             'id'         => (int)$gateway->id,

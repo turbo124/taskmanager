@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Helpers\InvoiceCalculator\LineItem;
+use App\Components\InvoiceCalculator\LineItem;
 use Exception;
 
 class LineItemSettings extends BaseSettings

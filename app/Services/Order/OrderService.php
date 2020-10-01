@@ -2,10 +2,10 @@
 
 namespace App\Services\Order;
 
+use App\Components\Shipping\ShippoShipment;
 use App\Events\Order\OrderWasCancelled;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasHeld;
-use App\Helpers\Shipping\ShippoShipment;
 use App\Jobs\Inventory\ReverseInventory;
 use App\Jobs\Inventory\UpdateInventory;
 use App\Models\Order;

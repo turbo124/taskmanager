@@ -26,7 +26,7 @@ class RecurringInvoice extends Model
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 2;
     const STATUS_ACTIVE = 3;
-    const STATUS_PAUSED = 4;
+    const STATUS_STOPPED = 4;
     const STATUS_COMPLETED = 5;
     protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $fillable = [

@@ -4,8 +4,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Components\Promocodes\Promocodes;
 use App\Filters\PromocodeFilter;
-use App\Helpers\Promocodes\Promocodes;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Order;

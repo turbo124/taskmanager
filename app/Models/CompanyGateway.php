@@ -36,7 +36,7 @@ class CompanyGateway extends Model
 
     public function gateway()
     {
-        return $this->belongsTo(Gateway::class, 'gateway_key', 'key');
+        return $this->belongsTo(PaymentGateway::class, 'gateway_key', 'key');
     }
 
     public function getMode()

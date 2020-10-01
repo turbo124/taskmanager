@@ -1,6 +1,11 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
+export const account_pdf_fields = [
+    '$account.name', '$account.id_number', '$account.vat_number', '$account.website', '$account.email', '$account.account1',
+    '$account.account2', '$account.account3', '$account.account4'
+]
+
 export default class AccountModel extends BaseModel {
     constructor (data = null) {
         super()

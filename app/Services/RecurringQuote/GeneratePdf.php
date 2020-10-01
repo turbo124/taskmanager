@@ -2,8 +2,8 @@
 
 namespace App\Services\RecurringQuote;
 
+use App\Components\Pdf\InvoicePdf;
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\CustomerContact;
 use App\Models\Design;

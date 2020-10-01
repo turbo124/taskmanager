@@ -2,15 +2,15 @@
 
 namespace Tests\Unit;
 
+use App\Components\Currency\CurrencyConverter;
+use App\Components\InvoiceCalculator\LineItem;
+use App\Components\Payment\ProcessPayment;
+use App\Components\Refund\RefundFactory;
 use App\Factory\CreditFactory;
 use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\PaymentFactory;
 use App\Filters\PaymentFilter;
-use App\Helpers\Currency\CurrencyConverter;
-use App\Helpers\InvoiceCalculator\LineItem;
-use App\Helpers\Payment\ProcessPayment;
-use App\Helpers\Refund\RefundFactory;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;

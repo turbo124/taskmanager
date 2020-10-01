@@ -25,6 +25,15 @@ class CustomFieldSettings extends Component {
                 label: '',
                 type: consts.text
             }, { name: 'custom_value4', label: '', type: consts.text }],
+            users: [{ name: 'custom_value1', label: '', type: consts.text }, {
+                name: 'custom_value2',
+                label: '',
+                type: consts.text
+            }, {
+                name: 'custom_value3',
+                label: '',
+                type: consts.text
+            }, { name: 'custom_value4', label: '', type: consts.text }],
             companies: [{ name: 'custom_value1', label: '', type: consts.text }, {
                 name: 'custom_value2',
                 label: '',
@@ -306,7 +315,7 @@ class CustomFieldSettings extends Component {
                     data-id={tabCounter}
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     onClick={this.toggle}>
-                    Invoices
+                    {translations.invoices}
                 </NavLink>
             </NavItem>)
 
@@ -523,10 +532,39 @@ class CustomFieldSettings extends Component {
                     className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
                     data-id={tabCounter}
                     onClick={this.toggle}>
-                    Orders
+                    {translations.orders}
                 </NavLink>
             </NavItem>)
+
+            tabCounter++
         }
+
+        tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+            <Card className="border-0">
+                <CardBody>
+                    {
+                        users.map((val, idx) => {
+                            const catId = `custom_value${idx}`
+                            const ageId = `age-${idx}`
+                            return <CustomFieldSettingsForm idx={idx} age={ageId} obj={users[idx]}
+                                handleOptionChange={this.handleOptionChange}
+                                entity="users" type={users[idx].type}
+                                handleChange={this.handleChange} catId={catId}
+                                label={users[idx].label}/>
+                        })
+                    }
+                </CardBody>
+            </Card>
+        </TabPane>)
+
+        tabItems.push(<NavItem>
+            <NavLink
+                className={this.state.activeTab === String(tabCounter) ? 'active' : ''}
+                data-id={tabCounter}
+                onClick={this.toggle}>
+                {translations.users}
+            </NavLink>
+        </NavItem>)
 
         return (
             <React.Fragment>

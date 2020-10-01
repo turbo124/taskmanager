@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Components\Invitations;
 use App\Events\PurchaseOrder\PurchaseOrderWasCreated;
 use App\Events\PurchaseOrder\PurchaseOrderWasUpdated;
 use App\Filters\PurchaseOrderFilter;
-use App\Helpers\Invitations;
 use App\Models\Account;
 use App\Models\PurchaseOrder;
 use App\Repositories\Base\BaseRepository;

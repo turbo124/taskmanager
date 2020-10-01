@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Email;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\LeadPdf;
+use App\Components\Pdf\TaskPdf;
 use App\Factory\EmailFactory;
-use App\Helpers\Pdf\InvoicePdf;
-use App\Helpers\Pdf\LeadPdf;
-use App\Helpers\Pdf\TaskPdf;
 use App\Jobs\Invoice\CreateUbl;
 use App\Mail\SendMail;
 use App\Models\Email;

@@ -4,10 +4,10 @@
 namespace App\Traits;
 
 
-use App\Helpers\Pdf\InvoicePdf;
-use App\Helpers\Pdf\LeadPdf;
-use App\Helpers\Pdf\PurchaseOrderPdf;
-use App\Helpers\Pdf\TaskPdf;
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\LeadPdf;
+use App\Components\Pdf\PurchaseOrderPdf;
+use App\Components\Pdf\TaskPdf;
 
 trait BuildVariables
 {

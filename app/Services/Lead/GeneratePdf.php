@@ -2,8 +2,8 @@
 
 namespace App\Services\Lead;
 
+use App\Components\Pdf\LeadPdf;
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\LeadPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\CustomerContact;
 use App\Models\Deal;
