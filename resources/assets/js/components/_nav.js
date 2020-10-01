@@ -110,6 +110,11 @@ const items = [
                 name: 'Device Settings',
                 url: '/device-settings',
                 icon: `fa ${getSettingsIcon('device-settings')}`
+            },
+            {
+                name: 'Variables',
+                url: '/variables',
+                icon: `fa ${getSettingsIcon('device-settings')}`
             }
             // {
             //     name: 'Subscriptions',

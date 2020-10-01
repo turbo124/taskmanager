@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Helpers\InvoiceCalculator\Invoice;
-use App\Helpers\InvoiceCalculator\LineItem;
+use App\Components\InvoiceCalculator\Invoice;
+use App\Components\InvoiceCalculator\LineItem;
 use App\Jobs\Email\SendEmail;
 use App\Models\ContactInterface;
 use App\Models\CustomerContact;

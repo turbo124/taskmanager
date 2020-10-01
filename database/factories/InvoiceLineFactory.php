@@ -1,7 +1,9 @@
 <?php
+
 use App\Models\Invoice;
 
-$factory->define(\App\Helpers\InvoiceCalculator\LineItem::class, function (Faker\Generator $faker) {
+$factory->define(
+    \App\Components\InvoiceCalculator\LineItem::class, function (Faker\Generator $faker) {
     
      $invoice = factory(Invoice::class)->create();
     

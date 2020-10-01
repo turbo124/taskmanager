@@ -4,6 +4,7 @@ import UserList from './users/Userlist'
 import ProductList from './products/ProductList'
 import KanbanNew from './tasks/KanbanNew'
 import Calendar from './calendar/Calendars'
+import Variables from './settings/Variables'
 import Roles from './roles/Roles'
 import Invoice from './invoice/Invoice'
 import Order from './orders/Order'
@@ -249,6 +250,11 @@ const routes = [
         path: '/workflow-settings',
         name: 'Workflow Settings',
         component: WorkflowSettings
+    },
+    {
+        path: '/variables',
+        name: 'Variables',
+        component: Variables
     },
     {
         path: '/device-settings',

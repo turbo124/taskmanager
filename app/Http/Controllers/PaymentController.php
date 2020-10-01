@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Payment\ProcessPayment;
+use App\Components\Refund\RefundFactory;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\PaymentFactory;
 use App\Filters\PaymentFilter;
-use App\Helpers\Payment\ProcessPayment;
-use App\Helpers\Refund\RefundFactory;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Credit;
 use App\Models\Customer;

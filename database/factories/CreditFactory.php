@@ -13,7 +13,7 @@ $factory->define(
         $total = 800;
 
         for ($x = 0; $x < 5; $x++) {
-            $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            $line_items[] = (new \App\Components\InvoiceCalculator\LineItem)
                 ->setQuantity($faker->numberBetween(1, 10))
                 ->setUnitPrice($faker->randomFloat(2, 1, 1000))
                 ->calculateSubTotal()->setUnitDiscount($faker->numberBetween(1, 10))

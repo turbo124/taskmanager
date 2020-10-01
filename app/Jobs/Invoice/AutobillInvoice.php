@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Invoice;
 
-use App\Helpers\Payment\Gateways\GatewayFactory;
+use App\Components\Payment\Gateways\GatewayFactory;
 use App\Models\CompanyGateway;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;

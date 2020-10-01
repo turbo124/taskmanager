@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Invoice;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\User;
 
 $factory->define(
@@ -13,7 +13,7 @@ $factory->define(
         $total = 800;
 
         for ($x = 0; $x < 5; $x++) {
-            $line_items[] = (new \App\Helpers\InvoiceCalculator\LineItem)
+            $line_items[] = (new \App\Components\InvoiceCalculator\LineItem)
                 ->setQuantity(1)
                 ->setUnitPrice(160)
                 ->calculateSubTotal()

@@ -2,8 +2,8 @@
 
 namespace App\Services\Task;
 
+use App\Components\Pdf\TaskPdf;
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\TaskPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Cases;
 use App\Models\CustomerContact;

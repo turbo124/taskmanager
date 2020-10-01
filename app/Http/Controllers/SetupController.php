@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Setup\DatabaseManager;
+use App\Components\Setup\EnvironmentManager;
+use App\Components\Setup\FinalInstallManager;
+use App\Components\Setup\InstalledFileManager;
+use App\Components\Setup\PermissionsChecker;
+use App\Components\Setup\RequirementsChecker;
 use App\Events\EnvironmentSaved;
 use App\Events\SetupFinished;
 use App\Events\User\UserWasCreated;
 use App\Factory\AccountFactory;
 use App\Factory\UserFactory;
-use App\Helpers\Setup\DatabaseManager;
-use App\Helpers\Setup\EnvironmentManager;
-use App\Helpers\Setup\FinalInstallManager;
-use App\Helpers\Setup\InstalledFileManager;
-use App\Helpers\Setup\PermissionsChecker;
-use App\Helpers\Setup\RequirementsChecker;
 use App\Models\Account;
 use App\Models\Domain;
 use App\Models\User;

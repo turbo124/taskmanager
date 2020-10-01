@@ -59,12 +59,12 @@ export const consts = {
     recurring_invoice_status_draft: 1,
     recurring_invoice_status_pending: 2,
     recurring_invoice_status_active: 3,
-    recurring_invoice_status_paused: 4,
+    recurring_invoice_status_stopped: 4,
     recurring_invoice_status_completed: 5,
     recurring_quote_status_draft: 1,
     recurring_quote_status_pending: 2,
     recurring_quote_status_active: 3,
-    recurring_quote_status_paused: 4,
+    recurring_quote_status_stopped: 4,
     recurring_quote_status_completed: 5,
     quote_status_draft_text: 'Draft',
     quote_status_sent_text: 'Sent',
@@ -278,7 +278,7 @@ export const recurringInvoiceStatuses = {
     [consts.recurring_invoice_status_draft]: translations.draft,
     [consts.recurring_invoice_status_pending]: translations.pending,
     [consts.recurring_invoice_status_active]: translations.active,
-    [consts.recurring_invoice_status_paused]: translations.paused,
+    [consts.recurring_invoice_status_stopped]: translations.stopped,
     [consts.recurring_invoice_status_completed]: translations.complete
 }
 
@@ -286,7 +286,7 @@ export const recurringInvoiceStatusColors = {
     [consts.recurring_invoice_status_draft]: 'secondary',
     [consts.recurring_invoice_status_pending]: 'secondary',
     [consts.recurring_invoice_status_active]: 'primary',
-    [consts.recurring_invoice_status_paused]: 'warning',
+    [consts.recurring_invoice_status_stopped]: 'warning',
     [consts.recurring_invoice_status_completed]: 'success'
 }
 
@@ -294,7 +294,7 @@ export const recurringQuoteStatuses = {
     [consts.recurring_invoice_status_draft]: translations.draft,
     [consts.recurring_invoice_status_pending]: translations.pending,
     [consts.recurring_invoice_status_active]: translations.active,
-    [consts.recurring_invoice_status_paused]: translations.paused,
+    [consts.recurring_invoice_status_stopped]: translations.stopped,
     [consts.recurring_invoice_status_completed]: translations.complete
 }
 
@@ -302,7 +302,7 @@ export const recurringQuoteStatusColors = {
     [consts.recurring_quote_status_draft]: 'secondary',
     [consts.recurring_quote_status_pending]: 'secondary',
     [consts.recurring_quote_status_active]: 'primary',
-    [consts.recurring_quote_status_paused]: 'warning',
+    [consts.recurring_quote_status_stopped]: 'warning',
     [consts.recurring_quote_status_completed]: 'success'
 }
 

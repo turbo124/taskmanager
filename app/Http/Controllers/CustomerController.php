@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Customer\ContactRegister;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Customer\CustomerWasUpdated;
 use App\Factory\CustomerFactory;
 use App\Filters\CustomerFilter;
-use App\Helpers\Customer\ContactRegister;
 use App\Jobs\Customer\StoreCustomerAddress;
 use App\Models\Account;
 use App\Models\CompanyToken;

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Helpers\Shipping\ShippoShipment;
+use App\Components\Shipping\ShippoShipment;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 

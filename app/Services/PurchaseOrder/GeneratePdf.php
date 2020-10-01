@@ -2,8 +2,8 @@
 
 namespace App\Services\PurchaseOrder;
 
+use App\Components\Pdf\PurchaseOrderPdf;
 use App\Designs\PdfColumns;
-use App\Helpers\Pdf\PurchaseOrderPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\CompanyContact;
 use App\Models\Design;

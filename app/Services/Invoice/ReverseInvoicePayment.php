@@ -2,9 +2,9 @@
 
 namespace App\Services\Invoice;
 
+use App\Components\InvoiceCalculator\LineItem;
 use App\Events\Invoice\InvoiceWasReversed;
 use App\Factory\CreditFactory;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Invoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;

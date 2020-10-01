@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\InvoiceFactory;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\Product;

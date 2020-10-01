@@ -83,7 +83,8 @@ class IntegrationSettings extends Component {
                     label: translations.slack_url,
                     type: 'text',
                     placeholder: translations.slack_url,
-                    value: settings.slack_webhook_url
+                    value: settings.slack_webhook_url,
+                    help_url: 'https://my.slack.com/services/new/incoming-webhook/'
                 },
                 {
                     name: 'google_analytics_url',

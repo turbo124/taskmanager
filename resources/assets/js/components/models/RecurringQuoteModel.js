@@ -144,8 +144,8 @@ export default class RecurringQuoteModel extends BaseModel {
         return parseInt(this.fields.status_id) === consts.recurring_invoice_status_draft
     }
 
-    get isPaused () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_paused
+    get isStopped () {
+        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_stopped
     }
 
     get isPending () {
@@ -209,7 +209,7 @@ export default class RecurringQuoteModel extends BaseModel {
             actions.push('email')
         }
 
-        if (this.isDraft || this.isPaused) {
+        if (this.isDraft || this.isStopped) {
             actions.push('start_recurring')
         }
 

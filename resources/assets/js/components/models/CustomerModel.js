@@ -1,6 +1,11 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
+export const customer_pdf_fields = ['$customer.name', '$customer.number', '$customer.vat_number', '$customer.address1', '$customer.address2', '$customer.city_state_postal',
+    '$customer.postal_city_state', '$customer.country', '$contact.email', '$customer.custom1', '$customer.custom2', '$customer.custom3',
+    '$customer.custom4'
+]
+
 class ContactModel {
     constructor (contact) {
         this._contact = contact

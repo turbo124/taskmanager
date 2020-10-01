@@ -5,7 +5,7 @@ return [
     'rate'                                      => 'Rate',
     'hours'                                     => 'Total Hours',
     'description'                               => 'Description',
-    'gateway_fee'                               => 'Gateway Fee',
+    'gateway_fee'                               => 'PaymentGateway Fee',
     'subscription_invoice_created_subject'      => 'A new invoice has been created for your subscription to TamTam CRM',
     'subscription_invoice_created_message'      => 'Your :term subscription is due on :due_date. Invoice :number has been created for :amount',
     'email_changed_subject'                     => 'Your email address has been changed',

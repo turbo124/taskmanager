@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Components\Currency\CurrencyConverter;
 use App\Events\Payment\PaymentWasCreated;
 use App\Filters\PaymentFilter;
-use App\Helpers\Currency\CurrencyConverter;
 use App\Models\Account;
 use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;

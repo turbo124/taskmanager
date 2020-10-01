@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Alert, Card, CardBody, Form, Nav, NavItem, NavLink, Spinner, TabContent, TabPane } from 'reactstrap'
+import { Alert, Card, CardBody, Form, Nav, NavItem, NavLink, Spinner, TabContent, TabPane, Row, Col } from 'reactstrap'
 import axios from 'axios'
 import EmailFields from './EmailFields'
 import EmailPreview from './EmailPreview'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
+import Variables from './Variables'
 
 class TemplateSettings extends Component {
     constructor (props) {
@@ -223,9 +224,18 @@ class TemplateSettings extends Component {
                     <TabPane className="px-0" tabId="1">
                         <Card className="border-0">
                             <CardBody>
-                                <Form>
-                                    {fields}
-                                </Form>
+                                <Row>
+                                    <Col md={8}>
+                                        <Form>
+                                            {fields}
+                                        </Form>
+                                    </Col>
+
+                                    <Col md={4}>
+                                        <Variables class="fixed-margin-mobile"/>
+                                    </Col>
+                                </Row>
+
                             </CardBody>
                         </Card>
                     </TabPane>

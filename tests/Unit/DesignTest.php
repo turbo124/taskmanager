@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Components\Pdf\InvoicePdf;
 use App\Designs\PdfColumns;
 use App\Factory\DesignFactory;
 use App\Filters\DesignFilter;
-use App\Helpers\Pdf\InvoicePdf;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\Quote\CreateQuotePdf;
 use App\Models\Account;

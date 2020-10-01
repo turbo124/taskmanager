@@ -54,7 +54,7 @@ class GatewaySeeder extends Seeder
         ];
 
         foreach ($arrGateways as $arr_gateway) {
-            \App\Models\Gateway::create($arr_gateway);
+            \App\Models\PaymentGateway::create($arr_gateway);
         }
     }
 

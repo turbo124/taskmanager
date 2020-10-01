@@ -1,6 +1,11 @@
 import axios from 'axios'
 import BaseModel from './BaseModel'
 
+export const user_pdf_fields = [
+    '$user.first_name', '$user.last_name', '$user.phone', '$user.email', '$user.custom1',
+    '$user.custom2', '$user.custom3', '$user.custom4'
+]
+
 export default class UserModel extends BaseModel {
     constructor (data = null) {
         super()

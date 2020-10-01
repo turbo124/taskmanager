@@ -8,10 +8,6 @@
 
 namespace Tests\Unit;
 
-use App\Factory\CreditFactory;
-use App\Factory\InvoiceFactory;
-use App\Filters\InvoiceFilter;
-use App\Helpers\InvoiceCalculator\LineItem;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\SendReminders;
 use App\Models\Account;
@@ -21,14 +17,10 @@ use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
-use App\Models\Paymentable;
-use App\Models\RecurringInvoice;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
-use App\Requests\SearchRequest;
-use App\Settings\AccountSettings;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;

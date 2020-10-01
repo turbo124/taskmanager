@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Helpers\Promocodes\Promocodes;
+use App\Components\Promocodes\Promocodes;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Order;
