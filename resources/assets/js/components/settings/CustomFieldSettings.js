@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import CustomFieldSettingsForm from './CustomFieldSettingsForm'
 import { translations } from '../utils/_translations'
-import Snackbar from '@material-ui/core/Snackbar'
 import { consts } from '../utils/_consts'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 class CustomFieldSettings extends Component {
     constructor (props) {
@@ -225,7 +226,7 @@ class CustomFieldSettings extends Component {
     }
 
     render () {
-        const { customers, product, invoices, payments, companies, quotes, credits, tasks, expenses, orders } = this.state
+        const { users, customers, product, invoices, payments, companies, quotes, credits, tasks, expenses, orders } = this.state
         let tabCounter = 1
         const tabContent = []
         const tabItems = []
@@ -568,25 +569,16 @@ class CustomFieldSettings extends Component {
 
         return (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={this.state.success_message}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.custom_fields}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
-                            <Nav tabs className="setting-tabs disable-scrollbars">
-                                {tabItems}
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={this.state.settings_not_saved}/>
+
+                <Header title={translations.custom_fields} handleSubmit={this.handleSubmit}
+                    tabs={<Nav tabs className="setting-tabs disable-scrollbars">
+                        {tabItems}
+                    </Nav>}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     {tabContent}

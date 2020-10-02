@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {
-    Alert,
     Button,
     Card,
     CardBody,
@@ -22,7 +21,8 @@ import {
 import { translations } from '../utils/_translations'
 import BlockButton from '../common/BlockButton'
 import { icons } from '../utils/_icons'
-import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 class ModuleSettings extends Component {
     constructor (props) {
@@ -231,51 +231,38 @@ class ModuleSettings extends Component {
     }
 
     render () {
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggleTab('1')
+                    }}>
+                    {translations.overview}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggleTab('2')
+                    }}>
+                    {translations.enable_modules}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.account_management}</h4>
-                                <a className="pull-right pr-3">{translations.save}</a>
-                            </div>
-                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('1')
-                                        }}>
-                                        {translations.overview}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('2')
-                                        }}>
-                                        {translations.enable_modules}
-                                    </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.account_management}
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">

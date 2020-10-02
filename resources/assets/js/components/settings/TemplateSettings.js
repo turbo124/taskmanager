@@ -6,6 +6,8 @@ import EmailPreview from './EmailPreview'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import Variables from './Variables'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 class TemplateSettings extends Component {
     constructor (props) {
@@ -168,57 +170,42 @@ class TemplateSettings extends Component {
             handleSettingsChange={this.handleSettingsChange}
             handleChange={this.handleChange}/>
 
-        console.log('fields', fields)
-
         const preview = this.state.showPreview && this.state.preview && Object.keys(this.state.preview).length && this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
             ? <EmailPreview preview={this.state.preview} entity={this.props.entity} entity_id={this.props.entity_id}
                 template_type={this.state.template_type}/> : null
         const spinner = this.state.showSpinner === true ? <Spinner style={{ width: '3rem', height: '3rem' }}/> : null
 
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('1')
+                    }}>
+                    {translations.edit}
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('2')
+                    }}>
+                    {translations.preview}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.template_settings}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
-                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('1')
-                                        }}>
-                                        {translations.edit}
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('2')
-                                        }}>
-                                        {translations.preview}
-                                    </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.template_settings} handleSubmit={this.handleSubmit}
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane className="px-0" tabId="1">

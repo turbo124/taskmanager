@@ -6,6 +6,8 @@ import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 export default class WorkflowSettings extends Component {
     constructor (props) {
@@ -336,101 +338,88 @@ export default class WorkflowSettings extends Component {
     }
 
     render () {
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('1')
+                    }}>
+                    {translations.invoices}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('2')
+                    }}>
+                    {translations.quotes}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '3' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('3')
+                    }}>
+                    {translations.leads}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '4' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('4')
+                    }}>
+                    {translations.orders}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '5' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('5')
+                    }}>
+                    {translations.deals}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '6' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('6')
+                    }}>
+                    {translations.purchase_orders}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '7' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('7')
+                    }}>
+                    {translations.cases}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return this.state.loaded === true ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.workflow_settings}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
-                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('1')
-                                        }}>
-                                        {translations.invoices}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('2')
-                                        }}>
-                                        {translations.quotes}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '3' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('3')
-                                        }}>
-                                        {translations.leads}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '4' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('4')
-                                        }}>
-                                        {translations.orders}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '5' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('5')
-                                        }}>
-                                        {translations.deals}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '6' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('6')
-                                        }}>
-                                        {translations.purchase_orders}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '7' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('7')
-                                        }}>
-                                        {translations.cases}
-                                    </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.workflow_settings} handleSubmit={this.handleSubmit}
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane className="px-0" tabId="1">

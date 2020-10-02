@@ -5,6 +5,8 @@ import moment from 'moment'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import FormBuilder from './FormBuilder'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 export default class LocalisationSettings extends Component {
     constructor (props) {
@@ -183,28 +185,13 @@ export default class LocalisationSettings extends Component {
 
         return date_formats && date_formats.length ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={this.state.success_message}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_saved}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2 pb-2">{translations.localisation_settings}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.localisation_settings} handleSubmit={this.handleSubmit}/>
 
                 <Card className="fixed-margin-mobile border-0">
                     <CardBody>

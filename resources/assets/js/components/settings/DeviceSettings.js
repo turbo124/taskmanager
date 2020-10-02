@@ -5,6 +5,8 @@ import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import FormBuilder from './FormBuilder'
 import ColorPicker from '../common/ColorPicker'
+import Header from './Header'
+import SnackbarMessage from '../common/SnackbarMessage'
 
 export default class DeviceSettings extends Component {
     constructor (props) {
@@ -221,28 +223,13 @@ export default class DeviceSettings extends Component {
 
         return (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {this.state.success_message}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={this.state.success_message}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={this.state.settings_not_saved}/>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2 pb-2">{translations.device_settings}</h4>
-                                {/* <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a> */}
-                            </div>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.device_settings}/>
 
                 <Card className="fixed-margin-extra border-0">
                     <CardBody>
@@ -267,6 +254,11 @@ export default class DeviceSettings extends Component {
                 <Card>
                     <CardBody>
                         <Button onClick={this.refresh} color="primary" block>{translations.refresh}</Button>
+                        <Button className="mt-2" onClick={(e) => {
+                            e.preventDefault()
+                            localStorage.removeItem('access_token')
+                            window.location.href = '/#/login'
+                        }} color="primary" block>{translations.logout}</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>
