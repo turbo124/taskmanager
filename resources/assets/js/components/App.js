@@ -5,6 +5,7 @@ import DefaultLayout from './containers/DefaultLayout'
 import Login from './Login'
 import PasswordReset from './PasswordReset/PasswordReset'
 import ConfirmPasswordReset from './PasswordReset/ConfirmPasswordReset'
+import moment from 'moment'
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>
 
@@ -39,6 +40,13 @@ class App extends Component {
 
 export default App
 const axios = require('axios')
+
+const expires = localStorage.getItem('expires')
+
+if (new Date(expires) >= new Date()) {
+    localStorage.removeItem('access_token')
+    location.href = '/#/login'
+}
 
 if (localStorage.getItem('access_token')) {
     const accessToken = localStorage.getItem('access_token')

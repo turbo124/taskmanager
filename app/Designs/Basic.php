@@ -6,7 +6,11 @@ class Basic
 {
     public function header()
     {
-        return '<style>body { padding-leftt: 20px; padding-right: 20px }</style> <div class="px-2 py-4">
+        return '<style>body { padding-left: 20px; padding-right: 20px }</style> 
+
+@css
+
+<div class="px-2 py-4">
 <div>
     $account_logo
     <div class="inline-block" style="word-break: break-word">

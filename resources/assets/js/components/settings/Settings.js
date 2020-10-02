@@ -18,6 +18,8 @@ import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 import BlockButton from '../common/BlockButton'
 import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from './Header'
 
 class Settings extends Component {
     constructor (props) {
@@ -450,69 +452,56 @@ class Settings extends Component {
     }
 
     render () {
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('1')
+                    }}>
+                    {translations.details}
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('2')
+                    }}>
+                    {translations.address}
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '3' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('3')
+                    }}>
+                    {translations.logo}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '4' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('4')
+                    }}>
+                    {translations.defaults}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return this.state.loaded === true ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="success">
-                        {translations.settings_saved}
-                    </Alert>
-                </Snackbar>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
-                    <Alert severity="danger">
-                        {translations.settings_not_saved}
-                    </Alert>
-                </Snackbar>
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.settings}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
-                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('1')
-                                        }}>
-                                        {translations.details}
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('2')
-                                        }}>
-                                        {translations.address}
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '3' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('3')
-                                        }}>
-                                        {translations.logo}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '4' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('4')
-                                        }}>
-                                        {translations.defaults}
-                                    </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header title={translations.account_details} handleSubmit={this.handleSubmit}
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane className="px-0" tabId="1">

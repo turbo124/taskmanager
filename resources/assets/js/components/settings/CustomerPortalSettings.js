@@ -5,6 +5,7 @@ import axios from 'axios'
 import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 import Snackbar from '@material-ui/core/Snackbar'
+import Header from './Header'
 
 export default class CustomerPortalSettings extends Component {
     constructor (props) {
@@ -199,6 +200,38 @@ export default class CustomerPortalSettings extends Component {
     }
 
     render () {
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('1')
+                    }}>
+                    {translations.settings}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('2')
+                    }}>
+                    {translations.security}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '3' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('3')
+                    }}>
+                    {translations.billing}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return this.state.loaded === true ? (
             <React.Fragment>
                 <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
@@ -213,48 +246,7 @@ export default class CustomerPortalSettings extends Component {
                     </Alert>
                 </Snackbar>
 
-                <div className="topbar">
-                    <Card className="m-0">
-                        <CardBody className="p-0">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="pl-3 pt-2">{translations.customer_portal}</h4>
-                                <a className="pull-right pr-3" onClick={this.handleSubmit}>{translations.save}</a>
-                            </div>
-
-                            <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '1' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('1')
-                                        }}>
-                                        {translations.settings}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '2' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('2')
-                                        }}>
-                                        {translations.security}
-                                    </NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '3' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggle('3')
-                                        }}>
-                                        {translations.billing}
-                                    </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Header tabs={tabs} title={translations.customer_portal} handleSubmit={this.handleSubmit.bind(this)} />
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">

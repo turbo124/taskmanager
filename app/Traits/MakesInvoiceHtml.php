@@ -79,7 +79,7 @@ trait MakesInvoiceHtml
 
         $html = view('pdf.stub', $data)->render();
         $html = $this->generateCustomCSS($settings, $html);
-
+        
         if (in_array(
             get_class($entity),
             ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal', 'App\Models\Lead']
@@ -93,7 +93,15 @@ trait MakesInvoiceHtml
 
         $html = $objPdf->parseLabels($labels, $html);
         $html = $objPdf->parseValues($values, $html);
-        $html = $objPdf->removeEmptyValues(['$customer.paid_to_date_label:', '$customer.balance_label:', '$customer.paid_to_date', '$customer.balance'], $html);
+        $html = $objPdf->removeEmptyValues(
+            [
+                '$customer.paid_to_date_label:',
+                '$customer.balance_label:',
+                '$customer.paid_to_date',
+                '$customer.balance'
+            ],
+            $html
+        );
 
         $html = str_replace(['<span> </span>', '&nbsp;<br>'], '', $html);
 

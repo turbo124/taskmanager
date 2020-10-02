@@ -1,4 +1,5 @@
 import { getSettingsIcon, icons } from './utils/_icons'
+import { translations } from "./utils/_translations";
 
 const modules = JSON.parse(localStorage.getItem('modules'))
 
@@ -22,62 +23,62 @@ const items = [
         name: 'Settings',
         children: [
             {
-                name: 'Company Details',
+                name: translations.account_details,
                 url: '/accounts',
                 icon: `fa ${getSettingsIcon('accounts')}`
             },
             {
-                name: 'Payment Terms',
+                name: translations.payment_terms,
                 url: '/payment_terms',
                 icon: `fa ${getSettingsIcon('payment_terms')}`
             },
             {
-                name: 'Templates and Reminders',
+                name: translations.template_settings,
                 url: '/template-settings',
                 icon: `fa ${getSettingsIcon('template-settings')}`
             },
             {
-                name: 'Email Settings',
+                name: translations.email_settings,
                 url: '/email-settings',
                 icon: `fa ${getSettingsIcon('email-settings')}`
             },
             {
-                name: 'Online Payments',
+                name: translations.online_payments,
                 url: '/gateway-settings',
                 icon: `fa ${getSettingsIcon('gateway-settings')}`
             },
             {
-                name: 'Invoice and Quotes',
+                name: translations.invoice_settings,
                 url: '/invoice-settings',
                 icon: `fa ${getSettingsIcon('invoice-settings')}`
             },
             {
-                name: 'Products',
+                name: translations.product_settings,
                 url: '/product-settings',
                 icon: `fa ${getSettingsIcon('product-settings')}`
             },
             {
-                name: 'Generated Numbers',
+                name: translations.number_settings,
                 url: '/number-settings',
                 icon: `fa ${getSettingsIcon('number-settings')}`
             },
             {
-                name: 'Group',
+                name: translations.group_settings,
                 url: '/group-settings',
                 icon: `fa ${getSettingsIcon('group-settings')}`
             },
             {
-                name: 'Tax Rates',
+                name: translations.tax_rates,
                 url: '/tax-rates',
                 icon: `fa ${getSettingsIcon('tax-rates')}`
             },
             {
-                name: 'Field Settings',
+                name: translations.custom_fields,
                 url: '/field-settings',
                 icon: `fa ${getSettingsIcon('field-settings')}`
             },
             {
-                name: 'Customer Portal Settings',
+                name: translations.customer_portal,
                 url: '/portal-settings',
                 icon: `fa ${getSettingsIcon('portal-settings')}`
             },
@@ -87,33 +88,28 @@ const items = [
                 icon: `fa ${getSettingsIcon('designs')}`
             },
             {
-                name: 'Integrations',
+                name: translations.integration_settings,
                 url: '/integrations',
                 icon: `fa ${getSettingsIcon('integrations')}`
             },
             {
-                name: 'Account Management',
+                name: translations.account_management,
                 url: '/modules',
                 icon: `fa ${getSettingsIcon('modules')}`
             },
             {
-                name: 'Localisation',
+                name: translations.localisation_settings,
                 url: '/localisation',
                 icon: `fa ${getSettingsIcon('localisation')}`
             },
             {
-                name: 'Workflow Settings',
+                name: translations.workflow_settings,
                 url: '/workflow-settings',
                 icon: `fa ${getSettingsIcon('workflow-settings')}`
             },
             {
-                name: 'Device Settings',
+                name: translations.device_settings,
                 url: '/device-settings',
-                icon: `fa ${getSettingsIcon('device-settings')}`
-            },
-            {
-                name: 'Variables',
-                url: '/variables',
                 icon: `fa ${getSettingsIcon('device-settings')}`
             }
             // {
