@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     public $timestamps = false;
     protected $casts = [
@@ -36,12 +38,9 @@ class Group extends Model
     }
 
     /**
-     * Retrieve the model for a bound value.
      *
-     * @param mixed $value
-     * @return Model|null
      */
-    public function resolveRouteBinding($value)
+    public function resolveRouteBinding($value, $field = NULL)
     {
         return $this->where('id', $this->decodePrimaryKey($value))->firstOrFail();
     }

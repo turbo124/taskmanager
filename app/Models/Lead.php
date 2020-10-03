@@ -10,6 +10,7 @@ namespace App\Models;
 
 
 use App\Services\Lead\LeadService;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +21,7 @@ class Lead extends Model
     use SoftDeletes;
     use PresentableTrait;
     use Notifiable;
+    use HasFactory;
 
     const NEW_LEAD = 98;
     const IN_PROGRESS = 99;

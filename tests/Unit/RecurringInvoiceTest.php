@@ -46,17 +46,17 @@ class RecurringInvoiceTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
     }
 
     /** @test */
     public function it_can_show_all_the_invoices()
     {
-        factory(RecurringInvoice::class)->create();
+        RecurringInvoice::factory()->create();
         $list = (new RecurringInvoiceFilter(new RecurringInvoiceRepository(new RecurringInvoice())))->filter(
             new SearchRequest(),
             $this->account
@@ -69,7 +69,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function it_can_delete_the_invoice()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $taskRepo = new RecurringInvoiceRepository($recurring_invoice);
         $deleted = $taskRepo->newDelete($recurring_invoice);
         $this->assertTrue($deleted);
@@ -77,7 +77,7 @@ class RecurringInvoiceTest extends TestCase
 
     public function it_can_archive_the_recurring_invoice()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $taskRepo = new RecurringInvoiceRepository($recurring_invoice);
         $deleted = $taskRepo->archive($recurring_invoice);
         $this->assertTrue($deleted);
@@ -86,7 +86,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function it_can_update_the_recurring_invoice()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $data = ['due_date' => Carbon::today()->addDays(5)];
         $recurringInvoiceRepo = new RecurringInvoiceRepository($recurring_invoice);
         $task = $recurringInvoiceRepo->save($data, $recurring_invoice);
@@ -98,7 +98,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function it_can_show_the_invoice()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice());
         $found = $recurringInvoiceRepo->findInvoiceById($recurring_invoice->id);
         $this->assertInstanceOf(RecurringInvoice::class, $found);
@@ -128,7 +128,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function test_date_ranges()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
@@ -147,7 +147,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function test_send_recurring_invoice()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
@@ -175,7 +175,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function test_send_recurring_invoice_last_cycle()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
@@ -201,7 +201,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function test_send_recurring_invoice_endless()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
@@ -231,7 +231,7 @@ class RecurringInvoiceTest extends TestCase
     /** @test */
     public function test_send_recurring_invoice_fails()
     {
-        $recurring_invoice = factory(RecurringInvoice::class)->create();
+        $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
         $recurring_invoice->last_sent_date = Carbon::now();
         $recurring_invoice->date = Carbon::now()->subDays(15);

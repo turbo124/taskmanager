@@ -32,15 +32,15 @@ class TaskTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_tasks()
     {
-        $insertedtask = factory(Task::class)->create();
+        $insertedtask = Task::factory()->create();
         $list = (new TaskFilter(
             new TaskRepository(
                 new Task,
@@ -56,7 +56,7 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_delete_the_task()
     {
-        $task = factory(Task::class)->create();
+        $task = Task::factory()->create();
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
         $deleted = $taskRepo->newDelete($task);
         $this->assertTrue($deleted);
@@ -64,7 +64,7 @@ class TaskTest extends TestCase
 
     public function it_can_archive_the_task()
     {
-        $task = factory(Task::class)->create();
+        $task = Task::factory()->create();
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
         $deleted = $taskRepo->archive($task);
         $this->assertTrue($deleted);
@@ -73,7 +73,7 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_update_the_task()
     {
-        $task = factory(Task::class)->create();
+        $task = Task::factory()->create();
         $name = $this->faker->word;
         $data = ['name' => $name];
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
@@ -86,7 +86,7 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_show_the_task()
     {
-        $task = factory(Task::class)->create();
+        $task = Task::factory()->create();
         $taskRepo = new TaskRepository(new Task, new ProjectRepository(new Project));
         $found = $taskRepo->findTaskById($task->id);
         $this->assertInstanceOf(Task::class, $found);
@@ -96,8 +96,8 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_attach_a_user()
     {
-        $user = factory(User::class)->create();
-        $task = factory(Task::class)->create();
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
         $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
         $result = $taskRepo->syncUsers($task, [$user->id]);
         $this->assertArrayHasKey('attached', $result);
@@ -127,7 +127,7 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_create_a_project_task()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $data = [
             'project_id'   => $project->id,
@@ -170,14 +170,12 @@ class TaskTest extends TestCase
     /** @test */
     public function it_can_transform_task()
     {
-        $customer = factory(Customer::class)->create();
-
         $name = $this->faker->name;
         $description = $this->faker->sentence;
         $due_date = $this->faker->dateTime;
         $task_type = 2;
 
-        $address = factory(Task::class)->create(
+        $address = Task::factory()->create(
             [
                 'account_id' => $this->account->id,
                 'name'       => $name,

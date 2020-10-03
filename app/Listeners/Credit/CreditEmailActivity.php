@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\inviteable;
+namespace App\Listeners\Credit;
 
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;

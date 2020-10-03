@@ -32,14 +32,13 @@ class CompanyUnitTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
     public function it_can_show_all_the_companies()
     {
-        $insertedbrand = factory(Company::class)->create();
         $list = (new CompanyFilter(
             new CompanyRepository(
                 new Company,
@@ -53,7 +52,7 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_company()
     {
-        $brand = factory(Company::class)->create();
+        $brand = Company::factory()->create();
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
         $deleted = $brandRepo->newDelete($brand);
         $this->assertTrue($deleted);
@@ -62,7 +61,7 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_archive_the_company()
     {
-        $brand = factory(Company::class)->create();
+        $brand = Company::factory()->create();
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
         $deleted = $brandRepo->archive($brand);
         $this->assertTrue($deleted);
@@ -71,7 +70,7 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_company()
     {
-        $brand = factory(Company::class)->create();
+        $brand = Company::factory()->create();
         $data = ['name' => $this->faker->company];
         $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
         $updated = $brandRepo->save($data, $brand);
@@ -83,7 +82,7 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_show_the_company()
     {
-        $brand = factory(Company::class)->create();
+        $brand = Company::factory()->create();
         $brandRepo = new CompanyRepository(new Company, new CompanyContactRepository(new CompanyContact));
         $found = $brandRepo->findCompanyById($brand->id);
         $this->assertInstanceOf(Company::class, $found);

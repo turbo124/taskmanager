@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,7 @@ class CustomerContact extends Model implements ContactInterface
     use PresentableTrait;
     use SoftDeletes;
     use Notifiable;
+    use HasFactory;
 
     protected $presenter = 'App\Presenters\ClientContactPresenter';
 

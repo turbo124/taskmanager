@@ -1,14 +1,30 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    Invoice::class,
-    function (Faker\Generator $faker) {
-        $customer = factory(Customer::class)->create();
-        $user = factory(User::class)->create();
+class InvoiceFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Invoice::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $customer = Customer::factory()->create();
+        $user = User::factory()->create();
 
         $total = 800;
 
@@ -19,15 +35,15 @@ $factory->define(
                 ->calculateSubTotal()
                 ->setUnitDiscount(0)
                 ->setUnitTax(0)
-                ->setProductId($faker->word())
-                ->setNotes($faker->realText(50))
+                ->setProductId($this->faker->word())
+                ->setNotes($this->faker->realText(50))
                 ->toObject();
         }
 
         return [
             'account_id'     => 1,
             'status_id'      => Invoice::STATUS_DRAFT,
-            'number'         => $faker->ean13(),
+            'number'         => $this->faker->ean13(),
             'total'          => $total,
             'balance'        => $total,
             'tax_total'      => 0,
@@ -35,12 +51,12 @@ $factory->define(
             'customer_id'    => $customer->id,
             'user_id'        => $user->id,
             'is_deleted'     => false,
-            'po_number'      => $faker->text(10),
+            'po_number'      => $this->faker->text(10),
             'date'           => \Carbon\Carbon::now()->format('Y-m-d'),
             'due_date'       => \Carbon\Carbon::now()->addDays(3)->format('Y-m-d'),
             'line_items'     => $line_items,
-            'terms'          => $faker->text(500),
+            'terms'          => $this->faker->text(500),
             //'gateway_fee'    => 12.99
         ];
     }
-);
+}

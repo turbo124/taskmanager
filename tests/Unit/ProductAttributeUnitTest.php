@@ -37,8 +37,8 @@ class ProductAttributeUnitTest extends TestCase
     /** @test */
     public function it_can_find_the_product_attribute_by_id()
     {
-        $product = factory(Product::class)->create();
-        $productAttribute = factory(ProductAttribute::class)->create(
+        $product = Product::factory()->create();;
+        $productAttribute = ProductAttribute::factory()->create(
             [
                 'product_id' => $product->id
             ]
@@ -54,7 +54,7 @@ class ProductAttributeUnitTest extends TestCase
     /** @test */
     public function it_can_sync_the_attribute_values_to_product_attributes()
     {
-        $attribute = factory(Attribute::class)->create(['name' => $this->faker->word()]);
+        $attribute = Attribute::factory()->create(['name' => $this->faker->word()]);
 
         $attributeValueRepo = new AttributeValueRepository(new AttributeValue);
         $created = $attributeValueRepo->createAttributeValue($attribute, ['value' => $this->faker->word()]);
@@ -70,7 +70,7 @@ class ProductAttributeUnitTest extends TestCase
     /** @test */
     public function it_returns_null_deleting_non_existing_product_attribute()
     {
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();;
         $productRepo = new ProductRepository($product);
         $deleted = $productRepo->removeProductAttribute(new ProductAttribute, $product);
 
@@ -87,7 +87,7 @@ class ProductAttributeUnitTest extends TestCase
 
         $productAttribute = new ProductAttribute($data);
 
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();;
         $productRepo = new ProductRepository($product);
         $created = $productRepo->saveProductAttributes($productAttribute, $product);
 
@@ -106,7 +106,7 @@ class ProductAttributeUnitTest extends TestCase
 
         $productAttribute = new ProductAttribute($data);
 
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();;
         $productRepo = new ProductRepository($product);
         $created = $productRepo->saveProductAttributes($productAttribute, $product);
 

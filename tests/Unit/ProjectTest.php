@@ -32,15 +32,15 @@ class ProjectTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_projects()
     {
-        $insertedproject = factory(Project::class)->create();
+        $insertedproject = Project::factory()->create();
         $projectRepo = new ProjectRepository(new Project);
         $list = $projectRepo->listProjects()->toArray();
         $myLastElement = end($list);
@@ -51,7 +51,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_delete_the_project()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $projectRepo = new ProjectRepository($project);
         $deleted = $projectRepo->newDelete($project);
         $this->assertTrue($deleted);
@@ -60,7 +60,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_update_the_project()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $name = $this->faker->word;
         $data = ['name' => $name];
         $projectRepo = new ProjectRepository($project);
@@ -73,7 +73,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_show_the_project()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $projectRepo = new ProjectRepository(new Project);
         $found = $projectRepo->findProjectById($project->id);
         $this->assertInstanceOf(Project::class, $found);

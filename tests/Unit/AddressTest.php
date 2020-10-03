@@ -25,7 +25,7 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_delete_the_address()
     {
-        $created = factory(Address::class)->create();
+        $created = Address::factory()->create();
         $address = new AddressRepository($created);
         $delete = $address->deleteAddress();
         $this->assertTrue($delete);
@@ -35,7 +35,7 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_transform_address()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = Customer::factory()->create();
 
         $city = $this->faker->city;
         $country = 225;
@@ -57,7 +57,7 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_update_the_address()
     {
-        $address = factory(Address::class)->create();
+        $address = Address::factory()->create();
         $data = [
             'alias'     => $this->faker->title('Male'),
             'address_1' => $this->faker->streetName,
@@ -80,8 +80,8 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_return_the_owner_of_the_address()
     {
-        $customer = factory(Customer::class)->create();
-        $address = factory(Address::class)->create(['customer_id' => $customer->id]);
+        $customer = Customer::factory()->create();
+        $address = Address::factory()->create(['customer_id' => $customer->id]);
         $addressRepo = new AddressRepository($address);
         $found = $addressRepo->findCustomer();
         $this->assertEquals($customer->name, $found->name);
@@ -90,8 +90,8 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_be_attached_to_a_customer()
     {
-        $customer = factory(Customer::class)->create();
-        $address = factory(Address::class)->create();
+        $customer = Customer::factory()->create();
+        $address = Address::factory()->create();
         $addressRepo = new AddressRepository($address);
         $addressRepo->attachToCustomer($address, $customer);
         $this->assertEquals($customer->name, $address->customer->name);
@@ -100,7 +100,7 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_list_all_the_addresses()
     {
-        $address = factory(Address::class)->create();
+        $address = Address::factory()->create();
         $address = new AddressRepository($address);
         $addresses = $address->listAddress();
         foreach ($addresses as $list) {
@@ -111,15 +111,15 @@ class AddressTest extends TestCase
     /** @test */
     public function it_can_show_the_address()
     {
-        $address = factory(Address::class)->create();
+        $address = Address::factory()->create();
         $this->assertDatabaseHas('addresses', ['id' => $address->id]);
     }
 
     /** @test */
     public function it_can_list_all_the_addresses_of_the_customer()
     {
-        $customer = factory(Customer::class)->create();
-        factory(Address::class)->create(['customer_id' => $customer->id]);
+        $customer = Customer::factory()->create();
+        Address::factory()->create(['customer_id' => $customer->id]);
         $customerRepo = new CustomerRepository($customer);
         $lists = $customerRepo->findAddresses();
         $this->assertCount(1, $lists);

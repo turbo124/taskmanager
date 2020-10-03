@@ -52,19 +52,19 @@ class OrderTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
-        $this->product = factory(Product::class)->create();
+        $this->product = Product::factory()->create();
         $this->objNumberGenerator = new NumberGenerator;
     }
 
     /** @test */
     public function it_can_show_all_the_orders()
     {
-        factory(Order::class)->create();
+        Order::factory()->create();
         $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -72,7 +72,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_update_the_order()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $orderRepo = new OrderRepository($order);
@@ -85,7 +85,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_show_the_order()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $orderRepo = new OrderRepository(new Order);
         $found = $orderRepo->findOrderById($order->id);
         $this->assertInstanceOf(Order::class, $found);
@@ -95,10 +95,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_create_a_order()
     {
-        $customerId = $this->customer->id;
-
-        $total = $this->faker->randomFloat();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $factory = (new OrderFactory())->create($this->account, $user, $this->customer);
 
         $total = $this->faker->randomFloat();
@@ -142,7 +139,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_delete_the_order()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $orderRepo = new OrderRepository(new Order);
         $deleted = $orderRepo->newDelete($order);
         $this->assertTrue($deleted);
@@ -151,7 +148,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_archive_the_order()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $orderRepo = new OrderRepository($order);
         $deleted = $orderRepo->archive($order);
         $this->assertTrue($deleted);
@@ -160,7 +157,7 @@ class OrderTest extends TestCase
     /** @test */
     public function testOrderPadding()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = Customer::factory()->create();
         $customerSettings = (new AccountSettings)->getAccountDefaults();
         $customerSettings->counter_padding = 5;
         $customerSettings->order_number_counter = 7;
@@ -228,7 +225,7 @@ class OrderTest extends TestCase
     /** @test */
     public function testOrderDispatch()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
 
         $account = $order->account;
         $settings = $account->settings;
@@ -246,7 +243,7 @@ class OrderTest extends TestCase
     /** @test */
     public function testSendOrder()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $orderRepo = new OrderRepository($order);
         $account = $order->account;
         $settings = $account->settings;
@@ -285,7 +282,7 @@ class OrderTest extends TestCase
     /** @test */
     public function cancelOrder()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
         $order->customer_id = 5;
         $order->save();
         $original_status = $order->status_id;
@@ -298,7 +295,7 @@ class OrderTest extends TestCase
     /** @test */
     public function test_complete_payment()
     {
-        $order = factory(Order::class)->create();
+        $order = Order::factory()->create();
 
         $order->customer_id = 5;
         $order->save();

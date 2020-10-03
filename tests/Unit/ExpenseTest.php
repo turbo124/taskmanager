@@ -34,15 +34,15 @@ class ExpenseTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->customer = factory(Customer::class)->create();
-        $this->user = factory(User::class)->create();
-        $this->company = factory(Company::class)->create();
+        $this->customer = Customer::factory()->create();
+        $this->user = User::factory()->create();
+        $this->company = Company::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     public function it_can_show_all_the_expenses()
     {
-        factory(Expense::class)->create();
+        Expense::factory()->create();
         $list = (new ExpenseFilter(new ExpenseRepository(new Expense)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -50,7 +50,7 @@ class ExpenseTest extends TestCase
     /** @test */
     public function it_can_update_the_expense()
     {
-        $expense = factory(Expense::class)->create();
+        $expense = Expense::factory()->create();
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $expenseRepo = new ExpenseRepository($expense);
@@ -63,7 +63,7 @@ class ExpenseTest extends TestCase
     /** @test */
     public function it_can_show_the_expense()
     {
-        $expense = factory(Expense::class)->create();
+        $expense = Expense::factory()->create();
         $quoteRepo = new ExpenseRepository(new Expense);
         $found = $quoteRepo->findExpenseById($expense->id);
         $this->assertInstanceOf(Expense::class, $found);

@@ -1,19 +1,35 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
+use App\Models\Customer;
+use App\Models\CustomerGateway;
+use http\Client\Curl\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    \App\Models\CustomerGateway::class,
-    function (Faker $faker) {
-        $user = factory(\App\Models\User::class)->create();
-        $customer = factory(\App\Models\Customer::class)->create();
+class CustomerGatewayFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = CustomerGateway::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+        $customer = Customer::factory()->create();
+
         $account = \App\Models\Account::first();
         return [
             'account_id'    => $account->id,
             'customer_id'   => $customer->id,
         ];
     }
-);
+}

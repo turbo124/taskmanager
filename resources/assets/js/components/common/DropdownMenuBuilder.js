@@ -474,6 +474,8 @@ export default class DropdownMenuBuilder extends Component {
         const menuOptions = this.props.model.buildDropdownMenu()
 
         const actions = []
+        
+        console.log('menu options', menuOptions)
 
         menuOptions.forEach((element) => {
             actions.push(this.getOption(element))

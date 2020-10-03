@@ -1,17 +1,35 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(
-    \App\Models\Design::class, function (Faker $faker) {
-    $customer = factory(\App\Models\Customer::class)->create();
-    $user = factory(\App\Models\User::class)->create();
+use App\Models\Design;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-    return [
-        'account_id' => 1,
-        'user_id' => $user->id,
-        'is_deleted' => false,
-        'name' => $this->faker->firstName,
-        'design' => '<HTML></HTML'
-    ];
-});
+class DesignFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Design::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+
+        return [
+            'account_id' => 1,
+            'user_id' => $user->id,
+            'is_deleted' => false,
+            'name' => $this->faker->firstName,
+            'design' => '<HTML>test</HTML>'
+        ];
+    }
+}

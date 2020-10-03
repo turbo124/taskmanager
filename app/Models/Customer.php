@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Laracasts\Presenter\PresentableTrait;
 class Customer extends Model implements HasLocalePreference
 {
 
-    use SoftDeletes, PresentableTrait, Balancer, Money;
+    use SoftDeletes, PresentableTrait, Balancer, Money, HasFactory;
 
     const CUSTOMER_TYPE_WON = 1;
     protected $presenter = 'App\Presenters\CustomerPresenter';

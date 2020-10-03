@@ -53,9 +53,9 @@ class PaymentUnitTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
@@ -87,7 +87,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_payment()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $factory = (new PaymentFactory())->create($invoice->customer, $invoice->user, $invoice->account);
         $original_amount = $invoice->total;
 
@@ -116,7 +116,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_reverse_the_payment()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $original_amount = $invoice->total;
 
@@ -141,7 +141,7 @@ class PaymentUnitTest extends TestCase
 
     public function it_can_archive_the_payment()
     {
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
         $taskRepo = new PaymentRepository($payment);
         $deleted = $taskRepo->archive($payment);
         $this->assertTrue($deleted);
@@ -167,7 +167,7 @@ class PaymentUnitTest extends TestCase
 //    public function it_errors_updating_the_payments()
 //    {
 //        $this->expectException(\Illuminate\Database\QueryException::class);
-//        $payment = factory(Payment::class)->create();
+//        $payment = Payment::factory()->create();
 //        $paymentRepo = new PaymentRepository($payment);
 //        $paymentRepo->updatePayment(['name' => null]);
 //    }
@@ -175,7 +175,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_payments()
     {
-        $payment = factory(Payment::class)->create();
+        $payment = Payment::factory()->create();
         $paymentRepo = new PaymentRepository($payment);
         $update = [
             'customer_id' => $this->customer->id,
@@ -196,7 +196,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_create_a_payments()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
         $paid_to_date = $this->customer->paid_to_date;
         $balance = $this->customer->balance;
@@ -222,7 +222,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function it_can_create_a_payment_with_a_gateway_fee()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
 
         $invoice = (new InvoiceRepository($invoice))->save(
             ['gateway_fee' => 12, 'total' => 800, 'balance' => 800],
@@ -264,7 +264,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function testPaymentGreaterThanPartial()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         //$invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->partial = 5.0;
         $invoice->save();
@@ -341,7 +341,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function testPaymentLessThanPartialAmount()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
 
         $invoice->partial = 5.0;
 
@@ -433,7 +433,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function testRefundClassWithInvoices()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
 
         $line_items[] = (new LineItem)
             ->setQuantity(1)
@@ -502,7 +502,7 @@ class PaymentUnitTest extends TestCase
     /** @test */
     public function testRefundClassWithoutInvoices()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $original_paid_to_date = abs($invoice->customer->paid_to_date);
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
@@ -564,7 +564,7 @@ class PaymentUnitTest extends TestCase
 
     public function testRefundClassWithCredits()
     {
-        $credit = factory(Credit::class)->create();
+        $credit = Credit::factory()->create();
 
         $line_items[] = (new LineItem)
             ->setQuantity(1)

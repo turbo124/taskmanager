@@ -54,16 +54,16 @@ class PurchaseOrderTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->company = factory(Company::class)->create();
+        $this->company = Company::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->objNumberGenerator = new NumberGenerator;
     }
 
     /** @test */
     public function it_can_show_all_the_purchase_orders()
     {
-        factory(PurchaseOrder::class)->create();
+        PurchaseOrder::factory()->create();
         $list = (new PurchaseOrderFilter(new PurchaseOrderRepository(new PurchaseOrder)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -71,7 +71,7 @@ class PurchaseOrderTest extends TestCase
     /** @test */
     public function it_can_update_the_purchase_order()
     {
-        $purchase_order = factory(PurchaseOrder::class)->create();
+        $purchase_order = PurchaseOrder::factory()->create();
         $company_id = $this->company->id;
         $data = ['company_id' => 1];
         $purchase_orderRepo = new PurchaseOrderRepository($purchase_order);
@@ -84,7 +84,7 @@ class PurchaseOrderTest extends TestCase
     /** @test */
     public function it_can_show_the_purchase_order()
     {
-        $purchase_order = factory(PurchaseOrder::class)->create();
+        $purchase_order = PurchaseOrder::factory()->create();
         $purchase_orderRepo = new PurchaseOrderRepository(new PurchaseOrder);
         $found = $purchase_orderRepo->findPurchaseOrderById($purchase_order->id);
         $this->assertInstanceOf(PurchaseOrder::class, $found);
@@ -133,7 +133,7 @@ class PurchaseOrderTest extends TestCase
     /** @test */
     public function it_can_delete_the_purchase_order()
     {
-        $invoice = factory(PurchaseOrder::class)->create();
+        $invoice = PurchaseOrder::factory()->create();
         $invoiceRepo = new PurchaseOrderRepository($invoice);
         $deleted = $invoiceRepo->newDelete($invoice);
         $this->assertTrue($deleted);
@@ -141,7 +141,7 @@ class PurchaseOrderTest extends TestCase
 
     public function it_can_archive_the_purchase_order()
     {
-        $purchase_order = factory(PurchaseOrder::class)->create();
+        $purchase_order = PurchaseOrder::factory()->create();
         $taskRepo = new PurchaseOrderRepository($purchase_order);
         $deleted = $taskRepo->archive($purchase_order);
         $this->assertTrue($deleted);

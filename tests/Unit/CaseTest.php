@@ -41,15 +41,15 @@ class CaseTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_cases()
     {
-        factory(Cases::class)->create();
+        Cases::factory()->create();
         $list = (new CaseFilter(new CaseRepository(new Cases())))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
@@ -59,7 +59,7 @@ class CaseTest extends TestCase
     /** @test */
     public function it_can_delete_the_case()
     {
-        $case = factory(Cases::class)->create();
+        $case = Cases::factory()->create();
         $taskRepo = new CaseRepository($case);
         $deleted = $taskRepo->newDelete($case);
         $this->assertTrue($deleted);
@@ -67,7 +67,7 @@ class CaseTest extends TestCase
 
     public function it_can_archive_the_case()
     {
-        $case = factory(Cases::class)->create();
+        $case = Cases::factory()->create();
         $taskRepo = new CaseRepository($case);
         $deleted = $taskRepo->archive($case);
         $this->assertTrue($deleted);
@@ -76,7 +76,7 @@ class CaseTest extends TestCase
     /** @test */
     public function it_can_update_the_case()
     {
-        $case = factory(Cases::class)->create();
+        $case = Cases::factory()->create();
         $data = ['message' => $this->faker->sentence, 'status_id' => 2];
         $caseRepo = new CaseRepository($case);
         $case = $caseRepo->updateCase($data, $case, $case->user);
@@ -89,7 +89,7 @@ class CaseTest extends TestCase
     /** @test */
     public function it_can_show_the_case()
     {
-        $case = factory(Cases::class)->create();
+        $case = Cases::factory()->create();
         $caseRepo = new CaseRepository(new Cases);
         $found = $caseRepo->findCaseById($case->id);
         $this->assertInstanceOf(Cases::class, $found);

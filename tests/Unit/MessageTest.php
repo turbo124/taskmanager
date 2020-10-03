@@ -25,22 +25,14 @@ class MessageTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->customer = factory(Customer::class)->create();
-        $this->user = factory(User::class)->create();
-    }
-
-    /** @test */
-    public function it_can_transform_the_message()
-    {
-        $cust = $this->transformUser($this->customer, $this->user);
-        //$this->assertInternalType('string', $customerFromDb->status);
-        $this->assertInternalType('string', $cust->name);
+        $this->customer = Customer::factory()->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
     public function it_can_delete_a_message()
     {
-        $message = factory(Message::class)->create();
+        $message = Message::factory()->create();
         $messageRepo = new MessageRepository($message);
         $delete = $messageRepo->deleteMessage();
         $this->assertTrue($delete);

@@ -31,14 +31,14 @@ class CategoryUnitTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->account = Account::where('id', 1)->first();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
     public function it_can_get_the_child_categories()
     {
-        $parent = factory(Category::class)->create();
-        $child = factory(Category::class)->create(
+        $parent = Category::factory()->create();
+        $child = Category::factory()->create(
             [
                 'parent_id' => $parent->id
             ]
@@ -54,8 +54,8 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_get_the_parent_category()
     {
-        $parent = factory(Category::class)->create();
-        $child = factory(Category::class)->create(
+        $parent = Category::factory()->create();
+        $child = Category::factory()->create(
             [
                 'parent_id' => $parent->id
             ]
@@ -69,9 +69,9 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_return_products_in_the_category()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $categoryRepo = new CategoryRepository($category);
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
         $categoryRepo->syncProducts([$product->id]);
         $products = $categoryRepo->findProducts();
         foreach ($products as $producta) {
@@ -82,7 +82,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_errors_looking_for_the_category_if_the_slug_is_not_found()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $this->expectException(ModelNotFoundException::class);
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->findCategoryBySlug('unknown', $this->account);
@@ -91,7 +91,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_get_the_category_by_slug()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $cat = $categoryRepo->findCategoryBySlug($category->slug, $this->account);
         $this->assertEquals($category->name, $cat->name);
@@ -100,7 +100,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_delete_file_only_in_the_database()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->deleteFile(['category' => $category->id]);
         $this->assertDatabaseHas('categories', ['cover' => null]);
@@ -109,8 +109,8 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_detach_the_products()
     {
-        $category = factory(Category::class)->create();
-        $product = factory(Product::class)->create();
+        $category = Category::factory()->create();
+        $product = Product::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->syncProducts([$product->id]);
         $categoryRepo->detachProducts();
@@ -121,8 +121,8 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_sync_products_in_the_category()
     {
-        $category = factory(Category::class)->create();
-        $product = factory(Product::class)->create();
+        $category = Category::factory()->create();
+        $product = Product::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->syncProducts([$product->id]);
         $products = $categoryRepo->findProducts();
@@ -141,7 +141,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_delete_a_category()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->deleteCategory();
         $this->assertDatabaseMissing('categories', collect($category)->all());
@@ -150,7 +150,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_list_all_the_categories()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $attributes = $category->getFillable();
         $categoryRepo = new CategoryRepository(new Category);
         $categories = $categoryRepo->listCategories('id', 'desc', $this->account);

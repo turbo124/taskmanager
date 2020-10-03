@@ -31,7 +31,7 @@ class AttributeUnitTest extends TestCase
     /** @test */
     public function it_should_show_the_attribute()
     {
-        $attribute = factory(Attribute::class)->create();
+        $attribute = Attribute::factory()->create();
 
         $attributeRepo = new AttributeRepository(new Attribute);
         $found = $attributeRepo->findAttributeById($attribute->id);
@@ -63,7 +63,7 @@ class AttributeUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_attribute()
     {
-        $attribute = factory(Attribute::class)->create();
+        $attribute = Attribute::factory()->create();
 
         $attributeRepo = new AttributeRepository($attribute);
         $delete = $attributeRepo->deleteAttribute();
@@ -85,7 +85,7 @@ class AttributeUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_attribute()
     {
-        $attribute = factory(Attribute::class)->create();
+        $attribute = Attribute::factory()->create();
 
         $data = [
             'name' => $this->faker->word

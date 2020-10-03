@@ -1,32 +1,36 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\Project;
-use Faker\Generator as Faker;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+class ProjectFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Project::class;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
-$factory->define(
-    Project::class,
-    function (Faker $faker) {
-        $user = factory(\App\Models\User::class)->create();
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+        
         return [
             'account_id'     => 1,
             'assigned_to'    => null,
             'user_id'        => $user->id,
             'customer_id'    => null,
-            'name'           => $faker->text,
-            'description'    => $faker->text,
+            'name'           => $this->faker->text,
+            'description'    => $this->faker->text,
             'is_completed'   => 0,
             'private_notes'  => null,
             'budgeted_hours' => null,
@@ -36,4 +40,4 @@ $factory->define(
             'is_deleted'     => 0
         ];
     }
-);
+}

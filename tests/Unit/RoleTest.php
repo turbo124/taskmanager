@@ -25,13 +25,13 @@ class RoleTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
     public function it_can_list_all_roles()
     {
-        factory(Role::class, 5)->create();
+        Role::factory()->create();
         $roleRepo = new RoleRepository(new Role);
         $roles = $roleRepo->listRoles();
         $this->assertInstanceOf(Collection::class, $roles);
@@ -40,7 +40,7 @@ class RoleTest extends TestCase
     /** @test */
     public function it_can_delete_the_role()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $roleRepo = new RoleRepository($role);
         $deleted = $roleRepo->deleteRoleById();
         $this->assertTrue($deleted);
@@ -49,7 +49,7 @@ class RoleTest extends TestCase
     /** @test */
     public function it_can_update_the_role()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $data = [
             'name' => 'user'
         ];
@@ -63,7 +63,7 @@ class RoleTest extends TestCase
     /** @test */
     public function it_can_return_the_created_role()
     {
-        $roleFactory = factory(Role::class)->create();
+        $roleFactory = Role::factory()->create();
         $roleRepo = new RoleRepository(new Role);
         $role = $roleRepo->findRoleById($roleFactory->id);
         $this->assertInstanceOf(Role::class, $role);

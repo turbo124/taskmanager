@@ -29,15 +29,14 @@ class DealTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_tasks()
     {
-        $insertedtask = factory(Deal::class)->create();
         $list = (new DealFilter(
             new DealRepository(
                 new Deal
@@ -52,7 +51,7 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_delete_the_task()
     {
-        $deal = factory(Deal::class)->create();
+        $deal = Deal::factory()->create();
         $dealRepo = new DealRepository($deal);
         $deleted = $dealRepo->newDelete($deal);
         $this->assertTrue($deleted);
@@ -61,7 +60,7 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_archive_the_task()
     {
-        $deal = factory(Deal::class)->create();
+        $deal = Deal::factory()->create();
         $dealRepo = new DealRepository($deal);
         $deleted = $dealRepo->archive($deal);
         $this->assertTrue($deleted);
@@ -70,7 +69,7 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_update_the_task()
     {
-        $deal = factory(Deal::class)->create();
+        $deal = Deal::factory()->create();
         $name = $this->faker->word;
         $data = ['name' => $name];
         $dealRepo = new DealRepository($deal);
@@ -83,7 +82,7 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_show_the_task()
     {
-        $deal = factory(Deal::class)->create();
+        $deal = Deal::factory()->create();
         $dealRepo = new DealRepository(new Deal);
         $found = $dealRepo->findDealById($deal->id);
         $this->assertInstanceOf(Deal::class, $found);
@@ -122,14 +121,12 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_transform_task()
     {
-        $customer = factory(Customer::class)->create();
-
         $name = $this->faker->name;
         $description = $this->faker->sentence;
         $due_date = $this->faker->dateTime;
         $task_type = 2;
 
-        $address = factory(Deal::class)->create(
+        $address = Deal::factory()->create(
             [
                 'account_id'  => $this->account->id,
                 'name'       => $name,

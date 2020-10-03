@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Deal\DealService;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -12,6 +13,7 @@ class Deal extends Model
 
     use SoftDeletes;
     use PresentableTrait;
+    use HasFactory;
 
     protected $fillable = [
         'name',

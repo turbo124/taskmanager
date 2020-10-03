@@ -1,15 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
+use App\Models\Cases;
+use App\Models\Customer;
+use App\Models\Model;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    \App\Models\Cases::class,
-    function (Faker $faker) {
-        $user = factory(\App\Models\User::class)->create();
-        $customer = factory(\App\Models\Customer::class)->create();
+class CasesFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Cases::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+        $customer = Customer::factory()->create();
         $account = \App\Models\Account::first();
         return [
             'status_id'     => \App\Models\Cases::STATUS_DRAFT,
@@ -24,4 +40,4 @@ $factory->define(
             'due_date'      => \Carbon\Carbon::today()->addDays(5),
         ];
     }
-);
+}
