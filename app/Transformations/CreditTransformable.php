@@ -13,6 +13,7 @@ use App\Models\Credit;
 use App\Models\CreditInvitation;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 
 
 trait CreditTransformable
@@ -77,8 +78,8 @@ trait CreditTransformable
         }
 
         return $invitations->map(
-            function (CreditInvitation $invitation) {
-                return (new CreditInvitationTransformable())->transformCreditInvitation($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

@@ -7,6 +7,7 @@ use App\Models\CaseInvitation;
 use App\Models\Cases;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Subscription;
 
 trait CaseTransformable
@@ -92,8 +93,8 @@ trait CaseTransformable
         }
 
         return $invitations->map(
-            function (CaseInvitation $invitation) {
-                return (new CaseInvitationTransformable())->transformCaseInvitations($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

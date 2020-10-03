@@ -2,7 +2,7 @@
 
 namespace App\Events\PurchaseOrder;
 
-use App\Models\PurchaseOrderInvitation;
+use App\Models\Invitation;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -13,16 +13,15 @@ class PurchaseOrderWasEmailed
     use SerializesModels;
 
     /**
-     * @var PurchaseOrderInvitation
+     * @var Invitation
      */
-    public PurchaseOrderInvitation $purchase_order_invitation;
+    public Invitation $purchase_order_invitation;
 
     /**
-     * Create a new event instance.
-     *
-     * @param $purchase_order
+     * PurchaseOrderWasEmailed constructor.
+     * @param Invitation $purchase_order_invitation
      */
-    public function __construct(PurchaseOrderInvitation $purchase_order_invitation)
+    public function __construct(Invitation $purchase_order_invitation)
     {
         $this->purchase_order_invitation = $purchase_order_invitation;
     }

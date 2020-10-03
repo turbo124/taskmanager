@@ -13,14 +13,13 @@ class CaseWasEmailed
     use SerializesModels;
 
     /**
-     * @var case
+     * @var Cases
      */
     public Cases $case;
 
     /**
-     * Create a new event instance.
-     *
-     * @param case $case
+     * CaseWasEmailed constructor.
+     * @param Cases $case
      */
     public function __construct(Cases $case)
     {

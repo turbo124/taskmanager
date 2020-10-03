@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderInvitation;
 
@@ -70,8 +71,8 @@ trait PurchaseOrderTransformable
         }
 
         return $invitations->map(
-            function (PurchaseOrderInvitation $invitation) {
-                return (new PurchaseOrderInvitationTransformable())->transformPurchaseOrderInvitations($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

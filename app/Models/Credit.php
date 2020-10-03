@@ -113,7 +113,7 @@ class Credit extends Model
 
     public function invitations()
     {
-        return $this->hasMany(CreditInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function payments()

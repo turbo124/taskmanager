@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Quote;
 use App\Models\QuoteInvitation;
 
@@ -71,8 +72,8 @@ class QuoteTransformable
         }
 
         return $invitations->map(
-            function (QuoteInvitation $invitation) {
-                return (new QuoteInvitationTransformable())->transformQuoteInvitations($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

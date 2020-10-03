@@ -84,7 +84,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
 
         $quote->save();
 
-        $this->saveInvitations($quote, 'quote', $data);
+        $this->saveInvitations($quote, $data);
 
         //if ($quote->customer->getSetting('should_update_products') === true) {
         UpdateProductPrices::dispatchNow($quote->line_items);

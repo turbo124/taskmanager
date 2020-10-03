@@ -181,7 +181,7 @@ class Invoice extends Model
      */
     public function invitations()
     {
-        return $this->hasMany('App\Models\InvoiceInvitation')->orderBy('invoice_invitations.contact_id');
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function user()

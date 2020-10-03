@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Models\RecurringQuoteInvitation;
@@ -116,8 +117,8 @@ trait RecurringQuoteTransformable
         }
 
         return $invitations->map(
-            function (RecurringQuoteInvitation $invitation) {
-                return (new RecurringQuoteInvitationTransformable())->transformInvoiceInvitation($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

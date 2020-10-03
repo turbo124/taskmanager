@@ -2,7 +2,7 @@
 
 namespace App\Events\Order;
 
-use App\Models\OrderInvitation;
+use App\Models\Invitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -11,14 +11,16 @@ class OrderWasEmailed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $order;
+    /**
+     * @var Invitation
+     */
+    public Invitation $order;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * OrderWasEmailed constructor.
+     * @param Invitation $order
      */
-    public function __construct(OrderInvitation $order)
+    public function __construct(Invitation $order)
     {
         $this->order = $order;
     }

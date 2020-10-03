@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceInvitation;
 use App\Models\Payment;
@@ -76,8 +77,8 @@ class InvoiceTransformable
         }
 
         return $invitations->map(
-            function (InvoiceInvitation $invitation) {
-                return (new InvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

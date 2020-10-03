@@ -142,7 +142,7 @@ class Order extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(OrderInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function customer()

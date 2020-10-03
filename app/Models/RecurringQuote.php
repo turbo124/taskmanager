@@ -101,7 +101,7 @@ class RecurringQuote extends Model
 
     public function invitations()
     {
-        return $this->hasMany(RecurringQuoteInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function service(): RecurringQuoteService

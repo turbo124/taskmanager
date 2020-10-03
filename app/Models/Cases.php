@@ -113,7 +113,7 @@ class Cases extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(CaseInvitation::class, 'case_id', 'id');
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     /**

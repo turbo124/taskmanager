@@ -98,7 +98,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         $order->save();
 
-        $this->saveInvitations($order, 'order', $data);
+        $this->saveInvitations($order, $data);
 
         return $order->fresh();
     }

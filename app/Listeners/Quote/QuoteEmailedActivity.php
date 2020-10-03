@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\quote;
+namespace App\Listeners\Quote;
 
 use App\Factory\NotificationFactory;
 use App\Repositories\NotificationRepository;
@@ -29,19 +29,19 @@ class QuoteEmailedActivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->invitation->quote->id;
-        $fields['data']['customer_id'] = $event->invitation->quote->customer_id;
-        $fields['data']['message'] = 'An quote was emailed';
-        $fields['data']['contact_id'] = $event->invitation->quote->contact_id;
-        $fields['notifiable_id'] = $event->invitation->quote->user_id;
-        $fields['account_id'] = $event->invitation->quote->account_id;
-        $fields['notifiable_type'] = get_class($event->invitation->quote);
+        $fields['data']['id'] = $event->invitation->inviteable->id;
+        $fields['data']['customer_id'] = $event->invitation->inviteable->customer_id;
+        $fields['data']['message'] = 'An inviteable was emailed';
+        $fields['data']['contact_id'] = $event->invitation->inviteable->contact_id;
+        $fields['notifiable_id'] = $event->invitation->inviteable->user_id;
+        $fields['account_id'] = $event->invitation->inviteable->account_id;
+        $fields['notifiable_type'] = get_class($event->invitation->inviteable);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
         $notification =
-            NotificationFactory::create($event->invitation->quote->account_id, $event->invitation->quote->user_id);
-        $notification->entity_id = $event->invitation->quote->id;
+            NotificationFactory::create($event->invitation->inviteable->account_id, $event->invitation->inviteable->user_id);
+        $notification->entity_id = $event->invitation->inviteable->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

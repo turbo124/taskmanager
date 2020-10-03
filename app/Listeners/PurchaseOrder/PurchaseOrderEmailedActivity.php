@@ -32,21 +32,21 @@ class PurchaseOrderEmailedActivity implements ShouldQueue
     public function handle($event)
     {
         $fields = [];
-        $fields['data']['id'] = $event->purchase_order_invitation->purchase_order->id;
+        $fields['data']['id'] = $event->purchase_order_invitation->inviteable->id;
         $fields['data']['contact_id'] = $event->purchase_order_invitation->contact_id;
-        $fields['data']['company_id'] = $event->purchase_order_invitation->purchase_order->company_id;
+        $fields['data']['company_id'] = $event->purchase_order_invitation->inviteable->company_id;
         $fields['data']['message'] = 'A purchase order was emailed';
-        $fields['notifiable_id'] = $event->purchase_order_invitation->purchase_order->user_id;
-        $fields['account_id'] = $event->purchase_order_invitation->purchase_order->account_id;
-        $fields['notifiable_type'] = get_class($event->purchase_order_invitation->purchase_order);
+        $fields['notifiable_id'] = $event->purchase_order_invitation->inviteable->user_id;
+        $fields['account_id'] = $event->purchase_order_invitation->inviteable->account_id;
+        $fields['notifiable_type'] = get_class($event->purchase_order_invitation->inviteable);
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
         $notification = NotificationFactory::create(
-            $event->purchase_order_invitation->purchase_order->account_id,
-            $event->purchase_order_invitation->purchase_order->user_id
+            $event->purchase_order_invitation->inviteable->account_id,
+            $event->purchase_order_invitation->inviteable->user_id
         );
-        $notification->entity_id = $event->purchase_order_invitation->purchase_order->id;
+        $notification->entity_id = $event->purchase_order_invitation->inviteable->id;
         $this->notification_repo->save($notification, $fields);
     }
 }

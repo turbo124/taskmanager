@@ -258,18 +258,18 @@ class BaseRepository implements BaseRepositoryInterface
      * @param null $extra_key
      * @return bool
      */
-    protected function saveInvitations($entity, $key, array $data, $extra_key = null): bool
+    protected function saveInvitations($entity, array $data): bool
     {
         if (empty($data['invitations']) && $entity->invitations->count() === 0) {
             $created = $entity->customer->contacts->pluck(
                 'id'
             )->toArray();
-            (new Invitations())->createNewInvitation($created, $key, $entity, $extra_key);
+            (new Invitations())->createNewInvitation($created, $entity);
 
             return true;
         }
 
-        return (new Invitations())->generateInvitations($entity, $key, $data, $extra_key);
+        return (new Invitations())->generateInvitations($entity, $data);
     }
 
     protected function populateDefaults($entity)

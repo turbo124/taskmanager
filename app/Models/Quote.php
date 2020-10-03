@@ -122,7 +122,7 @@ class Quote extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(QuoteInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function account()

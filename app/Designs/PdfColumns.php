@@ -18,7 +18,7 @@ class PdfColumns
 
     private $default_columns = [
         'customer_details' => [
-            '$customer.paid_to_date'      => '<span>$customer.paid_to_date_label: $customer.paid_to_date</span>',
+            '$customer.paid_to_date'      => '<span>$customer.paid_to_date_label: $customer.paid_to_date</span><br>',
             '$customer.balance'           => '<span>$customer.balance_label: $customer.balance</span><br>',
             '$customer.name'              => '$customer.name<br>',
             '$customer.number'            => '$customer.number<br>',
