@@ -29,9 +29,9 @@ class CasesFactory extends Factory
         $account = \App\Models\Account::first();
         return [
             'status_id'     => \App\Models\Cases::STATUS_DRAFT,
-            'subject'       => $faker->word,
-            'message'       => $faker->sentence,
-            'private_notes' => $faker->sentence,
+            'subject'       => $this->faker->word,
+            'message'       => $this->faker->sentence,
+            'private_notes' => $this->faker->sentence,
             'account_id'    => $account->id,
             'user_id'       => $user->id,
             'customer_id'   => $customer->id,
