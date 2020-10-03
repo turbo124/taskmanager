@@ -59,14 +59,14 @@ class PreviewController extends Controller
     {
         DB::beginTransaction();
 
-        $client = factory(Customer::class)->create(
+        $client = Customer::factory()->create(
             [
                 'user_id'    => auth()->user()->id,
                 'account_id' => auth()->user()->account_user()->account_id,
             ]
         );
 
-        $contact = factory(CustomerContact::class)->create(
+        $contact = CustomerContact::factory()->create(
             [
                 'user_id'     => auth()->user()->id,
                 'account_id'  => auth()->user()->account_user()->account_id,
@@ -76,14 +76,14 @@ class PreviewController extends Controller
             ]
         );
 
-        $address = factory(Address::class)->create(
+        $address = Address::factory()->create(
             [
                 'customer_id'  => $client->id,
                 'address_type' => 1,
             ]
         );
 
-        $invoice = factory(Invoice::class)->create(
+        $invoice = Invoice::factory()->create(
             [
                 'user_id'     => auth()->user()->id,
                 'account_id'  => auth()->user()->account_user()->account_id,
