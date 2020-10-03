@@ -50,17 +50,17 @@ class RecurringQuoteTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
     }
 
     /** @test */
     public function it_can_show_all_the_quotes()
     {
-        factory(RecurringQuote::class)->create();
+        RecurringQuote::factory()->create();
         $list = (new RecurringQuoteFilter(new RecurringQuoteRepository(new RecurringQuote())))->filter(
             new SearchRequest(),
             $this->account
@@ -73,7 +73,7 @@ class RecurringQuoteTest extends TestCase
     /** @test */
     public function it_can_delete_the_quote()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $taskRepo = new RecurringQuoteRepository($recurring_quote);
         $deleted = $taskRepo->newDelete($recurring_quote);
         $this->assertTrue($deleted);
@@ -81,7 +81,7 @@ class RecurringQuoteTest extends TestCase
 
     public function it_can_archive_the_recurring_quote()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $taskRepo = new RecurringQuoteRepository($recurring_quote);
         $deleted = $taskRepo->archive($recurring_quote);
         $this->assertTrue($deleted);
@@ -90,7 +90,7 @@ class RecurringQuoteTest extends TestCase
     /** @test */
     public function it_can_update_the_recurring_quote()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $data = ['due_date' => Carbon::today()->addDays(5)];
         $recurringQuoteRepo = new RecurringQuoteRepository($recurring_quote);
         $task = $recurringQuoteRepo->save($data, $recurring_quote);
@@ -102,7 +102,7 @@ class RecurringQuoteTest extends TestCase
     /** @test */
     public function it_can_show_the_quote()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $recurringQuoteRepo = new RecurringQuoteRepository(new RecurringQuote());
         $found = $recurringQuoteRepo->findQuoteById($recurring_quote->id);
         $this->assertInstanceOf(RecurringQuote::class, $found);
@@ -131,7 +131,7 @@ class RecurringQuoteTest extends TestCase
 
     public function test_send_recurring_quote()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $recurring_quote->date_to_send = Carbon::now();
         $recurring_quote->customer_id = 5;
         $recurring_quote->date = Carbon::now()->subDays(15);
@@ -158,7 +158,7 @@ class RecurringQuoteTest extends TestCase
 
     public function test_send_recurring_quote_last_cycle()
     {
-        $recurring_quote = factory(RecurringQuote::class)->create();
+        $recurring_quote = RecurringQuote::factory()->create();
         $recurring_quote->date_to_send = Carbon::now();
         $recurring_quote->customer_id = 5;
         $recurring_quote->date = Carbon::now()->subDays(15);

@@ -29,14 +29,14 @@ class FileTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
-        $this->task = factory(Task::class)->create();
+        $this->user = User::factory()->create();
+        $this->task = Task::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_files()
     {
-        $insertedfile = factory(File::class)->create();
+        $insertedfile = File::factory()->create();
         $fileRepo = new FileRepository(new File);
         $list = $fileRepo->listFiles()->toArray();
         $myLastElement = end($list);
@@ -47,7 +47,7 @@ class FileTest extends TestCase
     /** @test */
     public function it_can_delete_the_file()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         $fileRepo = new FileRepository($file);
         $deleted = $fileRepo->deleteFile($file->id);
         $this->assertTrue($deleted);
@@ -56,7 +56,7 @@ class FileTest extends TestCase
     /** @test */
     public function it_can_show_the_file()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         $fileRepo = new FileRepository(new File);
         $found = $fileRepo->findFileById($file->id);
         $this->assertInstanceOf(File::class, $found);

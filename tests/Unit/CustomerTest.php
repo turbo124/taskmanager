@@ -35,15 +35,15 @@ class CustomerTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->company = factory(Company::class)->create();
-        $this->user = factory(User::class)->create();
+        $this->company = Company::factory()->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
     public function it_can_transform_the_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = Customer::factory()->create();
         $repo = new CustomerRepository($customer);
         $customerFromDb = $repo->findCustomerById($customer->id);
         $cust = $this->transformCustomer($customer);
@@ -54,7 +54,7 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_can_delete_the_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = Customer::factory()->create();
         $invoiceRepo = new CustomerRepository($customer);
         $deleted = $invoiceRepo->newDelete($customer);
         $this->assertTrue($deleted);
@@ -62,7 +62,7 @@ class CustomerTest extends TestCase
 
     public function it_can_archive_the_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = Customer::factory()->create();
         $taskRepo = new CustomerRepository($customer);
         $deleted = $taskRepo->archive($customer);
         $this->assertTrue($deleted);
@@ -94,7 +94,7 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_can_update_the_customer()
     {
-        $cust = factory(Customer::class)->create();
+        $cust = Customer::factory()->create();
         $customer = new CustomerRepository($cust);
         $update = [
             'name' => $this->faker->firstName,
@@ -145,7 +145,7 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_can_list_all_customers()
     {
-        factory(Customer::class, 5)->create();
+        Customer::factory()->create();
         $list = (new CustomerFilter(
             new CustomerRepository(
                 new Customer,

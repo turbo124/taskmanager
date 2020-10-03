@@ -1,40 +1,43 @@
 <?php
 
-/*
-  |--------------------------------------------------------------------------
-  | Model Factories
-  |--------------------------------------------------------------------------
-  |
-  | Here you may define all of your model factories. Model factories give
-  | you a convenient way to create models for testing and seeding your
-  | database. Just tell the factory how a default model should look.
-  |
- */
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Customer;
 use App\Models\Task;
 use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    Task::class,
-    function (Faker $faker) {
-        $customer = factory(Customer::class)->create();
-        $user = factory(User::class)->create();
+class TaskFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Task::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $customer = Customer::factory()->create();
+        $user = User::factory()->create();
+        
         return [
             'account_id'   => 1,
             'user_id'      => $user->id,
-            'name'         => $faker->text,
-            'description'  => $faker->text,
+            'name'         => $this->faker->text,
+            'description'  => $this->faker->text,
             'is_completed' => 0,
             'customer_id'  => $customer->id,
-            'due_date'     => $faker->dateTime(),
+            'due_date'     => $this->faker->dateTime(),
             'task_type'    => 2,
             'source_type'  => 1,
             'task_status'  => 1,
-            'valued_at'    => $faker->randomNumber(3)
+            'valued_at'    => $this->faker->randomNumber(3)
         ];
     }
-);
+}

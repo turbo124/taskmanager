@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\PurchaseOrder\PurchaseOrderService;
 use App\Traits\Balancer;
 use App\Traits\MoneyVendor;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -16,6 +17,7 @@ class PurchaseOrder extends Model
     use PresentableTrait;
     use MoneyVendor;
     use Balancer;
+    use HasFactory;
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
@@ -113,7 +115,7 @@ class PurchaseOrder extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(PurchaseOrderInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function account()

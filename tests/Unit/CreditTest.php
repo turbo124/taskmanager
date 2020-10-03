@@ -35,17 +35,17 @@ class CreditTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
         $this->account = Account::where('id', 1)->first();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_credits()
     {
-        factory(Credit::class)->create();
+        Credit::factory()->create();
         $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -53,7 +53,7 @@ class CreditTest extends TestCase
     /** @test */
     public function it_can_delete_the_credit()
     {
-        $credit = factory(Credit::class)->create();
+        $credit = Credit::factory()->create();
         $invoiceRepo = new CreditRepository($credit);
         $deleted = $invoiceRepo->newDelete($credit);
         $this->assertTrue($deleted);
@@ -61,7 +61,7 @@ class CreditTest extends TestCase
 
     public function it_can_archive_the_credit()
     {
-        $credit = factory(Credit::class)->create();
+        $credit = Credit::factory()->create();
         $taskRepo = new CreditRepository($credit);
         $deleted = $taskRepo->archive($credit);
         $this->assertTrue($deleted);
@@ -70,7 +70,7 @@ class CreditTest extends TestCase
     /** @test */
     public function it_can_update_the_credit()
     {
-        $credit = factory(Credit::class)->create();
+        $credit = Credit::factory()->create();
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $creditRepo = new CreditRepository($credit);
@@ -83,7 +83,7 @@ class CreditTest extends TestCase
     /** @test */
     public function it_can_show_the_credit()
     {
-        $credit = factory(Credit::class)->create();
+        $credit = Credit::factory()->create();
         $creditRepo = new CreditRepository(new Credit);
         $found = $creditRepo->findCreditById($credit->id);
         $this->assertInstanceOf(Credit::class, $found);
@@ -93,11 +93,8 @@ class CreditTest extends TestCase
     /** @test */
     public function it_can_create_a_credit()
     {
-        $customerId = $this->customer->id;
-        $total = $this->faker->randomFloat();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $factory = (new CreditFactory)->create($this->account, $user, $this->customer);
-
 
         $data = [
             'account_id'  => $this->account->id,

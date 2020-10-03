@@ -1,25 +1,43 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(
-    \App\Models\Expense::class,
-    function (Faker $faker) {
-        $user = factory(\App\Models\User::class)->create();
+use App\Models\Expense;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ExpenseFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Expense::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+        
         return [
-            'amount'                => $faker->numberBetween(1, 10),
+            'amount'                => $this->faker->numberBetween(1, 10),
             'account_id'            => 1,
             'user_id'               => $user->id,
-            'custom_value1'         => $faker->text(10),
-            'custom_value2'         => $faker->text(10),
-            'custom_value3'         => $faker->text(10),
-            'custom_value4'         => $faker->text(10),
-            'exchange_rate'         => $faker->randomFloat(2, 0, 1),
-            'date'                  => $faker->date(),
+            'custom_value1'         => $this->faker->text(10),
+            'custom_value2'         => $this->faker->text(10),
+            'custom_value3'         => $this->faker->text(10),
+            'custom_value4'         => $this->faker->text(10),
+            'exchange_rate'         => $this->faker->randomFloat(2, 0, 1),
+            'date'                  => $this->faker->date(),
             'is_deleted'            => false,
-            'public_notes'          => $faker->text(50),
-            'private_notes'         => $faker->text(50),
-            'transaction_reference' => $faker->text(5),
+            'public_notes'          => $this->faker->text(50),
+            'private_notes'         => $this->faker->text(50),
+            'transaction_reference' => $this->faker->text(5),
         ];
     }
-);
+}

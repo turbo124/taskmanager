@@ -32,7 +32,7 @@ class PaymentTermsTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
@@ -40,7 +40,7 @@ class PaymentTermsTest extends TestCase
     /** @test */
     public function it_can_show_all_the_terms()
     {
-        factory(PaymentTerms::class)->create();
+        PaymentTerms::factory()->create();
         $list = (new PaymentTermsFilter(new PaymentTermsRepository(new PaymentTerms)))->filter(
             new SearchRequest,
             $this->account
@@ -51,7 +51,7 @@ class PaymentTermsTest extends TestCase
     /** @test */
     public function it_can_delete_the_term()
     {
-        $payment_term = factory(PaymentTerms::class)->create();
+        $payment_term = PaymentTerms::factory()->create();
         $payment_terms_repo = new PaymentTermsRepository($payment_term);
         $deleted = $payment_terms_repo->newDelete($payment_term);
         $this->assertTrue($deleted);
@@ -59,7 +59,7 @@ class PaymentTermsTest extends TestCase
 
     public function it_can_archive_the_term()
     {
-        $payment_term = factory(PaymentTerms::class)->create();
+        $payment_term = PaymentTerms::factory()->create();
         $payment_terms_repo = new PaymentTermsRepository($payment_term);
         $deleted = $payment_terms_repo->archive($payment_term);
         $this->assertTrue($deleted);
@@ -68,7 +68,7 @@ class PaymentTermsTest extends TestCase
     /** @test */
     public function it_can_update_the_term()
     {
-        $payment_term = factory(PaymentTerms::class)->create();
+        $payment_term = PaymentTerms::factory()->create();
         $data = ['name' => $this->faker->word()];
         $payment_terms_repo = new PaymentTermsRepository($payment_term);
         $updated = $payment_terms_repo->save($data, $payment_term);
@@ -80,7 +80,7 @@ class PaymentTermsTest extends TestCase
     /** @test */
     public function it_can_show_the_term()
     {
-        $payment_term = factory(PaymentTerms::class)->create();
+        $payment_term = PaymentTerms::factory()->create();
         $payment_terms_repo = new PaymentTermsRepository(new PaymentTerms);
         $found = $payment_terms_repo->findPaymentTermsById($payment_term->id);
         $this->assertInstanceOf(PaymentTerms::class, $found);
@@ -90,7 +90,7 @@ class PaymentTermsTest extends TestCase
     /** @test */
     public function it_can_create_a_term()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $factory = (new PaymentTermsFactory)->create($this->account, $user);
 
         $data = [

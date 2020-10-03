@@ -43,10 +43,10 @@ class PromocodeTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
-        $this->order = factory(Order::class)->create();
+        $this->customer = Customer::factory()->create();
+        $this->order = Order::factory()->create();
     }
 
     /** @test */

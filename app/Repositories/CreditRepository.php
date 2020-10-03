@@ -67,7 +67,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
 
         $credit->save();
 
-        $this->saveInvitations($credit, 'credit', $data);
+        $this->saveInvitations($credit, $data);
 
         return $credit->fresh();
     }

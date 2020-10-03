@@ -37,16 +37,16 @@ class GroupTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
-        $this->customer = factory(Customer::class)->create();
+        $this->customer = Customer::factory()->create();
     }
 
 
     /** @test */
     public function it_can_show_all_the_groups()
     {
-        factory(Group::class)->create();
+        Group::factory()->create();
         $list = (new GroupFilter(new GroupRepository(new Group)))->filter(
             new SearchRequest,
             $this->account
@@ -57,7 +57,7 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_delete_the_group()
     {
-        $group_setting = factory(Group::class)->create();
+        $group_setting = Group::factory()->create();
         $group_setting_repo = new GroupRepository($group_setting);
         $deleted = $group_setting_repo->newDelete($group_setting);
         $this->assertTrue($deleted);
@@ -65,7 +65,7 @@ class GroupTest extends TestCase
 
     public function it_can_archive_the_group()
     {
-        $group_setting = factory(Group::class)->create();
+        $group_setting = Group::factory()->create();
         $group_setting_repo = new GroupRepository($group_setting);
         $deleted = $group_setting_repo->archive($group_setting);
         $this->assertTrue($deleted);
@@ -74,7 +74,7 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_update_the_group()
     {
-        $group_setting = factory(Group::class)->create();
+        $group_setting = Group::factory()->create();
         $data = ['name' => $this->faker->word()];
         $group_setting_repo = new GroupRepository($group_setting);
         $updated = $group_setting_repo->save($data, $group_setting);
@@ -86,7 +86,7 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_show_the_group()
     {
-        $group_setting = factory(Group::class)->create();
+        $group_setting = Group::factory()->create();
         $group_setting_repo = new GroupRepository(new Group);
         $found = $group_setting_repo->findGroupById($group_setting->id);
         $this->assertInstanceOf(Group::class, $found);
@@ -96,7 +96,7 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_create_a_group()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $factory = (new GroupFactory())->create($this->account, $user);
 
 

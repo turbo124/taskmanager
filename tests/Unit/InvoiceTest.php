@@ -65,11 +65,11 @@ class InvoiceTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
-        $this->account = factory(Account::class)->create();
-        $this->user = factory(User::class)->create();
+        $this->account = Account::factory()->create();
+        $this->user = User::factory()->create();
         $this->main_account = Account::where('id', 1)->first();
         $this->objNumberGenerator = new NumberGenerator;
     }
@@ -360,7 +360,7 @@ class InvoiceTest extends TestCase
     /** @test */
     public function testReversalViaAPI()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $invoice->customer->balance = $invoice->balance;
         $invoice->customer->save();
 
@@ -414,7 +414,7 @@ class InvoiceTest extends TestCase
     /** @test */
     public function testReversalNoPayment()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $client_paid_to_date = $invoice->customer->paid_to_date;
         $client_balance = $invoice->customer->balance;
         $invoice_balance = $invoice->balance;
@@ -437,7 +437,7 @@ class InvoiceTest extends TestCase
     /** @test */
     public function testCancelInvoice()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $client_balance = $invoice->customer->balance;
 
         (new InvoiceRepository(new Invoice))->markSent($invoice);
@@ -457,7 +457,7 @@ class InvoiceTest extends TestCase
     /** @test */
     public function testCancellationReversal()
     {
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
 
         $previous_balance = $invoice->balance;
         $customer_balance = $invoice->customer->balance;
@@ -512,10 +512,9 @@ class InvoiceTest extends TestCase
     public function autoBill_with_gateway()
     {
         // create invoice
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $invoice->customer_id = 5;
         $invoice->gateway_fee = 0;
-        $user = factory(User::class)->create();
 
         $total = $invoice->total;
         $line_item_count = count($invoice->line_items);
@@ -544,7 +543,7 @@ class InvoiceTest extends TestCase
     public function test_reminders()
     {
         // create invoice
-        $invoice = factory(Invoice::class)->create();
+        $invoice = Invoice::factory()->create();
         $invoice->customer_id = 5;
         $invoice->account_id = $this->account->id;
         $invoice->date_to_send = Carbon::now();

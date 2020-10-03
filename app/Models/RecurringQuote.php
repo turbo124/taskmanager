@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\RecurringQuote\RecurringQuoteService;
 use App\Traits\Balancer;
 use App\Traits\Money;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -19,6 +20,7 @@ class RecurringQuote extends Model
     use PresentableTrait;
     use Balancer;
     use Money;
+    use HasFactory;
 
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 2;
@@ -101,7 +103,7 @@ class RecurringQuote extends Model
 
     public function invitations()
     {
-        return $this->hasMany(RecurringQuoteInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function service(): RecurringQuoteService

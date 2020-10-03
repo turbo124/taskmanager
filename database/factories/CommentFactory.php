@@ -1,29 +1,28 @@
 <?php
 
-use Faker\Generator as Faker;
-use App\Models\User;
-use App\Models\Task;
-use App\Models\Customer;
-
-/*
-  |--------------------------------------------------------------------------
-  | Model Factories
-  |--------------------------------------------------------------------------
-  |
-  | Here you may define all of your model factories. Model factories give
-  | you a convenient way to create models for testing and seeding your
-  | database. Just tell the factory how a default model should look.
-  |
- */
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Comment;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    Comment::class,
-    function (Faker $faker) {
-        $user = factory(User::class)->create();
+class CommentFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Comment::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
 
         return [
             'commentable_type' => '',
@@ -33,7 +32,7 @@ $factory->define(
             'is_active'        => 1,
             'user_id'          => $user->id,
             'parent_type'      => 1,
-            'comment'          => $faker->text,
+            'comment'          => $this->faker->text,
         ];
     }
-);
+}

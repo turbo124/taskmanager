@@ -25,7 +25,7 @@ class AttributeValueUnitTest extends TestCase
         $attributeValue = new AttributeValue(['value' => 'small']);
         $attributeValueRepo = new AttributeValueRepository($attributeValue);
 
-        $attribute = factory(Attribute::class)->create();
+        $attribute = Attribute::factory()->create();
         $createdValue = $attributeValueRepo->associateToAttribute($attribute);
 
         $attributeValueRepo2 = new AttributeValueRepository($createdValue);
@@ -40,7 +40,7 @@ class AttributeValueUnitTest extends TestCase
         $attributeValue = new AttributeValue(['value' => 'sizes']);
         $attributeValueRepo = new AttributeValueRepository($attributeValue);
 
-        $attribute = factory(Attribute::class)->create();
+        $attribute = Attribute::factory()->create();
         $attributeValueRepo->associateToAttribute($attribute);
 
         $this->assertCount(1, $attribute->values->all());

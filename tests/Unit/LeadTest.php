@@ -27,14 +27,14 @@ class LeadTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
     public function it_can_show_all_the_leads()
     {
-        factory(Lead::class)->create();
+        Lead::factory()->create();
         $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
@@ -44,7 +44,7 @@ class LeadTest extends TestCase
     /** @test */
     public function it_can_delete_the_lead()
     {
-        $lead = factory(Lead::class)->create();
+        $lead = Lead::factory()->create();
         $taskRepo = new LeadRepository($lead);
         $deleted = $taskRepo->newDelete($lead);
         $this->assertTrue($deleted);
@@ -52,7 +52,7 @@ class LeadTest extends TestCase
 
     public function it_can_archive_the_lead()
     {
-        $lead = factory(Lead::class)->create();
+        $lead = Lead::factory()->create();
         $taskRepo = new LeadRepository($lead);
         $deleted = $taskRepo->archive($lead);
         $this->assertTrue($deleted);
@@ -61,20 +61,20 @@ class LeadTest extends TestCase
     /** @test */
     public function it_can_update_the_lead()
     {
-        $lead = factory(Lead::class)->create();
-        $name = $this->faker->word;
+        $lead = Lead::factory()->create();
         $data = ['first_name' => $this->faker->firstName];
         $leadRepo = new LeadRepository($lead);
-        $task = $leadRepo->updateLead($lead, $data);
-        $found = $leadRepo->findLeadById($lead->id);
+        $lead = $leadRepo->save($lead, $data);
+        $lead = $leadRepo->findLeadById($lead->id);
         $this->assertInstanceOf(Lead::class, $lead);
-        $this->assertEquals($data['first_name'], $found->first_name);
+
+        $this->assertEquals($data['first_name'], $lead->first_name);
     }
 
     /** @test */
     public function it_can_show_the_lead()
     {
-        $lead = factory(Lead::class)->create();
+        $lead = Lead::factory()->create();
         $leadRepo = new LeadRepository(new Lead);
         $found = $leadRepo->findLeadById($lead->id);
         $this->assertInstanceOf(Lead::class, $found);
@@ -110,7 +110,7 @@ class LeadTest extends TestCase
     /** @test */
     public function it_can_convert_a_lead()
     {
-        $lead = factory(Lead::class)->create();
+        $lead = Lead::factory()->create();
         $lead = $lead->service()->convertLead();
         $this->assertInstanceOf(Lead::class, $lead);
     }

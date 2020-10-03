@@ -1,28 +1,30 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\File;
 use App\Models\Task;
 use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-  |--------------------------------------------------------------------------
-  | Model Factories
-  |--------------------------------------------------------------------------
-  |
-  | Here you may define all of your model factories. Model factories give
-  | you a convenient way to create models for testing and seeding your
-  | database. Just tell the factory how a default model should look.
-  |
- */
+class FileFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = File::class;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
-$factory->define(
-    File::class,
-    function (Faker $faker) {
-        $user = factory(User::class)->create();
-        $task = factory(Task::class)->create();
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
 
         return [
             'assigned_to'          => null,
@@ -32,8 +34,8 @@ $factory->define(
             'fileable_id'          => $task->id,
             'fileable_type'        => 'App\Models\Task',
             'user_id'              => $user->id,
-            'name'                 => $faker->text,
-            'file_path'            => $faker->word,
+            'name'                 => $this->faker->text,
+            'file_path'            => $this->faker->word,
             'preview'              => null,
             'type'                 => null,
             'size'                 => null,
@@ -45,4 +47,4 @@ $factory->define(
             'customer_can_view'    => false
         ];
     }
-);
+}

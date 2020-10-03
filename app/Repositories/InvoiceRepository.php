@@ -104,7 +104,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $invoice->setNumber();
         $invoice->save();
 
-        $this->saveInvitations($invoice, 'invoice', $data);
+        $this->saveInvitations($invoice, $data);
 
         $this->updateEntities($invoice);
 

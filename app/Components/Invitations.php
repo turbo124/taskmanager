@@ -4,38 +4,32 @@
 namespace App\Components;
 
 
+use App\Factory\InvitationFactory;
+
 class Invitations
 {
-    public function generateInvitations($entity, $key, $data, $extra_key = null)
+    public function generateInvitations($entity, $data)
     {
         if (empty($data['invitations'])) {
             return true;
         }
 
-        $invitation_class = sprintf("App\Models\\%sInvitation", ucfirst($key));
-
-        $id_key = $extra_key !== null ? $extra_key . '_id' : $key . '_id';
-
-        $old_values = $invitation_class::where($id_key, $entity->id)->get()->pluck('contact_id')->toArray();
+        $old_values = $entity->invitations->pluck('contact_id')->toArray();
         $new_values = array_column(collect($data['invitations'])->toArray(), 'contact_id');
 
         if ($deleted = Arrays::keysDeleted($new_values, $old_values)) {
-            $invitation_class::whereIn('contact_id', $deleted)->forceDelete();
+            $entity->invitations()->whereIn('contact_id', $deleted)->forceDelete();
         }
 
         if ($created = Arrays::keysCreated($new_values, $old_values)) {
-            $this->createNewInvitation($created, $key, $entity, $extra_key);
+            $this->createNewInvitation($created, $entity);
         }
 
         return true;
     }
 
-    public function createNewInvitation($created, $key, $entity, $extra_key = null)
+    public function createNewInvitation($created, $entity)
     {
-        $invitation_factory_class = sprintf("App\\Factory\\%sInvitationFactory", ucfirst($key));
-
-        $id_key = $extra_key !== null ? $extra_key . '_id' : $key . '_id';
-
         foreach ($created as $contact_id) {
             /* $invitation = $invitation__class::where($id_key, $entity->id)->where('contact_id', $contact_id)->first();
 
@@ -43,10 +37,9 @@ class Invitations
                 continue;
             } */
 
-            $new_invitation = $invitation_factory_class::create($entity->account, $entity->user);
-            $new_invitation->{$id_key} = $entity->id;
+            $new_invitation = InvitationFactory::create($entity->account, $entity->user);
             $new_invitation->contact_id = $contact_id;
-            $new_invitation->save();
+            $entity->invitations()->save($new_invitation);
         }
 
         return true;

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 
 class Department extends Model
 {
 
-    use SearchableTrait, NodeTrait;
+    use SearchableTrait, NodeTrait, HasFactory;
 
     protected $searchable = [
         /**

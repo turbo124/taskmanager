@@ -23,8 +23,8 @@ class CategoryProductsUnitTest extends TestCase
     /** @test */
     public function it_can_retrieve_the_products_from_the_category()
     {
-        $category = factory(Category::class)->create();
-        $product = factory(Product::class)->create();
+        $category = Category::factory()->create();
+        $product = Product::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $categoryRepo->associateProduct($product);
         $products = $categoryRepo->findProducts();
@@ -40,8 +40,8 @@ class CategoryProductsUnitTest extends TestCase
     /** @test */
     public function it_can_associate_the_product_in_the_category()
     {
-        $category = factory(Category::class)->create();
-        $product = factory(Product::class)->create();
+        $category = Category::factory()->create();
+        $product = Product::factory()->create();
         $categoryRepo = new CategoryRepository($category);
         $producta = $categoryRepo->associateProduct($product);
         $this->assertEquals($product->sku, $producta->sku);

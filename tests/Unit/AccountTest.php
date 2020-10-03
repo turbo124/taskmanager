@@ -23,7 +23,7 @@ class AccountTest extends TestCase
     /** @test */
     public function it_can_convert_the_account()
     {
-        $account = factory(Account::class)->create();
+        $account = Account::factory()->create();
         $account = $account->service()->convertAccount();
         $this->assertInstanceOf(Account::class, $account);
         $this->assertInstanceOf(Customer::class, $account->domains->customer);

@@ -1,29 +1,43 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
+use App\Models\Lead;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(
-    \App\Models\Lead::class,
-    function (Faker $faker) {
-        $user = factory(\App\Models\User::class)->create();
+class LeadFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Lead::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = User::factory()->create();
         return [
-            'address_1'   => $faker->streetAddress,
+            'address_1'   => $this->faker->streetAddress,
             'address_2'   => null,
-            'zip'         => $faker->postcode,
-            'city'        => $faker->city,
+            'zip'         => $this->faker->postcode,
+            'city'        => $this->faker->city,
             'source_type' => 1,
             'account_id'  => 1,
             'user_id'     => $user->id,
             'task_status' => 1,
-            'name'        => $faker->word,
-            'description' => $faker->sentence,
-            'first_name'  => $faker->firstName,
-            'last_name'   => $faker->lastName,
-            'phone'       => $faker->phoneNumber,
-            'email'       => $faker->safeEmail
+            'name'        => $this->faker->word,
+            'description' => $this->faker->sentence,
+            'first_name'  => $this->faker->firstName,
+            'last_name'   => $this->faker->lastName,
+            'phone'       => $this->faker->phoneNumber,
+            'email'       => $this->faker->safeEmail
         ];
     }
-);
+}

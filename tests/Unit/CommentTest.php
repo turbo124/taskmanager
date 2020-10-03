@@ -24,14 +24,14 @@ class CommentTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
-        $this->task = factory(Task::class)->create();
+        $this->user = User::factory()->create();
+        $this->task = Task::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_comments()
     {
-        $insertedcomment = factory(Comment::class)->create();
+        $insertedcomment = Comment::factory()->create();
         $commentRepo = new CommentRepository(new Comment);
         $list = $commentRepo->listComments()->toArray();
         $myLastElement = end($list);
@@ -42,7 +42,7 @@ class CommentTest extends TestCase
     /** @test */
     public function it_can_delete_the_comment()
     {
-        $comment = factory(Comment::class)->create();
+        $comment = Comment::factory()->create();
         $commentRepo = new CommentRepository($comment);
         $deleted = $commentRepo->deleteComment($comment->id);
         $this->assertTrue($deleted);
@@ -51,7 +51,7 @@ class CommentTest extends TestCase
     /** @test */
     public function it_can_update_the_comment()
     {
-        $comment = factory(Comment::class)->create();
+        $comment = Comment::factory()->create();
         $data = [
             'comment' => $this->faker->sentence
         ];
@@ -66,7 +66,7 @@ class CommentTest extends TestCase
     /** @test */
     public function it_can_show_the_comment()
     {
-        $comment = factory(Comment::class)->create();
+        $comment = Comment::factory()->create();
         $commentRepo = new CommentRepository(new Comment);
         $found = $commentRepo->findCommentById($comment->id);
         $this->assertInstanceOf(Comment::class, $found);
@@ -76,8 +76,8 @@ class CommentTest extends TestCase
     /** @test */
     public function it_can_attach_a_task()
     {
-        $task = factory(Task::class)->create();
-        $comment = factory(Comment::class)->create();
+        $task = Task::factory()->create();
+        $comment = Comment::factory()->create();
         $response = $task->comments()->create($comment->toArray());
         $this->assertDatabaseHas(
             'comments',

@@ -7,6 +7,7 @@ use App\Services\Transaction\TransactionService;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,7 @@ class Credit extends Model
     use PresentableTrait;
     use Money;
     use Balancer;
+    use HasFactory;
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
@@ -113,7 +115,7 @@ class Credit extends Model
 
     public function invitations()
     {
-        return $this->hasMany(CreditInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function payments()

@@ -2,7 +2,7 @@
 
 namespace App\Events\Credit;
 
-use App\Models\CreditInvitation;
+use App\Models\Invitation;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -12,16 +12,16 @@ class CreditWasEmailed
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var CreditInvitation
+     * @var Invitation
      */
-    public CreditInvitation $invitation;
+    public Invitation $invitation;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(CreditInvitation $invitation)
+    public function __construct(Invitation $invitation)
     {
         $this->invitation = $invitation;
     }

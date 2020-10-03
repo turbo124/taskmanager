@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Models\RecurringInvoiceInvitation;
@@ -116,8 +117,8 @@ trait RecurringInvoiceTransformable
         }
 
         return $invitations->map(
-            function (RecurringInvoiceInvitation $invitation) {
-                return (new RecurringInvoiceInvitationTransformable())->transformInvoiceInvitation($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }

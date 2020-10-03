@@ -54,18 +54,18 @@ class QuoteTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->customer = factory(Customer::class)->create();
-        $contact = factory(CustomerContact::class)->create(['customer_id' => $this->customer->id]);
+        $this->customer = Customer::factory()->create();
+        $contact = CustomerContact::factory()->create(['customer_id' => $this->customer->id]);
         $this->customer->contacts()->save($contact);
         $this->account = Account::where('id', 1)->first();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->objNumberGenerator = new NumberGenerator;
     }
 
     /** @test */
     public function it_can_show_all_the_quotes()
     {
-        factory(Quote::class)->create();
+        Quote::factory()->create();
         $list = (new QuoteFilter(new QuoteRepository(new Quote)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -73,7 +73,7 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_can_update_the_quote()
     {
-        $quote = factory(Quote::class)->create();
+        $quote = Quote::factory()->create();
         $customer_id = $this->customer->id;
         $data = ['customer_id' => $customer_id];
         $quoteRepo = new QuoteRepository($quote);
@@ -86,7 +86,7 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_can_show_the_quote()
     {
-        $quote = factory(Quote::class)->create();
+        $quote = Quote::factory()->create();
         $quoteRepo = new QuoteRepository(new Quote);
         $found = $quoteRepo->findQuoteById($quote->id);
         $this->assertInstanceOf(Quote::class, $found);
@@ -163,7 +163,7 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_can_delete_the_quote()
     {
-        $invoice = factory(Quote::class)->create();
+        $invoice = Quote::factory()->create();
         $invoiceRepo = new QuoteRepository($invoice);
         $deleted = $invoiceRepo->newDelete($invoice);
         $this->assertTrue($deleted);
@@ -171,7 +171,7 @@ class QuoteTest extends TestCase
 
     public function it_can_archive_the_quote()
     {
-        $quote = factory(Quote::class)->create();
+        $quote = Quote::factory()->create();
         $taskRepo = new QuoteRepository($quote);
         $deleted = $taskRepo->archive($quote);
         $this->assertTrue($deleted);
@@ -179,7 +179,7 @@ class QuoteTest extends TestCase
 
     public function testQuoteApproval()
     {
-        $quote = factory(Quote::class)->create();
+        $quote = Quote::factory()->create();
         $quote->setStatus(Quote::STATUS_SENT);
         $quote->save();
 
@@ -198,7 +198,7 @@ class QuoteTest extends TestCase
 
     public function testQuoteToOrderConversion()
     {
-        $quote = factory(Quote::class)->create();
+        $quote = Quote::factory()->create();
         $quote->setStatus(Quote::STATUS_SENT);
         $quote->save();
 

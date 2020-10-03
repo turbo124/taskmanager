@@ -25,8 +25,8 @@ class PermissionTest extends TestCase
     /** @test */
     public function it_can_attach_permission_to_role()
     {
-        $role = factory(Role::class)->create();
-        $permission = factory(Permission::class)->create();
+        $role = Role::factory()->create();
+        $permission = Permission::factory()->create();
         $roleRepo = new RoleRepository($role);
         $roleRepo->attachToPermission($permission);
         $attachedPermissions = $roleRepo->listPermissions();
@@ -40,7 +40,7 @@ class PermissionTest extends TestCase
     /** @test */
     public function it_can_list_all_permissions()
     {
-        factory(Permission::class, 5)->create();
+        Permission::factory()->create();
         $permissionRepo = new PermissionRepository(new Permission);
         $list = $permissionRepo->listPermissions();
         $this->assertInstanceOf(Collection::class, $list);
@@ -49,7 +49,7 @@ class PermissionTest extends TestCase
     /** @test */
     public function it_can_delete_permission()
     {
-        $permission = factory(Permission::class)->create();
+        $permission = Permission::factory()->create();
         $permissionRepo = new PermissionRepository($permission);
         $deleted = $permissionRepo->deletePermissionById($permission->id);
         $this->assertTrue($deleted);
@@ -58,7 +58,7 @@ class PermissionTest extends TestCase
     /** @test */
     public function it_can_update_the_permission()
     {
-        $permission = factory(Permission::class)->create();
+        $permission = Permission::factory()->create();
         $data = [
             'name' => 'can-view',
         ];
@@ -72,7 +72,7 @@ class PermissionTest extends TestCase
     /** @test */
     public function it_can_show_the_permission()
     {
-        $permission = factory(Permission::class)->create();
+        $permission = Permission::factory()->create();
         $permissionRepo = new PermissionRepository(new Permission);
         $found = $permissionRepo->findPermissionById($permission->id);
         $this->assertInstanceOf(Permission::class, $found);

@@ -92,12 +92,12 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
                 'id'
             )->toArray();
 
-            (new Invitations())->createNewInvitation($created, 'purchaseOrder', $entity, 'purchase_order');
+            (new Invitations())->createNewInvitation($created, $entity);
 
             return true;
         }
 
-        return (new Invitations())->generateInvitations($entity, $key, $data, 'purchase_order');
+        return (new Invitations())->generateInvitations($entity, $data);
     }
 
     /**

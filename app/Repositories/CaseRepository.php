@@ -65,7 +65,7 @@ class CaseRepository extends BaseRepository
         $case->setNumber();
         $case->save();
 
-        $this->saveInvitations($case, 'case', $data);
+        $this->saveInvitations($case, $data);
 
         return $case;
     }

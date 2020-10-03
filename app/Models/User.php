@@ -6,6 +6,7 @@ use App\Collection;
 use App\Models;
 use App\Traits\HasPermissionsTrait;
 use App\Util\Jobs\FileUploader;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +19,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
 
-    use Notifiable, SoftDeletes, HasPermissionsTrait, PresentableTrait;
+    use Notifiable, SoftDeletes, HasPermissionsTrait, PresentableTrait, HasFactory;
     use HasRelationships;
 
     public $account;

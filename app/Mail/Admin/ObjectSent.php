@@ -2,6 +2,7 @@
 
 namespace App\Mail\Admin;
 
+use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -19,12 +20,12 @@ class ObjectSent extends AdminMailer
      *
      * @return void
      */
-    public function __construct($invitation, $entity_name, User $user)
+    public function __construct(Invitation $invitation, User $user)
     {
         $this->invitation = $invitation;
-        $this->entity_name = $entity_name;
-        $this->entity = $invitation->{$entity_name};
         $this->contact = $invitation->contact;
+        $this->entity_name = strtolower((new \ReflectionClass($invitation->inviteable))->getShortName());
+        $this->entity = $invitation->inviteable;
         $this->user = $user;
     }
 
@@ -49,9 +50,9 @@ class ObjectSent extends AdminMailer
     private function getDataArray()
     {
         return [
-            'total'    => $this->entity->getFormattedTotal(),
+            'total'    => $this->invitation->inviteable->getFormattedTotal(),
             'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->getNumber(),
+            'invoice'  => $this->invitation->inviteable->getNumber(),
         ];
     }
 

@@ -113,9 +113,6 @@ trait MakesInvoiceHtml
             $html = str_replace(['$voucher_label', '$voucher'], '', $html);
         }
 
-//        echo $html;
-//        die;
-
         return $html;
     }
 
@@ -131,14 +128,12 @@ trait MakesInvoiceHtml
             return null;
         }
 
-        $invitation_class = 'App\Models\\' . (new ReflectionClass($entity))->getShortName() . 'Invitation';
-
-        $invitations = $invitation_class::all();
+        $invitations = $entity->invitations;
 
         $selected_invitation = null;
 
         if (!empty($contact)) {
-            $selected_invitation = $invitation_class::where('contact_id', '=', $contact->id);
+            $selected_invitation = $entity->invitations->where('contact_id', '=', $contact->id);
         } else {
             foreach ($invitations as $invitation) {
                 if (!empty($invitation->client_signature)) {

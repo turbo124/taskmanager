@@ -28,7 +28,7 @@ class TaxRateUnitTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
@@ -76,7 +76,7 @@ class TaxRateUnitTest extends TestCase
 //    public function it_errors_updating_the_tax_rate()
 //    {
 //        $this->expectException(\Illuminate\Database\QueryException::class);
-//        $taxRate = factory(TaxRate::class)->create();
+//        $taxRate = TaxRate::factory()->create();
 //        $taxRateRepo = new TaxRateRepository($taxRate);
 //        $taxRateRepo->updateTaxRate(['name' => null]);
 //    }
@@ -84,7 +84,7 @@ class TaxRateUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_tax_rate()
     {
-        $taxRate = factory(TaxRate::class)->create();
+        $taxRate = TaxRate::factory()->create();
         $taxRateRepo = new TaxRateRepository($taxRate);
         $update = [
             'account_id' => $this->account_id,

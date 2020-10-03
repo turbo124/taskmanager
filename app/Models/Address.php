@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Address extends Model
 {
 
-    use SoftDeletes, SearchableTrait;
+    use SoftDeletes, SearchableTrait, HasFactory;
 
     /**
      * The attributes that are mass assignable.

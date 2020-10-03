@@ -36,13 +36,13 @@ class ProductAttributeCombinationsUnitTest extends TestCase
         $attributeValue1 = new AttributeValue(['value' => 'small']);
         $attributeValueRepo1 = new AttributeValueRepository($attributeValue1);
 
-        $attribute1 = factory(Attribute::class)->create(['name' => 'Sizes']);
+        $attribute1 = Attribute::factory()->create(['name' => 'Sizes']);
         $createdValue1 = $attributeValueRepo1->associateToAttribute($attribute1);
 
         $attributeValue2 = new AttributeValue(['value' => 'red']);
         $attributeValueRepo2 = new AttributeValueRepository($attributeValue2);
 
-        $attribute2 = factory(Attribute::class)->create(['name' => 'Colors']);
+        $attribute2 = Attribute::factory()->create(['name' => 'Colors']);
         $createdValue2 = $attributeValueRepo2->associateToAttribute($attribute2);
 
         $data = [
@@ -51,7 +51,7 @@ class ProductAttributeCombinationsUnitTest extends TestCase
         ];
 
         $productAttribute = new ProductAttribute($data);
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
         $productRepo = new ProductRepository($product);
         $created = $productRepo->saveProductAttributes($productAttribute, $product);

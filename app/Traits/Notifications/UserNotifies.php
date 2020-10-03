@@ -11,8 +11,8 @@ trait UserNotifies
         $entity_name,
         $required_permissions
     ) {
-        if ($invitation->{$entity_name}->user_id == $account_user->_user_id ||
-            $invitation->{$entity_name}->assigned_to == $account_user->user_id) {
+        if ($invitation->inviteable->user_id == $account_user->_user_id ||
+            $invitation->inviteable->assigned_to == $account_user->user_id) {
             array_push($required_permissions, "all_user_notifications");
         }
 

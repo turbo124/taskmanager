@@ -11,6 +11,7 @@ use App\Jobs\Quote\CreateQuotePdf;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Design;
+use App\Models\Invoice;
 use App\Models\Quote;
 use App\Models\User;
 use App\Repositories\DesignRepository;
@@ -39,14 +40,14 @@ class DesignTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->account = Account::find(1);
-        $this->user = factory(User::class)->create();
-        $this->customer = factory(Customer::class)->create();
+        $this->user = User::factory()->create();
+        $this->customer = Customer::factory()->create();
     }
 
     /** @test */
     public function it_can_show_all_the_designs()
     {
-        factory(Design::class)->create();
+        Design::factory()->create();
         $list = (new DesignFilter(new DesignRepository(new Design())))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
@@ -54,7 +55,7 @@ class DesignTest extends TestCase
     /** @test */
     public function it_can_update_the_design()
     {
-        $design = factory(Design::class)->create();
+        $design = Design::factory()->create();
         $name = $this->faker->firstName;
         $data = ['name' => $name];
         $updated = $design->update($data);
@@ -67,7 +68,7 @@ class DesignTest extends TestCase
     /** @test */
     public function it_can_show_the_design()
     {
-        $design = factory(Design::class)->create();
+        $design = Design::factory()->create();
         $designRepo = new DesignRepository(new Design());
         $found = $designRepo->findDesignById($design->id);
         $this->assertInstanceOf(Design::class, $found);
@@ -77,7 +78,7 @@ class DesignTest extends TestCase
     /** @test */
     public function it_can_create_a_design()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $design = (new DesignFactory)->create(1, $user->id);
 
         $name = $this->faker->firstName;
@@ -99,7 +100,7 @@ class DesignTest extends TestCase
 
     public function testQuoteDesignExists()
     {
-        $this->quote = factory(Quote::class)->create(
+        $this->quote = Quote::factory()->create(
             [
                 'user_id'     => $this->user->id,
                 'customer_id' => $this->customer->id,
@@ -136,7 +137,7 @@ class DesignTest extends TestCase
 
     public function testInvoiceDesignExists()
     {
-        $this->invoice = factory(Quote::class)->create(
+        $this->invoice = Invoice::factory()->create(
             [
                 'user_id'     => $this->user->id,
                 'customer_id' => Customer::first(),

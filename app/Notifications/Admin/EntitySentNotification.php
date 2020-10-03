@@ -71,7 +71,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return new ObjectSent($this->invitation, $this->entity_name, $notifiable);
+        return new ObjectSent($this->invitation, $notifiable);
     }
 
     /**

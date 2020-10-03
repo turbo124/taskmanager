@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models;
 use App\Services\Task\TaskService;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Task extends Model
 
     use SoftDeletes;
     use PresentableTrait;
+    use HasFactory;
 
     const TASK_TYPE_DEAL = 3;
     const STATUS_IN_PROGRESS = 7;

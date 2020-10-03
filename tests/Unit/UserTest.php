@@ -29,7 +29,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_show_all_the_users()
     {
-        $inserteduser = factory(User::class)->create();
+        $inserteduser = User::factory()->create();;
         $userRepo = new UserRepository(new User);
         $list = $userRepo->getActiveUsers()->toArray();
         $myLastElement = end($list);
@@ -44,7 +44,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_delete_the_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();;
         $userRepo = new UserRepository($user);
         $deleted = $userRepo->deleteUser($user->id);
         $this->assertTrue($deleted);
@@ -53,7 +53,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_update_the_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();;
         $data = ['first_name' => $this->faker->firstName, 'email' => $this->faker->unique()->email];
         $userRepo = new UserRepository($user);
         $updated = $userRepo->save($data, $user);
@@ -63,7 +63,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_show_the_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();;
         $userRepo = new UserRepository(new User);
         $found = $userRepo->findUserById($user->id);
         $this->assertInstanceOf(User::class, $found);
@@ -111,7 +111,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_list_all_users()
     {
-        factory(User::class, 5)->create();
+        User::factory()->create();
         $userRepo = new UserRepository(new User);
         $list = $userRepo->listUsers();
         $this->assertInstanceOf(Collection::class, $list);
@@ -120,7 +120,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_attach_a_department()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();;
         $department = factory(Department::class)->create();
         $userRepo = new UserRepository($user);
         $result = $userRepo->syncDepartment($user, $department->id);
@@ -130,8 +130,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_attach_roles()
     {
-        $user = factory(User::class)->create();
-        $role = factory(Role::class)->create();
+        $user = User::factory()->create();;
+        $role = Role::factory()->create();
         $userRepo = new UserRepository($user);
         $result = $userRepo->syncRoles($user, [0 => [$role->id]]);
         $this->assertArrayHasKey('attached', $result);
@@ -140,8 +140,6 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_transform_user()
     {
-        $user = factory(User::class)->create();
-
         $arrUser = [
             'first_name' => $this->faker->firstName,
             'last_name'  => $this->faker->lastName,
@@ -151,7 +149,7 @@ class UserTest extends TestCase
             'is_active'  => 1
         ];
 
-        $user = factory(User::class)->create($arrUser);
+        $user = User::factory()->create($arrUser);
         $transformed = $this->transformUser($user);
         $this->assertNotEmpty($transformed);
     }

@@ -30,14 +30,14 @@ class TaskStatusUnitTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
     public function it_can_delete_the_order_status()
     {
-        $os = factory(TaskStatus::class)->create();
+        $os = TaskStatus::factory()->create();
         $taskStatusRepo = new TaskStatusRepository($os);
         $taskStatusRepo->deleteTaskStatus($os);
         $this->assertDatabaseMissing('task_statuses', $os->toArray());
@@ -46,7 +46,7 @@ class TaskStatusUnitTest extends TestCase
     /** @test */
     public function it_lists_all_the_task_statuses()
     {
-        factory(TaskStatus::class)->create();
+        TaskStatus::factory()->create();
         $list = (new TaskStatusFilter(new TaskStatusRepository(new TaskStatus())))->filter(
             new SearchRequest(),
             $this->account
@@ -79,7 +79,7 @@ class TaskStatusUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_task_status()
     {
-        $os = factory(TaskStatus::class)->create();
+        $os = TaskStatus::factory()->create();
         $taskStatusRepo = new TaskStatusRepository($os);
         $data = [
             'name'         => $this->faker->name,

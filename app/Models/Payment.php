@@ -6,6 +6,7 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Services\Payment\PaymentService;
 use App\Services\Transaction\TransactionService;
 use App\Traits\Money;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +17,7 @@ class Payment extends Model
     use PresentableTrait;
     use SoftDeletes;
     use Money;
+    use HasFactory;
 
     const STATUS_PENDING = 1;
     const STATUS_VOIDED = 2;

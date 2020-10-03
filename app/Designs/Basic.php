@@ -8,8 +8,6 @@ class Basic
     {
         return '<style>body { padding-left: 20px; padding-right: 20px }</style> 
 
-@css
-
 <div class="px-2 py-4">
 <div>
     $account_logo

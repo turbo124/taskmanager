@@ -34,15 +34,15 @@ class EventTest extends TestCase
     {
         parent::setUp();
         $this->beginDatabaseTransaction();
-        $this->user = factory(User::class)->create();
-        $this->customer = factory(Customer::class)->create();
+        $this->user = User::factory()->create();
+        $this->customer = Customer::factory()->create();
         $this->account = Account::where('id', 1)->first();
     }
 
     /** @test */
     public function it_can_transform_the_event()
     {
-        $event = factory(Event::class)->create();
+        $event = Event::factory()->create();
         $repo = new EventRepository($event);
         $eventFromDb = $repo->findEventById($event->id);
         $cust = $this->transformEvent($event);
@@ -53,7 +53,7 @@ class EventTest extends TestCase
     /** @test */
     public function it_can_delete_a_event()
     {
-        $event = factory(Event::class)->create();
+        $event = Event::factory()->create();
         $eventRepo = new EventRepository($event);
         $delete = $eventRepo->deleteEvent();
         $this->assertTrue($delete);
@@ -93,7 +93,7 @@ class EventTest extends TestCase
     /** @test */
     public function it_can_update_the_event()
     {
-        $cust = factory(Event::class)->create();
+        $cust = Event::factory()->create();
         $event = new EventRepository($cust);
         $update = [
             'location' => $this->faker->sentence,
@@ -138,8 +138,8 @@ class EventTest extends TestCase
     /** @test */
     public function it_can_attach_a_task()
     {
-        $task = factory(Task::class)->create();
-        $event = factory(Event::class)->create();
+        $task = Task::factory()->create();
+        $event = Event::factory()->create();
         $eventRepo = new EventRepository($event);
         $result = $eventRepo->syncTask($event, $task->id);
         $this->assertArrayHasKey('attached', $result);
@@ -148,8 +148,8 @@ class EventTest extends TestCase
     /** @test */
     public function it_can_attach_a_user()
     {
-        $user = factory(User::class)->create();
-        $event = factory(Event::class)->create();
+        $user = User::factory()->create();
+        $event = Event::factory()->create();
         $eventRepo = new EventRepository($event);
         $result = $eventRepo->attachUsers($event, [$user->id]);
         $this->assertTrue($result);

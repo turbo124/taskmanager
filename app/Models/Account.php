@@ -11,6 +11,7 @@ namespace App\Models;
 
 use App\Events\Account\AccountWasDeleted;
 use App\Services\Account\AccountService;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +20,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Account extends Model
 {
-    use PresentableTrait, SoftDeletes;
+    use PresentableTrait, SoftDeletes, HasFactory;
 
     const SUBSCRIPTION_STANDARD = 1;
     const SUBSCRIPTION_ADVANCED = 2;

@@ -7,6 +7,7 @@ use App\Services\RecurringInvoice\RecurringInvoiceService;
 use App\Traits\Balancer;
 use App\Traits\CalculateRecurringDateRanges;
 use App\Traits\Money;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -22,6 +23,7 @@ class RecurringInvoice extends Model
     use PresentableTrait;
     use Balancer;
     use Money;
+    use HasFactory;
 
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 2;
@@ -101,7 +103,7 @@ class RecurringInvoice extends Model
 
     public function invitations()
     {
-        return $this->hasMany(RecurringInvoiceInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function service(): RecurringInvoiceService

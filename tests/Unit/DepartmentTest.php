@@ -27,24 +27,21 @@ class DepartmentTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
     public function it_can_transform_the_department()
     {
-        $department = factory(Department::class)->create();
-        $repo = new DepartmentRepository($department);
-        $departmentFromDb = $repo->findDepartmentById($department->id);
+        $department = Department::factory()->create();
         $cust = $this->transformDepartment($department);
-        //$this->assertInternalType('string', $departmentFromDb->status);
         $this->assertInternalType('string', $cust->name);
     }
 
     /** @test */
     public function it_can_delete_a_department()
     {
-        $department = factory(Department::class)->create();
+        $department = Department::factory()->create();
         $departmentRepo = new DepartmentRepository($department);
         $delete = $departmentRepo->deleteDepartment();
         $this->assertTrue($delete);
@@ -62,7 +59,7 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_can_find_a_department()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $data = [
             'name'               => $this->faker->name,
             'department_manager' => $user->id,
@@ -80,8 +77,8 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_can_update_the_department()
     {
-        $department = factory(Department::class)->create();
-        $user = factory(User::class)->create();
+        $department = Department::factory()->create();
+        $user = User::factory()->create();
         //$parent = factory(Category::class)->create();
         $params = [
             'name'               => $this->faker->name,
@@ -101,7 +98,7 @@ class DepartmentTest extends TestCase
     public function it_can_create_a_department()
     {
         $factory = (new DepartmentFactory)->create($this->account_id, $this->user->id);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $data = [
             'name'               => $this->faker->name,
@@ -126,7 +123,7 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_can_list_all_departments()
     {
-        factory(Department::class, 5)->create();
+        Department::factory()->create();
         $departmentRepo = new DepartmentRepository(new Department);
         $list = $departmentRepo->listDepartments();
         $this->assertInstanceOf(Collection::class, $list);
@@ -136,7 +133,7 @@ class DepartmentTest extends TestCase
     public function it_can_create_root_department()
     {
         $factory = (new DepartmentFactory())->create($this->account_id, $this->user->id);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $params = [
             'name'               => $this->faker->name,
@@ -153,8 +150,8 @@ class DepartmentTest extends TestCase
     public function it_can_update_child_department_to_root_category()
     {
         // suppose to have a child category
-        $parent = factory(Department::class, 1)->create();
-        $child = factory(Department::class, 1)->create();
+        $parent = Department::factory()->create();
+        $child = Department::factory()->create();
         $child[0]->parent()->associate($parent[0])->save();
         // send params without parent
         $department = new DepartmentRepository($child[0]);
@@ -171,8 +168,8 @@ class DepartmentTest extends TestCase
     /** @test */
     public function it_can_update_root_category_to_child()
     {
-        $child = factory(Department::class)->create();
-        $parent = factory(Department::class)->create();
+        $child = Department::factory()->create();
+        $parent = Department::factory()->create();
         $name = $this->faker->name;
 
         // set parent category via repository

@@ -12,6 +12,7 @@ namespace App\Models;
 use App\Services\Order\OrderService;
 use App\Traits\Balancer;
 use App\Traits\Money;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -27,6 +28,7 @@ class Order extends Model
     use SoftDeletes;
     use Money;
     use Balancer;
+    use HasFactory;
 
     const STATUS_DRAFT = 1;
     const STATUS_PARTIAL = 7;
@@ -142,7 +144,7 @@ class Order extends Model
      */
     public function invitations()
     {
-        return $this->hasMany(OrderInvitation::class);
+        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function customer()
