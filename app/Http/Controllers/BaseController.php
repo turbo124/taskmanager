@@ -19,11 +19,11 @@ use App\Models\AccountUser;
 use App\Models\Country;
 use App\Models\Credit;
 use App\Models\Currency;
-use App\Models\PaymentGateway;
 use App\Models\Invoice;
 use App\Models\Language;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\PaymentGateway;
 use App\Models\PaymentMethod;
 use App\Models\Quote;
 use App\Models\RecurringInvoice;
@@ -45,6 +45,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ReflectionException;
 
@@ -464,13 +465,14 @@ class BaseController extends Controller
     public function markViewed($invitation_key)
     {
         $invitation = $this->invoice_repo->getInvitation(['key' => $invitation_key], $this->entity_string);
+
         $contact = $invitation->contact;
-        $entity = $invitation->{strtolower($this->entity_string)};
+        $entity = $invitation->inviteable;
 
         $disk = config('filesystems.default');
         $content = Storage::disk($disk)->get($entity->service()->generatePdf($contact));
 
-        if (request()->has('markRead') && request()->input('markRead') === 'true') {
+        if (request()->has('markRead') && request()->boolean('markRead')) {
             $invitation->markViewed();
             event(new InvitationWasViewed(strtolower($this->entity_string), $invitation));
         }

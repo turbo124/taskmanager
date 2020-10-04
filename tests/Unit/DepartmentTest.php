@@ -35,7 +35,7 @@ class DepartmentTest extends TestCase
     {
         $department = Department::factory()->create();
         $cust = $this->transformDepartment($department);
-        $this->assertInternalType('string', $cust->name);
+        $this->assertIsString($cust->name);
     }
 
     /** @test */
@@ -152,14 +152,14 @@ class DepartmentTest extends TestCase
         // suppose to have a child category
         $parent = Department::factory()->create();
         $child = Department::factory()->create();
-        $child[0]->parent()->associate($parent[0])->save();
+        $child->parent()->associate($parent)->save();
         // send params without parent
-        $department = new DepartmentRepository($child[0]);
+        $department = new DepartmentRepository($child);
         $updated = $department->save(
             [
                 'name' => 'Boys',
             ],
-            $child[0]
+            $child
         );
         // check if updated category is root
         $this->assertTrue($updated->isRoot());

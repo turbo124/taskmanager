@@ -336,28 +336,25 @@ class ProductTest extends TestCase
      */
     public function testInventoryReduction()
     {
-        $product = factory(Product::class)->create(['quantity' => 5]);
+        $product = Product::factory()->create(['quantity' => 5]);
         $product->reduceQuantityAvailiable(1);
         $this->assertEquals($product->quantity, 4);
     }
 
 
     /** @test */
-//    public function it_can_detach_all_the_categories()
-//    {
-//        $product = Product::factory()->create();
-//        $categories = Category::factory()->create();
-//        $productRepo = new ProductRepository($product);
-//        $ids = $categories->transform(
-//            function (Category $category) {
-//                return $category->id;
-//            }
-//        )->all();
-//        $productRepo->syncCategories($ids, $product);
-//        $this->assertCount(4, $productRepo->getCategories());
-//        $productRepo->detachCategories($product);
-//        $this->assertCount(0, $productRepo->getCategories());
-//    }
+    public function it_can_detach_all_the_categories()
+    {
+        $product = Product::factory()->create();
+        $categories = Category::factory()->count(4)->create();
+        $ids = $categories->pluck('id')->toArray();
+        $productRepo = new ProductRepository($product);
+
+        $productRepo->syncCategories($ids, $product);
+        $this->assertCount(4, $productRepo->getCategories());
+        $productRepo->detachCategories($product);
+        $this->assertCount(0, $productRepo->getCategories());
+    }
 
     public function tearDown(): void
     {

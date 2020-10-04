@@ -22,7 +22,7 @@ class ObjectViewed extends AdminMailer
     public function __construct($invitation, $entity_name, User $user)
     {
         $this->entity_name = $entity_name;
-        $this->entity = $invitation->{$entity_name};
+        $this->entity = $invitation->inviteable;
         $this->contact = $invitation->contact;
         $this->invitation = $invitation;
         $this->user = $user;

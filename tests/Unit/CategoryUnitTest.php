@@ -174,7 +174,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_find_the_category()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $categoryRepo = new CategoryRepository(new Category);
         $found = $categoryRepo->findCategoryById($category->id);
         $this->assertEquals($category->name, $found->name);
@@ -187,9 +187,9 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_update_the_category()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
-        //$parent = factory(Category::class)->create();
+        //$parent = Category::factory()->create();
         $params = [
             'name'        => 'Boys',
             'slug'        => 'boys',
@@ -212,7 +212,7 @@ class CategoryUnitTest extends TestCase
     public function it_can_create_a_category()
     {
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
-        $parent = factory(Category::class)->create();
+        $parent = Category::factory()->create();
         $params = [
             'name'        => 'Boys',
             'slug'        => 'boys',
@@ -252,8 +252,8 @@ class CategoryUnitTest extends TestCase
     public function it_can_update_child_category_to_root_category()
     {
         // suppose to have a child category
-        $parent = factory(Category::class)->create();
-        $child = factory(Category::class)->create();
+        $parent = Category::factory()->create();
+        $child = Category::factory()->create();
         $child->parent()->associate($parent)->save();
         // send params without parent
         $categoryRepo = new CategoryRepository($child);
@@ -271,8 +271,8 @@ class CategoryUnitTest extends TestCase
     /** @test */
     public function it_can_update_root_category_to_child()
     {
-        $child = factory(Category::class)->create();
-        $parent = factory(Category::class)->create();
+        $child = Category::factory()->create();
+        $parent = Category::factory()->create();
 
         // set parent category via repository
         $category = new CategoryRepository($child);

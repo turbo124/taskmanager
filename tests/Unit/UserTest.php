@@ -121,7 +121,7 @@ class UserTest extends TestCase
     public function it_can_attach_a_department()
     {
         $user = User::factory()->create();;
-        $department = factory(Department::class)->create();
+        $department = Department::factory()->create();
         $userRepo = new UserRepository($user);
         $result = $userRepo->syncDepartment($user, $department->id);
         $this->assertArrayHasKey('attached', $result);
