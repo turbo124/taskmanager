@@ -46,7 +46,7 @@ class ReverseInvoicePayment
             return true;
         }
 
-        $delete_status = !empty() ? (int) $this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
+        $delete_status = !empty($this->payment->customer->getSetting('invoice_payment_deleted_status')) ? (int) $this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
 
         foreach ($invoices as $invoice) {
             if ($invoice->pivot->amount <= 0) {
