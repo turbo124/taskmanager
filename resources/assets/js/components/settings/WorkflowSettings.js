@@ -333,6 +333,61 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
+    getPaymentFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'invoice_payment_deleted_status',
+                    label: translations.invoice_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.invoice_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.invoice_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.invoice_payment_deleted_status,
+                    group: 1
+                },
+                {
+                    name: 'credit_payment_deleted_status',
+                    label: translations.credit_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.credit_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.credit_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.credit_payment_deleted_status,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     handleClose () {
         this.setState({ success: false, error: false })
     }
@@ -399,13 +454,23 @@ export default class WorkflowSettings extends Component {
                 </NavLink>
             </NavItem>
 
-            <NavItem>
+             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
                     onClick={() => {
                         this.toggle('7')
                     }}>
                     {translations.cases}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '8' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('8')
+                    }}>
+                    {translations.payments}
                 </NavLink>
             </NavItem>
         </Nav>
@@ -494,6 +559,17 @@ export default class WorkflowSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getCaseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                     <TabPane className="pr-0 pl-0" tabId="8">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentFields()}
                                 />
                             </CardBody>
                         </Card>
