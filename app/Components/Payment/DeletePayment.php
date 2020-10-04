@@ -43,7 +43,7 @@ class DeletePayment
             return true;
         }
 
-        $delete_status = (int) $this->payment->customer->getSetting('credit_payment_deleted_status');
+        $delete_status = !empty($this->payment->customer->getSetting('invoice_payment_deleted_status')) ? (int) $this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
 
         foreach ($this->payment->credits as $credit) {
             if($delete_status === 100) {
@@ -65,7 +65,7 @@ class DeletePayment
             return true;
         }
 
-        $delete_status = (int) $this->payment->customer->getSetting('invoice_payment_deleted_status');
+        $delete_status = !empty($this->payment->customer->getSetting('invoice_payment_deleted_status')) ? (int) $this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
 
         foreach ($this->payment->invoices as $invoice) {
             if($delete_status === 100) {
