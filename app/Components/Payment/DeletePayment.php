@@ -48,7 +48,7 @@ class DeletePayment
         foreach ($this->payment->credits as $credit) {
             if($delete_status === 100) {
                 $credit->delete();
-                return true;
+                continue;
             }
 
             $credit->increaseBalance($credit->total);
