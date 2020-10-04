@@ -164,7 +164,13 @@ class BaseSettings
             'default_value'    => 32400,
             'type'             => 'int'
         ],
-        'payment_deleted_status'               => [
+        'invoice_payment_deleted_status'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'int'
+        ],
+        'credit_payment_deleted_status'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
