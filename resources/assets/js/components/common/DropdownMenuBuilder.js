@@ -379,91 +379,91 @@ export default class DropdownMenuBuilder extends Component {
                 </DropdownItem>
 
             case 'reverse_status':
-                return <DropdownItem key={26} className="primary"
+                return <DropdownItem key={31} className="primary"
                     onClick={() => this.changeStatus('reverse_status')}>
                     <i className={`fa ${icons.archive} mr-2`}/>{translations.unhold_order}
                 </DropdownItem>
 
             case 'archive':
-                return <DropdownItem key={20} className="primary"
+                return <DropdownItem key={32} className="primary"
                     onClick={() => this.changeStatus('archive')}>
                     <i className={`fa ${icons.archive} mr-2`}/>{translations.archive}
                 </DropdownItem>
 
             case 'getProducts':
-                return <DropdownItem key={21} className="primary" onClick={this.props.handleTaskChange}>
+                return <DropdownItem key={33} className="primary" onClick={this.props.handleTaskChange}>
                     <i className={`fa ${icons.products} mr-2`}/>Get Products
                 </DropdownItem>
 
             case 'refund':
-                return <DropdownItem key={22} className="primary"
+                return <DropdownItem key={34} className="primary"
                     onClick={() => this.changeStatus('refund')}>{translations.refund}</DropdownItem>
 
             case 'copy':
-                return <DropdownItem key={23} className="primary"
+                return <DropdownItem key={35} className="primary"
                     onClick={() => this.changeStatus('copy')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.copy}
                 </DropdownItem>
             case 'cloneToTask':
-                return <DropdownItem key={23} className="primary"
+                return <DropdownItem key={36} className="primary"
                     onClick={() => this.changeStatus('clone_to_task')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_task}
                 </DropdownItem>
             case 'cloneToLead':
-                return <DropdownItem key={23} className="primary"
+                return <DropdownItem key={37} className="primary"
                     onClick={() => this.changeStatus('clone_to_lead')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_lead}
                 </DropdownItem>
             case 'cloneToProject':
-                return <DropdownItem key={23} className="primary"
+                return <DropdownItem key={38} className="primary"
                     onClick={() => this.changeStatus('clone_to_project')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
                 </DropdownItem>
 
             case 'cloneTaskToDeal':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={39} className="primary"
                     onClick={() => this.changeStatus('clone_task_to_deal')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_deal}
                 </DropdownItem>
 
             case 'cloneLeadToDeal':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={40} className="primary"
                     onClick={() => this.changeStatus('clone_lead_to_deal')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_deal}
                 </DropdownItem>
 
             case 'cloneLeadToTask':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={41} className="primary"
                     onClick={() => this.changeStatus('clone_lead_to_task')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_task}
                 </DropdownItem>
 
             case 'cloneCaseToProject':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={42} className="primary"
                     onClick={() => this.changeStatus('clone_case_to_project')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.clone_to_project}
                 </DropdownItem>
 
             case 'mergeCase':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={43} className="primary"
                     onClick={() => this.changeStatus('merge_case')}>
                     <i className={`fa ${icons.clone} mr-2`}/>{translations.merge_case}
                 </DropdownItem>
 
             case 'start_recurring':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={44} className="primary"
                     onClick={() => this.changeStatus('start_recurring')}>
                     <i className={`fa ${icons.start} mr-2`}/>{translations.start}
                 </DropdownItem>
 
             case 'stop_recurring':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={45} className="primary"
                     onClick={() => this.changeStatus('stop_recurring')}>
                     <i className={`fa ${icons.stop} mr-2`}/>{translations.stop}
                 </DropdownItem>
 
             case 'portal':
-                return <DropdownItem key={13} className="primary"
+                return <DropdownItem key={46} className="primary"
                     onClick={() => this.launchPortal()}>
                     <i className={`fa ${icons.portal} mr-2`}/>{translations.portal}
                 </DropdownItem>

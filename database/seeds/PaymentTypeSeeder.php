@@ -1,12 +1,13 @@
 <?php
 use Illuminate\Database\Seeder;
 use App\Models\PaymentMethod;
+use Illuminate\Database\Eloquent\Model;
 
 class PaymentTypeSeeder extends Seeder
 {
     public function run()
     {
-        Eloquent::unguard();
+        Model::unguard();
         $paymentTypes = [
             ['name' => 'Apply Credit'],
             ['name' => 'Bank Transfer', 'gateway_type_id' => 2],

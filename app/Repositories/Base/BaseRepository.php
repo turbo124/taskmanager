@@ -3,6 +3,7 @@
 namespace App\Repositories\Base;
 
 use App\Components\Invitations;
+use App\Models\Invitation;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -244,9 +245,7 @@ class BaseRepository implements BaseRepositoryInterface
             return false;
         }
 
-        $invitation_class = sprintf("App\Models\\%sInvitation", ucfirst($resource));
-
-        $invitation = $invitation_class::whereRaw("BINARY `key`= ?", [$invitation['key']])->first();
+        $invitation = Invitation::whereRaw("BINARY `key`= ?", [$invitation['key']])->first();
 
         return $invitation;
     }

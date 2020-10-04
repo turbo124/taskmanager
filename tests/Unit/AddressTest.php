@@ -40,7 +40,7 @@ class AddressTest extends TestCase
         $city = $this->faker->city;
         $country = 225;
 
-        $address = factory(Address::class)->create(
+        $address = Address::factory()->create(
             [
                 'city'        => $city,
                 'country_id'  => $country,

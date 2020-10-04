@@ -73,6 +73,7 @@ class Invitation extends Model
     {
         $this->viewed_date = Carbon::now();
         $this->save();
+        return true;
     }
 
 }
