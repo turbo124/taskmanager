@@ -52,8 +52,8 @@ class DashboardController extends Controller
     {
         $deal_repo = new DealRepository(new Deal);
         $arrSources = $this->taskRepository->getSourceTypeCounts(3, auth()->user()->account_user()->account_id);
-        $arrStatuses = $this->taskRepository->getStatusCounts(3, auth()->user()->account_user()->account_id);
-        $leadsToday = $this->taskRepository->getRecentTasks(3, 3, auth()->user()->account_user()->account_id);
+        $arrStatuses = $this->taskRepository->getStatusCounts(auth()->user()->account_user()->account_id);
+        $leadsToday = $this->taskRepository->getRecentTasks(3, auth()->user()->account_user()->account_id);
         $customersToday = $this->customerRepository->getRecentCustomers(3, auth()->user()->account_user()->account_id);
         $newDeals = $deal_repo->getNewDeals(3, auth()->user()->account_user()->account_id);
         $leads = (new LeadFilter(new LeadRepository(new Lead())))->filter(

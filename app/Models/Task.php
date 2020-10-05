@@ -31,7 +31,6 @@ class Task extends Model
         'project_id',
         'task_status',
         'created_by',
-        'task_type',
         'customer_id',
         'rating',
         'valued_at',

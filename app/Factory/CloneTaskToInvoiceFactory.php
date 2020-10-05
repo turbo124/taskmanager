@@ -4,7 +4,6 @@ namespace App\Factory;
 
 use App\Models\Account;
 use App\Models\Invoice;
-use App\Models\Order;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
@@ -50,7 +49,7 @@ class CloneTaskToInvoiceFactory
         $invoice->date = Carbon::now();
         $invoice->partial_due_date = null;
         $invoice->line_items = [];
-        $invoice->transaction_fee =0;
+        $invoice->transaction_fee = 0;
         $invoice->shipping_cost = 0;
         return $invoice;
     }

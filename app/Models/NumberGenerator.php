@@ -73,6 +73,13 @@ class NumberGenerator
         return true;
     }
 
+    private function setPrefix(Customer $customer = null)
+    {
+        $this->recurring_prefix = $customer !== null ? $customer->getSetting(
+            'recurring_number_prefix'
+        ) : $this->entity_obj->account->settings->recurring_number_prefix;
+    }
+
     private function checkEntityNumber($class, $customer, $counter, $padding)
     {
         $check = false;
@@ -94,13 +101,6 @@ class NumberGenerator
     private function isRecurring($resource)
     {
         return in_array($resource, [RecurringInvoice::class, RecurringQuote::class]) && !empty($this->recurring_prefix);
-    }
-
-    private function setPrefix(Customer $customer = null)
-    {
-        $this->recurring_prefix = $customer !== null ? $customer->getSetting(
-            'recurring_number_prefix'
-        ) : $this->entity_obj->account->settings->recurring_number_prefix;
     }
 
     /**

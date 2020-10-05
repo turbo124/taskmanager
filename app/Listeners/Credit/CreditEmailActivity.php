@@ -40,7 +40,10 @@ class CreditEmailActivity implements ShouldQueue
         $fields['data'] = json_encode($fields['data']);
 
         $notification =
-            NotificationFactory::create($event->invitation->inviteable->account_id, $event->invitation->inviteable->user_id);
+            NotificationFactory::create(
+                $event->invitation->inviteable->account_id,
+                $event->invitation->inviteable->user_id
+            );
         $notification->entity_id = $event->invitation->inviteable->id;
         $this->notification_repo->save($notification, $fields);
     }

@@ -115,7 +115,7 @@ class PurchaseOrder extends Model
      */
     public function invitations()
     {
-        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
+        return $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function account()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Payment\Invoice\ReverseInvoicePayment;
 use App\Components\Payment\ProcessPayment;
 use App\Components\Refund\RefundFactory;
 use App\Events\Payment\PaymentWasCreated;
@@ -104,7 +105,7 @@ class PaymentController extends Controller
     public function destroy(int $id)
     {
         $payment = $this->payment_repo->findPaymentById($id);
-        $payment->service()->reverseInvoicePayment();
+        (new ReverseInvoicePayment($payment))->execute();
 
         return response()->json('deleted');
     }

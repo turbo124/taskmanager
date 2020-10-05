@@ -2,9 +2,8 @@
 
 namespace App\Console;
 
-use App\Jobs\Cron\RecurringInvoicesCron;
-use App\Jobs\Invoice\SendReminders;
 use App\Console\Commands\SendRecurring;
+use App\Jobs\Invoice\SendReminders;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

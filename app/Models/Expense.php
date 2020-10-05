@@ -11,6 +11,9 @@ class Expense extends Model
 {
     use SoftDeletes, HasFactory;
 
+    const STATUS_LOGGED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_INVOICED = 3;
     protected $fillable = [
         'number',
         'customer_id',
@@ -46,11 +49,6 @@ class Expense extends Model
         'next_send_date',
         'recurring_frequency'
     ];
-
-    const STATUS_LOGGED = 1;
-    const STATUS_PENDING = 2;
-    const STATUS_INVOICED = 3;
-
     protected $casts = [
         'is_deleted' => 'boolean',
         'updated_at' => 'timestamp',

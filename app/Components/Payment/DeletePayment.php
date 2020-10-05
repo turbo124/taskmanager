@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payment;
+namespace App\Components\Payment;
 
 use App\Events\Payment\PaymentWasDeleted;
 use App\Models\Credit;
@@ -42,9 +42,20 @@ class DeletePayment
             return true;
         }
 
+        $delete_status = !empty(
+        $this->payment->customer->getSetting(
+            'invoice_payment_deleted_status'
+        )
+        ) ? (int)$this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
+
         foreach ($this->payment->credits as $credit) {
+            if ($delete_status === 100) {
+                $credit->delete();
+                continue;
+            }
+
             $credit->increaseBalance($credit->total);
-            $credit->setStatus(Credit::STATUS_SENT);
+            $credit->setStatus($delete_status);
             $credit->save();
         }
 
@@ -57,9 +68,21 @@ class DeletePayment
             return true;
         }
 
+        $delete_status = !empty(
+        $this->payment->customer->getSetting(
+            'invoice_payment_deleted_status'
+        )
+        ) ? (int)$this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
+
         foreach ($this->payment->invoices as $invoice) {
+            if ($delete_status === 100) {
+                $invoice->delete();
+                continue;
+            }
+
             $invoice->resetBalance($invoice->pivot->amount);
             $invoice->customer->increaseBalance($invoice->pivot->amount);
+            $invoice->setStatus($delete_status);
 
             // create transaction
             $this->createTransaction($invoice);

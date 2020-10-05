@@ -1,5 +1,7 @@
 const _localizedValues = []
 _localizedValues.en = {
+    invoice_payment_deleted_status: 'Status of invoice after deleting payment',
+    credit_payment_deleted_status: 'Status of credit after deleting payment',
     logout: 'Logout',
     learn_more: 'Learn More',
     variables: 'Variables',

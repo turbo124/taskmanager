@@ -53,6 +53,7 @@ class AddModal extends React.Component {
 
     handleInput (e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+
         this.setState({
             [e.target.name]: value
         }, () => localStorage.setItem('taskForm', JSON.stringify(this.state)))
@@ -104,11 +105,11 @@ class AddModal extends React.Component {
             assigned_to: this.state.assigned_to,
             name: this.state.name,
             description: this.state.description,
-            task_status: parseInt(this.props.status),
+            task_status: parseInt(this.state.task_status),
             contributors: this.state.selectedUsers,
             due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
             start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
-            project_id: parseInt(this.props.project_id),
+            project_id: parseInt(this.state.project_id),
             created_by: this.state.created_by,
             task_type: this.props.task_type,
             parent_id: this.props.task_id ? this.props.task_id : 0,
@@ -117,7 +118,7 @@ class AddModal extends React.Component {
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
             public_notes: this.state.public_notes,
-            private_notes: this.state.private_notes,
+            private_notes: this.state.private_notes
         }
 
         this.taskModel.save(data).then(response => {

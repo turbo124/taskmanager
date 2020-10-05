@@ -45,7 +45,8 @@ class AdminMailer extends Mailable
         }
     }
 
-    protected function getUrl () {
+    protected function getUrl()
+    {
         $url = $this->entity->account->subdomain;
 
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {

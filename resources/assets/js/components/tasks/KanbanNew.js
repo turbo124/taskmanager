@@ -12,6 +12,8 @@ import TaskRepository from '../repositories/TaskRepository'
 import LeadRepository from '../repositories/LeadRepository'
 import DealRepository from '../repositories/DealRepository'
 import CustomerRepository from '../repositories/CustomerRepository'
+import ProjectDropdown from '../common/dropdowns/ProjectDropdown'
+import AddTaskStatus from '../taskStatus/edit/AddTaskStatus'
 
 export default class KanbanNew extends Component {
     constructor (props) {
@@ -47,11 +49,31 @@ export default class KanbanNew extends Component {
         this.load = this.load.bind(this)
         this.getCustomers = this.getCustomers.bind(this)
         this.toggleViewedEntity = this.toggleViewedEntity.bind(this)
+        this.addUserToState = this.addUserToState.bind(this)
+        this.handleInput = this.handleInput.bind(this)
     }
 
     componentDidMount () {
         this.load()
         this.getCustomers()
+    }
+
+    handleInput (e) {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+
+        this.setState({
+            [e.target.name]: value
+        }, () => {
+            this.load()
+        })
+    }
+
+    addUserToState (statuses) {
+        const cachedData = !this.state.cachedData.length ? statuses : this.state.cachedData
+        this.setState({
+            statuses: statuses,
+            cachedData: cachedData
+        })
     }
 
     getCustomers () {
@@ -169,6 +191,40 @@ export default class KanbanNew extends Component {
         })
     }
 
+    updateSortOrder (element, status) {
+        console.log('element', element)
+
+        element.task_status = status
+        element.id = parseInt(element.id)
+
+        let model
+
+        switch (this.state.type) {
+            case 'task':
+                model = new TaskModel(element)
+                break
+
+            case 'deal':
+                model = new DealModel(element)
+                break
+
+            case 'lead':
+                model = new LeadModel(element)
+                break
+        }
+
+        model.updateSortOrder(element).then(response => {
+            if (!response) {
+                this.setState({
+                    showErrorMessage: true,
+                    loading: false,
+                    errors: this.model.errors,
+                    message: this.model.error_message
+                })
+            }
+        })
+    }
+
     toggleViewedEntity (id, title, edit, entity) {
         if (!entity) {
             this.setState({
@@ -211,8 +267,6 @@ export default class KanbanNew extends Component {
                 }
             }
         })
-
-        console.log('columns', columns)
 
         this.state.entities.map((entity, index) => {
             entity.id = entity.id.toString()
@@ -284,13 +338,31 @@ export default class KanbanNew extends Component {
     // Normally you would want to split things out into separate components.
     // But in this example everything is just done in one place for simplicity
     render () {
-        const { columns, customers, entities } = this.state
+        const { project_id, type, statuses, columns, customers, entities } = this.state
         const edit = this.state.type === 'task' && this.state.view.viewedId
             ? <EditTask listView={true} modal={true} show={this.state.view.edit} tasks={this.props.entities}
                 task={this.state.view.viewedId}/> : null
 
         return customers.length && columns.length && entities.length ? (
             <React.Fragment>
+                <Row>
+                    <Col sm={12} className="mt-2 mb-3">
+                        <div className="d-flex justify-content-between align-items-center">
+                            {type === 'task' &&
+                            <ProjectDropdown handleInputChanges={this.handleInput}
+                                project={project_id} name="project_id"
+                            />
+                            }
+
+                            <AddTaskStatus
+                                customers={customers}
+                                statuses={statuses}
+                                action={this.addUserToState}
+                            />
+                        </div>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col className="w-100 overflow-auto pr-2" sm={12}>
                         <div style={{ display: 'flex', height: '100%' }}>
