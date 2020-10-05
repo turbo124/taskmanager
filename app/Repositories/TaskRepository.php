@@ -113,22 +113,24 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     public function getSourceTypeCounts(int $task_type, $account_id): Support
     {
         return $this->model->join('source_type', 'source_type.id', '=', 'tasks.source_type')
-                           ->select('source_type.name', DB::raw('count(*) as value'))->where('task_type', $task_type)
-                           ->where('tasks.account_id', $account_id)->groupBy('source_type.name')->get();
+                           ->select('source_type.name', DB::raw('count(*) as value'))->where(
+                'tasks.account_id',
+                $account_id
+            )->groupBy('source_type.name')->get();
     }
 
     /**
      *
      * @return type
      */
-    public function getStatusCounts(int $task_type, int $account_id): Support
+    public function getStatusCounts(int $account_id): Support
     {
         return $this->model->join('task_statuses', 'task_statuses.id', '=', 'tasks.task_status')
                            ->select(
                                'task_statuses.name',
                                DB::raw('CEILING(count(*) * 100 / (select count(*) from tasks)) as value')
                            )
-                           ->where('tasks.task_type', $task_type)->where('tasks.account_id', $account_id)
+                           ->where('tasks.account_id', $account_id)
                            ->groupBy('task_statuses.name')->get();
     }
 
@@ -138,11 +140,11 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      * @param int $number_of_days
      * @return type
      */
-    public function getRecentTasks(int $task_type, int $number_of_days, int $account_id)
+    public function getRecentTasks(int $number_of_days, int $account_id)
     {
         $date = Carbon::today()->subDays($number_of_days);
         $result = $this->model->select(DB::raw('count(*) as total'))->where('created_at', '>=', $date)
-                              ->where('task_type', $task_type)->where('account_id', $account_id)->get();
+                              ->where('account_id', $account_id)->get();
 
         return !empty($result[0]) ? $result[0]['total'] : 0;
     }

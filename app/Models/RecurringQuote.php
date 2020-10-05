@@ -68,10 +68,10 @@ class RecurringQuote extends Model
 
     protected $casts = [
         'date_to_send' => 'datetime',
-        'settings'       => 'object',
-        'line_items'     => 'object',
-        'updated_at'     => 'timestamp',
-        'deleted_at'     => 'timestamp',
+        'settings'     => 'object',
+        'line_items'   => 'object',
+        'updated_at'   => 'timestamp',
+        'deleted_at'   => 'timestamp',
     ];
 
     protected $dates = [
@@ -103,7 +103,7 @@ class RecurringQuote extends Model
 
     public function invitations()
     {
-        return  $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
+        return $this->morphMany(Invitation::class, 'inviteable')->orderBy('contact_id');
     }
 
     public function service(): RecurringQuoteService

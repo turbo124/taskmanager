@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Components\Currency\CurrencyConverter;
 use App\Components\InvoiceCalculator\LineItem;
+use App\Components\Payment\DeletePayment;
+use App\Components\Payment\Invoice\ReverseInvoicePayment;
 use App\Components\Payment\ProcessPayment;
 use App\Components\Refund\RefundFactory;
 use App\Factory\CreditFactory;
@@ -105,10 +107,16 @@ class PaymentUnitTest extends TestCase
         $original_paid_to_date = $payment->customer->paid_to_date;
         $this->assertEquals($original_paid_to_date, $invoice->total);
 
-        $payment = $payment->service()->deletePayment();
+        $payment = $payment->fresh();
+
+        $payment = (new DeletePayment($payment))->execute();
+
+        $invoice = $invoice->fresh();
 
         $this->assertEquals($payment->customer->paid_to_date, ($original_paid_to_date - $original_amount));
-        $this->assertEquals($invoice->balance, $invoice->total);
+        $this->assertEquals($invoice->balance, $original_amount);
+        $this->assertEquals($invoice->total, $original_amount);
+        $this->assertEquals($invoice->status_id, Invoice::STATUS_SENT);
         $this->assertEquals($payment->status_id, Payment::STATUS_VOIDED);
         $this->assertNotNull($payment->deleted_at);
     }
@@ -133,7 +141,7 @@ class PaymentUnitTest extends TestCase
         $payment = (new ProcessPayment())->process($data, $paymentRepo, $factory);
         $customer_balance = $payment->customer->balance;
         $customer_paid_to_date = $payment->customer->paid_to_date;
-        $payment = $payment->service()->reverseInvoicePayment();
+        $payment = (new ReverseInvoicePayment($payment))->execute();
         $this->assertEquals($payment->customer->paid_to_date, ($customer_paid_to_date - $original_amount));
         $this->assertEquals($payment->customer->balance, ($customer_balance + $original_amount));
         $this->assertEquals($invoice->balance, $original_amount);

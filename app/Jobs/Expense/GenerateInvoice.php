@@ -3,11 +3,8 @@
 namespace App\Jobs\Expense;
 
 use App\Factory\CloneExpenseToInvoiceFactory;
-use App\Factory\CloneTaskToInvoiceFactory;
 use App\Models\Expense;
 use App\Models\Invoice;
-use App\Models\Task;
-use App\Repositories\ExpenseRepository;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

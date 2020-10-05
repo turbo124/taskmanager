@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Components\Payment;
@@ -43,10 +42,14 @@ class DeletePayment
             return true;
         }
 
-        $delete_status = !empty($this->payment->customer->getSetting('invoice_payment_deleted_status')) ? (int) $this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
+        $delete_status = !empty(
+        $this->payment->customer->getSetting(
+            'invoice_payment_deleted_status'
+        )
+        ) ? (int)$this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
 
         foreach ($this->payment->credits as $credit) {
-            if($delete_status === 100) {
+            if ($delete_status === 100) {
                 $credit->delete();
                 continue;
             }
@@ -65,10 +68,14 @@ class DeletePayment
             return true;
         }
 
-        $delete_status = !empty($this->payment->customer->getSetting('invoice_payment_deleted_status')) ? (int) $this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
+        $delete_status = !empty(
+        $this->payment->customer->getSetting(
+            'invoice_payment_deleted_status'
+        )
+        ) ? (int)$this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
 
         foreach ($this->payment->invoices as $invoice) {
-            if($delete_status === 100) {
+            if ($delete_status === 100) {
                 $invoice->delete();
                 continue;
             }

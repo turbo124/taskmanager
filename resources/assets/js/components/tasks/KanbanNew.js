@@ -12,8 +12,8 @@ import TaskRepository from '../repositories/TaskRepository'
 import LeadRepository from '../repositories/LeadRepository'
 import DealRepository from '../repositories/DealRepository'
 import CustomerRepository from '../repositories/CustomerRepository'
-import AddTaskStatus from './edit/AddTaskStatus'
-import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import ProjectDropdown from '../common/dropdowns/ProjectDropdown'
+import AddTaskStatus from '../taskStatus/edit/AddTaskStatus'
 
 export default class KanbanNew extends Component {
     constructor (props) {
@@ -60,9 +60,12 @@ export default class KanbanNew extends Component {
 
     handleInput (e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+
         this.setState({
             [e.target.name]: value
-        }, () => localStorage.setItem('taskForm', JSON.stringify(this.state)))
+        }, () => {
+            this.load()
+        })
     }
 
     addUserToState (statuses) {
@@ -343,18 +346,23 @@ export default class KanbanNew extends Component {
         return customers.length && columns.length && entities.length ? (
             <React.Fragment>
                 <Row>
-                    <AddTaskStatus
-                        customers={customers}
-                        statuses={statuses}
-                        action={this.addUserToState}
-                    />
-                   
-                   {type === 'task' && 
-                    <ProjectDropdown handleInputChanges={this.handleInput}
-                    project={project_id} name="project_id"
-                />
-                }
+                    <Col sm={12} className="mt-2 mb-3">
+                        <div className="d-flex justify-content-between align-items-center">
+                            {type === 'task' &&
+                            <ProjectDropdown handleInputChanges={this.handleInput}
+                                project={project_id} name="project_id"
+                            />
+                            }
+
+                            <AddTaskStatus
+                                customers={customers}
+                                statuses={statuses}
+                                action={this.addUserToState}
+                            />
+                        </div>
+                    </Col>
                 </Row>
+
                 <Row>
                     <Col className="w-100 overflow-auto pr-2" sm={12}>
                         <div style={{ display: 'flex', height: '100%' }}>

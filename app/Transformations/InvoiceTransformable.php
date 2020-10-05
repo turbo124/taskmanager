@@ -35,7 +35,7 @@ class InvoiceTransformable
             'customer_id'         => (int)$invoice->customer_id,
             'date'                => $invoice->date ?: '',
             'due_date'            => $invoice->due_date ?: '',
-            'date_to_send'      => $invoice->date ?: '',
+            'date_to_send'        => $invoice->date ?: '',
             'design_id'           => (int)$invoice->design_id,
             'invitations'         => $this->transformInvoiceInvitations($invoice->invitations),
             'total'               => $invoice->total,

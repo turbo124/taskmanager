@@ -264,7 +264,6 @@ class CreateOrder implements ShouldQueue
                     'description' => isset($this->request->description) ? $this->request->description : '',
                     'customer_id' => $customer->id,
                     'valued_at'   => $this->request->valued_at,
-                    'task_type'   => $this->is_deal === true ? 3 : 2,
                     'task_status' => $this->request->task_status
                 ],
                 $task

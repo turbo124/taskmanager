@@ -15,7 +15,7 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap'
-import moment from "moment";
+import moment from 'moment'
 
 class Login extends Component {
     constructor (props) {
@@ -69,6 +69,10 @@ class Login extends Component {
 
                     window.sessionStorage.setItem('authenticated', true)
 
+                    var d1 = new Date()
+                    var d2 = new Date(d1)
+                    d2.setMinutes(d1.getMinutes() + 154.8)
+
                     // save app state with user date in local storage
                     localStorage.appState = JSON.stringify(appState)
                     localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
@@ -78,7 +82,7 @@ class Login extends Component {
                     localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
                     localStorage.setItem('access_token', userData.auth_token)
-                    localStorage.setItem('expires', moment().add(2, 'hours').add(55, 'minutes').format('YYYY-MM-DD hh:mm:ss'))
+                    localStorage.setItem('expires', d2)
                     localStorage.setItem('account_id', response.data.data.account_id)
                     this.setState({
                         isLoggedIn: appState.isLoggedIn,

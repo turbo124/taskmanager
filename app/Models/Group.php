@@ -40,7 +40,7 @@ class Group extends Model
     /**
      *
      */
-    public function resolveRouteBinding($value, $field = NULL)
+    public function resolveRouteBinding($value, $field = null)
     {
         return $this->where('id', $this->decodePrimaryKey($value))->firstOrFail();
     }

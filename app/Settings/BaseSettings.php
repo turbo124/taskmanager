@@ -2,6 +2,9 @@
 
 namespace App\Settings;
 
+use App\Models\Credit;
+use App\Models\Invoice;
+
 class BaseSettings
 {
 
@@ -164,16 +167,16 @@ class BaseSettings
             'default_value'    => 32400,
             'type'             => 'int'
         ],
-        'invoice_payment_deleted_status'               => [
+        'invoice_payment_deleted_status'       => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => 1,
+            'default_value'    => Invoice::STATUS_SENT,
             'type'             => 'int'
         ],
-        'credit_payment_deleted_status'               => [
+        'credit_payment_deleted_status'        => [
             'required'         => false,
             'translated_value' => '',
-            'default_value'    => 1,
+            'default_value'    => Credit::STATUS_SENT,
             'type'             => 'int'
         ],
         'email_sending_method'                 => [
