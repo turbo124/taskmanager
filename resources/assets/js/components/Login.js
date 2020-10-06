@@ -15,7 +15,6 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap'
-import moment from 'moment'
 
 class Login extends Component {
     constructor (props) {

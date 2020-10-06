@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Progress, CustomInput } from 'reactstrap'
+import { CustomInput, Progress } from 'reactstrap'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './uploads.scss'
@@ -135,7 +135,8 @@ class FileUpload extends Component {
                                 className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">
-                                        <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.customer}`}/>
+                                        <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                            className={`fa ${icons.customer}`}/>
                                         {translations.customer_can_view}
                                     </h5>
                                     <CustomInput

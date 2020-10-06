@@ -118,11 +118,6 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function service(): ProductService
-    {
-        return new ProductService($this);
-    }
-
     /**
      * @return BelongsTo
      */

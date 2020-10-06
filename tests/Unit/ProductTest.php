@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Components\Product\CreateProduct;
 use App\Factory\ProductFactory;
 use App\Filters\ProductFilter;
 use App\Models\Account;
@@ -59,7 +60,7 @@ class ProductTest extends TestCase
         $collection = collect($thumbnails);
         $product = Product::factory()->create();
         $productRepo = new ProductRepository($product);
-        $product->service()->saveProductImages($collection, $product);
+        (new CreateProduct($productRepo, [], $product))->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
         $images->each(
@@ -92,7 +93,7 @@ class ProductTest extends TestCase
         $collection = collect($thumbnails);
         $product = Product::factory()->create();
         $productRepo = new ProductRepository($product);
-        $product->service()->saveProductImages($collection, $product);
+        (new CreateProduct($productRepo, [], $product))->saveProductImages($collection, $product);
         $images = $productRepo->findProductImages($product);
 
         $images->each(
@@ -110,7 +111,7 @@ class ProductTest extends TestCase
         $cover = UploadedFile::fake()->image('cover.jpg', 600, 600);
         $product = Product::factory()->create();
         $productRepo = new ProductRepository($product);
-        $filename = $product->service()->saveCoverImage($cover);
+        $filename = (new CreateProduct($productRepo, [], $product))->saveCoverImage($cover);
         $exists = Storage::disk('public')->exists($filename);
         $this->assertTrue($exists);
 
@@ -203,7 +204,7 @@ class ProductTest extends TestCase
             'status'      => 1
         ];
         $productRepo = new ProductRepository($product);
-        $updated = $product->service()->createProduct($productRepo, $data);
+        $updated = (new CreateProduct($productRepo, $data, $product))->execute();
         $this->assertInstanceOf(Product::class, $updated);
     }
 
@@ -225,7 +226,7 @@ class ProductTest extends TestCase
             'status'      => 1,
         ];
         $productRepo = new ProductRepository(new Product);
-        $created = $product->service()->createProduct($productRepo, $params);
+        $created = (new CreateProduct($productRepo, $params, $product))->execute();
         $this->assertInstanceOf(Product::class, $created);
         $this->assertEquals($params['sku'], $created->sku);
         $this->assertEquals($params['name'], $created->name);
@@ -259,7 +260,7 @@ class ProductTest extends TestCase
         ];
         $productRepo = new ProductRepository(new Product);
         $product = (new ProductFactory())->create($this->user, $this->account);
-        $created = $product->service()->createProduct($productRepo, $params);
+        $created = (new CreateProduct($productRepo, $params, $product))->execute();
         //$repo->saveProductImages(collect($params['image']), $created);
         $thumbnails = $productRepo->findProductImages($created);
         $this->assertCount(3, $thumbnails);
@@ -307,7 +308,7 @@ class ProductTest extends TestCase
 
         $product = (new ProductFactory())->create($this->user, $this->account);
         $productRepo = new ProductRepository(new Product);
-        $created = $product->service()->createProduct($productRepo, $params);
+        $created = (new CreateProduct($productRepo, $params, $product))->execute();
         $repo = new ProductRepository($created);
         //$repo->saveProductImages(collect($params['image']), $created);
         $this->assertCount(3, $repo->findProductImages($created));

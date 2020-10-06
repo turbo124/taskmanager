@@ -8,9 +8,11 @@ use App\Models\Account;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Expense;
+use App\Models\Invoice;
 use App\Models\User;
 use App\Repositories\ExpenseRepository;
 use App\Requests\SearchRequest;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -84,8 +86,42 @@ class ExpenseTest extends TestCase
         ];
 
         $expenseRepo = new ExpenseRepository(new Expense);
-        $expense = $expenseRepo->save($data, $factory);
+        $expense = $expenseRepo->createExpense($data, $factory);
         $this->assertInstanceOf(Expense::class, $expense);
         $this->assertEquals($data['customer_id'], $expense->customer_id);
+    }
+
+    /** @test */
+    public function it_can_create_a_expense_with_invoice()
+    {
+        $factory = (new ExpenseFactory)->create($this->account, $this->user);
+
+        $data = [
+            'account_id'            => $this->account->id,
+            'user_id'               => $this->user->id,
+            'customer_id'           => $this->customer->id,
+            'amount'                => $this->faker->randomFloat(),
+            'company_id'            => $this->company->id,
+            'create_invoice'        => true,
+            'payment_date'          => Carbon::now()->addDays(10)->format('Y-m-d'),
+            'transaction_reference' => $this->faker->name,
+            'payment_type_id'       => 1
+        ];
+
+        $expenseRepo = new ExpenseRepository(new Expense);
+        $expense = $expenseRepo->createExpense($data, $factory);
+        $this->assertInstanceOf(Expense::class, $expense);
+        $this->assertEquals($data['customer_id'], $expense->customer_id);
+
+        $expense = $expense->fresh();
+
+        $this->assertNotEmpty($expense->invoice_id);
+        $invoice = Invoice::where('id', '=', $expense->invoice_id)->first();
+        $this->assertNotEmpty($invoice->payments);
+        $payment = $invoice->payments->first();
+
+        $this->assertEquals($payment->transaction_reference, $expense->transaction_reference);
+        $this->assertEquals($payment->date, $expense->payment_date);
+        $this->assertEquals($payment->type_id, $expense->payment_type_id);
     }
 }

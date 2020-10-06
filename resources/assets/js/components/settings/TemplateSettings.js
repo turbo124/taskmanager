@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { Alert, Card, CardBody, Form, Nav, NavItem, NavLink, Spinner, TabContent, TabPane, Row, Col } from 'reactstrap'
+import { Card, CardBody, Col, Form, Nav, NavItem, NavLink, Row, Spinner, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import EmailFields from './EmailFields'
 import EmailPreview from './EmailPreview'
 import { translations } from '../utils/_translations'
-import Snackbar from '@material-ui/core/Snackbar'
 import Variables from './Variables'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
+import AccountRepository from "../repositories/AccountRepository";
 
 class TemplateSettings extends Component {
     constructor (props) {
@@ -62,16 +62,19 @@ class TemplateSettings extends Component {
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    settings: r.data.settings
-                })
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({
+                loaded: true,
+                settings: response.settings
+            }, () => {
+                console.log(response)
             })
-            .catch((e) => {
-                alert('There was an issue updating the settings')
-            })
+        })
     }
 
     handleChange (event) {

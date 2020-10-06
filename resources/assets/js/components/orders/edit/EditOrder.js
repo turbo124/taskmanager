@@ -624,7 +624,8 @@ export default class EditOrder extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={this.orderModel.isNew ? translations.add_order : translations.edit_order}/>
+                        <DefaultModalHeader toggle={this.toggle}
+                            title={this.orderModel.isNew ? translations.add_order : translations.edit_order}/>
 
                         <ModalBody className={theme}>
                             {form}

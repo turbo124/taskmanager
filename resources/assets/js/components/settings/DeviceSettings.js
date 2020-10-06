@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Alert, Button, Card, CardBody } from 'reactstrap'
+import { Button, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../utils/_translations'
-import Snackbar from '@material-ui/core/Snackbar'
 import FormBuilder from './FormBuilder'
 import ColorPicker from '../common/ColorPicker'
 import Header from './Header'
 import SnackbarMessage from '../common/SnackbarMessage'
+import AccountRepository from "../repositories/AccountRepository";
 
 export default class DeviceSettings extends Component {
     constructor (props) {
@@ -37,16 +37,19 @@ export default class DeviceSettings extends Component {
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    settings: r.data.settings
-                })
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({
+                loaded: true,
+                settings: response.settings
+            }, () => {
+                console.log(response)
             })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+        })
     }
 
     handleHeaderColor (event) {

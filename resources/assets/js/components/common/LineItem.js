@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Col, FormGroup, Input, Label, Row, UncontrolledTooltip } from 'reactstrap'
+import { Col, FormGroup, Input, Label, Row, UncontrolledTooltip } from 'reactstrap'
 import ProductAttributeDropdown from './dropdowns/ProductAttributeDropdown'
 import ProductDropdown from './dropdowns/ProductDropdown'
 import TaskDropdown from './dropdowns/TaskDropdown'
@@ -186,10 +186,11 @@ class LineItem extends Component {
                     }
 
                     <Col className="pt-4" md={2} data-id={index}>
-                        <a href="#" style={{ fontSize: '18px' }} className={`mr-1 ${color}`} color="danger" id={'Tooltip-' + index} onClick={(event) => {
-                            this.props.onDelete(index)
-                            event.preventDefault()
-                        }}>
+                        <a href="#" style={{ fontSize: '18px' }} className={`mr-1 ${color}`} color="danger"
+                            id={'Tooltip-' + index} onClick={(event) => {
+                                this.props.onDelete(index)
+                                event.preventDefault()
+                            }}>
                             X
                         </a>
                         <UncontrolledTooltip

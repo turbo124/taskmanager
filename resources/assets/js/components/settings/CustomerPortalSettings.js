@@ -6,6 +6,8 @@ import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 import Snackbar from '@material-ui/core/Snackbar'
 import Header from './Header'
+import UserRepository from "../repositories/UserRepository";
+import AccountRepository from "../repositories/AccountRepository";
 
 export default class CustomerPortalSettings extends Component {
     constructor (props) {
@@ -37,16 +39,19 @@ export default class CustomerPortalSettings extends Component {
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    settings: r.data.settings
-                })
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({
+                loaded: true,
+                settings: response.settings
+            }, () => {
+                console.log(response)
             })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+        })
     }
 
     handleChange (event) {
@@ -246,7 +251,8 @@ export default class CustomerPortalSettings extends Component {
                     </Alert>
                 </Snackbar>
 
-                <Header tabs={tabs} title={translations.customer_portal} handleSubmit={this.handleSubmit.bind(this)} />
+                <Header tabs={tabs} title={translations.customer_portal}
+                    handleSubmit={this.handleSubmit.bind(this)}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">

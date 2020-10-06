@@ -5,6 +5,7 @@ _localizedValues.en = {
     logout: 'Logout',
     learn_more: 'Learn More',
     variables: 'Variables',
+    POS: "PO's",
     customer_can_view: 'Customer can view the document',
     customer_can_view_help_text: 'Should the customer be able to see the document in the portal',
     payment_term: 'Payment Term',
