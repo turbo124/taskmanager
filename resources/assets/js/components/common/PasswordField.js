@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+import { Input, InputGroup, InputGroupAddon, InputGroupText, FormFeedback } from 'reactstrap'
 
 export default class PasswordField extends Component {
     constructor (props) {
@@ -60,6 +60,7 @@ export default class PasswordField extends Component {
                     <InputGroupAddon addonType="append">
                         <span class="input-group-text" id="UncontrolledTooltipExample" onClick={this.toggle}><i className={password_obscured ? icons.visibility : icons.visibility_off}/></span>
                     </InputGroupAddon>
+                    <FormFeedback>Oh noes! that name is already taken</FormFeedback>
                  </InputGroup> 
              </React.Fragment>
         )
