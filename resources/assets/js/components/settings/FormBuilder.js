@@ -187,7 +187,7 @@ class FormBuilder extends React.Component {
                             {field.label}
 
                             {field.help_url &&
-                            <LearnMoreUrl url={field.help_url} />
+                            <LearnMoreUrl url={field.help_url}/>
                             }
                         </Label>
                         <Input type={field.type}

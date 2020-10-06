@@ -245,7 +245,7 @@ class Designs extends React.Component {
         </FormGroup>
         return (
             <React.Fragment>
-                <link rel="stylesheet" type="text/css" href="public/css/pdf.css" />
+                <link rel="stylesheet" type="text/css" href="public/css/pdf.css"/>
 
                 <Nav tabs>
                     <NavItem>

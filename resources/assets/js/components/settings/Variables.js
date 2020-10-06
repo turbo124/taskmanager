@@ -1,18 +1,6 @@
 import React, { Component } from 'react'
-import {
-    Alert,
-    Card,
-    CardBody,
-    ListGroup,
-    ListGroupItem,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Card, CardBody, ListGroup, ListGroupItem, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { translations } from '../utils/_translations'
-import Snackbar from '@material-ui/core/Snackbar'
 import { invoice_pdf_fields } from '../models/InvoiceModel'
 import { customer_pdf_fields } from '../models/CustomerModel'
 import { account_pdf_fields } from '../models/AccountModel'
@@ -95,15 +83,15 @@ export default class Variables extends Component {
                             </NavItem>
 
                             {this.state.show_email_variables &&
-                                <NavItem>
-                                    <NavLink
-                                        className={this.state.activeTab === '5' ? 'active' : ''}
-                                        onClick={() => {
-                                            this.toggleTab('5')
-                                        }}>
-                                        {translations.user}
-                                    </NavLink>
-                                </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('5')
+                                    }}>
+                                    {translations.user}
+                                </NavLink>
+                            </NavItem>
                             }
                         </Nav>
                     </CardBody>
@@ -144,7 +132,7 @@ export default class Variables extends Component {
 
                     <TabPane tabId="5" className="px-0">
                         <Card className="border-0">
-                            <CardBody />
+                            <CardBody/>
                         </Card>
                     </TabPane>
                 </TabContent>

@@ -29,7 +29,8 @@ export default class LearnMoreModal extends Component {
                     {translations.learn_more}
                 </UncontrolledTooltip>
 
-                <span id="UncontrolledTooltipExample" onClick={this.toggle}><i className={`fa ${icons.help}`}/>{translations.learn_more}
+                <span id="UncontrolledTooltipExample" onClick={this.toggle}><i
+                    className={`fa ${icons.help}`}/>{translations.learn_more}
                 </span>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}

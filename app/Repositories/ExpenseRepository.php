@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Jobs\Expense\GenerateInvoice;
 use App\Models\Expense;
+use App\Models\Invoice;
 use App\Repositories\Base\BaseRepository;
 
 /**
@@ -33,6 +35,17 @@ class ExpenseRepository extends BaseRepository
     public function findExpenseById(int $id): Expense
     {
         return $this->findOneOrFail($id);
+    }
+
+    public function createExpense(array $data, Expense $expense): ?Expense
+    {
+        $expense = $this->save($data, $expense);
+
+        if (!empty($data['create_invoice']) && $data['create_invoice'] === true) {
+            GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), collect([$expense]), $data);
+        }
+
+        return $expense;
     }
 
     public function save(array $data, Expense $expense): ?Expense

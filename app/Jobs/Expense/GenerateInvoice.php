@@ -2,10 +2,14 @@
 
 namespace App\Jobs\Expense;
 
+use App\Components\Payment\ProcessPayment;
 use App\Factory\CloneExpenseToInvoiceFactory;
+use App\Factory\PaymentFactory;
 use App\Models\Expense;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,18 +22,23 @@ class GenerateInvoice implements ShouldQueue
 
     private $expenses;
 
+    private array $data = [];
+
     private InvoiceRepository $invoice_repo;
 
-    public function __construct(InvoiceRepository $invoice_repo, $expenses)
+    public function __construct(InvoiceRepository $invoice_repo, $expenses, array $data = [])
     {
         $this->expenses = $expenses;
         $this->invoice_repo = $invoice_repo;
+        $this->data = $data;
     }
 
     public function handle()
     {
         $line_items = [];
         $customer = false;
+
+        $created_expenses = [];
 
         foreach ($this->expenses as $expense) {
             if ($expense === Expense::STATUS_INVOICED) {
@@ -54,11 +63,43 @@ class GenerateInvoice implements ShouldQueue
             $expense->setStatus(Expense::STATUS_INVOICED);
             $expense->save();
 
+            $created_expenses[] = $expense->id;
+
             $customer = $expense->customer_id;
         }
 
         $first_expense = $this->expenses->first();
         $invoice = CloneExpenseToInvoiceFactory::create($first_expense, $first_expense->user, $first_expense->account);
         $this->invoice_repo->createInvoice(['line_items' => $line_items], $invoice);
+
+        Expense::whereIn('id', $created_expenses)->update(['invoice_id' => $invoice->id]);
+
+        if (!empty($this->data) && !empty($this->data['payment_date'])) {
+           $this->generatePayment($invoice, $first_expense);
+        }
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @param Expense $expense
+     */
+    private function generatePayment(Invoice $invoice, Expense $expense)
+    {
+        $payment = (new PaymentFactory())->create($invoice->customer, $invoice->user, $invoice->account);
+
+        $data = [
+            'transaction_reference' => $expense->transaction_reference,
+            'type_id'               => $expense->payment_type_id,
+            'date'                  => $expense->payment_date,
+            'amount'                => $invoice->total
+        ];
+
+        $data['invoices'][0]['invoice_id'] = $invoice->id;
+        $data['invoices'][0]['amount'] = $invoice->total;
+
+        $paymentRepo = new PaymentRepository(new Payment);
+        $payment = (new ProcessPayment())->process($data, $paymentRepo, $payment);
+
+        return $payment;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Product\CreateProduct;
 use App\Factory\ProductFactory;
 use App\Filters\OrderFilter;
 use App\Filters\ProductFilter;
@@ -78,7 +79,7 @@ class ProductController extends Controller
     {
         $product = ProductFactory::create(auth()->user(), auth()->user()->account_user()->account);
 
-        $product = $product->service()->createProduct($this->product_repo, $request->all());
+        $product = (new CreateProduct($this->product_repo, $request->all(), $product))->execute();
 
         return $this->transformProduct($product);
     }
@@ -104,7 +105,7 @@ class ProductController extends Controller
     {
         $product = $this->product_repo->findProductById($id);
 
-        $product = $product->service()->createProduct($this->product_repo, $request->all());
+        $product = (new CreateProduct($this->product_repo, $request->all(), $product))->execute();
 
         return response()->json($this->transformProduct($product));
     }

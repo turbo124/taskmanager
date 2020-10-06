@@ -336,10 +336,10 @@ class LineItemEditor extends Component {
                         <option value={consts.line_item_product}>{translations.product}</option>
 
                         {!this.props.entity &&
-                            <React.Fragment>
-                                <option value={consts.line_item_task}>{translations.task}</option>
-                                <option value={consts.line_item_expense}>{translations.expense}</option>
-                            </React.Fragment>
+                        <React.Fragment>
+                            <option value={consts.line_item_task}>{translations.task}</option>
+                            <option value={consts.line_item_expense}>{translations.expense}</option>
+                        </React.Fragment>
                         }
                     </Input>
 

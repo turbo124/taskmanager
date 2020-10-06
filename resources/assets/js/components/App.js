@@ -5,7 +5,6 @@ import DefaultLayout from './containers/DefaultLayout'
 import Login from './Login'
 import PasswordReset from './PasswordReset/PasswordReset'
 import ConfirmPasswordReset from './PasswordReset/ConfirmPasswordReset'
-import moment from 'moment'
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>
 

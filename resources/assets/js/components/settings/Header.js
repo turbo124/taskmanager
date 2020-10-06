@@ -1,15 +1,5 @@
-import React, { Component } from 'react'
-import {
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Card,
-    CardBody,
-    Nav,
-    NavItem, NavLink
-} from 'reactstrap'
-import { icons } from '../utils/_icons'
+import React from 'react'
+import { Card, CardBody } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import Menu from './Menu'
 
@@ -20,7 +10,7 @@ export default function Header (props) {
                 <CardBody className="p-0">
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="d-inline-flex">
-                            <Menu />
+                            <Menu/>
 
                             <h4 className="pl-3 pt-2">
                                 {props.title}
@@ -28,12 +18,12 @@ export default function Header (props) {
                         </div>
 
                         {!!props.handleSubmit &&
-                            <a className="pull-right pr-3" onClick={props.handleSubmit}>{translations.save}</a>
+                        <a className="pull-right pr-3" onClick={props.handleSubmit}>{translations.save}</a>
                         }
                     </div>
 
                     {!!props.tabs &&
-                        props.tabs}
+                    props.tabs}
                 </CardBody>
             </Card>
         </div>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Alert, Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
-import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
+import AccountRepository from "../repositories/AccountRepository";
 
 export default class WorkflowSettings extends Component {
     constructor (props) {
@@ -39,16 +39,19 @@ export default class WorkflowSettings extends Component {
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    settings: r.data.settings
-                })
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({
+                loaded: true,
+                settings: response.settings
+            }, () => {
+                console.log(response)
             })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+        })
     }
 
     handleChange (event) {
@@ -450,11 +453,11 @@ export default class WorkflowSettings extends Component {
                     onClick={() => {
                         this.toggle('6')
                     }}>
-                    {translations.purchase_orders}
+                    {translations.POS}
                 </NavLink>
             </NavItem>
 
-             <NavItem>
+            <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
                     onClick={() => {
@@ -564,7 +567,7 @@ export default class WorkflowSettings extends Component {
                         </Card>
                     </TabPane>
 
-                     <TabPane className="pr-0 pl-0" tabId="8">
+                    <TabPane className="pr-0 pl-0" tabId="8">
                         <Card className="border-0">
                             <CardBody>
                                 <FormBuilder

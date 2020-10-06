@@ -47,7 +47,8 @@ class Expense extends Model
         'recurring_due_date',
         'last_sent_date',
         'next_send_date',
-        'recurring_frequency'
+        'recurring_frequency',
+        'invoice_id'
     ];
     protected $casts = [
         'is_deleted' => 'boolean',

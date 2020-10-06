@@ -379,7 +379,8 @@ export default class KanbanNew extends Component {
                                             }}
                                             key={columnId}
                                         >
-                                            <div style={{ backgroundColor: this.colorArray[index] }} className="col-12">
+                                            <div style={{ backgroundColor: this.colorArray[index] }}
+                                                className="col-12">
                                                 <h4>{column.name}</h4>
                                             </div>
 

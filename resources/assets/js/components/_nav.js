@@ -1,5 +1,5 @@
 import { getSettingsIcon, icons } from './utils/_icons'
-import { translations } from "./utils/_translations";
+import { translations } from './utils/_translations'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
 

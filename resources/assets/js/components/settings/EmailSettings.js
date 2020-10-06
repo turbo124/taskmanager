@@ -8,6 +8,7 @@ import { consts } from '../utils/_consts'
 import { icons } from '../utils/_icons'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
+import AccountRepository from "../repositories/AccountRepository";
 
 class EmailSettings extends Component {
     constructor (props) {
@@ -34,16 +35,19 @@ class EmailSettings extends Component {
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
-                    loaded: true,
-                    settings: r.data.settings
-                })
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({
+                loaded: true,
+                settings: response.settings
+            }, () => {
+                console.log(response)
             })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+        })
     }
 
     handleChange (event) {
