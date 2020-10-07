@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Designs\PdfColumns;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\CustomerContact;
@@ -59,7 +62,7 @@ class PreviewController extends Controller
     {
         DB::beginTransaction();
 
-        $client = Customer::factory()->create(
+        $customer = Customer::factory()->create(
             [
                 'user_id'    => auth()->user()->id,
                 'account_id' => auth()->user()->account_user()->account_id,
@@ -70,7 +73,7 @@ class PreviewController extends Controller
             [
                 'user_id'     => auth()->user()->id,
                 'account_id'  => auth()->user()->account_user()->account_id,
-                'customer_id' => $client->id,
+                'customer_id' => $customer->id,
                 'is_primary'  => 1,
                 'send_email'  => true,
             ]
@@ -78,7 +81,7 @@ class PreviewController extends Controller
 
         $address = Address::factory()->create(
             [
-                'customer_id'  => $client->id,
+                'customer_id'  => $customer->id,
                 'address_type' => 1,
             ]
         );
@@ -87,18 +90,37 @@ class PreviewController extends Controller
             [
                 'user_id'     => auth()->user()->id,
                 'account_id'  => auth()->user()->account_user()->account_id,
-                'customer_id' => $client->id,
+                'customer_id' => $customer->id,
             ]
         );
 
-        $file_path = $invoice->service()->generatePdf();
+        $design = Design::find($invoice->getDesignId());
+
+        if (!empty(request()->input('design'))) {
+            $design_object = json_decode(
+                json_encode(request()->input('design'))
+            );
+
+            $design->design = $design_object->design;
+        }
+
+        $objPdf = new InvoicePdf($invoice);
+
+        $designer =
+            new PdfColumns(
+                $objPdf, $invoice, $design, $invoice->account->settings->pdf_variables, 'invoice'
+            );
+
+        $file_path = $invoice->getPdfFilename();
 
         $invoice->forceDelete();
         $contact->forceDelete();
-        $client->forceDelete();
+        $customer->forceDelete();
 
         DB::rollBack();
 
-        return response()->json(['data' => base64_encode(file_get_contents($file_path))]);
+        $data = CreatePdf::dispatchNow($objPdf, $invoice, $file_path, $designer, $contact);
+
+        return response()->json(['data' => base64_encode(file_get_contents($data))]);
     }
 }

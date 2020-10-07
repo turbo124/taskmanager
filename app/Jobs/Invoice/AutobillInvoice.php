@@ -4,9 +4,12 @@ namespace App\Jobs\Invoice;
 
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Models\CompanyGateway;
+use App\Models\Credit;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -49,6 +52,17 @@ class AutobillInvoice implements ShouldQueue
             $this->invoice_repo->markSent($this->invoice);
         }
 
+        if ($this->invoice->balance <= 0) {
+            $this->invoice->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
+            return true;
+        }
+
+        $credits = $this->getCreditNotesForPayment();
+
+        if (!empty($credits)) {
+            //TODO
+        }
+
         $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
 
         $customer_gateway = $this->findGatewayFee();
@@ -63,6 +77,29 @@ class AutobillInvoice implements ShouldQueue
 
         $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create($this->invoice->customer);
         return $gateway_obj->build($amount, $this->invoice);
+    }
+
+    private function getCreditNotesForPayment()
+    {
+        $credits = Credit::where('customer_id', $this->invoice->customer->id)->where('balance', '>', 0)->where(
+            'is_deleted',
+            false
+        )->get();
+
+        $credits_to_process = [];
+
+        if (!empty($credits)) {
+            foreach ($credits as $credit) {
+                $credits_to_process[] = [
+                    'credit_id' => $credit->id
+                ];
+            }
+        }
+
+        $this->invoice->temp_data = ['credits_to_process' => $credits_to_process];
+        $this->invoice->save();
+
+        return $credits_to_process;
     }
 
     private function findGatewayFee(): ?CustomerGateway

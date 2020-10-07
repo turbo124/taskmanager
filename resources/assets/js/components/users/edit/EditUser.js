@@ -37,6 +37,7 @@ class EditUser extends React.Component {
             dropdownOpen: false,
             username: null,
             errors: [],
+            password_error: '',
             user: [],
             account_user: [],
             roles: [],
@@ -66,6 +67,8 @@ class EditUser extends React.Component {
         this.toggleMenu = this.toggleMenu.bind(this)
         this.setNotifications = this.setNotifications.bind(this)
         this.setSelectedAccounts = this.setSelectedAccounts.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
     componentDidMount () {
@@ -82,6 +85,52 @@ class EditUser extends React.Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
         }
+    }
+
+    hasErrorFor (field) {
+        return field === 'password' ? this.state.password_error.length : !!this.state.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (field === 'password') {
+            return this.state.password_error.length
+                ? <span className='invalid-feedback'>
+                    <strong>{this.state.password_error}</strong>
+                </span> : null
+        }
+
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.state.errors[field][0]}</strong>
+                </span>
+            )
+        }
+    }
+
+    _validatePassword (value) {
+        const pattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'
+        const regExp = new RegExp(pattern)
+
+        return regExp.test(value)
+    }
+
+    _validate () {
+        const { password } = this.state
+
+        if (!password.length || !password.trim().length) {
+            return translations.please_enter_your_password
+        }
+
+        if (password.length < 8) {
+            return translations.password_is_too_short
+        }
+
+        if (!this._validatePassword(password)) {
+            return translations.password_is_too_easy
+        }
+
+        return true
     }
 
     setNotifications (notifications) {
@@ -151,6 +200,14 @@ class EditUser extends React.Component {
     handleClick () {
         const data = this.getFormData()
 
+        const is_valid = this._validate()
+        if (is_valid !== true && is_valid.length) {
+            this.setState({ password_error: is_valid })
+            return false
+        } else {
+            this.setState({ password_error: '' })
+        }
+
         axios.put(`/api/users/${this.state.user.id}`, data)
             .then((response) => {
                 this.initialState = this.state
@@ -169,10 +226,6 @@ class EditUser extends React.Component {
                     this.setState({ message: error.response.data })
                 }
             })
-    }
-
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
     }
 
     setValues (values) {
@@ -281,6 +334,7 @@ class EditUser extends React.Component {
                                 {Object.keys(this.state.user).length &&
                                 <React.Fragment>
                                     <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
+                                        hasErrorFor={this.hasErrorFor} renderErrorFor={this.renderErrorFor}
                                         handleInput={this.handleInput}/>
 
                                     <CustomFieldsForm handleInput={this.handleInput}

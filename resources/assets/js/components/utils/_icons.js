@@ -1,6 +1,8 @@
 import React from 'react'
 
 export const icons = {
+    visibility: 'fa-eye',
+    visibility_off: 'fa-eye-slash',
     help: 'fa-question',
     view: 'fa-eye',
     refresh: 'fa-gear',
