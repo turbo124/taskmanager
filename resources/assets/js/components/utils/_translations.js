@@ -1,5 +1,11 @@
 const _localizedValues = []
 _localizedValues.en = {
+    show_password: 'Show Password',
+    hide_password: 'Hide Password',
+    password_is_too_easy:
+        'Password must contain an upper case character and a number',
+    password_is_too_short: 'Password must be at least 8 character long',
+    please_enter_your_password: 'Please enter your password',
     invoice_payment_deleted_status: 'Status of invoice after deleting payment',
     credit_payment_deleted_status: 'Status of credit after deleting payment',
     logout: 'Logout',

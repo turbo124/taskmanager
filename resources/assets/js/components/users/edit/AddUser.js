@@ -41,6 +41,7 @@ class AddUser extends React.Component {
             password: '',
             loading: false,
             errors: [],
+            password_error: '',
             roles: [],
             selectedAccounts: [],
             selectedRoles: [],
@@ -63,6 +64,8 @@ class AddUser extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.setNotifications = this.setNotifications.bind(this)
         this.setSelectedAccounts = this.setSelectedAccounts.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
     componentDidMount () {
@@ -93,7 +96,61 @@ class AddUser extends React.Component {
         }
     }
 
+    hasErrorFor (field) {
+        return field === 'password' ? this.state.password_error.length : !!this.state.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (field === 'password') {
+            return this.state.password_error.length
+                ? <span className='invalid-feedback'>
+                    <strong>{this.state.password_error}</strong>
+                </span> : null
+        }
+
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.state.errors[field][0]}</strong>
+                </span>
+            )
+        }
+    }
+
+    _validatePassword (value) {
+        const pattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'
+        const regExp = new RegExp(pattern)
+
+        return regExp.test(value)
+    }
+
+    _validate () {
+        const { password } = this.state
+
+        if (!password.length || !password.trim().length) {
+            return translations.please_enter_your_password
+        }
+
+        if (password.length < 8) {
+            return translations.password_is_too_short
+        }
+
+        if (!this._validatePassword(password)) {
+            return translations.password_is_too_easy
+        }
+
+        return true
+    }
+
     handleClick () {
+        const is_valid = this._validate()
+        if (is_valid !== true && is_valid.length) {
+            this.setState({ password_error: is_valid })
+            return false
+        } else {
+            this.setState({ password_error: '' })
+        }
+
         axios.post('/api/users', {
             username: this.state.username,
             company_user: this.state.selectedAccounts,
@@ -208,6 +265,7 @@ class AddUser extends React.Component {
                         <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
                                 <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
+                                    hasErrorFor={this.hasErrorFor} renderErrorFor={this.renderErrorFor}
                                     handleInput={this.handleInput}/>
 
                                 <CustomFieldsForm handleInput={this.handleInput}

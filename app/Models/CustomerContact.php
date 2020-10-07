@@ -62,7 +62,7 @@ class CustomerContact extends Model implements ContactInterface
 
     public function preferredLocale()
     {
-        return $this->customer->locale();
+        return !empty($this->customer) ? $this->customer->locale() : 'en';
     }
 
     public function customer()

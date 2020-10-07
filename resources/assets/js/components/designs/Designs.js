@@ -3,25 +3,30 @@ import {
     Card,
     CardBody,
     CardHeader,
+    Col,
     FormGroup,
     Input,
     Label,
     Nav,
     NavItem,
     NavLink,
+    Progress,
+    Row,
     TabContent,
     TabPane
 } from 'reactstrap'
 import axios from 'axios'
 import DesignDropdown from '../common/dropdowns/DesignDropdown'
-import CKEditor from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { translations } from '../utils/_translations'
+import Variables from '../settings/Variables'
 
 class Designs extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            loaded: 0,
+            is_loading: false,
+            is_mobile: window.innerWidth <= 768,
             modal: false,
             name: '',
             id: null,
@@ -49,6 +54,21 @@ class Designs extends React.Component {
         this.resetCounters = this.resetCounters.bind(this)
         this.update = this.update.bind(this)
         this.save = this.save.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    // make sure to remove the listener
+    // when the component is not mounted anymore
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ is_mobile: window.innerWidth <= 768 })
     }
 
     componentDidMount () {
@@ -62,7 +82,9 @@ class Designs extends React.Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab }, () => {
                 if (this.state.activeTab === '2') {
-                    this.getPreview()
+                    if (this.state.is_mobile) {
+                        this.getPreview()
+                    }
                 }
             })
         }
@@ -162,6 +184,7 @@ class Designs extends React.Component {
     }
 
     getPreview () {
+        console.log('header', this.state.design.header)
         const design = {
             name: this.state.name,
             is_custom: this.state.is_custom,
@@ -171,12 +194,19 @@ class Designs extends React.Component {
                 footer: this.state.design.footer,
                 // includes: this.state.design.includes,
                 table: this.state.design.table,
+                totals: this.state.design.totals,
                 product: '',
                 task: ''
             }
         }
         axios.post('/api/preview', {
             design: design
+        }, {
+            onUploadProgress: ProgressEvent => {
+                this.setState({
+                    loaded: (ProgressEvent.loaded / ProgressEvent.total * 100)
+                })
+            }
         })
             .then((response) => {
                 console.log('respons', response.data.data)
@@ -200,7 +230,7 @@ class Designs extends React.Component {
                  { type: 'application/pdf' } ) */
                 // const fileURL = URL.createObjectURL ( file )
 
-                this.setState({ obj_url: url }, () => URL.revokeObjectURL(url))
+                this.setState({ loaded: 0, obj_url: url, is_loading: false }, () => URL.revokeObjectURL(url))
             })
             .catch((error) => {
                 this.setState({
@@ -225,6 +255,10 @@ class Designs extends React.Component {
             name: design[0].name,
             id: design[0].id,
             is_custom: false
+        }, () => {
+            if (!this.state.is_mobile) {
+                this.getPreview()
+            }
         })
     }
 
@@ -247,218 +281,285 @@ class Designs extends React.Component {
             <React.Fragment>
                 <link rel="stylesheet" type="text/css" href="public/css/pdf.css"/>
 
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('1')
-                            }}>
-                            {translations.settings}
-                        </NavLink>
-                    </NavItem>
+                <Row>
+                    <Col md={6}>
+                        <Nav tabs>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '1' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('1')
+                                    }}>
+                                    {translations.settings}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('2')
-                            }}>
-                            {translations.preview}
-                        </NavLink>
-                    </NavItem>
+                            {!!this.state.is_mobile &&
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '2' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('2')
+                                    }}>
+                                    {translations.preview}
+                                </NavLink>
+                            </NavItem>
+                            }
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('3')
-                            }}>
-                            {translations.header}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '3' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('3')
+                                    }}>
+                                    {translations.header}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('4')
-                            }}>
-                            {translations.body}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '4' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('4')
+                                    }}>
+                                    {translations.body}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('5')
-                            }}>
-                            {translations.footer}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('5')
+                                    }}>
+                                    {translations.total}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('6')
-                            }}>
-                            {translations.product}
-                        </NavLink>
-                    </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '6' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('6')
+                                    }}>
+                                    {translations.footer}
+                                </NavLink>
+                            </NavItem>
 
-                    <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTabs('6')
-                            }}>
-                            {translations.task}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '7' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('7')
+                                    }}>
+                                    {translations.product}
+                                </NavLink>
+                            </NavItem>
 
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardHeader>{this.state.template_type}</CardHeader>
-                            <CardBody>
-                                {title}
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '8' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTabs('8')
+                                    }}>
+                                    {translations.task}
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
 
-                                <FormGroup>
-                                    <Label for="name">Design <span className="text-danger">*</span></Label>
-                                    <DesignDropdown resetCounters={this.resetCounters}
-                                        handleInputChanges={this.switchDesign}/>
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabContent activeTab={this.state.activeTab}>
+                            <TabPane tabId="1">
+                                <Card>
+                                    <CardHeader>{this.state.template_type}</CardHeader>
+                                    <CardBody>
+                                        {title}
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardHeader>{translations.preview}</CardHeader>
-                            <CardBody>
-                                <div className="embed-responsive embed-responsive-21by9">
-                                    <iframe className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                        <FormGroup>
+                                            <Label for="name">Design <span className="text-danger">*</span></Label>
+                                            <DesignDropdown resetCounters={this.resetCounters}
+                                                handleInputChanges={this.switchDesign}/>
+                                        </FormGroup>
+                                    </CardBody>
+                                </Card>
 
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardHeader>{translations.header}</CardHeader>
-                            <CardBody>
+                                <Card className="border-0">
+                                    <CardBody>
+                                        <Row>
+                                            <Col sm={12}>
+                                                <Variables class="fixed-margin-mobile"/>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
 
-                                <FormGroup>
-                                    <Label for="name">{translations.header} <span
-                                        className="text-danger">*</span></Label>
-                                    <CKEditor
-                                        data={this.state.design.header}
-                                        editor={ClassicEditor}
-                                        config={{
-                                            toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'link', 'numberedList', 'bulletedList', 'imageUpload', 'insertTable',
-                                                'tableColumn', 'tableRow', 'mergeTableCells', 'mediaEmbed', '|', 'undo', 'redo']
-                                        }}
-                                        onInit={editor => {
-                                            // You can store the "editor" and use when it is needed.
-                                            console.log('Editor is ready to use!', editor)
-                                        }}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData()
-                                            this.setState(prevState => ({
-                                                design: { // object that we want to update
-                                                    ...prevState.design, // keep all other key-value pairs
-                                                    header: data // update the value of specific key
-                                                }
-                                            }), () => console.log('design', this.state.design))
-                                        }}
-                                    />
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                            {!!this.state.is_mobile &&
+                            <TabPane tabId="2">
+                                <Card>
+                                    <CardHeader>{translations.preview}</CardHeader>
+                                    <CardBody>
+                                        <div className="embed-responsive embed-responsive-21by9">
+                                            <iframe className="embed-responsive-item" id="viewer"
+                                                src={this.state.obj_url}/>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+                            }
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardHeader>{translations.body}</CardHeader>
-                            <CardBody>
-                                <FormGroup>
-                                    <Label for="name">{translations.body} <span className="text-danger">*</span></Label>
-                                    <CKEditor
-                                        data={this.state.design.body}
-                                        editor={ClassicEditor}
-                                        config={{
-                                            toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'link', 'numberedList', 'bulletedList', 'imageUpload', 'insertTable',
-                                                'tableColumn', 'tableRow', 'mergeTableCells', 'mediaEmbed', '|', 'undo', 'redo']
-                                        }}
-                                        onInit={editor => {
-                                            // You can store the "editor" and use when it is needed.
-                                            console.log('Editor is ready to use!', editor)
-                                        }}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData()
-                                            this.setState(prevState => ({
-                                                design: { // object that we want to update
-                                                    ...prevState.design, // keep all other key-value pairs
-                                                    body: data // update the value of specific key
-                                                }
-                                            }), () => console.log('design', this.state.design))
-                                        }}
-                                    />
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                            <TabPane tabId="3">
+                                <Card>
+                                    <CardHeader>{translations.header}</CardHeader>
+                                    <CardBody>
 
-                    <TabPane tabId="5">
-                        <Card>
-                            <CardHeader>{translations.footer}</CardHeader>
-                            <CardBody>
-                                <FormGroup>
-                                    <Label for="name">{translations.footer} <span
-                                        className="text-danger">*</span></Label>
-                                    <CKEditor
-                                        data={this.state.design.footer}
-                                        editor={ClassicEditor}
-                                        config={{
-                                            toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'link', 'numberedList', 'bulletedList', 'imageUpload', 'insertTable',
-                                                'tableColumn', 'tableRow', 'mergeTableCells', 'mediaEmbed', '|', 'undo', 'redo']
-                                        }}
-                                        onInit={editor => {
-                                            // You can store the "editor" and use when it is needed.
-                                            console.log('Editor is ready to use!', editor)
-                                        }}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData()
-                                            this.setState(prevState => ({
-                                                design: { // object that we want to update
-                                                    ...prevState.design, // keep all other key-value pairs
-                                                    footer: data // update the value of specific key
-                                                }
-                                            }), () => console.log('design', this.state.design))
-                                        }}
-                                    />
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                        <FormGroup>
+                                            <Label for="name">{translations.header} <span
+                                                className="text-danger">*</span></Label>
+                                            <Input type="textarea" style={{ height: '400px' }} size="lg"
+                                                value={this.state.design.header}
+                                                onChange={(e) => {
+                                                    const value = e.target.value
+                                                    this.setState(prevState => ({
+                                                        design: { // object that we want to update
+                                                            ...prevState.design, // keep all other key-value pairs
+                                                            header: value // update the value of specific key
+                                                        }
+                                                    }), () => {
+                                                        if (!this.state.is_loading && !this.state.is_mobile) {
+                                                            this.setState({ is_loading: true })
+                                                            setTimeout(() => {
+                                                                this.getPreview()
+                                                            }, 1000)
+                                                        }
+                                                    })
+                                                }}
+                                            />
+                                        </FormGroup>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
 
-                    <TabPane tabId="6">
-                        <Card>
-                            <CardHeader>{translations.product}</CardHeader>
-                            <CardBody/>
-                        </Card>
-                    </TabPane>
+                            <TabPane tabId="4">
+                                <Card>
+                                    <CardHeader>{translations.body}</CardHeader>
+                                    <CardBody>
+                                        <FormGroup>
+                                            <Label for="name">{translations.body} <span className="text-danger">*</span></Label>
+                                            <Input type="textarea" style={{ height: '400px' }} size="lg"
+                                                value={this.state.design.body}
+                                                onChange={(e) => {
+                                                    const value = e.target.value
+                                                    this.setState(prevState => ({
+                                                        design: { // object that we want to update
+                                                            ...prevState.design, // keep all other key-value pairs
+                                                            body: value // update the value of specific key
+                                                        }
+                                                    }), () => {
+                                                        if (!this.state.is_loading && !this.state.is_mobile) {
+                                                            this.setState({ is_loading: true, obj_url: '' })
+                                                            setTimeout(() => {
+                                                                this.getPreview()
+                                                            }, 2000)
+                                                        }
+                                                    })
+                                                }}
+                                            />
+                                        </FormGroup>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
 
-                    <TabPane tabId="7">
-                        <Card>
-                            <CardHeader>{translations.task}</CardHeader>
-                            <CardBody/>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                            <TabPane tabId="5">
+                                <Card>
+                                    <CardHeader>{translations.total}</CardHeader>
+                                    <CardBody>
+                                        <FormGroup>
+                                            <Label for="name">{translations.total} <span className="text-danger">*</span></Label>
+                                            <Input type="textarea" style={{ height: '400px' }} size="lg"
+                                                value={this.state.design.totals}
+                                                onChange={(e) => {
+                                                    const value = e.target.value
+                                                    this.setState(prevState => ({
+                                                        design: { // object that we want to update
+                                                            ...prevState.design, // keep all other key-value pairs
+                                                            totals: value // update the value of specific key
+                                                        }
+                                                    }), () => {
+                                                        if (!this.state.is_loading && !this.state.is_mobile) {
+                                                            this.setState({ is_loading: true, obj_url: '' })
+                                                            setTimeout(() => {
+                                                                this.getPreview()
+                                                            }, 2000)
+                                                        }
+                                                    })
+                                                }}
+                                            />
+                                        </FormGroup>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="6">
+                                <Card>
+                                    <CardHeader>{translations.footer}</CardHeader>
+                                    <CardBody>
+                                        <FormGroup>
+                                            <Label for="name">{translations.footer} <span
+                                                className="text-danger">*</span></Label>
+                                            <Input type="textarea" style={{ height: '400px' }} size="lg"
+                                                value={this.state.design.footer}
+                                                onChange={(e) => {
+                                                    const value = e.target.value
+                                                    this.setState(prevState => ({
+                                                        design: { // object that we want to update
+                                                            ...prevState.design, // keep all other key-value pairs
+                                                            footer: value // update the value of specific key
+                                                        }
+                                                    }), () => {
+                                                        if (!this.state.is_loading && !this.state.is_mobile) {
+                                                            this.setState({ is_loading: true, obj_url: '' })
+                                                            setTimeout(() => {
+                                                                this.getPreview()
+                                                            }, 2000)
+                                                        }
+                                                    })
+                                                }}
+                                            />
+                                        </FormGroup>
+                                    </CardBody>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="7">
+                                <Card>
+                                    <CardHeader>{translations.product}</CardHeader>
+                                    <CardBody/>
+                                </Card>
+                            </TabPane>
+
+                            <TabPane tabId="8">
+                                <Card>
+                                    <CardHeader>{translations.task}</CardHeader>
+                                    <CardBody/>
+                                </Card>
+                            </TabPane>
+                        </TabContent>
+                    </Col>
+
+                    {!this.state.is_mobile &&
+                    <Col md={6}>
+                        {this.state.loaded > 0 &&
+                        <Progress max="100" color="success"
+                            value={this.state.loaded}>{Math.round(this.state.loaded, 2)}%</Progress>
+                        }
+
+                        <div style={{ minHeight: '600px' }} className="embed-responsive embed-responsive-21by9">
+                            <iframe className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                        </div>
+                    </Col>
+                    }
+                </Row>
+
             </React.Fragment>
         )
     }
