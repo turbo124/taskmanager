@@ -77,7 +77,12 @@ class ProjectFilter extends QueryFilter
 
         return $this->query->where(
             function ($query) use ($filter) {
-                $query->where('projects.name', 'like', '%' . $filter . '%');
+                $query->where('projects.name', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.custom_value1', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.custom_value2', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.custom_value3', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.custom_value4', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.private_notes', 'like', '%' . $filter . '%');
             }
         );
     }

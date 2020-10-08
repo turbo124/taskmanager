@@ -58,12 +58,8 @@ class AutobillInvoice implements ShouldQueue
         }
 
         $credits = $this->getCreditNotesForPayment();
-
-        if (!empty($credits)) {
-            //TODO
-        }
-
-        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
+        $credit_total = !empty($credits) ? array_sum(array_column($credits, 'amount')) : 0;
+        $amount = ($this->invoice->partial > 0) ? $this->invoice->partial : (($this->invoice->balance > 0) ? $this->invoice->balance : $credit_total);
 
         $customer_gateway = $this->findGatewayFee();
 
@@ -91,7 +87,8 @@ class AutobillInvoice implements ShouldQueue
         if (!empty($credits)) {
             foreach ($credits as $credit) {
                 $credits_to_process[] = [
-                    'credit_id' => $credit->id
+                    'credit_id' => $credit->id,
+                    'amount' => $this->removeCreditAmountFromInvoice($credit)
                 ];
             }
         }
@@ -100,6 +97,37 @@ class AutobillInvoice implements ShouldQueue
         $this->invoice->save();
 
         return $credits_to_process;
+    }
+
+    private function removeCreditAmountFromInvoice(Credit $credit)
+    {
+        $amount = 0;
+
+        switch(true) {
+            case $this->invoice->partial > 0 && $credit->balance >= $this->invoice->partial:
+                $amount = $this->invoice->partial;
+                $this->invoice->balance -= $this->invoice->partial;
+                $this->invoice->partial = 0;
+                break;
+
+                case $this->invoice->partial > 0 && $credit->balance < $this->invoice->partial:
+                    $amount = $credit->balance;
+                    $this->invoice->partial -= $credit->balance;
+                    $this->invoice->balance -= $credit->balance;
+                    break;
+
+            case $credit->balance >= $this->invoice->balance:
+                $amount = $this->invoice->balance;
+                $this->invoice->balance = 0;
+                break;
+
+            default:
+                $amount = $credit->balance;
+                $this->invoice->balance -= $credit->balance;
+                break;
+        }
+
+        return $amount;
     }
 
     private function findGatewayFee(): ?CustomerGateway
