@@ -125,6 +125,9 @@ class CreatePayment implements ShouldQueue
                 if (!empty($temp_data['credits_to_process'])) {
                     $this->attachCredits($payment, $temp_data['credits_to_process']);
                 }
+
+                $invoice->temp_data = null;
+                $invoice->save();
             }
 
             $invoice->reduceBalance($invoice->balance);
