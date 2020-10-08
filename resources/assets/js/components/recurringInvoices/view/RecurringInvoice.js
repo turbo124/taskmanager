@@ -250,8 +250,8 @@ export default class RecurringInvoice extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={(e) => this.triggerAction(this.invoiceModel.isActive ? 'stop' : 'start')}
+                    button2={{ label: this.invoiceModel.isActive ? translations.stop : translations.start }}/>
             </React.Fragment>
 
         )
