@@ -10,6 +10,7 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import Audit from '../../common/Audit'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
+import ViewSchedule from '../../common/entityContainers/ViewSchedule'
 import Overview from './Overview'
 
 export default class RecurringQuote extends Component {
@@ -163,12 +164,12 @@ export default class RecurringQuote extends Component {
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
                             }}
                         >
-                            {translations.contacts}
+                            {translations.schedule}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -178,15 +179,25 @@ export default class RecurringQuote extends Component {
                                 this.toggleTab('3')
                             }}
                         >
+                            {translations.contacts}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('4')
+                            }}
+                        >
                             {translations.documents} ({this.quoteModel.fileCount})
                         </NavLink>
                     </NavItem>
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            className={this.state.activeTab === '5' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('4')
+                                this.toggleTab('5')
                             }}
                         >
                             {translations.history}
@@ -202,11 +213,19 @@ export default class RecurringQuote extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
+                                <ViewSchedule entity={this.quoteModel} customers={this.props.customers}/>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <Row>
+                            <Col>
                                 <ViewContacts entity={this.quoteModel} customers={this.props.customers}/>
                             </Col>
                         </Row>
                     </TabPane>
-                    <TabPane tabId="3">
+                    <TabPane tabId="4">
                         <Row>
                             <Col>
                                 <Card>
@@ -220,7 +239,7 @@ export default class RecurringQuote extends Component {
                         </Row>
                     </TabPane>
 
-                    <TabPane tabId="4">
+                    <TabPane tabId="5">
                         <Row>
                             <Col>
                                 <Audit entity="RecurringQuote" audits={this.props.entity.audits}/>
@@ -228,7 +247,7 @@ export default class RecurringQuote extends Component {
                         </Row>
                     </TabPane>
 
-                    <TabPane tabId="5">
+                    <TabPane tabId="6">
                         <Row>
                             <Col>
                                 <Card>
@@ -249,10 +268,10 @@ export default class RecurringQuote extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
+               <BottomNavigationButtons button1_click={(e) => this.toggleTab('6')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={(e) => this.triggerAction(this.quoteModel.isActive ? 'stop' : 'start')}
+                    button2={{ label: this.quoteModel.isActive ? translations.stop : translations.start }}/>
 
             </React.Fragment>
 
