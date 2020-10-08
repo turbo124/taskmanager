@@ -15,8 +15,8 @@ export default function ViewSchedule (props) {
 
     return <React.Fragment>
         <ListGroup horizontal>
-        <ListGroupItem tag="a" href="#">{translations.send_date}</ListGroupItem>
-        <ListGroupItem tag="a" href="#">{translations.due_date} </ListGroupItem>
+        <ListGroupItem>{translations.send_date}</ListGroupItem>
+        <ListGroupItem>{translations.due_date} </ListGroupItem>
       </ListGroup>
 
         <ListGroup className="mt-2 col-12">
