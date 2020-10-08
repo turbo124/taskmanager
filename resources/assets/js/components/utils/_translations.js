@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    schedule: 'Schedule',
     show_password: 'Show Password',
     hide_password: 'Hide Password',
     password_is_too_easy:
