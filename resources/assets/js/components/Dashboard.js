@@ -258,6 +258,7 @@ export default class Dashboard extends Component {
         super(props)
         this.getOption = this.getOption.bind(this)
         this.state = {
+            dashboard_minimized: localStorage.getItem('dashboard_minimized') || false,
             sources: [],
             customers: [],
             modal: false,
@@ -1559,6 +1560,7 @@ export default class Dashboard extends Component {
     }
 
     render () {
+        const dashboard_minimized = this.state.dashboard_minimized
         const dashboardFilterEntities = Object.keys(this.state.dashboard_filters)
 
         const dashboardBody = dashboardFilterEntities.map((entity, index) => {
@@ -1814,7 +1816,23 @@ export default class Dashboard extends Component {
 
         return <React.Fragment>
             <Row>
-                <Col className="dashboard-content-wrapper" lg={7}>
+                <div style={{ position: 'absolute', right: '20px', zIndex: '999' }}>
+                    {!dashboard_minimized &&
+                    <span style={{ fontSize: '28px' }} className="pull-right" onClick={() => {
+                        localStorage.setItem('dashboard_minimized', true)
+                        this.setState({ dashboard_minimized: true })
+                    }}>-</span>
+                    }
+
+                    {!!dashboard_minimized &&
+                    <span style={{ fontSize: '28px' }} className="pull-right" onClick={() => {
+                        localStorage.setItem('dashboard_minimized', false)
+                        this.setState({ dashboard_minimized: false })
+                    }}>+</span>
+                    }
+                </div>
+
+                <Col className="dashboard-content-wrapper" lg={dashboard_minimized ? 12 : 7}>
                     <div className="topbar pl-0 dashboard-tabs">
                         <Card>
                             <CardBody className="pb-0">
@@ -2138,7 +2156,8 @@ export default class Dashboard extends Component {
                     </TabContent>
                 </Col>
 
-                <Col className="dashboard-tabs-right" lg={5}>
+                <Col className={`dashboard-tabs-right ${dashboard_minimized ? 'd-none' : ''}`} lg={5}>
+
                     <Card className="dashboard-border">
                         <CardBody>
                             {!this.state.isMobile &&

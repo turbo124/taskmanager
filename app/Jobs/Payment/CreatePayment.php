@@ -3,6 +3,7 @@
 namespace App\Jobs\Payment;
 
 use App\Factory\PaymentFactory;
+use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -108,7 +109,8 @@ class CreatePayment implements ShouldQueue
 
         foreach ($invoices as $invoice) {
             $this->updateCustomer($payment, $invoice);
-            $payment->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
+
+            $invoice->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
 
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
                 $invoice = (new InvoiceRepository($invoice))->save(
@@ -117,12 +119,40 @@ class CreatePayment implements ShouldQueue
                 );
             }
 
+            if (!empty($invoice->temp_data)) {
+                $temp_data = json_decode($invoice->temp_data, true);
+
+                if (!empty($temp_data['credits_to_process'])) {
+                    $this->attachCredits($payment, $temp_data['credits_to_process']);
+                }
+            }
+
             $invoice->reduceBalance($invoice->balance);
 
             $payment->attachInvoice($invoice);
         }
 
         return $payment;
+    }
+
+    private function attachCredits(Payment $payment, $credits_to_process): Payment
+    {
+        $credits_to_process = collect($credits_to_process)->keyBy('credit_id')->toArray();
+
+
+        $credits = Credit::whereIn('id', array_column($credits_to_process, 'credit_id'))
+                         ->whereCustomerId($this->customer->id)
+                         ->get();
+
+        foreach ($credits as $credit) {
+            if (empty($credits_to_process[$credit->id]['amount'])) {
+                continue;
+            }
+
+            $payment->attachCredit($credit, $credits_to_process[$credit->id]['amount']);
+        }
+
+        return $payment->fresh();
     }
 
     /**

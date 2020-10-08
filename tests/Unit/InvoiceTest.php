@@ -14,6 +14,7 @@ use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
+use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
