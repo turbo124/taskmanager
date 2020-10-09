@@ -6,25 +6,35 @@ import axios from 'axios'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
+import InvoiceModel from "../../models/InvoiceModel";
 
 export default class Lead extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
-        this.leadModel = new LeadModel(this.props.entity)
+        this.leadModel = new LeadModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.refresh = this.refresh.bind(this)
+    }
+
+    refresh (entity) {
+        this.leadModel = new LeadModel(entity)
+        this.setState({ entity: entity })
     }
 
     triggerAction (action) {
-        this.dealModel.completeAction(this.props.entity, action).then(response => {
-            this.setState({ show_success: true })
+        this.dealModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
 
             setTimeout(
                 function () {
@@ -39,7 +49,7 @@ export default class Lead extends Component {
     loadPdf () {
         axios.post('/api/preview', {
             entity: 'Lead',
-            entity_id: this.props.entity.id
+            entity_id: this.state.entity.id
         })
             .then((response) => {
                 console.log('respons', response.data.data)
@@ -82,9 +92,9 @@ export default class Lead extends Component {
 
     render () {
         const address = <React.Fragment>
-            {this.props.entity.address_1} <br/>
-            {this.props.entity.address_2} <br/>
-            {this.props.entity.city} {this.props.entity.zip}
+            {this.state.entity.address_1} <br/>
+            {this.state.entity.address_2} <br/>
+            {this.state.entity.city} {this.state.entity.zip}
         </React.Fragment>
 
         return (
@@ -113,7 +123,7 @@ export default class Lead extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} address={address}/>
+                        <Overview entity={this.state.entity} address={address}/>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
@@ -121,8 +131,8 @@ export default class Lead extends Component {
                                 <Card>
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Lead" entity={this.props.entity}
-                                            user_id={this.props.entity.user_id}/>
+                                        <FileUploads entity_type="Lead" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>

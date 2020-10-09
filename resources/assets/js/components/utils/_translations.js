@@ -20,6 +20,7 @@ _localizedValues.en = {
     cycles_remaining: 'Cycles Remaining',
     stopped: 'Stopped',
     billing: 'Billing',
+    send_date: 'Send Date',
     auto_billing_enabled: 'Autobilling Enabled',
     auto_billing_enabled_help_text: 'Should automatically bill customer',
     grace_period: 'Grace Period',

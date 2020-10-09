@@ -17,20 +17,29 @@ export default class RecurringInvoice extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
-        this.invoiceModel = new RecurringInvoiceModel(this.props.entity)
+        this.invoiceModel = new RecurringInvoiceModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
+        this.refresh = this.refresh.bind(this)
+    }
+
+    refresh (entity) {
+        this.invoiceModel = new RecurringInvoiceModel(entity)
+        this.setState({ entity: entity })
     }
 
     triggerAction (action) {
-        this.invoiceModel.completeAction(this.props.entity, action).then(response => {
-            this.setState({ show_success: true })
+        this.invoiceModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
 
             setTimeout(
                 function () {
@@ -60,11 +69,11 @@ export default class RecurringInvoice extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         let user = null
 
-        if (this.props.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+        if (this.state.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
@@ -72,76 +81,78 @@ export default class RecurringInvoice extends Component {
 
         const fields = []
 
-        if (this.props.entity.custom_value1.length) {
+        if (this.state.entity.custom_value1.length) {
             const label1 = this.invoiceModel.getCustomFieldLabel('RecurringInvoice', 'custom_value1')
             fields[label1] = this.invoiceModel.formatCustomValue(
                 'RecurringInvoice',
                 'custom_value1',
-                this.props.entity.custom_value1
+                this.state.entity.custom_value1
             )
         }
 
-        if (this.props.entity.custom_value2.length) {
+        if (this.state.entity.custom_value2.length) {
             const label2 = this.invoiceModel.getCustomFieldLabel('RecurringInvoice', 'custom_value2')
             fields[label2] = this.invoiceModel.formatCustomValue(
                 'RecurringInvoice',
                 'custom_value2',
-                this.props.entity.custom_value2
+                this.state.entity.custom_value2
             )
         }
 
-        if (this.props.entity.custom_value3.length) {
+        if (this.state.entity.custom_value3.length) {
             const label3 = this.invoiceModel.getCustomFieldLabel('RecurringInvoice', 'custom_value3')
             fields[label3] = this.invoiceModel.formatCustomValue(
                 'RecurringInvoice',
                 'custom_value3',
-                this.props.entity.custom_value3
+                this.state.entity.custom_value3
             )
         }
 
-        if (this.props.entity.custom_value4.length) {
+        if (this.state.entity.custom_value4.length) {
             const label4 = this.invoiceModel.getCustomFieldLabel('RecurringInvoice', 'custom_value4')
             fields[label4] = this.invoiceModel.formatCustomValue(
                 'RecurringInvoice',
                 'custom_value4',
-                this.props.entity.custom_value4
+                this.state.entity.custom_value4
             )
         }
 
-        fields.date = <FormatDate date={this.props.entity.date}/>
-        fields.due_date = <FormatDate date={this.props.entity.due_date}/>
+        fields.date = <FormatDate date={this.state.entity.date}/>
+        fields.due_date = <FormatDate date={this.state.entity.due_date}/>
 
-        if (this.props.entity.po_number && this.props.entity.po_number.length) {
-            fields.po_number = this.props.entity.po_number
+        if (this.state.entity.po_number && this.state.entity.po_number.length) {
+            fields.po_number = this.state.entity.po_number
         }
 
-        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
             fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.props.entity.discount_total}/>
+                amount={this.state.entity.discount_total}/>
         }
 
-        if (this.props.entity.frequency && this.props.entity.frequency.toString().length) {
-            fields.frequency = this.props.entity.frequency
+        if (this.state.entity.frequency && this.state.entity.frequency.toString().length) {
+            fields.frequency = this.state.entity.frequency
         }
 
-        if (this.props.entity.start_date && this.props.entity.start_date.length) {
-            fields.start_date = <FormatDate date={this.props.entity.start_date}/>
+        if (this.state.entity.start_date && this.state.entity.start_date.length) {
+            fields.start_date = <FormatDate date={this.state.entity.start_date}/>
         }
 
-        if (this.props.entity.expiry_date && this.props.entity.expiry_date.length) {
-            fields.expiry_date = <FormatDate date={this.props.entity.expiry_date}/>
+        if (this.state.entity.expiry_date && this.state.entity.expiry_date.length) {
+            fields.expiry_date = <FormatDate date={this.state.entity.expiry_date}/>
         }
 
-        if (this.props.entity.date_to_send && this.props.entity.date_to_send.length) {
-            fields.date_to_send = <FormatDate date={this.props.entity.date_to_send}/>
+        if (this.state.entity.date_to_send && this.state.entity.date_to_send.length) {
+            fields.date_to_send = <FormatDate date={this.state.entity.date_to_send}/>
         }
 
-        if (this.props.entity.cycles_remaining && this.props.entity.cycles_remaining.length) {
-            fields.cycles_remaining = parseInt(this.props.entity.cycles_remaining) === 9000 ? translations.frequency_endless : this.props.entity.cycles_remaining
+        if (this.state.entity.cycles_remaining && this.state.entity.cycles_remaining.length) {
+            fields.cycles_remaining = parseInt(this.state.entity.cycles_remaining) === 9000 ? translations.frequency_endless : this.state.entity.cycles_remaining
         }
 
-        fields.grace_period = this.props.entity.grace_period > 0 ? this.props.entity.grace_period : translations.payment_term
-        fields.auto_billing_enabled = this.props.entity.auto_billing_enabled === true ? translations.yes : translations.no
+        fields.grace_period = this.state.entity.grace_period > 0 ? this.state.entity.grace_period : translations.payment_term
+        fields.auto_billing_enabled = this.state.entity.auto_billing_enabled === true ? translations.yes : translations.no
+
+        console.log('entities', this.props.entities)
 
         return (
             <React.Fragment>
@@ -160,7 +171,7 @@ export default class RecurringInvoice extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('2')
                             }}
@@ -171,7 +182,7 @@ export default class RecurringInvoice extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('3')
                             }}
@@ -182,7 +193,7 @@ export default class RecurringInvoice extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            className={this.state.activeTab === '4' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('4')
                             }}
@@ -193,7 +204,7 @@ export default class RecurringInvoice extends Component {
 
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '4' ? 'active' : ''}
+                            className={this.state.activeTab === '5' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('5')
                             }}
@@ -204,7 +215,7 @@ export default class RecurringInvoice extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview invoices={this.invoiceModel.invoices} entity={this.props.entity} user={user}
+                        <Overview invoices={this.invoiceModel.invoices} entity={this.state.entity} user={user}
                             customer={customer}
                             customers={this.props.customers} fields={fields}/>
                     </TabPane>
@@ -212,7 +223,8 @@ export default class RecurringInvoice extends Component {
                     <TabPane tabId="2">
                         <Row>
                             <Col>
-                                <ViewSchedule entity={this.invoiceModel} customers={this.props.customers}/>
+                                <ViewSchedule recurringDates={this.state.entity.schedule} entity={this.invoiceModel}
+                                    customers={this.props.customers}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -231,8 +243,8 @@ export default class RecurringInvoice extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Invoice" entity={this.props.entity}
-                                            user_id={this.props.entity.user_id}/>
+                                        <FileUploads entity_type="Invoice" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -242,7 +254,7 @@ export default class RecurringInvoice extends Component {
                     <TabPane tabId="5">
                         <Row>
                             <Col>
-                                <Audit entity="Quote" audits={this.props.entity.audits}/>
+                                <Audit entity="Quote" audits={this.state.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -270,7 +282,7 @@ export default class RecurringInvoice extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('6')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction(this.invoiceModel.isActive ? 'stop' : 'start')}
+                    button2_click={(e) => this.triggerAction(this.invoiceModel.isActive ? 'stop_recurring' : 'start_recurring')}
                     button2={{ label: this.invoiceModel.isActive ? translations.stop : translations.start }}/>
             </React.Fragment>
 

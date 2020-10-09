@@ -58,7 +58,8 @@ trait RecurringInvoiceTransformable
             'audits'               => $this->transformAuditsForRecurringInvoice($invoice->audits),
             'files'                => $this->transformRecurringInvoiceFiles($invoice->files),
             'invitations'          => [],
-            'invoices'             => $this->transformInvoicesCreated($invoice->invoices)
+            'invoices'             => $this->transformInvoicesCreated($invoice->invoices),
+            'schedule'             => $invoice->calculateDateRanges()
 
         ];
     }

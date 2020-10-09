@@ -16,20 +16,29 @@ export default class Task extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
-        this.taskModel = new TaskModel(this.props.entity)
+        this.taskModel = new TaskModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
+        this.refresh = this.refresh.bind(this)
+    }
+
+    refresh (entity) {
+        this.taskModel = new TaskModel(entity)
+        this.setState({ entity: entity })
     }
 
     triggerAction (action) {
-        this.taskModel.completeAction(this.props.entity, action).then(response => {
-            this.setState({ show_success: true })
+        this.taskModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
 
             setTimeout(
                 function () {
@@ -44,7 +53,7 @@ export default class Task extends Component {
     loadPdf () {
         axios.post('/api/preview', {
             entity: 'Task',
-            entity_id: this.props.entity.id
+            entity_id: this.state.entity.id
         })
             .then((response) => {
                 var base64str = response.data.data
@@ -85,13 +94,13 @@ export default class Task extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         let user = null
 
-        console.log('entity', this.props.entity)
+        console.log('entity', this.state.entity)
 
-        if (this.props.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+        if (this.state.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
@@ -99,79 +108,79 @@ export default class Task extends Component {
 
         const fields = []
 
-        if (this.props.entity.status_name.length) {
-            fields.status = this.props.entity.status_name
+        if (this.state.entity.status_name.length) {
+            fields.status = this.state.entity.status_name
         }
 
-        if (this.props.entity.description.length) {
-            fields.description = this.props.entity.description
+        if (this.state.entity.description.length) {
+            fields.description = this.state.entity.description
         }
 
-        if (this.props.entity.start_date.length) {
-            fields.start_date = this.props.entity.start_date
+        if (this.state.entity.start_date.length) {
+            fields.start_date = this.state.entity.start_date
         }
 
-        if (this.props.entity.due_date.length) {
-            fields.due_date = this.props.entity.due_date
+        if (this.state.entity.due_date.length) {
+            fields.due_date = this.state.entity.due_date
         }
 
-        if (this.props.entity.custom_value1.length) {
+        if (this.state.entity.custom_value1.length) {
             const label1 = this.taskModel.getCustomFieldLabel('Task', 'custom_value1')
             fields[label1] = this.taskModel.formatCustomValue(
                 'Task',
                 'custom_value1',
-                this.props.entity.custom_value1
+                this.state.entity.custom_value1
             )
         }
 
-        if (this.props.entity.custom_value2.length) {
+        if (this.state.entity.custom_value2.length) {
             const label2 = this.taskModel.getCustomFieldLabel('Task', 'custom_value2')
             fields[label2] = this.taskModel.formatCustomValue(
                 'Task',
                 'custom_value2',
-                this.props.entity.custom_value2
+                this.state.entity.custom_value2
             )
         }
 
-        if (this.props.entity.custom_value3.length) {
+        if (this.state.entity.custom_value3.length) {
             const label3 = this.taskModel.getCustomFieldLabel('Task', 'custom_value3')
             fields[label3] = this.taskModel.formatCustomValue(
                 'Task',
                 'custom_value3',
-                this.props.entity.custom_value3
+                this.state.entity.custom_value3
             )
         }
 
-        if (this.props.entity.custom_value4.length) {
+        if (this.state.entity.custom_value4.length) {
             const label4 = this.taskModel.getCustomFieldLabel('Task', 'custom_value4')
             fields[label4] = this.taskModel.formatCustomValue(
                 'Task',
                 'custom_value4',
-                this.props.entity.custom_value4
+                this.state.entity.custom_value4
             )
         }
 
         const recurring = []
 
-        if (this.props.entity.is_recurring === true) {
-            if (this.props.entity.recurring_start_date.length) {
-                recurring.start_date = <FormatDate date={this.props.entity.recurring_start_date}/>
+        if (this.state.entity.is_recurring === true) {
+            if (this.state.entity.recurring_start_date.length) {
+                recurring.start_date = <FormatDate date={this.state.entity.recurring_start_date}/>
             }
 
-            if (this.props.entity.recurring_end_date.length) {
-                recurring.end_date = <FormatDate date={this.props.entity.recurring_end_date}/>
+            if (this.state.entity.recurring_end_date.length) {
+                recurring.end_date = <FormatDate date={this.state.entity.recurring_end_date}/>
             }
 
-            if (this.props.entity.recurring_due_date.length) {
-                recurring.due_date = <FormatDate date={this.props.entity.recurring_due_date}/>
+            if (this.state.entity.recurring_due_date.length) {
+                recurring.due_date = <FormatDate date={this.state.entity.recurring_due_date}/>
             }
 
-            if (this.props.entity.recurring_frequency.toString().length) {
-                recurring.frequency = this.props.entity.recurring_frequency.toString()
+            if (this.state.entity.recurring_frequency.toString().length) {
+                recurring.frequency = this.state.entity.recurring_frequency.toString()
             }
         }
 
-        const task_times = this.props.entity.timers && this.props.entity.timers.length ? this.props.entity.timers.map((timer, index) => {
+        const task_times = this.state.entity.timers && this.state.entity.timers.length ? this.state.entity.timers.map((timer, index) => {
             return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
 
@@ -203,8 +212,8 @@ export default class Task extends Component {
                     <TabPane tabId="1">
                         <Overview user={user} customer={customer} recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.duration)}
-                            calculatedAmount={this.taskModel.calculateAmount(this.props.entity.task_rate)}
-                            entity={this.props.entity} fields={fields} task_times={task_times}/>
+                            calculatedAmount={this.taskModel.calculateAmount(this.state.entity.task_rate)}
+                            entity={this.state.entity} fields={fields} task_times={task_times}/>
                     </TabPane>
 
                     <TabPane tabId="2">
@@ -213,8 +222,8 @@ export default class Task extends Component {
                                 <Card>
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Task" entity={this.props.entity}
-                                            user_id={this.props.entity.user_id}/>
+                                        <FileUploads entity_type="Task" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
