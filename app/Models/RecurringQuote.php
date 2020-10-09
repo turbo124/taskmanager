@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\RecurringQuote\RecurringQuoteService;
 use App\Traits\Balancer;
+use App\Traits\CalculateRecurringDateRanges;
 use App\Traits\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class RecurringQuote extends Model
     use Balancer;
     use Money;
     use HasFactory;
+    use CalculateRecurringDateRanges;
 
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 2;

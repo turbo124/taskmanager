@@ -110,8 +110,6 @@ class CreatePayment implements ShouldQueue
         foreach ($invoices as $invoice) {
             $this->updateCustomer($payment, $invoice);
 
-            $invoice->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
-
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
                 $invoice = (new InvoiceRepository($invoice))->save(
                     ['gateway_fee' => $this->data['invoices'][$invoice->id]['gateway_fee']],
@@ -119,12 +117,17 @@ class CreatePayment implements ShouldQueue
                 );
             }
 
+            $invoice->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
+
             if (!empty($invoice->temp_data)) {
                 $temp_data = json_decode($invoice->temp_data, true);
 
                 if (!empty($temp_data['credits_to_process'])) {
                     $this->attachCredits($payment, $temp_data['credits_to_process']);
                 }
+
+                $invoice->temp_data = null;
+                $invoice->save();
             }
 
             $invoice->reduceBalance($invoice->balance);
@@ -139,7 +142,6 @@ class CreatePayment implements ShouldQueue
     {
         $credits_to_process = collect($credits_to_process)->keyBy('credit_id')->toArray();
 
-
         $credits = Credit::whereIn('id', array_column($credits_to_process, 'credit_id'))
                          ->whereCustomerId($this->customer->id)
                          ->get();
@@ -150,6 +152,8 @@ class CreatePayment implements ShouldQueue
             }
 
             $payment->attachCredit($credit, $credits_to_process[$credit->id]['amount']);
+            $credit->transaction_service()->createTransaction($credit->balance * -1, $credit->customer->balance);
+            $credit->reduceCreditBalance($credits_to_process[$credit->id]['amount']);
         }
 
         return $payment->fresh();

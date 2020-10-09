@@ -58,7 +58,8 @@ trait RecurringQuoteTransformable
             'audits'               => $this->transformAuditsForRecurringQuote($quote->audits),
             'files'                => $this->transformRecurringQuoteFiles($quote->files),
             'invitations'          => [],
-            'quotes'               => $this->transformQuotesCreated($quote->quotes)
+            'quotes'               => $this->transformQuotesCreated($quote->quotes),
+            'schedule'             => $quote->calculateDateRanges()
 
         ];
     }

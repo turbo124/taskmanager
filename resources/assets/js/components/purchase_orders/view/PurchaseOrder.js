@@ -11,25 +11,35 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import Overview from './Overview'
+import PaymentModel from "../../models/PaymentModel";
 
 export default class PurchaseOrder extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
-        this.purchaseOrderModel = new PurchaseOrderModel(this.props.entity)
+        this.purchaseOrderModel = new PurchaseOrderModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
+        this.refresh = this.refresh.bind(this)
+    }
+
+    refresh (entity) {
+        this.purchaseOrderModel = new PurchaseOrderModel(entity)
+        this.setState({ entity: entity })
     }
 
     triggerAction (action) {
-        this.purchaseOrderModel.completeAction(this.props.entity, action).then(response => {
-            this.setState({ show_success: true })
+        this.purchaseOrderModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
 
             setTimeout(
                 function () {
@@ -59,12 +69,12 @@ export default class PurchaseOrder extends Component {
     }
 
     render () {
-        const company = this.props.companies.filter(company => company.id === parseInt(this.props.entity.company_id))
+        const company = this.props.companies.filter(company => company.id === parseInt(this.state.entity.company_id))
 
         let user = null
 
-        if (this.props.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+        if (this.state.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
@@ -72,55 +82,55 @@ export default class PurchaseOrder extends Component {
 
         const fields = []
 
-        if (this.props.entity.custom_value1.length) {
+        if (this.state.entity.custom_value1.length) {
             const label1 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value1')
             fields[label1] = this.purchaseOrderModel.formatCustomValue(
                 'PurchaseOrder',
                 'custom_value1',
-                this.props.entity.custom_value1
+                this.state.entity.custom_value1
             )
         }
 
-        if (this.props.entity.custom_value2.length) {
+        if (this.state.entity.custom_value2.length) {
             const label2 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value2')
             fields[label2] = this.purchaseOrderModel.formatCustomValue(
                 'PurchaseOrder',
                 'custom_value2',
-                this.props.entity.custom_value2
+                this.state.entity.custom_value2
             )
         }
 
-        if (this.props.entity.custom_value3.length) {
+        if (this.state.entity.custom_value3.length) {
             const label3 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value3')
             fields[label3] = this.purchaseOrderModel.formatCustomValue(
                 'PurchaseOrder',
                 'custom_value3',
-                this.props.entity.custom_value3
+                this.state.entity.custom_value3
             )
         }
 
-        if (this.props.entity.custom_value4.length) {
+        if (this.state.entity.custom_value4.length) {
             const label4 = this.purchaseOrderModel.getCustomFieldLabel('PurchaseOrder', 'custom_value4')
             fields[label4] = this.purchaseOrderModel.formatCustomValue(
                 'PurchaseOrder',
                 'custom_value4',
-                this.props.entity.custom_value4
+                this.state.entity.custom_value4
             )
         }
 
-        fields.date = <FormatDate date={this.props.entity.date}/>
+        fields.date = <FormatDate date={this.state.entity.date}/>
 
-        if (this.props.entity.po_number && this.props.entity.po_number.length) {
-            fields.po_number = this.props.entity.po_number
+        if (this.state.entity.po_number && this.state.entity.po_number.length) {
+            fields.po_number = this.state.entity.po_number
         }
 
-        if (this.props.entity.due_date && this.props.entity.due_date.length) {
-            fields.expiry_date = <FormatDate date={this.props.entity.due_date}/>
+        if (this.state.entity.due_date && this.state.entity.due_date.length) {
+            fields.expiry_date = <FormatDate date={this.state.entity.due_date}/>
         }
 
-        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
             fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.props.entity.discount_total}/>
+                amount={this.state.entity.discount_total}/>
         }
 
         const button_2_action = this.purchaseOrderModel.hasInvoice ? 'clone_to_PurchaseOrder' : 'approve'
@@ -176,7 +186,7 @@ export default class PurchaseOrder extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} companies={this.props.companies} company={company}
+                        <Overview entity={this.state.entity} companies={this.props.companies} company={company}
                             user={user} fields={fields}/>
                     </TabPane>
 
@@ -194,8 +204,8 @@ export default class PurchaseOrder extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="PurchaseOrder" entity={this.props.entity}
-                                            user_id={this.props.entity.user_id}/>
+                                        <FileUploads entity_type="PurchaseOrder" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -205,7 +215,7 @@ export default class PurchaseOrder extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Audit entity="PurchaseOrder" audits={this.props.entity.audits}/>
+                                <Audit entity="PurchaseOrder" audits={this.state.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>

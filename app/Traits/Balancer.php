@@ -22,6 +22,14 @@ trait Balancer
         return $this;
     }
 
+    public function reduceCreditBalance(float $amount)
+    {
+        $this->customer->credit_balance -= $amount;
+
+        $this->save();
+        return $this;
+    }
+
     /**
      * @param float $amount
      * @return float

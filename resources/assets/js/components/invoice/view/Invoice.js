@@ -17,20 +17,29 @@ export default class Invoice extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
             show_success: false
         }
 
-        this.invoiceModel = new InvoiceModel(this.props.entity)
+        this.invoiceModel = new InvoiceModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
+        this.refresh = this.refresh.bind(this)
+    }
+
+    refresh (entity) {
+        this.invoiceModel = new InvoiceModel(entity)
+        this.setState({ entity: entity })
     }
 
     triggerAction (action) {
-        this.invoiceModel.completeAction(this.props.entity, action).then(response => {
-            this.setState({ show_success: true })
+        this.invoiceModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
 
             setTimeout(
                 function () {
@@ -60,13 +69,13 @@ export default class Invoice extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
 
         let user = null
 
-        if (this.props.entity.assigned_to) {
+        if (this.state.entity.assigned_to) {
             console.log('users', JSON.parse(localStorage.getItem('users')))
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
@@ -74,52 +83,52 @@ export default class Invoice extends Component {
 
         const fields = []
 
-        if (this.props.entity.custom_value1.length) {
+        if (this.state.entity.custom_value1.length) {
             const label1 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value1')
             fields[label1] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value1',
-                this.props.entity.custom_value1
+                this.state.entity.custom_value1
             )
         }
 
-        if (this.props.entity.custom_value2.length) {
+        if (this.state.entity.custom_value2.length) {
             const label2 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value2')
             fields[label2] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value2',
-                this.props.entity.custom_value2
+                this.state.entity.custom_value2
             )
         }
 
-        if (this.props.entity.custom_value3.length) {
+        if (this.state.entity.custom_value3.length) {
             const label3 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value3')
             fields[label3] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value3',
-                this.props.entity.custom_value3
+                this.state.entity.custom_value3
             )
         }
 
-        if (this.props.entity.custom_value4.length) {
+        if (this.state.entity.custom_value4.length) {
             const label4 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value4')
             fields[label4] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value4',
-                this.props.entity.custom_value4
+                this.state.entity.custom_value4
             )
         }
 
-        fields.date = <FormatDate date={this.props.entity.date}/>
-        fields.due_date = <FormatDate date={this.props.entity.due_date}/>
+        fields.date = <FormatDate date={this.state.entity.date}/>
+        fields.due_date = <FormatDate date={this.state.entity.due_date}/>
 
-        if (this.props.entity.po_number && this.props.entity.po_number.length) {
-            fields.po_number = this.props.entity.po_number
+        if (this.state.entity.po_number && this.state.entity.po_number.length) {
+            fields.po_number = this.state.entity.po_number
         }
 
-        if (this.props.entity.discount_total && this.props.entity.discount_total.toString().length) {
+        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
             fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.props.entity.discount_total}/>
+                amount={this.state.entity.discount_total}/>
         }
 
         const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice') : (e) => this.toggleTab('6')
@@ -176,7 +185,7 @@ export default class Invoice extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.props.entity} customers={this.props.customers} user={user}
+                        <Overview entity={this.state.entity} customers={this.props.customers} user={user}
                             customer={customer} fields={fields}/>
                     </TabPane>
 
@@ -194,8 +203,8 @@ export default class Invoice extends Component {
                                 <Card>
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
-                                        <FileUploads entity_type="Invoice" entity={this.props.entity}
-                                            user_id={this.props.entity.user_id}/>
+                                        <FileUploads entity_type="Invoice" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -205,7 +214,7 @@ export default class Invoice extends Component {
                     <TabPane tabId="4">
                         <Row>
                             <Col>
-                                <Audit entity="Invoice" audits={this.props.entity.audits}/>
+                                <Audit entity="Invoice" audits={this.state.entity.audits}/>
                             </Col>
                         </Row>
                     </TabPane>
@@ -226,7 +235,7 @@ export default class Invoice extends Component {
                     </TabPane>
 
                     <TabPane tabId="6">
-                        <AddPayment invoice_id={this.props.entity.id} showForm={true}/>
+                        <AddPayment invoice_id={this.state.entity.id} showForm={true}/>
                     </TabPane>
                 </TabContent>
 

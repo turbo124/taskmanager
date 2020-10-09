@@ -72,6 +72,8 @@ class CreditRefund extends BaseRefund
         $credit->increaseBalance($amount);
         $credit->setStatus(Credit::STATUS_SENT);
         $credit->save();
+
+        $credit->transaction_service()->createTransaction($amount, $credit->customer->balance);
         return true;
     }
 }

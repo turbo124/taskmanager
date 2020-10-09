@@ -59,6 +59,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      */
     public function save(array $data, Credit $credit): ?Credit
     {
+        $original_amount = $credit->total;
         $credit->fill($data);
         $credit = $this->populateDefaults($credit);
         $credit = $this->formatNotes($credit);
@@ -68,6 +69,9 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         $credit->save();
 
         $this->saveInvitations($credit, $data);
+
+        $updated_amount = $credit->total - $original_amount;
+        $credit->transaction_service()->createTransaction($updated_amount, $credit->customer->balance);
 
         return $credit->fresh();
     }
