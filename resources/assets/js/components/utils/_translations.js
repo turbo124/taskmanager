@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    send_email: 'Send Email',
     days: 'Days',
     late_fee_amount: 'Late Fee Amount',
     late_fee_percent: 'Late Fee Percent',
