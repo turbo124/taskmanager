@@ -11,7 +11,6 @@ import GatewayModel from '../../models/GatewayModel'
 import SectionItem from '../../common/entityContainers/SectionItem'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
-import LeadModel from "../../models/LeadModel";
 
 export default class Payment extends Component {
     constructor (props) {

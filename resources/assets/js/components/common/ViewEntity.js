@@ -44,7 +44,13 @@ export default class ViewEntity extends Component {
         }, () => this.props.toggle(this.props.entity, this.props.title, edit))
     }
 
-    updateState (response, callbackFunction) {
+    updateState (response, callbackFunction, is_add = false) {
+        if (is_add === true) {
+            const allInvoices = this.props.entities
+            allInvoices.push(response)
+            this.props.updateState(allInvoices)
+            return
+        }
         const index = this.props.entities.findIndex(entity => entity.id === response.id)
         this.props.entities[index] = response
         this.props.updateState(this.props.entities)

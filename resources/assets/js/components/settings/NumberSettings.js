@@ -5,7 +5,7 @@ import axios from 'axios'
 import { translations } from '../utils/_translations'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
-import AccountRepository from "../repositories/AccountRepository";
+import AccountRepository from '../repositories/AccountRepository'
 
 class NumberSettings extends Component {
     constructor (props) {
@@ -30,9 +30,26 @@ class NumberSettings extends Component {
         this.getAccount()
     }
 
-    toggle (tab) {
+    toggle (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -92,7 +109,7 @@ class NumberSettings extends Component {
 
         console.log('settings', settings)
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'recurring_number_prefix',
@@ -111,88 +128,78 @@ class NumberSettings extends Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     getInvoiceFields () {
         const settings = this.state.settings
 
-        console.log('settings', settings)
-
-        const formFields = [
+        return [
             [
                 {
                     name: 'invoice_number_pattern',
-                    label: 'Invoice Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Invoice Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.invoice_number_pattern,
                     group: 1
                 },
                 {
                     name: 'invoice_number_counter',
-                    label: 'Invoice Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Invoice Counter',
+                    placeholder: translations.number_counter,
                     value: settings.invoice_number_counter
                 }
             ]
         ]
-
-        return formFields
     }
 
     getPurchaseOrderFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'purchaseorder_number_pattern',
-                    label: 'Purchase Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Purchase Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.purchaseorder_number_pattern,
                     group: 1
                 },
                 {
                     name: 'purchaseorder_number_counter',
-                    label: 'Purchase Order Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Purchase Order Counter',
+                    placeholder: translations.number_counter,
                     value: settings.purchaseorder_number_counter
                 }
             ]
         ]
-
-        return formFields
     }
 
     getDealFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'deal_number_pattern',
-                    label: 'Deal Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Deal Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.deal_number_pattern,
                     group: 1
                 },
                 {
                     name: 'deal_number_counter',
-                    label: 'Deal Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Deal Counter',
+                    placeholder: translations.number_counter,
                     value: settings.deal_number_counter
                 }
             ]
         ]
-
-        return formFields
     }
 
     getCaseFields () {
@@ -202,17 +209,17 @@ class NumberSettings extends Component {
             [
                 {
                     name: 'case_number_pattern',
-                    label: 'Case Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Case Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.case_number_pattern,
                     group: 1
                 },
                 {
                     name: 'case_number_counter',
-                    label: 'Case Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Case Counter',
+                    placeholder: translations.number_counter,
                     value: settings.case_number_counter
                 }
             ]
@@ -224,27 +231,73 @@ class NumberSettings extends Component {
     getTaskFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'task_number_pattern',
-                    label: 'Task Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Task Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.task_number_pattern,
                     group: 1
                 },
                 {
                     name: 'task_number_counter',
-                    label: 'Task Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Task Counter',
+                    placeholder: translations.number_counter,
                     value: settings.task_number_counter
                 }
             ]
         ]
+    }
 
-        return formFields
+    getRecurringInvoiceFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringinvoice_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringinvoice_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringinvoice_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringinvoice_number_counter
+                }
+            ]
+        ]
+    }
+
+    getRecurringQuoteFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringquote_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringquote_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringquote_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringquote_number_counter
+                }
+            ]
+        ]
     }
 
     getOrderFields () {
@@ -256,17 +309,17 @@ class NumberSettings extends Component {
             [
                 {
                     name: 'order_number_pattern',
-                    label: 'Order Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Order Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.order_number_pattern,
                     group: 1
                 },
                 {
                     name: 'order_number_counter',
-                    label: 'Order Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Order Counter',
+                    placeholder: translations.number_counter,
                     value: settings.order_number_counter
                 }
             ]
@@ -278,21 +331,21 @@ class NumberSettings extends Component {
     getQuoteFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'quote_number_pattern',
-                    label: 'Quote Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Quote Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.quote_number_pattern,
                     group: 1
                 },
                 {
                     name: 'quote_number_counter',
-                    label: 'Quote Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Quote Counter',
+                    placeholder: translations.number_counter,
                     value: settings.quote_number_counter
                 },
                 {
@@ -322,28 +375,26 @@ class NumberSettings extends Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     getCreditFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'credit_number_pattern',
-                    label: 'Credit Number Pattern',
+                    label: translations.number_pattern,
                     type: 'text',
-                    placeholder: 'Credit Number Pattern',
+                    placeholder: translations.number_pattern,
                     value: settings.credit_number_pattern,
                     group: 1
                 },
                 {
                     name: 'credit_number_counter',
-                    label: 'Credit Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Credit Counter',
+                    placeholder: translations.number_counter,
                     value: settings.credit_number_counter
                 }
                 // {
@@ -373,20 +424,18 @@ class NumberSettings extends Component {
                 // }
             ]
         ]
-
-        return formFields
     }
 
     getPaymentFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'payment_number_counter',
-                    label: 'Payment Counter',
+                    label: translations.number_counter,
                     type: 'text',
-                    placeholder: 'Payment Counter',
+                    placeholder: translations.number_counter,
                     value: settings.payment_number_counter
                 },
                 {
@@ -408,8 +457,6 @@ class NumberSettings extends Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     handleClose () {
@@ -417,106 +464,148 @@ class NumberSettings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
         const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('1')
+                    onClick={(e) => {
+                        this.toggle('1', e)
                     }}>
                     {translations.settings}
                 </NavLink>
             </NavItem>
 
+            {modules && modules.invoices &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('2')
+                    onClick={(e) => {
+                        this.toggle('2', e)
                     }}>
                     {translations.invoices}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.quotes &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('3')
+                    onClick={(e) => {
+                        this.toggle('3', e)
                     }}>
                     {translations.quotes}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.payments &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('4')
+                    onClick={(e) => {
+                        this.toggle('4', e)
                     }}>
                     {translations.payments}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.credits &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('5')
+                    onClick={(e) => {
+                        this.toggle('5', e)
                     }}>
                     {translations.credits}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('6')
+                    onClick={(e) => {
+                        this.toggle('6', e)
                     }}>
                     {translations.orders}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.purchase_orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('7')
+                    onClick={(e) => {
+                        this.toggle('7', e)
                     }}>
-                    PO's
+                    {translations.POS}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.deals &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('8')
+                    onClick={(e) => {
+                        this.toggle('8', e)
                     }}>
                     {translations.deals}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.cases &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '9' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('9')
+                    onClick={(e) => {
+                        this.toggle('9', e)
                     }}>
                     {translations.cases}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.tasks &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '10' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('10')
+                    onClick={(e) => {
+                        this.toggle('10', e)
                     }}>
                     {translations.tasks}
                 </NavLink>
             </NavItem>
+            }
+            {modules && modules.recurringInvoices &&
+            <NavItem>
+                <NavLink
+                    className={`${this.state.activeTab === '11' ? 'active' : ''} extra-tab-space`}
+                    onClick={(e) => {
+                        this.toggle('11', e)
+                    }}>
+                    {translations.recurring_invoices_abbr}
+                </NavLink>
+            </NavItem>
+            }
+            {modules && modules.recurringQuotes &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '12' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggle('12', e)
+                    }}>
+                    {translations.recurring_quotes_abbr}
+                </NavLink>
+            </NavItem>
+            }
         </Nav>
 
         return this.state.loaded === true ? (
@@ -542,6 +631,7 @@ class NumberSettings extends Component {
                         </Card>
                     </TabPane>
 
+                    {modules && modules.invoices &&
                     <TabPane tabId="2" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -552,7 +642,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.quotes &&
                     <TabPane tabId="3" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -563,7 +655,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.payments &&
                     <TabPane tabId="4" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -574,7 +668,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.credits &&
                     <TabPane tabId="5" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -585,7 +681,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.orders &&
                     <TabPane tabId="6" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -596,7 +694,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.purchase_orders &&
                     <TabPane tabId="7" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -607,7 +707,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.deals &&
                     <TabPane tabId="8" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -618,7 +720,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.cases &&
                     <TabPane tabId="9" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -629,7 +733,9 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.tasks &&
                     <TabPane tabId="10" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -640,6 +746,33 @@ class NumberSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
+
+                    {modules && modules.recurringInvoices &&
+                    <TabPane tabId="11" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getTaskFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    }
+
+                    {modules && modules.recurringQuotes &&
+                    <TabPane tabId="12" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getTaskFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    }
                 </TabContent>
             </React.Fragment>
         ) : null

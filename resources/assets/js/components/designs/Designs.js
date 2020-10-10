@@ -19,16 +19,20 @@ import axios from 'axios'
 import DesignDropdown from '../common/dropdowns/DesignDropdown'
 import { translations } from '../utils/_translations'
 import Variables from '../settings/Variables'
+import SnackbarMessage from '../common/SnackbarMessage'
+import Header from '../settings/Header'
 
 class Designs extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            success: false,
+            error: false,
             loaded: 0,
             is_loading: false,
             is_mobile: window.innerWidth <= 768,
             modal: false,
-            name: '',
+            name: 'custom',
             id: null,
             is_custom: true,
             design: {
@@ -78,15 +82,31 @@ class Designs extends React.Component {
         }
     }
 
-    toggleTabs (tab) {
+    toggleTabs (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '2') {
-                    if (this.state.is_mobile) {
-                        this.getPreview()
-                    }
+                if (this.state.activeTab === '2' && this.state.is_mobile) {
+                    alert('yes')
+                    this.getPreview()
                 }
             })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -184,7 +204,6 @@ class Designs extends React.Component {
     }
 
     getPreview () {
-        console.log('header', this.state.design.header)
         const design = {
             name: this.state.name,
             is_custom: this.state.is_custom,
@@ -209,7 +228,6 @@ class Designs extends React.Component {
             }
         })
             .then((response) => {
-                console.log('respons', response.data.data)
                 var base64str = response.data.data
 
                 // decode base64 string, remove space for IE compatibility
@@ -222,8 +240,10 @@ class Designs extends React.Component {
                 }
 
                 // create the blob object with content-type "application/pdf"
-                var blob = new Blob([view], { type: 'application/pdf' })
-                var url = URL.createObjectURL(blob)
+                const blob = new Blob([view], { type: 'application/pdf' })
+                const url = URL.createObjectURL(blob)
+
+                console.log('url', url)
 
                 /* const file = new Blob (
                  [ response.data.data ],
@@ -262,8 +282,11 @@ class Designs extends React.Component {
         })
     }
 
+    handleClose () {
+        this.setState({ success: false, error: false })
+    }
+
     render () {
-        console.log('body', this.state.design.body)
         const title = this.state.is_custom === true ? <FormGroup>
             <Label for="name">Name <span className="text-danger">*</span></Label>
             <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
@@ -277,105 +300,113 @@ class Designs extends React.Component {
                 onChange={this.handleInput.bind(this)}/>
             {this.renderErrorFor('name')}
         </FormGroup>
+
+        const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '1' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('1', e)
+                    }}>
+                    {translations.settings}
+                </NavLink>
+            </NavItem>
+
+            {!!this.state.is_mobile &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '2' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('2', e)
+                    }}>
+                    {translations.preview}
+                </NavLink>
+            </NavItem>
+            }
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '3' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('3', e)
+                    }}>
+                    {translations.header}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '4' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('4', e)
+                    }}>
+                    {translations.body}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '5' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('5', e)
+                    }}>
+                    {translations.total}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '6' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('6', e)
+                    }}>
+                    {translations.footer}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '7' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('7', e)
+                    }}>
+                    {translations.product}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '8' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggleTabs('8', e)
+                    }}>
+                    {translations.task}
+                </NavLink>
+            </NavItem>
+        </Nav>
+
         return (
             <React.Fragment>
-                <link rel="stylesheet" type="text/css" href="public/css/pdf.css"/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
+
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
                 <Row>
-                    <Col md={6}>
-                        <Nav tabs>
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '1' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('1')
-                                    }}>
-                                    {translations.settings}
-                                </NavLink>
-                            </NavItem>
+                    <Col sm={7}>
 
-                            {!!this.state.is_mobile &&
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '2' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('2')
-                                    }}>
-                                    {translations.preview}
-                                </NavLink>
-                            </NavItem>
-                            }
+                        <Header title={translations.designs} className="header-md"
+                            tabs={tabs}/>
 
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '3' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('3')
-                                    }}>
-                                    {translations.header}
-                                </NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '4' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('4')
-                                    }}>
-                                    {translations.body}
-                                </NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '5' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('5')
-                                    }}>
-                                    {translations.total}
-                                </NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '6' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('6')
-                                    }}>
-                                    {translations.footer}
-                                </NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '7' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('7')
-                                    }}>
-                                    {translations.product}
-                                </NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink
-                                    className={this.state.activeTab === '8' ? 'active' : ''}
-                                    onClick={() => {
-                                        this.toggleTabs('8')
-                                    }}>
-                                    {translations.task}
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-
-                        <TabContent activeTab={this.state.activeTab}>
-                            <TabPane tabId="1">
+                        <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                            <TabPane className="px-0" tabId="1">
                                 <Card>
-                                    <CardHeader>{this.state.template_type}</CardHeader>
                                     <CardBody>
                                         {title}
 
                                         <FormGroup>
-                                            <Label for="name">Design <span className="text-danger">*</span></Label>
+                                            <Label for="name">{translations.design} <span className="text-danger">*</span></Label>
                                             <DesignDropdown resetCounters={this.resetCounters}
                                                 handleInputChanges={this.switchDesign}/>
                                         </FormGroup>
@@ -394,7 +425,7 @@ class Designs extends React.Component {
                             </TabPane>
 
                             {!!this.state.is_mobile &&
-                            <TabPane tabId="2">
+                            <TabPane tabId="2" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.preview}</CardHeader>
                                     <CardBody>
@@ -407,7 +438,7 @@ class Designs extends React.Component {
                             </TabPane>
                             }
 
-                            <TabPane tabId="3">
+                            <TabPane tabId="3" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.header}</CardHeader>
                                     <CardBody>
@@ -439,7 +470,7 @@ class Designs extends React.Component {
                                 </Card>
                             </TabPane>
 
-                            <TabPane tabId="4">
+                            <TabPane tabId="4" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.body}</CardHeader>
                                     <CardBody>
@@ -469,12 +500,13 @@ class Designs extends React.Component {
                                 </Card>
                             </TabPane>
 
-                            <TabPane tabId="5">
+                            <TabPane tabId="5" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.total}</CardHeader>
                                     <CardBody>
                                         <FormGroup>
-                                            <Label for="name">{translations.total} <span className="text-danger">*</span></Label>
+                                            <Label for="name">{translations.total} <span
+                                                className="text-danger">*</span></Label>
                                             <Input type="textarea" style={{ height: '400px' }} size="lg"
                                                 value={this.state.design.totals}
                                                 onChange={(e) => {
@@ -499,7 +531,7 @@ class Designs extends React.Component {
                                 </Card>
                             </TabPane>
 
-                            <TabPane tabId="6">
+                            <TabPane tabId="6" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.footer}</CardHeader>
                                     <CardBody>
@@ -530,14 +562,14 @@ class Designs extends React.Component {
                                 </Card>
                             </TabPane>
 
-                            <TabPane tabId="7">
+                            <TabPane tabId="7" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.product}</CardHeader>
                                     <CardBody/>
                                 </Card>
                             </TabPane>
 
-                            <TabPane tabId="8">
+                            <TabPane tabId="8" className="px-0">
                                 <Card>
                                     <CardHeader>{translations.task}</CardHeader>
                                     <CardBody/>
@@ -547,7 +579,7 @@ class Designs extends React.Component {
                     </Col>
 
                     {!this.state.is_mobile &&
-                    <Col md={6}>
+                    <Col md={5} className="mt-2 pl-0">
                         {this.state.loaded > 0 &&
                         <Progress max="100" color="success"
                             value={this.state.loaded}>{Math.round(this.state.loaded, 2)}%</Progress>

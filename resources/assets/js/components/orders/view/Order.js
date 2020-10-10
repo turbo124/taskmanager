@@ -37,7 +37,9 @@ export default class Order extends Component {
     triggerAction (action) {
         this.orderModel.completeAction(this.state.entity, action).then(response => {
             this.setState({ show_success: true }, () => {
-                this.props.updateState(response, this.refresh)
+                if (action !== 'cloneOrderToInvoice') {
+                    this.props.updateState(response, this.refresh)
+                }
             })
 
             setTimeout(
@@ -130,6 +132,23 @@ export default class Order extends Component {
         if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
             fields.discount = <FormatMoney customers={this.props.customers}
                 amount={this.state.entity.discount_total}/>
+        }
+
+        let buttonAction = ''
+        let buttonText = ''
+
+        if (!this.orderModel.isSent && this.orderModel.isEditable) {
+            buttonAction = 'markSent'
+            buttonText = translations.mark_sent
+        } else if (!this.orderModel.isApproved && !this.orderModel.isCompleted && this.orderModel.isEditable) {
+            buttonAction = 'dispatch'
+            buttonText = translations.dispatch
+        } else if (this.orderModel.isBackorder && this.orderModel.isEditable) {
+            buttonAction = 'fulfill'
+            buttonText = translations.fulfill
+        } else {
+            buttonAction = 'cloneOrderToInvoice'
+            buttonText = translations.clone_order_to_invoice
         }
 
         return (
@@ -236,8 +255,8 @@ export default class Order extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                    button2_click={(e) => this.triggerAction(buttonAction)}
+                    button2={{ label: buttonText }}/>
 
             </React.Fragment>
 

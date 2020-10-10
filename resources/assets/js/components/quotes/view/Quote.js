@@ -34,10 +34,10 @@ export default class Quote extends Component {
         this.setState({ entity: entity })
     }
 
-    triggerAction (action) {
+    triggerAction (action, is_add = false) {
         this.quoteModel.completeAction(this.state.entity, action).then(response => {
             this.setState({ show_success: true }, () => {
-                this.props.updateState(response, this.refresh)
+                this.props.updateState(response, this.refresh, is_add)
             })
 
             setTimeout(
@@ -132,7 +132,7 @@ export default class Quote extends Component {
                 amount={this.state.entity.discount_total}/>
         }
 
-        const button_2_action = this.quoteModel.hasInvoice ? 'clone_to_quote' : 'approve'
+        const button_2_action = this.quoteModel.hasInvoice ? (e) => this.triggerAction('clone_to_quote', true) : (e) => this.triggerAction('approve', false)
         const button_2_text = this.quoteModel.hasInvoice ? translations.clone_quote : translations.convert_quote_to_invoice
 
         return (
@@ -242,7 +242,7 @@ export default class Quote extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction(button_2_action)}
+                    button2_click={button_2_action}
                     button2={{ label: button_2_text }}/>
 
             </React.Fragment>

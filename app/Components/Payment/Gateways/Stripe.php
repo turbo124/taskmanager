@@ -81,7 +81,7 @@ class Stripe extends BasePaymentGateway
                     'customer'       => $this->customer_gateway->gateway_customer_reference,
                     'confirm'        => true,
                     'amount'         => $this->convertToStripeAmount($amount, $currency->precision),
-                    'currency'       => $currency->code,
+                    'currency'       => $currency->iso_code,
                     'description'    => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
                 ]
             );
@@ -148,9 +148,14 @@ class Stripe extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
+
+            echo '<pre>';
+            print_r($errors);
+            die;
+
             $user = !empty($invoice) ? $invoice->user : $this->customer->user;
             $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-            $error_log->data = $errors['data'];
+            $error_log->data = $errors;
             $error_log->error_type = ErrorLog::PAYMENT;
             $error_log->error_result = ErrorLog::FAILURE;
             $error_log->entity = 'stripe';

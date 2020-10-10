@@ -52,12 +52,15 @@ class AutobillInvoice implements ShouldQueue
             $this->invoice_repo->markSent($this->invoice);
         }
 
-        if ($this->invoice->balance <= 0) {
-            $this->invoice->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
-            return true;
+//        if ($this->invoice->balance <= 0) {
+//            $this->invoice->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
+//            return true;
+//        }
+
+        if($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
+            $credits = $this->getCreditNotesForPayment();
         }
 
-        $credits = $this->getCreditNotesForPayment();
         $credit_total = !empty($credits) ? array_sum(array_column($credits, 'amount')) : 0;
         $amount = ($this->invoice->partial > 0) ? $this->invoice->partial : (($this->invoice->balance > 0) ? $this->invoice->balance : $credit_total);
 

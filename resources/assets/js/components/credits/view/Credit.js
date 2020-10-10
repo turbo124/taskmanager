@@ -35,10 +35,10 @@ export default class Credit extends Component {
         this.setState({ entity: entity })
     }
 
-    triggerAction (action) {
+    triggerAction (action, is_add = false) {
         this.creditModel.completeAction(this.state.entity, action).then(response => {
             this.setState({ show_success: true }, () => {
-                this.props.updateState(response, this.refresh)
+                this.props.updateState(response, this.refresh, is_add)
             })
 
             setTimeout(
@@ -236,7 +236,7 @@ export default class Credit extends Component {
 
                 <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
                     button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_credit')}
+                    button2_click={(e) => this.triggerAction('clone_to_credit', true)}
                     button2={{ label: translations.clone_credit }}/>
 
             </React.Fragment>

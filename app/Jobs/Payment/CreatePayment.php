@@ -108,7 +108,23 @@ class CreatePayment implements ShouldQueue
                            ->get();
 
         foreach ($invoices as $invoice) {
-            $this->updateCustomer($payment, $invoice);
+
+            $amount = $invoice->balance;
+
+            if (!empty($invoice->temp_data)) {
+                $temp_data = json_decode($invoice->temp_data, true);
+
+                if (!empty($temp_data['credits_to_process'])) {
+                    $amount = array_sum(array_column($temp_data['credits_to_process'], 'amount'));
+
+                    $this->attachCredits($payment, $temp_data['credits_to_process']);
+                }
+
+                $invoice->temp_data = null;
+                $invoice->save();
+            }
+
+            $this->updateCustomer($payment, $invoice, $amount);
 
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
                 $invoice = (new InvoiceRepository($invoice))->save(
@@ -117,22 +133,11 @@ class CreatePayment implements ShouldQueue
                 );
             }
 
-            $invoice->transaction_service()->createTransaction($invoice->balance * -1, $invoice->customer->balance);
+            $invoice->transaction_service()->createTransaction($amount * -1, $invoice->customer->balance);
 
-            if (!empty($invoice->temp_data)) {
-                $temp_data = json_decode($invoice->temp_data, true);
+            $invoice->reduceBalance($amount);
 
-                if (!empty($temp_data['credits_to_process'])) {
-                    $this->attachCredits($payment, $temp_data['credits_to_process']);
-                }
-
-                $invoice->temp_data = null;
-                $invoice->save();
-            }
-
-            $invoice->reduceBalance($invoice->balance);
-
-            $payment->attachInvoice($invoice);
+            $payment->attachInvoice($invoice, $amount);
         }
 
         return $payment;
@@ -163,10 +168,10 @@ class CreatePayment implements ShouldQueue
      * @param Payment $payment
      * @param Invoice $invoice
      */
-    private function updateCustomer(Payment $payment, Invoice $invoice)
+    private function updateCustomer(Payment $payment, Invoice $invoice, $amount)
     {
-        $payment->customer->increaseBalance($invoice->balance * -1);
-        $payment->customer->increasePaidToDateAmount($invoice->balance);
+        $payment->customer->reduceBalance($amount);
+        $payment->customer->increasePaidToDateAmount($amount);
         $payment->customer->save();
     }
 

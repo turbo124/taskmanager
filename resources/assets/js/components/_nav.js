@@ -1,4 +1,4 @@
-import { getSettingsIcon, icons } from './utils/_icons'
+import { getEntityIcon, getSettingsIcon, icons } from './utils/_icons'
 import { translations } from './utils/_translations'
 
 const modules = JSON.parse(localStorage.getItem('modules'))
@@ -13,7 +13,7 @@ if (Object.prototype.hasOwnProperty.call(localStorage, 'appState')) {
 
 const items = [
     {
-        name: 'Dashboard',
+        name: translations.dashboard,
         url: '/dashboard',
         icon: 'fa fa-dashboard'
     },
@@ -135,9 +135,9 @@ const financial = {
 if (modules && modules.promocodes) {
     financial.children.push(
         {
-            name: 'Promocodes',
+            name: translations.promocodes,
             url: '/promocodes',
-            icon: 'fa fa-shopping-basket'
+            icon: `fa ${getEntityIcon('Promocode')}`
         }
     )
 }
@@ -145,9 +145,9 @@ if (modules && modules.promocodes) {
 if (modules && modules.invoices) {
     financial.children.push(
         {
-            name: 'Invoices',
+            name: translations.invoices,
             url: '/invoice',
-            icon: 'fa fa-area-chart'
+            icon: `fa ${getEntityIcon('Invoice')}`
         }
     )
 }
@@ -155,9 +155,9 @@ if (modules && modules.invoices) {
 if (modules && modules.orders) {
     financial.children.push(
         {
-            name: 'Orders',
+            name: translations.orders,
             url: '/orders',
-            icon: `fa ${icons.order}`
+            icon: `fa ${getEntityIcon('Order')}`
         }
     )
 }
@@ -165,9 +165,19 @@ if (modules && modules.orders) {
 if (modules && modules.quotes) {
     financial.children.push(
         {
-            name: 'Quotes',
+            name: translations.quotes,
             url: '/quotes',
-            icon: 'fa fa-handshake-o'
+            icon: `fa ${getEntityIcon('Quote')}`
+        }
+    )
+}
+
+if (modules && modules.credits) {
+    financial.children.push(
+        {
+            name: translations.credits,
+            url: '/credits',
+            icon: `fa ${getEntityIcon('Credit')}`
         }
     )
 }
@@ -175,9 +185,9 @@ if (modules && modules.quotes) {
 if (modules && modules.recurringInvoices) {
     financial.children.push(
         {
-            name: 'Recurring Invoices',
+            name: translations.recurring_invoices,
             url: '/recurring-invoices',
-            icon: 'fa fa-handshake-o'
+            icon: `fa ${getEntityIcon('RecurringInvoice')}`
         }
     )
 }
@@ -185,9 +195,9 @@ if (modules && modules.recurringInvoices) {
 if (modules && modules.recurringQuotes) {
     financial.children.push(
         {
-            name: 'Recurring Quotes',
+            name: translations.recurring_quotes,
             url: '/recurring-quotes',
-            icon: 'fa fa-handshake-o'
+            icon: `fa ${getEntityIcon('RecurringQuote')}`
         }
     )
 }
@@ -197,7 +207,7 @@ if (modules && modules.payments) {
         {
             name: 'Payments',
             url: '/payments',
-            icon: `fa ${icons.credit_card}`
+            icon: `fa ${getEntityIcon('Payment')}`
         }
     )
 }
@@ -207,7 +217,7 @@ if (modules && modules.expenses) {
         {
             name: 'Expenses',
             url: '/expenses',
-            icon: `fa ${icons.expense}`
+            icon: `fa ${getEntityIcon('Expense')}`
         }
     )
 }
@@ -216,7 +226,7 @@ items.push(financial)
 
 const tasks = {
     name: 'Tasks',
-    icon: `fa ${icons.task}`,
+    icon: `fa ${getEntityIcon('Task')}`,
     children: []
 }
 
@@ -224,7 +234,7 @@ if (modules && modules.leads) {
     tasks.children.push({
         name: 'Leads',
         url: '/leads',
-        icon: 'fa fa-chain-broken'
+        icon: `fa ${getEntityIcon('Lead')}`
     })
 }
 
@@ -232,7 +242,7 @@ if (modules && modules.cases) {
     tasks.children.push({
         name: 'Cases',
         url: '/cases',
-        icon: 'fa fa-chain-broken'
+        icon: `fa ${getEntityIcon('Case')}`
     })
 }
 
@@ -240,7 +250,7 @@ if (modules && modules.projects) {
     tasks.children.push({
         name: 'Projects',
         url: 'projects',
-        icon: `fa ${icons.project}`
+        icon: `fa ${getEntityIcon('Project')}`
     })
 }
 
@@ -248,7 +258,7 @@ if (modules && modules.tasks) {
     tasks.children.push({
         name: 'Tasks',
         url: 'tasks',
-        icon: `fa ${icons.task}`
+        icon: `fa ${getEntityIcon('Task')}`
     })
 
     tasks.children.push(
@@ -265,7 +275,7 @@ if (modules && modules.deals) {
         {
             name: 'Deals',
             url: '/deals',
-            icon: 'fa fa-chain-broken'
+            icon: `fa ${getEntityIcon('Deal')}`
         }
     )
 }
@@ -279,7 +289,7 @@ const users = {
         {
             name: 'Employees',
             url: '/users',
-            icon: `fa ${icons.user}`
+            icon: `fa ${getEntityIcon('User')}`
         },
 
         {
@@ -309,9 +319,9 @@ if (is_admin) {
 if (modules && modules.companies) {
     items.push(
         {
-            name: 'Companies',
+            name: translations.companies,
             url: '/companies',
-            icon: `fa ${icons.building}`
+            icon: `fa ${getEntityIcon('Company')}`
         }
     )
 }
@@ -319,21 +329,21 @@ if (modules && modules.companies) {
 if (modules && modules.purchase_orders) {
     items.push(
         {
-            name: 'Purchase Orders',
+            name: translations.purchase_orders,
             url: '/purchase_orders',
-            icon: `fa ${icons.building}`
+            icon: `fa ${getEntityIcon('Company')}`
         }
     )
 }
 
 const products = {
-    name: 'Products',
+    name: translations.products,
     icon: 'fa fa-barcode',
     children: [
         {
-            name: 'Products',
+            name: translations.products,
             url: '/products',
-            icon: `fa ${icons.product}`
+            icon: `fa ${getEntityIcon('Product')}`
         },
         {
             name: 'Categories',
@@ -366,7 +376,7 @@ if (modules && modules.events) {
 }
 
 items.push({
-    name: 'Customers',
+    name: translations.customers,
     url: '/customers',
     icon: 'fa fa-address-book-o'
 })
