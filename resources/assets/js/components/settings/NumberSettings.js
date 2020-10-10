@@ -754,7 +754,7 @@ class NumberSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskFields()}
+                                    formFieldsRows={this.getRecurringInvoiceFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -767,8 +767,8 @@ class NumberSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskFields()}
-                                />
+                                    formFieldsRows={this.getRecurringQuoteFields()}
+                                 />
                             </CardBody>
                         </Card>
                     </TabPane>
