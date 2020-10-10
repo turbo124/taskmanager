@@ -144,9 +144,11 @@ export default class Variables extends Component {
 
 class VariableGrid extends Component {
     render () {
+        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+
         return (<ListGroup style={{ height: '400px', overflowY: 'auto' }}>
             {this.props.fields.map((field, idx) => {
-                return <ListGroupItem key={idx}>{field}</ListGroupItem>
+                return <ListGroupItem key={idx} className={listClass}>{field}</ListGroupItem>
             })}
         </ListGroup>)
     }

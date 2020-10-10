@@ -35,10 +35,10 @@ export default class Invoice extends Component {
         this.setState({ entity: entity })
     }
 
-    triggerAction (action) {
+    triggerAction (action, is_add = false) {
         this.invoiceModel.completeAction(this.state.entity, action).then(response => {
             this.setState({ show_success: true }, () => {
-                this.props.updateState(response, this.refresh)
+                this.props.updateState(response, this.refresh, is_add)
             })
 
             setTimeout(
@@ -131,7 +131,7 @@ export default class Invoice extends Component {
                 amount={this.state.entity.discount_total}/>
         }
 
-        const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice') : (e) => this.toggleTab('6')
+        const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice', true) : (e) => this.toggleTab('6')
         const button_2_text = this.invoiceModel.isPaid ? translations.clone_invoice : translations.add_payment
 
         return (

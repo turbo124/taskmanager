@@ -5,7 +5,7 @@ import Menu from './Menu'
 
 export default function Header (props) {
     return (
-        <div className="topbar">
+        <div className={`topbar ${props.className || ''}`}>
             <Card className="m-0">
                 <CardBody className="p-0">
                     <div className="d-flex justify-content-between align-items-center">

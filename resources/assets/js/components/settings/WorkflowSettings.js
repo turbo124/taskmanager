@@ -7,7 +7,7 @@ import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
-import AccountRepository from "../repositories/AccountRepository";
+import AccountRepository from '../repositories/AccountRepository'
 
 export default class WorkflowSettings extends Component {
     constructor (props) {
@@ -32,9 +32,26 @@ export default class WorkflowSettings extends Component {
         this.getAccount()
     }
 
-    toggle (tab) {
+    toggle (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -400,8 +417,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('1')
+                    onClick={(e) => {
+                        this.toggle('1', e)
                     }}>
                     {translations.invoices}
                 </NavLink>
@@ -410,8 +427,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('2')
+                    onClick={(e) => {
+                        this.toggle('2', e)
                     }}>
                     {translations.quotes}
                 </NavLink>
@@ -420,8 +437,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('3')
+                    onClick={(e) => {
+                        this.toggle('3', e)
                     }}>
                     {translations.leads}
                 </NavLink>
@@ -430,8 +447,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('4')
+                    onClick={(e) => {
+                        this.toggle('4', e)
                     }}>
                     {translations.orders}
                 </NavLink>
@@ -440,8 +457,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('5')
+                    onClick={(e) => {
+                        this.toggle('5', e)
                     }}>
                     {translations.deals}
                 </NavLink>
@@ -450,8 +467,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('6')
+                    onClick={(e) => {
+                        this.toggle('6', e)
                     }}>
                     {translations.POS}
                 </NavLink>
@@ -460,8 +477,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('7')
+                    onClick={(e) => {
+                        this.toggle('7', e)
                     }}>
                     {translations.cases}
                 </NavLink>
@@ -470,8 +487,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('8')
+                    onClick={(e) => {
+                        this.toggle('8', e)
                     }}>
                     {translations.payments}
                 </NavLink>

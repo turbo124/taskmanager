@@ -109,7 +109,6 @@ export default class Expense extends Component {
         const category = this.state.categories.length ? this.state.categories.filter(category => category.id === parseInt(this.state.entity.category_id)) : []
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         let user = null
 

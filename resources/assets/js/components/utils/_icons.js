@@ -79,29 +79,52 @@ export const icons = {
     info: 'fa-info-circle',
     industry: 'fa-industry',
     start: 'fa-play',
-    stop: 'fa-stop'
+    stop: 'fa-stop',
+    lead: 'fa-chain-broken',
+    case: 'fa-chain-broken',
+    deal: 'fa-badge-dollar',
+    credit: 'fa-undo',
+    invoice: 'fa-area-chart',
+    promocode: 'fa-badge-percent'
 }
 
 export function getEntityIcon (entity) {
     switch (entity) {
+        case 'Promocode':
+            return icons.promocode
+        case 'Deal':
+            return icons.deal
+        case 'Project':
+            return icons.project
+        case 'Case':
+            return icons.case
+        case 'Lead':
+            return icons.lead
+        case 'Task':
+            return icons.task
         case 'User':
             return icons.user
         case 'Customer':
             return icons.group
         case 'Product':
             return icons.product
+        case 'Expense':
+            return icons.expense
         case 'Payment':
             return icons.credit_card
         case 'Company':
             return icons.company
-        case 'Invoice':
         case 'Credit':
+            return icons.credit
         case 'Quote':
+            return icons.payment_terms
+        case 'Invoice':
+            return icons.invoice
         case 'Order':
-            return icons.document
+            return icons.order
         case 'RecurringInvoice':
         case 'RecurringQuote':
-            return icons.clone
+            return icons.restore
         case 'PurchaseOrder':
             return icons.industry
     }

@@ -219,6 +219,23 @@ class CustomFieldSettings extends Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
         }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
+        }
     }
 
     handleClose () {

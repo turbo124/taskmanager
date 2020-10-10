@@ -299,7 +299,7 @@ export default class DropdownMenuBuilder extends Component {
             case 'cloneOrderToInvoice':
                 return <DropdownItem key={10} className="primary"
                     onClick={() => this.changeStatus('clone_order_to_invoice')}>
-                    <i className={`fa ${icons.clone} mr-2`}/> Clone Order To Invoice
+                    <i className={`fa ${icons.clone} mr-2`}/> {translations.clone_order_to_invoice}
                 </DropdownItem>
 
             case 'cloneOrderToQuote':

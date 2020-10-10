@@ -13,9 +13,9 @@ import { customer_pdf_fields } from '../models/CustomerModel'
 import { account_pdf_fields } from '../models/AccountModel'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
-import AccountRepository from "../repositories/AccountRepository";
-import { icons } from "../utils/_icons";
-import BlockButton from "../common/BlockButton";
+import AccountRepository from '../repositories/AccountRepository'
+import { icons } from '../utils/_icons'
+import BlockButton from '../common/BlockButton'
 
 class InvoiceSettings extends Component {
     constructor (props) {
@@ -41,9 +41,26 @@ class InvoiceSettings extends Component {
         this.getAccount()
     }
 
-    toggle (tab) {
+    toggle (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -341,12 +358,13 @@ class InvoiceSettings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
         const tabs = <Nav className="nav-justified setting-tabs disable-scrollbars" tabs>
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('1')
+                    onClick={(e) => {
+                        this.toggle('1', e)
                     }}>
                     {translations.settings}
                 </NavLink>
@@ -355,8 +373,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('2')
+                    onClick={(e) => {
+                        this.toggle('2', e)
                     }}>
                     {translations.invoice}
                 </NavLink>
@@ -365,8 +383,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('3')
+                    onClick={(e) => {
+                        this.toggle('3', e)
                     }}>
                     {translations.customer}
                 </NavLink>
@@ -375,82 +393,94 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('4')
+                    onClick={(e) => {
+                        this.toggle('4', e)
                     }}>
                     {translations.account}
                 </NavLink>
             </NavItem>
 
+            {modules && modules.invoices &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('5')
+                    onClick={(e) => {
+                        this.toggle('5', e)
                     }}>
                     {translations.invoice}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.quotes &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('6')
+                    onClick={(e) => {
+                        this.toggle('6', e)
                     }}>
                     {translations.quote}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('7')
+                    onClick={(e) => {
+                        this.toggle('7', e)
                     }}>
                     {translations.order}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.purchase_orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('8')
+                    onClick={(e) => {
+                        this.toggle('8', e)
                     }}>
-                    PO's
+                    {translations.POS}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.credits &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '9' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('9')
+                    onClick={(e) => {
+                        this.toggle('9', e)
                     }}>
                     {translations.credit}
                 </NavLink>
             </NavItem>
+            }
 
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '10' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('10')
+                    onClick={(e) => {
+                        this.toggle('10', e)
                     }}>
                     {translations.product}
                 </NavLink>
             </NavItem>
 
+            {modules && modules.tasks &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '11' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('11')
+                    onClick={(e) => {
+                        this.toggle('11', e)
                     }}>
                     {translations.task}
                 </NavLink>
             </NavItem>
+            }
         </Nav>
 
         return this.state.loaded === true ? (
@@ -467,7 +497,7 @@ class InvoiceSettings extends Component {
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">
                         <BlockButton icon={icons.link} button_text={translations.customize_and_preview}
-                                     button_link="/#/designs"/>
+                            button_link="/#/designs"/>
 
                         <Card className="border-0">
                             <CardBody>
@@ -505,6 +535,7 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
+                    {modules && modules.invoices &&
                     <TabPane tabId="5" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -514,7 +545,9 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.quotes &&
                     <TabPane tabId="6" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -524,7 +557,9 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.orders &&
                     <TabPane tabId="7" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -534,7 +569,9 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.purchase_orders &&
                     <TabPane tabId="8" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -544,7 +581,9 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
+                    {modules && modules.credits &&
                     <TabPane tabId="9" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -554,6 +593,7 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
 
                     <TabPane tabId="10" className="px-0">
                         <Card className="border-0">
@@ -565,6 +605,7 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
+                    {modules && modules.tasks &&
                     <TabPane tabId="11" className="px-0">
                         <Card className="border-0">
                             <CardBody>
@@ -574,6 +615,7 @@ class InvoiceSettings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
+                    }
                 </TabContent>
 
             </React.Fragment>

@@ -602,6 +602,8 @@ _localizedValues.en = {
     recurring_invoice: 'Recurring Invoice',
     recurring_quotes: 'Recurring Quotes',
     recurring_invoices: 'Recurring Invoices',
+    recurring_invoices_abbr: 'R. Invoices',
+    recurring_quotes_abbr: 'R.Quotes',
     recurring_expenses: 'Recurring Expenses',
     recurring_tasks: 'Recurring Tasks',
     cases: 'Cases',
@@ -655,7 +657,11 @@ _localizedValues.en = {
     frequency_two_years: 'Two Years',
     frequency_three_years: 'Three Years',
     frequency_endless: 'Endless',
-    portal: 'Customer Portal'
+    portal: 'Customer Portal',
+    clone_order_to_invoice: 'Clone Order To Invoice',
+    number_counter: 'Number Counter',
+    prefix: 'Prefix',
+    number_pattern: 'Number Pattern'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
