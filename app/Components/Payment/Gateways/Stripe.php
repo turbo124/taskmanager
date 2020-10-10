@@ -148,11 +148,6 @@ class Stripe extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
-
-            echo '<pre>';
-            print_r($errors);
-            die;
-
             $user = !empty($invoice) ? $invoice->user : $this->customer->user;
             $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
             $error_log->data = $errors;
