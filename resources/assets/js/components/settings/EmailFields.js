@@ -539,6 +539,15 @@ class EmailFields extends Component {
                         group: 1
                     },
                     {
+                        id: 'late_fee_percent1',
+                        name: 'late_fee_percent1',
+                        label: 'Late Fee Percent',
+                        type: 'text',
+                        placeholder: 'Late Fee Percent',
+                        value: settings.late_fee_percent1,
+                        group: 1
+                    },
+                    {
                         id: 'enable_reminder1',
                         name: 'enable_reminder1',
                         label: 'Send Email',
@@ -613,6 +622,15 @@ class EmailFields extends Component {
                         group: 1
                     },
                     {
+                        id: 'late_fee_percent2',
+                        name: 'late_fee_percent2',
+                        label: 'Late Fee Percent',
+                        type: 'text',
+                        placeholder: 'Late Fee Amount',
+                        value: settings.late_fee_percent2,
+                        group: 1
+                    },
+                    {
                         id: 'enable_reminder2',
                         name: 'enable_reminder2',
                         label: 'Send Email',
@@ -684,6 +702,15 @@ class EmailFields extends Component {
                         type: 'text',
                         placeholder: 'Late Fee Amount',
                         value: settings.late_fee_amount3,
+                        group: 1
+                    },
+                    {
+                        id: 'late_fee_percent3',
+                        name: 'late_fee_percent3',
+                        label: 'Late Fee Percent',
+                        type: 'text',
+                        placeholder: 'Late Fee Percent',
+                        value: settings.late_fee_percent3,
                         group: 1
                     },
                     {
