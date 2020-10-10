@@ -380,9 +380,9 @@ class EmailFields extends Component {
                     {
                         id: 'late_fee_endless_amount',
                         name: 'late_fee_endless_amount',
-                        label: translations.lateFeeAmount,
+                        label: translations.late_fee_amount,
                         type: 'text',
-                        placeholder: 'Fee Amount',
+                        placeholder: translations.late_fee_amount,
                         value: settings.late_fee_endless_amount,
                         group: 1
                     },
@@ -485,7 +485,7 @@ class EmailFields extends Component {
                         name: 'email_subject_reminder1',
                         label: translations.subject,
                         type: 'text',
-                        placeholder: 'Name',
+                        placeholder: translations.subject,
                         value: settings.email_subject_reminder1,
                         group: 1
                     },
@@ -504,7 +504,7 @@ class EmailFields extends Component {
                         name: 'num_days_reminder1',
                         label: translations.days,
                         type: 'text',
-                        placeholder: 'Days',
+                        placeholder: translations.days,
                         value: settings.num_days_reminder1,
                         group: 1
                     },
@@ -532,27 +532,27 @@ class EmailFields extends Component {
                     {
                         id: 'late_fee_amount1',
                         name: 'late_fee_amount1',
-                        label: translations.lateFeeAmount,
+                        label: translations.late_fee_amount,
                         type: 'text',
-                        placeholder: translations.lateFeeAmount,
+                        placeholder: translations.late_fee_amount,
                         value: settings.late_fee_amount1,
                         group: 1
                     },
                     {
                         id: 'late_fee_percent1',
                         name: 'late_fee_percent1',
-                        label: translations.lateFeePercent,
+                        label: translations.late_fee_percent,
                         type: 'text',
-                        placeholder: translations.lateFeePercent,
+                        placeholder: translations.late_fee_percent,
                         value: settings.late_fee_percent1,
                         group: 1
                     },
                     {
                         id: 'enable_reminder1',
                         name: 'enable_reminder1',
-                        label: translations.sendEmail,
+                        label: translations.send_email,
                         type: 'switch',
-                        placeholder: 'Send Email',
+                        placeholder: translations.send_email,
                         value: settings.enable_reminder1,
                         group: 1
                     }
@@ -615,25 +615,25 @@ class EmailFields extends Component {
                     {
                         id: 'late_fee_amount2',
                         name: 'late_fee_amount2',
-                        label: translations.lateFeeAmount,
+                        label: translations.late_fee_amount,
                         type: 'text',
-                        placeholder: translations.lateFeeAmount,
+                        placeholder: translations.late_fee_amount,
                         value: settings.late_fee_amount2,
                         group: 1
                     },
                     {
                         id: 'late_fee_percent2',
                         name: 'late_fee_percent2',
-                        label: translations.lateFeePercent,
+                        label: translations.late_fee_percent,
                         type: 'text',
-                        placeholder: translations.lateFeePercent,
+                        placeholder: translations.late_fee_percent,
                         value: settings.late_fee_percent2,
                         group: 1
                     },
                     {
                         id: 'enable_reminder2',
                         name: 'enable_reminder2',
-                        label: translations.sendEmail,
+                        label: translations.send_email,
                         type: 'switch',
                         placeholder: 'Send Email',
                         value: settings.enable_reminder2,
@@ -698,27 +698,27 @@ class EmailFields extends Component {
                     {
                         id: 'late_fee_amount3',
                         name: 'late_fee_amount3',
-                        label: translations.lateFeeAmount,
+                        label: translations.late_fee_amount,
                         type: 'text',
-                        placeholder: translations.lateFeeAmount,
+                        placeholder: translations.late_fee_amount,
                         value: settings.late_fee_amount3,
                         group: 1
                     },
                     {
                         id: 'late_fee_percent3',
                         name: 'late_fee_percent3',
-                        label: translations.lateFeePercent,
+                        label: translations.late_fee_percent,
                         type: 'text',
-                        placeholder: translations.lateFeePercent,
+                        placeholder: translations.late_fee_percent,
                         value: settings.late_fee_percent3,
                         group: 1
                     },
                     {
                         id: 'enable_reminder3',
                         name: 'enable_reminder3',
-                        label: translations.sendEmail,
+                        label: translations.send_email,
                         type: 'switch',
-                        placeholder: 'Send Email',
+                        placeholder: translations.send_email,
                         value: settings.enable_reminder3,
                         group: 1
                     }
