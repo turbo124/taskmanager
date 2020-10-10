@@ -1,5 +1,8 @@
 const _localizedValues = []
 _localizedValues.en = {
+    days: 'Days',
+    late_fee_amount: 'Late Fee Amount',
+    late_fee_percent: 'Late Fee Percent',
     schedule: 'Schedule',
     show_password: 'Show Password',
     hide_password: 'Hide Password',
