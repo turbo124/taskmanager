@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    portal_settings: 'Customer Portal Settings',
     field_settings: 'Custom Fields',
     gateway_settings: 'Online Payments',
     accounts: 'Accounts',
