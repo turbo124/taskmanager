@@ -24,8 +24,8 @@ const items = [
         children: [
             {
                 name: translations.account_details,
-                url: '/accounts',
-                icon: `fa ${getSettingsIcon('accounts')}`
+                url: '/account-settings',
+                icon: `fa ${getSettingsIcon('account-settings')}`
             },
             {
                 name: translations.payment_terms,
@@ -99,8 +99,8 @@ const items = [
             },
             {
                 name: translations.localisation_settings,
-                url: '/localisation',
-                icon: `fa ${getSettingsIcon('localisation')}`
+                url: '/localisation-settings',
+                icon: `fa ${getSettingsIcon('localisation-settings')}`
             },
             {
                 name: translations.workflow_settings,
