@@ -182,7 +182,7 @@ const routes = [
         component: Quotes
     },
     {
-        path: '/accounts/:add?',
+        path: '/account-settings/:add?',
         name: 'Accounts',
         component: Accounts
     },
@@ -282,12 +282,12 @@ const routes = [
         component: Notifications
     },
     {
-        path: '/localisation',
+        path: '/localisation-settings',
         name: 'Localisation',
         component: Localisation
     },
     {
-        path: '/modules',
+        path: '/account-management',
         name: 'Modules',
         component: Modules
     },
