@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    field_settings: 'Custom Fields',
     gateway_settings: 'Online Payments',
     accounts: 'Accounts',
     send_email: 'Send Email',
