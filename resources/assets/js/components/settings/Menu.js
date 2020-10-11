@@ -12,10 +12,8 @@ export default class Menu extends Component {
                 </DropdownToggle>
                 <DropdownMenu style={{ height: 'auto', maxHeight: '400px', overflowX: 'hidden' }}>
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
-                    <MenuItem section="accounts"><i
-                        className={`fa ${getSettingsIcon('accounts')}`}/>{translations.account_details}
-                    </MenuItem>
-                    <MenuItem section="localisation"><i
+                    <MenuItem section="account-settings" />
+                    <MenuItem section="localisation-settings"><i
                         className={`fa ${getSettingsIcon('localisation')}`}/>{translations.localisation_settings}
                     </MenuItem>
                     <MenuItem tag="a" href="gateway-settings"><i
