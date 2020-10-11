@@ -161,7 +161,7 @@ export function getSettingsIcon (section) {
     switch (section) {
         case 'designs':
             return icons.pencil
-        case 'integrations':
+        case 'integration-settings':
             return icons.google
         case 'account-management':
             return icons.shield
