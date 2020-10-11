@@ -272,7 +272,7 @@ const routes = [
         component: Designs_backup
     },
     {
-        path: '/integrations',
+        path: '/integration-settings',
         name: 'Integrations',
         component: Integrations
     },
