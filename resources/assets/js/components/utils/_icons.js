@@ -165,7 +165,7 @@ export function getSettingsIcon (section) {
             return icons.google
         case 'modules':
             return icons.shield
-        case 'localisation':
+        case 'localisation-settings':
             return icons.globe
         case 'workflow-settings':
             return icons.double_right
@@ -193,7 +193,7 @@ export function getSettingsIcon (section) {
             return icons.document
         case 'payment_terms':
             return icons.payment_terms
-        case 'accounts':
+        case 'account-settings':
             return icons.building
     }
 }
