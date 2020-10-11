@@ -1,5 +1,7 @@
 const _localizedValues = []
 _localizedValues.en = {
+    gateway_settings: 'Online Payments',
+    accounts: 'Accounts',
     send_email: 'Send Email',
     days: 'Days',
     late_fee_amount: 'Late Fee Amount',
