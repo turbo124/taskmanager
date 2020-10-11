@@ -14,7 +14,7 @@ export default class Menu extends Component {
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
                     <MenuItem section="account-settings" />
                     <MenuItem section="localisation-settings" />
-                    <MenuItem tag="a" href="gateway-settings" />
+                    <MenuItem section="gateway-settings" />
                     <MenuItem section="tax-rates" />
                     <MenuItem section="product-settings" />
                     <MenuItem section="account-management" />
@@ -23,10 +23,10 @@ export default class Menu extends Component {
                     <DropdownItem header>{translations.advanced_settings}</DropdownItem>
                     <MenuItem section="group-settings" />
                     <MenuItem section="number-settings" />
-                    <MenuItem section="field-settings" label={translations.custom_fields} />
+                    <MenuItem section="field-settings" />
                     <MenuItem section="invoice-settings" />
                     <MenuItem section="workflow-settings" />
-                    <MenuItem section="portal-settings" label={translations.customer_portal} />
+                    <MenuItem section="portal-settings" />
                     <MenuItem section="email-settings" />
                     <MenuItem section="template-settings" />
                     <DropdownItem tag="a" href="/#/users"><i className={`fa ${icons.user}`}/>{translations.users}
