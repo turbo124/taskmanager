@@ -35,56 +35,56 @@ export default class Menu extends Component {
                 </DropdownToggle>
                 <DropdownMenu style={{ height: 'auto', maxHeight: '400px', overflowX: 'hidden' }}>
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
-                    <DropdownItem tag="a" href="/#/accounts"><i
+                    <MenuItem section="accounts"><i
                         className={`fa ${getSettingsIcon('accounts')}`}/>{translations.account_details}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/localisation"><i
+                    </MenuItem>
+                    <MenuItem section="localisation"><i
                         className={`fa ${getSettingsIcon('localisation')}`}/>{translations.localisation_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/gateway-settings"><i
+                    </MenuItem>
+                    <MenuItem tag="a" href="gateway-settings"><i
                         className={`fa ${getSettingsIcon('gateway-settings')}`}/>{translations.online_payments}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/tax-rates"><i
-                        className={`fa ${getSettingsIcon('tax-rates')}`}/>{translations.tax_rates}</DropdownItem>
-                    <DropdownItem tag="a" href="/#/product-settings"><i
+                    </MenuItem>
+                    <MenuItem section="tax-rates" />
+                    <MenuItem section="product-settings"><i
                         className={`fa ${getSettingsIcon('product-settings')}`}/>{translations.product_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/modules"><i
+                    </MenuItem>
+                    <MenuItem section="modules"><i
                         className={`fa ${getSettingsIcon('modules')}`}/>{translations.account_management}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/device-settings"><i
-                        className={`fa ${this.state.is_mobile ? 'fa-mobile' : 'fa-desktop'}`}/>{translations.device_settings}
-                    </DropdownItem>
+                    </MenuItem>
+                    <MenuItem section="device-settings" />
                     <DropdownItem divider/>
                     <DropdownItem header>{translations.advanced_settings}</DropdownItem>
-                    <DropdownItem tag="a" href="/#/group-settings"><i
-                        className={`fa ${getSettingsIcon('group-settings')}`}/>{translations.group_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/number-settings"><i
-                        className={`fa ${getSettingsIcon('number-settings')}`}/>{translations.number_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/field-settings"><i
-                        className={`fa ${getSettingsIcon('field-settings')}`}/>{translations.custom_fields}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/invoice-settings"><i
-                        className={`fa ${getSettingsIcon('invoice-settings')}`}/>{translations.invoice_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/workflow-settings"><i
-                        className={`fa ${getSettingsIcon('workflow-settings')}`}/>{translations.workflow_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/portal-settings"><i
-                        className={`fa ${getSettingsIcon('portal-settings')}`}/>{translations.customer_portal}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/email-settings"><i
-                        className={`fa ${getSettingsIcon('email-settings')}`}/>{translations.email_settings}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="/#/template-settings"><i
-                        className={`fa ${getSettingsIcon('template-settings')}`}/>{translations.template_settings}
-                    </DropdownItem>
+                    <MenuItem section="group-settings" />
+                    <MenuItem section="number-settings" />
+                    <MenuItem section="field-settings" label={translations.custom_fields} />
+                    <MenuItem section="invoice-settings" />
+                    <MenuItem section="workflow-settings" />
+                    <MenuItem section="portal-settings" label={translations.customer_portal} />
+                    <MenuItem section="email-settings" />
+                    <MenuItem section="template-settings" />
                     <DropdownItem tag="a" href="/#/users"><i className={`fa ${icons.user}`}/>{translations.users}
                     </DropdownItem>
                 </DropdownMenu>
             </UncontrolledDropdown>
+        )
+    }
+}
+
+export class MenuItem extends Component {
+    render () {
+        const label = this.props.section.replace("-", "_")
+        let icon = null;
+
+        if(this.props.section === 'device-settings') {
+            icon = this.state.is_mobile ? 'fa-mobile' : 'fa-desktop'
+        } else {
+            getSettingsIcon(this.props.section)
+        }
+
+        return (
+           <DropdownItem tag="a" href={`/#/${this.props.section}`}><i
+               className={`fa ${icon}`}/>{label}
+           </DropdownItem>
         )
     }
 }
