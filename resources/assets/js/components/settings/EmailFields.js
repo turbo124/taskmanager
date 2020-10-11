@@ -33,7 +33,7 @@ class EmailFields extends Component {
 
         const formFields = {
             email_template_invoice: {
-                name: 'Invoice',
+                name: translations.invoice,
                 is_remider: false,
                 is_custom: false,
                 fields: [
@@ -60,7 +60,7 @@ class EmailFields extends Component {
             },
 
             email_template_payment: {
-                name: 'Payment',
+                name: translations.payment,
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -81,6 +81,32 @@ class EmailFields extends Component {
                         inputClass: 'textarea-lg',
                         placeholder: translations.body,
                         value: settings.email_template_payment,
+                        group: 1
+                    }
+                ]
+            },
+            email_template_statement: {
+                name: 'Statement',
+                is_reminder: false,
+                is_custom: false,
+                fields: [
+                    {
+                        id: 'subject',
+                        name: 'email_subject_statement',
+                        label: translations.subject,
+                        type: 'text',
+                        placeholder: translations.subject,
+                        value: settings.email_subject_statement,
+                        group: 1
+                    },
+                    {
+                        id: 'body',
+                        name: 'email_template_statement',
+                        label: translations.body,
+                        type: 'textarea',
+                        inputClass: 'textarea-lg',
+                        placeholder: translations.body,
+                        value: settings.email_template_statement,
                         group: 1
                     }
                 ]
@@ -112,7 +138,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_quote: {
-                name: 'Quote',
+                name: translations.quote,
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -138,7 +164,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_credit: {
-                name: 'Credit',
+                name: translations.credit,
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -164,7 +190,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_lead: {
-                name: 'Lead',
+                name: translations.lead,
                 is_reminder: false,
                 is_custom: false,
                 fields: [
@@ -190,7 +216,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_deal: {
-                name: 'Deal',
+                name: translations.deal,
                 is_remider: false,
                 is_custom: false,
                 fields: [
@@ -216,7 +242,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_task: {
-                name: 'Task',
+                name: translations.task,
                 is_remider: false,
                 is_custom: false,
                 fields: [
@@ -242,7 +268,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_case: {
-                name: 'Cases',
+                name: translations.cases,
                 is_remider: false,
                 is_custom: false,
                 fields: [
@@ -268,7 +294,7 @@ class EmailFields extends Component {
                 ]
             },
             email_template_purchase_order: {
-                name: 'Purchase Order',
+                name: translations.purchase_order,
                 is_remider: false,
                 is_custom: false,
                 fields: [
