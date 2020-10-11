@@ -69,31 +69,26 @@ class SendReminders implements ShouldQueue
     {
         $message_sent = false;
 
-        for ($x = 1; $x <= 3; $x++) {
+        for ($counter = 1; $counter <= 3; $counter++) {
             $reminder_date = $this->invoice->date_to_send;
 
             if ($this->invoice->customer->getSetting(
-                    "enable_reminder{$x}"
+                    "enable_reminder{$counter}"
                 ) === false || $this->invoice->customer->getSetting(
-                    "num_days_reminder{$x}"
+                    "num_days_reminder{$counter}"
                 ) == 0 || !$reminder_date->isToday()) {
                 continue;
             }
 
             if (!$message_sent) {
-                $amount = $this->calculateAmount($x);
+               
+                $this->addCharge($counter);
 
-                if(empty($amount)) {
-                    continue;
-                }
-
-                $this->addCharge($amount);
-
-                $this->sendEmail("reminder{$x}");
+                $this->sendEmail("reminder{$counter}");
                 
                 $this->updateNextReminderDate(
-                    $this->invoice->customer->getSetting("schedule_reminder{$x}"),
-                    $this->invoice->customer->getSetting("num_days_reminder{$x}")
+                    $this->invoice->customer->getSetting("schedule_reminder{$counter}"),
+                    $this->invoice->customer->getSetting("num_days_reminder{$counter}")
                 );
                 $message_sent = true;
             }
@@ -117,10 +112,18 @@ class SendReminders implements ShouldQueue
         return $amount;
     }
 
-    private function addCharge(float $amount)
+    private function addCharge($counter): bool
     {
+        $amount = $this->calculateAmount($counter);
+
+        if(empty($amount)) {
+            return true;
+        }
+
         $this->invoice->late_fee_charge = $amount;
         $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
+
+        return true;
     }
 
     private function sendEmail($template)
