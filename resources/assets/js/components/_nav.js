@@ -89,8 +89,8 @@ const items = [
             },
             {
                 name: translations.integration_settings,
-                url: '/integrations',
-                icon: `fa ${getSettingsIcon('integrations')}`
+                url: '/integration-settings',
+                icon: `fa ${getSettingsIcon('integration-settings')}`
             },
             {
                 name: translations.account_management,
