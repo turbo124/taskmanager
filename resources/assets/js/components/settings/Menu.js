@@ -13,19 +13,11 @@ export default class Menu extends Component {
                 <DropdownMenu style={{ height: 'auto', maxHeight: '400px', overflowX: 'hidden' }}>
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
                     <MenuItem section="account-settings" />
-                    <MenuItem section="localisation-settings"><i
-                        className={`fa ${getSettingsIcon('localisation')}`}/>{translations.localisation_settings}
-                    </MenuItem>
-                    <MenuItem tag="a" href="gateway-settings"><i
-                        className={`fa ${getSettingsIcon('gateway-settings')}`}/>{translations.online_payments}
-                    </MenuItem>
+                    <MenuItem section="localisation-settings" />
+                    <MenuItem tag="a" href="gateway-settings" />
                     <MenuItem section="tax-rates" />
-                    <MenuItem section="product-settings"><i
-                        className={`fa ${getSettingsIcon('product-settings')}`}/>{translations.product_settings}
-                    </MenuItem>
-                    <MenuItem section="modules"><i
-                        className={`fa ${getSettingsIcon('modules')}`}/>{translations.account_management}
-                    </MenuItem>
+                    <MenuItem section="product-settings" />
+                    <MenuItem section="account-management" />
                     <MenuItem section="device-settings" />
                     <DropdownItem divider/>
                     <DropdownItem header>{translations.advanced_settings}</DropdownItem>
