@@ -14,6 +14,7 @@ export default class Menu extends Component {
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
                     <MenuItem section="account-settings" />
                     <MenuItem section="localisation-settings" />
+                    <MenuItem section="integration-settings" />
                     <MenuItem section="gateway-settings" />
                     <MenuItem section="tax-rates" />
                     <MenuItem section="product-settings" />
