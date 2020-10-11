@@ -73,7 +73,7 @@ export class MenuItem extends Component {
         }
 
         return (
-           <DropdownItem tag="a" href={`/#/${this.props.section}`}><i
+           <DropdownItem className={window.location.pathname === this.props.section ? 'active' : ''} tag="a" href={`/#/${this.props.section}`}><i
                className={`fa ${icon}`}/>{label}
            </DropdownItem>
         )
