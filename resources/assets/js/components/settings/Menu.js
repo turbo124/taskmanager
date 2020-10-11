@@ -4,30 +4,7 @@ import { getSettingsIcon, icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class Menu extends Component {
-    constructor (props) {
-        super(props)
-        this.state = {
-            is_mobile: window.innerWidth <= 768,
-        }
-
-        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
-    }
-
-    componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange)
-    }
-
-    // make sure to remove the listener
-    // when the component is not mounted anymore
-    componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange)
-    }
-
-    handleWindowSizeChange () {
-        this.setState({ is_mobile: window.innerWidth <= 768 })
-    }
-
-    render () {
+   render () {
         return (
             <UncontrolledDropdown className="mr-3 pt-2 pl-3">
                 <DropdownToggle tag="a" caret>
@@ -71,6 +48,29 @@ export default class Menu extends Component {
 }
 
 export class MenuItem extends Component {
+    constructor (props) {
+        super(props)
+        this.state = {
+            is_mobile: window.innerWidth <= 768,
+        }
+
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    // make sure to remove the listener
+    // when the component is not mounted anymore
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ is_mobile: window.innerWidth <= 768 })
+    }
+
     render () {
         const label = this.props.section.replace("-", "_")
         let icon = null;
