@@ -163,7 +163,7 @@ export function getSettingsIcon (section) {
             return icons.pencil
         case 'integrations':
             return icons.google
-        case 'modules':
+        case 'account-management':
             return icons.shield
         case 'localisation-settings':
             return icons.globe
