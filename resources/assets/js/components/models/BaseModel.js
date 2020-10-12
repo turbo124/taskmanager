@@ -100,6 +100,40 @@ export default class BaseModel {
         document.body.removeChild(mark)
         return true
     }
+
+    getStatsByCustomer(customerId, entities) {
+        countActive = 0;
+        countArchived = 0;
+    
+        entities.forEach((invoiceId, entity) {
+            if (entity.customer_id == parseInt(customerId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++;
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++;
+                }
+           }
+       });
+
+       //return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
+
+    getStatsByUser(userId, entities) {
+        countActive = 0;
+        countArchived = 0;
+    
+        entities.forEach((invoiceId, entity) {
+            if (entity.user_id == parseInt(userId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++;
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++;
+                }
+           }
+       });
+
+       //return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
 }
 
 export class EntityStats {
