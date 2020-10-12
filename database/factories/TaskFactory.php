@@ -34,7 +34,6 @@ class TaskFactory extends Factory
             'is_completed' => 0,
             'customer_id'  => $customer->id,
             'due_date'     => $this->faker->dateTime(),
-            'task_type'    => 2,
             'source_type'  => 1,
             'task_status'  => 1,
             'valued_at'    => $this->faker->randomNumber(3)

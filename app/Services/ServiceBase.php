@@ -81,7 +81,10 @@ class ServiceBase
     {
         if ($contact !== null) {
             $invitation = $this->entity->invitations->first();
-            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
+
+            $section = $invitation->getSection();
+
+            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
             return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
         }
 
@@ -90,7 +93,9 @@ class ServiceBase
         }
 
         foreach ($this->entity->invitations as $invitation) {
-            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_invoice')];
+            $section = $invitation->getSection();
+
+            $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
 
             $this->dispatchEmail($invitation->contact, $subject, $body, $template, $footer, $invitation);
         }

@@ -72,90 +72,109 @@ export default class ViewEntity extends Component {
                         }
 
                         {this.props.entity && this.props.entity_type && ['Invoice'].includes(this.props.entity_type) &&
-                        <Invoice customers={this.props.customers} entity={this.props.entity}
+                        <Invoice entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['RecurringInvoice'].includes(this.props.entity_type) &&
-                        <RecurringInvoice customers={this.props.customers} entity={this.props.entity}
+                        <RecurringInvoice entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Credit'].includes(this.props.entity_type) &&
-                        <Credit customers={this.props.customers} entity={this.props.entity}
+                        <Credit entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Order'].includes(this.props.entity_type) &&
-                        <Order customers={this.props.customers} entity={this.props.entity}
+                        <Order entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Customer'].includes(this.props.entity_type) &&
-                        <Customer entity={this.props.entity} updateState={this.updateState}/>}
+                        <Customer entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Promocode'].includes(this.props.entity_type) &&
-                        <Promocode entity={this.props.entity} updateState={this.updateState}/>}
+                        <Promocode entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Product'].includes(this.props.entity_type) &&
-                        <Product entity={this.props.entity} updateState={this.updateState}/>}
+                        <Product entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && (this.props.entity_type === 'Payment') &&
-                        <Payment customers={this.props.customers} entity={this.props.entity}
+                        <Payment entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
-                        <Expense customers={this.props.customers} entity={this.props.entity}
+                        <Expense entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
-                        <Quote customers={this.props.customers} entity={this.props.entity}
+                        <Quote entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['RecurringQuote'].includes(this.props.entity_type) &&
-                        <RecurringQuote customers={this.props.customers} entity={this.props.entity}
+                        <RecurringQuote entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Project'].includes(this.props.entity_type) &&
-                        <Project customers={this.props.customers} entity={this.props.entity}
+                        <Project entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['User'].includes(this.props.entity_type) &&
-                        <User entity={this.props.entity} updateState={this.updateState}/>}
+                        <User entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Deal'].includes(this.props.entity_type) &&
-                        <Deal customers={this.props.customers} entity={this.props.entity}
+                        <Deal entities={this.props.entities} customers={this.props.customers} entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Company'].includes(this.props.entity_type) &&
-                        <Company customers={this.props.customers} entity={this.props.entity}
+                        <Company entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Lead'].includes(this.props.entity_type) &&
-                        <Lead customers={this.props.customers} entity={this.props.entity}
+                        <Lead entities={this.props.entities} customers={this.props.customers} entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Case'].includes(this.props.entity_type) &&
-                        <Case customers={this.props.customers} entity={this.props.entity}
+                        <Case entities={this.props.entities} customers={this.props.customers} entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Subscription'].includes(this.props.entity_type) &&
-                        <Subscription entity={this.props.entity} updateState={this.updateState}/>}
+                        <Subscription entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Task'].includes(this.props.entity_type) &&
-                        <Task customers={this.props.customers} entity={this.props.entity}
+                        <Task entities={this.props.entities} customers={this.props.customers} entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Tax Rate'].includes(this.props.entity_type) &&
-                        <TaxRate entity={this.props.entity} updateState={this.updateState}/>}
+                        <TaxRate entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Token'].includes(this.props.entity_type) &&
-                        <Token entity={this.props.entity} updateState={this.updateState}/>}
+                        <Token entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Group'].includes(this.props.entity_type) &&
                         <Group entity={this.props.entity} updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['Gateway'].includes(this.props.entity_type) &&
-                        <Gateway entity={this.props.entity} updateState={this.updateState}/>}
+                        <Gateway entities={this.props.entities} entity={this.props.entity}
+                            updateState={this.updateState}/>}
 
                         {this.props.entity && this.props.entity_type && ['PurchaseOrder'].includes(this.props.entity_type) &&
-                        <PurchaseOrder entity={this.props.entity} companies={this.props.companies}
+                        <PurchaseOrder entities={this.props.entities} entity={this.props.entity}
+                            companies={this.props.companies}
                             updateState={this.updateState}/>}
 
                     </ModalBody>

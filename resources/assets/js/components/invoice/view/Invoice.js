@@ -3,7 +3,7 @@ import FileUploads from '../../documents/FileUploads'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import FormatMoney from '../../common/FormatMoney'
 import FormatDate from '../../common/FormatDate'
-import { icons } from '../../utils/_icons'
+import { getEntityIcon, icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import InvoiceModel from '../../models/InvoiceModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
@@ -74,11 +74,18 @@ export default class Invoice extends Component {
         let user = null
 
         if (this.state.entity.assigned_to) {
-            console.log('users', JSON.parse(localStorage.getItem('users')))
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
+        }
+
+        let recurring = null
+
+        if (this.state.entity.recurring) {
+            recurring = <EntityListTile entity={translations.recurring_invoice}
+                title={`${this.state.entity.recurring.number}`}
+                icon={getEntityIcon('RecurringInvoice')}/>
         }
 
         const fields = []
@@ -185,7 +192,8 @@ export default class Invoice extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.state.entity} customers={this.props.customers} user={user}
+                        <Overview entity={this.state.entity} customers={this.props.customers} recurring={recurring}
+                            user={user}
                             customer={customer} fields={fields}/>
                     </TabPane>
 

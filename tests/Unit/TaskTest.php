@@ -180,8 +180,7 @@ class TaskTest extends TestCase
                 'account_id' => $this->account->id,
                 'name'       => $name,
                 'description'    => $description,
-                'due_date'   => $due_date,
-                'task_type'  => $task_type
+                'due_date'   => $due_date
             ]
         );
 

@@ -126,43 +126,43 @@ class FileUpload extends Component {
                     <div className="col-12">
                         <div className="form-group files">
                             <span className="btn btn-default btn-file img-select-btn">
-                                <span>Browse</span>
+                                <span>{translations.browse}</span>
                                 <input type="file" multiple name="img-file-input"
                                     onChange={this.onChangeHandler.bind(this)}/>
                             </span>
-
-                            <a href="#"
-                                className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
-                                <div className="d-flex w-100 justify-content-between">
-                                    <h5 className="mb-1">
-                                        <i style={{ fontSize: '24px', marginRight: '20px' }}
-                                            className={`fa ${icons.customer}`}/>
-                                        {translations.customer_can_view}
-                                    </h5>
-                                    <CustomInput
-                                        checked={this.state.customer_can_view}
-                                        type="switch"
-                                        id="customer_can_view"
-                                        name="customer_can_view"
-                                        label=""
-                                        onChange={this.handleInput.bind(this)}/>
-                                </div>
-
-                                <h6 id="passwordHelpBlock" className="form-text text-muted">
-                                    {translations.customer_can_view_help_text}
-                                </h6>
-                            </a>
-
-                            <button type="button" className="btn btn-success btn-block col-4 pull-right"
-                                onClick={this.onClickHandler.bind(this)}>Upload
-                            </button>
                         </div>
+
+                        <a href="#"
+                            className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                            <div className="d-flex w-100 justify-content-between">
+                                <h5 className="mb-1">
+                                    <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                        className={`fa ${icons.customer}`}/>
+                                    {translations.customer_can_view}
+                                </h5>
+                                <CustomInput
+                                    checked={this.state.customer_can_view}
+                                    type="switch"
+                                    id="customer_can_view"
+                                    name="customer_can_view"
+                                    label=""
+                                    onChange={this.handleInput.bind(this)}/>
+                            </div>
+
+                            <h6 id="passwordHelpBlock" className="form-text text-muted">
+                                {translations.customer_can_view_help_text}
+                            </h6>
+                        </a>
 
                         <div className="form-group">
                             <ToastContainer/>
                             <Progress max="100" color="success"
                                 value={this.state.loaded}>{Math.round(this.state.loaded, 2)}%</Progress>
                         </div>
+
+                        <button type="button" className="btn btn-success btn-block col-4 pull-right"
+                            onClick={this.onClickHandler.bind(this)}>{translations.upload}
+                        </button>
 
                         <div className="Files">
                             {file_list}

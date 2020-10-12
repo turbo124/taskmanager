@@ -95,7 +95,7 @@ const items = [
             {
                 name: translations.account_management,
                 url: '/account-management',
-                icon: `fa ${getSettingsIcon('modules')}`
+                icon: `fa ${getSettingsIcon('account-management')}`
             },
             {
                 name: translations.localisation_settings,

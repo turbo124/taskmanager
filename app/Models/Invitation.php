@@ -64,9 +64,40 @@ class Invitation extends Model
         return $this->belongsTo('App\Models\Account');
     }
 
+    public function pluralize($quantity, $singular, $plural = null)
+    {
+        if ($quantity == 1 || !strlen($singular)) {
+            return $singular;
+        }
+        if ($plural !== null) {
+            return $plural;
+        }
+
+        $last_letter = strtolower($singular[strlen($singular) - 1]);
+        switch ($last_letter) {
+            case 'y':
+                return substr($singular, 0, -1) . 'ies';
+            case 's':
+                return $singular . 'es';
+            default:
+                return $singular . 's';
+        }
+    }
+
+    public function getSection($plural = false)
+    {
+        $entity =  strtolower((new \ReflectionClass($this->inviteable))->getShortName());
+
+        if($plural) {
+            return $this->pluralize(2, $entity);
+        }
+
+        return $entity;
+    }
+
     public function getLink()
     {
-        return $this->account->subdomain . 'portal/invoices/' . $this->key;
+        return $this->account->subdomain . 'portal/' . $this->getSection() . '/' . $this->key;
     }
 
     public function markViewed()

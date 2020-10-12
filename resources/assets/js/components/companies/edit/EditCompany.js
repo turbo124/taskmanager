@@ -26,6 +26,7 @@ import { translations } from '../../utils/_translations'
 import CompanyModel from '../../models/CompanyModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import FileUploads from '../../documents/FileUploads'
 
 class EditCompany extends React.Component {
     constructor (props) {
@@ -157,7 +158,7 @@ class EditCompany extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('1')
                                     }}>
-                                    Company
+                                    {translations.company}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
@@ -166,7 +167,7 @@ class EditCompany extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('2')
                                     }}>
-                                    Contacts
+                                    {translations.contacts}
                                 </NavLink>
                             </NavItem>
 
@@ -176,7 +177,7 @@ class EditCompany extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('3')
                                     }}>
-                                    Address
+                                    {translations.address}
                                 </NavLink>
                             </NavItem>
 
@@ -186,7 +187,17 @@ class EditCompany extends React.Component {
                                     onClick={() => {
                                         this.toggleTab('4')
                                     }}>
-                                    Settings
+                                    {translations.settings}
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink
+                                    className={this.state.activeTab === '5' ? 'active' : ''}
+                                    onClick={() => {
+                                        this.toggleTab('5')
+                                    }}>
+                                    {translations.documents}
                                 </NavLink>
                             </NavItem>
                         </Nav>
@@ -229,6 +240,16 @@ class EditCompany extends React.Component {
 
                                 <Notes handleInput={this.handleInput} errors={this.state.errors}
                                     private_notes={this.state.private_notes}/>
+                            </TabPane>
+
+                            <TabPane tabId="5">
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Company" entity={this.state}
+                                            user_id={this.state.user_id}/>
+                                    </CardBody>
+                                </Card>
                             </TabPane>
                         </TabContent>
 

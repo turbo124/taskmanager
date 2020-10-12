@@ -96,14 +96,15 @@ class SendReminders implements ShouldQueue
     }
 
     private function calculateAmount($counter)
-    { 
+    {
         $percentage = $this->invoice->customer->getSetting("late_fee_percent{$counter}");
-        
+
         if(!empty($percentage)) {
+
             return round($percentage / ($this->invoice->total / 100),2);
         }
 
-        $amount = $this->invoice->customer->getSetting("late_fee_amount{$x}");
+        $amount = $this->invoice->customer->getSetting("late_fee_amount{$counter}");
 
         if(empty($amount)) {
             return null;

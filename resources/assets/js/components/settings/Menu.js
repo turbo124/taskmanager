@@ -4,7 +4,7 @@ import { getSettingsIcon, icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class Menu extends Component {
-   render () {
+    render () {
         return (
             <UncontrolledDropdown className="mr-3 pt-2 pl-3">
                 <DropdownToggle tag="a" caret>
@@ -42,7 +42,7 @@ export class MenuItem extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            is_mobile: window.innerWidth <= 768,
+            is_mobile: window.innerWidth <= 768
         }
 
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
@@ -63,19 +63,19 @@ export class MenuItem extends Component {
     }
 
     render () {
-        const label = this.props.section.replace("-", "_")
-        let icon = null;
+        const label = this.props.section.replace('-', '_')
+        let icon = null
 
-        if(this.props.section === 'device-settings') {
+        if (this.props.section === 'device-settings') {
             icon = this.state.is_mobile ? 'fa-mobile' : 'fa-desktop'
         } else {
-            getSettingsIcon(this.props.section)
+            icon = getSettingsIcon(this.props.section)
         }
 
         return (
-           <DropdownItem className={window.location.pathname === this.props.section ? 'active' : ''} tag="a" href={`/#/${this.props.section}`}><i
-               className={`fa ${icon}`}/>{label}
-           </DropdownItem>
+            <DropdownItem className={window.location.href.includes(this.props.section) ? 'active' : ''} tag="a" href={`/#/${this.props.section}`}><i
+                className={`fa ${icon}`}/>{label}
+            </DropdownItem>
         )
     }
 }

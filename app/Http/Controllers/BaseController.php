@@ -339,6 +339,14 @@ class BaseController extends Controller
                 $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
 
+            case 'clone_quote_to_recurring':
+                //TODO
+                break;
+
+            case 'clone_invoice_to_recurring':
+                //TODO
+                break;
+
             case 'clone_recurring_to_invoice':
                 $invoice = RecurringInvoiceToInvoiceFactory::create($entity, $entity->customer);
                 (new InvoiceRepository(new Invoice))->createInvoice([], $invoice);

@@ -27,6 +27,8 @@ export default class Task extends Component {
         this.triggerAction = this.triggerAction.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.refresh = this.refresh.bind(this)
+
+        console.log('duration', this.taskModel.duration)
     }
 
     refresh (entity) {

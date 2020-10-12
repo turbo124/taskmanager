@@ -25,6 +25,7 @@ class Project extends Model
         'user_id',
         'account_id',
         'private_notes',
+        'public_notes',
         'due_date',
         'budgeted_hours',
         'task_rate'
@@ -84,5 +85,10 @@ class Project extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withTrashed();
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 }

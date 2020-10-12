@@ -8,7 +8,7 @@ import FormatMoney from '../../common/FormatMoney'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Audit from '../../common/Audit'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
+import { getEntityIcon, icons } from '../../utils/_icons'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import Overview from './Overview'
 
@@ -77,6 +77,14 @@ export default class Quote extends Component {
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
+        }
+
+        let recurring = null
+
+        if (this.state.entity.recurring) {
+            recurring = <EntityListTile entity={translations.recurring_invoice}
+                title={`${this.state.entity.recurring.number}`}
+                icon={getEntityIcon('RecurringInvoice')}/>
         }
 
         const fields = []
@@ -186,7 +194,7 @@ export default class Quote extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Overview entity={this.state.entity} customers={this.props.customers} customer={customer}
-                            user={user} fields={fields}/>
+                            user={user} recurring={recurring} fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">

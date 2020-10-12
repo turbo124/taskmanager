@@ -47,6 +47,10 @@ class AutobillInvoice extends Command
         }
 
         foreach ($invoices as $invoice) {
+            if ($invoice->status_id === Invoice::STATUS_DRAFT) {
+                $invoice_repo->markSent($invoice);
+            }
+
             \App\Jobs\Invoice\AutobillInvoice::dispatchNow($invoice, $invoice_repo);
         }
     }
