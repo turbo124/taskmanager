@@ -388,4 +388,21 @@ export default class QuoteModel extends BaseModel {
 
         }
     }
+
+    recurringQuoteStatsForQuote(recurringQuoteId, quotes) {
+        countActive = 0;
+        countArchived = 0;
+    
+        quotes.forEach((quoteId, quote) {
+            if (quote.recurring_quote_id == recurringQuoteId) {
+                if (!quote.deleted_at.toString().length) {
+                    countActive++;
+                } else if (quote.deleted_at.toString().length) {
+                    countArchived++;
+                }
+           }
+       });
+
+       //return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
 }
