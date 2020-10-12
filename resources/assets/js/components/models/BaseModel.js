@@ -101,3 +101,28 @@ export default class BaseModel {
         return true
     }
 }
+
+export class EntityStats {
+    constructor (active, archived) {
+        this.active = active
+        this.archived = archived
+    }
+    
+    present(activeLabel, archivedLabel) {
+        str = '';
+
+        if (this.active > 0) {
+            str = '${this.active} ${activeLabel}';
+      
+            if (this.archived > 0) {
+                str += ' • ';
+            }
+        }
+
+        if (this.archived > 0) {
+            str += '${this.archived} ${archivedLabel}';
+        }
+    
+        return str;
+    }
+}
