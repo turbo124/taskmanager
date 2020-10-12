@@ -39,6 +39,7 @@ export default class Companies extends Component {
             },
             custom_fields: [],
             ignoredColumns: [
+                'files',
                 'contacts',
                 'deleted_at',
                 'created_at',

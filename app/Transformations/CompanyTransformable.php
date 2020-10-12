@@ -4,6 +4,7 @@ namespace App\Transformations;
 
 use App\Models\Company;
 use App\Models\CompanyContact;
+use App\Models\File;
 
 trait CompanyTransformable
 {
@@ -40,7 +41,7 @@ trait CompanyTransformable
             'custom_value3' => $company->custom_value3 ?: '',
             'custom_value4' => $company->custom_value4 ?: '',
             'contacts'      => $this->transformContacts($company->contacts),
-
+            'files'         => $this->transformCompanyFiles($company->files),
         ];
     }
 
@@ -57,6 +58,19 @@ trait CompanyTransformable
         return $contacts->map(
             function (CompanyContact $company_contact) {
                 return (new CompanyContactTransformable())->transformCompanyContact($company_contact);
+            }
+        )->all();
+    }
+
+    private function transformCompanyFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

@@ -22,7 +22,7 @@ export default class FormatDate extends Component {
     }
 
     render () {
-        if (!this.props.date.length) {
+        if (!this.props.date || !this.props.date.length) {
             return <span/>
         }
 

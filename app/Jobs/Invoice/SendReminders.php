@@ -69,34 +69,62 @@ class SendReminders implements ShouldQueue
     {
         $message_sent = false;
 
-        for ($x = 1; $x <= 3; $x++) {
+        for ($counter = 1; $counter <= 3; $counter++) {
             $reminder_date = $this->invoice->date_to_send;
 
             if ($this->invoice->customer->getSetting(
-                    "enable_reminder{$x}"
+                    "enable_reminder{$counter}"
                 ) === false || $this->invoice->customer->getSetting(
-                    "num_days_reminder{$x}"
+                    "num_days_reminder{$counter}"
                 ) == 0 || !$reminder_date->isToday()) {
                 continue;
             }
 
             if (!$message_sent) {
-                $this->addCharge($this->invoice->customer->getSetting("late_fee_amount{$x}"));
+               
+                $this->addCharge($counter);
 
-                $this->sendEmail("reminder{$x}");
+                $this->sendEmail("reminder{$counter}");
+                
                 $this->updateNextReminderDate(
-                    $this->invoice->customer->getSetting("schedule_reminder{$x}"),
-                    $this->invoice->customer->getSetting("num_days_reminder{$x}")
+                    $this->invoice->customer->getSetting("schedule_reminder{$counter}"),
+                    $this->invoice->customer->getSetting("num_days_reminder{$counter}")
                 );
                 $message_sent = true;
             }
         }
     }
 
-    private function addCharge(float $amount)
+    private function calculateAmount($counter)
     {
+        $percentage = $this->invoice->customer->getSetting("late_fee_percent{$counter}");
+
+        if(!empty($percentage)) {
+
+            return round($percentage / ($this->invoice->total / 100),2);
+        }
+
+        $amount = $this->invoice->customer->getSetting("late_fee_amount{$counter}");
+
+        if(empty($amount)) {
+            return null;
+        }
+
+        return $amount;
+    }
+
+    private function addCharge($counter): bool
+    {
+        $amount = $this->calculateAmount($counter);
+
+        if(empty($amount)) {
+            return true;
+        }
+
         $this->invoice->late_fee_charge = $amount;
         $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
+
+        return true;
     }
 
     private function sendEmail($template)

@@ -2,6 +2,8 @@
 
 namespace App\Components\InvoiceCalculator;
 
+use App\Models\Credit;
+
 /**
  * Class LineItem
  * @package App\Components\InvoiceCalculator
@@ -94,6 +96,10 @@ class LineItem extends BaseCalculator
      */
     private $tax_total = 0.00;
 
+    private $types_to_ignore = [
+        Credit::PAYMENT_TYPE
+    ];
+
     /**
      * LineItem constructor.
      * @param $entity
@@ -105,6 +111,10 @@ class LineItem extends BaseCalculator
 
     public function build()
     {
+        if (in_array($this->type_id, $this->types_to_ignore)) {
+            return $this;
+        }
+
         $this->calculateSubTotal();
         $this->calculateDiscount();
         $this->calculateTax();

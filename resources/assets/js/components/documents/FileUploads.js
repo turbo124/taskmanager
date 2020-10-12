@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import FileUploadForm from './FileUploadForm'
 import FileUploadList from './FileUploadList'
 import axios from 'axios'
+import { translations } from "../utils/_translations";
 
 export default class FileUploads extends Component {
     constructor (props) {
@@ -61,7 +62,7 @@ export default class FileUploads extends Component {
 
         return (
             <div className="col-12">
-                <h1 className="font-weight-light text-center text-lg-left mt-4 mb-0">Attachments</h1>
+                <h1 className="font-weight-light text-center text-lg-left mt-4 mb-0">{translations.documents}</h1>
 
                 {<FileUploadForm
                     // entity={this.props.entity}

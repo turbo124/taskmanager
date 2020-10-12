@@ -16,6 +16,7 @@ export default class ProjectModel extends BaseModel {
             description: '',
             customer_id: '',
             private_notes: '',
+            public_notes: '',
             due_date: '',
             assigned_to: '',
             budgeted_hours: '',

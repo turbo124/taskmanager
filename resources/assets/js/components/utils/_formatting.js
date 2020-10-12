@@ -10,6 +10,9 @@ export default function formatDuration (duration, showSeconds = false) {
     } else {
         console.log('time', duration)
         const parts = duration.toString().split('.')
+
+        console.log('parts', parts)
+
         return `${zeroPad(parts[0], 2)}:${zeroPad(parts[1], 2)}`
     }
 }

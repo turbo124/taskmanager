@@ -76,6 +76,7 @@ export default class QuoteModel extends BaseModel {
             total_custom_values: 0,
             total_custom_tax: 0,
             recurring: '',
+            recurring_quote_id: '',
             activeTab: '1',
             po_number: '',
             design_id: '',
@@ -232,6 +233,10 @@ export default class QuoteModel extends BaseModel {
 
         if (this.isModuleEnabled('invoices')) {
             actions.push('cloneQuoteToInvoice')
+        }
+
+        if (!this.fields.recurring_quote_id.toString().length && this.isModuleEnabled('recurringQuotes')) {
+            actions.push('cloneToRecurringQuote')
         }
 
         return actions

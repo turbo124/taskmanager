@@ -36,6 +36,12 @@ export default function Overview (props) {
         </Row>
         }
 
+        {!!props.recurring &&
+        <Row>
+            {props.recurring}
+        </Row>
+        }
+
         <FieldGrid fields={props.fields}/>
 
         <Row>

@@ -119,6 +119,10 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     private function updateEntities(Invoice $invoice)
     {
+        if(empty($invoice->line_items)) {
+            return true;
+        }
+
         foreach ($invoice->line_items as $line_item) {
             if ($line_item->type_id === Invoice::EXPENSE_TYPE) {
                 $expense = Expense::where('id', '=', $line_item->product_id)->first();

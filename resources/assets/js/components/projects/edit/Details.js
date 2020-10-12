@@ -44,17 +44,6 @@ export default function Details (props) {
         </FormGroup>
 
         <FormGroup>
-            <Label for="postcode">{translations.notes}:</Label>
-            <Input
-                value={props.project.private_notes}
-                type='textarea'
-                name="private_notes"
-                errors={props.errors}
-                onChange={props.handleInput}
-            />
-        </FormGroup>
-
-        <FormGroup>
             <Label for="due_date">{translations.due_date}(*):</Label>
             <Datepicker name="due_date" date={props.project.due_date}
                 handleInput={props.handleInput}
@@ -83,6 +72,29 @@ export default function Details (props) {
                 onChange={props.handleInput}
             />
         </FormGroup>
+
+        <FormGroup>
+            <Label for="public_notes">{translations.public_notes}:</Label>
+            <Input
+                value={props.project.public_notes}
+                type='textarea'
+                name="public_notes"
+                errors={props.errors}
+                onChange={props.handleInput}
+            />
+        </FormGroup>
+
+        <FormGroup>
+            <Label for="private_notes">{translations.private_notes}:</Label>
+            <Input
+                value={props.project.private_notes}
+                type='textarea'
+                name="private_notes"
+                errors={props.errors}
+                onChange={props.handleInput}
+            />
+        </FormGroup>
+
     </React.Fragment>
     )
 }

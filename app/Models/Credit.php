@@ -32,6 +32,8 @@ class Credit extends Model
     const SUBSCRIPTION_TYPE = 5;
     const EXPENSE_TYPE = 6;
     const GATEWAY_FEE_TYPE = 7;
+    const PAYMENT_TYPE = 12;
+
     protected $presenter = 'App\Presenters\CreditPresenter';
     /**
      * @var array

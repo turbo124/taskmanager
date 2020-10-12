@@ -80,7 +80,7 @@ class Stripe extends BasePaymentGateway
                     'payment_method' => $this->customer_gateway->token,
                     'customer'       => $this->customer_gateway->gateway_customer_reference,
                     'confirm'        => true,
-                    'amount'         => $this->convertToStripeAmount($amount, $currency->precision),
+                    'amount'         => $this->convertToStripeAmount(round($amount, 2), $currency->precision),
                     'currency'       => $currency->iso_code,
                     'description'    => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
                 ]

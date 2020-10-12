@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import SuccessMessage from './SucessMessage'
 import ErrorMessage from './ErrorMessage'
-import { icons } from '../utils/_icons'
+import { getEntityIcon, icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class DropdownMenuBuilder extends Component {
@@ -85,6 +85,14 @@ export default class DropdownMenuBuilder extends Component {
                 this.props.invoices.push(response)
                 this.props.action(this.props.invoices)
                 message = `${translations.invoice} ${response.number} ${translations.has_been_created}`
+            }
+
+            if (action === 'clone_invoice_to_recurring') {
+                message = `${translations.recurring_invoice} ${response.number} ${translations.has_been_created}`
+            }
+
+            if (action === 'clone_quote_to_recurring') {
+                message = `${translations.recurring_quote} ${response.number} ${translations.has_been_created}`
             }
 
             if (action === 'clone_recurring_to_invoice') {
@@ -466,6 +474,17 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={46} className="primary"
                     onClick={() => this.launchPortal()}>
                     <i className={`fa ${icons.portal} mr-2`}/>{translations.portal}
+                </DropdownItem>
+
+            case 'cloneToRecurringInvoice':
+                return <DropdownItem key={46} className="primary"
+                    onClick={() => this.changeStatus('clone_invoice_to_recurring')}>
+                    <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.clone_to_recurring_invoice}
+                </DropdownItem>
+            case 'cloneToRecurringQuote':
+                return <DropdownItem key={46} className="primary"
+                    onClick={() => this.changeStatus('clone_quote_to_recurring')}>
+                    <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.clone_to_recurring_quote}
                 </DropdownItem>
         }
     }

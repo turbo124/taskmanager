@@ -2,12 +2,14 @@
 
 namespace App\Jobs\Payment;
 
+use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\PaymentFactory;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
@@ -96,6 +98,19 @@ class CreatePayment implements ShouldQueue
         return $payment;
     }
 
+    private function downloadTempData(Invoice $invoice)
+    {
+        if (empty($invoice->temp_data)) {
+            return null;
+        }
+
+        $temp_data = json_decode($invoice->temp_data, true);
+        $invoice->temp_data = null;
+        $invoice->save();
+
+        return $temp_data;
+    }
+
     /**
      * @param Customer $customer
      * @param Payment $payment
@@ -108,20 +123,13 @@ class CreatePayment implements ShouldQueue
                            ->get();
 
         foreach ($invoices as $invoice) {
-
             $amount = $invoice->balance;
 
-            if (!empty($invoice->temp_data)) {
-                $temp_data = json_decode($invoice->temp_data, true);
+            $temp_data = $this->downloadTempData($invoice);
 
-                if (!empty($temp_data['credits_to_process'])) {
-                    $amount = array_sum(array_column($temp_data['credits_to_process'], 'amount'));
-
-                    $this->attachCredits($payment, $temp_data['credits_to_process']);
-                }
-
-                $invoice->temp_data = null;
-                $invoice->save();
+            if (!empty($temp_data) && !empty($temp_data['credits_to_process'])) {
+                $amount = array_sum(array_column($temp_data['credits_to_process'], 'amount'));
+                $this->attachCredits($payment, $invoice, $temp_data['credits_to_process']);
             }
 
             $this->updateCustomer($payment, $invoice, $amount);
@@ -143,7 +151,7 @@ class CreatePayment implements ShouldQueue
         return $payment;
     }
 
-    private function attachCredits(Payment $payment, $credits_to_process): Payment
+    private function attachCredits(Payment $payment, Invoice $invoice, $credits_to_process): Payment
     {
         $credits_to_process = collect($credits_to_process)->keyBy('credit_id')->toArray();
 
@@ -157,11 +165,42 @@ class CreatePayment implements ShouldQueue
             }
 
             $payment->attachCredit($credit, $credits_to_process[$credit->id]['amount']);
+            $credit = $this->createCreditItem(
+                $credits_to_process[$credit->id]['amount'],
+                $credit,
+                'PAYMENT FOR ' . $invoice->number
+            );
+
             $credit->transaction_service()->createTransaction($credit->balance * -1, $credit->customer->balance);
             $credit->reduceCreditBalance($credits_to_process[$credit->id]['amount']);
         }
 
         return $payment->fresh();
+    }
+
+    /**
+     * @param float $amount
+     * @param Credit $credit
+     * @param $reference
+     * @return Credit|null
+     */
+    protected function createCreditItem(float $amount, Credit $credit, $reference)
+    {
+        $line_item = (new LineItem($credit))
+            ->setQuantity(1)
+            ->setTypeId(Credit::PAYMENT_TYPE)
+            ->setUnitPrice($amount)
+            ->setProductId('CREDIT')
+            ->setNotes($reference)
+            ->setSubTotal($amount)
+            ->toObject();
+
+        $line_items = $credit->line_items;
+        $line_items[] = $line_item;
+
+        $credit = (new CreditRepository($credit))->save(['line_items' => $line_items], $credit);
+
+        return $credit;
     }
 
     /**

@@ -64,7 +64,10 @@ class TimerRepository extends BaseRepository
                     ->where('task_id', '=', $task->id)
                     ->get();
 
-        return array_sum(array_column($timers->toArray(), 'hours'));
+
+        $total = array_sum(array_column($timers->toArray(), 'hours'));
+
+        return number_format((float)$total, 2, '.', '');
     }
 
     public function isRunning(Task $task)

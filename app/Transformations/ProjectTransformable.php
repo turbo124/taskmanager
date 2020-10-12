@@ -33,6 +33,7 @@ trait ProjectTransformable
             'customer_id'    => (int)$project->customer_id,
             'assigned_to'    => (int)$project->assigned_to,
             'private_notes'  => $project->private_notes,
+            'public_notes'   => $project->public_notes,
             'custom_value1'  => $project->custom_value1 ?: '',
             'custom_value2'  => $project->custom_value2 ?: '',
             'custom_value3'  => $project->custom_value3 ?: '',

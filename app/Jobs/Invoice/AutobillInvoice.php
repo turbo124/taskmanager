@@ -48,15 +48,6 @@ class AutobillInvoice implements ShouldQueue
 
     private function build()
     {
-        if ($this->invoice->status_id === Invoice::STATUS_DRAFT) {
-            $this->invoice_repo->markSent($this->invoice);
-        }
-
-//        if ($this->invoice->balance <= 0) {
-//            $this->invoice->service()->createPayment($this->invoice_repo, new PaymentRepository(new Payment));
-//            return true;
-//        }
-
         if($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
             $credits = $this->getCreditNotesForPayment();
         }
@@ -148,11 +139,7 @@ class AutobillInvoice implements ShouldQueue
 
             $fees_and_limits = $company_gateway->fees_and_limits[0];
 
-            if (!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) {
-                continue;
-            }
-
-            if (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit) {
+            if ((!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) || (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit)) {
                 continue;
             }
 

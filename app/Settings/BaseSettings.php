@@ -275,6 +275,24 @@ class BaseSettings
             'default_value'    => 0,
             'type'             => 'float'
         ],
+        'late_fee_percent1'                     => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 0,
+            'type'             => 'float'
+        ],
+        'late_fee_percent2'                     => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 0,
+            'type'             => 'float'
+        ],
+        'late_fee_percent3'                     => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 0,
+            'type'             => 'float'
+        ],
         'endless_reminder_frequency_id'        => [
             'required'         => false,
             'translated_value' => '',

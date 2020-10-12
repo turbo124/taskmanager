@@ -24,8 +24,8 @@ const items = [
         children: [
             {
                 name: translations.account_details,
-                url: '/accounts',
-                icon: `fa ${getSettingsIcon('accounts')}`
+                url: '/account-settings',
+                icon: `fa ${getSettingsIcon('account-settings')}`
             },
             {
                 name: translations.payment_terms,
@@ -89,18 +89,18 @@ const items = [
             },
             {
                 name: translations.integration_settings,
-                url: '/integrations',
-                icon: `fa ${getSettingsIcon('integrations')}`
+                url: '/integration-settings',
+                icon: `fa ${getSettingsIcon('integration-settings')}`
             },
             {
                 name: translations.account_management,
-                url: '/modules',
-                icon: `fa ${getSettingsIcon('modules')}`
+                url: '/account-management',
+                icon: `fa ${getSettingsIcon('account-management')}`
             },
             {
                 name: translations.localisation_settings,
-                url: '/localisation',
-                icon: `fa ${getSettingsIcon('localisation')}`
+                url: '/localisation-settings',
+                icon: `fa ${getSettingsIcon('localisation-settings')}`
             },
             {
                 name: translations.workflow_settings,

@@ -147,6 +147,11 @@ class Quote extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
+    public function recurring_quote()
+    {
+        return $this->belongsTo(RecurringQuote::class, 'recurring_quote_id', 'id');
+    }
+
     /********************** Getters and setters ************************************/
     public function setUser(User $user)
     {
