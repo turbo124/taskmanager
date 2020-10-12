@@ -432,4 +432,21 @@ export default class InvoiceModel extends BaseModel {
 
         }
     }
+
+    recurringInvoiceStatsForInvoice(recurringInvoiceId, invoices) {
+        countActive = 0;
+        countArchived = 0;
+    
+        invoices.forEach((invoiceId, invoice) {
+            if (invoice.recurring_invoice_id == recurringInvoiceId) {
+                if (!invoice.deleted_at.toString().length) {
+                    countActive++;
+                } else if (invoice.deleted_at.toString().length) {
+                    countArchived++;
+                }
+           }
+       });
+
+       //return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
 }
