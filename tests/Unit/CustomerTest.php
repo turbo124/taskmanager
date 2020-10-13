@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
-use App\Search\CustomerFilter;
+use App\Search\CustomerSearch;
 use App\Transformations\CustomerTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
