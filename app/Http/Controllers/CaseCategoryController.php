@@ -8,7 +8,7 @@ use App\Repositories\CaseCategoryRepository;
 use App\Requests\CaseCategory\CreateCategoryRequest;
 use App\Requests\CaseCategory\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
-use App\Search\CaseCategory;
+use App\Search\CaseCategorySearch;
 use App\Transformations\CaseCategoryTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -44,7 +44,7 @@ class CaseCategoryController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $categories = (new CaseCategory($this->category_repo))->filter(
+        $categories = (new CaseCategorySearch($this->category_repo))->filter(
             $request,
             $account
         );
