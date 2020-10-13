@@ -47,7 +47,7 @@ class AutobillInvoice implements ShouldQueue
     private function build()
     {
         if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
-            $credits = $this->getCreditNotesForPayment();
+            return $this->completePaymentWithCredit();
         }
 
         $balance = 0;
@@ -68,21 +68,20 @@ class AutobillInvoice implements ShouldQueue
         return $gateway_obj->build($amount, $this->invoice);
     }
 
-    private function getCreditNotesForPayment()
+    private function completePaymentWithCredit()
     {
-        $credits = $this->invoice->customer->getActiveCredits();
-        $credits_to_process = $this->buildCreditsToProcess($credits, $this->invoice);
+        $data = [
+            'payment_method'     => '',
+            'payment_type'       => '',
+            'amount'             => $this->invoice->balance,
+            'customer_id'        => $this->invoice->customer->id,
+            'company_gateway_id' => $this->company_gateway->id,
+            'ids'                => $this->invoice->id,
+            'order_id'           => null,
+            'apply_credit'       => true
+        ];
 
-        $invoices = $this->getProcessedInvoice();
-
-        if (!empty($invoices[$this->invoice->id])) {
-            $this->invoice->fill($invoices[$this->invoice->id]);
-        }
-
-        $this->invoice->temp_data = ['credits_to_process' => $credits_to_process];
-        $this->invoice->save();
-
-        return $credits_to_process;
+        $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));
     }
 
     private function findGatewayFee(): ?CustomerGateway
