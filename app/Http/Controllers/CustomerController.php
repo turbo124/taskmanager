@@ -19,7 +19,7 @@ use App\Requests\Customer\CreateCustomerRequest;
 use App\Requests\Customer\CustomerRegistrationRequest;
 use App\Requests\Customer\UpdateCustomerRequest;
 use App\Requests\SearchRequest;
-use App\Search\CustomerFilter;
+use App\Search\CustomerSearch;
 use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
 use Exception;
@@ -57,7 +57,7 @@ class CustomerController extends Controller
     public function index(SearchRequest $request)
     {
         $customers =
-            (new CustomerFilter($this->customer_repo))->filter($request, auth()->user()->account_user()->account);
+            (new CustomerSearch($this->customer_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($customers);
     }
 
