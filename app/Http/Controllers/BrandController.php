@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Factory\BrandFactory;
-use App\Filters\BrandFilter;
 use App\Repositories\BrandRepository;
 use App\Requests\Brand\CreateBrandRequest;
 use App\Requests\Brand\UpdateBrandRequest;
 use App\Requests\SearchRequest;
+use App\Search\Brand;
 use App\Transformations\BrandTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -39,7 +39,7 @@ class BrandController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $brands = (new BrandFilter($this->brand_repo))->filter(
+        $brands = (new Brand($this->brand_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

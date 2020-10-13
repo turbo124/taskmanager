@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\QuoteFactory;
-use App\Filters\QuoteFilter;
 use App\Models\Customer;
 use App\Models\Quote;
 use App\Models\Task;
@@ -15,6 +14,7 @@ use App\Requests\Quote\CreateQuoteRequest;
 use App\Requests\Quote\UpdateOrderRequest;
 use App\Requests\Quote\UpdateQuoteRequest;
 use App\Requests\SearchRequest;
+use App\Search\QuoteSearch;
 use App\Transformations\QuoteTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -59,7 +59,7 @@ class QuoteController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new QuoteFilter($this->quote_repo))->filter($request, auth()->user()->account_user()->account);
+        $invoices = (new QuoteSearch($this->quote_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
-import BaseModel, { LineItem } from './BaseModel'
+import BaseModel, { EntityStats, LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
 export const quote_pdf_fields = ['$quote.quote_number', '$quote.po_number', '$quote.quote_date', '$quote.valid_until', '$quote.balance_due',
@@ -375,5 +375,23 @@ export default class RecurringQuoteModel extends BaseModel {
             // address: address
 
         }
+    }
+
+    recurringInvoiceStatsForInvoice (recurringQuoteId, quotes) {
+        let countActive = 0
+        let countArchived = 0
+
+        quotes.forEach((quote, invoice_id) => {
+            if (quote.recurring_invoice_id === parseInt(recurringQuoteId)) {
+                if (!quote.deleted_at || !quote.deleted_at.toString().length) {
+                    countActive++
+                } else if (quote.deleted_at && quote.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        const entityStats = new EntityStats(countActive, countArchived)
+        return entityStats.present()
     }
 }

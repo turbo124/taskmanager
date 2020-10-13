@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CompanyGatewayFactory;
-use App\Filters\CompanyGatewayFilter;
 use App\Models\CompanyGateway;
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyGatewayRepository;
 use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
 use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\Requests\SearchRequest;
+use App\Search\CompanyGatewaySearch;
 use App\Settings\GatewaySettings;
 use App\Transformations\CompanyGatewayTransformable;
 
@@ -37,7 +37,7 @@ class CompanyGatewayController extends Controller
     public function index(SearchRequest $request)
     {
         $invoices =
-            (new CompanyGatewayFilter($this->company_gateway_repo))->filter(
+            (new CompanyGatewaySearch($this->company_gateway_repo))->filter(
                 $request,
                 auth()->user()->account_user()->account
             );

@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Filters\RecurringInvoiceFilter;
 use App\Models\Account;
 use App\Models\RecurringInvoice;
 use App\Repositories\Base\BaseRepository;
 use App\Requests\SearchRequest;
+use App\Search\RecurringInvoiceSearch;
 use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -54,7 +54,7 @@ class RecurringInvoiceRepository extends BaseRepository
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new RecurringInvoiceFilter($this))->filter($search_request, $account);
+        return (new RecurringInvoiceSearch($this))->filter($search_request, $account);
     }
 
     /**

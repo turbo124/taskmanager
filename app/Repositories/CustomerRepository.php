@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Factory\CustomerFactory;
-use App\Filters\CustomerFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\NumberGenerator;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\CustomerFilter;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection as Support;

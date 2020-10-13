@@ -9,7 +9,6 @@
 namespace Tests\Unit;
 
 use App\Factory\QuoteFactory;
-use App\Filters\QuoteFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\CustomerContact;
@@ -23,6 +22,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\SearchRequest;
+use App\Search\QuoteSearch;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -66,7 +66,7 @@ class QuoteTest extends TestCase
     public function it_can_show_all_the_quotes()
     {
         Quote::factory()->create();
-        $list = (new QuoteFilter(new QuoteRepository(new Quote)))->filter(new SearchRequest(), $this->account);
+        $list = (new QuoteSearch(new QuoteRepository(new Quote)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

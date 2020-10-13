@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\GroupFactory;
-use App\Filters\GroupFilter;
 use App\Http\Requests\SignupRequest;
 use App\Models\Group;
 use App\Repositories\GroupRepository;
 use App\Requests\Group\StoreGroupRequest;
 use App\Requests\Group\UpdateGroupRequest;
 use App\Requests\SearchRequest;
+use App\Search\GroupSearch;
 use App\Settings\GroupSettings;
 use App\Traits\UploadableTrait;
 use App\Transformations\GroupTransformable;
@@ -45,7 +45,7 @@ class GroupController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $group_settings = (new GroupFilter($this->group_setting_repo))->filter(
+        $group_settings = (new GroupSearch($this->group_setting_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );
@@ -128,7 +128,7 @@ class GroupController extends Controller
      */
     public function filterGroups(Request $request)
     {
-        $quotes = (new GroupFilter($this->group_setting_repo))->filterBySearchCriteria(
+        $quotes = (new GroupSearch($this->group_setting_repo))->filterBySearchCriteria(
             $request->all(),
             auth()->user()->account_user()->account_id
         );

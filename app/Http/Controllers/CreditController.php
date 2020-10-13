@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CreditFactory;
-use App\Filters\CreditFilter;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
@@ -12,6 +11,7 @@ use App\Repositories\QuoteRepository;
 use App\Requests\Credit\CreateCreditRequest;
 use App\Requests\Credit\UpdateCreditRequest;
 use App\Requests\SearchRequest;
+use App\Search\CreditSearch;
 use App\Services\CreditService;
 use App\Transformations\CreditTransformable;
 use Illuminate\Http\JsonResponse;
@@ -48,7 +48,7 @@ class CreditController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $credits = (new CreditFilter($this->credit_repo))->filter($request, auth()->user()->account_user()->account);
+        $credits = (new CreditSearch($this->credit_repo))->filter($request, auth()->user()->account_user()->account);
 
         return response()->json($credits);
     }

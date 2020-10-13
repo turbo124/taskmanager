@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Factory\CaseFactory;
 use App\Factory\CloneCaseToProjectFactory;
-use App\Filters\CaseFilter;
 use App\Jobs\Utils\UploadFile;
 use App\Models\Cases;
 use App\Models\CompanyToken;
@@ -16,6 +15,7 @@ use App\Repositories\ProjectRepository;
 use App\Requests\Cases\CreateCaseRequest;
 use App\Requests\Cases\UpdateCaseRequest;
 use App\Requests\SearchRequest;
+use App\Search\CaseSearch;
 use App\Transformations\CaseTransformable;
 use App\Transformations\ProjectTransformable;
 use Exception;
@@ -54,7 +54,7 @@ class CaseController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $cases = (new CaseFilter($this->case_repo))->filter(
+        $cases = (new CaseSearch($this->case_repo))->filter(
             $request,
             $account
         );

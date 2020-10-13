@@ -5,12 +5,12 @@ namespace App\Repositories;
 use App\Components\Invitations;
 use App\Events\PurchaseOrder\PurchaseOrderWasCreated;
 use App\Events\PurchaseOrder\PurchaseOrderWasUpdated;
-use App\Filters\PurchaseOrderFilter;
 use App\Models\Account;
 use App\Models\PurchaseOrder;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PurchaseOrderRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\PurchaseOrderSearch;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -121,6 +121,6 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new PurchaseOrderFilter($this))->filter($search_request, $account);
+        return (new PurchaseOrderSearch($this))->filter($search_request, $account);
     }
 }

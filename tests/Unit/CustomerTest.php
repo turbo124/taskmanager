@@ -3,15 +3,15 @@
 namespace Tests\Unit;
 
 use App\Factory\CustomerFactory;
-use App\Filters\CustomerFilter;
 use App\Models\Account;
-use App\Models\CustomerContact;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\User;
 use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Requests\SearchRequest;
+use App\Search\CustomerFilter;
 use App\Transformations\CustomerTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;

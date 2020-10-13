@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\InvoiceFactory;
-use App\Filters\InvoiceFilter;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Task;
@@ -15,6 +14,7 @@ use App\Repositories\TaskRepository;
 use App\Requests\Invoice\CreateInvoiceRequest;
 use App\Requests\Invoice\UpdateInvoiceRequest;
 use App\Requests\SearchRequest;
+use App\Search\InvoiceSearch;
 use App\Transformations\InvoiceTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -53,7 +53,7 @@ class InvoiceController extends BaseController
     public function index(SearchRequest $request)
     {
         $invoices =
-            (new InvoiceFilter($this->invoice_repo))->filter($request, auth()->user()->account_user()->account);
+            (new InvoiceSearch($this->invoice_repo))->filter($request, auth()->user()->account_user()->account);
 
         return response()->json($invoices);
     }

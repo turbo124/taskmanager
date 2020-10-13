@@ -52,7 +52,7 @@ class Customer extends Model implements HasLocalePreference
     ];
 
     protected $casts = [
-        'settings'   => 'object',
+        'settings' => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',
@@ -132,6 +132,17 @@ class Customer extends Model implements HasLocalePreference
     public function group_settings()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function getActiveCredits()
+    {
+        return $this->credits->where('balance', '>', 0)->whereIn(
+            'status_id',
+            [Credit::STATUS_SENT, Credit::STATUS_PARTIAL]
+        )->where(
+            'is_deleted',
+            false
+        );
     }
 
     public function preferredLocale()

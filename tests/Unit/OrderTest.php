@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\OrderFactory;
-use App\Filters\OrderFilter;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Account;
@@ -24,6 +23,7 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\SearchRequest;
+use App\Search\OrderSearch;
 use App\Settings\AccountSettings;
 use App\Transformations\DepartmentTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -65,7 +65,7 @@ class OrderTest extends TestCase
     public function it_can_show_all_the_orders()
     {
         Order::factory()->create();
-        $list = (new OrderFilter(new OrderRepository(new Order)))->filter(new SearchRequest(), $this->account);
+        $list = (new OrderSearch(new OrderRepository(new Order)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

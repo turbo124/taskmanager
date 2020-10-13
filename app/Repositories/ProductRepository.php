@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Filters\ProductFilter;
 use App\Models\Account;
 use App\Models\AttributeValue;
 use App\Models\Category;
@@ -12,6 +11,7 @@ use App\Models\ProductListingHistory;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\ProductSearch;
 use App\Traits\UploadableTrait;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,7 +42,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new ProductFilter($this))->filter($search_request, $account);
+        return (new ProductSearch($this))->filter($search_request, $account);
     }
 
     /**

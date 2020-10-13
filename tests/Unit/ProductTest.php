@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Components\Product\CreateProduct;
 use App\Factory\ProductFactory;
-use App\Filters\ProductFilter;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Company;
@@ -14,6 +13,7 @@ use App\Models\User;
 use App\Repositories\ProductImageRepository;
 use App\Repositories\ProductRepository;
 use App\Requests\SearchRequest;
+use App\Search\ProductSearch;
 use App\Transformations\ProductTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -161,7 +161,7 @@ class ProductTest extends TestCase
         $product = Product::factory()->create();
         $attributes = $product->getFillable();
         $products =
-            (new ProductFilter(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account);
+            (new ProductSearch(new ProductRepository(new Product)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($products);
     }
 

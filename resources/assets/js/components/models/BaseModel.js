@@ -101,38 +101,38 @@ export default class BaseModel {
         return true
     }
 
-    getStatsByCustomer(customerId, entities) {
-        countActive = 0;
-        countArchived = 0;
-    
-        entities.forEach((invoiceId, entity) {
-            if (entity.customer_id == parseInt(customerId)) {
-                if (!entity.deleted_at.toString().length) {
-                    countActive++;
-                } else if (entity.deleted_at.toString().length) {
-                    countArchived++;
-                }
-           }
-       });
+    getStatsByCustomer (customerId, entities) {
+        let countActive = 0
+        let countArchived = 0
 
-       //return EntityStats(countActive: countActive, countArchived: countArchived);
+        entities.forEach((entity, quote_id) => {
+            if (entity.customer_id === parseInt(customerId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        // return EntityStats(countActive: countActive, countArchived: countArchived);
     }
 
-    getStatsByUser(userId, entities) {
-        countActive = 0;
-        countArchived = 0;
-    
-        entities.forEach((invoiceId, entity) {
-            if (entity.user_id == parseInt(userId)) {
-                if (!entity.deleted_at.toString().length) {
-                    countActive++;
-                } else if (entity.deleted_at.toString().length) {
-                    countArchived++;
-                }
-           }
-       });
+    getStatsByUser (userId, entities) {
+        let countActive = 0
+        let countArchived = 0
 
-       //return EntityStats(countActive: countActive, countArchived: countArchived);
+        entities.forEach((entity, quote_id) => {
+            if (entity.user_id === parseInt(userId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        // return EntityStats(countActive: countActive, countArchived: countArchived);
     }
 }
 
@@ -141,22 +141,22 @@ export class EntityStats {
         this.active = active
         this.archived = archived
     }
-    
-    present(activeLabel, archivedLabel) {
-        str = '';
+
+    present () {
+        let str = ''
 
         if (this.active > 0) {
-            str = '${this.active} ${activeLabel}';
-      
+            str = `${this.active} ${translations.active}`
+
             if (this.archived > 0) {
-                str += ' • ';
+                str += ' • '
             }
         }
 
         if (this.archived > 0) {
-            str += '${this.archived} ${archivedLabel}';
+            str += `${this.archived} ${translations.archived}`
         }
-    
-        return str;
+
+        return str
     }
 }

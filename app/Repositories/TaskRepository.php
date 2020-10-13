@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Events\Task\TaskWasCreated;
 use App\Events\Task\TaskWasUpdated;
-use App\Filters\TaskFilter;
 use App\Models\Account;
 use App\Models\Project;
 use App\Models\Task;
@@ -12,6 +11,7 @@ use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\TaskSearch;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -63,7 +63,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new TaskFilter($this))->filter($search_request, $account);
+        return (new TaskSearch($this))->filter($search_request, $account);
     }
 
     /**

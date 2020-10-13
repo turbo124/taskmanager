@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\ExpenseFactory;
-use App\Filters\ExpenseFilter;
 use App\Jobs\Expense\GenerateInvoice;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -12,6 +11,7 @@ use App\Repositories\InvoiceRepository;
 use App\Requests\Expense\CreateExpenseRequest;
 use App\Requests\Expense\UpdateExpenseRequest;
 use App\Requests\SearchRequest;
+use App\Search\ExpenseSearch;
 use App\Transformations\ExpenseTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -47,7 +47,7 @@ class ExpenseController extends Controller
     public function index(SearchRequest $request)
     {
         $expenses =
-            (new ExpenseFilter($this->expense_repo))->filter($request, auth()->user()->account_user()->account);
+            (new ExpenseSearch($this->expense_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($expenses);
     }
 

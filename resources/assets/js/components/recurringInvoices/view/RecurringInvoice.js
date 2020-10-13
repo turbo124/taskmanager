@@ -12,11 +12,13 @@ import Audit from '../../common/Audit'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import ViewSchedule from '../../common/entityContainers/ViewSchedule'
 import Overview from './Overview'
+import InvoiceRepository from '../../repositories/InvoiceRepository'
 
 export default class RecurringInvoice extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            invoices: [],
             entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
@@ -28,11 +30,29 @@ export default class RecurringInvoice extends Component {
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
         this.refresh = this.refresh.bind(this)
+        this.getInvoices = this.getInvoices.bind(this)
+    }
+
+    componentDidMount () {
+        this.getInvoices()
     }
 
     refresh (entity) {
         this.invoiceModel = new RecurringInvoiceModel(entity)
         this.setState({ entity: entity })
+    }
+
+    getInvoices () {
+        const invoiceRepository = new InvoiceRepository()
+        invoiceRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ invoices: response }, () => {
+                console.log('allInvoices', this.state.allInvoices)
+            })
+        })
     }
 
     triggerAction (action) {
@@ -77,6 +97,12 @@ export default class RecurringInvoice extends Component {
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
+        }
+
+        let stats = null
+
+        if (this.state.invoices.length) {
+            stats = this.invoiceModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.invoices)
         }
 
         const fields = []
@@ -215,7 +241,7 @@ export default class RecurringInvoice extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview invoices={this.invoiceModel.invoices} entity={this.state.entity} user={user}
+                        <Overview stats={stats} invoices={this.invoiceModel.invoices} entity={this.state.entity} user={user}
                             customer={customer}
                             customers={this.props.customers} fields={fields}/>
                     </TabPane>

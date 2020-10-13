@@ -3,12 +3,12 @@
 namespace Tests\Unit;
 
 use App\Factory\PaymentTermsFactory;
-use App\Filters\PaymentTermsFilter;
 use App\Models\Account;
 use App\Models\PaymentTerms;
 use App\Models\User;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\SearchRequest;
+use App\Search\PaymentTermsSearch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -41,7 +41,7 @@ class PaymentTermsTest extends TestCase
     public function it_can_show_all_the_terms()
     {
         PaymentTerms::factory()->create();
-        $list = (new PaymentTermsFilter(new PaymentTermsRepository(new PaymentTerms)))->filter(
+        $list = (new PaymentTermsSearch(new PaymentTermsRepository(new PaymentTerms)))->filter(
             new SearchRequest,
             $this->account
         );

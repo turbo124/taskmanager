@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Factory\CaseFactory;
-use App\Filters\CaseFilter;
 use App\Models\Account;
 use App\Models\Cases;
 use App\Models\Customer;
 use App\Models\User;
 use App\Repositories\CaseRepository;
 use App\Requests\SearchRequest;
+use App\Search\CaseSearch;
 use App\Transformations\TaskTransformable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +50,7 @@ class CaseTest extends TestCase
     public function it_can_show_all_the_cases()
     {
         Cases::factory()->create();
-        $list = (new CaseFilter(new CaseRepository(new Cases())))->filter(new SearchRequest(), $this->account);
+        $list = (new CaseSearch(new CaseRepository(new Cases())))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
         //$this->assertEquals($insertedtask->title, $myLastElement['title']);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\PurchaseOrderFactory;
-use App\Filters\PurchaseOrderFilter;
 use App\Models\Company;
 use App\Models\PurchaseOrder;
 use App\Repositories\CreditRepository;
@@ -13,6 +12,7 @@ use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Requests\PurchaseOrder\CreatePurchaseOrderRequest;
 use App\Requests\Quote\UpdatePurchaseOrderRequest;
 use App\Requests\SearchRequest;
+use App\Search\PurchaseOrderSearch;
 use App\Transformations\PurchaseOrderTransformable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -54,7 +54,7 @@ class PurchaseOrderController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $pos = (new PurchaseOrderFilter($this->purchase_order_repo))->filter(
+        $pos = (new PurchaseOrderSearch($this->purchase_order_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\RecurringInvoiceFactory;
-use App\Filters\RecurringInvoiceFilter;
 use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Models\Account;
 use App\Models\Customer;
@@ -14,6 +13,7 @@ use App\Models\User;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\SearchRequest;
+use App\Search\RecurringInvoiceSearch;
 use App\Transformations\TaskTransformable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -57,7 +57,7 @@ class RecurringInvoiceTest extends TestCase
     public function it_can_show_all_the_invoices()
     {
         RecurringInvoice::factory()->create();
-        $list = (new RecurringInvoiceFilter(new RecurringInvoiceRepository(new RecurringInvoice())))->filter(
+        $list = (new RecurringInvoiceSearch(new RecurringInvoiceRepository(new RecurringInvoice())))->filter(
             new SearchRequest(),
             $this->account
         );

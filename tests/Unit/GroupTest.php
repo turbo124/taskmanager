@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Factory\GroupFactory;
-use App\Filters\GroupFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Group;
 use App\Models\User;
 use App\Repositories\GroupRepository;
 use App\Requests\SearchRequest;
+use App\Search\GroupSearch;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -47,7 +47,7 @@ class GroupTest extends TestCase
     public function it_can_show_all_the_groups()
     {
         Group::factory()->create();
-        $list = (new GroupFilter(new GroupRepository(new Group)))->filter(
+        $list = (new GroupSearch(new GroupRepository(new Group)))->filter(
             new SearchRequest,
             $this->account
         );

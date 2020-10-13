@@ -134,7 +134,7 @@ class CategoryUnitTest extends TestCase
     /** @test */
 //    public function it_errors_creating_the_category_when_required_fields_are_not_passed() {
 //        $this->expectException(\Illuminate\Database\QueryException::class);
-//        $product = new CategoryRepository(new Category);
+//        $product = new CategoryRepository(new CategorySearch);
 //        $product->createCategory([]);
 //    }
 
@@ -189,7 +189,7 @@ class CategoryUnitTest extends TestCase
     {
         $category = Category::factory()->create();
         $cover = UploadedFile::fake()->image('file.png', 600, 600);
-        //$parent = Category::factory()->create();
+        //$parent = CategorySearch::factory()->create();
         $params = [
             'name'        => 'Boys',
             'slug'        => 'boys',

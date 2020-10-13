@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\EventFactory;
-use App\Filters\EventFilter;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Task;
@@ -16,6 +15,7 @@ use App\Repositories\UserRepository;
 use App\Requests\Event\CreateEventRequest;
 use App\Requests\Event\UpdateEventRequest;
 use App\Requests\SearchRequest;
+use App\Search\EventSearch;
 use App\Transformations\EventTransformable;
 use Exception;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class EventController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $events = (new EventFilter($this->event_repo))->filter($request, auth()->user()->account_user()->account);
+        $events = (new EventSearch($this->event_repo))->filter($request, auth()->user()->account_user()->account);
         return collect($events)->toJson();
     }
 
@@ -149,7 +149,7 @@ class EventController extends Controller
      */
     public function filterEvents(Request $request)
     {
-        $events = (new EventFilter($this->event_repo))->filterBySearchCriteria(
+        $events = (new EventSearch($this->event_repo))->filterBySearchCriteria(
             $request->all(),
             auth()->user()->account_user()->account_id
         );

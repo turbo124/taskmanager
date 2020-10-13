@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\OrderFactory;
-use App\Filters\OrderFilter;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Repositories\CreditRepository;
@@ -13,6 +12,7 @@ use App\Repositories\QuoteRepository;
 use App\Requests\Order\CreateOrderRequest;
 use App\Requests\Order\UpdateOrderRequest;
 use App\Requests\SearchRequest;
+use App\Search\OrderSearch;
 use App\Transformations\OrderTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -57,7 +57,7 @@ class OrderController extends BaseController
     public function index(SearchRequest $request)
     {
         $invoices =
-            (new OrderFilter($this->order_repo))->filter($request, auth()->user()->account_user()->account);
+            (new OrderSearch($this->order_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

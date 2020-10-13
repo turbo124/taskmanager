@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Factory\CloneTaskToDealFactory;
 use App\Factory\TaskFactory;
-use App\Filters\TaskFilter;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Pdf\Download;
 use App\Jobs\Task\GenerateInvoice;
@@ -32,6 +31,7 @@ use App\Requests\SearchRequest;
 use App\Requests\Task\CreateDealRequest;
 use App\Requests\Task\CreateTaskRequest;
 use App\Requests\Task\UpdateTaskRequest;
+use App\Search\TaskSearch;
 use App\Transformations\DealTransformable;
 use App\Transformations\TaskTransformable;
 use Exception;
@@ -72,7 +72,7 @@ class TaskController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $tasks = (new TaskFilter($this->task_repo))->filter($request, auth()->user()->account_user()->account);
+        $tasks = (new TaskSearch($this->task_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($tasks);
     }
 
@@ -168,7 +168,7 @@ class TaskController extends Controller
      */
     public function filterTasks(Request $request, int $task_type)
     {
-        $tasks = (new TaskFilter($this->task_repo))->filterBySearchCriteria(
+        $tasks = (new TaskSearch($this->task_repo))->filterBySearchCriteria(
             $request->all(),
             $task_type,
             auth()->user()->account_user()->account_id

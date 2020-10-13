@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Factory\CloneDealToLeadFactory;
 use App\Factory\DealFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
-use App\Filters\DealFilter;
 use App\Models\Deal;
 use App\Models\Lead;
 use App\Models\Project;
@@ -17,6 +16,7 @@ use App\Repositories\TaskRepository;
 use App\Requests\Deal\CreateDealRequest;
 use App\Requests\Deal\UpdateDealRequest;
 use App\Requests\SearchRequest;
+use App\Search\DealSearch;
 use App\Transformations\DealTransformable;
 use App\Transformations\LeadTransformable;
 use App\Transformations\TaskTransformable;
@@ -50,7 +50,7 @@ class DealController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $deals = (new DealFilter($this->deal_repo))->filter($request, auth()->user()->account_user()->account);
+        $deals = (new DealSearch($this->deal_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($deals);
     }
 

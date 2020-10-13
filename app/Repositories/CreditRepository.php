@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Events\Credit\CreditWasCreated;
 use App\Events\Credit\CreditWasUpdated;
-use App\Filters\CreditFilter;
 use App\Jobs\Inventory\ReverseInventory;
 use App\Models\Account;
 use App\Models\Credit;
@@ -13,6 +12,7 @@ use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\CreditSearch;
 use App\Traits\BuildVariables;
 use Illuminate\Support\Collection;
 
@@ -111,7 +111,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new CreditFilter($this))->filter($search_request, $account);
+        return (new CreditSearch($this))->filter($search_request, $account);
     }
 
     /**

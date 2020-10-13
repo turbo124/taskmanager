@@ -11,14 +11,14 @@ namespace App\Repositories;
 use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasUpdated;
-use App\Filters\LengthAwarePaginator;
-use App\Filters\OrderFilter;
 use App\Models\Account;
 use App\Models\Order;
 use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\LengthAwarePaginator;
+use App\Search\OrderSearch;
 use App\Traits\BuildVariables;
 use Exception;
 use Illuminate\Support\Collection;
@@ -61,11 +61,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return LengthAwarePaginator|OrderFilter
+     * @return LengthAwarePaginator|OrderSearch
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new OrderFilter($this))->filter($search_request, $account);
+        return (new OrderSearch($this))->filter($search_request, $account);
     }
 
     /**

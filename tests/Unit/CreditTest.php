@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\CreditFactory;
-use App\Filters\CreditFilter;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
@@ -11,6 +10,7 @@ use App\Models\CustomerContact;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Requests\SearchRequest;
+use App\Search\CreditSearch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -46,7 +46,7 @@ class CreditTest extends TestCase
     public function it_can_show_all_the_credits()
     {
         Credit::factory()->create();
-        $list = (new CreditFilter(new CreditRepository(new Credit)))->filter(new SearchRequest(), $this->account);
+        $list = (new CreditSearch(new CreditRepository(new Credit)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 
