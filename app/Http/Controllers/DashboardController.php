@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\LeadFilter;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Deal;
@@ -18,6 +17,7 @@ use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Repositories\LeadRepository;
 use App\Requests\SearchRequest;
+use App\Search\LeadSearch;
 use App\Transformations\TaskTransformable;
 
 class DashboardController extends Controller
@@ -56,7 +56,7 @@ class DashboardController extends Controller
         $leadsToday = $this->taskRepository->getRecentTasks(3, auth()->user()->account_user()->account_id);
         $customersToday = $this->customerRepository->getRecentCustomers(3, auth()->user()->account_user()->account_id);
         $newDeals = $deal_repo->getNewDeals(3, auth()->user()->account_user()->account_id);
-        $leads = (new LeadFilter(new LeadRepository(new Lead())))->filter(
+        $leads = (new LeadSearch(new LeadRepository(new Lead())))->filter(
             new SearchRequest(),
             auth()->user()->account_user()->account
         );

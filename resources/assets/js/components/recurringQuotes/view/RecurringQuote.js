@@ -12,6 +12,7 @@ import Audit from '../../common/Audit'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import ViewSchedule from '../../common/entityContainers/ViewSchedule'
 import Overview from './Overview'
+import QuoteRepository from '../../repositories/QuoteRepository'
 
 export default class RecurringQuote extends Component {
     constructor (props) {
@@ -28,6 +29,24 @@ export default class RecurringQuote extends Component {
         this.loadPdf = this.loadPdf.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
         this.refresh = this.refresh.bind(this)
+        this.getQuotes = this.getQuotes.bind(this)
+    }
+
+    componentDidMount () {
+        this.getQuotes()
+    }
+
+    getQuotes () {
+        const quoteRepository = new QuoteRepository()
+        quoteRepository.get().then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ quotes: response }, () => {
+                console.log('allQuotes', this.state.allQuotes)
+            })
+        })
     }
 
     refresh (entity) {
@@ -79,6 +98,12 @@ export default class RecurringQuote extends Component {
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
+        }
+
+        let stats = null
+
+        if (this.state.invoices.length) {
+            stats = this.quoteModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.quotes)
         }
 
         const fields = []
@@ -215,7 +240,7 @@ export default class RecurringQuote extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview quotes={this.quoteModel.quotes} entity={this.state.entity} fields={fields}
+                        <Overview stats={stats} quotes={this.quoteModel.quotes} entity={this.state.entity} fields={fields}
                             customers={this.props.customers}
                             user={user} customer={customer}/>
                     </TabPane>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CompanyFactory;
-use App\Filters\CompanyFilter;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Repositories\CompanyContactRepository;
@@ -12,6 +11,7 @@ use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;
 use App\Requests\SearchRequest;
+use App\Search\CompanySearch;
 use App\Settings\CompanySettings;
 use App\Traits\UploadableTrait;
 use App\Transformations\CompanyTransformable;
@@ -53,7 +53,7 @@ class CompanyController extends Controller
     public function index(SearchRequest $request)
     {
         $brands =
-            (new CompanyFilter($this->company_repo))->filter($request, auth()->user()->account_user()->account);
+            (new CompanySearch($this->company_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($brands);
     }
 

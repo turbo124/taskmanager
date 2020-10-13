@@ -9,20 +9,15 @@
 namespace Tests\Unit;
 
 use App\Factory\PurchaseOrderFactory;
-use App\Filters\PurchaseOrderFilter;
 use App\Models\Account;
 use App\Models\Company;
-use App\Models\Customer;
-use App\Models\Invoice;
 use App\Models\NumberGenerator;
-use App\Models\Order;
 use App\Models\PurchaseOrder;
 use App\Models\RecurringPurchaseOrder;
 use App\Models\User;
-use App\Repositories\InvoiceRepository;
-use App\Repositories\OrderRepository;
 use App\Repositories\PurchaseOrderRepository;
 use App\Requests\SearchRequest;
+use App\Search\PurchaseOrderSearch;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -64,7 +59,7 @@ class PurchaseOrderTest extends TestCase
     public function it_can_show_all_the_purchase_orders()
     {
         PurchaseOrder::factory()->create();
-        $list = (new PurchaseOrderFilter(new PurchaseOrderRepository(new PurchaseOrder)))->filter(new SearchRequest(), $this->account);
+        $list = (new PurchaseOrderSearch(new PurchaseOrderRepository(new PurchaseOrder)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

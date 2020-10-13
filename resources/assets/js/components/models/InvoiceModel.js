@@ -78,7 +78,7 @@ export default class InvoiceModel extends BaseModel {
             activeTab: '1',
             po_number: '',
             design_id: '',
-            recurring_invoice_id: '',
+            recurring_invoice_id: null,
             currency_id: null,
             exchange_rate: 1,
             success: false,
@@ -297,7 +297,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('cloneToCredit')
         }
 
-        if (!this.fields.recurring_invoice_id.toString().length && this.isModuleEnabled('recurringInvoices')) {
+        if (!this.fields.recurring_invoice_id && this.isModuleEnabled('recurringInvoices')) {
             actions.push('cloneToRecurringInvoice')
         }
 

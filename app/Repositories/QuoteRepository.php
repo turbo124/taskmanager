@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Events\Quote\QuoteWasCreated;
 use App\Events\Quote\QuoteWasUpdated;
-use App\Filters\QuoteFilter;
 use App\Jobs\Order\QuoteOrders;
 use App\Jobs\Product\UpdateProductPrices;
 use App\Models\Account;
@@ -13,6 +12,7 @@ use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\QuoteSearch;
 use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -114,7 +114,7 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new QuoteFilter($this))->filter($search_request, $account);
+        return (new QuoteSearch($this))->filter($search_request, $account);
     }
 
     /**

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Components\Product\CreateProduct;
 use App\Factory\ProductFactory;
-use App\Filters\OrderFilter;
-use App\Filters\ProductFilter;
 use App\Jobs\Customer\StoreProductAttributes;
 use App\Jobs\Product\SaveProductFeatures;
 use App\Models\CompanyToken;
@@ -21,6 +19,8 @@ use App\Repositories\TaskRepository;
 use App\Requests\Product\CreateProductRequest;
 use App\Requests\Product\UpdateProductRequest;
 use App\Requests\SearchRequest;
+use App\Search\OrderSearch;
+use App\Search\ProductSearch;
 use App\Shop\Products\Exceptions\ProductUpdateErrorException;
 use App\Transformations\LoanProductTransformable;
 use App\Transformations\ProductTransformable;
@@ -64,7 +64,7 @@ class ProductController extends Controller
     public function index(SearchRequest $request)
     {
         $products =
-            (new ProductFilter($this->product_repo))->filter($request, auth()->user()->account_user()->account);
+            (new ProductSearch($this->product_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($products);
     }
 
@@ -141,7 +141,7 @@ class ProductController extends Controller
     {
         $orderRepository = new OrderRepository(new Order);
         $products =
-            (new OrderFilter($orderRepository))->getProductsForTask(
+            (new OrderSearch($orderRepository))->getProductsForTask(
                 (new TaskRepository(new Task))->findTaskById($task_id),
                 $status
             );

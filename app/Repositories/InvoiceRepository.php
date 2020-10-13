@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Events\Invoice\InvoiceWasCreated;
 use App\Events\Invoice\InvoiceWasUpdated;
-use App\Filters\InvoiceFilter;
 use App\Jobs\Order\InvoiceOrders;
 use App\Models\Account;
 use App\Models\Expense;
@@ -13,6 +12,7 @@ use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\InvoiceSearch;
 use App\Traits\BuildVariables;
 use Carbon\Carbon;
 use Exception;
@@ -48,11 +48,11 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return InvoiceFilter|LengthAwarePaginator
+     * @return InvoiceSearch|LengthAwarePaginator
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new InvoiceFilter($this))->filter($search_request, $account);
+        return (new InvoiceSearch($this))->filter($search_request, $account);
     }
 
     public function getModel()

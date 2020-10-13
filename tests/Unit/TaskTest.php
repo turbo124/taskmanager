@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\TaskFactory;
-use App\Filters\TaskFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Project;
@@ -12,6 +11,7 @@ use App\Models\User;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\SearchRequest;
+use App\Search\TaskSearch;
 use App\Transformations\TaskTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -41,7 +41,7 @@ class TaskTest extends TestCase
     public function it_can_show_all_the_tasks()
     {
         $insertedtask = Task::factory()->create();
-        $list = (new TaskFilter(
+        $list = (new TaskSearch(
             new TaskRepository(
                 new Task,
                 new ProjectRepository(new Project)

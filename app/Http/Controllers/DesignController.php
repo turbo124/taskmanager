@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Factory\DesignFactory;
-use App\Filters\DesignFilter;
 use App\Models\Design;
 use App\Repositories\DesignRepository;
 use App\Requests\Design\StoreDesignRequest;
 use App\Requests\Design\UpdateDesignRequest;
 use App\Requests\SearchRequest;
+use App\Search\DesignSearch;
 use App\Transformations\DesignTransformable;
 use Exception;
 
@@ -38,7 +38,7 @@ class DesignController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $designs = (new DesignFilter($this->design_repo))->filter($request, auth()->user()->account_user()->account);
+        $designs = (new DesignSearch($this->design_repo))->filter($request, auth()->user()->account_user()->account);
 
         foreach ($designs as $key => $design) {
             $designs[$key]['design']->body = str_replace('$costs', '', $design['design']->body);

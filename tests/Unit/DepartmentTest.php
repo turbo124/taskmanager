@@ -79,7 +79,7 @@ class DepartmentTest extends TestCase
     {
         $department = Department::factory()->create();
         $user = User::factory()->create();
-        //$parent = factory(Category::class)->create();
+        //$parent = factory(CategorySearch::class)->create();
         $params = [
             'name'               => $this->faker->name,
             'department_manager' => $user->id,

@@ -4,12 +4,10 @@ namespace App\Jobs\Invoice;
 
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Models\CompanyGateway;
-use App\Models\Credit;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;
-use App\Models\Payment;
 use App\Repositories\InvoiceRepository;
-use App\Repositories\PaymentRepository;
+use App\Traits\CreditPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,7 +16,7 @@ use Illuminate\Queue\SerializesModels;
 
 class AutobillInvoice implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CreditPayment;
 
     private Invoice $invoice;
 
@@ -48,10 +46,11 @@ class AutobillInvoice implements ShouldQueue
 
     private function build()
     {
-        if($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
+        if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
             $credits = $this->getCreditNotesForPayment();
         }
 
+        $balance = 0;
         $credit_total = !empty($credits) ? array_sum(array_column($credits, 'amount')) : 0;
         $amount = ($this->invoice->partial > 0) ? $this->invoice->partial : (($this->invoice->balance > 0) ? $this->invoice->balance : $credit_total);
 
@@ -71,57 +70,19 @@ class AutobillInvoice implements ShouldQueue
 
     private function getCreditNotesForPayment()
     {
-        $credits = Credit::where('customer_id', $this->invoice->customer->id)->where('balance', '>', 0)->where(
-            'is_deleted',
-            false
-        )->get();
+        $credits = $this->invoice->customer->getActiveCredits();
+        $credits_to_process = $this->buildCreditsToProcess($credits, $this->invoice);
 
-        $credits_to_process = [];
+        $invoices = $this->getProcessedInvoice();
 
-        if (!empty($credits)) {
-            foreach ($credits as $credit) {
-                $credits_to_process[] = [
-                    'credit_id' => $credit->id,
-                    'amount' => $this->removeCreditAmountFromInvoice($credit)
-                ];
-            }
+        if (!empty($invoices[$this->invoice->id])) {
+            $this->invoice->fill($invoices[$this->invoice->id]);
         }
 
         $this->invoice->temp_data = ['credits_to_process' => $credits_to_process];
         $this->invoice->save();
 
         return $credits_to_process;
-    }
-
-    private function removeCreditAmountFromInvoice(Credit $credit)
-    {
-        $amount = 0;
-
-        switch(true) {
-            case $this->invoice->partial > 0 && $credit->balance >= $this->invoice->partial:
-                $amount = $this->invoice->partial;
-                $this->invoice->balance -= $this->invoice->partial;
-                $this->invoice->partial = 0;
-                break;
-
-                case $this->invoice->partial > 0 && $credit->balance < $this->invoice->partial:
-                    $amount = $credit->balance;
-                    $this->invoice->partial -= $credit->balance;
-                    $this->invoice->balance -= $credit->balance;
-                    break;
-
-            case $credit->balance >= $this->invoice->balance:
-                $amount = $this->invoice->balance;
-                $this->invoice->balance = 0;
-                break;
-
-            default:
-                $amount = $credit->balance;
-                $this->invoice->balance -= $credit->balance;
-                break;
-        }
-
-        return $amount;
     }
 
     private function findGatewayFee(): ?CustomerGateway

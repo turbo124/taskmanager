@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\ProjectFactory;
-use App\Filters\ProjectFilter;
 use App\Models\Customer;
 use App\Models\Project;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Repositories\ProjectRepository;
 use App\Requests\Project\CreateProjectRequest;
 use App\Requests\Project\UpdateProjectRequest;
+use App\Search\ProjectSearch;
 use App\Transformations\ProjectTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +34,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $projects =
-            (new ProjectFilter($this->project_repo))->filter($request, auth()->user()->account_user()->account);
+            (new ProjectSearch($this->project_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($projects);
     }
 

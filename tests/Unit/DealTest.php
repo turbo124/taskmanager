@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Factory\DealFactory;
-use App\Filters\DealFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Deal;
 use App\Models\User;
 use App\Repositories\DealRepository;
 use App\Requests\SearchRequest;
+use App\Search\DealSearch;
 use App\Transformations\DealTransformable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -37,7 +37,7 @@ class DealTest extends TestCase
     /** @test */
     public function it_can_show_all_the_tasks()
     {
-        $list = (new DealFilter(
+        $list = (new DealSearch(
             new DealRepository(
                 new Deal
             )

@@ -12,7 +12,6 @@ use App\Factory\CreditFactory;
 use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\PaymentFactory;
-use App\Filters\PaymentFilter;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
@@ -23,6 +22,7 @@ use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
+use App\Search\PaymentSearch;
 use App\Transformations\EventTransformable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -74,7 +74,7 @@ class PaymentUnitTest extends TestCase
 
         $paymentRepo = new PaymentRepository(new Payment);
         (new ProcessPayment())->process($data, $paymentRepo, $factory);
-        $lists = (new PaymentFilter(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account);
+        $lists = (new PaymentSearch(new PaymentRepository(new Payment)))->filter(new SearchRequest, $this->account);
         $this->assertNotEmpty($lists);
     }
 

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Factory\PaymentTermsFactory;
-use App\Filters\PaymentTermsFilter;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\PaymentTerms\StorePaymentTermsRequest;
 use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;
 use App\Requests\SearchRequest;
+use App\Search\PaymentTermsSearch;
 use App\Traits\UploadableTrait;
 use App\Transformations\PaymentTermsTransformable;
 use Exception;
@@ -41,7 +41,7 @@ class PaymentTermsController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $payment_terms = (new PaymentTermsFilter($this->payment_terms_repo))->filter(
+        $payment_terms = (new PaymentTermsSearch($this->payment_terms_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Factory\CloneRecurringInvoiceFactory;
 use App\Factory\CloneRecurringInvoiceToQuoteFactory;
 use App\Factory\RecurringInvoiceFactory;
-use App\Filters\RecurringInvoiceFilter;
 use App\Models\Customer;
 use App\Models\CustomerContact;
 use App\Models\Invoice;
@@ -18,6 +17,7 @@ use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\RecurringInvoice\CreateRecurringInvoiceRequest;
 use App\Requests\SearchRequest;
+use App\Search\RecurringInvoiceSearch;
 use App\Transformations\RecurringInvoiceTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -61,7 +61,7 @@ class RecurringInvoiceController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new RecurringInvoiceFilter($this->recurring_invoice_repo))->filter(
+        $invoices = (new RecurringInvoiceSearch($this->recurring_invoice_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

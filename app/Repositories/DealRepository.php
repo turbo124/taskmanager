@@ -4,13 +4,13 @@ namespace App\Repositories;
 
 use App\Events\Deal\DealWasCreated;
 use App\Events\Deal\DealWasUpdated;
-use App\Filters\DealFilter;
 use App\Models\Account;
 use App\Models\Deal;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\DealRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\DealSearch;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -59,7 +59,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new DealFilter($this))->filter($search_request, $account);
+        return (new DealSearch($this))->filter($search_request, $account);
     }
 
     public function getDeals($limit = null, User $objUser = null): Support

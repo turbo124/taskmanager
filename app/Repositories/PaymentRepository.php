@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Components\Currency\CurrencyConverter;
 use App\Events\Payment\PaymentWasCreated;
-use App\Filters\PaymentFilter;
 use App\Models\Account;
 use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\PaymentSearch;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -42,7 +42,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new PaymentFilter($this))->filter($search_request, $account);
+        return (new PaymentSearch($this))->filter($search_request, $account);
     }
 
     /**

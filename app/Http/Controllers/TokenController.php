@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CompanyTokenFactory;
-use App\Filters\TokenFilters;
 use App\Models\CompanyToken;
 use App\Repositories\TokenRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Token\CreateTokenRequest;
 use App\Requests\Token\UpdateTokenRequest;
+use App\Search\TokenSearch;
 use App\Transformations\TokenTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +38,7 @@ class TokenController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new TokenFilters($this->token_repo))->filter($request, auth()->user()->account_user()->account);
+        $invoices = (new TokenSearch($this->token_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($invoices);
     }
 

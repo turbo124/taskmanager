@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Factory\CustomerFactory;
-use App\Filters\CustomerFilter;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\NumberGenerator;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\CustomerSearch;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection as Support;
@@ -40,7 +40,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new CustomerFilter($this))->filter($search_request, $account);
+        return (new CustomerSearch($this))->filter($search_request, $account);
     }
 
     /**

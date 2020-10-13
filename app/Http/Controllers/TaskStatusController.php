@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\TaskStatusFactory;
-use App\Filters\TaskStatusFilter;
 use App\Models\CompanyToken;
 use App\Repositories\Interfaces\TaskStatusRepositoryInterface;
 use App\Repositories\TaskStatusRepository;
 use App\Requests\SearchRequest;
 use App\Requests\TaskStatus\CreateTaskStatusRequest;
 use App\Requests\TaskStatus\UpdateTaskStatusRequest;
+use App\Search\TaskStatusSearch;
 use App\Transformations\TaskStatusTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -34,7 +34,7 @@ class TaskStatusController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $statuses = (new TaskStatusFilter($this->task_status_repo))->filter(
+        $statuses = (new TaskStatusSearch($this->task_status_repo))->filter(
             $request,
             $account
         );

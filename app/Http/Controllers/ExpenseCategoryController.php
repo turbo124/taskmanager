@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Factory\ExpenseCategoryFactory;
-use App\Filters\ExpenseCategoryFilter;
 use App\Repositories\ExpenseCategoryRepository;
 use App\Requests\ExpenseCategory\CreateCategoryRequest;
 use App\Requests\ExpenseCategory\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
+use App\Search\ExpenseCategorySearch;
 use App\Transformations\ExpenseCategoryTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -37,7 +37,7 @@ class ExpenseCategoryController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $categories = (new ExpenseCategoryFilter($this->category_repo))->filter(
+        $categories = (new ExpenseCategorySearch($this->category_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

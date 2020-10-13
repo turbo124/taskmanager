@@ -123,7 +123,7 @@ class Payment extends Model
      * @param float|null $amount
      * @return $this
      */
-    public function attachInvoice(Invoice $invoice, float $amount = null): Payment
+    public function attachInvoice(Invoice $invoice, float $amount = null, $send_transaction = false): Payment
     {
         $this->invoices()->attach(
             $invoice->id,
@@ -131,6 +131,10 @@ class Payment extends Model
                 'amount' => $amount === null ? $this->amount : $amount
             ]
         );
+
+        if ($send_transaction && $amount !== null) {
+            $invoice->transaction_service()->createTransaction($amount * -1, $invoice->customer->balance);
+        }
 
         return $this;
     }

@@ -7,7 +7,6 @@ use App\Components\Payment\ProcessPayment;
 use App\Components\Refund\RefundFactory;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\PaymentFactory;
-use App\Filters\PaymentFilter;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Credit;
 use App\Models\Customer;
@@ -18,6 +17,7 @@ use App\Requests\Payment\CreatePaymentRequest;
 use App\Requests\Payment\RefundPaymentRequest;
 use App\Requests\Payment\UpdatePaymentRequest;
 use App\Requests\SearchRequest;
+use App\Search\PaymentSearch;
 use App\Transformations\PaymentTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class PaymentController extends Controller
     public function index(SearchRequest $request)
     {
         $payments =
-            (new PaymentFilter($this->payment_repo))->filter($request, auth()->user()->account_user()->account);
+            (new PaymentSearch($this->payment_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($payments);
     }
 

@@ -3,21 +3,17 @@
 namespace Tests\Unit;
 
 use App\Factory\RecurringQuoteFactory;
-use App\Filters\RecurringQuoteFilter;
-use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Jobs\Quote\SendRecurringQuote;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\CustomerContact;
-use App\Models\Invoice;
 use App\Models\Quote;
-use App\Models\RecurringInvoice;
 use App\Models\RecurringQuote;
 use App\Models\User;
-use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
+use App\Search\RecurringQuoteSearch;
 use App\Transformations\TaskTransformable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -61,7 +57,7 @@ class RecurringQuoteTest extends TestCase
     public function it_can_show_all_the_quotes()
     {
         RecurringQuote::factory()->create();
-        $list = (new RecurringQuoteFilter(new RecurringQuoteRepository(new RecurringQuote())))->filter(
+        $list = (new RecurringQuoteSearch(new RecurringQuoteRepository(new RecurringQuote())))->filter(
             new SearchRequest(),
             $this->account
         );

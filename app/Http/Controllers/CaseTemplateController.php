@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CaseTemplateFactory;
-use App\Filters\CaseTemplateFilter;
 use App\Repositories\CaseTemplateRepository;
 use App\Requests\CaseTemplate\CreateCaseTemplateRequest;
 use App\Requests\CaseTemplate\UpdateCaseTemplateRequest;
 use App\Requests\SearchRequest;
+use App\Search\CaseTemplateSearch;
 use App\Transformations\CaseTemplateTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -39,7 +39,7 @@ class CaseTemplateController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $templates = (new CaseTemplateFilter($this->brand_repo))->filter(
+        $templates = (new CaseTemplateSearch($this->brand_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

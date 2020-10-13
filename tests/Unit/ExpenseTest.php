@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\ExpenseFactory;
-use App\Filters\ExpenseFilter;
 use App\Models\Account;
 use App\Models\Company;
 use App\Models\Customer;
@@ -12,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use App\Repositories\ExpenseRepository;
 use App\Requests\SearchRequest;
+use App\Search\ExpenseSearch;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -45,7 +45,7 @@ class ExpenseTest extends TestCase
     public function it_can_show_all_the_expenses()
     {
         Expense::factory()->create();
-        $list = (new ExpenseFilter(new ExpenseRepository(new Expense)))->filter(new SearchRequest(), $this->account);
+        $list = (new ExpenseSearch(new ExpenseRepository(new Expense)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

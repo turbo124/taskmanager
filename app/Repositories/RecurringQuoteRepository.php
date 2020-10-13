@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Filters\RecurringQuoteFilter;
 use App\Models\Account;
 use App\Models\RecurringQuote;
 use App\Repositories\Base\BaseRepository;
 use App\Requests\SearchRequest;
+use App\Search\RecurringQuoteSearch;
 use App\Traits\BuildVariables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -64,7 +64,7 @@ class RecurringQuoteRepository extends BaseRepository
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new RecurringQuoteFilter($this))->filter($search_request, $account);
+        return (new RecurringQuoteSearch($this))->filter($search_request, $account);
     }
 
 

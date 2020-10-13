@@ -6,7 +6,6 @@ use App\Events\Lead\LeadWasCreated;
 use App\Factory\Lead\CloneLeadToDealFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
 use App\Factory\LeadFactory;
-use App\Filters\LeadFilter;
 use App\Models\CompanyToken;
 use App\Models\Deal;
 use App\Models\Lead;
@@ -19,6 +18,7 @@ use App\Repositories\LeadRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\SearchRequest;
+use App\Search\LeadSearch;
 use App\Transformations\DealTransformable;
 use App\Transformations\LeadTransformable;
 use App\Transformations\TaskTransformable;
@@ -54,7 +54,7 @@ class LeadController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $leads = (new LeadFilter($this->lead_repo))->filter($request, auth()->user()->account_user()->account);
+        $leads = (new LeadSearch($this->lead_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($leads);
     }
 

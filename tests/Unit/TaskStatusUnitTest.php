@@ -3,12 +3,12 @@
 namespace Tests\Unit;
 
 use App\Factory\TaskStatusFactory;
-use App\Filters\TaskStatusFilter;
 use App\Models\Account;
 use App\Models\TaskStatus;
 use App\Models\User;
 use App\Repositories\TaskStatusRepository;
 use App\Requests\SearchRequest;
+use App\Search\TaskStatusSearch;
 use App\Shop\Orders\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -47,7 +47,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_lists_all_the_task_statuses()
     {
         TaskStatus::factory()->create();
-        $list = (new TaskStatusFilter(new TaskStatusRepository(new TaskStatus())))->filter(
+        $list = (new TaskStatusSearch(new TaskStatusRepository(new TaskStatus())))->filter(
             new SearchRequest(),
             $this->account
         );

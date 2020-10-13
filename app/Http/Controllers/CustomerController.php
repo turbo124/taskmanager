@@ -6,7 +6,6 @@ use App\Components\Customer\ContactRegister;
 use App\Events\Customer\CustomerWasCreated;
 use App\Events\Customer\CustomerWasUpdated;
 use App\Factory\CustomerFactory;
-use App\Filters\CustomerFilter;
 use App\Jobs\Customer\StoreCustomerAddress;
 use App\Models\Account;
 use App\Models\CompanyToken;
@@ -20,6 +19,7 @@ use App\Requests\Customer\CreateCustomerRequest;
 use App\Requests\Customer\CustomerRegistrationRequest;
 use App\Requests\Customer\UpdateCustomerRequest;
 use App\Requests\SearchRequest;
+use App\Search\CustomerSearch;
 use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
 use Exception;
@@ -57,7 +57,7 @@ class CustomerController extends Controller
     public function index(SearchRequest $request)
     {
         $customers =
-            (new CustomerFilter($this->customer_repo))->filter($request, auth()->user()->account_user()->account);
+            (new CustomerSearch($this->customer_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($customers);
     }
 

@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Factory\CompanyFactory;
-use App\Filters\CompanyFilter;
 use App\Models\Account;
 use App\Models\Company;
 use App\Models\CompanyContact;
@@ -11,6 +10,7 @@ use App\Models\User;
 use App\Repositories\CompanyContactRepository;
 use App\Repositories\CompanyRepository;
 use App\Requests\SearchRequest;
+use App\Search\CompanySearch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -39,7 +39,7 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_show_all_the_companies()
     {
-        $list = (new CompanyFilter(
+        $list = (new CompanySearch(
             new CompanyRepository(
                 new Company,
                 new CompanyContactRepository(new CompanyContact)

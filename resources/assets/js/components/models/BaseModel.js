@@ -100,4 +100,63 @@ export default class BaseModel {
         document.body.removeChild(mark)
         return true
     }
+
+    getStatsByCustomer (customerId, entities) {
+        let countActive = 0
+        let countArchived = 0
+
+        entities.forEach((entity, quote_id) => {
+            if (entity.customer_id === parseInt(customerId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        // return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
+
+    getStatsByUser (userId, entities) {
+        let countActive = 0
+        let countArchived = 0
+
+        entities.forEach((entity, quote_id) => {
+            if (entity.user_id === parseInt(userId)) {
+                if (!entity.deleted_at.toString().length) {
+                    countActive++
+                } else if (entity.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        // return EntityStats(countActive: countActive, countArchived: countArchived);
+    }
+}
+
+export class EntityStats {
+    constructor (active, archived) {
+        this.active = active
+        this.archived = archived
+    }
+
+    present () {
+        let str = ''
+
+        if (this.active > 0) {
+            str = `${this.active} ${translations.active}`
+
+            if (this.archived > 0) {
+                str += ' • '
+            }
+        }
+
+        if (this.archived > 0) {
+            str += `${this.archived} ${translations.archived}`
+        }
+
+        return str
+    }
 }

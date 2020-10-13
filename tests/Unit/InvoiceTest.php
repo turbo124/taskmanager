@@ -11,14 +11,12 @@ namespace Tests\Unit;
 use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
-use App\Filters\InvoiceFilter;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\SendReminders;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
-use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
@@ -29,6 +27,7 @@ use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
+use App\Search\InvoiceSearch;
 use App\Settings\AccountSettings;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -87,7 +86,7 @@ class InvoiceTest extends TestCase
     public function it_can_show_all_the_invoices()
     {
         Invoice::factory()->create();
-        $list = (new InvoiceFilter(new InvoiceRepository(new Invoice)))->filter(
+        $list = (new InvoiceSearch(new InvoiceRepository(new Invoice)))->filter(
             new SearchRequest(),
             $this->main_account
         );

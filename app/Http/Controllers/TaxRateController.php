@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\TaxRateFactory;
-use App\Filters\TaxRateFilter;
 use App\Models\TaxRate;
 use App\Repositories\Interfaces\TaxRateRepositoryInterface;
 use App\Repositories\TaxRateRepository;
 use App\Requests\SearchRequest;
 use App\Requests\TaxRate\CreateTaxRateRequest;
 use App\Requests\TaxRate\UpdateTaxRateRequest;
+use App\Search\TaxRateSearch;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,7 +35,7 @@ class TaxRateController extends Controller
     public function index(SearchRequest $request)
     {
         $tax_rates =
-            (new TaxRateFilter($this->tax_rate_repo))->filter($request, auth()->user()->account_user()->account);
+            (new TaxRateSearch($this->tax_rate_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($tax_rates);
     }
 

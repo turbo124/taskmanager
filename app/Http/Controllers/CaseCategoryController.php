@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CaseCategoryFactory;
-use App\Filters\CaseCategoryFilter;
 use App\Models\CompanyToken;
 use App\Repositories\CaseCategoryRepository;
 use App\Requests\CaseCategory\CreateCategoryRequest;
 use App\Requests\CaseCategory\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
+use App\Search\CaseCategorySearch;
 use App\Transformations\CaseCategoryTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -44,7 +44,7 @@ class CaseCategoryController extends Controller
         $token = CompanyToken::whereToken($token_sent)->first();
         $account = $token->account;
 
-        $categories = (new CaseCategoryFilter($this->category_repo))->filter(
+        $categories = (new CaseCategorySearch($this->category_repo))->filter(
             $request,
             $account
         );

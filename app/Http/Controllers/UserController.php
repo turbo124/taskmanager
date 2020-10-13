@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\User\UserWasCreated;
 use App\Factory\UserFactory;
-use App\Filters\UserFilter;
 use App\Jobs\User\CreateUser;
 use App\Models\Department;
 use App\Models\User;
@@ -15,6 +14,7 @@ use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
 use App\Requests\User\CreateUserRequest;
 use App\Requests\User\UpdateUserRequest;
+use App\Search\UserSearch;
 use App\Transformations\UserTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $users = (new UserFilter($this->user_repo))->filter($request, auth()->user()->account_user()->account);
+        $users = (new UserSearch($this->user_repo))->filter($request, auth()->user()->account_user()->account);
         return response()->json($users);
     }
 

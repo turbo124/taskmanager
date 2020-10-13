@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 
 use App\Factory\SubscriptionFactory;
-use App\Filters\SubscriptionFilters;
 use App\Models\Subscription;
 use App\Repositories\SubscriptionRepository;
 use App\Requests\SearchRequest;
 use App\Requests\Subscription\CreateSubscriptionRequest;
 use App\Requests\Subscription\UpdateSubscriptionRequest;
+use App\Search\SubscriptionSearch;
 use App\Transformations\SubscriptionTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $subscriptions = (new SubscriptionFilters($this->subscription_repo))->filter(
+        $subscriptions = (new SubscriptionSearch($this->subscription_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

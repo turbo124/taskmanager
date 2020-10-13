@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
-import BaseModel, { LineItem } from './BaseModel'
+import BaseModel, { EntityStats, LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
 export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_number', '$invoice.invoice_date', '$invoice.due_date',
@@ -377,5 +377,23 @@ export default class RecurringInvoiceModel extends BaseModel {
             address: address
 
         }
+    }
+
+    recurringInvoiceStatsForInvoice (recurringInvoiceId, invoices) {
+        let countActive = 0
+        let countArchived = 0
+
+        invoices.forEach((invoice, invoice_id) => {
+            if (invoice.recurring_invoice_id === parseInt(recurringInvoiceId)) {
+                if (!invoice.deleted_at || !invoice.deleted_at.toString().length) {
+                    countActive++
+                } else if (invoice.deleted_at && invoice.deleted_at.toString().length) {
+                    countArchived++
+                }
+            }
+        })
+
+        const entityStats = new EntityStats(countActive, countArchived)
+        return entityStats.present()
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\CustomerFilter;
-use App\Filters\UserFilter;
 use App\Models\Customer;
 use App\Models\Event;
 use App\Models\Notification;
@@ -14,6 +12,8 @@ use App\Repositories\Interfaces\EventRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
+use App\Search\CustomerFilter;
+use App\Search\UserSearch;
 use App\Transformations\EventTransformable;
 use App\Transformations\NotificationTransformable;
 
@@ -74,7 +74,7 @@ class ActivityController extends Controller
 
         return response()->json(
             [
-                'users'         => (new UserFilter(new UserRepository(new User())))->filter(
+                'users'         => (new UserSearch(new UserRepository(new User())))->filter(
                     new SearchRequest(),
                     auth()->user()->account_user()->account
                 ),

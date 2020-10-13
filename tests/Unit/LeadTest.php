@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
-use App\Filters\LeadFilter;
 use App\Models\Account;
 use App\Models\Lead;
 use App\Models\User;
 use App\Repositories\LeadRepository;
 use App\Requests\SearchRequest;
+use App\Search\LeadSearch;
 use App\Transformations\TaskTransformable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -35,7 +35,7 @@ class LeadTest extends TestCase
     public function it_can_show_all_the_leads()
     {
         Lead::factory()->create();
-        $list = (new LeadFilter(new LeadRepository(new Lead)))->filter(new SearchRequest(), $this->account);
+        $list = (new LeadSearch(new LeadRepository(new Lead)))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
         // $this->assertInstanceOf(Collection::class, $list);
         //$this->assertEquals($insertedtask->name, $myLastElement['name']);

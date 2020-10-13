@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Factory\CategoryFactory;
-use App\Filters\CategoryFilter;
 use App\Models\CompanyToken;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Requests\Category\CreateCategoryRequest;
 use App\Requests\Category\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
+use App\Search\CategorySearch;
 use App\Transformations\CategoryTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +42,7 @@ class CategoryController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $categories = (new CategoryFilter($this->category_repo))->filter(
+        $categories = (new CategorySearch($this->category_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

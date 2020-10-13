@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Components\Pdf\InvoicePdf;
 use App\Designs\PdfColumns;
 use App\Factory\DesignFactory;
-use App\Filters\DesignFilter;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\Quote\CreateQuotePdf;
 use App\Models\Account;
@@ -16,6 +15,7 @@ use App\Models\Quote;
 use App\Models\User;
 use App\Repositories\DesignRepository;
 use App\Requests\SearchRequest;
+use App\Search\DesignSearch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -48,7 +48,7 @@ class DesignTest extends TestCase
     public function it_can_show_all_the_designs()
     {
         Design::factory()->create();
-        $list = (new DesignFilter(new DesignRepository(new Design())))->filter(new SearchRequest(), $this->account);
+        $list = (new DesignSearch(new DesignRepository(new Design())))->filter(new SearchRequest(), $this->account);
         $this->assertNotEmpty($list);
     }
 

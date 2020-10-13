@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Factory\CloneRecurringQuoteFactory;
 use App\Factory\CloneRecurringQuoteToQuoteFactory;
 use App\Factory\RecurringQuoteFactory;
-use App\Filters\RecurringQuoteFilter;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\RecurringInvoice\SendRecurring;
 use App\Models\Customer;
@@ -19,6 +18,7 @@ use App\Repositories\RecurringQuoteRepository;
 use App\Requests\RecurringQuote\CreateRecurringQuoteRequest;
 use App\Requests\RecurringQuote\UpdateRecurringQuoteRequest;
 use App\Requests\SearchRequest;
+use App\Search\RecurringQuoteSearch;
 use App\Transformations\RecurringQuoteTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -62,7 +62,7 @@ class RecurringQuoteController extends BaseController
      */
     public function index(SearchRequest $request)
     {
-        $invoices = (new RecurringQuoteFilter($this->recurring_quote_repo))->filter(
+        $invoices = (new RecurringQuoteSearch($this->recurring_quote_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );

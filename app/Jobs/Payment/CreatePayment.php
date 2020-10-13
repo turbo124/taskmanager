@@ -13,13 +13,13 @@ use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
+use App\Traits\CreditPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class SaveAttributeValues
@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Log;
  */
 class CreatePayment implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CreditPayment;
 
     private array $data;
 
@@ -76,6 +76,41 @@ class CreatePayment implements ShouldQueue
         return $payment;
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param Payment $payment
+     * @return Payment
+     */
+    private function createCreditsFromInvoice(Invoice $invoice, Payment $payment): Payment
+    {
+        $credits = $invoice->customer->getActiveCredits();
+
+        $credits = $this->buildCreditsToProcess($credits, $invoice);
+
+        $invoices = $this->getProcessedInvoice();
+
+        $amount = array_sum(array_column($credits, 'amount'));
+
+        $payment->attachInvoice($invoice, $amount, true);
+
+        $payment->applied = $amount;
+        $payment->save();
+
+        if (!empty($invoices[$invoice->id])) {
+            $invoice->fill($invoices[$invoice->id]);
+            $invoice->setStatus(
+                (int)$invoices[$invoice->id]['balance'] === 0 ? Invoice::STATUS_PAID : Invoice::STATUS_PARTIAL
+            );
+            $invoice->save();
+        }
+
+        $this->updateCustomer($payment, $amount);
+
+        $this->attachCredits($payment, $invoice, $credits);
+
+        return $payment;
+    }
+
     private function createPayment()
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
@@ -92,8 +127,6 @@ class CreatePayment implements ShouldQueue
         $payment->fill($data);
 
         $payment = $this->payment_repo->save($data, $payment);
-
-        Log::emergency($payment);
 
         return $payment;
     }
@@ -132,20 +165,26 @@ class CreatePayment implements ShouldQueue
                 $this->attachCredits($payment, $invoice, $temp_data['credits_to_process']);
             }
 
-            $this->updateCustomer($payment, $invoice, $amount);
-
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
                 $invoice = (new InvoiceRepository($invoice))->save(
                     ['gateway_fee' => $this->data['invoices'][$invoice->id]['gateway_fee']],
                     $invoice
                 );
+
+                $amount = $invoice->balance;
             }
 
-            $invoice->transaction_service()->createTransaction($amount * -1, $invoice->customer->balance);
+            if (!empty($this->data['apply_credits'])) {
+                return $this->createCreditsFromInvoice($invoice, $payment);
+            }
+
+            $this->updateCustomer($payment, $amount);
 
             $invoice->reduceBalance($amount);
 
-            $payment->attachInvoice($invoice, $amount);
+            $payment->attachInvoice($invoice, $amount, true);
+            $payment->applied = $amount;
+            $payment->save();
         }
 
         return $payment;
@@ -173,6 +212,11 @@ class CreatePayment implements ShouldQueue
 
             $credit->transaction_service()->createTransaction($credit->balance * -1, $credit->customer->balance);
             $credit->reduceCreditBalance($credits_to_process[$credit->id]['amount']);
+            $credit->reduceBalance($credits_to_process[$credit->id]['amount']);
+            $credit->setStatus(
+                (int)$credit->balance === 0 ? Credit::STATUS_APPLIED : Credit::STATUS_PARTIAL
+            );
+            $credit->save();
         }
 
         return $payment->fresh();
@@ -207,7 +251,7 @@ class CreatePayment implements ShouldQueue
      * @param Payment $payment
      * @param Invoice $invoice
      */
-    private function updateCustomer(Payment $payment, Invoice $invoice, $amount)
+    private function updateCustomer(Payment $payment, $amount)
     {
         $payment->customer->reduceBalance($amount);
         $payment->customer->increasePaidToDateAmount($amount);

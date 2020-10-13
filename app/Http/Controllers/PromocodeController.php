@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 
 use App\Components\Promocodes\Promocodes;
-use App\Filters\PromocodeFilter;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Order;
@@ -14,6 +13,7 @@ use App\Repositories\PromocodeRepository;
 use App\Requests\Promocode\CreatePromocode;
 use App\Requests\Promocode\UpdatePromocode;
 use App\Requests\SearchRequest;
+use App\Search\PromocodeSearch;
 use App\Transformations\PromocodeTransformable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -46,7 +46,7 @@ class PromocodeController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $group_settings = (new PromocodeFilter($this->promocode_repo))->filter(
+        $group_settings = (new PromocodeSearch($this->promocode_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );
