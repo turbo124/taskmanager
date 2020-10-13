@@ -8,7 +8,7 @@ use App\Repositories\AttributeRepository;
 use App\Requests\Attribute\CreateAttributeRequest;
 use App\Requests\Attribute\UpdateAttributeRequest;
 use App\Requests\SearchRequest;
-use App\Search\Attribute;
+use App\Search\AttributeSearch;
 use App\Transformations\AttributeTransformable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +33,7 @@ class AttributeController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $attributes = (new Attribute($this->attribute_repo))->filter(
+        $attributes = (new AttributeSearch($this->attribute_repo))->filter(
             $request
         );
         return response()->json($attributes);
