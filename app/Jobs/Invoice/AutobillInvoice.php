@@ -3,10 +3,14 @@
 namespace App\Jobs\Invoice;
 
 use App\Components\Payment\Gateways\GatewayFactory;
+use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
 use App\Traits\CreditPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -50,10 +54,7 @@ class AutobillInvoice implements ShouldQueue
             return $this->completePaymentWithCredit();
         }
 
-        $balance = 0;
-        $credit_total = !empty($credits) ? array_sum(array_column($credits, 'amount')) : 0;
-        $amount = ($this->invoice->partial > 0) ? $this->invoice->partial : (($this->invoice->balance > 0) ? $this->invoice->balance : $credit_total);
-
+        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance > 0;
         $customer_gateway = $this->findGatewayFee();
 
         if (empty($customer_gateway)) {
@@ -68,20 +69,25 @@ class AutobillInvoice implements ShouldQueue
         return $gateway_obj->build($amount, $this->invoice);
     }
 
-    private function completePaymentWithCredit()
+    /**
+     * @return Payment|null
+     */
+    private function completePaymentWithCredit(): ?Payment
     {
         $data = [
-            'payment_method'     => '',
-            'payment_type'       => '',
+            'payment_method'     => null,
+            'payment_type'       => PaymentMethod::CREDIT,
             'amount'             => $this->invoice->balance,
             'customer_id'        => $this->invoice->customer->id,
-            'company_gateway_id' => $this->company_gateway->id,
+            'company_gateway_id' => null,
             'ids'                => $this->invoice->id,
             'order_id'           => null,
-            'apply_credit'       => true
+            'apply_credits'       => true
         ];
 
         $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));
+
+        return $payment;
     }
 
     private function findGatewayFee(): ?CustomerGateway

@@ -20,6 +20,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class SaveAttributeValues
@@ -83,6 +84,7 @@ class CreatePayment implements ShouldQueue
      */
     private function createCreditsFromInvoice(Invoice $invoice, Payment $payment): Payment
     {
+
         $credits = $invoice->customer->getActiveCredits();
 
         $credits = $this->buildCreditsToProcess($credits, $invoice);
@@ -115,11 +117,11 @@ class CreatePayment implements ShouldQueue
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
-            'company_gateway_id'    => $this->data['company_gateway_id'],
-            'status_id'             => Payment::STATUS_COMPLETED,
-            'date'                  => Carbon::now(),
-            'amount'                => $this->data['amount'],
-            'type_id'               => $this->data['payment_type'],
+            'company_gateway_id' => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
+            'status_id' => Payment::STATUS_COMPLETED,
+            'date' => Carbon::now(),
+            'amount' => $this->data['amount'],
+            'type_id' => $this->data['payment_type'],
             'transaction_reference' => $this->data['payment_method']
 
         ];
@@ -129,19 +131,6 @@ class CreatePayment implements ShouldQueue
         $payment = $this->payment_repo->save($data, $payment);
 
         return $payment;
-    }
-
-    private function downloadTempData(Invoice $invoice)
-    {
-        if (empty($invoice->temp_data)) {
-            return null;
-        }
-
-        $temp_data = json_decode($invoice->temp_data, true);
-        $invoice->temp_data = null;
-        $invoice->save();
-
-        return $temp_data;
     }
 
     /**
@@ -157,13 +146,6 @@ class CreatePayment implements ShouldQueue
 
         foreach ($invoices as $invoice) {
             $amount = $invoice->balance;
-
-            $temp_data = $this->downloadTempData($invoice);
-
-            if (!empty($temp_data) && !empty($temp_data['credits_to_process'])) {
-                $amount = array_sum(array_column($temp_data['credits_to_process'], 'amount'));
-                $this->attachCredits($payment, $invoice, $temp_data['credits_to_process']);
-            }
 
             if (!empty($this->data['invoices'][$invoice->id]) && !empty($this->data['invoices'][$invoice->id]['gateway_fee'])) {
                 $invoice = (new InvoiceRepository($invoice))->save(
@@ -190,6 +172,12 @@ class CreatePayment implements ShouldQueue
         return $payment;
     }
 
+    /**
+     * @param Payment $payment
+     * @param Invoice $invoice
+     * @param $credits_to_process
+     * @return Payment
+     */
     private function attachCredits(Payment $payment, Invoice $invoice, $credits_to_process): Payment
     {
         $credits_to_process = collect($credits_to_process)->keyBy('credit_id')->toArray();
@@ -210,12 +198,19 @@ class CreatePayment implements ShouldQueue
                 'PAYMENT FOR ' . $invoice->number
             );
 
-            $credit->transaction_service()->createTransaction($credit->balance * -1, $credit->customer->balance);
+            $credit->transaction_service()->createTransaction(
+                $credit->balance * -1,
+                $credit->customer->balance,
+                'PAYMENT FOR ' . $invoice->number
+            );
+
             $credit->reduceCreditBalance($credits_to_process[$credit->id]['amount']);
             $credit->reduceBalance($credits_to_process[$credit->id]['amount']);
+
             $credit->setStatus(
                 (int)$credit->balance === 0 ? Credit::STATUS_APPLIED : Credit::STATUS_PARTIAL
             );
+
             $credit->save();
         }
 

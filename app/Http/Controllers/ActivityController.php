@@ -12,7 +12,7 @@ use App\Repositories\Interfaces\EventRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Requests\SearchRequest;
-use App\Search\CustomerFilter;
+use App\Search\CustomerSearch;
 use App\Search\UserSearch;
 use App\Transformations\EventTransformable;
 use App\Transformations\NotificationTransformable;
@@ -78,7 +78,7 @@ class ActivityController extends Controller
                     new SearchRequest(),
                     auth()->user()->account_user()->account
                 ),
-                'customers'     => (new CustomerFilter(new CustomerRepository(new Customer())))->filter(
+                'customers'     => (new CustomerSearch(new CustomerRepository(new Customer())))->filter(
                     new SearchRequest(),
                     auth()->user()->account_user()->account
                 ),
