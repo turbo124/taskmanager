@@ -138,4 +138,15 @@ export default class ProjectModel extends BaseModel {
             return false
         }
     }
+
+    calculateAmount () {
+        const total_duration = this.fields.budgeted_hours
+
+        if (!total_duration) {
+            return 0
+        }
+
+        const duration = this.fields.task_rate * total_duration
+        return Math.round(duration, 3)
+    }
 }

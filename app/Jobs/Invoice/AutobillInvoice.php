@@ -3,10 +3,14 @@
 namespace App\Jobs\Invoice;
 
 use App\Components\Payment\Gateways\GatewayFactory;
+use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
 use App\Models\CustomerGateway;
 use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
 use App\Traits\CreditPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,13 +51,10 @@ class AutobillInvoice implements ShouldQueue
     private function build()
     {
         if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
-            $credits = $this->getCreditNotesForPayment();
+            return $this->completePaymentWithCredit();
         }
 
-        $balance = 0;
-        $credit_total = !empty($credits) ? array_sum(array_column($credits, 'amount')) : 0;
-        $amount = ($this->invoice->partial > 0) ? $this->invoice->partial : (($this->invoice->balance > 0) ? $this->invoice->balance : $credit_total);
-
+        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance > 0;
         $customer_gateway = $this->findGatewayFee();
 
         if (empty($customer_gateway)) {
@@ -68,21 +69,25 @@ class AutobillInvoice implements ShouldQueue
         return $gateway_obj->build($amount, $this->invoice);
     }
 
-    private function getCreditNotesForPayment()
+    /**
+     * @return Payment|null
+     */
+    private function completePaymentWithCredit(): ?Payment
     {
-        $credits = $this->invoice->customer->getActiveCredits();
-        $credits_to_process = $this->buildCreditsToProcess($credits, $this->invoice);
+        $data = [
+            'payment_method'     => null,
+            'payment_type'       => PaymentMethod::CREDIT,
+            'amount'             => $this->invoice->balance,
+            'customer_id'        => $this->invoice->customer->id,
+            'company_gateway_id' => null,
+            'ids'                => $this->invoice->id,
+            'order_id'           => null,
+            'apply_credits'       => true
+        ];
 
-        $invoices = $this->getProcessedInvoice();
+        $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));
 
-        if (!empty($invoices[$this->invoice->id])) {
-            $this->invoice->fill($invoices[$this->invoice->id]);
-        }
-
-        $this->invoice->temp_data = ['credits_to_process' => $credits_to_process];
-        $this->invoice->save();
-
-        return $credits_to_process;
+        return $payment;
     }
 
     private function findGatewayFee(): ?CustomerGateway

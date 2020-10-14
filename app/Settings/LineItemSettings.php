@@ -26,13 +26,32 @@ class LineItemSettings extends BaseSettings
         'custom_value4'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
     ];
 
+    private function getEntityId($line_item) {
+        if(!empty($line_item['expense_id'])) {
+            return $line_item['expense_id'];
+        }
+
+        if(!empty($line_item['task_id'])) {
+            return $line_item['task_id'];
+        }
+
+        if(!empty($line_item['project_id'])) {
+            return $line_item['project_id'];
+        }
+
+        if(!empty($line_item['product_id'])) {
+            return $line_item['product_id'];
+        }
+    }
+
     public function save($line_items)
     {
+
         try {
             $formatted_items = [];
 
             foreach ($line_items as $line_id => $line_item) {
-                $line_item['product_id'] = (!empty($line_item['expense_id'])) ? $line_item['expense_id'] : ((!empty($line_item['task_id'])) ? $line_item['task_id'] : $line_item['product_id']);
+                $line_item['product_id'] = $this->getEntityId($line_item);
 
                 $line_item = $this->validate((object)$line_item, $this->settings);
 

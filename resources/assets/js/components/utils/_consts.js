@@ -150,7 +150,8 @@ export const consts = {
     default_currency: 2,
     line_item_expense: 6,
     line_item_task: 3,
-    line_item_product: 1
+    line_item_product: 1,
+    line_item_project: 9
 }
 
 export const invoiceStatuses = {

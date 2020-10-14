@@ -302,6 +302,7 @@ _localizedValues.en = {
     token: 'Token',
     tokens: 'Tokens',
     tax_rates: 'Tax Rates',
+    tax_total: 'Tax Total',
     add_tax_rate: 'Add Tax Rate',
     edit_tax_rate: 'Edit Tax Rate',
     user: 'User',

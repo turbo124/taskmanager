@@ -7,6 +7,7 @@ import ExpenseDropdown from './dropdowns/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
+import ProjectDropdown from "./dropdowns/ProjectDropdown";
 
 class LineItem extends Component {
     constructor (props) {
@@ -29,6 +30,8 @@ class LineItem extends Component {
     render () {
         const uses_inclusive_taxes = this.settings.inclusive_taxes
         const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-secondary' : 'text-dark'
+
+        console.log('lines', this.props.rows)
 
         return this.props.rows.map((lineItem, index) => {
             let total = 0
@@ -83,7 +86,7 @@ class LineItem extends Component {
                                 renderErrorFor={this.renderErrorFor}
                                 name="task_id"
                                 handleInputChanges={this.props.onChange}
-                                task={lineItem.product_id}
+                                task={lineItem.task_id}
 
                             />
                         </FormGroup>
@@ -100,7 +103,24 @@ class LineItem extends Component {
                                 renderErrorFor={this.renderErrorFor}
                                 name="expense_id"
                                 handleInputChanges={this.props.onChange}
-                                expense={lineItem.product_id}
+                                expense={lineItem.expense_id}
+
+                            />
+                        </FormGroup>
+                    </Col>
+                    }
+
+                    {lineItem.type_id === consts.line_item_project && this.props.projects.length &&
+                    <Col md={3} data-id={index}>
+                        <FormGroup>
+                            <Label>{translations.project}</Label>
+                            <ProjectDropdown
+                                dataId={index}
+                                projects={this.props.projects}
+                                renderErrorFor={this.renderErrorFor}
+                                name="project_id"
+                                handleInputChanges={this.props.onChange}
+                                project={lineItem.project_id}
 
                             />
                         </FormGroup>
@@ -149,7 +169,7 @@ class LineItem extends Component {
                         </FormGroup>
                     </Col>
                     <FormGroup className="mr-4">
-                        <Label>Tax Total</Label>
+                        <Label>{translations.tax_total}</Label>
                         <p className='pa2 mr2 f6'>{<FormatMoney
                             amount={lineItem.tax_total}/>}</p>
                     </FormGroup>

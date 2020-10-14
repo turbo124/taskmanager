@@ -133,6 +133,24 @@ class ServiceBase
         return true;
     }
 
+    private function getEntityId($line_item) {
+        if(!empty($line_item->expense_id)) {
+            return $line_item->expense_id;
+        }
+
+        if(!empty($line_item->task_id)) {
+            return $line_item->task_id;
+        }
+
+        if(!empty($line_item->project_id)) {
+            return $line_item->project_id;
+        }
+
+        if(!empty($line_item->product_id)) {
+            return $line_item->product_id;
+        }
+    }
+
     protected function calculateTotals($entity)
     {
         if (empty($entity->line_items)) {
@@ -146,9 +164,7 @@ class ServiceBase
                 ->setQuantity($line_item->quantity)
                 ->setAttributeId(isset($line_item->attribute_id) ? $line_item->attribute_id : 0)
                 ->setUnitPrice($line_item->unit_price)
-                ->setProductId(
-                    (!empty($line_item->expense_id)) ? $line_item->expense_id : ((!empty($line_item->task_id)) ? $line_item->task_id : $line_item->product_id)
-                )
+                ->setProductId($this->getEntityId($line_item))
                 ->setSubTotal(isset($line_item->sub_total) ? $line_item->sub_total : 0)
                 ->setTransactionFee(isset($line_item->transaction_fee) ? $line_item->transaction_fee : 0)
                 ->setTypeId(!isset($line_item->type_id) ? 1 : $line_item->type_id)
