@@ -15,6 +15,8 @@ import ProductRepository from '../repositories/ProductRepository'
 import TaxRateRepository from '../repositories/TaxRateRepository'
 import ExpenseRepository from '../repositories/ExpenseRepository'
 import TaskRepository from '../repositories/TaskRepository'
+import ProjectRepository from '../repositories/ProjectRepository'
+import ProjectModel from '../models/ProjectModel'
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -24,6 +26,7 @@ class LineItemEditor extends Component {
             products: [],
             taxRates: [],
             tasks: [],
+            projects: [],
             expenses: [],
             attributes: [],
             line_type: null,
@@ -106,6 +109,19 @@ class LineItemEditor extends Component {
         })
     }
 
+    loadProjects () {
+        const projectRepository = new ProjectRepository()
+        projectRepository.get(this.props.invoice.customer_id ? this.props.invoice.customer_id : null).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ projects: response }, () => {
+                console.log('projects', this.state.projects)
+            })
+        })
+    }
+
     handleLineTypeChange (e) {
         const line_type = parseInt(e.target.value)
         this.setState({ line_type: line_type }, () => {
@@ -115,6 +131,10 @@ class LineItemEditor extends Component {
 
             if (line_type === consts.line_item_task && !this.state.tasks.length) {
                 this.loadTasks()
+            }
+
+            if (line_type === consts.line_item_project && !this.state.projects.length) {
+                this.loadProjects()
             }
 
             if (line_type === consts.line_item_product) {
@@ -204,6 +224,35 @@ class LineItemEditor extends Component {
             rows[row].quantity = Math.round(task.duration, 3)
             rows[row].type_id = consts.line_item_task
             rows[row].notes = notes
+            // rows[row].description = notes
+
+            this.props.update(rows, row)
+
+            return
+        }
+
+        if (e.target.name === 'project_id') {
+            const index = this.state.projects.findIndex(project => project.id === parseInt(e.target.value))
+            const project = this.state.projects[index]
+            const projectModel = new ProjectModel(project, this.props.customers)
+            const notes = project.description + '\n'
+
+            // task.timers.filter(time => {
+            //     return time.date.length && time.end_date.length
+            // }).map(time => {
+            //     const start = formatDate(`${time.date} ${time.start_time}`, true)
+            //     const end = formatDate(`${time.end_date} ${time.end_time}`, true)
+            //     notes += `\n### ${start} - ${end}`
+            // })
+
+            alert(projectModel.calculateAmount())
+
+            rows[row].project_id = parseInt(e.target.value)
+            rows[row].unit_price = project.task_rate
+            rows[row].quantity = Math.round(project.budgeted_hours, 3)
+            rows[row].type_id = consts.line_item_project
+            rows[row].notes = notes
+            rows[row].description = notes
 
             this.props.update(rows, row)
 
@@ -265,8 +314,31 @@ class LineItemEditor extends Component {
         this.props.delete(index)
     }
 
+    _getEntity () {
+        let variable = ''
+
+        switch (this.state.line_type) {
+            case consts.line_item_product:
+                variable = this.state.products
+                break
+            case consts.line_item_task:
+                variable = this.state.tasks
+                break
+            case consts.line_item_expense:
+                variable = this.state.expenses
+                break
+            case consts.line_item_project:
+                variable = this.state.projects
+                break
+            default:
+                variable = this.state.products
+        }
+
+        return variable
+    }
+
     handleRowAdd () {
-        const variable = (this.state.line_type === consts.line_item_product) ? this.state.products : ((this.state.line_type === consts.line_item_task) ? (this.state.tasks) : (this.state.expenses))
+        const variable = this._getEntity()
 
         if (!variable || !variable.length) {
             return false
@@ -276,7 +348,7 @@ class LineItemEditor extends Component {
     }
 
     render () {
-        const variable = (this.state.line_type === consts.line_item_product) ? this.state.products : ((this.state.line_type === consts.line_item_task) ? (this.state.tasks) : (this.state.expenses))
+        const variable = this._getEntity()
 
         if (!variable) {
             console.log(`There are no ${this.state.line_type}`)
@@ -290,6 +362,7 @@ class LineItemEditor extends Component {
                 rows={this.props.invoice.line_items}
                 tax_rates={this.state.taxRates}
                 expenses={this.state.expenses}
+                projects={this.state.projects}
                 tasks={this.state.tasks}
                 products={this.state.products}
                 attributes={this.state.attributes}
@@ -339,6 +412,7 @@ class LineItemEditor extends Component {
                         <React.Fragment>
                             <option value={consts.line_item_task}>{translations.task}</option>
                             <option value={consts.line_item_expense}>{translations.expense}</option>
+                            <option value={consts.line_item_project}>{translations.project}</option>
                         </React.Fragment>
                         }
                     </Input>

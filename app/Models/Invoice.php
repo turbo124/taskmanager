@@ -31,6 +31,7 @@ class Invoice extends Model
     const LATE_FEE_TYPE = 4;
     const SUBSCRIPTION_TYPE = 5;
     const EXPENSE_TYPE = 6;
+    const PROJECT_TYPE = 9;
     const GATEWAY_FEE_TYPE = 7;
     protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $casts = [

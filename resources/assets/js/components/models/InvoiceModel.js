@@ -105,8 +105,6 @@ export default class InvoiceModel extends BaseModel {
             }
         }
 
-        console.log('currency', this.currency)
-
         this.exchange_rate = this.currency ? this.currency.exchange_rate : 1
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
