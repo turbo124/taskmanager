@@ -1,6 +1,22 @@
 import React, { Component } from 'react'
-import { Card, CardBody, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import {
+    Card,
+    CardBody,
+    Col,
+    FormGroup,
+    Input,
+    Label,
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import { translations } from '../utils/_translations'
+import UserDropdown from './dropdowns/UserDropdown'
+import ProjectDropdown from './dropdowns/ProjectDropdown'
+import DesignDropdown from './dropdowns/DesignDropdown'
 
 export default class NoteTabs extends Component {
     constructor (props) {
@@ -67,6 +83,17 @@ export default class NoteTabs extends Component {
                                 {translations.footer}
                             </NavLink>
                         </NavItem>
+
+                        <NavItem>
+                            <NavLink
+                                className={this.state.active_note_tab === '5' ? 'active' : ''}
+                                onClick={() => {
+                                    this.toggleNoteTabs('5')
+                                }}
+                            >
+                                {translations.settings}
+                            </NavLink>
+                        </NavItem>
                     </Nav>
 
                     <TabContent activeTab={this.state.active_note_tab}>
@@ -121,6 +148,46 @@ export default class NoteTabs extends Component {
                                     onChange={this.props.handleInput}
                                 />
                             </FormGroup>
+                        </TabPane>
+
+                        <TabPane tabId="5">
+                            <Row form>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label for="postcode">{translations.assigned_user}:</Label>
+                                        <UserDropdown
+                                            user_id={this.props.invoice.assigned_to}
+                                            name="assigned_to"
+                                            errors={this.props.errors}
+                                            handleInputChanges={this.props.handleInput}
+                                        />
+                                    </FormGroup>
+                                </Col>
+
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label for="postcode">{translations.design}:</Label>
+                                        <DesignDropdown name="design_id" design={this.props.invoice.design_id}
+                                            handleChange={this.props.handleInput}/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>{translations.project}</Label>
+                                        <ProjectDropdown
+                                            projects={this.props.projects}
+                                            renderErrorFor={this.renderErrorFor}
+                                            name="project_id"
+                                            handleInputChanges={this.props.handleInput}
+                                            project={this.props.invoice.project_id}
+                                            customer_id={this.props.invoice.customer_id}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
                         </TabPane>
                     </TabContent>
 

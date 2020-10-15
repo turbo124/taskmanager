@@ -22,6 +22,7 @@ export default function RecurringInvoicePresenter (props) {
                         amount={entity.total}/>}</td>
         case 'date':
         case 'due_date':
+        case 'created_at':
         case 'start_date':
         case 'last_sent_date':
         case 'date_to_send':

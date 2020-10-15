@@ -6,7 +6,7 @@ import FormBuilder from './FormBuilder'
 import ColorPicker from '../common/ColorPicker'
 import Header from './Header'
 import SnackbarMessage from '../common/SnackbarMessage'
-import AccountRepository from "../repositories/AccountRepository";
+import AccountRepository from '../repositories/AccountRepository'
 
 export default class DeviceSettings extends Component {
     constructor (props) {

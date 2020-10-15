@@ -8,7 +8,7 @@ export default function Documents (props) {
         <Card>
             <CardHeader>{translations.documents}</CardHeader>
             <CardBody>
-                <FileUploads entity_type="Invoice" entity={props.invoice}
+                <FileUploads hide_checkbox={true} entity_type="Invoice" entity={props.invoice}
                     user_id={props.invoice.user_id}/>
             </CardBody>
         </Card>

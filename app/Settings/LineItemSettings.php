@@ -26,27 +26,8 @@ class LineItemSettings extends BaseSettings
         'custom_value4'      => ['required' => false, 'default_value' => '', 'type' => 'string'],
     ];
 
-    private function getEntityId($line_item) {
-        if(!empty($line_item['expense_id'])) {
-            return $line_item['expense_id'];
-        }
-
-        if(!empty($line_item['task_id'])) {
-            return $line_item['task_id'];
-        }
-
-        if(!empty($line_item['project_id'])) {
-            return $line_item['project_id'];
-        }
-
-        if(!empty($line_item['product_id'])) {
-            return $line_item['product_id'];
-        }
-    }
-
     public function save($line_items)
     {
-
         try {
             $formatted_items = [];
 
@@ -86,6 +67,25 @@ class LineItemSettings extends BaseSettings
         } catch (Exception $e) {
             echo $e->getMessage();
             die('here');
+        }
+    }
+
+    private function getEntityId($line_item)
+    {
+        if (!empty($line_item['expense_id'])) {
+            return $line_item['expense_id'];
+        }
+
+        if (!empty($line_item['task_id'])) {
+            return $line_item['task_id'];
+        }
+
+        if (!empty($line_item['project_id'])) {
+            return $line_item['project_id'];
+        }
+
+        if (!empty($line_item['product_id'])) {
+            return $line_item['product_id'];
         }
     }
 

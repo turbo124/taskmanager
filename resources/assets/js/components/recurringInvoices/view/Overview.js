@@ -10,7 +10,6 @@ import FormatMoney from '../../common/FormatMoney'
 import LineItem from '../../common/entityContainers/LineItem'
 import TotalsBox from '../../common/entityContainers/TotalsBox'
 import RecurringInvoicePresenter from '../../presenters/RecurringInvoicePresenter'
-import SimpleSectionItem from "../../common/entityContainers/SimpleSectionItem";
 
 export default function Overview (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
@@ -22,7 +21,7 @@ export default function Overview (props) {
         <RecurringInvoicePresenter entity={props.entity} field="status_field"/>
 
         {!!props.stats &&
-            <h4>{translations.invoices} - {props.stats}</h4>
+        <h4>{translations.invoices} - {props.stats}</h4>
         }
 
         {props.invoices && props.invoices.length &&

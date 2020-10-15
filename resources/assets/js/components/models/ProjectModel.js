@@ -30,6 +30,20 @@ export default class ProjectModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
+
+        this._file_count = 0
+
+        if (data !== null && data.files) {
+            this.fileCount = data.files
+        }
+    }
+
+    get fileCount () {
+        return this._file_count || 0
+    }
+
+    set fileCount (files) {
+        this._file_count = files ? files.length : 0
     }
 
     get fields () {
@@ -51,11 +65,20 @@ export default class ProjectModel extends BaseModel {
             actions.push('archive')
         }
 
+        if (this.isModuleEnabled('invoices') && this.isEditable) {
+            actions.push('projectToInvoice')
+        }
+
+        if (this.isModuleEnabled('tasks') && this.isEditable) {
+            actions.push('projectToTask')
+        }
+
+        actions.push('cloneProject')
+
         return actions
     }
 
     taskDurationForProject () {
-        console.log('tasks', this.fields.tasks)
         let total = 0
         this.fields.tasks.map(task => {
             if (task.is_active && task.project_id === parseInt(this.fields.id)) {

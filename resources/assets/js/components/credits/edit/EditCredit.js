@@ -36,6 +36,7 @@ import Contactsm from './Contactsm'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
+import TotalsBox from '../../invoice/edit/TotalsBox'
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -487,7 +488,8 @@ export default class EditCredit extends Component {
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
+        const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
+            settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
             discount={this.state.discount}
             is_amount_discount={this.state.is_amount_discount}
@@ -499,7 +501,8 @@ export default class EditCredit extends Component {
             handleDelete={this.handleDelete}/>
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+            ? <NoteTabs invoice={this.state} private_notes={this.state.private_notes}
+                public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
             : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
@@ -597,12 +600,12 @@ export default class EditCredit extends Component {
                         {items}
 
                         <Row form>
-                            <Col md={6}>
+                            <Col md={8}>
                                 {notes}
                             </Col>
 
-                            <Col md={6}>
-                                {documents}
+                            <Col md={3} className="m-3">
+                                <TotalsBox invoice={this.state}/>
                             </Col>
                         </Row>
                     </TabPane>

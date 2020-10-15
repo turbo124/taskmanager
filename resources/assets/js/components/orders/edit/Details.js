@@ -3,7 +3,6 @@ import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../../common/Datepicker'
 import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import { translations } from '../../utils/_translations'
-import UserDropdown from '../../common/dropdowns/UserDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -51,16 +50,6 @@ export default class Details extends React.Component {
                     <Input value={this.props.order.po_number} type="text" id="po_number" name="po_number"
                         onChange={this.props.handleInput}/>
                     {this.renderErrorFor('po_number')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="postcode">{translations.assigned_user}:</Label>
-                    <UserDropdown
-                        user_id={this.props.order.assigned_to}
-                        name="assigned_to"
-                        errors={this.props.errors}
-                        handleInputChanges={this.props.handleInput}
-                    />
                 </FormGroup>
 
                 <FormGroup>

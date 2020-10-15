@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody } from 'reactstrap'
+import { Button, DropdownItem, Modal, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
@@ -9,6 +9,7 @@ import ProjectModel from '../../models/ProjectModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
+import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 
 class EditProject extends React.Component {
     constructor (props) {
@@ -145,38 +146,10 @@ class EditProject extends React.Component {
     }
 
     render () {
-        const sendEmailButton = <DropdownItem className="primary" onClick={() => this.changeStatus('email')}>Send
-            Email</DropdownItem>
-
-        const deleteButton = this.state.status_id === 1
-            ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
-
-        const archiveButton = this.state.status_id === 1
-            ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
-
-        const cloneButton =
-            <DropdownItem className="primary"
-                onClick={() => this.changeStatus('clone_to_project')}>Clone</DropdownItem>
-
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_project}
             </DropdownItem>
             : <Button className="mr-2 ml-2" color="primary" onClick={this.toggle}>Edit Project</Button>
-
-        const dropdownMenu = <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
-            <DropdownToggle caret>
-                Actions
-            </DropdownToggle>
-
-            <DropdownMenu>
-                {sendEmailButton}
-                {deleteButton}
-                {archiveButton}
-                {cloneButton}
-            </DropdownMenu>
-        </Dropdown>
 
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
@@ -191,7 +164,9 @@ class EditProject extends React.Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_project}/>
 
                     <ModalBody className={theme}>
-                        {dropdownMenu}
+                        <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
+                            model={this.projectModel}
+                            action={this.props.action}/>
                         {successMessage}
                         {errorMessage}
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import LineItem from './LineItem'
 import { Button, FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
-import FormatMoney from './FormatMoney'
 import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from '../utils/_money'
 import CompanyModel from '../models/CompanyModel'
@@ -373,31 +372,6 @@ class LineItemEditor extends Component {
             />
             : null
 
-        let total = this.props.invoice.sub_total - this.props.invoice.discount_total
-
-        total += this.props.invoice.tax_total
-
-        let tax_total = this.props.invoice.tax_total
-
-        if (this.props.invoice.total_custom_values && this.props.invoice.total_custom_values > 0) {
-            total += this.props.invoice.total_custom_values
-        }
-
-        if (this.props.invoice.gateway_fee && this.props.invoice.gateway_fee > 0) {
-            let gateway_amount = this.props.invoice.gateway_fee
-
-            if (this.props.invoice.gateway_percentage === true) {
-                gateway_amount = total * this.props.invoice.gateway_fee / 100
-            }
-
-            total += gateway_amount
-        }
-
-        if (this.props.invoice.total_custom_tax && this.props.invoice.total_custom_tax > 0) {
-            total += this.props.invoice.total_custom_tax
-            tax_total += this.props.invoice.total_custom_tax
-        }
-
         return (
             <React.Fragment>
 
@@ -419,42 +393,6 @@ class LineItemEditor extends Component {
 
                 </FormGroup>
                 {!!this.state.line_type && lineItemRows}
-
-                <table id='lines-table'>
-                    <tfoot>
-                        <tr>
-                            <th/>
-                            <th>{translations.tax}:</th>
-                            <th>{<FormatMoney
-                                amount={tax_total}/>}</th>
-                            <th/>
-                        </tr>
-
-                        <tr>
-                            <th/>
-                            <th>{translations.discount}:</th>
-                            <th>{<FormatMoney
-                                amount={this.props.invoice.discount_total}/>}</th>
-                            <th/>
-                        </tr>
-
-                        <tr>
-                            <th/>
-                            <th>{translations.subtotal}:</th>
-                            <th>{<FormatMoney
-                                amount={this.props.invoice.sub_total}/>}</th>
-                            <th/>
-                        </tr>
-
-                        <tr>
-                            <th/>
-                            <th>{translations.total}:</th>
-                            <th>{<FormatMoney
-                                amount={total}/>}</th>
-                            <th/>
-                        </tr>
-                    </tfoot>
-                </table>
 
                 <Button color="success" onClick={this.handleRowAdd}
                     className='f6 link dim ph3 pv1 mb2 dib white bg-dark-green bn'>Add

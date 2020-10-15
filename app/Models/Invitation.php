@@ -64,6 +64,22 @@ class Invitation extends Model
         return $this->belongsTo('App\Models\Account');
     }
 
+    public function getLink()
+    {
+        return $this->account->subdomain . 'portal/' . $this->getSection() . '/' . $this->key;
+    }
+
+    public function getSection($plural = false)
+    {
+        $entity = strtolower((new \ReflectionClass($this->inviteable))->getShortName());
+
+        if ($plural) {
+            return $this->pluralize(2, $entity);
+        }
+
+        return $entity;
+    }
+
     public function pluralize($quantity, $singular, $plural = null)
     {
         if ($quantity == 1 || !strlen($singular)) {
@@ -82,22 +98,6 @@ class Invitation extends Model
             default:
                 return $singular . 's';
         }
-    }
-
-    public function getSection($plural = false)
-    {
-        $entity =  strtolower((new \ReflectionClass($this->inviteable))->getShortName());
-
-        if($plural) {
-            return $this->pluralize(2, $entity);
-        }
-
-        return $entity;
-    }
-
-    public function getLink()
-    {
-        return $this->account->subdomain . 'portal/' . $this->getSection() . '/' . $this->key;
     }
 
     public function markViewed()

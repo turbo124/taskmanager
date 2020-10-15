@@ -71,6 +71,7 @@ class EditExpense extends React.Component {
 
     getFormData () {
         return {
+            project_id: this.state.project_id,
             is_recurring: this.state.is_recurring,
             recurring_start_date: this.state.recurring_start_date,
             recurring_end_date: this.state.recurring_end_date,
@@ -217,10 +218,7 @@ class EditExpense extends React.Component {
                             </TabPane>
 
                             <TabPane tabId="2">
-                                <SettingsForm errors={this.state.errors}
-
-                                    handleInput={this.handleInput}
-
+                                <SettingsForm errors={this.state.errors} handleInput={this.handleInput}
                                     expense={this.state}/>
                             </TabPane>
 

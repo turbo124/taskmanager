@@ -68,6 +68,7 @@ class AddExpense extends React.Component {
         this.setState({ loading: true })
 
         const data = {
+            project_id: this.state.project_id,
             is_recurring: this.state.is_recurring,
             recurring_start_date: this.state.recurring_start_date,
             recurring_end_date: this.state.recurring_end_date,

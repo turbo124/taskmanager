@@ -8,6 +8,7 @@ export default function TaskPresenter (props) {
     switch (field) {
         case 'due_date':
         case 'start_date':
+        case 'created_at':
             return <td><FormatDate date={entity[field]}/></td>
         case 'title':
             return <td data-label="Title"><ViewTask custom_fields={props.custom_fields}

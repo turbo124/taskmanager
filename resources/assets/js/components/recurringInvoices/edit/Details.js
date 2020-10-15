@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
-import UserDropdown from '../../common/dropdowns/UserDropdown'
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -85,16 +84,6 @@ export default class Details extends Component {
                             onChange={this.props.handleInput}
                         />
                         {this.renderErrorFor('number')}
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label for="postcode">{translations.assigned_user}:</Label>
-                        <UserDropdown
-                            user_id={this.props.invoice.assigned_to}
-                            name="assigned_to"
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
-                        />
                     </FormGroup>
                 </CardBody>
             </Card>

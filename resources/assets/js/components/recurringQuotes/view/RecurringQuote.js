@@ -240,7 +240,8 @@ export default class RecurringQuote extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview stats={stats} quotes={this.quoteModel.quotes} entity={this.state.entity} fields={fields}
+                        <Overview stats={stats} quotes={this.quoteModel.quotes} entity={this.state.entity}
+                            fields={fields}
                             customers={this.props.customers}
                             user={user} customer={customer}/>
                     </TabPane>

@@ -8,7 +8,7 @@ export default function InvoiceSettings (props) {
     console.log('settings', props.settings)
     return (
         <Card>
-            <CardHeader>{translations.settings}</CardHeader>
+            <CardHeader>{translations.fees}</CardHeader>
             <CardBody>
                 <Row form>
                     <Col md={6}>
@@ -39,18 +39,26 @@ export default function InvoiceSettings (props) {
                             <Label for="exampleEmail">{translations.gateway_fee}</Label>
                             <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee"
                                 value={props.settings.gateway_fee}/>
-                        </FormGroup>
-                    </Col>
 
-                    <Col md={6}>
-                        <FormGroup check>
-                            <Label check for="examplePassword">
+                            <Label check for="examplePassword" className="pl-4">
                                 <Input onChange={props.handleSurcharge} type="checkbox" name="gateway_percentage"
                                     id="examplePassword" checked={props.settings.gateway_percentage}/>
                                 {translations.is_percentage}
                             </Label>
                         </FormGroup>
                     </Col>
+
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label>{translations.tax}</Label>
+                            <TaxRateDropdown
+                                name="tax"
+                                handleInputChanges={props.handleInput}
+                                errors={props.errors}
+                            />
+                        </FormGroup>
+                    </Col>
+
                 </Row>
 
                 {/* <Row form> */}
@@ -96,25 +104,12 @@ export default function InvoiceSettings (props) {
                     </Col>
                 </Row>
 
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label>{translations.tax}</Label>
-                            <TaxRateDropdown
-                                name="tax"
-                                handleInputChanges={props.handleInput}
-                                errors={props.errors}
-                            />
-                        </FormGroup>
-                    </Col>
-
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label>{translations.design}</Label>
-                            <DesignDropdown name="design_id" design={props.design_id} handleChange={props.handleInput}/>
-                        </FormGroup>
-                    </Col>
-                </Row>
+                {props.is_mobile &&
+                <FormGroup>
+                    <Label>{translations.design}</Label>
+                    <DesignDropdown name="design_id" design={props.design_id} handleChange={props.handleInput}/>
+                </FormGroup>
+                }
             </CardBody>
         </Card>
 

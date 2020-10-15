@@ -133,24 +133,6 @@ class ServiceBase
         return true;
     }
 
-    private function getEntityId($line_item) {
-        if(!empty($line_item->expense_id)) {
-            return $line_item->expense_id;
-        }
-
-        if(!empty($line_item->task_id)) {
-            return $line_item->task_id;
-        }
-
-        if(!empty($line_item->project_id)) {
-            return $line_item->project_id;
-        }
-
-        if(!empty($line_item->product_id)) {
-            return $line_item->product_id;
-        }
-    }
-
     protected function calculateTotals($entity)
     {
         if (empty($entity->line_items)) {
@@ -191,5 +173,24 @@ class ServiceBase
             ->build();
 
         return $objInvoice->rebuildEntity();
+    }
+
+    private function getEntityId($line_item)
+    {
+        if (!empty($line_item->expense_id)) {
+            return $line_item->expense_id;
+        }
+
+        if (!empty($line_item->task_id)) {
+            return $line_item->task_id;
+        }
+
+        if (!empty($line_item->project_id)) {
+            return $line_item->project_id;
+        }
+
+        if (!empty($line_item->product_id)) {
+            return $line_item->product_id;
+        }
     }
 }

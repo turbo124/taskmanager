@@ -23,6 +23,36 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'create_expense_invoice'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'create_expense_payment'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'credit_payments_enabled'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'convert_expense_currency'             => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'include_expense_documents'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'should_send_email_for_online_payment' => [
             'required'         => false,
             'translated_value' => '',
@@ -275,19 +305,19 @@ class BaseSettings
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent1'                     => [
+        'late_fee_percent1'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent2'                     => [
+        'late_fee_percent2'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent3'                     => [
+        'late_fee_percent3'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,

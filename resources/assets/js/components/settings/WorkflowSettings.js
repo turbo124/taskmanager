@@ -133,6 +133,53 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
+    getExpenseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'create_expense_invoice',
+                    label: translations.create_expense_invoice,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.create_expense_invoice,
+                    help_text: translations.create_expense_invoice_help,
+                    group: 1
+                },
+                {
+                    name: 'include_expense_documents',
+                    label: translations.include_expense_documents,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.include_expense_documents,
+                    help_text: translations.include_expense_documents_help,
+                    group: 1
+                },
+                {
+                    name: 'create_expense_payment',
+                    label: translations.create_expense_payment,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.create_expense_payment,
+                    help_text: translations.create_expense_payment_help,
+                    group: 1
+                },
+                {
+                    name: 'convert_expense_currency',
+                    label: translations.convert_expense_currency,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.convert_expense_currency,
+                    help_text: translations.convert_expense_currency_help,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     getInvoiceFields () {
         const settings = this.state.settings
 
@@ -413,7 +460,9 @@ export default class WorkflowSettings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
         const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+            {modules && modules.invoices &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
@@ -423,7 +472,9 @@ export default class WorkflowSettings extends Component {
                     {translations.invoices}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.quotes &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
@@ -433,7 +484,9 @@ export default class WorkflowSettings extends Component {
                     {translations.quotes}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.leads &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
@@ -443,7 +496,9 @@ export default class WorkflowSettings extends Component {
                     {translations.leads}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
@@ -453,7 +508,9 @@ export default class WorkflowSettings extends Component {
                     {translations.orders}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.deals &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
@@ -463,7 +520,9 @@ export default class WorkflowSettings extends Component {
                     {translations.deals}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.purchase_orders &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
@@ -473,7 +532,9 @@ export default class WorkflowSettings extends Component {
                     {translations.POS}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.cases &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
@@ -483,7 +544,9 @@ export default class WorkflowSettings extends Component {
                     {translations.cases}
                 </NavLink>
             </NavItem>
+            }
 
+            {modules && modules.payments &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
@@ -493,6 +556,19 @@ export default class WorkflowSettings extends Component {
                     {translations.payments}
                 </NavLink>
             </NavItem>
+            }
+
+            {modules && modules.expenses &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '9' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggle('9', e)
+                    }}>
+                    {translations.expenses}
+                </NavLink>
+            </NavItem>
+            }
         </Nav>
 
         return this.state.loaded === true ? (
@@ -590,6 +666,17 @@ export default class WorkflowSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPaymentFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="pr-0 pl-0" tabId="9">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseFields()}
                                 />
                             </CardBody>
                         </Card>

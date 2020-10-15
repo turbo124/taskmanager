@@ -65,6 +65,15 @@ class CreateProduct
     }
 
     /**
+     * @param UploadedFile $file
+     * @return string
+     */
+    public function saveCoverImage(UploadedFile $file): string
+    {
+        return $file->store('products', ['disk' => 'public']);
+    }
+
+    /**
      * @param Product $product
      * @param $fields
      * @return bool
@@ -82,6 +91,29 @@ class CreateProduct
         foreach ($features as $feature) {
             $product->features()->create($feature);
         }
+
+        return true;
+    }
+
+    /**
+     * @param Support $collection
+     * @param Product $product
+     * @return bool
+     */
+    public function saveProductImages($collection, Product $product): bool
+    {
+        $collection->each(
+            function (UploadedFile $file) use ($product) {
+                $filename = $this->storeFile($file);
+                $productImage = new ProductImage(
+                    [
+                        'product_id' => $product->id,
+                        'src'        => $filename
+                    ]
+                );
+                $product->images()->save($productImage);
+            }
+        );
 
         return true;
     }
@@ -129,38 +161,6 @@ class CreateProduct
                 $this->product_repo->saveCombination($productAttribute, $attribute);
             }
         }
-
-        return true;
-    }
-
-    /**
-     * @param UploadedFile $file
-     * @return string
-     */
-    public function saveCoverImage(UploadedFile $file): string
-    {
-        return $file->store('products', ['disk' => 'public']);
-    }
-
-    /**
-     * @param Support $collection
-     * @param Product $product
-     * @return bool
-     */
-    public function saveProductImages($collection, Product $product): bool
-    {
-        $collection->each(
-            function (UploadedFile $file) use ($product) {
-                $filename = $this->storeFile($file);
-                $productImage = new ProductImage(
-                    [
-                        'product_id' => $product->id,
-                        'src'        => $filename
-                    ]
-                );
-                $product->images()->save($productImage);
-            }
-        );
 
         return true;
     }

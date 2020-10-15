@@ -31,6 +31,7 @@ export default function QuotePresenter (props) {
         case 'status_field':
             return status
         case 'date':
+        case 'created_at':
         case 'due_date': {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label={field}><FormatDate

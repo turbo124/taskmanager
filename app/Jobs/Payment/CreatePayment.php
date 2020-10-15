@@ -20,7 +20,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class SaveAttributeValues
@@ -77,51 +76,15 @@ class CreatePayment implements ShouldQueue
         return $payment;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param Payment $payment
-     * @return Payment
-     */
-    private function createCreditsFromInvoice(Invoice $invoice, Payment $payment): Payment
-    {
-
-        $credits = $invoice->customer->getActiveCredits();
-
-        $credits = $this->buildCreditsToProcess($credits, $invoice);
-
-        $invoices = $this->getProcessedInvoice();
-
-        $amount = array_sum(array_column($credits, 'amount'));
-
-        $payment->attachInvoice($invoice, $amount, true);
-
-        $payment->applied = $amount;
-        $payment->save();
-
-        if (!empty($invoices[$invoice->id])) {
-            $invoice->fill($invoices[$invoice->id]);
-            $invoice->setStatus(
-                (int)$invoices[$invoice->id]['balance'] === 0 ? Invoice::STATUS_PAID : Invoice::STATUS_PARTIAL
-            );
-            $invoice->save();
-        }
-
-        $this->updateCustomer($payment, $amount);
-
-        $this->attachCredits($payment, $invoice, $credits);
-
-        return $payment;
-    }
-
     private function createPayment()
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
-            'company_gateway_id' => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
-            'status_id' => Payment::STATUS_COMPLETED,
-            'date' => Carbon::now(),
-            'amount' => $this->data['amount'],
-            'type_id' => $this->data['payment_type'],
+            'company_gateway_id'    => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
+            'status_id'             => Payment::STATUS_COMPLETED,
+            'date'                  => Carbon::now(),
+            'amount'                => $this->data['amount'],
+            'type_id'               => $this->data['payment_type'],
             'transaction_reference' => $this->data['payment_method']
 
         ];
@@ -170,6 +133,52 @@ class CreatePayment implements ShouldQueue
         }
 
         return $payment;
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @param Payment $payment
+     * @return Payment
+     */
+    private function createCreditsFromInvoice(Invoice $invoice, Payment $payment): Payment
+    {
+        $credits = $invoice->customer->getActiveCredits();
+
+        $credits = $this->buildCreditsToProcess($credits, $invoice);
+
+        $invoices = $this->getProcessedInvoice();
+
+        $amount = array_sum(array_column($credits, 'amount'));
+
+        $payment->attachInvoice($invoice, $amount, true);
+
+        $payment->applied = $amount;
+        $payment->save();
+
+        if (!empty($invoices[$invoice->id])) {
+            $invoice->fill($invoices[$invoice->id]);
+            $invoice->setStatus(
+                (int)$invoices[$invoice->id]['balance'] === 0 ? Invoice::STATUS_PAID : Invoice::STATUS_PARTIAL
+            );
+            $invoice->save();
+        }
+
+        $this->updateCustomer($payment, $amount);
+
+        $this->attachCredits($payment, $invoice, $credits);
+
+        return $payment;
+    }
+
+    /**
+     * @param Payment $payment
+     * @param Invoice $invoice
+     */
+    private function updateCustomer(Payment $payment, $amount)
+    {
+        $payment->customer->reduceBalance($amount);
+        $payment->customer->increasePaidToDateAmount($amount);
+        $payment->customer->save();
     }
 
     /**
@@ -240,17 +249,6 @@ class CreatePayment implements ShouldQueue
         $credit = (new CreditRepository($credit))->save(['line_items' => $line_items], $credit);
 
         return $credit;
-    }
-
-    /**
-     * @param Payment $payment
-     * @param Invoice $invoice
-     */
-    private function updateCustomer(Payment $payment, $amount)
-    {
-        $payment->customer->reduceBalance($amount);
-        $payment->customer->increasePaidToDateAmount($amount);
-        $payment->customer->save();
     }
 
     /**

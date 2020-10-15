@@ -32,6 +32,7 @@ export default function OrderPresenter (props) {
             return status
         case 'date':
         case 'due_date':
+        case 'created_at':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date">
                 <FormatDate field={field} date={entity[field]}/></td>
 

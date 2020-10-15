@@ -139,7 +139,7 @@ export default class DropdownMenuBuilder extends Component {
                 message = `${translations.lead} ${response.number} ${translations.has_been_created}`
             }
 
-            if (action === 'clone_to_project') {
+            if (action === 'clone_to_project' || action === 'clone_project') {
                 message = `${translations.project} ${response.number} ${translations.has_been_created}`
             }
 
@@ -485,6 +485,11 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={46} className="primary"
                     onClick={() => this.changeStatus('clone_quote_to_recurring')}>
                     <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.clone_to_recurring_quote}
+                </DropdownItem>
+            case 'cloneProject':
+                return <DropdownItem key={46} className="primary"
+                    onClick={() => this.changeStatus('clone_project')}>
+                    <i className={`fa ${getEntityIcon('Project')} mr-2`}/>{translations.clone_project}
                 </DropdownItem>
         }
     }
