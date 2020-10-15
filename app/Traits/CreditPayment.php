@@ -12,6 +12,40 @@ trait CreditPayment
     private $calculated_credit_amount = 0;
     private $processed_invoices = [];
 
+    public function buildCreditsToProcess($credits, Invoice $invoice)
+    {
+        if (empty($credits)) {
+            return true;
+        }
+
+        $original_balance = $invoice->balance;
+
+        $this->processed_invoices[$invoice->id] = $invoice->only(['balance', 'partial']);
+
+        foreach ($credits as $credit) {
+            $this->processCredits($credit, $invoice);
+
+            $amount = $this->getCalculatedCreditAmount();
+
+            if (empty($amount)) {
+                continue;
+            }
+
+            $credits_to_process[] = [
+                'credit_id' => $credit->id,
+                'amount'    => $amount
+            ];
+
+            $invoice = $invoice->fill($this->processed_invoices[$invoice->id]);
+
+            if (empty($this->processed_invoices[$invoice->id]['balance'])) {
+                break;
+            }
+        }
+
+        return $credits_to_process;
+    }
+
     private function processCredits(Credit $credit, Invoice $invoice)
     {
         $this->calculated_credit_amount = 0;
@@ -41,41 +75,6 @@ trait CreditPayment
         }
 
         return true;
-    }
-
-    public function buildCreditsToProcess($credits, Invoice $invoice)
-    {
-        if (empty($credits)) {
-            return true;
-        }
-
-        $original_balance = $invoice->balance;
-
-        $this->processed_invoices[$invoice->id] = $invoice->only(['balance', 'partial']);
-
-        foreach ($credits as $credit) {
-
-            $this->processCredits($credit, $invoice);
-
-            $amount = $this->getCalculatedCreditAmount();
-
-            if (empty($amount)) {
-                continue;
-            }
-
-            $credits_to_process[] = [
-                'credit_id' => $credit->id,
-                'amount'    => $amount
-            ];
-
-            $invoice = $invoice->fill($this->processed_invoices[$invoice->id]);
-
-            if (empty($this->processed_invoices[$invoice->id]['balance'])) {
-                break;
-            }
-        }
-
-        return $credits_to_process;
     }
 
     public function getCalculatedCreditAmount()

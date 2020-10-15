@@ -4,14 +4,15 @@ import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
 import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
+import { icons } from '../../utils/_icons'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
-            currencyOpen: !!(this.props.expense.currency_id && this.props.expense.expense_currency_id > 0),
-            paymentOpen: !!(this.props.expense.payment_date && this.props.expense.payment_date.length > 1)
+            currencyOpen: this.props.expense.currencyOpen === true ? true : !!(this.props.expense.currency_id && this.props.expense.expense_currency_id > 0),
+            paymentOpen: this.props.expense.paymentOpen === true ? true : !!(this.props.expense.payment_date && this.props.expense.payment_date.length > 1)
         }
 
         this.toggleCurrency = this.toggleCurrency.bind(this)
@@ -43,7 +44,7 @@ export default class SettingsForm extends React.Component {
 
     handleCheckboxChange (buttonName, event) {
         const value = event.target.checked
-        const name = event.target.id
+        const name = event.target.name
         const e = {}
         e.target = {
             name: name,
@@ -61,22 +62,51 @@ export default class SettingsForm extends React.Component {
             </CardHeader>
 
             <CardBody>
-                <CustomInput
-                    checked={this.props.expense.create_invoice}
-                    type="switch"
-                    id="create_invoice"
-                    name="customSwitch"
-                    label="Mark Billable"
-                    onChange={this.handleCheckboxChange.bind(this, 'create_invoice')}/>
+                <a href="#"
+                    className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                className={`fa ${icons.customer}`}/>
+                            {translations.create_expense_invoice}
+                        </h5>
+                        <CustomInput
+                            checked={this.props.expense.create_invoice}
+                            type="switch"
+                            id="create_invoice"
+                            name="create_invoice"
+                            label=""
+                            onChange={this.props.handleInput}/>
+                    </div>
 
-                <CustomInput
-                    checked={this.state.paymentOpen}
-                    type="switch"
-                    id="mark_paid"
-                    name="customSwitch"
-                    label="Mark Paid"
-                    onChange={this.togglePayment.bind(this, 'mark_paid')}
-                />
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.create_expense_invoice_help}
+                    </h6>
+                </a>
+
+                <a href="#"
+                    className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                className={`fa ${icons.customer}`}/>
+                            {translations.create_expense_payment}
+                        </h5>
+                        <CustomInput
+                            checked={this.state.paymentOpen}
+                            type="switch"
+                            id="mark_paid"
+                            name="paymentOpen"
+                            label=""
+                            onChange={this.togglePayment.bind(this, 'mark_paid')}
+                        />
+                    </div>
+
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.create_expense_payment_help}
+                    </h6>
+                </a>
+
                 <Collapse isOpen={this.state.paymentOpen}>
                     <Row form>
                         <Col md={4}>
@@ -107,14 +137,29 @@ export default class SettingsForm extends React.Component {
                     </Row>
                 </Collapse>
 
-                <CustomInput
-                    checked={this.state.currencyOpen}
-                    type="switch"
-                    id="convert_currency"
-                    name="customSwitch"
-                    label="Convert Currency"
-                    onChange={this.toggleCurrency.bind(this, 'convert_currency')}
-                />
+                <a href="#"
+                    className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                className={`fa ${icons.customer}`}/>
+                            {translations.convert_expense_currency}
+                        </h5>
+                        <CustomInput
+                            checked={this.state.currencyOpen}
+                            type="switch"
+                            id="convert_currency"
+                            name="currencyOpen"
+                            label=""
+                            onChange={this.toggleCurrency.bind(this, 'convert_currency')}
+                        />
+                    </div>
+
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.convert_expense_currency_help}
+                    </h6>
+                </a>
+
                 <Collapse isOpen={this.state.currencyOpen}>
                     <Row form>
                         <Col md={6}>
@@ -137,13 +182,27 @@ export default class SettingsForm extends React.Component {
                     </Row>
                 </Collapse>
 
-                <CustomInput
-                    checked={this.props.expense.include_documents}
-                    type="switch"
-                    id="include_documents"
-                    name="customSwitch"
-                    label="Add Documents to Invoice"
-                    onChange={this.handleCheckboxChange.bind(this, 'include_documents')}/>
+                <a href="#"
+                    className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }}
+                                className={`fa ${icons.customer}`}/>
+                            {translations.include_expense_documents}
+                        </h5>
+                        <CustomInput
+                            checked={this.props.expense.include_documents}
+                            type="switch"
+                            id="include_documents"
+                            name="include_documents"
+                            label=""
+                            onChange={this.props.handleInput}/>
+                    </div>
+
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.include_expense_documents_help}
+                    </h6>
+                </a>
             </CardBody>
         </Card>
         )

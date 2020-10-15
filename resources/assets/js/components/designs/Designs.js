@@ -406,7 +406,8 @@ class Designs extends React.Component {
                                         {title}
 
                                         <FormGroup>
-                                            <Label for="name">{translations.design} <span className="text-danger">*</span></Label>
+                                            <Label for="name">{translations.design} <span
+                                                className="text-danger">*</span></Label>
                                             <DesignDropdown resetCounters={this.resetCounters}
                                                 handleInputChanges={this.switchDesign}/>
                                         </FormGroup>

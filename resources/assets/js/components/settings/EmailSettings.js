@@ -8,7 +8,7 @@ import { consts } from '../utils/_consts'
 import { icons } from '../utils/_icons'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
-import AccountRepository from "../repositories/AccountRepository";
+import AccountRepository from '../repositories/AccountRepository'
 
 class EmailSettings extends Component {
     constructor (props) {

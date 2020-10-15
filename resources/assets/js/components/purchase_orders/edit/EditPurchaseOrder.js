@@ -38,6 +38,7 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CompanyModel from '../../models/CompanyModel'
+import TotalsBox from '../../invoice/edit/TotalsBox'
 
 class EditPurchaseOrder extends Component {
     constructor (props, context) {
@@ -497,7 +498,8 @@ class EditPurchaseOrder extends Component {
         const recurring = <Recurring setRecurring={this.setRecurring} handleInput={this.handleInput}
             errors={this.state.errors} invoice={this.state}/>
 
-        const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
+        const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
+            settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
             discount={this.state.discount}
             is_amount_discount={this.state.is_amount_discount}
@@ -511,7 +513,8 @@ class EditPurchaseOrder extends Component {
         />
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+            ? <NoteTabs invoice={this.state} private_notes={this.state.private_notes}
+                public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
             : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
@@ -611,12 +614,12 @@ class EditPurchaseOrder extends Component {
                         {items}
 
                         <Row form>
-                            <Col md={6}>
+                            <Col md={8}>
                                 {notes}
                             </Col>
 
-                            <Col md={6}>
-                                {documents}
+                            <Col md={3} className="m-3">
+                                <TotalsBox invoice={this.state}/>
                             </Col>
                         </Row>
                     </TabPane>

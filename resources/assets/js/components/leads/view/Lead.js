@@ -6,7 +6,6 @@ import axios from 'axios'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
-import InvoiceModel from "../../models/InvoiceModel";
 
 export default class Lead extends Component {
     constructor (props) {

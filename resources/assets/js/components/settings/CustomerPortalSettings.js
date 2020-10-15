@@ -6,8 +6,7 @@ import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 import Snackbar from '@material-ui/core/Snackbar'
 import Header from './Header'
-import UserRepository from "../repositories/UserRepository";
-import AccountRepository from "../repositories/AccountRepository";
+import AccountRepository from '../repositories/AccountRepository'
 
 export default class CustomerPortalSettings extends Component {
     constructor (props) {

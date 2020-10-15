@@ -81,11 +81,10 @@ class SendReminders implements ShouldQueue
             }
 
             if (!$message_sent) {
-               
                 $this->addCharge($counter);
 
                 $this->sendEmail("reminder{$counter}");
-                
+
                 $this->updateNextReminderDate(
                     $this->invoice->customer->getSetting("schedule_reminder{$counter}"),
                     $this->invoice->customer->getSetting("num_days_reminder{$counter}")
@@ -95,29 +94,11 @@ class SendReminders implements ShouldQueue
         }
     }
 
-    private function calculateAmount($counter)
-    {
-        $percentage = $this->invoice->customer->getSetting("late_fee_percent{$counter}");
-
-        if(!empty($percentage)) {
-
-            return round($percentage / ($this->invoice->total / 100),2);
-        }
-
-        $amount = $this->invoice->customer->getSetting("late_fee_amount{$counter}");
-
-        if(empty($amount)) {
-            return null;
-        }
-
-        return $amount;
-    }
-
     private function addCharge($counter): bool
     {
         $amount = $this->calculateAmount($counter);
 
-        if(empty($amount)) {
+        if (empty($amount)) {
             return true;
         }
 
@@ -125,6 +106,23 @@ class SendReminders implements ShouldQueue
         $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
 
         return true;
+    }
+
+    private function calculateAmount($counter)
+    {
+        $percentage = $this->invoice->customer->getSetting("late_fee_percent{$counter}");
+
+        if (!empty($percentage)) {
+            return round($percentage / ($this->invoice->total / 100), 2);
+        }
+
+        $amount = $this->invoice->customer->getSetting("late_fee_amount{$counter}");
+
+        if (empty($amount)) {
+            return null;
+        }
+
+        return $amount;
     }
 
     private function sendEmail($template)

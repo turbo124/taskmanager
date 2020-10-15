@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import ProjectRepository from '../../repositories/ProjectRepository'
 
 export default class ProjectDropdown extends Component {
     constructor (props) {
@@ -10,27 +10,28 @@ export default class ProjectDropdown extends Component {
             projects: []
         }
 
-        this.getProducts = this.getProducts.bind(this)
+        this.getProjects = this.getProjects.bind(this)
     }
 
     componentDidMount () {
         if (!this.props.projects || !this.props.projects.length) {
-            this.getProducts()
+            this.getProjects()
         } else {
             this.setState({ projects: this.props.projects })
         }
     }
 
-    getProducts () {
-        axios.get('/api/projects')
-            .then((r) => {
-                this.setState({
-                    projects: r.data
-                })
+    getProjects () {
+        const projectRepository = new ProjectRepository()
+        projectRepository.get(this.props.customer_id ? this.props.customer_id : null).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ projects: response }, () => {
+                console.log('projects', this.state.projects)
             })
-            .catch((e) => {
-                console.error(e)
-            })
+        })
     }
 
     handleChange (value, name) {

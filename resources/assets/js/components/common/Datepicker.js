@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+import { icons } from '../utils/_icons'
 
 export default class Datepicker extends Component {
     constructor (props) {
@@ -29,11 +31,16 @@ export default class Datepicker extends Component {
         const date = !this.props.date || this.props.date === 'undefined' || this.props.date === '' ? moment(new Date()).add(1, 'days').format('YYYY-MM-DD') : this.props.date
         const class_name = this.props.className === '' ? 'form-control' : this.props.className
         return (
-            <DatePicker selected={new Date(date)}
-                dateFormat="MMMM d, yyyy"
-                className={class_name}
-                todayButton="Today"
-                onChange={this.handleDateChange.bind(this)}/>
+            <InputGroup>
+                <DatePicker selected={new Date(date)}
+                    dateFormat="MMMM d, yyyy"
+                    className={class_name}
+                    todayButton="Today"
+                    onChange={this.handleDateChange.bind(this)}/>
+                <InputGroupAddon addonType="append">
+                    <InputGroupText><i className={`fa ${icons.calendar}`}/></InputGroupText>
+                </InputGroupAddon>
+            </InputGroup>
         )
     }
 }

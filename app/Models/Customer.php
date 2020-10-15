@@ -52,7 +52,7 @@ class Customer extends Model implements HasLocalePreference
     ];
 
     protected $casts = [
-        'settings' => 'object',
+        'settings'   => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',

@@ -7,7 +7,7 @@ import ExpenseDropdown from './dropdowns/ExpenseDropdown'
 import FormatMoney from './FormatMoney'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
-import ProjectDropdown from "./dropdowns/ProjectDropdown";
+import ProjectDropdown from './dropdowns/ProjectDropdown'
 
 class LineItem extends Component {
     constructor (props) {

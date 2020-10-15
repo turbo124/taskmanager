@@ -82,7 +82,7 @@ class AutobillInvoice implements ShouldQueue
             'company_gateway_id' => null,
             'ids'                => $this->invoice->id,
             'order_id'           => null,
-            'apply_credits'       => true
+            'apply_credits'      => true
         ];
 
         $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));

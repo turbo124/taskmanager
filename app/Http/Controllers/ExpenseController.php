@@ -136,7 +136,7 @@ class ExpenseController extends Controller
             return response()->json(['message' => "No expense Found"]);
         }
 
-        if ($action === 'create_invoice') {
+        if ($action === 'generate_invoice') {
             GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), $expenses);
             return response()->json(['message' => 'The invoice was created successfully!'], 200);
         }

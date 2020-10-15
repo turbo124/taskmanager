@@ -241,7 +241,8 @@ export default class RecurringInvoice extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview stats={stats} invoices={this.invoiceModel.invoices} entity={this.state.entity} user={user}
+                        <Overview stats={stats} invoices={this.invoiceModel.invoices} entity={this.state.entity}
+                            user={user}
                             customer={customer}
                             customers={this.props.customers} fields={fields}/>
                     </TabPane>

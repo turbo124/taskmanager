@@ -75,7 +75,7 @@ class GenerateInvoice implements ShouldQueue
         Expense::whereIn('id', $created_expenses)->update(['invoice_id' => $invoice->id]);
 
         if (!empty($this->data) && !empty($this->data['payment_date'])) {
-           $this->generatePayment($invoice, $first_expense);
+            $this->generatePayment($invoice, $first_expense);
         }
     }
 

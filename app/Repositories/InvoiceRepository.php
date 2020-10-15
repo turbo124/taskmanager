@@ -119,7 +119,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     private function updateEntities(Invoice $invoice)
     {
-        if(empty($invoice->line_items)) {
+        if (empty($invoice->line_items)) {
             return true;
         }
 

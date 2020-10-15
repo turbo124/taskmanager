@@ -190,8 +190,10 @@ _localizedValues.en = {
     clone_quote: 'Clone Quote',
     clone_credit: 'Clone Credit',
     clone_expense: 'Clone Expense',
+    expense_settings: 'Expense Settings',
     clone_invoice: 'Clone Invoice',
     clone_to_task: 'Clone to Task',
+    clone_project: 'Clone Project',
     clone_to_project: 'Clone to Project',
     clone_to_deal: 'Clone to Deal',
     clone_to_lead: 'Clone to Lead',
@@ -672,8 +674,17 @@ _localizedValues.en = {
     portal: 'Customer Portal',
     clone_order_to_invoice: 'Clone Order To Invoice',
     number_counter: 'Number Counter',
+    fees: 'Fees',
     prefix: 'Prefix',
-    number_pattern: 'Number Pattern'
+    number_pattern: 'Number Pattern',
+    create_expense_payment_help: 'Track the expense has been paid',
+    create_expense_invoice_help: 'Enable the expense to be invoiced',
+    include_expense_documents_help: 'Make the documents visible',
+    convert_expense_currency_help: 'Set an exchange rate',
+    create_expense_invoice: 'Create Invoice',
+    include_expense_documents: 'Add documents to invoice',
+    create_expense_payment: 'Create Payment',
+    convert_expense_currency: 'Convert currency'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

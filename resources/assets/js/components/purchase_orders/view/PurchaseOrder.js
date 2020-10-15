@@ -11,7 +11,6 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import Overview from './Overview'
-import PaymentModel from "../../models/PaymentModel";
 
 export default class PurchaseOrder extends Component {
     constructor (props) {

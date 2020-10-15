@@ -7,6 +7,7 @@ import { translations } from '../../utils/_translations'
 import ExpenseCategoryDropdown from '../../common/dropdowns/ExpenseCategoryDropdown'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import RecurringForm from '../../common/RecurringForm'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 
 export default class DetailsForm extends React.Component {
     render () {
@@ -39,26 +40,41 @@ export default class DetailsForm extends React.Component {
                     />
                 </FormGroup>
 
+                {!this.props.expense.invoice_id &&
+                    <FormGroup>
+                        <Label>{translations.project}</Label>
+                        <ProjectDropdown
+                            renderErrorFor={this.renderErrorFor}
+                            name="project_id"
+                            handleInputChanges={this.props.handleInput}
+                            project={this.props.expense.project_id}
+                            customer_id={this.props.expense.customer_id}
+                        />
+                    </FormGroup>
+                }
+
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.category}(*):</Label>
                     <ExpenseCategoryDropdown
                         name="category_id"
-                        category={this.props.category_id}
+                        category={this.props.expense.category_id}
                         renderErrorFor={this.props.renderErrorFor}
                         handleInputChanges={this.props.handleInput}
                     />
                 </FormGroup>
 
-                <FormGroup className="mb-3">
-                    <Label>{translations.customer}</Label>
-                    <CustomerDropdown
-                        customer={this.props.expense.customer_id}
-                        renderErrorFor={this.props.renderErrorFor}
-                        handleInputChanges={this.props.handleInput}
-                        customers={this.props.customers}
-                    />
-                    {this.props.renderErrorFor('customer_id')}
-                </FormGroup>
+                {!this.props.expense.invoice_id &&
+                    <FormGroup className="mb-3">
+                        <Label>{translations.customer}</Label>
+                        <CustomerDropdown
+                            customer={this.props.expense.customer_id}
+                            renderErrorFor={this.props.renderErrorFor}
+                            handleInputChanges={this.props.handleInput}
+                            customers={this.props.customers}
+                        />
+                        {this.props.renderErrorFor('customer_id')}
+                    </FormGroup>
+                }
 
                 <FormGroup className="mb-3">
                     <Label>{translations.company}</Label>

@@ -11,6 +11,7 @@ export default function CustomerPresenter (props) {
             return <td data-label="Name"><Avatar name={entity.name}/></td>
         case 'date':
         case 'due_date':
+        case 'created_at':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} data-label={field}>
                 <FormatDate field={field} date={entity[field]}/></td>
         case 'balance':

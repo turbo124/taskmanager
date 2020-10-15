@@ -33,6 +33,8 @@ export default function InvoicePresenter (props) {
             return status
         case 'date':
         case 'due_date':
+        case 'date_to_send':
+        case 'created_at':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label={field}>
                 <FormatDate field={field} date={entity[field]}/></td>

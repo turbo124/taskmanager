@@ -22,7 +22,7 @@ export default function Overview (props) {
         <RecurringQuotePresenter entity={props.entity} field="status_field"/>
 
         {!!props.stats &&
-        <SimpleSectionItem headng={translations.quotes} value={props.stats} />
+        <SimpleSectionItem headng={translations.quotes} value={props.stats}/>
         }
 
         {props.quotes && props.quotes.length &&

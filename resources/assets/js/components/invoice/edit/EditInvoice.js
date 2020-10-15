@@ -38,6 +38,8 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
+import ProjectRepository from '../../repositories/ProjectRepository'
+import TotalsBox from './TotalsBox'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -66,6 +68,7 @@ class EditInvoice extends Component {
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+        this.loadProjects = this.loadProjects.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -91,6 +94,21 @@ class EditInvoice extends Component {
             const contacts = this.invoiceModel.contacts
             this.setState({ contacts: contacts })
         }
+
+        this.loadProjects()
+    }
+
+    loadProjects () {
+        const projectRepository = new ProjectRepository()
+        projectRepository.get(this.state.customer_id ? this.state.customer_id : null).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            this.setState({ projects: response }, () => {
+                console.log('projects', this.state.projects)
+            })
+        })
     }
 
     // make sure to remove the listener
@@ -129,6 +147,16 @@ class EditInvoice extends Component {
                 const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
                 const exchange_rate = currency[0].exchange_rate
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+            }
+
+            if (this.state.projects.length && this.state.project_id) {
+                const index = this.state.projects.findIndex(project => project.id === parseInt(this.state.project_id))
+                const project = this.state.projects[index]
+
+                if (project.customer_id !== parseInt(e.target.value)) {
+                    console.log('customer changed')
+                    this.setState({ project_id: '' })
+                }
             }
         }
 
@@ -361,6 +389,7 @@ class EditInvoice extends Component {
 
     getFormData () {
         return {
+            project_id: this.state.project_id,
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
             is_amount_discount: this.state.is_amount_discount,
@@ -508,12 +537,14 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+            ? <Detailsm projects={this.state.projects} address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput}
                 customers={this.props.customers}
                 hide_customer={this.state.id === null}
                 errors={this.state.errors} invoice={this.state}
             />
-            : <Details address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+            : <Details projects={this.state.projects} address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors} invoice={this.state}
             />
@@ -540,7 +571,8 @@ class EditInvoice extends Component {
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const settings = <InvoiceSettings handleSurcharge={this.handleSurcharge} settings={this.state}
+        const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
+            settings={this.state}
             errors={this.state.errors} handleInput={this.handleInput}
             discount={this.state.discount}
             is_amount_discount={this.state.is_amount_discount}
@@ -552,7 +584,8 @@ class EditInvoice extends Component {
             handleDelete={this.handleDelete}/>
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs private_notes={this.state.private_notes} public_notes={this.state.public_notes}
+            ? <NoteTabs projects={this.state.projects} invoice={this.state} private_notes={this.state.private_notes}
+                public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
             : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
@@ -651,12 +684,12 @@ class EditInvoice extends Component {
                         {items}
 
                         <Row form>
-                            <Col md={6}>
+                            <Col md={8}>
                                 {notes}
                             </Col>
 
-                            <Col md={6}>
-                                {documents}
+                            <Col md={3} className="m-3">
+                                <TotalsBox invoice={this.state}/>
                             </Col>
                         </Row>
                     </TabPane>

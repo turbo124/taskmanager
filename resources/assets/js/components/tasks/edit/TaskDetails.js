@@ -37,6 +37,7 @@ export default function TaskDetails (props) {
                 {props.renderErrorFor('name')}
             </FormGroup>
 
+            {!props.task.invoice_id &&
             <FormGroup className="mb-3">
                 <Label>{translations.customer}</Label>
                 <CustomerDropdown
@@ -47,6 +48,7 @@ export default function TaskDetails (props) {
                 />
                 {props.renderErrorFor('customer_id')}
             </FormGroup>
+            }
 
             {/* <FormGroup> */}
             {/*    <Label>{translations.assigned_user}</Label> */}
@@ -55,12 +57,14 @@ export default function TaskDetails (props) {
             {/*        users={props.users}/> */}
             {/* </FormGroup> */}
 
+            {!props.task.invoice_id &&
             <FormGroup>
                 <Label>{translations.project}</Label>
-                <ProjectDropdown handleInputChanges={props.handleInput}
+                <ProjectDropdown handleInputChanges={props.handleInput} customer-id={props.task.customer_id}
                     project={props.task.project_id} name="project_id"
                 />
             </FormGroup>
+            }
 
             <FormGroup>
                 <Label for="description">{translations.description}:</Label>

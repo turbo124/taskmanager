@@ -235,7 +235,7 @@ export default class QuoteModel extends BaseModel {
             actions.push('cloneQuoteToInvoice')
         }
 
-        if (!this.fields.recurring_quote_id.toString().length && this.isModuleEnabled('recurringQuotes')) {
+        if (!this.fields.recurring_quote_id && this.isModuleEnabled('recurringQuotes')) {
             actions.push('cloneToRecurringQuote')
         }
 

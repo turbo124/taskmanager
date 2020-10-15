@@ -12,24 +12,24 @@ export default class Menu extends Component {
                 </DropdownToggle>
                 <DropdownMenu style={{ height: 'auto', maxHeight: '400px', overflowX: 'hidden' }}>
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
-                    <MenuItem section="account-settings" />
-                    <MenuItem section="localisation-settings" />
-                    <MenuItem section="integration-settings" />
-                    <MenuItem section="gateway-settings" />
-                    <MenuItem section="tax-rates" />
-                    <MenuItem section="product-settings" />
-                    <MenuItem section="account-management" />
-                    <MenuItem section="device-settings" />
+                    <MenuItem section="account-settings"/>
+                    <MenuItem section="localisation-settings"/>
+                    <MenuItem section="integration-settings"/>
+                    <MenuItem section="gateway-settings"/>
+                    <MenuItem section="tax-rates"/>
+                    <MenuItem section="product-settings"/>
+                    <MenuItem section="account-management"/>
+                    <MenuItem section="device-settings"/>
                     <DropdownItem divider/>
                     <DropdownItem header>{translations.advanced_settings}</DropdownItem>
-                    <MenuItem section="group-settings" />
-                    <MenuItem section="number-settings" />
-                    <MenuItem section="field-settings" />
-                    <MenuItem section="invoice-settings" />
-                    <MenuItem section="workflow-settings" />
-                    <MenuItem section="portal-settings" />
-                    <MenuItem section="email-settings" />
-                    <MenuItem section="template-settings" />
+                    <MenuItem section="group-settings"/>
+                    <MenuItem section="number-settings"/>
+                    <MenuItem section="field-settings"/>
+                    <MenuItem section="invoice-settings"/>
+                    <MenuItem section="workflow-settings"/>
+                    <MenuItem section="portal-settings"/>
+                    <MenuItem section="email-settings"/>
+                    <MenuItem section="template-settings"/>
                     <DropdownItem tag="a" href="/#/users"><i className={`fa ${icons.user}`}/>{translations.users}
                     </DropdownItem>
                 </DropdownMenu>
@@ -73,8 +73,9 @@ export class MenuItem extends Component {
         }
 
         return (
-            <DropdownItem className={window.location.href.includes(this.props.section) ? 'active' : ''} tag="a" href={`/#/${this.props.section}`}><i
-                className={`fa ${icon}`}/>{label}
+            <DropdownItem className={window.location.href.includes(this.props.section) ? 'active' : ''} tag="a"
+                href={`/#/${this.props.section}`}><i
+                    className={`fa ${icon}`}/>{label}
             </DropdownItem>
         )
     }

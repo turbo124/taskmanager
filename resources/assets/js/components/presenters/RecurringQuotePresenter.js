@@ -23,6 +23,7 @@ export default function RecurringQuotePresenter (props) {
         case 'date':
         case 'due_date':
         case 'start_date':
+        case 'created_at':
         case 'last_sent_date':
         case 'date_to_send':
         case 'expiry_date': {
