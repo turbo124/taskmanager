@@ -84,6 +84,10 @@ export default class TaskModel extends BaseModel {
         this._time_log = time_log
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get duration () {
         return this.fields.duration
     }
@@ -170,6 +174,10 @@ export default class TaskModel extends BaseModel {
         if (!this.fields.deleted_at) {
             actions.push('archive')
             actions.push('cloneTaskToDeal')
+        }
+
+        if (!this.fields.is_deleted) {
+            actions.push('newInvoice')
         }
 
         if (this.fields.customer_id.toString().length) {

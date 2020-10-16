@@ -7,10 +7,10 @@ import Notes from '../../common/Notes'
 import Details from './Details'
 import PaymentModel from '../../models/PaymentModel'
 import { translations } from '../../utils/_translations'
-import Documents from './Documents'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import { icons } from '../../utils/_icons'
+import { toast, ToastContainer } from 'react-toastify'
 
 class AddPayment extends React.Component {
     constructor (props) {
@@ -80,6 +80,30 @@ class AddPayment extends React.Component {
     }
 
     handleClick () {
+        const credit_sum = this.state.payable_credits.reduce(function (a, b) {
+            return a + parseFloat(b.amount)
+        }, 0)
+
+        const invoice_sum = this.state.payable_invoices.reduce(function (a, b) {
+            return a + parseFloat(b.amount)
+        }, 0)
+
+        const total = invoice_sum - credit_sum
+
+        if (total < 0) {
+            toast.error(translations.negative_payment_error, {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
+
+            return false
+        }
+
         this.setState({ loading: true })
         const data = {
             date: this.state.date,
@@ -100,7 +124,19 @@ class AddPayment extends React.Component {
 
         this.paymentModel.save(data).then(response => {
             if (!response) {
-                this.setState({ errors: this.paymentModel.errors, message: this.paymentModel.error_message })
+                this.setState({ errors: this.paymentModel.errors, message: this.paymentModel.error_message }, () => {
+                    if (this.paymentModel.error_message && this.paymentModel.error_message.length) {
+                        toast.error(this.paymentModel.error_message, {
+                            position: 'top-center',
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined
+                        })
+                    }
+                })
                 return
             }
 
@@ -128,7 +164,7 @@ class AddPayment extends React.Component {
     }
 
     render () {
-        const { message, loading } = this.state
+        const { loading } = this.state
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
         const form = <React.Fragment>
             <Card>
@@ -190,13 +226,19 @@ class AddPayment extends React.Component {
 
                 <ModalBody className={theme}>
 
-                    {message && <div className="alert alert-danger" role="alert">
-                        {message}
-                    </div>}
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
 
                     {form}
-                    <Documents payment={this.state}/>
-
                 </ModalBody>
 
                 <DefaultModalFooter show_success={true} toggle={this.toggle}

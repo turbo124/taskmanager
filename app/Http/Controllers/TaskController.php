@@ -272,7 +272,7 @@ class TaskController extends Controller
 
     public function show(int $id)
     {
-        $task = $this->task_repo->getTaskById($id);
+        $task = $this->task_repo->findTaskById($id);
         return response()->json($this->transformTask($task));
     }
 

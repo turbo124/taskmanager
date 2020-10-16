@@ -23,7 +23,7 @@ export default class Payments extends Component {
             success_message: translations.success_message,
             per_page: 5,
             view: {
-                ignore: ['paymentables', 'assigned_to', 'id', 'customer', 'invoice_id', 'applied', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
+                ignore: ['paymentables', 'assigned_to', 'id', 'customer', 'invoice_id', 'deleted_at', 'customer_id', 'refunded', 'task_id', 'company_id'],
                 viewMode: false,
                 viewedId: null,
                 title: null

@@ -69,6 +69,7 @@ class InvoicePayment extends BasePaymentProcessor
             return true;
         }
 
+        $this->setCreditedAmount($objCreditPayment->getAmount());
         $this->reducePaymentAmount($objCreditPayment->getAmount());
         return true;
     }

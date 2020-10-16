@@ -45,10 +45,10 @@ export default class DropdownMenuBuilder extends Component {
                 '_blank' // <- This is what makes it open in a new window.
             )
         }
-        // if(this.props.model.invitation_link && this.props.model.invitations && this.props.model.invitations.length) {
-        //     const invitation = this.props.model.invitations[0]
-        // }
-        // console.log('invitations', this.props.model.invitations)
+    }
+
+    loadInvoice () {
+        location.href = this.props.model.entity === 'Expense' ? `/#/invoice?entity_id=${this.props.model.id}&entity_type=expense` : `/#/invoice?entity_id=${this.props.model.id}&entity_type=task`
     }
 
     changeStatus (action) {
@@ -482,14 +482,19 @@ export default class DropdownMenuBuilder extends Component {
                     <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.clone_to_recurring_invoice}
                 </DropdownItem>
             case 'cloneToRecurringQuote':
-                return <DropdownItem key={46} className="primary"
+                return <DropdownItem key={47} className="primary"
                     onClick={() => this.changeStatus('clone_quote_to_recurring')}>
                     <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.clone_to_recurring_quote}
                 </DropdownItem>
             case 'cloneProject':
-                return <DropdownItem key={46} className="primary"
+                return <DropdownItem key={48} className="primary"
                     onClick={() => this.changeStatus('clone_project')}>
                     <i className={`fa ${getEntityIcon('Project')} mr-2`}/>{translations.clone_project}
+                </DropdownItem>
+            case 'newInvoice':
+                return <DropdownItem key={49} className="primary"
+                    onClick={() => this.loadInvoice()}>
+                    <i className={`fa ${getEntityIcon('Invoice')} mr-2`}/>{translations.new_invoice}
                 </DropdownItem>
         }
     }

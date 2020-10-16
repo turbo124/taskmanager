@@ -22,7 +22,7 @@ export default class InvoiceModel extends BaseModel {
         }
 
         this._fields = {
-            projects: [],
+            line_type: null,
             project_id: null,
             is_mobile: window.innerWidth <= 768,
             modalOpen: false,
@@ -206,6 +206,10 @@ export default class InvoiceModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get contacts () {

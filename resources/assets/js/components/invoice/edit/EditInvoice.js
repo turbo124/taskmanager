@@ -40,6 +40,10 @@ import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import TotalsBox from './TotalsBox'
+import InvoiceReducer from '../InvoiceReducer'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import { consts } from '../../utils/_consts'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -68,7 +72,6 @@ class EditInvoice extends Component {
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
-        this.loadProjects = this.loadProjects.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -95,19 +98,40 @@ class EditInvoice extends Component {
             this.setState({ contacts: contacts })
         }
 
-        this.loadProjects()
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
+        }
+
+        // this.loadProjects()
     }
 
-    loadProjects () {
-        const projectRepository = new ProjectRepository()
-        projectRepository.get(this.state.customer_id ? this.state.customer_id : null).then(response => {
+    loadEntity (type) {
+        const repo = type === 'task' ? new TaskRepository() : new ExpenseRepository()
+        const line_type = type === 'task' ? consts.line_item_task : consts.line_item_expense
+        const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
+        repo.getById(this.props.entity_id).then(response => {
             if (!response) {
                 alert('error')
             }
 
-            this.setState({ projects: response }, () => {
-                console.log('projects', this.state.projects)
+            console.log('task', response)
+
+            const data = reducer.build(type, response)
+
+            this.invoiceModel.customer_id = data.customer_id
+            const contacts = this.invoiceModel.contacts
+
+            this.setState({
+                contacts: contacts,
+                modalOpen: true,
+                line_type: line_type,
+                line_items: data.line_items,
+                customer_id: data.customer_id
+            }, () => {
+                console.log(`creating new invoice for ${this.props.entity_type} ${this.props.entity_id}`)
             })
+
+            return response
         })
     }
 
@@ -133,6 +157,7 @@ class EditInvoice extends Component {
 
     handleInput (e) {
         if (e.target.name === 'customer_id') {
+            const original_customer_id = this.state.customer_id
             const customer_data = this.invoiceModel.customerChange(e.target.value)
 
             this.setState({
@@ -149,14 +174,9 @@ class EditInvoice extends Component {
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
             }
 
-            if (this.state.projects.length && this.state.project_id) {
-                const index = this.state.projects.findIndex(project => project.id === parseInt(this.state.project_id))
-                const project = this.state.projects[index]
-
-                if (project.customer_id !== parseInt(e.target.value)) {
-                    console.log('customer changed')
-                    this.setState({ project_id: '' })
-                }
+            if (this.props.project_id && original_customer_id !== parseInt(e.target.value)) {
+                console.log('customer changed')
+                this.setState({ project_id: '' })
             }
         }
 
@@ -537,13 +557,13 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm projects={this.state.projects} address={this.state.address} customerName={this.state.customerName}
+            ? <Detailsm address={this.state.address} customerName={this.state.customerName}
                 handleInput={this.handleInput}
                 customers={this.props.customers}
                 hide_customer={this.state.id === null}
                 errors={this.state.errors} invoice={this.state}
             />
-            : <Details projects={this.state.projects} address={this.state.address} customerName={this.state.customerName}
+            : <Details address={this.state.address} customerName={this.state.customerName}
                 handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors} invoice={this.state}
@@ -578,7 +598,8 @@ class EditInvoice extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items customers={this.props.customers} invoice={this.state} errors={this.state.errors}
+        const items = <Items line_type={this.state.line_type} customers={this.props.customers} invoice={this.state}
+            errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
@@ -662,6 +683,16 @@ class EditInvoice extends Component {
                             {translations.email}
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}>
+                            {translations.documents}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab} className="bg-transparent">
@@ -696,6 +727,10 @@ class EditInvoice extends Component {
 
                     <TabPane tabId="2">
                         {email_editor}
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        {documents}
                     </TabPane>
                 </TabContent>
             </React.Fragment>

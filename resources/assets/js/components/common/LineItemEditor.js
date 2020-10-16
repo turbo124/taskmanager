@@ -28,7 +28,7 @@ class LineItemEditor extends Component {
             projects: [],
             expenses: [],
             attributes: [],
-            line_type: null,
+            line_type: this.props.line_type || null,
             total: this.props.invoice.total
         }
 
@@ -43,11 +43,16 @@ class LineItemEditor extends Component {
         this.loadTaxRates = this.loadTaxRates.bind(this)
         this.loadExpenses = this.loadExpenses.bind(this)
         this.handleLineTypeChange = this.handleLineTypeChange.bind(this)
+        this.loadEntities = this.loadEntities.bind(this)
     }
 
     componentDidMount () {
         // this.loadAttributes()
         this.loadTaxRates()
+
+        if (this.props.line_type) {
+            this.loadEntities(this.props.line_type)
+        }
     }
 
     loadProducts () {
@@ -123,6 +128,10 @@ class LineItemEditor extends Component {
 
     handleLineTypeChange (e) {
         const line_type = parseInt(e.target.value)
+        this.loadEntities(line_type)
+    }
+
+    loadEntities (line_type) {
         this.setState({ line_type: line_type }, () => {
             if (line_type === consts.line_item_expense && !this.state.expenses.length) {
                 this.loadExpenses()
@@ -316,7 +325,7 @@ class LineItemEditor extends Component {
     _getEntity () {
         let variable = ''
 
-        switch (this.state.line_type) {
+        switch (parseInt(this.state.line_type)) {
             case consts.line_item_product:
                 variable = this.state.products
                 break

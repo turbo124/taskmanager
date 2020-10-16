@@ -17,11 +17,12 @@ class CloneCreditFactory
         $clone_credit = new Credit();
         $clone_credit->fill($credit->toArray());
         $clone_credit->setStatus(Credit::STATUS_DRAFT);
-        $clone_credit->setNumber();
+        $clone_credit->setCustomer($credit->customer);
         $clone_credit->setUser($user);
         $clone_credit->setBalance($credit->total);
         $clone_credit->setAccount($credit->account);
         $clone_credit->setDueDate();
+        $clone_credit->setNumber();
 
         return $clone_credit;
     }
