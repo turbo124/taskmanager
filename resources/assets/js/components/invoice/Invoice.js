@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import ProjectRepository from "../repositories/ProjectRepository";
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -46,6 +47,8 @@ export default class Invoice extends Component {
                 start_date: '',
                 end_date: ''
             },
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
             showRestoreButton: false,
             bottom_drawer_open: false
         }
@@ -56,8 +59,8 @@ export default class Invoice extends Component {
     }
 
     componentDidMount () {
-        this.getCustomers()
-        this.getCustomFields()
+        this.getCustomers ()
+        this.getCustomFields ()
     }
 
     updateInvoice (invoices) {
@@ -140,6 +143,8 @@ export default class Invoice extends Component {
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditInvoice
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             add={true}

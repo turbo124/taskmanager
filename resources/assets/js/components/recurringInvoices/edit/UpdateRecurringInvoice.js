@@ -655,6 +655,16 @@ class EditInvoice extends Component {
                             {translations.email}
                         </NavLink>
                     </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('3')
+                            }}>
+                            {translations.documents}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -689,6 +699,10 @@ class EditInvoice extends Component {
 
                     <TabPane tabId="2">
                         {email_editor}
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        {documents}
                     </TabPane>
                 </TabContent>
             </React.Fragment>

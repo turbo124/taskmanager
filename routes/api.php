@@ -245,6 +245,7 @@ Route::group(
         Route::delete('expenses/archive/{expense_id}', 'ExpenseController@archive');
         Route::delete('expenses/{expense_id}', 'ExpenseController@destroy');
         Route::get('expenses', 'ExpenseController@index');
+        Route::get('expenses/{expense_id}', 'ExpenseController@show');
         Route::put('expense/{expense_id}', 'ExpenseController@update');
         Route::post('expenses/restore/{id}', 'ExpenseController@restore');
         Route::post('expense/bulk', 'ExpenseController@bulk');
@@ -424,6 +425,7 @@ Route::group(
         Route::delete('tasks/archive/{task_id}', 'TaskController@archive');
         Route::post('tasks/{task}/{action}', 'TaskController@action')->name('invoices.action');
         Route::post('task/bulk', 'TaskController@bulk');
+        Route::get('tasks/{task_id}', 'TaskController@show');
 
 
         // leads

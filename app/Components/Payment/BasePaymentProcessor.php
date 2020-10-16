@@ -20,6 +20,8 @@ class BasePaymentProcessor
 
     private float $gateway_fee = 0;
 
+    private $credited_amount = 0;
+
     private array $data;
 
 
@@ -55,6 +57,16 @@ class BasePaymentProcessor
 
         $this->amount += $amount;
 
+        return $this;
+    }
+
+    protected function setCreditedAmount(float $amount)
+    {
+        if (empty($amount)) {
+            return $this;
+        }
+
+        $this->credited_amount = $amount;
         return $this;
     }
 
@@ -103,6 +115,13 @@ class BasePaymentProcessor
             $this->payment->applied += $this->gateway_fee;
             $this->amount += $this->gateway_fee;
         }
+
+        if($this->credited_amount > 0) {
+            //$this->payment->amount += $this->credited_amount;
+            $this->payment->applied += $this->credited_amount;
+            //$this->amount += $this->gateway_fee;
+        }
+
         //$this->payment->save();
     }
 

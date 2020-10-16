@@ -3,6 +3,8 @@ _localizedValues.en = {
     portal_settings: 'Customer Portal Settings',
     field_settings: 'Custom Fields',
     gateway_settings: 'Online Payments',
+    new_invoice: 'New Invoice',
+    negative_payment_error: 'The credit amount cannot exceed the payment amount',
     accounts: 'Accounts',
     days: 'Days',
     late_fee_amount: 'Late Fee Amount',
