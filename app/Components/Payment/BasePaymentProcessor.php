@@ -66,7 +66,7 @@ class BasePaymentProcessor
             return $this;
         }
 
-        $this->credited_amount = $amount;
+        $this->credited_amount += $amount;
         return $this;
     }
 
