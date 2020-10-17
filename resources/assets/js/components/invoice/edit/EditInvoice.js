@@ -598,7 +598,7 @@ class EditInvoice extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items line_type={this.state.line_type} customers={this.props.customers} invoice={this.state}
+        const items = <Items model={this.invoiceModel} line_type={this.state.line_type} customers={this.props.customers} invoice={this.state}
             errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
