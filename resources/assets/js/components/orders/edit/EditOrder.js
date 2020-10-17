@@ -445,7 +445,7 @@ export default class EditOrder extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items customers={this.props.customers} order={this.state} errors={this.state.errors}
+        const items = <Items model={this.orderModel} customers={this.props.customers} order={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>
