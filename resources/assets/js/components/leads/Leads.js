@@ -32,7 +32,7 @@ export default class Leads extends Component {
             },
             filters: {
                 status_id: 'active',
-                customer_id: '',
+                customer_id: customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
