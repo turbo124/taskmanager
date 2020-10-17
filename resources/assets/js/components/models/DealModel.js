@@ -11,6 +11,7 @@ export default class DealModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            design_id: '',
             name: '',
             rating: '',
             source_type: 0,
