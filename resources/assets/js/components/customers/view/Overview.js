@@ -54,6 +54,16 @@ export default function Overview (props) {
                     title={translations.tasks}/>
                 }
 
+                {modules && modules.deals &&
+                <SectionItem link={`/#/deals?customer_id=${props.entity.id}`} icon={icons.deal}
+                    title={translations.deals}/>
+                }
+
+                {modules && modules.leads &&
+                <SectionItem link={`/#/leads?customer_id=${props.entity.id}`} icon={icons.deal}
+                    title={translations.leads}/>
+                }
+
                 {modules && modules.expenses &&
                 <SectionItem link={`/#/expenses?customer_id=${props.entity.id}`}
                     icon={icons.expense} title={translations.expenses}/>
