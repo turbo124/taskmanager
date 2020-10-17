@@ -4,6 +4,7 @@ import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import DesignDropdown from './dropdowns/DesignDropdown'
 
 export default function TaskDetails (props) {
     let userContent
@@ -84,6 +85,11 @@ export default function TaskDetails (props) {
                     handleInputChanges={props.handleInput}
                 />
             </FormGroup>
+
+             <FormGroup>
+                    <Label>{translations.design}</Label>
+                    <DesignDropdown name="design_id" design={props.task.design_id} handleChange={props.handleInput}/>
+                </FormGroup>
         </React.Fragment>
     )
 }
