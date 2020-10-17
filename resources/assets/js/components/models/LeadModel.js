@@ -10,6 +10,7 @@ export default class LeadModel extends BaseModel {
 
         this._fields = {
             id: null,
+            design_id: '',
             website: '',
             task_status: '',
             industry_id: '',
