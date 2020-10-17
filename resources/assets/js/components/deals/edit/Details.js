@@ -5,6 +5,7 @@ import { translations } from '../../utils/_translations'
 import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
+import DesignDropdown from './dropdowns/DesignDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -122,6 +123,11 @@ export default class Details extends React.Component {
                                 status={this.props.deal.task_status}
                                 handleInputChanges={this.props.handleInput}
                             />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label>{translations.design}</Label>
+                            <DesignDropdown name="design_id" design={props.design_id} handleChange={props.handleInput}/>
                         </FormGroup>
 
                         {sourceTypeOptions}
