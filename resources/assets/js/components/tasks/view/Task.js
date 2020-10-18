@@ -98,6 +98,7 @@ export default class Task extends Component {
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         let user = null
+        let project = null
 
         console.log('entity', this.state.entity)
 
@@ -105,6 +106,12 @@ export default class Task extends Component {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
+        }
+
+        if(this.state.entity.project_id) {
+            project = <EntityListTile entity={translations.project}
+                title={`${this.state.entity.number} ${this.state.entity.name}`}
                 icon={icons.user}/>
         }
 
@@ -212,7 +219,7 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview user={user} customer={customer} recurring={recurring}
+                        <Overview project={project} user={user} customer={customer} recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.duration)}
                             calculatedAmount={this.taskModel.calculateAmount(this.state.entity.task_rate)}
                             entity={this.state.entity} fields={fields} task_times={task_times}/>
