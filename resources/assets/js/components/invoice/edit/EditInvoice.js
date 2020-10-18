@@ -175,8 +175,7 @@ class EditInvoice extends Component {
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
             }
 
-            if (this.props.project_id && original_customer_id !== parseInt(e.target.value)) {
-                console.log('customer changed')
+            if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
                 this.setState({ project_id: '' })
             }
         }
