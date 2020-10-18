@@ -92,6 +92,11 @@ class RecurringInvoice extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function assigned_user()
     {
         return $this->belongsTo(User::class, 'assigned_to', 'id')->withTrashed();
