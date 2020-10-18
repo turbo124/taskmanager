@@ -9,6 +9,8 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 
 export default function Overview (props) {
+    const modules = JSON.parse(localStorage.getItem('modules'))
+
     return <React.Fragment>
          <PlainEntityHeader heading_1={translations.total} value_1={formatDuration(props.total)}
                     heading_2={translations.budgeted} value_2={props.entity.budgeted_hours}/>
