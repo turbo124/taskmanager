@@ -35,6 +35,7 @@ class RecurringInvoice extends Model
         'status_id',
         'account_id',
         'customer_id',
+        'project_id',
         'number',
         'total',
         'sub_total',
