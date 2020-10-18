@@ -173,6 +173,7 @@ export default class EditOrder extends Component {
     }
 
     handleInput (e) {
+        const original_customer_id = this.state.customer_id
         if (e.target.name === 'customer_id') {
             const customer_data = this.orderModel.customerChange(e.target.value)
 
@@ -188,6 +189,10 @@ export default class EditOrder extends Component {
                 const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
                 const exchange_rate = currency[0].exchange_rate
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+            }
+
+            if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
+                this.setState({ project_id: '' })
             }
         }
 
