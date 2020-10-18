@@ -31,6 +31,7 @@ export default class PurchaseOrderModel extends BaseModel {
             customer_id: '',
             invoice_id: '',
             assigned_to: '',
+            project_id: '',
             number: '',
             user_id: null,
             contacts: [],
