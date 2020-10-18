@@ -43,6 +43,7 @@ import TotalsBox from './TotalsBox'
 import InvoiceReducer from '../InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 import { consts } from '../../utils/_consts'
 
 class EditInvoice extends Component {
