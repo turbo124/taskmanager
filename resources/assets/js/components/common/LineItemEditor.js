@@ -216,6 +216,7 @@ class LineItemEditor extends Component {
             const index = this.state.tasks.findIndex(task => task.id === parseInt(e.target.value))
             const task = this.state.tasks[index]
             const taskModel = new TaskModel(task, this.props.customers)
+            const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
 
             let notes = task.description + '\n'
 
@@ -228,7 +229,7 @@ class LineItemEditor extends Component {
             })
 
             rows[row].task_id = parseInt(e.target.value)
-            rows[row].unit_price = taskModel.calculateAmount(task.task_rate)
+            rows[row].unit_price = taskModel.calculateAmount(task_rate)
             rows[row].quantity = Math.round(task.duration, 3)
             rows[row].type_id = consts.line_item_task
             rows[row].notes = notes
