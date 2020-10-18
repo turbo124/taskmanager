@@ -47,8 +47,32 @@ export default class DropdownMenuBuilder extends Component {
         }
     }
 
-    loadInvoice () {
-        location.href = this.props.model.entity === 'Expense' ? `/#/invoice?entity_id=${this.props.model.id}&entity_type=expense` : `/#/invoice?entity_id=${this.props.model.id}&entity_type=task`
+    loadInvoice (type) {
+        let url = null
+
+        switch(type) {
+            case 'quote':
+                url = (this.props.model.entity === 'Expense') ? (`/#/quotes?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/quotes?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/quotes?entity_id=${this.props.model.id}&entity_type=project`))
+            break
+
+            case 'invoice':
+                url = (this.props.model.entity === 'Expense') ? (`/#/invoice?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/invoice?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/invoice?entity_id=${this.props.model.id}&entity_type=project`))
+            break
+
+            case 'credit':
+                url = (this.props.model.entity === 'Expense') ? (`/#/credits?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/credits?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/credits?entity_id=${this.props.model.id}&entity_type=project`))
+            break
+
+            case 'recurring_invoice':
+                url = (this.props.model.entity === 'Expense') ? (`/#/recurring-invoices?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/recurring-invoices?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/recurring-invoices?entity_id=${this.props.model.id}&entity_type=project`))
+            break
+
+            case 'recurring_quote':
+                url = (this.props.model.entity === 'Expense') ? (`/#/recurring-quotes?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/recurring-quotes?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/recurring-quotes?entity_id=${this.props.model.id}&entity_type=project`))
+            break 
+        }
+
+        location.href = url
     }
 
     changeStatus (action) {
@@ -493,9 +517,30 @@ export default class DropdownMenuBuilder extends Component {
                 </DropdownItem>
             case 'newInvoice':
                 return <DropdownItem key={49} className="primary"
-                    onClick={() => this.loadInvoice()}>
+                    onClick={() => this.loadInvoice('invoice')}>
                     <i className={`fa ${getEntityIcon('Invoice')} mr-2`}/>{translations.new_invoice}
                 </DropdownItem>
+            case 'newCredit':
+                return <DropdownItem key={50} className="primary"
+                    onClick={() => this.loadInvoice('credit')}>
+                    <i className={`fa ${getEntityIcon('Credit')} mr-2`}/>{translations.new_credit}
+                </DropdownItem>
+            case 'newQuote':
+                return <DropdownItem key={51} className="primary"
+                    onClick={() => this.loadInvoice('quote')}>
+                    <i className={`fa ${getEntityIcon('Quote')} mr-2`}/>{translations.new_quote}
+                </DropdownItem>
+           case 'newRecurringInvoice':
+                return <DropdownItem key={52} className="primary"
+                    onClick={() => this.loadInvoice('recurring_invoice')}>
+                    <i className={`fa ${getEntityIcon('RecurringInvoice')} mr-2`}/>{translations.new_recurring_invoice}
+                </DropdownItem>
+           case 'newRecurringQuote':
+                return <DropdownItem key={53} className="primary"
+                    onClick={() => this.loadInvoice('recurring_quote')}>
+                    <i className={`fa ${getEntityIcon('RecurringQuote')} mr-2`}/>{translations.new_recurring_quote}
+                </DropdownItem>
+
         }
     }
 
