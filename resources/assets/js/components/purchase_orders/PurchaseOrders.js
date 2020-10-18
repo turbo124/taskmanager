@@ -33,7 +33,8 @@ export default class PurchaseOrders extends Component {
             dropdownButtonActions: ['email', 'download', 'clone_quote_to_invoice'],
             filters: {
                 status_id: 'active',
-                company_id: '',
+                company_id: queryString.parse(this.props.location.search).company_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -128,8 +129,8 @@ export default class PurchaseOrders extends Component {
 
     render () {
         const { purchase_orders, custom_fields, companies, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, company_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, company_id, searchText, start_date, end_date, project_id } = this.state.filters
+        const fetchUrl = `/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = companies.length ? <EditPurchaseOrder
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}
