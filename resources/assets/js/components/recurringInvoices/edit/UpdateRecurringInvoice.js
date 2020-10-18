@@ -110,6 +110,36 @@ class EditInvoice extends Component {
         window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
+    loadEntity (type) {
+        const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
+        const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
+        const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
+        repo.getById(this.props.entity_id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            console.log('task', response)
+
+            const data = reducer.build(type, response)
+
+            this.invoiceModel.customer_id = data.customer_id
+            const contacts = this.invoiceModel.contacts
+
+            this.setState({
+                contacts: contacts,
+                modalOpen: true,
+                line_type: line_type,
+                line_items: data.line_items,
+                customer_id: data.customer_id
+            }, () => {
+                console.log(`creating new invoice for ${this.props.entity_type} ${this.props.entity_id}`)
+            })
+
+            return response
+        })
+    }
+
     setRecurring (recurring) {
         this.setState({ recurring: recurring })
     }
