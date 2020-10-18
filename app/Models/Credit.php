@@ -111,6 +111,11 @@ class Credit extends Model
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function service(): CreditService
     {
         return new CreditService($this);
