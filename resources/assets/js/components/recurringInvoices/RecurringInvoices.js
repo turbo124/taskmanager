@@ -150,6 +150,8 @@ export default class RecurringInvoices extends Component {
         const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
             ? <AddRecurringInvoice
+                entity_id={this.state.entity_id}
+                entity_type={this.state.entity_type}
                 allInvoices={allInvoices}
                 custom_fields={custom_fields}
                 customers={customers}
