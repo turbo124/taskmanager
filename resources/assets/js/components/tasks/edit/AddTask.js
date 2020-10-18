@@ -126,8 +126,12 @@ class AddModal extends React.Component {
                 this.setState({ errors: this.taskModel.errors, message: this.taskModel.error_message })
                 return
             }
-            this.props.tasks.push(response)
-            this.props.action(this.props.tasks)
+
+            if(this.props.tasks && this.props.action) {
+                this.props.tasks.push(response)
+                this.props.action(this.props.tasks)
+            }
+           
             this.setState(this.initialState)
             localStorage.removeItem('taskForm')
         })
