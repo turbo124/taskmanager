@@ -13,6 +13,7 @@ import InfoMessage from '../../common/entityContainers/InfoMessage'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import Overview from './Overview'
 import FileUploads from '../../documents/FileUploads'
+import AddTask from '../../tasks/AddTask'
 
 export default class Project extends Component {
     constructor (props) {
@@ -162,6 +163,10 @@ export default class Project extends Component {
                             </Col>
                         </Row>
                     </TabPane>
+
+                     <TabPane tabId="3">
+                          <AddTask modal={false} />
+                    </TabPane>
                 </TabContent>
 
                 {this.state.show_success &&
@@ -170,10 +175,10 @@ export default class Project extends Component {
                 </Alert>
                 }
 
-                  <BottomNavigationButtons button1_click={button1_action}
-                    button1={{ label: translations.button1_label }}
-                    button2_click={(e) => this.triggerAction(this.taskModel.isRunning ? stop_timer' : 'start_timer')}
-                    button2={{ label: this.taskModel.isRunning ? translations.stop : translations.start }}/>
+                  <BottomNavigationButtons button1_click={(e) => this.triggerAction('archive')}
+                    button1={{ label: translations.archive }}
+                    button2_click={(e) => this.toggleTab('3')
+                    button2={{ label: translations.new_task }}/>
             </React.Fragment>
         )
     }
