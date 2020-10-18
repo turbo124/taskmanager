@@ -16,6 +16,7 @@ trait ProjectTransformable
     protected function transformProject(Project $project)
     {
         return [
+            'number'         => $project->number ?: '',
             'id'             => (int)$project->id,
             'customer_name'  => $project->customer->present()->name,
             'name'           => $project->name,
