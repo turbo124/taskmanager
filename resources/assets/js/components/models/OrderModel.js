@@ -37,6 +37,7 @@ export default class OrderModel extends BaseModel {
             address: {},
             customer_id: '',
             invoice_id: null,
+            project_id: '',
             total: 0,
             design_id: '',
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
