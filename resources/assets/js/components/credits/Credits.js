@@ -34,7 +34,8 @@ export default class Credits extends Component {
             ignoredColumns: ['currency_id', 'exchange_rate', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'customer_name', 'emails', 'due_date', 'assigned_to', 'invoice_id', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
-                customer_id: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -126,7 +127,7 @@ export default class Credits extends Component {
 
     render () {
         const { customers, credits, custom_fields, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const fetchUrl = `/api/credits?search_term=${this.state.filters.searchText}&status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}`
+        const fetchUrl = `/api/credits?search_term=${this.state.filters.searchText}&status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&project_id=${this.state.filters.project_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}`
         const addButton = customers.length ? <EditCredit
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}
