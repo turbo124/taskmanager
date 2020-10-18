@@ -55,6 +55,10 @@ export default class DropdownMenuBuilder extends Component {
                 url = (this.props.model.entity === 'Expense') ? (`/#/quotes?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/quotes?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/quotes?entity_id=${this.props.model.id}&entity_type=project`))
             break
 
+            case 'expense':
+                url = (this.props.model.entity === 'Expense') ? (`/#/expenses?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/expenses?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/expenses?entity_id=${this.props.model.id}&entity_type=project`))
+            break
+
             case 'invoice':
                 url = (this.props.model.entity === 'Expense') ? (`/#/invoice?entity_id=${this.props.model.id}&entity_type=expense`) : ((this.props.model.entity === 'Task') ? (`/#/invoice?entity_id=${this.props.model.id}&entity_type=task`) : (`/#/invoice?entity_id=${this.props.model.id}&entity_type=project`))
             break
@@ -539,6 +543,11 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={53} className="primary"
                     onClick={() => this.loadInvoice('recurring_quote')}>
                     <i className={`fa ${getEntityIcon('RecurringQuote')} mr-2`}/>{translations.new_recurring_quote}
+                </DropdownItem>
+           case 'newExpense':
+                return <DropdownItem key={54} className="primary"
+                    onClick={() => this.loadInvoice('expense')}>
+                    <i className={`fa ${getEntityIcon('Expense')} mr-2`}/>{translations.new_expense}
                 </DropdownItem>
 
         }
