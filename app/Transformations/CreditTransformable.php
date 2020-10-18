@@ -29,6 +29,7 @@ trait CreditTransformable
             'created_at'          => $credit->created_at,
             'user_id'             => (int)$credit->user_id,
             'account_id'          => (int)$credit->account_id,
+            'project_id'          => (int)$credit->project_id,
             'assigned_to'         => (int)$credit->assigned_to,
             'company_id'          => (int)$credit->company_id ?: null,
             'currency_id'         => (int)$credit->currency_id ?: null,
