@@ -22,6 +22,7 @@ trait PurchaseOrderTransformable
             'created_at'          => $po->created_at,
             'user_id'             => (int)$po->user_id,
             'account_id'          => (int)$po->account_id,
+            'project_id'          => (int)$po->project_id,
             'assigned_to'         => (int)$po->assigned_to,
             'company_id'          => (int)$po->company_id ?: null,
             'currency_id'         => (int)$po->currency_id ?: null,
