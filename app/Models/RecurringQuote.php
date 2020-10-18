@@ -35,6 +35,7 @@ class RecurringQuote extends Model
         'account_id',
         'status_id',
         'customer_id',
+        'project_id',
         'quote_number',
         'discount',
         'total',
