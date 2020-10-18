@@ -16,23 +16,14 @@ export default class InvoiceReducer {
         this.settings = user_account[0].account.settings
     }
 
-    loadProject () {
-        const repo = new ProjectRepository()
-        repo.getById(this.entity_id).then(response => {
-            if (!response) {
-                alert('error')
-            }
-
-            console.log('project', response)
-        })
-    }
-
     build (entity_type, data) {
         switch (entity_type) {
             case 'expense':
                 return this.buildExpense(data)
             case 'task':
                 return this.buildTask(data)
+            case 'project':
+                return this.buildProject(data)
         }
     }
 
@@ -49,6 +40,31 @@ export default class InvoiceReducer {
             type_id: consts.line_item_expense,
             notes: response.category && Object.keys(response.category).length ? response.category.name : '',
             description: response.category && Object.keys(response.category).length ? response.category.name : '',
+        }
+
+        line_items.push(line_item)
+
+        row.customer_id = response.customer_id
+        row.line_items = line_items
+
+        console.log('row', row)
+
+        return row
+    }
+
+    buildProject () {
+        const projectModel = new ProjectModel(response)
+
+        const line_items = []
+        const row = {}
+
+        const line_item = {
+            project_id: parseInt(this.entity_id),
+            unit_price: response.task_rate,
+            quantity: Math.round(response.budgeted_hours, 3),
+            type_id: consts.line_item_project,
+            notes: response.description || '',
+            description: response.description || '',
         }
 
         line_items.push(line_item)
