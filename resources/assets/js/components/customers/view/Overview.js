@@ -38,15 +38,34 @@ export default function Overview (props) {
                     icon={icons.document} title={translations.invoices}/>
                 }
 
+                {modules && modules.projects &&
+                <SectionItem link={`/#/projects?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.projects}/>
+                }
+
+                {modules && modules.credits &&
+                <SectionItem link={`/#/credits?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.credits}/>
+                }
+
+                {modules && modules.quotes &&
+                <SectionItem link={`/#/quotes?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.quotes}/>
+                }
+
+                {modules && modules.recurring_invoices &&
+                <SectionItem link={`/#/recurring-invoices?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_invoices}/>
+                }
+
+                {modules && modules.recurring_quotes &&
+                <SectionItem link={`/#/recurring-quotes?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_quotes}/>
+                }
+
                 {modules && modules.payments &&
                 <SectionItem link={`/#/payments?customer_id=${props.entity.id}`}
                     icon={icons.credit_card} title={translations.payments}/>
-                }
-
-                {modules && modules.invoices &&
-                <SectionItem link={`/#/projects?customer_id=${props.entity.id}`}
-                    icon={icons.project} title={translations.projects}/>
-
                 }
 
                 {modules && modules.tasks &&
