@@ -153,6 +153,8 @@ export default class RecurringQuotes extends Component {
         const fetchUrl = `/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <AddRecurringQuote
             allQuotes={allQuotes}
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             invoice={{}}
