@@ -29,6 +29,7 @@ export default class QuoteModel extends BaseModel {
             is_amount_discount: false,
             invitations: [],
             customer_id: '',
+            project_id: '',
             invoice_id: '',
             assigned_to: '',
             number: '',
