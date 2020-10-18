@@ -89,6 +89,11 @@ class RecurringQuote extends Model
         return $this->belongsTo(Customer::class)->withTrashed();
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
