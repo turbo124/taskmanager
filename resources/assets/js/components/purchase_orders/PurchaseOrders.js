@@ -131,6 +131,8 @@ export default class PurchaseOrders extends Component {
         const { status_id, company_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = companies.length ? <EditPurchaseOrder
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             companies={companies}
             invoice={{}}
