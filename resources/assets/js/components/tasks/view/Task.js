@@ -97,8 +97,8 @@ export default class Task extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        let user = null
-        let project = null
+        let user, project, invoice = null
+        
 
         console.log('entity', this.state.entity)
 
@@ -109,9 +109,15 @@ export default class Task extends Component {
                 icon={icons.user}/>
         }
 
-        if(this.state.entity.project_id) {
+        if(this.state.entity.project_id && this.state.entity.project) {
             project = <EntityListTile entity={translations.project}
-                title={`${this.state.entity.number} ${this.state.entity.name}`}
+                title={`${this.state.entity.project.number} ${this.state.entity.invoice.total}`}
+                icon={icons.user}/>
+        }
+
+        if(this.state.entity.invoice_id && this.state.entity.invoice) {
+            project = <EntityListTile entity={translations.invoice}
+                title={`${this.state.entity.invoice.number} ${this.state.entity.invoice.name}`}
                 icon={icons.user}/>
         }
 
@@ -219,7 +225,7 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview project={project} user={user} customer={customer} recurring={recurring}
+                        <Overview invoice={invoice} project={project} user={user} customer={customer} recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.duration)}
                             calculatedAmount={this.taskModel.calculateAmount(this.state.entity.task_rate)}
                             entity={this.state.entity} fields={fields} task_times={task_times}/>
