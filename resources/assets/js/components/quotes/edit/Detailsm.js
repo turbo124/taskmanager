@@ -122,8 +122,8 @@ export default class Detailsm extends Component {
                             renderErrorFor={this.renderErrorFor}
                             name="project_id"
                             handleInputChanges={this.props.handleInput}
-                            project={this.props.invoice.project_id}
-                            customer_id={this.props.invoice.customer_id}
+                            project={this.props.quote.project_id}
+                            customer_id={this.props.quote.customer_id}
                         />
                     </FormGroup>
 
