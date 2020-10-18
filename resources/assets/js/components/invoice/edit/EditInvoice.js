@@ -106,8 +106,8 @@ class EditInvoice extends Component {
     }
 
     loadEntity (type) {
-        const repo = type === 'task' ? new TaskRepository() : new ExpenseRepository()
-        const line_type = type === 'task' ? consts.line_item_task : consts.line_item_expense
+        const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
+        const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
         const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
         repo.getById(this.props.entity_id).then(response => {
             if (!response) {
