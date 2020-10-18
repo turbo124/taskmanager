@@ -78,6 +78,7 @@ export default class InvoiceReducer {
     }
 
     buildTask (response) {
+        const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
         let notes = response.description + '\n'
 
         if (response.timers) {
@@ -96,7 +97,7 @@ export default class InvoiceReducer {
 
         const line_item = {
             task_id: parseInt(this.entity_id),
-            unit_price: taskModel.calculateAmount(response.task_rate),
+            unit_price: taskModel.calculateAmount(task_rate),
             quantity: Math.round(response.duration, 3),
             type_id: consts.line_item_task,
             notes: notes
