@@ -165,7 +165,7 @@ export default class Project extends Component {
                     </TabPane>
 
                      <TabPane tabId="3">
-                          <AddTask modal={false} />
+                          <AddTask project_id={this.state.entity.id} modal={false} />
                     </TabPane>
                 </TabContent>
 
