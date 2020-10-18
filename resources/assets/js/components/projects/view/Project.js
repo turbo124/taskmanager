@@ -92,6 +92,36 @@ export default class Project extends Component {
                     </ListGroup>
                 </Row>
 
+                {modules && modules.invoices &&
+                <SectionItem link={`/#/invoice?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.invoices}/>
+                }
+
+                {modules && modules.tasks &&
+                <SectionItem link={`/#/tasks?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.tasks}/>
+                }
+
+                {modules && modules.credits &&
+                <SectionItem link={`/#/credits?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.credits}/>
+                }
+
+                {modules && modules.quotes &&
+                <SectionItem link={`/#/quotes?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.quotes}/>
+                }
+
+                {modules && modules.recurring_invoices &&
+                <SectionItem link={`/#/recurring-invoices?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_invoices}/>
+                }
+
+                {modules && modules.recurring_quotes &&
+                <SectionItem link={`/#/recurring-quotes?project_id=${this.props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_quotes}/>
+                }
+
                 {!!this.props.entity.private_notes.length &&
                 <Row>
                     <InfoMessage message={this.props.entity.private_notes}/>
