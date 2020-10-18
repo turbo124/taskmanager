@@ -60,7 +60,8 @@ trait TaskTransformable
             'last_sent_date'       => $task->last_sent_date ?: '',
             'next_send_date'       => $task->next_send_date ?: '',
             'recurring_frequency'  => (int)$task->recurring_frequency ?: '',
-            'project'              => $task->project
+            'project'              => $task->project,
+            'invoice'              => $task->invoice
         ];
     }
 
