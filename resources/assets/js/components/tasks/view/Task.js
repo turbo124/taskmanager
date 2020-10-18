@@ -28,7 +28,9 @@ export default class Task extends Component {
         this.loadPdf = this.loadPdf.bind(this)
         this.refresh = this.refresh.bind(this)
 
-        console.log('duration', this.taskModel.duration)
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     refresh (entity) {
@@ -98,9 +100,6 @@ export default class Task extends Component {
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         let user, project, invoice = null
-        
-
-        console.log('entity', this.state.entity)
 
         if (this.state.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
@@ -199,6 +198,8 @@ export default class Task extends Component {
             return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
 
+       const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -227,7 +228,7 @@ export default class Task extends Component {
                     <TabPane tabId="1">
                         <Overview invoice={invoice} project={project} user={user} customer={customer} recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.duration)}
-                            calculatedAmount={this.taskModel.calculateAmount(this.state.entity.task_rate)}
+                            calculatedAmount={this.taskModel.calculateAmount(task_rate)}
                             entity={this.state.entity} fields={fields} task_times={task_times}/>
                     </TabPane>
 
