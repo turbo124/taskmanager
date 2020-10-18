@@ -37,6 +37,10 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
 import TotalsBox from '../../invoice/edit/TotalsBox'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 
 export default class EditOrder extends Component {
     constructor (props) {
