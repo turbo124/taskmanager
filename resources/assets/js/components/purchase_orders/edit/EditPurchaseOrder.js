@@ -39,6 +39,10 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CompanyModel from '../../models/CompanyModel'
 import TotalsBox from '../../invoice/edit/TotalsBox'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 
 class EditPurchaseOrder extends Component {
     constructor (props, context) {
