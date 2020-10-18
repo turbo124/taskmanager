@@ -199,6 +199,8 @@ export default class Task extends Component {
         }) : null
 
        const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
+       const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=task&entity_id=' + this.state.entity.id : (e) => this.toggleTab('6')
+       const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_pdf
 
         return (
             <React.Fragment>
@@ -268,10 +270,10 @@ export default class Task extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
-                    button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                  <BottomNavigationButtons button1_click={button1_action}
+                    button1={{ label: translations.button1_label }}
+                    button2_click={(e) => this.triggerAction(this.invoiceModel.isActive ? 'stop_recurring' : 'start_recurring')}
+                    button2={{ label: this.invoiceModel.isActive ? translations.stop : translations.start }}/>
             </React.Fragment>
         )
     }
