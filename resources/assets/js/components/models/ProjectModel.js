@@ -68,12 +68,38 @@ export default class ProjectModel extends BaseModel {
         if (this.isModuleEnabled('invoices') && this.isEditable) {
             actions.push('projectToInvoice')
         }
+   
+        if (this.isModuleEnabled('quotes') && this.isEditable) {
+            actions.push('cloneInvoiceToQuote')
+        }
 
         if (this.isModuleEnabled('tasks') && this.isEditable) {
             actions.push('projectToTask')
         }
 
-        actions.push('cloneProject')
+        if (this.isModuleEnabled('credits') && this.isEditable) {
+            actions.push('newCredit')
+        }
+
+        if (this.isModuleEnabled('invoices') && this.isEditable) {
+            actions.push('newInvoice')
+        }
+
+        if (this.isModuleEnabled('quotes') && this.isEditable) {
+            actions.push('newQuote')
+        }
+
+        if (this.isModuleEnabled('recurring_invoices') && this.isEditable) {
+            actions.push('newRecurringInvoice')
+        }
+
+        if (this.isModuleEnabled('recurring_quotes') && this.isEditable) {
+            actions.push('newRecurringQuote')
+        }
+
+        if (this.isModuleEnabled('expenses') && this.isEditable) {
+            actions.push('newExpense')
+        }
 
         return actions
     }
