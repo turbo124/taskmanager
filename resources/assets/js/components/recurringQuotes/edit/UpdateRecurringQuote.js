@@ -39,6 +39,10 @@ import CustomerModel from '../../models/CustomerModel'
 import Emails from '../../emails/Emails'
 import Recurring from './Recurring'
 import TotalsBox from '../../invoice/edit/TotalsBox'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 
 class EditInvoice extends Component {
     constructor (props, context) {
