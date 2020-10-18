@@ -34,6 +34,7 @@ export default class CreditModel extends BaseModel {
             customerName: '',
             total: 0,
             customer_id: '',
+            project_id: '',
             assigned_to: '',
             number: '',
             design_id: '',
