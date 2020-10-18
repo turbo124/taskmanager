@@ -96,6 +96,10 @@ class EditPurchaseOrder extends Component {
             const contacts = this.purchaseOrderModel.contacts
             this.setState({ contacts: contacts })
         }
+
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
+        }
     }
 
     // make sure to remove the listener
