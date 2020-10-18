@@ -35,6 +35,10 @@ class AddModal extends React.Component {
             // const storedValues = JSON.parse(localStorage.getItem('taskForm'))
             // this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+
+        if(this.props.project_id) {
+            this.setState({ project_id: this.props.project_id })
+        }
     }
 
     hasErrorFor (field) {
