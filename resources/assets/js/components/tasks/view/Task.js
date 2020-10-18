@@ -272,8 +272,8 @@ export default class Task extends Component {
 
                   <BottomNavigationButtons button1_click={button1_action}
                     button1={{ label: translations.button1_label }}
-                    button2_click={(e) => this.triggerAction(this.invoiceModel.isActive ? 'stop_recurring' : 'start_recurring')}
-                    button2={{ label: this.invoiceModel.isActive ? translations.stop : translations.start }}/>
+                    button2_click={(e) => this.triggerAction(this.taskModel.isRunning ? stop_timer' : 'start_timer')}
+                    button2={{ label: this.taskModel.isRunning ? translations.stop : translations.start }}/>
             </React.Fragment>
         )
     }
