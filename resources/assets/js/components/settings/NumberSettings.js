@@ -154,6 +154,78 @@ class NumberSettings extends Component {
         ]
     }
 
+    getProjectFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'project_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.project_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'project_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.project_number_counter
+                }
+            ]
+        ]
+    }
+
+    getExpenseFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'expense_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.expense_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'expense_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.expense_number_counter
+                }
+            ]
+        ]
+    }
+
+    getCompanyFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'company_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.company_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'company_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.company_number_counter
+                }
+            ]
+        ]
+    }
+
     getPurchaseOrderFields () {
         const settings = this.state.settings
 
@@ -606,6 +678,39 @@ class NumberSettings extends Component {
                 </NavLink>
             </NavItem>
             }
+            {modules && modules.expenses &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '13' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggle('13', e)
+                    }}>
+                    {translations.expenses}
+                </NavLink>
+            </NavItem>
+            }
+            {modules && modules.projects &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '14' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggle('14', e)
+                    }}>
+                    {translations.projects}
+                </NavLink>
+            </NavItem>
+            }
+            {modules && modules.companies &&
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '15' ? 'active' : ''}
+                    onClick={(e) => {
+                        this.toggle('15', e)
+                    }}>
+                    {translations.companies}
+                </NavLink>
+            </NavItem>
+            }
         </Nav>
 
         return this.state.loaded === true ? (
@@ -768,6 +873,42 @@ class NumberSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getRecurringQuoteFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    }
+                    {modules && modules.expenses &&
+                    <TabPane tabId="13" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    }
+                    {modules && modules.projects &&
+                    <TabPane tabId="14" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getProjectFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+                    }
+                    {modules && modules.companies &&
+                    <TabPane tabId="15" className="px-0">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCompanyFields()}
                                 />
                             </CardBody>
                         </Card>
