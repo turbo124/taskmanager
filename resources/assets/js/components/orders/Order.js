@@ -40,7 +40,9 @@ export default class Order extends Component {
                 start_date: '',
                 end_date: ''
             },
-            showRestoreButton: false
+            showRestoreButton: false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
         }
 
         this.updateOrder = this.updateOrder.bind(this)
