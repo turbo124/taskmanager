@@ -37,6 +37,10 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
 import TotalsBox from '../../invoice/edit/TotalsBox'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -87,6 +91,10 @@ export default class EditCredit extends Component {
         if (this.props.credit && this.props.credit.customer_id) {
             const contacts = this.creditModel.contacts
             this.setState({ contacts: contacts })
+        }
+
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
         }
     }
 
