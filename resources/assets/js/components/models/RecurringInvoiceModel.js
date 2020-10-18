@@ -38,6 +38,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             invoices: [],
             emails: [],
             customer_id: '',
+            project_id: '',
             user_id: null,
             account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             contacts: [],
