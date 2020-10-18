@@ -131,6 +131,8 @@ export default class Order extends Component {
         const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditOrder
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             add={true}
