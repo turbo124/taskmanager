@@ -41,6 +41,7 @@ export default class RecurringQuoteModel extends BaseModel {
             customer_id: '',
             assigned_to: '',
             user_id: null,
+            project_id: '',
             account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             contacts: [],
             quantity: '',
