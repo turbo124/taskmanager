@@ -14,7 +14,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
-import ProjectRepository from "../repositories/ProjectRepository";
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -60,8 +59,8 @@ export default class Invoice extends Component {
     }
 
     componentDidMount () {
-        this.getCustomers ()
-        this.getCustomFields ()
+        this.getCustomers()
+        this.getCustomFields()
     }
 
     updateInvoice (invoices) {

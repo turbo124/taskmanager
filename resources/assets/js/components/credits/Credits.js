@@ -8,6 +8,7 @@ import EditCredit from './edit/EditCredit'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import queryString from 'query-string'
 
 export default class Credits extends Component {
     constructor (props) {
@@ -31,7 +32,7 @@ export default class Credits extends Component {
             custom_fields: [],
             dropdownButtonActions: ['download', 'email'],
             bulk: [],
-            ignoredColumns: ['currency_id', 'exchange_rate', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'customer_name', 'emails', 'due_date', 'assigned_to', 'invoice_id', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
+            ignoredColumns: ['project_id', 'currency_id', 'exchange_rate', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'customer_name', 'emails', 'due_date', 'assigned_to', 'invoice_id', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
@@ -42,7 +43,7 @@ export default class Credits extends Component {
             },
             showRestoreButton: false,
             entity_id: queryString.parse(this.props.location.search).entity_id || false,
-            entity_type: queryString.parse(this.props.location.search).entity_type || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
         }
 
         this.updateCustomers = this.updateCustomers.bind(this)

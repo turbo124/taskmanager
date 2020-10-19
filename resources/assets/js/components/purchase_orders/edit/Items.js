@@ -8,7 +8,8 @@ export default function Items (props) {
             <CardHeader>Items</CardHeader>
             <CardBody>
                 <LineItemEditor
-                    model={this.props.model}
+                    line_type={props.line_type}
+                    model={props.model}
                     entity="Company"
                     customers={props.companies}
                     invoice={props.purchase_order}

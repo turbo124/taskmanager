@@ -10,6 +10,11 @@ import RecurringInvoiceModel from '../../models/RecurringInvoiceModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Recurring from './Recurring'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
+import { consts } from '../../utils/_consts'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
 
 class AddRecurringInvoice extends Component {
     constructor (props, context) {
@@ -22,6 +27,7 @@ class AddRecurringInvoice extends Component {
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.toggle = this.toggle.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
     }
 
     componentDidMount () {
@@ -29,6 +35,40 @@ class AddRecurringInvoice extends Component {
             const storedValues = JSON.parse(localStorage.getItem('recurringInvoiceForm'))
             this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
+        }
+    }
+
+    loadEntity (type) {
+        const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
+        const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
+        const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
+        repo.getById(this.props.entity_id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            console.log('task', response)
+
+            const data = reducer.build(type, response)
+
+            this.recurringInvoiceModel.customer_id = data.customer_id
+            // const contacts = this.recurringInvoiceModel.contacts
+
+            this.setState({
+                // contacts: contacts,
+                modal: true,
+                // line_type: line_type,
+                // line_items: data.line_items,
+                customer_id: data.customer_id
+            }, () => {
+                console.log(`creating new invoice for ${this.props.entity_type} ${this.props.entity_id}`)
+            })
+
+            return response
+        })
     }
 
     hasErrorFor (field) {
@@ -47,6 +87,7 @@ class AddRecurringInvoice extends Component {
 
     handleClick () {
         const data = {
+            account_id: this.state.account_id,
             start_date: this.state.start_date,
             invoice_id: this.state.invoice_id,
             customer_id: this.state.customer_id,
@@ -92,8 +133,6 @@ class AddRecurringInvoice extends Component {
 
             customerId = invoice[0].customer_id
         }
-
-        alert(e.target.name)
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
         this.setState({

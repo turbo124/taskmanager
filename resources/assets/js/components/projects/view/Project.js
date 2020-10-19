@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
-import { ListGroup, Row } from 'reactstrap'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
-import SectionItem from '../../common/entityContainers/SectionItem'
 import ProjectModel from '../../models/ProjectModel'
 import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import FormatDate from '../../common/FormatDate'
-import formatDuration from '../../utils/_formatting'
-import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
-import InfoMessage from '../../common/entityContainers/InfoMessage'
-import FieldGrid from '../../common/entityContainers/FieldGrid'
 import Overview from './Overview'
 import FileUploads from '../../documents/FileUploads'
-import AddTask from '../../tasks/AddTask'
+import AddModal from '../../tasks/edit/AddTask'
+import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 
 export default class Project extends Component {
     constructor (props) {
@@ -25,7 +21,7 @@ export default class Project extends Component {
             show_success: false
         }
 
-        this.taskModel = new TaskModel(this.state.entity)
+        this.projectModel = new ProjectModel(this.state.entity)
         this.toggleTab = this.toggleTab.bind(this)
         this.triggerAction = this.triggerAction.bind(this)
         this.refresh = this.refresh.bind(this)
@@ -36,11 +32,21 @@ export default class Project extends Component {
     }
 
     refresh (entity) {
-        this.taskModel = new TaskModel(entity)
+        this.taskModel = new ProjectModel(entity)
         this.setState({ entity: entity })
     }
 
     triggerAction (action) {
+        if (action === 'newInvoice') {
+            location.href = `/#/invoices?entity_id=${this.state.entity.id}&entity_type=project`
+            return
+        }
+
+        if (action === 'newExpense') {
+            location.href = `/#/expenses?entity_id=${this.state.entity.id}&entity_type=project`
+            return
+        }
+
         this.taskModel.completeAction(this.state.entity, action).then(response => {
             this.setState({ show_success: true }, () => {
                 this.props.updateState(response, this.refresh)
@@ -58,15 +64,12 @@ export default class Project extends Component {
 
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '3') {
-                    this.loadPdf()
-                }
-            })
+            this.setState({ activeTab: tab })
         }
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
         const projectModel = new ProjectModel(this.props.entity)
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         let user = null
@@ -120,7 +123,7 @@ export default class Project extends Component {
             )
         }
 
-          return (
+        return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
@@ -164,8 +167,8 @@ export default class Project extends Component {
                         </Row>
                     </TabPane>
 
-                     <TabPane tabId="3">
-                          <AddTask project_id={this.state.entity.id} modal={false} />
+                    <TabPane tabId="3">
+                        <AddModal project_id={this.state.entity.id} modal={false}/>
                     </TabPane>
                 </TabContent>
 
@@ -175,9 +178,10 @@ export default class Project extends Component {
                 </Alert>
                 }
 
-                  <BottomNavigationButtons button1_click={(e) => this.triggerAction('archive')}
-                    button1={{ label: translations.archive }}
-                    button2_click={(e) => this.toggleTab('3')
+                <BottomNavigationButtons
+                    button1_click={(e) => this.triggerAction(modules && modules.expenses ? 'newExpense' : 'newInvoice')}
+                    button1={{ label: modules && modules.expenses ? translations.new_expense : translations.new_invoice }}
+                    button2_click={(e) => this.toggleTab('3')}
                     button2={{ label: translations.new_task }}/>
             </React.Fragment>
         )

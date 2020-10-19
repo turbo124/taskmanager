@@ -254,8 +254,6 @@ class LineItemEditor extends Component {
             //     notes += `\n### ${start} - ${end}`
             // })
 
-            alert(projectModel.calculateAmount())
-
             rows[row].project_id = parseInt(e.target.value)
             rows[row].unit_price = project.task_rate
             rows[row].quantity = Math.round(project.budgeted_hours, 3)
@@ -281,16 +279,18 @@ class LineItemEditor extends Component {
         let customerModel = null
 
         if (this.settings.fill_products) {
-            if (this.props.entity && this.props.entity === 'Company') {
+            if (this.props.model.entity === 'PurchaseOrder') {
                 customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.company_id))
                 customerModel = new CompanyModel(customer[0])
             } else {
                 customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
-                customerModel = this.props.model ? this.props.model : new CustomerModel(customer[0])
+                customerModel = new CustomerModel(customer[0])
             }
 
             if (customer.length && customerModel) {
                 const client_currency = customerModel.currencyId
+
+                alert(client_currency)
 
                 if (this.settings.convert_product_currency &&
                     client_currency !== parseInt(this.settings.currency_id)) {

@@ -7,6 +7,7 @@ import QuoteItem from './QuoteItem'
 import QuoteFilters from './QuoteFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import queryString from 'query-string'
 
 export default class Quotes extends Component {
     constructor (props) {

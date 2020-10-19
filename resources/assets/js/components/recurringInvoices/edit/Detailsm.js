@@ -99,7 +99,7 @@ export default class Detailsm extends Component {
                         {this.renderErrorFor('number')}
                     </FormGroup>
 
-                     <FormGroup>
+                    <FormGroup>
                         <Label>{translations.project}</Label>
                         <ProjectDropdown
                             projects={this.props.projects}

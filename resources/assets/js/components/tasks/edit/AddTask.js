@@ -36,7 +36,7 @@ class AddModal extends React.Component {
             // this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
 
-        if(this.props.project_id) {
+        if (this.props.project_id) {
             this.setState({ project_id: this.props.project_id })
         }
     }
@@ -131,11 +131,11 @@ class AddModal extends React.Component {
                 return
             }
 
-            if(this.props.tasks && this.props.action) {
+            if (this.props.tasks && this.props.action) {
                 this.props.tasks.push(response)
                 this.props.action(this.props.tasks)
             }
-           
+
             this.setState(this.initialState)
             localStorage.removeItem('taskForm')
         })

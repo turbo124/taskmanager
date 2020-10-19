@@ -118,6 +118,10 @@ export default class CreditModel extends BaseModel {
         return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get customer () {
         return this._customer
     }
@@ -148,6 +152,10 @@ export default class CreditModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get invitation_link () {

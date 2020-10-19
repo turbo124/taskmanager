@@ -77,16 +77,16 @@ export default class Detailsm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                        <Label>{translations.project}</Label>
-                        <ProjectDropdown
-                            projects={this.props.projects}
-                            renderErrorFor={this.renderErrorFor}
-                            name="project_id"
-                            handleInputChanges={this.props.handleInput}
-                            project={this.props.order.project_id}
-                            customer_id={this.props.order.customer_id}
-                        />
-                    </FormGroup>
+                    <Label>{translations.project}</Label>
+                    <ProjectDropdown
+                        projects={this.props.projects}
+                        renderErrorFor={this.renderErrorFor}
+                        name="project_id"
+                        handleInputChanges={this.props.handleInput}
+                        project={this.props.order.project_id}
+                        customer_id={this.props.order.customer_id}
+                    />
+                </FormGroup>
 
                 {this.props.hide_customer === true &&
                     <FormGroup>

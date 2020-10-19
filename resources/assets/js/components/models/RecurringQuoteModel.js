@@ -137,6 +137,10 @@ export default class RecurringQuoteModel extends BaseModel {
         return this._fields
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get url () {
         return this._url
     }
@@ -187,6 +191,10 @@ export default class RecurringQuoteModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get quotes () {

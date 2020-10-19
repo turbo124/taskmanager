@@ -3,6 +3,7 @@ import 'react-dates/initialize' // necessary for latest version
 import 'react-dates/lib/css/_datepicker.css'
 import { DateRangePicker } from 'react-dates'
 import {
+    Button,
     Card,
     CardBody,
     CardHeader,
@@ -32,6 +33,7 @@ import FileUploads from '../../documents/FileUploads'
 import Comments from '../../comments/Comments'
 import RecurringForm from '../../common/RecurringForm'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
+import { toast, ToastContainer } from 'react-toastify'
 
 class EditTask extends Component {
     constructor (props) {
@@ -51,6 +53,7 @@ class EditTask extends Component {
         this.timerAction = this.timerAction.bind(this)
         this.toggle = this.toggle.bind(this)
         this.toggleTab = this.toggleTab.bind(this)
+        this.updateList = this.updateList.bind(this)
         this.toggleMenu = this.toggleMenu.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -139,6 +142,16 @@ class EditTask extends Component {
         }
     }
 
+    updateList (response, toggle = true) {
+        if (this.props.allTasks) {
+            const index = this.props.allTasks.findIndex(task => task.id === this.props.task.id)
+            this.props.allTasks[index] = response
+            this.props.action(this.props.allTasks)
+            this.setState({ timers: response.timers })
+            this.taskModel = new TaskModel(response, this.props.customers)
+        }
+    }
+
     handleSave () {
         this.taskModel.update(this.getFormData()).then(response => {
             if (!response) {
@@ -181,11 +194,15 @@ class EditTask extends Component {
     }
 
     render () {
+        console.log('timers', this.state.timers)
         const email_editor = this.state.id
             ? <Emails width={400} model={this.taskModel} emails={this.state.emails} template="email_template_task"
                 show_editor={true}
                 customers={this.props.customers} entity_object={this.state} entity="task"
                 entity_id={this.state.id}/> : null
+        const button_action = (this.taskModel.isRunning) ? ('stop_timer') : ((!this.state.timers || !this.state.timers.length) ? ('start_timer') : ('resume_timer'))
+        const button_text = (this.taskModel.isRunning) ? (translations.stop) : ((!this.state.timers || !this.state.timers.length) ? (translations.start) : (translations.resume))
+
         const form = <React.Fragment>
             <Nav tabs>
                 <NavItem>
@@ -315,6 +332,24 @@ class EditTask extends Component {
                         user_id={this.state.user_id}/>
                 </TabPane>
             </TabContent>
+
+            <Button onClick={(e) => {
+                this.taskModel.completeAction(this.state, button_action).then(response => {
+                    this.setState({ show_success: true }, () => {
+                        this.updateList(response, false)
+                    })
+
+                    toast.success(translations.times_updated, {
+                        position: 'top-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined
+                    })
+                })
+            }}>{button_text}</Button>
         </React.Fragment>
 
         const button = this.props.listView && this.props.listView === true
@@ -329,6 +364,18 @@ class EditTask extends Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_task}/>
 
                     <ModalBody className={theme}>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
+
                         {form}
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}

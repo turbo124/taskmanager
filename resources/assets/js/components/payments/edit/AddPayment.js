@@ -106,6 +106,7 @@ class AddPayment extends React.Component {
 
         this.setState({ loading: true })
         const data = {
+            account_id: this.state.account_id,
             date: this.state.date,
             type_id: this.state.type_id,
             invoices: this.state.payable_invoices,

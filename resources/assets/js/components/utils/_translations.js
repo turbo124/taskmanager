@@ -1,9 +1,11 @@
 const _localizedValues = []
 _localizedValues.en = {
+    resume: 'Resume',
     portal_settings: 'Customer Portal Settings',
     field_settings: 'Custom Fields',
     gateway_settings: 'Online Payments',
     new_invoice: 'New Invoice',
+    new_task: 'New Task',
     new_credit: 'New Credit',
     new_quote: 'New Quote',
     new_recurring_invoice: 'New Recurring Invoice',
@@ -509,6 +511,8 @@ _localizedValues.en = {
     terms: 'Terms',
     start: 'Start',
     stop: 'Stop',
+    times_updated: 'Times have been updated successfully',
+    times: 'Times',
     has_started: 'has started',
     has_stopped: 'has stopped',
     start_time: 'Start Time',

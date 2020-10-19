@@ -3,7 +3,7 @@ import { ListGroup, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../utils/_translations'
 import InfoMessage from '../../common/entityContainers/InfoMessage'
-import { icons } from '../../utils/_icons'
+import { getEntityIcon, icons } from '../../utils/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import SectionItem from '../../common/entityContainers/SectionItem'
 
@@ -74,22 +74,22 @@ export default function Overview (props) {
                 }
 
                 {modules && modules.deals &&
-                <SectionItem link={`/#/deals?customer_id=${props.entity.id}`} icon={icons.deal}
+                <SectionItem link={`/#/deals?customer_id=${props.entity.id}`} icon={getEntityIcon('Deal')}
                     title={translations.deals}/>
                 }
 
                 {modules && modules.leads &&
-                <SectionItem link={`/#/leads?customer_id=${props.entity.id}`} icon={icons.deal}
+                <SectionItem link={`/#/leads?customer_id=${props.entity.id}`} icon={getEntityIcon('Lead')}
                     title={translations.leads}/>
                 }
 
                 {modules && modules.expenses &&
                 <SectionItem link={`/#/expenses?customer_id=${props.entity.id}`}
-                    icon={icons.expense} title={translations.expenses}/>
+                    icon={getEntityIcon('Expense')} title={translations.expenses}/>
                 }
 
                 {modules && modules.orders &&
-                <SectionItem link={`/#/orders?customer_id=${props.entity.id}`} icon={icons.order}
+                <SectionItem link={`/#/orders?customer_id=${props.entity.id}`} icon={getEntityIcon('Order')}
                     title={translations.orders}/>
                 }
 

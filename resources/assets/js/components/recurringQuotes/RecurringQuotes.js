@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import QuoteRepository from '../repositories/QuoteRepository'
+import queryString from 'query-string'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {

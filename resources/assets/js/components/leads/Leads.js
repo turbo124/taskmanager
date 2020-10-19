@@ -3,6 +3,7 @@ import axios from 'axios'
 import AddLead from './edit/AddLeadForm'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
+import queryString from 'query-string'
 import LeadFilters from './LeadFilters'
 import LeadItem from './LeadItem'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -32,7 +33,7 @@ export default class Leads extends Component {
             },
             filters: {
                 status_id: 'active',
-                customer_id: customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

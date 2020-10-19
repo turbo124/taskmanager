@@ -10,6 +10,11 @@ import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
+import { consts } from '../../utils/_consts'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
 
 class AddRecurringQuote extends Component {
     constructor (props, context) {
@@ -22,6 +27,7 @@ class AddRecurringQuote extends Component {
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.toggle = this.toggle.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
     }
 
     componentDidMount () {
@@ -29,6 +35,39 @@ class AddRecurringQuote extends Component {
             const storedValues = JSON.parse(localStorage.getItem('recurringQuoteForm'))
             this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
+        }
+    }
+
+    loadEntity (type) {
+        const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
+        const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
+        const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
+        repo.getById(this.props.entity_id).then(response => {
+            if (!response) {
+                alert('error')
+            }
+
+            console.log('task', response)
+
+            const data = reducer.build(type, response)
+
+            this.recurringQuoteModel.customer_id = data.customer_id
+
+            this.setState({
+                // contacts: contacts,
+                modal: true,
+                // line_type: line_type,
+                // line_items: data.line_items,
+                customer_id: data.customer_id
+            }, () => {
+                console.log(`creating new invoice for ${this.props.entity_type} ${this.props.entity_id}`)
+            })
+
+            return response
+        })
     }
 
     hasErrorFor (field) {
@@ -47,6 +86,7 @@ class AddRecurringQuote extends Component {
 
     handleClick () {
         const data = {
+            account_id: this.state.account_id,
             start_date: this.state.start_date,
             quote_id: this.state.quote_id,
             customer_id: this.state.customer_id,

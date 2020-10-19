@@ -8,6 +8,7 @@ import PurchaseOrderFilters from './PurchaseOrderFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CompanyRepository from '../repositories/CompanyRepository'
+import queryString from 'query-string'
 
 export default class PurchaseOrders extends Component {
     constructor (props) {

@@ -467,6 +467,18 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
+        'project_number_pattern'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'project_number_counter'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'int'
+        ],
         'expense_number_pattern'               => [
             'required'         => false,
             'translated_value' => '',

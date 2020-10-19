@@ -2,9 +2,11 @@
 
 namespace App\Requests\Invoice;
 
+use App\Rules\Invoice\ValidateProjectCustomer;
 use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Factory as ValidationFactory;
 
 class CreateInvoiceRequest extends FormRequest
 {
@@ -42,6 +44,7 @@ class CreateInvoiceRequest extends FormRequest
                     }
                 )
             ],
+           'project_id' =>  new ValidateProjectCustomer($this->customer_id)
         ];
     }
 

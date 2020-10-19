@@ -30,6 +30,7 @@ import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../
 import RecurringInvoiceModel from '../../models/RecurringInvoiceModel'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Contactsm from './Contactsm'
 import Detailsm from './Detailsm'
@@ -73,6 +74,7 @@ class EditInvoice extends Component {
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -614,7 +616,8 @@ class EditInvoice extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.invoiceModel} customers={this.props.customers} invoice={this.state} errors={this.state.errors}
+        const items = <Items line_type={this.state.line_type} model={this.invoiceModel} customers={this.props.customers}
+            invoice={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>

@@ -29,6 +29,7 @@ import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
@@ -73,6 +74,7 @@ class EditInvoice extends Component {
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -104,6 +106,12 @@ class EditInvoice extends Component {
         }
     }
 
+    // make sure to remove the listener
+    // when the component is not mounted anymore
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
     loadEntity (type) {
         const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
         const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
@@ -117,8 +125,8 @@ class EditInvoice extends Component {
 
             const data = reducer.build(type, response)
 
-            this.invoiceModel.customer_id = data.customer_id
-            const contacts = this.invoiceModel.contacts
+            this.quoteModel.customer_id = data.customer_id
+            const contacts = this.quoteModel.contacts
 
             this.setState({
                 contacts: contacts,
@@ -146,12 +154,6 @@ class EditInvoice extends Component {
                 </span>
             )
         }
-    }
-
-    // make sure to remove the listener
-    // when the component is not mounted anymore
-    componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     toggleTab (tab) {
@@ -570,7 +572,8 @@ class EditInvoice extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.quoteModel} customers={this.props.customers} quote={this.state} errors={this.state.errors}
+        const items = <Items line_type={this.state.line_type} model={this.quoteModel} customers={this.props.customers}
+            quote={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}

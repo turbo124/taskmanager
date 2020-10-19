@@ -116,6 +116,14 @@ export default class PurchaseOrderModel extends BaseModel {
         this.fields.exchange_rate = exchange_rate
     }
 
+    get id () {
+        return this.fields.id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
+    }
+
     get isNew () {
         return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }

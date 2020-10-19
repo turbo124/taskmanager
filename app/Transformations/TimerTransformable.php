@@ -24,7 +24,7 @@ class TimerTransformable
             'start_time' => !empty($timer->started_at) ? date('H:i:s', strtotime($timer->started_at)) : '',
             'date'       => date('Y-m-d', strtotime($timer->started_at)),
             'end_time'   => !empty($timer->stopped_at) ? date('H:i:s', strtotime($timer->stopped_at)) : '',
-            'end_date'   => date('Y-m-d', strtotime($timer->stopped_at)),
+            'end_date'   => !empty($timer->stopped_at) ? date('Y-m-d', strtotime($timer->stopped_at)) : '',
             'task_id'    => (int)$timer->task_id,
         ];
     }

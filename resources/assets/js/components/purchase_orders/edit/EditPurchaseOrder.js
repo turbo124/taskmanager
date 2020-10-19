@@ -31,6 +31,7 @@ import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 import Emails from '../../emails/Emails'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
@@ -71,6 +72,7 @@ class EditPurchaseOrder extends Component {
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -121,8 +123,8 @@ class EditPurchaseOrder extends Component {
 
             const data = reducer.build(type, response)
 
-            this.invoiceModel.customer_id = data.customer_id
-            const contacts = this.invoiceModel.contacts
+            this.purchaseOrderModel.customer_id = data.customer_id
+            const contacts = this.purchaseOrderModel.contacts
 
             this.setState({
                 contacts: contacts,
@@ -548,7 +550,8 @@ class EditPurchaseOrder extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.purchaseOrderModel} companies={this.props.companies}
+        const items = <Items line_type={this.state.line_type} model={this.purchaseOrderModel}
+            companies={this.props.companies}
             purchase_order={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}

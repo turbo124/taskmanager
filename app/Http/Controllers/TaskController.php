@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Factory\CloneTaskToDealFactory;
 use App\Factory\TaskFactory;
+use App\Factory\TimerFactory;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Pdf\Download;
 use App\Jobs\Task\GenerateInvoice;
@@ -16,6 +17,7 @@ use App\Models\Product;
 use App\Models\Project;
 use App\Models\SourceType;
 use App\Models\Task;
+use App\Models\Timer;
 use App\Repositories\CustomerRepository;
 use App\Repositories\DealRepository;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
@@ -26,6 +28,7 @@ use App\Repositories\ProductRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\SourceTypeRepository;
 use App\Repositories\TaskRepository;
+use App\Repositories\TimerRepository;
 use App\Requests\Order\CreateOrderRequest;
 use App\Requests\SearchRequest;
 use App\Requests\Task\CreateDealRequest;
@@ -328,6 +331,11 @@ class TaskController extends Controller
                 $response = ['data' => base64_encode($content)];
                 return response()->json($response);
                 break;
+            case 'stop_timer':
+            case 'resume_timer':
+            case 'start_timer':
+                return $this->timerAction($action, $task);
+                break;
         }
     }
 
@@ -379,5 +387,35 @@ class TaskController extends Controller
         }
 
         return response()->json($responses);
+    }
+
+    private function timerAction($action, Task $task)
+    {
+        $timer_repo = new TimerRepository(new Timer());
+
+        if ($action === 'stop_timer') {
+            $timer = $task->timers()->orderBy('started_at', 'desc')->first();
+
+            if(!empty($timer)) {
+               $timer->stopped_at = date('Y-m-d H:i:s');
+               $timer->save();
+            }
+        }
+
+        if ($action === 'resume_timer' || $action === 'start_timer') {
+            $timer = TimerFactory::create(auth()->user(), auth()->user()->account_user()->account, $task);
+            $timer = $timer_repo->save(
+                $task,
+                $timer,
+                [
+                    'date'       => date('Y-m-d'),
+                    'start_time' => date('H:i:s'),
+                    'end_time'   => '',
+                    'name'       => date('Y-m-d H:i:s')
+                ]
+            );
+        }
+
+        return response()->json($this->transformTask($task->fresh()));
     }
 }

@@ -30,6 +30,7 @@ import Contacts from './Contacts'
 import Emails from '../../emails/Emails'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
+import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
@@ -69,6 +70,7 @@ export default class EditOrder extends Component {
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.handleTaskChange = this.handleTaskChange.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -121,8 +123,8 @@ export default class EditOrder extends Component {
 
             const data = reducer.build(type, response)
 
-            this.invoiceModel.customer_id = data.customer_id
-            const contacts = this.invoiceModel.contacts
+            this.orderModel.customer_id = data.customer_id
+            const contacts = this.orderModel.contacts
 
             this.setState({
                 contacts: contacts,
@@ -488,7 +490,8 @@ export default class EditOrder extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items model={this.orderModel} customers={this.props.customers} order={this.state} errors={this.state.errors}
+        const items = <Items line_type={this.state.line_type} model={this.orderModel} customers={this.props.customers}
+            order={this.state} errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}/>

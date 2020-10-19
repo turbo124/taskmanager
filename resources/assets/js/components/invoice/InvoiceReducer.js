@@ -1,10 +1,8 @@
-import TaskRepository from '../repositories/TaskRepository'
-import ExpenseRepository from '../repositories/ExpenseRepository'
-import ProjectRepository from '../repositories/ProjectRepository'
 import { formatDate } from '../common/FormatDate'
 import { consts } from '../utils/_consts'
 import TaskModel from '../models/TaskModel'
 import ExpenseModel from '../models/ExpenseModel'
+import ProjectModel from '../models/ProjectModel'
 
 export default class InvoiceReducer {
     constructor (entity_id, entity_type) {
@@ -39,7 +37,7 @@ export default class InvoiceReducer {
             quantity: this.settings.has_minimum_quantity === true ? 1 : null,
             type_id: consts.line_item_expense,
             notes: response.category && Object.keys(response.category).length ? response.category.name : '',
-            description: response.category && Object.keys(response.category).length ? response.category.name : '',
+            description: response.category && Object.keys(response.category).length ? response.category.name : ''
         }
 
         line_items.push(line_item)
@@ -52,7 +50,7 @@ export default class InvoiceReducer {
         return row
     }
 
-    buildProject () {
+    buildProject (response) {
         const projectModel = new ProjectModel(response)
 
         const line_items = []
@@ -64,7 +62,7 @@ export default class InvoiceReducer {
             quantity: Math.round(response.budgeted_hours, 3),
             type_id: consts.line_item_project,
             notes: response.description || '',
-            description: response.description || '',
+            description: response.description || ''
         }
 
         line_items.push(line_item)
@@ -78,7 +76,7 @@ export default class InvoiceReducer {
     }
 
     buildTask (response) {
-        const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
+        const task_rate = response.task_rate && response.task_rate > 0 ? response.task_rate : this.settings.task_rate
         let notes = response.description + '\n'
 
         if (response.timers) {

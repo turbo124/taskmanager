@@ -1141,6 +1141,11 @@
 .fa-usd:before {
   content: "\f155";
 }
+
+.fa-funnel-dollar:before {
+  content: "\f662";
+}
+
 .fa-rupee:before,
 .fa-inr:before {
   content: "\f156";

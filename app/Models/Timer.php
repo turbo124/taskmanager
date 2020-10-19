@@ -18,7 +18,8 @@ class Timer extends Model
         'user_id',
         'task_id',
         'stopped_at',
-        'started_at'
+        'started_at',
+        'name'
     ];
 
     /**

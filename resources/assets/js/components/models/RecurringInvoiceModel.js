@@ -137,6 +137,10 @@ export default class RecurringInvoiceModel extends BaseModel {
         this._customer = customer
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get fields () {
         return this._fields
     }
@@ -187,6 +191,10 @@ export default class RecurringInvoiceModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get invoices () {

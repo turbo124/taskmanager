@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import InvoiceRepository from '../repositories/InvoiceRepository'
+import queryString from 'query-string'
 
 export default class RecurringInvoices extends Component {
     constructor (props) {

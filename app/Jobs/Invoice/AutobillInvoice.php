@@ -54,7 +54,7 @@ class AutobillInvoice implements ShouldQueue
             return $this->completePaymentWithCredit();
         }
 
-        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance > 0;
+        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
         $customer_gateway = $this->findGatewayFee();
 
         if (empty($customer_gateway)) {

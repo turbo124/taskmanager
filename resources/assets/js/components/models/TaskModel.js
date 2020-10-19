@@ -18,6 +18,7 @@ export default class TaskModel extends BaseModel {
         this._time_log = []
 
         this._fields = {
+            number: '',
             modal: false,
             design_id: '',
             name: '',
@@ -99,6 +100,19 @@ export default class TaskModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    get isRunning () {
+        if (this.fields.timers && this.fields.timers.length) {
+            const last_element = this.fields.timers[this.fields.timers.length - 1]
+            return !last_element.end_date || !last_element.end_date.length
+        }
+
+        return false
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     addTaskTime () {
