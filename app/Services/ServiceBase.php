@@ -189,8 +189,6 @@ class ServiceBase
             return $line_item->project_id;
         }
 
-        if (!empty($line_item->product_id)) {
-            return $line_item->product_id;
-        }
+        return $line_item->product_id;
     }
 }

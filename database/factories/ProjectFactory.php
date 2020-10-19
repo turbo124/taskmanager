@@ -23,7 +23,7 @@ class ProjectFactory extends Factory
     public function definition()
     {
         $user = User::factory()->create();
-        
+
         return [
             'account_id'     => 1,
             'assigned_to'    => null,
@@ -33,6 +33,8 @@ class ProjectFactory extends Factory
             'description'    => $this->faker->text,
             'is_completed'   => 0,
             'private_notes'  => null,
+            'public_notes'   => null,
+            'number'         => null,
             'budgeted_hours' => null,
             'task_rate'      => null,
             'due_date'       => null,

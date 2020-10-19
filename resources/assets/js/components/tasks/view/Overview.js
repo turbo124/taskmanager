@@ -37,6 +37,18 @@ export default function Overview (props) {
         </Row>
         }
 
+        {!!props.project &&
+        <Row>
+            {props.project}
+        </Row>
+        }
+
+        {!!props.invoice &&
+        <Row>
+            {props.invoice}
+        </Row>
+        }
+
         <FieldGrid fields={props.fields}/>
 
         {!!Object.keys(props.recurring).length &&

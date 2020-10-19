@@ -184,6 +184,10 @@ export default class InvoiceModel extends BaseModel {
         return !this.isReversed && !this.isCancelled && !this.isDeleted
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get fileCount () {
         return this._file_count || 0
     }

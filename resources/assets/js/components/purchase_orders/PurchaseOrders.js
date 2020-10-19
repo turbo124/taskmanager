@@ -8,6 +8,7 @@ import PurchaseOrderFilters from './PurchaseOrderFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CompanyRepository from '../repositories/CompanyRepository'
+import queryString from 'query-string'
 
 export default class PurchaseOrders extends Component {
     constructor (props) {
@@ -33,12 +34,15 @@ export default class PurchaseOrders extends Component {
             dropdownButtonActions: ['email', 'download', 'clone_quote_to_invoice'],
             filters: {
                 status_id: 'active',
-                company_id: '',
+                company_id: queryString.parse(this.props.location.search).company_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
             },
             showRestoreButton: false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
             ignoredColumns: ['currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_fee', 'gateway_percentage', 'files', 'shipping_cost_tax', 'audits', 'user_id', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'custom_surcharge_tax2', 'design_id', 'invitations', 'next_send_date', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_sent_date', 'uses_inclusive_taxes', 'line_items', 'next_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
@@ -126,9 +130,11 @@ export default class PurchaseOrders extends Component {
 
     render () {
         const { purchase_orders, custom_fields, companies, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, company_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, company_id, searchText, start_date, end_date, project_id } = this.state.filters
+        const fetchUrl = `/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = companies.length ? <EditPurchaseOrder
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             companies={companies}
             invoice={{}}

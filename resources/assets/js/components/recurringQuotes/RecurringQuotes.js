@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import QuoteRepository from '../repositories/QuoteRepository'
+import queryString from 'query-string'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {
@@ -35,12 +36,15 @@ export default class RecurringQuotes extends Component {
             dropdownButtonActions: ['download', 'start_recurring', 'stop_recurring'],
             filters: {
                 status_id: 'Draft',
-                customer_id: '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
             },
             showRestoreButton: false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
             ignoredColumns: ['schedule', 'grace_period', 'last_sent_date', 'quotes', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_send_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
@@ -147,10 +151,12 @@ export default class RecurringQuotes extends Component {
 
     render () {
         const { invoices, custom_fields, customers, allQuotes, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, customer_id, searchText, start_date, end_date, project_id } = this.state.filters
+        const fetchUrl = `/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <AddRecurringQuote
             allQuotes={allQuotes}
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             invoice={{}}

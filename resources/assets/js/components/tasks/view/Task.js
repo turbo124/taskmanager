@@ -28,7 +28,9 @@ export default class Task extends Component {
         this.loadPdf = this.loadPdf.bind(this)
         this.refresh = this.refresh.bind(this)
 
-        console.log('duration', this.taskModel.duration)
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     refresh (entity) {
@@ -97,14 +99,26 @@ export default class Task extends Component {
 
     render () {
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        let user = null
-
-        console.log('entity', this.state.entity)
+        let user
+        let project
+        let invoice = null
 
         if (this.state.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
+        }
+
+        if (this.state.entity.project_id && this.state.entity.project) {
+            project = <EntityListTile entity={translations.project}
+                title={`${this.state.entity.project.number} ${this.state.entity.project.name}`}
+                icon={icons.user}/>
+        }
+
+        if (this.state.entity.invoice_id && this.state.entity.invoice) {
+            invoice = <EntityListTile entity={translations.invoice}
+                title={`${this.state.entity.invoice.number} ${this.state.entity.invoice.total}`}
                 icon={icons.user}/>
         }
 
@@ -186,6 +200,10 @@ export default class Task extends Component {
             return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
 
+        const task_rate = this.state.entity.task_rate && this.state.entity.task_rate > 0 ? this.state.entity.task_rate : this.settings.task_rate
+        const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=task&entity_id=' + this.state.entity.id : (e) => this.toggleTab('6')
+        const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_pdf
+
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -212,9 +230,10 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview user={user} customer={customer} recurring={recurring}
+                        <Overview invoice={invoice} project={project} user={user} customer={customer}
+                            recurring={recurring}
                             totalDuration={formatDuration(this.taskModel.duration)}
-                            calculatedAmount={this.taskModel.calculateAmount(this.state.entity.task_rate)}
+                            calculatedAmount={this.taskModel.calculateAmount(task_rate)}
                             entity={this.state.entity} fields={fields} task_times={task_times}/>
                     </TabPane>
 
@@ -254,10 +273,10 @@ export default class Task extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
-                    button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                <BottomNavigationButtons button1_click={button1_action}
+                    button1={{ label: button1_label }}
+                    button2_click={(e) => this.triggerAction((this.taskModel.isRunning) ? ('stop_timer') : ((!this.state.entity.timers || !this.state.entity.timers.length) ? ('start_timer') : ('resume_timer')))}
+                    button2={{ label: (this.taskModel.isRunning) ? (translations.stop) : ((!this.state.entity.timers || !this.state.entity.timers.length) ? (translations.start) : (translations.resume)) }}/>
             </React.Fragment>
         )
     }

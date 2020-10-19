@@ -2,6 +2,7 @@
 
 namespace App\Transformations;
 
+use App\Models\File;
 use App\Models\Project;
 use App\Models\Task;
 
@@ -16,6 +17,7 @@ trait ProjectTransformable
     protected function transformProject(Project $project)
     {
         return [
+            'number'         => $project->number ?: '',
             'id'             => (int)$project->id,
             'customer_name'  => $project->customer->present()->name,
             'name'           => $project->name,
@@ -32,13 +34,14 @@ trait ProjectTransformable
             'user_id'        => (int)$project->user_id,
             'customer_id'    => (int)$project->customer_id,
             'assigned_to'    => (int)$project->assigned_to,
-            'private_notes'  => $project->private_notes,
-            'public_notes'   => $project->public_notes,
+            'private_notes'  => $project->private_notes ?: '',
+            'public_notes'   => $project->public_notes ?: '',
             'custom_value1'  => $project->custom_value1 ?: '',
             'custom_value2'  => $project->custom_value2 ?: '',
             'custom_value3'  => $project->custom_value3 ?: '',
             'custom_value4'  => $project->custom_value4 ?: '',
-            'tasks'          => $this->transformProjectTasks($project->tasks)
+            'tasks'          => $this->transformProjectTasks($project->tasks),
+            'files'          => $this->transformTaskFiles($project->files),
         ];
     }
 
@@ -51,6 +54,19 @@ trait ProjectTransformable
         return $tasks->map(
             function (Task $task) {
                 return $this->transformTask($task);
+            }
+        )->all();
+    }
+
+    private function transformProjectFiles($files)
+    {
+        if (empty($files)) {
+            return [];
+        }
+
+        return $files->map(
+            function (File $file) {
+                return (new FileTransformable())->transformFile($file);
             }
         )->all();
     }

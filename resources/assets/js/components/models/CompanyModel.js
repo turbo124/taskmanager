@@ -11,6 +11,7 @@ export default class CompanyModel extends BaseModel {
         this._fields = {
             id: null,
             modal: false,
+            number: '',
             name: '',
             website: '',
             phone_number: '',

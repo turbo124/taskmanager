@@ -6,6 +6,7 @@ use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Payment\CreditPaymentValidation;
 use App\Rules\Payment\InvoicePaymentValidation;
 use App\Rules\Payment\ValidAmount;
+use Illuminate\Validation\Rule;
 
 class CreatePaymentRequest extends BaseFormRequest
 {
@@ -27,7 +28,13 @@ class CreatePaymentRequest extends BaseFormRequest
             'credits.*.amount'      => 'required',
             'invoices'              => new InvoicePaymentValidation($this->all()),
             'credits'               => new CreditPaymentValidation($this->all()),
-            'number'                => 'nullable',
+            'number'                => [
+                Rule::unique('recurring_quotes', 'number')->where(
+                    function ($query) {
+                        return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);
+                    }
+                )
+            ],
         ];
 
         return $rules;

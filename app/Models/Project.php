@@ -20,6 +20,7 @@ class Project extends Model
         'name',
         'description',
         'customer_id',
+        'number',
         'account_id',
         'assigned_to',
         'user_id',
@@ -90,5 +91,15 @@ class Project extends Model
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
+    }
+
+    public function setNumber()
+    {
+        if (empty($this->number) || !isset($this->id)) {
+            $this->number = (new NumberGenerator)->getNextNumberForEntity($this);
+            return true;
+        }
+
+        return true;
     }
 }

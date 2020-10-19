@@ -48,6 +48,10 @@ class PurchaseOrderSearch extends QueryFilter
             $this->query->whereCompanyId($request->company_id);
         }
 
+        if ($request->filled('project_id')) {
+            $this->query->whereProjectId($request->project_id);
+        }
+
         if ($request->filled('search_term')) {
             $this->query = $this->searchFilter($request->search_term);
         }

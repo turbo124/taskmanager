@@ -29,6 +29,7 @@ export default class QuoteModel extends BaseModel {
             is_amount_discount: false,
             invitations: [],
             customer_id: '',
+            project_id: '',
             invoice_id: '',
             assigned_to: '',
             number: '',
@@ -112,6 +113,10 @@ export default class QuoteModel extends BaseModel {
         this.account = user_account[0]
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get exchange_rate () {
         return this.fields.exchange_rate
     }
@@ -174,6 +179,10 @@ export default class QuoteModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get hasInvoice () {

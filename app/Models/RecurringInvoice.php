@@ -35,6 +35,7 @@ class RecurringInvoice extends Model
         'status_id',
         'account_id',
         'customer_id',
+        'project_id',
         'number',
         'total',
         'sub_total',
@@ -89,6 +90,11 @@ class RecurringInvoice extends Model
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function assigned_user()

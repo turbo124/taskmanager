@@ -11,6 +11,12 @@ class BaseSettings
     protected array $validationFailures = [];
 
     protected array $account_settings = [
+        'task_rate'                            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => null,
+            'type'             => 'int'
+        ],
         'should_lock_invoice'                  => [
             'required'         => false,
             'translated_value' => '',
@@ -456,6 +462,18 @@ class BaseSettings
             'type'             => 'string'
         ],
         'task_number_counter'                  => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 1,
+            'type'             => 'int'
+        ],
+        'project_number_pattern'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'project_number_counter'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,

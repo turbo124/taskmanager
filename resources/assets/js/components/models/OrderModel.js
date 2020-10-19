@@ -37,6 +37,7 @@ export default class OrderModel extends BaseModel {
             address: {},
             customer_id: '',
             invoice_id: null,
+            project_id: '',
             total: 0,
             design_id: '',
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
@@ -117,6 +118,10 @@ export default class OrderModel extends BaseModel {
         this.fields.exchange_rate = exchange_rate
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get isNew () {
         return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
@@ -187,6 +192,10 @@ export default class OrderModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     set customer_id (customer_id) {

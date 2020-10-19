@@ -31,6 +31,7 @@ export default class PurchaseOrderModel extends BaseModel {
             customer_id: '',
             invoice_id: '',
             assigned_to: '',
+            project_id: '',
             number: '',
             user_id: null,
             contacts: [],
@@ -113,6 +114,14 @@ export default class PurchaseOrderModel extends BaseModel {
 
     set exchange_rate (exchange_rate) {
         this.fields.exchange_rate = exchange_rate
+    }
+
+    get id () {
+        return this.fields.id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get isNew () {

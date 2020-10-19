@@ -38,6 +38,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             invoices: [],
             emails: [],
             customer_id: '',
+            project_id: '',
             user_id: null,
             account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             contacts: [],
@@ -136,6 +137,10 @@ export default class RecurringInvoiceModel extends BaseModel {
         this._customer = customer
     }
 
+    get id () {
+        return this.fields.id
+    }
+
     get fields () {
         return this._fields
     }
@@ -186,6 +191,10 @@ export default class RecurringInvoiceModel extends BaseModel {
 
     get customer_id () {
         return this.fields.customer_id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get invoices () {

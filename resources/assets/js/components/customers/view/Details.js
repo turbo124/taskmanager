@@ -6,7 +6,6 @@ import InfoItem from '../../common/entityContainers/InfoItem'
 
 export default function Details (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
-    const modules = JSON.parse(localStorage.getItem('modules'))
 
     return <Row>
         <ListGroup className="col-12">

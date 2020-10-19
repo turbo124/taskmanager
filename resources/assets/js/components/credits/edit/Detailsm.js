@@ -4,6 +4,7 @@ import Datepicker from '../../common/Datepicker'
 import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 
 export default class Detailsm extends React.Component {
     constructor (props) {
@@ -95,6 +96,18 @@ export default class Detailsm extends React.Component {
                         />
                     </FormGroup>
                 }
+
+                <FormGroup>
+                    <Label>{translations.project}</Label>
+                    <ProjectDropdown
+                        projects={this.props.projects}
+                        renderErrorFor={this.renderErrorFor}
+                        name="project_id"
+                        handleInputChanges={this.props.handleInput}
+                        project={this.props.credit.project_id}
+                        customer_id={this.props.credit.customer_id}
+                    />
+                </FormGroup>
             </CardBody>
         </Card>
         )

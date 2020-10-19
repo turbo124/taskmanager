@@ -3,7 +3,7 @@ import { ListGroup, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../utils/_translations'
 import InfoMessage from '../../common/entityContainers/InfoMessage'
-import { icons } from '../../utils/_icons'
+import { getEntityIcon, icons } from '../../utils/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import SectionItem from '../../common/entityContainers/SectionItem'
 
@@ -38,15 +38,34 @@ export default function Overview (props) {
                     icon={icons.document} title={translations.invoices}/>
                 }
 
+                {modules && modules.projects &&
+                <SectionItem link={`/#/projects?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.projects}/>
+                }
+
+                {modules && modules.credits &&
+                <SectionItem link={`/#/credits?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.credits}/>
+                }
+
+                {modules && modules.quotes &&
+                <SectionItem link={`/#/quotes?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.quotes}/>
+                }
+
+                {modules && modules.recurring_invoices &&
+                <SectionItem link={`/#/recurring-invoices?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_invoices}/>
+                }
+
+                {modules && modules.recurring_quotes &&
+                <SectionItem link={`/#/recurring-quotes?customer_id=${props.entity.id}`}
+                    icon={icons.document} title={translations.recurring_quotes}/>
+                }
+
                 {modules && modules.payments &&
                 <SectionItem link={`/#/payments?customer_id=${props.entity.id}`}
                     icon={icons.credit_card} title={translations.payments}/>
-                }
-
-                {modules && modules.invoices &&
-                <SectionItem link={`/#/projects?customer_id=${props.entity.id}`}
-                    icon={icons.project} title={translations.projects}/>
-
                 }
 
                 {modules && modules.tasks &&
@@ -54,13 +73,23 @@ export default function Overview (props) {
                     title={translations.tasks}/>
                 }
 
+                {modules && modules.deals &&
+                <SectionItem link={`/#/deals?customer_id=${props.entity.id}`} icon={getEntityIcon('Deal')}
+                    title={translations.deals}/>
+                }
+
+                {modules && modules.leads &&
+                <SectionItem link={`/#/leads?customer_id=${props.entity.id}`} icon={getEntityIcon('Lead')}
+                    title={translations.leads}/>
+                }
+
                 {modules && modules.expenses &&
                 <SectionItem link={`/#/expenses?customer_id=${props.entity.id}`}
-                    icon={icons.expense} title={translations.expenses}/>
+                    icon={getEntityIcon('Expense')} title={translations.expenses}/>
                 }
 
                 {modules && modules.orders &&
-                <SectionItem link={`/#/orders?customer_id=${props.entity.id}`} icon={icons.order}
+                <SectionItem link={`/#/orders?customer_id=${props.entity.id}`} icon={getEntityIcon('Order')}
                     title={translations.orders}/>
                 }
 

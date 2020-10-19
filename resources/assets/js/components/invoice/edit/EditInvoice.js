@@ -38,11 +38,11 @@ import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import CustomerModel from '../../models/CustomerModel'
-import ProjectRepository from '../../repositories/ProjectRepository'
 import TotalsBox from './TotalsBox'
 import InvoiceReducer from '../InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
 import { consts } from '../../utils/_consts'
 
 class EditInvoice extends Component {
@@ -106,8 +106,8 @@ class EditInvoice extends Component {
     }
 
     loadEntity (type) {
-        const repo = type === 'task' ? new TaskRepository() : new ExpenseRepository()
-        const line_type = type === 'task' ? consts.line_item_task : consts.line_item_expense
+        const repo = (type === 'task') ? (new TaskRepository()) : ((type === 'expense') ? (new ExpenseRepository()) : (new ProjectRepository()))
+        const line_type = (type === 'task') ? (consts.line_item_task) : ((type === 'expense') ? (consts.line_item_expense) : (consts.line_item_project))
         const reducer = new InvoiceReducer(this.props.entity_id, this.props.entity_type)
         repo.getById(this.props.entity_id).then(response => {
             if (!response) {
@@ -174,8 +174,7 @@ class EditInvoice extends Component {
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
             }
 
-            if (this.props.project_id && original_customer_id !== parseInt(e.target.value)) {
-                console.log('customer changed')
+            if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
                 this.setState({ project_id: '' })
             }
         }
@@ -598,7 +597,8 @@ class EditInvoice extends Component {
             is_amount_discount={this.state.is_amount_discount}
             design_id={this.state.design_id}/>
 
-        const items = <Items line_type={this.state.line_type} customers={this.props.customers} invoice={this.state}
+        const items = <Items model={this.invoiceModel} line_type={this.state.line_type} customers={this.props.customers}
+            invoice={this.state}
             errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}

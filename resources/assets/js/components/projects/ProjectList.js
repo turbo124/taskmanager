@@ -41,6 +41,7 @@ export default class ProjectList extends Component {
             },
             custom_fields: [],
             ignoredColumns: [
+                'files',
                 'tasks',
                 'created_at',
                 'deleted_at',

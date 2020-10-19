@@ -22,7 +22,7 @@ class CloneQuoteToOrderFactory
     public static function create(Quote $quote, User $user, Account $account): ?Order
     {
         $order = new Order; 
-        $order->fill($quote->toArray()));
+        $order->fill($quote->toArray());
         $order->setAccount($account);
         $order->setCustomer($quote->customer);
         $order->setUser($user);

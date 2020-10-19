@@ -19,6 +19,7 @@ trait ExpenseTransformable
             'user_id'               => $expense->user_id,
             'assigned_to'           => $expense->assigned_to,
             'company_id'            => $expense->company_id,
+            'project_id'            => (int)$expense->project_id,
             'invoice_id'            => $expense->invoice_id,
             'customer_id'           => $expense->customer_id,
             'bank_id'               => (string)$expense->bank_id ?: '',

@@ -14,7 +14,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
-import ProjectRepository from "../repositories/ProjectRepository";
 
 export default class Invoice extends Component {
     constructor (props) {
@@ -43,6 +42,7 @@ export default class Invoice extends Component {
             filters: {
                 status_id: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
                 end_date: ''
@@ -59,8 +59,8 @@ export default class Invoice extends Component {
     }
 
     componentDidMount () {
-        this.getCustomers ()
-        this.getCustomFields ()
+        this.getCustomers()
+        this.getCustomFields()
     }
 
     updateInvoice (invoices) {
@@ -140,8 +140,8 @@ export default class Invoice extends Component {
 
     render () {
         const { invoices, customers, custom_fields, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, customer_id, searchText, start_date, end_date, project_id } = this.state.filters
+        const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditInvoice
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}

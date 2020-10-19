@@ -216,6 +216,7 @@ class LineItemEditor extends Component {
             const index = this.state.tasks.findIndex(task => task.id === parseInt(e.target.value))
             const task = this.state.tasks[index]
             const taskModel = new TaskModel(task, this.props.customers)
+            const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
 
             let notes = task.description + '\n'
 
@@ -228,7 +229,7 @@ class LineItemEditor extends Component {
             })
 
             rows[row].task_id = parseInt(e.target.value)
-            rows[row].unit_price = taskModel.calculateAmount(task.task_rate)
+            rows[row].unit_price = taskModel.calculateAmount(task_rate)
             rows[row].quantity = Math.round(task.duration, 3)
             rows[row].type_id = consts.line_item_task
             rows[row].notes = notes
@@ -252,8 +253,6 @@ class LineItemEditor extends Component {
             //     const end = formatDate(`${time.end_date} ${time.end_time}`, true)
             //     notes += `\n### ${start} - ${end}`
             // })
-
-            alert(projectModel.calculateAmount())
 
             rows[row].project_id = parseInt(e.target.value)
             rows[row].unit_price = project.task_rate
@@ -280,16 +279,18 @@ class LineItemEditor extends Component {
         let customerModel = null
 
         if (this.settings.fill_products) {
-            if (this.props.entity && this.props.entity === 'Company') {
+            if (this.props.model.entity === 'PurchaseOrder') {
                 customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.company_id))
                 customerModel = new CompanyModel(customer[0])
             } else {
                 customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.invoice.customer_id))
-                customerModel = this.props.model ? this.props.model : new CustomerModel(customer[0])
+                customerModel = new CustomerModel(customer[0])
             }
 
             if (customer.length && customerModel) {
                 const client_currency = customerModel.currencyId
+
+                alert(client_currency)
 
                 if (this.settings.convert_product_currency &&
                     client_currency !== parseInt(this.settings.currency_id)) {
@@ -390,12 +391,12 @@ class LineItemEditor extends Component {
                         onChange={this.handleLineTypeChange} className='pa2 mr2 f6 form-control'>
                         <option value="">Select Line Type</option>
                         <option value={consts.line_item_product}>{translations.product}</option>
+                        <option value={consts.line_item_project}>{translations.project}</option>
 
-                        {!this.props.entity &&
+                        {this.props.model.entity === 'Invoice' &&
                         <React.Fragment>
                             <option value={consts.line_item_task}>{translations.task}</option>
                             <option value={consts.line_item_expense}>{translations.expense}</option>
-                            <option value={consts.line_item_project}>{translations.project}</option>
                         </React.Fragment>
                         }
                     </Input>

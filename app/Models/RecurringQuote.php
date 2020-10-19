@@ -35,6 +35,7 @@ class RecurringQuote extends Model
         'account_id',
         'status_id',
         'customer_id',
+        'project_id',
         'quote_number',
         'discount',
         'total',
@@ -86,6 +87,11 @@ class RecurringQuote extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withTrashed();
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function user()

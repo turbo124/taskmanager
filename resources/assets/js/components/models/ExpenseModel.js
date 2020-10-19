@@ -21,6 +21,7 @@ export default class ExpenseModel extends BaseModel {
 
         this._fields = {
             modal: false,
+            number: '',
             amount: 0,
             assigned_to: '',
             custom_value1: '',
@@ -84,6 +85,10 @@ export default class ExpenseModel extends BaseModel {
 
     get id () {
         return this.fields.id
+    }
+
+    set customer_id (customer_id) {
+        this.fields.customer_id = customer_id
     }
 
     get convertedAmountWithTax () {

@@ -50,6 +50,7 @@ class Quote extends Model
     protected $fillable = [
         'account_id',
         'customer_id',
+        'project_id',
         'assigned_to',
         'order_id',
         'total',
@@ -99,6 +100,11 @@ class Quote extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function audits()

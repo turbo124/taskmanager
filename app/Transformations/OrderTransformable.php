@@ -21,6 +21,7 @@ trait OrderTransformable
             'created_at'          => $order->created_at,
             'user_id'             => (int)$order->user_id,
             'account_id'          => (int)$order->account_id,
+            'project_id'          => (int)$order->project_id,
             'assigned_to'         => (int)$order->assigned_to,
             'company_id'          => (int)$order->company_id ?: null,
             'currency_id'         => (int)$order->currency_id ?: null,

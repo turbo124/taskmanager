@@ -10,6 +10,7 @@ export default class ProjectModel extends BaseModel {
         this.entity = 'Project'
 
         this._fields = {
+            number: '',
             id: null,
             modal: false,
             name: '',
@@ -36,6 +37,10 @@ export default class ProjectModel extends BaseModel {
         if (data !== null && data.files) {
             this.fileCount = data.files
         }
+    }
+
+    get id () {
+        return this.fields.id
     }
 
     get fileCount () {
@@ -65,15 +70,37 @@ export default class ProjectModel extends BaseModel {
             actions.push('archive')
         }
 
-        if (this.isModuleEnabled('invoices') && this.isEditable) {
+        if (this.isModuleEnabled('invoices') && !this.fields.deleted_at) {
             actions.push('projectToInvoice')
         }
 
-        if (this.isModuleEnabled('tasks') && this.isEditable) {
+        if (this.isModuleEnabled('tasks') && !this.fields.deleted_at) {
             actions.push('projectToTask')
         }
 
-        actions.push('cloneProject')
+        if (this.isModuleEnabled('credits') && !this.fields.deleted_at) {
+            actions.push('newCredit')
+        }
+
+        if (this.isModuleEnabled('invoices') && !this.fields.deleted_at) {
+            actions.push('newInvoice')
+        }
+
+        if (this.isModuleEnabled('quotes') && !this.fields.deleted_at) {
+            actions.push('newQuote')
+        }
+
+        if (this.isModuleEnabled('recurringInvoices') && !this.fields.deleted_at) {
+            actions.push('newRecurringInvoice')
+        }
+
+        if (this.isModuleEnabled('recurringQuotes') && !this.fields.deleted_at) {
+            actions.push('newRecurringQuote')
+        }
+
+        if (this.isModuleEnabled('expenses') && !this.fields.deleted_at) {
+            actions.push('newExpense')
+        }
 
         return actions
     }

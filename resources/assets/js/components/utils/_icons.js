@@ -82,7 +82,7 @@ export const icons = {
     stop: 'fa-stop',
     lead: 'fa-chain-broken',
     case: 'fa-chain-broken',
-    deal: 'fa-badge-dollar',
+    deal: 'fa-dollar',
     credit: 'fa-undo',
     invoice: 'fa-area-chart',
     promocode: 'fa-badge-percent'

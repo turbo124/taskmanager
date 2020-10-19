@@ -62,6 +62,11 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
     public function comments()
     {
         return $this->morphMany('App\Models\Comment', 'commentable');

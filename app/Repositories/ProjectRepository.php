@@ -75,6 +75,7 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
     public function save($data, Project $project): ?Project
     {
         $project->fill($data);
+        $project->setNumber();
         $project->save();
 
         return $project;

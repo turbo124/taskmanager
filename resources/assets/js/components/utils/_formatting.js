@@ -18,6 +18,10 @@ export default function formatDuration (duration, showSeconds = false) {
 }
 
 export function zeroPad (num, places) {
+    if (!num) {
+        return 0
+    }
+
     var zero = places - num.toString().length + 1
     return Array(+(zero > 0 && zero)).join('0') + num
 }

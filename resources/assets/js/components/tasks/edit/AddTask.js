@@ -35,6 +35,10 @@ class AddModal extends React.Component {
             // const storedValues = JSON.parse(localStorage.getItem('taskForm'))
             // this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+
+        if (this.props.project_id) {
+            this.setState({ project_id: this.props.project_id })
+        }
     }
 
     hasErrorFor (field) {
@@ -126,8 +130,12 @@ class AddModal extends React.Component {
                 this.setState({ errors: this.taskModel.errors, message: this.taskModel.error_message })
                 return
             }
-            this.props.tasks.push(response)
-            this.props.action(this.props.tasks)
+
+            if (this.props.tasks && this.props.action) {
+                this.props.tasks.push(response)
+                this.props.action(this.props.tasks)
+            }
+
             this.setState(this.initialState)
             localStorage.removeItem('taskForm')
         })

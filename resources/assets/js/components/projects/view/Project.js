@@ -1,19 +1,75 @@
 import React, { Component } from 'react'
-import { ListGroup, Row } from 'reactstrap'
+import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
-import SectionItem from '../../common/entityContainers/SectionItem'
 import ProjectModel from '../../models/ProjectModel'
 import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import FormatDate from '../../common/FormatDate'
-import formatDuration from '../../utils/_formatting'
-import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
-import InfoMessage from '../../common/entityContainers/InfoMessage'
-import FieldGrid from '../../common/entityContainers/FieldGrid'
+import Overview from './Overview'
+import FileUploads from '../../documents/FileUploads'
+import AddModal from '../../tasks/edit/AddTask'
+import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 
 export default class Project extends Component {
+    constructor (props) {
+        super(props)
+        this.state = {
+            entity: this.props.entity,
+            activeTab: '1',
+            obj_url: null,
+            show_success: false
+        }
+
+        this.projectModel = new ProjectModel(this.state.entity)
+        this.toggleTab = this.toggleTab.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+        this.refresh = this.refresh.bind(this)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
+    }
+
+    refresh (entity) {
+        this.taskModel = new ProjectModel(entity)
+        this.setState({ entity: entity })
+    }
+
+    triggerAction (action) {
+        if (action === 'newInvoice') {
+            location.href = `/#/invoices?entity_id=${this.state.entity.id}&entity_type=project`
+            return
+        }
+
+        if (action === 'newExpense') {
+            location.href = `/#/expenses?entity_id=${this.state.entity.id}&entity_type=project`
+            return
+        }
+
+        this.taskModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh)
+            })
+
+            setTimeout(
+                function () {
+                    this.setState({ show_success: false })
+                }
+                    .bind(this),
+                2000
+            )
+        })
+    }
+
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
+        }
+    }
+
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
         const projectModel = new ProjectModel(this.props.entity)
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
         let user = null
@@ -69,45 +125,65 @@ export default class Project extends Component {
 
         return (
             <React.Fragment>
-                <PlainEntityHeader heading_1={translations.total} value_1={formatDuration(total)}
-                    heading_2={translations.budgeted} value_2={this.props.entity.budgeted_hours}/>
+                <Nav tabs className="nav-justified disable-scrollbars">
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('1')
+                            }}
+                        >
+                            {translations.details}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '2' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('2')
+                            }}
+                        >
+                            {translations.documents} ({this.projectModel.fileCount})
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <Overview user={user} customer={customer}
+                            entity={this.state.entity} fields={fields} total={total}/>
+                    </TabPane>
 
-                {!!this.props.entity.title.length &&
-                <Row>
-                    <InfoMessage message={this.props.entity.title}/>
-                </Row>
+                    <TabPane tabId="2">
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardHeader>{translations.documents}</CardHeader>
+                                    <CardBody>
+                                        <FileUploads entity_type="Project" entity={this.state.entity}
+                                            user_id={this.state.entity.user_id}/>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </TabPane>
+
+                    <TabPane tabId="3">
+                        <AddModal project_id={this.state.entity.id} modal={false}/>
+                    </TabPane>
+                </TabContent>
+
+                {this.state.show_success &&
+                <Alert color="primary">
+                    {translations.action_completed}
+                </Alert>
                 }
 
-                <Row>
-                    <EntityListTile entity={translations.customer} title={customer[0].name}
-                        icon={icons.customer}/>
-                </Row>
-
-                <Row>
-                    <ListGroup className="col-12 mt-2 mb-2">
-                        {!!this.props.entity.tasks && this.props.entity.tasks.map((task, index) => (
-                            <EntityListTile key={index} entity={translations.task} title={task.title}
-                                icon={icons.task}/>
-                        ))}
-                    </ListGroup>
-                </Row>
-
-                {!!this.props.entity.private_notes.length &&
-                <Row>
-                    <InfoMessage message={this.props.entity.private_notes}/>
-                </Row>
-                }
-
-                <FieldGrid fields={fields}/>
-
-                <Row>
-                    <ListGroup className="col-12">
-                        <SectionItem link={`/#/tasks?project_id=${this.props.entity.id}`}
-                            icon={icons.task} title={translations.tasks}/>
-                    </ListGroup>
-                </Row>
+                <BottomNavigationButtons
+                    button1_click={(e) => this.triggerAction(modules && modules.expenses ? 'newExpense' : 'newInvoice')}
+                    button1={{ label: modules && modules.expenses ? translations.new_expense : translations.new_invoice }}
+                    button2_click={(e) => this.toggleTab('3')}
+                    button2={{ label: translations.new_task }}/>
             </React.Fragment>
-
         )
     }
 }

@@ -40,6 +40,7 @@ class Credit extends Model
      */
     protected $fillable = [
         'number',
+        'project_id',
         'customer_id',
         'assigned_to',
         'total',
@@ -108,6 +109,11 @@ class Credit extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function service(): CreditService

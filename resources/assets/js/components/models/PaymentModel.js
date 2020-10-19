@@ -27,7 +27,7 @@ export default class PaymentModel extends BaseModel {
             assigned_to: '',
             customer_id: '',
             company_gateway_id: null,
-            account_id: null,
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             status_id: null,
             invoice_id: null,
             transaction_reference: '',

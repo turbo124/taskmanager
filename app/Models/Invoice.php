@@ -144,6 +144,11 @@ class Invoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function payments()
     {
         return $this->morphToMany(Payment::class, 'paymentable')->withPivot('amount', 'refunded')->withTimestamps();
