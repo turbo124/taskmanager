@@ -16,6 +16,7 @@ trait LeadTransformable
         return [
             'id'            => (int)$lead->id,
             'number'        => $lead->number ?: '',
+            'design_id'     => (int)$lead->design_id,
             'industry_id'   => (int)$lead->industry_id,
             'created_at'    => $lead->created_at,
             'first_name'    => $lead->first_name,
