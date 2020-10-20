@@ -29,6 +29,7 @@ class Lead extends Model
     const UNQUALIFIED = 100;
     protected $presenter = 'App\Presenters\LeadPresenter';
     protected $fillable = [
+        'design_id',
         'number',
         'account_id',
         'user_id',
