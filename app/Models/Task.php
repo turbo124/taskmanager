@@ -22,6 +22,7 @@ class Task extends Model
     const STATUS_INVOICED = 2000;
 
     protected $fillable = [
+        'design_id',
         'name',
         'description',
         'assigned_to',
