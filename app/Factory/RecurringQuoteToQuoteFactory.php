@@ -27,6 +27,7 @@ class RecurringQuoteToQuoteFactory
         $quote->setTotal($recurring_quote->total);
         $quote->setBalance($recurring_quote->total);
         $quote->setUser($recurring_quote->user);
+        $quote->setNumber();
 
         $quote->sub_total = $recurring_quote->sub_total;
         $quote->tax_total = $recurring_quote->tax_total;

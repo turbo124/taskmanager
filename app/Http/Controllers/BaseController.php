@@ -12,6 +12,8 @@ use App\Factory\CloneInvoiceToQuoteFactory;
 use App\Factory\CloneOrderToInvoiceFactory;
 use App\Factory\CloneOrderToQuoteFactory;
 use App\Factory\CloneQuoteFactory;
+use App\Factory\InvoiceToRecurringInvoiceFactory;
+use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Jobs\Pdf\Download;
@@ -27,6 +29,7 @@ use App\Models\PaymentGateway;
 use App\Models\PaymentMethod;
 use App\Models\Quote;
 use App\Models\RecurringInvoice;
+use App\Models\RecurringQuote;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
@@ -34,6 +37,8 @@ use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\PurchaseOrderRepository;
 use App\Repositories\QuoteRepository;
+use App\Repositories\RecurringInvoiceRepository;
+use App\Repositories\RecurringQuoteRepository;
 use App\Transformations\CreditTransformable;
 use App\Transformations\InvoiceTransformable;
 use App\Transformations\OrderTransformable;
@@ -339,12 +344,25 @@ class BaseController extends Controller
                 $response = (new QuoteTransformable())->transformQuote($quote);
                 break;
 
-            case 'clone_quote_to_recurring':
-                //TODO
+            case 'clone_invoice_to_recurring':
+                $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice()))->save(
+                    $request->all(),
+                    InvoiceToRecurringInvoiceFactory::create(
+                        $entity
+                    )
+                );
+
+                $response = $this->transformEntity($recurring_invoice);
                 break;
 
-            case 'clone_invoice_to_recurring':
-                //TODO
+            case 'clone_quote_to_recurring':
+                $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote()))->save(
+                    $request->all(),
+                    QuoteToRecurringQuoteFactory::create(
+                        $entity
+                    )
+                );
+                $response = $this->transformEntity($recurring_quote);
                 break;
 
             case 'clone_recurring_to_invoice':
@@ -418,7 +436,9 @@ class BaseController extends Controller
      */
     private function transformEntity($entity)
     {
-        switch ($this->entity_string) {
+        $entity_class = (new \ReflectionClass($entity))->getShortName();
+
+        switch ($entity_class) {
             case 'Invoice':
                 return (new InvoiceTransformable())->transformInvoice($entity);
 
@@ -497,18 +517,18 @@ class BaseController extends Controller
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
         return [
-            'account_id'    => $default_account->id,
-            'id'            => $user->id,
-            'auth_token'    => $user->auth_token,
-            'name'          => $user->name,
-            'email'         => $user->email,
-            'accounts'      => $accounts,
-            'currencies'    => Currency::all(),
-            'languages'     => Language::all(),
-            'countries'     => Country::all(),
+            'account_id' => $default_account->id,
+            'id' => $user->id,
+            'auth_token' => $user->auth_token,
+            'name' => $user->name,
+            'email' => $user->email,
+            'accounts' => $accounts,
+            'currencies' => Currency::all(),
+            'languages' => Language::all(),
+            'countries' => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'gateways'      => PaymentGateway::all(),
-            'users'         => User::where('is_active', '=', 1)->get(
+            'gateways' => PaymentGateway::all(),
+            'users' => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];

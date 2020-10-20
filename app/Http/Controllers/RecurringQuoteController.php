@@ -52,7 +52,7 @@ class RecurringQuoteController extends BaseController
         QuoteRepository $quote_repo,
         CreditRepository $credit_repo
     ) {
-        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'RecurringInvoice');
+        parent::__construct($invoice_repo, $quote_repo, $credit_repo, 'RecurringQuote');
         $this->recurring_quote_repo = $recurring_quote_repo;
     }
 
