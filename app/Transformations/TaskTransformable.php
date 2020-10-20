@@ -26,6 +26,7 @@ trait TaskTransformable
             'customer_name'        => $task->customer->present()->name,
             'name'                 => $task->name,
             'description'          => $task->description,
+            'design_id'            => (int)$task->design_id,
             'comments'             => $task->comments,
             'due_date'             => $task->due_date,
             'start_date'           => $task->start_date ?: '',

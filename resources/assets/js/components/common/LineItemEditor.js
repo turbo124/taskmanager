@@ -8,14 +8,13 @@ import CompanyModel from '../models/CompanyModel'
 import { translations } from '../utils/_translations'
 import ExpenseModel from '../models/ExpenseModel'
 import { consts } from '../utils/_consts'
-import TaskModel from '../models/TaskModel'
-import { formatDate } from './FormatDate'
 import ProductRepository from '../repositories/ProductRepository'
 import TaxRateRepository from '../repositories/TaxRateRepository'
 import ExpenseRepository from '../repositories/ExpenseRepository'
 import TaskRepository from '../repositories/TaskRepository'
 import ProjectRepository from '../repositories/ProjectRepository'
 import ProjectModel from '../models/ProjectModel'
+import InvoiceReducer from '../invoice/InvoiceReducer'
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -195,45 +194,22 @@ class LineItemEditor extends Component {
         }
 
         if (e.target.name === 'expense_id') {
+            const invoiceReducer = new InvoiceReducer(parseInt(e.target.value), 'expense')
+
             const index = this.state.expenses.findIndex(expense => expense.id === parseInt(e.target.value))
             const expense = this.state.expenses[index]
 
-            const expenseModel = new ExpenseModel(expense, this.props.customers)
-
-            rows[row].expense_id = parseInt(e.target.value)
-            rows[row].unit_price = expenseModel.convertedAmount
-            rows[row].quantity = this.settings.has_minimum_quantity === true ? 1 : null
-            rows[row].type_id = consts.line_item_expense
-            rows[row].notes = expense.public_notes
-            rows[row].description = expense.category && Object.keys(expense.category).length ? expense.category.name : ''
-
+            rows[row] = invoiceReducer.buildExpense(expense, true)
             this.props.update(rows, row)
 
             return
         }
 
         if (e.target.name === 'task_id') {
+            const invoiceReducer = new InvoiceReducer(parseInt(e.target.value), 'task')
             const index = this.state.tasks.findIndex(task => task.id === parseInt(e.target.value))
             const task = this.state.tasks[index]
-            const taskModel = new TaskModel(task, this.props.customers)
-            const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
-
-            let notes = task.description + '\n'
-
-            task.timers.filter(time => {
-                return time.date.length && time.end_date.length
-            }).map(time => {
-                const start = formatDate(`${time.date} ${time.start_time}`, true)
-                const end = formatDate(`${time.end_date} ${time.end_time}`, true)
-                notes += `\n### ${start} - ${end}`
-            })
-
-            rows[row].task_id = parseInt(e.target.value)
-            rows[row].unit_price = taskModel.calculateAmount(task_rate)
-            rows[row].quantity = Math.round(task.duration, 3)
-            rows[row].type_id = consts.line_item_task
-            rows[row].notes = notes
-            // rows[row].description = notes
+            rows[row] = invoiceReducer.buildTask(task, true)
 
             this.props.update(rows, row)
 
@@ -241,25 +217,10 @@ class LineItemEditor extends Component {
         }
 
         if (e.target.name === 'project_id') {
+            const invoiceReducer = new InvoiceReducer(parseInt(e.target.value), 'project')
             const index = this.state.projects.findIndex(project => project.id === parseInt(e.target.value))
             const project = this.state.projects[index]
-            const projectModel = new ProjectModel(project, this.props.customers)
-            const notes = project.description + '\n'
-
-            // task.timers.filter(time => {
-            //     return time.date.length && time.end_date.length
-            // }).map(time => {
-            //     const start = formatDate(`${time.date} ${time.start_time}`, true)
-            //     const end = formatDate(`${time.end_date} ${time.end_time}`, true)
-            //     notes += `\n### ${start} - ${end}`
-            // })
-
-            rows[row].project_id = parseInt(e.target.value)
-            rows[row].unit_price = project.task_rate
-            rows[row].quantity = Math.round(project.budgeted_hours, 3)
-            rows[row].type_id = consts.line_item_project
-            rows[row].notes = notes
-            rows[row].description = notes
+            rows[row] = invoiceReducer.buildProject(project, true)
 
             this.props.update(rows, row)
 

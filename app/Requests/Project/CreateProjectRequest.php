@@ -16,7 +16,7 @@ class CreateProjectRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'        => 'string|required',
+            'name' => 'required|unique:projects,name,null,null,account_id,' . auth()->user()->account_user()->account_id,
             'description' => 'string|required',
             'customer_id' => 'numeric|required',
             'number'                => [

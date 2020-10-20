@@ -31,7 +31,7 @@ export default class PaymentModel extends BaseModel {
             status_id: null,
             invoice_id: null,
             transaction_reference: '',
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             amount: 0,
             refunded: 0,
             applied: 0,

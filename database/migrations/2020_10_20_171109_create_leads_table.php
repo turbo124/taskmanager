@@ -47,6 +47,7 @@ class CreateLeadsTable extends Migration
             $table->unsignedInteger('industry_id')->nullable()->default(1)->index('industry_id');
             $table->string('number')->nullable();
             $table->date('due_date')->nullable();
+            $table->unsignedInteger('design_id')->nullable();
         });
     }
 

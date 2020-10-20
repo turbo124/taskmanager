@@ -53,7 +53,7 @@ export default class QuoteModel extends BaseModel {
             tax_total: 0,
             sub_total: 0,
             line_items: [],
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             partial: 0,
             has_partial: false,
             partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),

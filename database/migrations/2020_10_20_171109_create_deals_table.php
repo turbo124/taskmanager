@@ -42,6 +42,7 @@ class CreateDealsTable extends Migration
             $table->text('public_notes')->nullable();
             $table->text('private_notes')->nullable();
             $table->integer('number')->nullable();
+            $table->unsignedInteger('design_id')->nullable();
         });
     }
 

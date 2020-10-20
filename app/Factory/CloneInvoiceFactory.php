@@ -33,7 +33,7 @@ class CloneInvoiceFactory
         $clone_invoice->setDueDate();
         $clone_invoice->gateway_fee = 0;
         $clone_invoice->gateway_fee_applied = 0;
-        $clone_invoice->next_send_date = null;
+        $clone_invoice->date_to_send = null;
         $clone_invoice->late_fee_charge = 0;
 
         return $clone_invoice;

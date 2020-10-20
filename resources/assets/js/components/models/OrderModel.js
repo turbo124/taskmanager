@@ -40,7 +40,7 @@ export default class OrderModel extends BaseModel {
             project_id: '',
             total: 0,
             design_id: '',
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             custom_value1: '',
             public_notes: '',

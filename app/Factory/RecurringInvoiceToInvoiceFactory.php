@@ -28,6 +28,7 @@ class RecurringInvoiceToInvoiceFactory
         $invoice->setTotal($recurring_invoice->total);
         $invoice->setBalance($recurring_invoice->total);
         $invoice->setUser($recurring_invoice->user);
+        $invoice->setNumber();
         $invoice->recurring_invoice_id = $recurring_invoice->id;
 
         return $invoice;

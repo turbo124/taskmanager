@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Audit;
 use App\Models\Email;
 use App\Models\File;
+use App\Models\Invitation;
 use App\Models\Order;
 use App\Models\OrderInvitation;
 
@@ -72,8 +73,8 @@ trait OrderTransformable
         }
 
         return $invitations->map(
-            function (OrderInvitation $invitation) {
-                return (new OrderInvitationTransformable)->transformOrderInvitation($invitation);
+            function (Invitation $invitation) {
+                return (new InvitationTransformable())->transformInvitation($invitation);
             }
         )->all();
     }
