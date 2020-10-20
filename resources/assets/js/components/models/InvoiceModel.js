@@ -53,7 +53,7 @@ export default class InvoiceModel extends BaseModel {
             tax_total: 0,
             sub_total: 0,
             data: [],
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             partial: 0,
             partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             has_partial: false,

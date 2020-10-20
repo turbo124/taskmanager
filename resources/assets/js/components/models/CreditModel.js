@@ -39,7 +39,7 @@ export default class CreditModel extends BaseModel {
             number: '',
             design_id: '',
             file_count: 0,
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             custom_value1: '',
             public_notes: '',

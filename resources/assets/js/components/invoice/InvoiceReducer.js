@@ -25,8 +25,8 @@ export default class InvoiceReducer {
         }
     }
 
-    buildExpense (response) {
-        const expenseModel = new ExpenseModel(response)
+    buildExpense (expense, line_item_only = false) {
+        const expenseModel = new ExpenseModel(expense)
 
         const line_items = []
         const row = {}
@@ -36,13 +36,17 @@ export default class InvoiceReducer {
             unit_price: expenseModel.convertedAmount,
             quantity: this.settings.has_minimum_quantity === true ? 1 : null,
             type_id: consts.line_item_expense,
-            notes: response.category && Object.keys(response.category).length ? response.category.name : '',
-            description: response.category && Object.keys(response.category).length ? response.category.name : ''
+            notes: expense.category && Object.keys(expense.category).length ? expense.category.name : '',
+            description: expense.category && Object.keys(expense.category).length ? expense.category.name : ''
+        }
+
+        if (line_item_only) {
+            return line_item
         }
 
         line_items.push(line_item)
 
-        row.customer_id = response.customer_id
+        row.customer_id = expense.customer_id
         row.line_items = line_items
 
         console.log('row', row)
@@ -50,24 +54,30 @@ export default class InvoiceReducer {
         return row
     }
 
-    buildProject (response) {
-        const projectModel = new ProjectModel(response)
+    buildProject (project, line_item_only = false) {
+        const projectModel = new ProjectModel(project)
 
         const line_items = []
         const row = {}
 
+        alert(this.entity_id)
+
         const line_item = {
             project_id: parseInt(this.entity_id),
-            unit_price: response.task_rate,
-            quantity: Math.round(response.budgeted_hours, 3),
+            unit_price: project.task_rate,
+            quantity: Math.round(project.budgeted_hours, 3),
             type_id: consts.line_item_project,
-            notes: response.description || '',
-            description: response.description || ''
+            notes: project.description || '',
+            description: project.description || ''
+        }
+
+        if (line_item_only) {
+            return line_item
         }
 
         line_items.push(line_item)
 
-        row.customer_id = response.customer_id
+        row.customer_id = project.customer_id
         row.line_items = line_items
 
         console.log('row', row)
@@ -75,12 +85,12 @@ export default class InvoiceReducer {
         return row
     }
 
-    buildTask (response) {
-        const task_rate = response.task_rate && response.task_rate > 0 ? response.task_rate : this.settings.task_rate
-        let notes = response.description + '\n'
+    buildTask (task, line_item_only = false) {
+        const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
+        let notes = task.description + '\n'
 
-        if (response.timers) {
-            response.timers.filter(time => {
+        if (task.timers) {
+            task.timers.filter(time => {
                 return time.date.length && time.end_date.length
             }).map(time => {
                 const start = formatDate(`${time.date} ${time.start_time}`, true)
@@ -89,21 +99,25 @@ export default class InvoiceReducer {
             })
         }
 
-        const taskModel = new TaskModel(response)
+        const taskModel = new TaskModel(task)
         const line_items = []
         const row = {}
 
         const line_item = {
             task_id: parseInt(this.entity_id),
             unit_price: taskModel.calculateAmount(task_rate),
-            quantity: Math.round(response.duration, 3),
+            quantity: Math.round(task.duration, 3),
             type_id: consts.line_item_task,
             notes: notes
         }
 
+        if (line_item_only) {
+            return line_item
+        }
+
         line_items.push(line_item)
 
-        row.customer_id = response.customer_id
+        row.customer_id = task.customer_id
         row.line_items = line_items
 
         console.log('row', row)
