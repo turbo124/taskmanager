@@ -18,6 +18,7 @@ trait DealTransformable
     {
         return [
             'id'            => (int)$deal->id,
+            'design_id'     => (int)$deal->design_id,
             'name'          => $deal->name,
             'description'   => $deal->description,
             'comments'      => $deal->comments,
