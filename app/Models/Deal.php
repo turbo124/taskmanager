@@ -16,6 +16,7 @@ class Deal extends Model
     use HasFactory;
 
     protected $fillable = [
+        'design_id',
         'name',
         'description',
         'is_completed',
