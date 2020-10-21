@@ -118,6 +118,14 @@ class CustomerSettings extends Component {
                     ]
                 },
                 {
+                    name: 'autobilling_enabled',
+                    label: translations.auto_billing_enabled,
+                    type: 'switch',
+                    placeholder: translations.auto_billing_enabled,
+                    value: settings.auto_billing_enabled,
+                    help_text: translations.auto_billing_enabled_help_text
+                },
+                {
                     name: 'should_send_email_for_manual_payment',
                     label: translations.should_send_email_for_manual_payment,
                     help_text: translations.should_send_email_for_manual_payment_help_text,
@@ -225,6 +233,129 @@ class CustomerSettings extends Component {
                     type: 'textarea',
                     placeholder: translations.order_footer,
                     value: settings.order_footer,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getDealFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_deal',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_deal,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_deal',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_deal,
+                    group: 1
+                },
+                {
+                    name: 'should_convert_deal',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_deal,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getCaseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'default_case_priority',
+                    label: translations.default_case_priority,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.low_priority,
+                            text: translations.low
+                        },
+                        {
+                            value: consts.medium_priority,
+                            text: translations.medium
+                        },
+                        {
+                            value: consts.high_priority,
+                            text: translations.high
+                        }
+                    ],
+                    value: settings.default_case_priority,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getPaymentFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'invoice_payment_deleted_status',
+                    label: translations.invoice_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.invoice_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.invoice_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.invoice_payment_deleted_status,
+                    group: 1
+                },
+                {
+                    name: 'credit_payment_deleted_status',
+                    label: translations.credit_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.credit_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.credit_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.credit_payment_deleted_status,
                     group: 1
                 }
             ]
@@ -377,6 +508,80 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_quote,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getPurchaseOrderFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_purchase_order',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_purchase_order,
+                    group: 1
+                },
+                {
+                    name: 'should_archive_purchase_order',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_purchase_order,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getExpenseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'create_expense_invoice',
+                    label: translations.create_expense_invoice,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.create_expense_invoice,
+                    help_text: translations.create_expense_invoice_help,
+                    group: 1
+                },
+                {
+                    name: 'include_expense_documents',
+                    label: translations.include_expense_documents,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.include_expense_documents,
+                    help_text: translations.include_expense_documents_help,
+                    group: 1
+                },
+                {
+                    name: 'create_expense_payment',
+                    label: translations.create_expense_payment,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.create_expense_payment,
+                    help_text: translations.create_expense_payment_help,
+                    group: 1
+                },
+                {
+                    name: 'convert_expense_currency',
+                    label: translations.convert_expense_currency,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.convert_expense_currency,
+                    help_text: translations.convert_expense_currency_help,
                     group: 1
                 }
             ]
@@ -578,6 +783,257 @@ class CustomerSettings extends Component {
         return formFields
     }
 
+    getProjectFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'project_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.project_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'project_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.project_number_counter
+                }
+            ]
+        ]
+    }
+
+    getExpenseFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'expense_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.expense_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'expense_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.expense_number_counter
+                }
+            ]
+        ]
+    }
+
+    getCaseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'default_case_priority',
+                    label: translations.default_case_priority,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.low_priority,
+                            text: translations.low
+                        },
+                        {
+                            value: consts.medium_priority,
+                            text: translations.medium
+                        },
+                        {
+                            value: consts.high_priority,
+                            text: translations.high
+                        }
+                    ],
+                    value: settings.default_case_priority,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getCompanyFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'company_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.company_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'company_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.company_number_counter
+                }
+            ]
+        ]
+    }
+
+    getPurchaseOrderFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'purchaseorder_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.purchaseorder_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'purchaseorder_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.purchaseorder_number_counter
+                }
+            ]
+        ]
+    }
+
+    getDealNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'deal_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.deal_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'deal_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.deal_number_counter
+                }
+            ]
+        ]
+    }
+
+    getCaseNumberField () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'case_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.case_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'case_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.case_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getTaskFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'task_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.task_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'task_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.task_number_counter
+                }
+            ]
+        ]
+    }
+
+    getRecurringInvoiceFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringinvoice_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringinvoice_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringinvoice_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringinvoice_number_counter
+                }
+            ]
+        ]
+    }
+
+    getRecurringQuoteFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringquote_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringquote_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringquote_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringquote_number_counter
+                }
+            ]
+        ]
+    }
+
     handleInput (e) {
         this.setState({
             [e.target.name]: e.target.value,
@@ -686,13 +1142,113 @@ class CustomerSettings extends Component {
                         </NavLink>
                     </NavItem>
 
-                    <NavItem>
+                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '10' ? 'active' : ''}
                             onClick={() => {
                                 this.toggleTab('10')
                             }}>
                             {translations.payments}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '11' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('11')
+                            }}>
+                            {translations.deals}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '12' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('12')
+                            }}>
+                            {translations.leads}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '13' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('13')
+                            }}>
+                            {translations.cases}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '14' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('14')
+                            }}>
+                            {translations.pos}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '15' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('15')
+                            }}>
+                            {translations.recurring_invoices}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '16' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('16')
+                            }}>
+                            {translations.recurring_quotes}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '17' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('17')
+                            }}>
+                            {translations.tasks}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '18' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('18')
+                            }}>
+                            {translations.expenses}
+                        </NavLink>
+                    </NavItem>
+
+                     <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '19' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('19')
+                            }}>
+                            {translations.projects}
+                        </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '20' ? 'active' : ''}
+                            onClick={() => {
+                                this.toggleTab('20')
+                            }}>
+                            {translations.companies}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -811,6 +1367,206 @@ class CustomerSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPaymentNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                   <TabPane tabId="11">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDealFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDealNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="12">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getLeadFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="13">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                   <TabPane tabId="14">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="15">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="16">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="17">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="18">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="19">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="20">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getOrderNumberFields()}
                                 />
                             </CardBody>
                         </Card>
