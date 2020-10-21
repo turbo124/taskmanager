@@ -44,7 +44,7 @@
 }
 
 .fixed-margin-extra {
-  margin-top: 58px !important;
+  margin-top: 68px !important;
 }
 
 @media (min-width: 375px) and (max-width: 666px) {
@@ -125,6 +125,10 @@
   .dashboard-tabs {
     width: 49.5% !important;
     left: 240px !important;
+  }
+
+  .dashboard-tabs-full {
+    width: 82.8% !important;
   }
 
   //.dashboard-tabs-right {

@@ -20,6 +20,10 @@ export default function Header (props) {
                         {!!props.handleSubmit &&
                         <a className="pull-right pr-3" onClick={props.handleSubmit}>{translations.save}</a>
                         }
+
+                        {!!props.addButton &&
+                        props.addButton
+                        }
                     </div>
 
                     {!!props.tabs &&

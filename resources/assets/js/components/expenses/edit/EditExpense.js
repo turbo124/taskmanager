@@ -13,6 +13,11 @@ import { translations } from '../../utils/_translations'
 import FileUploads from '../../documents/FileUploads'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import TaskRepository from '../../repositories/TaskRepository'
+import ExpenseRepository from '../../repositories/ExpenseRepository'
+import ProjectRepository from '../../repositories/ProjectRepository'
+import { consts } from '../../utils/_consts'
+import InvoiceReducer from '../../invoice/InvoiceReducer'
 
 class EditExpense extends React.Component {
     constructor (props) {
@@ -35,7 +40,6 @@ class EditExpense extends React.Component {
     }
 
     handleInput (e) {
-        console.log('e', e)
         if (e.target.name === 'currency_id') {
             const exchange_rate = this.expenseModel.getExchangeRateForCurrency(e.target.value)
             this.setState({ exchange_rate: exchange_rate })

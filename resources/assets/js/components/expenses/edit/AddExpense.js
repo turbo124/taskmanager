@@ -22,6 +22,7 @@ class AddExpense extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleInput = this.handleInput.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
     }
 
     componentDidMount () {
@@ -29,6 +30,16 @@ class AddExpense extends React.Component {
             const storedValues = JSON.parse(localStorage.getItem('expenseForm'))
             this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
+
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
+        }
+    }
+
+    loadEntity (type) {
+        const key = (type === 'company') ? ('company_id') : ((type === 'project') ? ('project_id') : ('customer_id'))
+
+        this.setState({ [key]: this.props.entity_id, modal: true })
     }
 
     handleInput (e) {

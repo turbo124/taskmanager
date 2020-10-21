@@ -1816,7 +1816,7 @@ export default class Dashboard extends Component {
 
         return <React.Fragment>
             <Row>
-                <div style={{ position: 'absolute', right: '20px', zIndex: '999' }}>
+                <div style={{ position: 'absolute', right: '20px', zIndex: '99999' }}>
                     {!dashboard_minimized &&
                     <span style={{ fontSize: '28px' }} className="pull-right" onClick={() => {
                         localStorage.setItem('dashboard_minimized', true)
@@ -1833,7 +1833,7 @@ export default class Dashboard extends Component {
                 </div>
 
                 <Col className="dashboard-content-wrapper" lg={dashboard_minimized ? 12 : 7}>
-                    <div className="topbar pl-0 dashboard-tabs">
+                    <div className={`topbar pl-0 dashboard-tabs ${dashboard_minimized ? 'dashboard-tabs-full' : ''}`}>
                         <Card>
                             <CardBody className="pb-0">
                                 <Nav
@@ -1925,7 +1925,7 @@ export default class Dashboard extends Component {
                     <TabContent className="dashboard-tabs-margin" activeTab={this.state.activeTab}>
                         <TabPane className="pr-0" tabId="1">
                             <Row>
-                                <Col md={6}>
+                                <Col className="pl-0" md={6}>
                                     <CardModule
                                         body={true}
                                         content={
@@ -1995,7 +1995,7 @@ export default class Dashboard extends Component {
                                         }
                                     />
                                 </Col>
-                                <Col md={6}>
+                                <Col className="pl-0" md={6}>
                                     <CardModule
                                         body={true}
                                         hCenter={true}

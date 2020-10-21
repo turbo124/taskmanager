@@ -84,7 +84,9 @@ export default class Expenses extends Component {
                 ],
             custom_fields: [],
             customers: [],
-            showRestoreButton: false
+            showRestoreButton: false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
         }
 
         this.updateExpenses = this.updateExpenses.bind(this)
@@ -189,6 +191,8 @@ export default class Expenses extends Component {
         const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id } = this.state.filters
         const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
         const addButton = customers.length ? <AddExpense
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             companies={companies}

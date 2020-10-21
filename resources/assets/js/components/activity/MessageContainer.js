@@ -222,15 +222,15 @@ class MessageContainer extends React.Component {
 
                     {events && events.length
                         ? <div className="mb-4">
-                            <h2>Event Invitations</h2> (
-                            events.map((event, index) => (
-                            <Event key={index}
-                                action={this.updateEvents}
-                                events={this.state.events}
-                                event={event}
-                            />
-                            ))
-                            ) </div> : null}
+                            <h2>Event Invitations</h2>
+                            {events.map((event, index) => {
+                                return <Event key={index}
+                                    action={this.updateEvents}
+                                    events={this.state.events}
+                                    event={event}
+                                />
+                            })}
+                        </div> : null}
 
                     {notifications.length ? (
                         <Card>

@@ -67,7 +67,7 @@ export default class CompanyDropdown extends Component {
 
     render () {
         const name = this.props.name && this.props.name ? this.props.name : 'company_id'
-        const company = this.props.company_id ? this.state.companies.filter(option => option.id === this.props.company_id) : null
+        const company = this.props.company_id ? this.state.companies.filter(option => option.id === parseInt(this.props.company_id)) : null
 
         return (
             <React.Fragment>

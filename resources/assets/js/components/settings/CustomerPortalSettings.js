@@ -144,6 +144,14 @@ export default class CustomerPortalSettings extends Component {
                     type: 'text',
                     placeholder: translations.minimum_amount_required,
                     value: settings.minimum_amount_required
+                },
+                {
+                    name: 'credit_payments_enabled',
+                    label: translations.credit_payments_enabled,
+                    type: 'switch',
+                    placeholder: translations.credit_payments_enabled,
+                    value: settings.credit_payments_enabled,
+                    help_text: translations.over_payments_allowed_help_text
                 }
             ]
         ]
