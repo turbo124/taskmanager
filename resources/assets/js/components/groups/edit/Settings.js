@@ -339,7 +339,7 @@ export default class Settings extends Component {
     }
 
     getDealFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -374,7 +374,7 @@ export default class Settings extends Component {
     }
 
     getCaseFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -407,7 +407,7 @@ export default class Settings extends Component {
     }
 
     getPaymentFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -462,7 +462,7 @@ export default class Settings extends Component {
     }
 
     getInvoiceFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -509,7 +509,7 @@ export default class Settings extends Component {
     }
 
     getOrderFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -544,7 +544,7 @@ export default class Settings extends Component {
     }
 
     getLeadFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -579,7 +579,7 @@ export default class Settings extends Component {
     }
 
     getQuoteFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -614,7 +614,7 @@ export default class Settings extends Component {
     }
 
     getPurchaseOrderFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -641,7 +641,7 @@ export default class Settings extends Component {
     }
 
     getExpenseFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -688,7 +688,7 @@ export default class Settings extends Component {
     }
 
     getInvoiceNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         console.log('settings', settings)
 
@@ -716,7 +716,7 @@ export default class Settings extends Component {
     }
 
     getOrderNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         console.log('settings', settings)
 
@@ -744,7 +744,7 @@ export default class Settings extends Component {
     }
 
     getQuoteNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -795,7 +795,7 @@ export default class Settings extends Component {
     }
 
     getCreditNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -846,7 +846,7 @@ export default class Settings extends Component {
     }
 
     getPaymentNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -881,7 +881,7 @@ export default class Settings extends Component {
     }
 
     getProjectNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -905,7 +905,7 @@ export default class Settings extends Component {
     }
 
     getExpenseNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -929,7 +929,7 @@ export default class Settings extends Component {
     }
 
     getCompanyNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -953,7 +953,7 @@ export default class Settings extends Component {
     }
 
     getPurchaseOrderNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -977,7 +977,7 @@ export default class Settings extends Component {
     }
 
     getDealNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -1001,7 +1001,7 @@ export default class Settings extends Component {
     }
 
     getCaseNumberField () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         const formFields = [
             [
@@ -1027,7 +1027,7 @@ export default class Settings extends Component {
     }
 
     getTaskNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -1051,7 +1051,7 @@ export default class Settings extends Component {
     }
 
     getRecurringInvoiceNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
@@ -1075,7 +1075,7 @@ export default class Settings extends Component {
     }
 
     getRecurringQuoteNumberFields () {
-        const settings = this.state.settings
+        const { settings } = this.props
 
         return [
             [
