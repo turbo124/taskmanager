@@ -10,7 +10,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\TaxRateTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TaxRateSearch extends QueryFilter
+class TaxRateSearch extends BaseSearch
 {
     use TaxRateTransformable;
 

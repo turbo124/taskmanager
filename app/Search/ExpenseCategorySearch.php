@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * TokenSearch
  */
-class ExpenseCategorySearch extends QueryFilter
+class ExpenseCategorySearch extends BaseSearch
 {
     use ExpenseCategoryTransformable;
 

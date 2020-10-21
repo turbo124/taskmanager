@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\QuoteTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class QuoteSearch extends QueryFilter
+class QuoteSearch extends BaseSearch
 {
     private $quoteRepository;
 

@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * ExpenseFilters
  */
-class ExpenseSearch extends QueryFilter
+class ExpenseSearch extends BaseSearch
 {
     use ExpenseTransformable;
 

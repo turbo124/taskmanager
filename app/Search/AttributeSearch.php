@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * TokenSearch
  */
-class AttributeSearch extends QueryFilter
+class AttributeSearch extends BaseSearch
 {
     private $attribute_repo;
 

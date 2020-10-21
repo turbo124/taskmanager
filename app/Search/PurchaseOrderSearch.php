@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\PurchaseOrderTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PurchaseOrderSearch extends QueryFilter
+class PurchaseOrderSearch extends BaseSearch
 {
     use PurchaseOrderTransformable;
 

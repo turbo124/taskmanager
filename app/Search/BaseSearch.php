@@ -6,7 +6,7 @@ use App\Models\Account;
 use App\Models\Invoice;
 use Carbon\Carbon;
 
-class QueryFilter
+class BaseSearch
 {
 
     protected function filterDates($request)

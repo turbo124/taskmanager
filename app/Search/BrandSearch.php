@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * Class BrandSearch
  * @package App\Search
  */
-class BrandSearch extends QueryFilter
+class BrandSearch extends BaseSearch
 {
     use BrandTransformable;
 

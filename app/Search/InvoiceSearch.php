@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\InvoiceTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class InvoiceSearch extends QueryFilter
+class InvoiceSearch extends BaseSearch
 {
     private $invoiceRepository;
 

@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * TokenSearch
  */
-class CaseSearch extends QueryFilter
+class CaseSearch extends BaseSearch
 {
     use CaseTransformable;
 

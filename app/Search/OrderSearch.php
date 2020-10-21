@@ -11,7 +11,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\OrderTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class OrderSearch extends QueryFilter
+class OrderSearch extends BaseSearch
 {
     use OrderTransformable;
 

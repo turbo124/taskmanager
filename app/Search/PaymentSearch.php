@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\PaymentTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PaymentSearch extends QueryFilter
+class PaymentSearch extends BaseSearch
 {
     use PaymentTransformable;
 
