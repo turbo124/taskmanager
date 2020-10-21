@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\GroupTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class GroupSearch extends QueryFilter
+class GroupSearch extends BaseSearch
 {
     use GroupTransformable;
 

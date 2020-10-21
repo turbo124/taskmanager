@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\RecurringQuoteTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class RecurringQuoteSearch extends QueryFilter
+class RecurringQuoteSearch extends BaseSearch
 {
     use RecurringQuoteTransformable;
 

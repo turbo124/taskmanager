@@ -51,6 +51,7 @@ _localizedValues.en = {
     over_payments_allowed_help_text: 'Customer can make payments more than the invoice total',
     minimum_amount_required: 'Minimum payment amount',
     minimum_amount_required_help_text: 'Minimum amount required on invoices',
+    credit_payments_enabled: 'Pay invoice using credits',
     new: 'New',
     open: 'Open',
     closed: 'Closed',

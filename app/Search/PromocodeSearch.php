@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\PromocodeTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PromocodeSearch extends QueryFilter
+class PromocodeSearch extends BaseSearch
 {
     use PromocodeTransformable;
 

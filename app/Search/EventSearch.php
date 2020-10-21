@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\EventTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class EventSearch extends QueryFilter
+class EventSearch extends BaseSearch
 {
     use EventTransformable;
 

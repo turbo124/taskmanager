@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\ProductTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProductSearch extends QueryFilter
+class ProductSearch extends BaseSearch
 {
     use ProductTransformable;
 

@@ -9,7 +9,7 @@ use App\Transformations\ProjectTransformable;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProjectSearch extends QueryFilter
+class ProjectSearch extends BaseSearch
 {
     use ProjectTransformable;
 

@@ -81,9 +81,11 @@ export default class GatewayItem extends Component {
                         const actionMenu = this.props.showCheckboxes !== true
                             ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                                 restore={restoreButton}/> : null
+                        const dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
+
 
                         return <li key={item.id}
-                            className="list-group-item d-flex justify-content-between align-items-center">
+                            className={`list-group-item d-flex justify-content-between align-items-center ${dark}`}>
                             <div className="d-flex justify-content-between">
                                 <Input style={{ marginLeft: '8px' }} checked={isChecked} className={checkboxClass}
                                     value={gateway.id} type="checkbox"

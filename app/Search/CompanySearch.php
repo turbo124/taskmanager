@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\CompanyTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CompanySearch extends QueryFilter
+class CompanySearch extends BaseSearch
 {
     use CompanyTransformable;
 

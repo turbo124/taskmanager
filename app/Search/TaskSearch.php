@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\TaskTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TaskSearch extends QueryFilter
+class TaskSearch extends BaseSearch
 {
     use TaskTransformable;
 

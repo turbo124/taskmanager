@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * TokenSearch
  */
-class SubscriptionSearch extends QueryFilter
+class SubscriptionSearch extends BaseSearch
 {
     use SubscriptionTransformable;
 

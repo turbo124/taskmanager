@@ -9,7 +9,7 @@ use App\Transformations\LeadTransformable;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class LeadSearch extends QueryFilter
+class LeadSearch extends BaseSearch
 {
     use LeadTransformable;
 

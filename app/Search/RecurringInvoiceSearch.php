@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\RecurringInvoiceTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class RecurringInvoiceSearch extends QueryFilter
+class RecurringInvoiceSearch extends BaseSearch
 {
     use RecurringInvoiceTransformable;
 

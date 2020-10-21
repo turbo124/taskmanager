@@ -11,6 +11,12 @@ class BaseSettings
     protected array $validationFailures = [];
 
     protected array $account_settings = [
+        'task_automation_enabled'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'task_rate'                            => [
             'required'         => false,
             'translated_value' => '',

@@ -10,7 +10,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\CompanyGatewayTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CompanyGatewaySearch extends QueryFilter
+class CompanyGatewaySearch extends BaseSearch
 {
     use CompanyGatewayTransformable;
 

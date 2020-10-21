@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * TokenSearch
  */
-class TaskStatusSearch extends QueryFilter
+class TaskStatusSearch extends BaseSearch
 {
     use TaskStatusTransformable;
 

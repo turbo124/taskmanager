@@ -81,8 +81,9 @@ class TaskController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return Response
+     * @param CreateTaskRequest $request
+     * @return JsonResponse
+     * @throws Exception
      */
     public function store(CreateTaskRequest $request)
     {
@@ -90,7 +91,11 @@ class TaskController extends Controller
             $request->all(),
             (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account)
         );
-        //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
+
+        if($task->customer->getSetting('task_automation_enabled') === true) {
+            return $this->timerAction('start_timer', $task);
+        }
+
         return response()->json($this->transformTask($task));
     }
 

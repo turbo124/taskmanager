@@ -10,7 +10,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\CreditTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CreditSearch extends QueryFilter
+class CreditSearch extends BaseSearch
 {
     use CreditTransformable;
 

@@ -9,7 +9,7 @@ use App\Requests\SearchRequest;
 use App\Transformations\DealTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class DealSearch extends QueryFilter
+class DealSearch extends BaseSearch
 {
     use DealTransformable;
 

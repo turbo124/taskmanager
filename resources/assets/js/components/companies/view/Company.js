@@ -8,6 +8,7 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
 import Details from './Details'
 import FileUploads from '../../documents/FileUploads'
+import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 
 export default class Company extends Component {
     constructor (props) {
@@ -25,6 +26,10 @@ export default class Company extends Component {
     }
 
     triggerAction (action) {
+        if (action === 'newExpense') {
+            location.href = `/#/expenses?entity_type=company&entity_id=${this.state.entity.id}`
+        }
+
         const paymentModel = new PaymentModel(null, this.state.entity)
         paymentModel.completeAction(this.state.entity, action)
     }
@@ -154,6 +159,11 @@ export default class Company extends Component {
                         </Row>
                     </TabPane>
                 </TabContent>
+
+                <BottomNavigationButtons button1_click={(e) => this.triggerAction('archive')}
+                    button1={{ label: translations.archive }}
+                    button2_click={(e) => this.triggerAction('newExpense')}
+                    button2={{ label: translations.new_expense }}/>
 
             </React.Fragment>
         )

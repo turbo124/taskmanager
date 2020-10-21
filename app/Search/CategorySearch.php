@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * Class CategorySearch
  * @package App\Search
  */
-class CategorySearch extends QueryFilter
+class CategorySearch extends BaseSearch
 {
     use CategoryTransformable;
 

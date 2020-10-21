@@ -31,6 +31,7 @@ class Event extends React.Component {
 
     render () {
         const { event } = this.props
+        console.log('event', event)
 
         return (
             <div className="col-8 col-md-12">

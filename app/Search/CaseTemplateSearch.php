@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * Class CaseTemplateSearch
  * @package App\Search
  */
-class CaseTemplateSearch extends QueryFilter
+class CaseTemplateSearch extends BaseSearch
 {
     use CaseTemplateTransformable;
 
