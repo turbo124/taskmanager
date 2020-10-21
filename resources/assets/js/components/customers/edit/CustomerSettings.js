@@ -25,9 +25,26 @@ class CustomerSettings extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    toggleTab (tab) {
+    toggleTab (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -783,7 +800,7 @@ class CustomerSettings extends Component {
         return formFields
     }
 
-    getProjectFields () {
+    getProjectNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -807,7 +824,7 @@ class CustomerSettings extends Component {
         ]
     }
 
-    getExpenseFields () {
+    getExpenseNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -831,40 +848,7 @@ class CustomerSettings extends Component {
         ]
     }
 
-    getCaseFields () {
-        const settings = this.state.settings
-
-        const formFields = [
-            [
-                {
-                    name: 'default_case_priority',
-                    label: translations.default_case_priority,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'select',
-                    options: [
-                        {
-                            value: consts.low_priority,
-                            text: translations.low
-                        },
-                        {
-                            value: consts.medium_priority,
-                            text: translations.medium
-                        },
-                        {
-                            value: consts.high_priority,
-                            text: translations.high
-                        }
-                    ],
-                    value: settings.default_case_priority,
-                    group: 1
-                }
-            ]
-        ]
-
-        return formFields
-    }
-
-    getCompanyFields () {
+    getCompanyNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -888,7 +872,7 @@ class CustomerSettings extends Component {
         ]
     }
 
-    getPurchaseOrderFields () {
+    getPurchaseOrderNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -962,7 +946,7 @@ class CustomerSettings extends Component {
         return formFields
     }
 
-    getTaskFields () {
+    getTaskNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -986,7 +970,7 @@ class CustomerSettings extends Component {
         ]
     }
 
-    getRecurringInvoiceFields () {
+    getRecurringInvoiceNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -1010,7 +994,7 @@ class CustomerSettings extends Component {
         ]
     }
 
-    getRecurringQuoteFields () {
+    getRecurringQuoteNumberFields () {
         const settings = this.state.settings
 
         return [
@@ -1069,14 +1053,16 @@ class CustomerSettings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
         return (
             <React.Fragment>
-                <Nav tabs className="nav-justified disable-scrollbars">
+                <Nav tabs className= className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('1')
+                            onClick={(e) => {
+                                this.toggleTab('1', e)
                             }}>
                             {translations.details}
                         </NavLink>
@@ -1085,172 +1071,202 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('2')
+                            onClick={(e) => {
+                                this.toggleTab('2', e)
                             }}>
                             {translations.defaults}
                         </NavLink>
                     </NavItem>
 
+                    {modules && modules.invoices &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('3')
+                            onClick={(e) => {
+                                this.toggleTab('3', e)
                             }}>
                             {translations.invoices}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.quotes &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('4')
+                            onClick={(e) => {
+                                this.toggleTab('4', e)
                             }}>
                             {translations.quotes}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.leads &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('5')
+                            onClick={(e) => {
+                                this.toggleTab('5', e)
                             }}>
                             {translations.leads}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.orders &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('6')
+                            onClick={(e) => {
+                                this.toggleTab('6', e)
                             }}>
                             {translations.orders}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.credits &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '9' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('9')
+                            onClick={(e) => {
+                                this.toggleTab('9', e)
                             }}>
                             {translations.credits}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.payments &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '10' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('10')
+                            onClick={(e) => {
+                                this.toggleTab('10', e)
                             }}>
                             {translations.payments}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.deals &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '11' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('11')
+                            onClick={(e) => {
+                                this.toggleTab('11', e)
                             }}>
                             {translations.deals}
                         </NavLink>
                     </NavItem>
+                    }
 
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '12' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('12')
+                            onClick={(e) => {
+                                this.toggleTab('12', e)
                             }}>
                             {translations.leads}
                         </NavLink>
                     </NavItem>
 
+                     {modules && modules.cases &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '13' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('13')
+                            onClick={(e) => {
+                                this.toggleTab('13', e)
                             }}>
                             {translations.cases}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.purchase_orders &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '14' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('14')
+                            onClick={(e) => {
+                                this.toggleTab('14', e)
                             }}>
                             {translations.pos}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.recurringInvoices &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '15' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('15')
+                            onClick={(e) => {
+                                this.toggleTab('15', e)
                             }}>
                             {translations.recurring_invoices}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.recurringQuotes &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '16' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('16')
+                            onClick={(e) => {
+                                this.toggleTab('16', e)
                             }}>
                             {translations.recurring_quotes}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.tasks &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '17' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('17')
+                            onClick={(e) => {
+                                this.toggleTab('17', e)
                             }}>
                             {translations.tasks}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.expenses &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '18' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('18')
+                            onClick={(e) => {
+                                this.toggleTab('18', e)
                             }}>
                             {translations.expenses}
                         </NavLink>
                     </NavItem>
+                    }
 
+                     {modules && modules.projects &&
                      <NavItem>
                         <NavLink
                             className={this.state.activeTab === '19' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('19')
+                            onClick={(e) => {
+                                this.toggleTab('19', e)
                             }}>
                             {translations.projects}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.companies &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '20' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('20')
+                            onClick={(e) => {
+                                this.toggleTab('20', e)
                             }}>
                             {translations.companies}
                         </NavLink>
                     </NavItem>
+                    }
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -1366,6 +1382,15 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPaymentNumberFields()}
                                 />
                             </CardBody>
@@ -1437,7 +1462,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1446,7 +1471,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getPurchaseOrderNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1457,16 +1482,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getRecurringInvoiceNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1477,16 +1493,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getRecurringQuoteNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1497,16 +1504,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getTaskNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1517,7 +1515,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
+                                    formFieldsRows={this.getExpenseFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1526,7 +1524,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getExpenseNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1537,16 +1535,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getProjectNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1557,16 +1546,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    formFieldsRows={this.getCompanyNumberFields()}
                                 />
                             </CardBody>
                         </Card>
