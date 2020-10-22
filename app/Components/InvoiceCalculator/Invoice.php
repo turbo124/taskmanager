@@ -229,9 +229,6 @@ class Invoice extends BaseCalculator
         $sub_total = $this->custom_tax > 0 ? $this->total + $this->custom_tax : $this->total;
         $this->tax_total += $this->applyTax($sub_total, $this->tax_rate, $this->is_amount_discount);
 
-        echo $this->tax_total;
-        die;
-
         if ($this->tax_2 && $this->tax_2 > 0) {
             $this->tax_total += $this->applyTax($sub_total, $this->tax_2, $this->is_amount_discount);
         }
