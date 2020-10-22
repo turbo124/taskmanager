@@ -39,7 +39,8 @@ import TemplateSettings from './settings/TemplateSettings'
 import CustomFieldSettings from './settings/CustomFieldSettings'
 import EmailSettings from './settings/EmailSettings'
 import PortalSettings from './settings/CustomerPortalSettings'
-import GatewaySettings from './gateways/Gateways'
+import Gateways from './gateways/Gateways'
+import GatewaySettings from './gateways/GatewaySettings'
 import InvoiceSettings from './settings/InvoiceSettings'
 import ProductSettings from './settings/ProductSettings'
 import NumberSettings from './settings/NumberSettings'
@@ -52,6 +53,7 @@ import Modules from './settings/ModuleSettings'
 import Localisation from './settings/LocalisationSettings'
 import DeviceSettings from './settings/DeviceSettings'
 import WorkflowSettings from './settings/WorkflowSettings'
+import TaxSettings from './settings/TaxSettings'
 import Cases from './cases/Cases'
 import CaseTemplates from './case_templates/CaseTemplates'
 import PurchaseOrders from './purchase_orders/PurchaseOrders'
@@ -197,6 +199,11 @@ const routes = [
         component: EmailSettings
     },
     {
+        path: '/gateways',
+        name: 'Gateways',
+        component: Gateways
+    },
+    {
         path: '/gateway-settings',
         name: 'Gateway Settings',
         component: GatewaySettings
@@ -250,6 +257,11 @@ const routes = [
         path: '/workflow-settings',
         name: 'Workflow Settings',
         component: WorkflowSettings
+    },
+    {
+        path: '/tax-settings',
+        name: 'Tax Settings',
+        component: TaxSettings
     },
     {
         path: '/variables',

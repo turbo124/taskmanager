@@ -5,12 +5,16 @@ import DesignDropdown from './dropdowns/DesignDropdown'
 import { translations } from '../utils/_translations'
 
 export default function InvoiceSettings (props) {
-    console.log('settings', props.settings)
+    const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+    const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+    const account_settings = user_account[0].account.settings
+
     return (
         <Card>
             <CardHeader>{translations.fees}</CardHeader>
             <CardBody>
                 <Row form>
+                    {account_settings.show_transaction_fee &&
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.transaction_fee}</Label>
@@ -18,6 +22,9 @@ export default function InvoiceSettings (props) {
                                 id="transaction_fee" value={props.settings.transaction_fee}/>
                         </FormGroup>
                     </Col>
+                    }
+
+                    {account_settings.show_shipping_cost &&
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.shipping_cost}</Label>
@@ -31,9 +38,12 @@ export default function InvoiceSettings (props) {
                         {/*    </Label> */}
                         {/* </FormGroup> */}
                     </Col>
+                    }
+
                 </Row>
 
                 <Row form>
+                    {account_settings.show_gateway_fee &&
                     <Col md={6}>
                         <FormGroup>
                             <Label for="exampleEmail">{translations.gateway_fee}</Label>
@@ -47,7 +57,9 @@ export default function InvoiceSettings (props) {
                             </Label>
                         </FormGroup>
                     </Col>
+                    }
 
+                    {account_settings.show_tax_rate1 &&
                     <Col md={6}>
                         <FormGroup>
                             <Label>{translations.tax}</Label>
@@ -58,6 +70,33 @@ export default function InvoiceSettings (props) {
                             />
                         </FormGroup>
                     </Col>
+                    }
+
+                    {account_settings.show_tax_rate2 &&
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label>{translations.tax}</Label>
+                            <TaxRateDropdown
+                                name="tax_2"
+                                handleInputChanges={props.handleInput}
+                                errors={props.errors}
+                            />
+                        </FormGroup>
+                    </Col>
+                    }
+
+                    {account_settings.show_tax_rate3 &&
+                    <Col md={6}>
+                        <FormGroup>
+                            <Label>{translations.tax}</Label>
+                            <TaxRateDropdown
+                                name="tax_3"
+                                handleInputChanges={props.handleInput}
+                                errors={props.errors}
+                            />
+                        </FormGroup>
+                    </Col>
+                    }
 
                 </Row>
 

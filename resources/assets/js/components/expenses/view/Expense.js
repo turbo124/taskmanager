@@ -12,6 +12,7 @@ import { icons } from '../../utils/_icons'
 import Overview from './Overview'
 import InvoiceRepository from '../../repositories/InvoiceRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
+import FormatMoney from '../../common/FormatMoney'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -129,10 +130,12 @@ export default class Expense extends Component {
             fields.transaction_reference = this.state.entity.transaction_reference
         }
 
-        fields.currency =
-            JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.expenseModel.currencyId)[0].name
+        if (this.expenseModel.isConverted) {
+            fields.currency =
+                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.expenseModel.invoice_currency_id)[0].name
+        }
 
-        if (this.state.entity.exchange_rate.length) {
+        if (this.state.entity.exchange_rate.length && this.expenseModel.isConverted) {
             fields.exchange_rate = this.state.entity.exchange_rate
         }
 
@@ -142,6 +145,12 @@ export default class Expense extends Component {
 
         if (category.length) {
             fields.category = category[0].name
+        }
+
+        const tax_total = this.expenseModel.calculateTaxes(false)
+
+        if (tax_total > 0) {
+            fields.tax = <FormatMoney amount={tax_total} customers={this.props.customers}/>
         }
 
         if (this.state.entity.custom_value1.length) {
@@ -226,7 +235,8 @@ export default class Expense extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview recurring={recurring} customer={customer} fields={fields} user={user}
+                        <Overview model={this.expenseModel} recurring={recurring} customer={customer} fields={fields}
+                            user={user}
                             entity={this.state.entity}
                             customers={this.props.customers} convertedAmount={convertedAmount}/>
                     </TabPane>

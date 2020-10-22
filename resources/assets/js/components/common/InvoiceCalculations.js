@@ -43,8 +43,20 @@ export const CalculateTotal = (props) => {
     }
 
     if (invoice.tax > 0) {
-        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(invoice.total) : parseFloat(invoice.total)
+        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(lexieTotal) : parseFloat(lexieTotal)
         const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax) / 100
+        tax_total += tax_percentage
+    }
+
+    if (invoice.tax_2 && invoice.tax_2 > 0) {
+        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(lexieTotal) : parseFloat(lexieTotal)
+        const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax_2) / 100
+        tax_total += tax_percentage
+    }
+
+    if (invoice.tax_3 && invoice.tax_3 > 0) {
+        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(lexieTotal) : parseFloat(lexieTotal)
+        const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax_3) / 100
         tax_total += tax_percentage
     }
 

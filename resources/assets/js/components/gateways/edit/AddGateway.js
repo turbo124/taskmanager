@@ -122,7 +122,7 @@ class AddGateway extends React.Component {
 
         return (
             <React.Fragment>
-                <span className="pr-3" style={{ fontSize: '28px' }} onClick={this.toggle}>+</span>
+                <AddButtons toggle={this.toggle}/>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_gateway}/>
 

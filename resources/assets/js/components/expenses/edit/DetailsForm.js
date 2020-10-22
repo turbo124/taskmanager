@@ -8,6 +8,7 @@ import ExpenseCategoryDropdown from '../../common/dropdowns/ExpenseCategoryDropd
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import RecurringForm from '../../common/RecurringForm'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
 
 export default class DetailsForm extends React.Component {
     render () {
@@ -60,6 +61,14 @@ export default class DetailsForm extends React.Component {
                         category={this.props.expense.category_id}
                         renderErrorFor={this.props.renderErrorFor}
                         handleInputChanges={this.props.handleInput}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="date">{translations.currency}(*):</Label>
+                    <CurrencyDropdown
+                        name="currency_id"
+                        currency_id={this.props.expense.currency_id}
                     />
                 </FormGroup>
 

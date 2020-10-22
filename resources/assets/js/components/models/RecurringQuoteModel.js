@@ -79,9 +79,14 @@ export default class RecurringQuoteModel extends BaseModel {
             transaction_fee: 0,
             shipping_cost: 0,
             gateway_fee: 0,
+            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             gateway_percentage: false,
             auto_billing_enabled: this.settings.autobilling_enabled,
             tax: 0,
+            tax_rate_name_2: '',
+            tax_rate_name_3: '',
+            tax_2: 0,
+            tax_3: 0,
             discount: 0,
             total_custom_values: 0,
             total_custom_tax: 0,
@@ -92,7 +97,8 @@ export default class RecurringQuoteModel extends BaseModel {
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            loading: false
+            loading: false,
+            changesMade: false,
         }
 
         this.sent = 2

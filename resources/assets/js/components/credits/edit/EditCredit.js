@@ -42,6 +42,7 @@ import InvoiceReducer from '../../invoice/InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
+import { getExchangeRateWithMap } from '../../utils/_money'
 
 export default class EditCredit extends Component {
     constructor (props, context) {
@@ -123,6 +124,7 @@ export default class EditCredit extends Component {
             const contacts = this.creditModel.contacts
 
             this.setState({
+                changesMade: true,
                 contacts: contacts,
                 modalOpen: true,
                 line_type: line_type,
@@ -137,12 +139,12 @@ export default class EditCredit extends Component {
     }
 
     setRecurring (recurring) {
-        this.setState({ recurring: recurring })
+        this.setState({ recurring: recurring, changesMade: true })
     }
 
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+            this.setState({ activeTab: tab, changesMade: true })
         }
     }
 
@@ -156,6 +158,7 @@ export default class EditCredit extends Component {
             const customer_data = this.creditModel.customerChange(e.target.value)
 
             this.setState({
+                changesMade: true,
                 customerName: customer_data.name,
                 contacts: customer_data.contacts,
                 address: customer_data.address
@@ -164,25 +167,31 @@ export default class EditCredit extends Component {
             if (this.settings.convert_product_currency === true) {
                 const customer = new CustomerModel(customer_data.customer)
                 const currency_id = customer.currencyId
-                const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
-                const exchange_rate = currency[0].exchange_rate
-                this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+
+                const currencies = JSON.parse(localStorage.getItem('currencies'))
+                const exchange_rate = getExchangeRateWithMap(currencies, this.state.currency_id, currency_id)
+                this.setState({ changesMade: true, exchange_rate: exchange_rate, currency_id: currency_id })
+
+                // const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
+                // const exchange_rate = currency[0].exchange_rate
             }
 
             if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
-                this.setState({ project_id: '' })
+                this.setState({ changesMade: true, project_id: '' })
             }
         }
 
-        if (e.target.name === 'tax') {
+        if (e.target.name === 'tax' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
             const name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
             const rate = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
 
             this.setState({
-                tax: rate,
-                tax_rate_name: name
+                [e.target.name]: rate,
+                [tax_rate_name]: name,
+                changesMade: true
             }, () => {
-                localStorage.setItem('creditForm', JSON.stringify(this.state))
+                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
                 this.calculateTotals()
             })
 
@@ -191,18 +200,19 @@ export default class EditCredit extends Component {
 
         if (e.target.name === 'partial') {
             const has_partial = e.target.value.trim() !== ''
-            this.setState({ has_partial: has_partial, partial: e.target.value })
+            this.setState({ changesMade: true, has_partial: has_partial, partial: e.target.value })
             return
         }
 
         if (e.target.name === 'is_amount_discount') {
-            this.setState({ is_amount_discount: e.target.value === 'true' })
+            this.setState({ changesMade: true, is_amount_discount: e.target.value === 'true' })
             return
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
 
         this.setState({
+            changesMade: true,
             [e.target.name]: value
         }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
     }
@@ -211,6 +221,7 @@ export default class EditCredit extends Component {
         const value = (!e.target.value) ? ('') : ((e.target.type === 'checkbox') ? (e.target.checked) : (parseFloat(e.target.value)))
 
         this.setState({
+            changesMade: true,
             [e.target.name]: value
         }, () => this.calculateSurcharges())
     }
@@ -219,6 +230,7 @@ export default class EditCredit extends Component {
         const surcharge_totals = CalculateSurcharges({ surcharges: this.state })
 
         this.setState({
+            changesMade: true,
             total_custom_values: surcharge_totals.total_custom_values,
             total_custom_tax: surcharge_totals.total_custom_tax
         }, () => this.calculateTotals())
@@ -247,6 +259,7 @@ export default class EditCredit extends Component {
                 }
 
                 this.setState({
+                    changesMade: true,
                     line_items: arrLines,
                     total: total
                 }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
@@ -257,15 +270,26 @@ export default class EditCredit extends Component {
     }
 
     toggle () {
+        if (this.state.modalOpen && this.state.changesMade) {
+            if (!window.confirm('Your changes have not been saved?')) {
+                return false
+            }
+        }
+
         this.setState({
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
             if (!this.state.modalOpen) {
                 this.setState({
+                    changesMade: false,
                     public_notes: '',
                     tax: null,
                     tax_rate_name: '',
+                    tax_rate_name_2: '',
+                    tax_rate_name_3: '',
+                    tax_2: null,
+                    tax_3: null,
                     private_notes: '',
                     transaction_fee: null,
                     shipping_cost: null,
@@ -303,6 +327,7 @@ export default class EditCredit extends Component {
         const totals = CalculateTotal({ invoice: this.state })
 
         this.setState({
+            changesMade: true,
             total: totals.total,
             discount_total: totals.discount_total,
             tax_total: totals.tax_total,
@@ -318,11 +343,11 @@ export default class EditCredit extends Component {
             invoice: this.state
         })
 
-        this.setState({ line_items: line_items }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
+        this.setState({ changesMade: true, line_items: line_items }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {
-        this.setState({ line_items: line_items }, () => {
+        this.setState({ changesMade: true, line_items: line_items }, () => {
             this.calculateTotals()
             this.updatePriceData(row)
         })
@@ -348,7 +373,7 @@ export default class EditCredit extends Component {
             return idx !== tIndex
         })
 
-        this.setState({ line_items: newTasks })
+        this.setState({ changesMade: true, line_items: newTasks })
     }
 
     setTotal (total) {
@@ -367,6 +392,10 @@ export default class EditCredit extends Component {
             design_id: this.state.design_id,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,
+            tax_rate_name_2: this.state.tax_rate_name_2,
+            tax_2: this.state.tax_2,
+            tax_rate_name_3: this.state.tax_rate_name_3,
+            tax_3: this.state.tax_3,
             task_id: this.props.task_id,
             due_date: this.state.due_date,
             customer_id: this.state.customer_id,
@@ -427,7 +456,7 @@ export default class EditCredit extends Component {
             const index = this.props.credits.findIndex(credit => credit.id === this.state.id)
             this.props.credits[index] = response
             this.props.action(this.props.credits)
-            this.setState({ loading: false })
+            this.setState({ loading: false, changesMade: false })
         })
     }
 

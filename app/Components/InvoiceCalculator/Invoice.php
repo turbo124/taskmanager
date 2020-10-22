@@ -54,6 +54,16 @@ class Invoice extends BaseCalculator
     /**
      * @var float
      */
+    private $tax_2;
+
+    /**
+     * @var float
+     */
+    private $tax_3;
+
+    /**
+     * @var float
+     */
     private $taxable_amount;
 
     /**
@@ -219,6 +229,13 @@ class Invoice extends BaseCalculator
         $sub_total = $this->custom_tax > 0 ? $this->total + $this->custom_tax : $this->total;
         $this->tax_total += $this->applyTax($sub_total, $this->tax_rate, $this->is_amount_discount);
 
+        if ($this->tax_2 && $this->tax_2 > 0) {
+            $this->tax_total += $this->applyTax($sub_total, $this->tax_2, $this->is_amount_discount);
+        }
+        if ($this->tax_3 && $this->tax_3 > 0) {
+            $this->tax_total += $this->applyTax($sub_total, $this->tax_3, $this->is_amount_discount);
+        }
+
         if ($this->custom_tax > 0) {
             $this->total = $sub_total;
         }
@@ -271,13 +288,9 @@ class Invoice extends BaseCalculator
     /**
      * @param float $tax_rate
      */
-    public function setTaxRate($tax_rate): self
+    public function setTaxRate($name, $tax_rate): self
     {
-        if (empty($tax_rate)) {
-            return $this;
-        }
-
-        $this->tax_rate = $tax_rate;
+        $this->{$name} = $tax_rate;
         return $this;
     }
 

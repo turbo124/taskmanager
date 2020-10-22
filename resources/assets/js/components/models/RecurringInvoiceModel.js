@@ -50,6 +50,10 @@ export default class RecurringInvoiceModel extends BaseModel {
             customerName: '',
             tax_rate_name: '',
             tax_rate: 0,
+            tax_rate_name_2: '',
+            tax_rate_name_3: '',
+            tax_2: 0,
+            tax_3: 0,
             company_id: '',
             status_id: null,
             tasks: [],
@@ -85,12 +89,14 @@ export default class RecurringInvoiceModel extends BaseModel {
             discount: 0,
             recurring: '',
             activeTab: '1',
+            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             po_number: '',
             design_id: '',
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            loading: false
+            loading: false,
+            changesMade: false
         }
 
         this.approved = 4

@@ -22,7 +22,13 @@ export default function Overview (props) {
 
         {!!props.entity.private_notes.length &&
         <Row>
-            <InfoMessage message={props.entity.private_notes}/>
+            <InfoMessage icon={icons.lock} message={props.entity.private_notes}/>
+        </Row>
+        }
+
+        {!!props.entity.public_notes.length &&
+        <Row>
+            <InfoMessage message={props.entity.public_notes}/>
         </Row>
         }
 

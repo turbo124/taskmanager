@@ -25,9 +25,27 @@ class CustomerSettings extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    toggleTab (tab) {
+    toggleTab (tab, e) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
+        }
+
+        const parent = e.currentTarget.parentNode
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const winWidth = window.innerWidth || document.documentElement.clientWidth
+        const widthScroll = winWidth * 33 / 100
+        const diff = window.innerWidth <= 768 ? 10 : 400
+
+        if (rect.left <= diff || rect3.left <= diff) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft -= widthScroll
+        }
+
+        if (rect.right >= winWidth - diff || rect2.right >= winWidth - diff) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
+            container.scrollLeft += widthScroll
         }
     }
 
@@ -116,6 +134,15 @@ class CustomerSettings extends Component {
                             text: translations.no
                         }
                     ]
+                },
+                {
+                    name: 'autobilling_enabled',
+                    label: translations.auto_billing_enabled,
+                    type: 'switch',
+                    placeholder: translations.auto_billing_enabled,
+                    value: settings.auto_billing_enabled,
+                    help_text: translations.auto_billing_enabled_help_text,
+                    class_name: 'col-12'
                 },
                 {
                     name: 'should_send_email_for_manual_payment',
@@ -233,6 +260,132 @@ class CustomerSettings extends Component {
         return formFields
     }
 
+    getDealFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_deal',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_deal,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'should_archive_deal',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_deal,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'should_convert_deal',
+                    label: 'Auto Convert',
+                    icon: `fa ${icons.book}`,
+                    type: 'switch',
+                    value: settings.should_convert_deal,
+                    class_name: 'col-12',
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getCaseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'default_case_priority',
+                    label: translations.default_case_priority,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.low_priority,
+                            text: translations.low
+                        },
+                        {
+                            value: consts.medium_priority,
+                            text: translations.medium
+                        },
+                        {
+                            value: consts.high_priority,
+                            text: translations.high
+                        }
+                    ],
+                    value: settings.default_case_priority,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getPaymentFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'invoice_payment_deleted_status',
+                    label: translations.invoice_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.invoice_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.invoice_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.invoice_payment_deleted_status,
+                    group: 1
+                },
+                {
+                    name: 'credit_payment_deleted_status',
+                    label: translations.credit_payment_deleted_status,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'select',
+                    options: [
+                        {
+                            value: consts.credit_status_draft,
+                            text: translations.draft
+                        },
+                        {
+                            value: consts.credit_status_sent,
+                            text: translations.sent
+                        },
+                        {
+                            value: 100,
+                            text: translations.deleted
+                        }
+                    ],
+                    value: settings.credit_payment_deleted_status,
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
     getInvoiceFields () {
         const settings = this.state.settings
 
@@ -264,6 +417,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_invoice,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -272,6 +426,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_invoice,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -291,6 +446,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_order,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -299,6 +455,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_order,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -307,6 +464,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_order,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -326,6 +484,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_lead,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -334,6 +493,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_lead,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -342,6 +502,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_lead,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -361,6 +522,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_quote,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -369,6 +531,7 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_quote,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -377,6 +540,87 @@ class CustomerSettings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_quote,
+                    class_name: 'col-12',
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getPurchaseOrderFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'should_email_purchase_order',
+                    label: 'Auto Email',
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.should_email_purchase_order,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'should_archive_purchase_order',
+                    label: 'Auto Archive',
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.should_archive_purchase_order,
+                    class_name: 'col-12',
+                    group: 1
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getExpenseFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'create_expense_invoice',
+                    label: translations.create_expense_invoice,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.create_expense_invoice,
+                    help_text: translations.create_expense_invoice_help,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'include_expense_documents',
+                    label: translations.include_expense_documents,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.include_expense_documents,
+                    help_text: translations.include_expense_documents_help,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'create_expense_payment',
+                    label: translations.create_expense_payment,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.create_expense_payment,
+                    help_text: translations.create_expense_payment_help,
+                    class_name: 'col-12',
+                    group: 1
+                },
+                {
+                    name: 'convert_expense_currency',
+                    label: translations.convert_expense_currency,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.convert_expense_currency,
+                    help_text: translations.convert_expense_currency_help,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -578,6 +822,224 @@ class CustomerSettings extends Component {
         return formFields
     }
 
+    getProjectNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'project_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.project_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'project_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.project_number_counter
+                }
+            ]
+        ]
+    }
+
+    getExpenseNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'expense_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.expense_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'expense_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.expense_number_counter
+                }
+            ]
+        ]
+    }
+
+    getCompanyNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'company_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.company_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'company_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.company_number_counter
+                }
+            ]
+        ]
+    }
+
+    getPurchaseOrderNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'purchaseorder_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.purchaseorder_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'purchaseorder_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.purchaseorder_number_counter
+                }
+            ]
+        ]
+    }
+
+    getDealNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'deal_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.deal_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'deal_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.deal_number_counter
+                }
+            ]
+        ]
+    }
+
+    getCaseNumberFields () {
+        const settings = this.state.settings
+
+        const formFields = [
+            [
+                {
+                    name: 'case_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.case_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'case_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.case_number_counter
+                }
+            ]
+        ]
+
+        return formFields
+    }
+
+    getTaskNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'task_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.task_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'task_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.task_number_counter
+                }
+            ]
+        ]
+    }
+
+    getRecurringInvoiceNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringinvoice_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringinvoice_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringinvoice_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringinvoice_number_counter
+                }
+            ]
+        ]
+    }
+
+    getRecurringQuoteNumberFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'recurringquote_number_pattern',
+                    label: translations.number_pattern,
+                    type: 'text',
+                    placeholder: translations.number_pattern,
+                    value: settings.recurringquote_number_pattern,
+                    group: 1
+                },
+                {
+                    name: 'recurringquote_number_counter',
+                    label: translations.number_counter,
+                    type: 'text',
+                    placeholder: translations.number_counter,
+                    value: settings.recurringquote_number_counter
+                }
+            ]
+        ]
+    }
+
     handleInput (e) {
         this.setState({
             [e.target.name]: e.target.value,
@@ -613,14 +1075,16 @@ class CustomerSettings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
         return (
             <React.Fragment>
-                <Nav tabs className="nav-justified disable-scrollbars">
+                <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('1')
+                            onClick={(e) => {
+                                this.toggleTab('1', e)
                             }}>
                             {translations.details}
                         </NavLink>
@@ -629,72 +1093,192 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('2')
+                            onClick={(e) => {
+                                this.toggleTab('2', e)
                             }}>
                             {translations.defaults}
                         </NavLink>
                     </NavItem>
 
+                    {modules && modules.invoices &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('3')
+                            onClick={(e) => {
+                                this.toggleTab('3', e)
                             }}>
                             {translations.invoices}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.quotes &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('4')
+                            onClick={(e) => {
+                                this.toggleTab('4', e)
                             }}>
                             {translations.quotes}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.leads &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('5')
+                            onClick={(e) => {
+                                this.toggleTab('5', e)
                             }}>
                             {translations.leads}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.orders &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('6')
+                            onClick={(e) => {
+                                this.toggleTab('6', e)
                             }}>
                             {translations.orders}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.credits &&
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '9' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('9')
+                            className={this.state.activeTab === '7' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('7', e)
                             }}>
                             {translations.credits}
                         </NavLink>
                     </NavItem>
+                    }
 
+                    {modules && modules.payments &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '8' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('8', e)
+                             }}>
+                             {translations.payments}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.deals &&
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '10' ? 'active' : ''}
-                            onClick={() => {
-                                this.toggleTab('10')
+                            className={this.state.activeTab === '9' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('9', e)
                             }}>
-                            {translations.payments}
+                            {translations.deals}
                         </NavLink>
                     </NavItem>
+                    }
+
+                    {modules && modules.cases &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '10' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('10', e)
+                             }}>
+                             {translations.cases}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.purchase_orders &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '11' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('11', e)
+                             }}>
+                             {translations.pos}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.recurringInvoices &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '12' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('12', e)
+                             }}>
+                             {translations.recurring_invoices}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.recurringQuotes &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '13' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('13', e)
+                             }}>
+                             {translations.recurring_quotes}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.tasks &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '14' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('14', e)
+                             }}>
+                             {translations.tasks}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.expenses &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '15' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('15', e)
+                             }}>
+                             {translations.expenses}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.projects &&
+                     <NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '16' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('16', e)
+                             }}>
+                             {translations.projects}
+                         </NavLink>
+                     </NavItem>
+                    }
+
+                    {modules && modules.companies &&
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '17' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('17', e)
+                            }}>
+                            {translations.companies}
+                        </NavLink>
+                    </NavItem>
+                    }
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -794,7 +1378,7 @@ class CustomerSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="9">
+                    <TabPane tabId="7">
                         <Card>
                             <CardBody>
                                 <FormBuilder
@@ -805,12 +1389,156 @@ class CustomerSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="10">
+                    <TabPane tabId="8">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
                         <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPaymentNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="9">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDealFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getDealNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="10">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCaseNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="11">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="12">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getRecurringInvoiceNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="13">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getRecurringQuoteNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="14">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getTaskNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="15">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="16">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getProjectNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="17">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCompanyNumberFields()}
                                 />
                             </CardBody>
                         </Card>

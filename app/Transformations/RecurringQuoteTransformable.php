@@ -60,7 +60,13 @@ trait RecurringQuoteTransformable
             'files'                => $this->transformRecurringQuoteFiles($quote->files),
             'invitations'          => [],
             'quotes'               => $this->transformQuotesCreated($quote->quotes),
-            'schedule'             => $quote->calculateDateRanges()
+            'schedule'             => $quote->calculateDateRanges(),
+            'tax_rate'             => (float)$quote->tax_rate,
+            'tax_2'                => (float)$quote->tax_2,
+            'tax_3'                => (float)$quote->tax_3,
+            'tax_rate_name'        => $quote->tax_rate_name,
+            'tax_rate_name_2'      => $quote->tax_rate_name_2,
+            'tax_rate_name_3'      => $quote->tax_rate_name_3,
 
         ];
     }

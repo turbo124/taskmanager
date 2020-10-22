@@ -58,7 +58,13 @@ trait OrderTransformable
             'shipping_cost_tax'   => (bool)$order->shipping_cost_tax,
             'emails'              => $this->transformOrderEmails($order->emails()),
             'audits'              => $this->transformAuditsForOrder($order->audits),
-            'files'               => $this->transformOrderFiles($order->files)
+            'files'               => $this->transformOrderFiles($order->files),
+            'tax_rate'            => (float)$order->tax_rate,
+            'tax_2'               => (float)$order->tax_2,
+            'tax_3'               => (float)$order->tax_3,
+            'tax_rate_name'       => $order->tax_rate_name,
+            'tax_rate_name_2'     => $order->tax_rate_name_2,
+            'tax_rate_name_3'     => $order->tax_rate_name_3,
         ];
     }
 

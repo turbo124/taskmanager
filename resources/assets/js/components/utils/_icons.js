@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const icons = {
+    lock: 'fa-lock',
     visibility: 'fa-eye',
     visibility_off: 'fa-eye-slash',
     help: 'fa-question',
@@ -169,6 +170,8 @@ export function getSettingsIcon (section) {
             return icons.globe
         case 'workflow-settings':
             return icons.double_right
+        case 'tax-settings':
+            return icons.percent
         case 'device-settings':
             return icons.desktop
         case 'portal-settings':

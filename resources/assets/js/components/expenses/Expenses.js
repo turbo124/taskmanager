@@ -43,6 +43,12 @@ export default class Expenses extends Component {
             },
             ignoredColumns:
                 [
+                    'tax_rate',
+                    'tax_rate_name',
+                    'tax_2', 'tax_3',
+                    'tax_rate_name_2',
+                    'tax_rate_name_3',
+                    'project_id',
                     'category',
                     'files',
                     'customer_name',
