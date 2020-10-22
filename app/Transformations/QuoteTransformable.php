@@ -61,6 +61,12 @@ class QuoteTransformable
             'files'               => $this->transformQuoteFiles($quote->files),
             'recurring'           => $quote->recurring_quote,
             'recurring_quote_id'  => $quote->recurring_quote_id,
+            'tax_rate'            => (float)$quote->tax_rate,
+            'tax_2'               => (float)$quote->tax_2,
+            'tax_3'               => (float)$quote->tax_3,
+            'tax_rate_name'       => $quote->tax_rate_name,
+            'tax_rate_name_2'     => $quote->tax_rate_name_2,
+            'tax_rate_name_3'     => $quote->tax_rate_name_3,
         ];
     }
 

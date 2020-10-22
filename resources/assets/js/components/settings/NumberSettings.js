@@ -41,13 +41,14 @@ class NumberSettings extends Component {
         const rect3 = parent.previousSibling.getBoundingClientRect()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
+        const diff = window.innerWidth <= 768 ? 10 : 255
 
-        if (rect.left <= 10 || rect3.left <= 10) {
+        if (rect.left <= diff || rect3.left <= diff) {
             const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft -= widthScroll
         }
 
-        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+        if (rect.right >= winWidth - diff || rect2.right >= winWidth - diff) {
             const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft += widthScroll
         }

@@ -1101,7 +1101,7 @@ export default class Settings extends Component {
     render () {
         return (
             <React.Fragment>
-                <Nav tabs className= className="nav-justified disable-scrollbars">
+                <Nav tabs className="nav-justified disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -1182,16 +1182,16 @@ export default class Settings extends Component {
                     </NavItem>
                     }
 
-                     {modules && modules.payments &&
+                    {modules && modules.payments &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '10' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('10', e)
-                            }}>
-                            {translations.payments}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '10' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('10', e)
+                             }}>
+                             {translations.payments}
+                         </NavLink>
+                     </NavItem>
                     }
 
                     {modules && modules.deals &&
@@ -1206,7 +1206,7 @@ export default class Settings extends Component {
                     </NavItem>
                     }
 
-                     <NavItem>
+                    <NavItem>
                         <NavLink
                             className={this.state.activeTab === '12' ? 'active' : ''}
                             onClick={(e) => {
@@ -1216,88 +1216,88 @@ export default class Settings extends Component {
                         </NavLink>
                     </NavItem>
 
-                     {modules && modules.cases &&
+                    {modules && modules.cases &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '13' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('13', e)
-                            }}>
-                            {translations.cases}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '13' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('13', e)
+                             }}>
+                             {translations.cases}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.purchase_orders &&
+                    {modules && modules.purchase_orders &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '14' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('14', e)
-                            }}>
-                            {translations.pos}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '14' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('14', e)
+                             }}>
+                             {translations.pos}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.recurringInvoices &&
+                    {modules && modules.recurringInvoices &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '15' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('15', e)
-                            }}>
-                            {translations.recurring_invoices}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '15' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('15', e)
+                             }}>
+                             {translations.recurring_invoices}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.recurringQuotes &&
+                    {modules && modules.recurringQuotes &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '16' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('16', e)
-                            }}>
-                            {translations.recurring_quotes}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '16' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('16', e)
+                             }}>
+                             {translations.recurring_quotes}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.tasks &&
+                    {modules && modules.tasks &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '17' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('17', e)
-                            }}>
-                            {translations.tasks}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '17' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('17', e)
+                             }}>
+                             {translations.tasks}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.expenses &&
+                    {modules && modules.expenses &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '18' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('18', e)
-                            }}>
-                            {translations.expenses}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '18' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('18', e)
+                             }}>
+                             {translations.expenses}
+                         </NavLink>
+                     </NavItem>
                     }
 
-                     {modules && modules.projects &&
+                    {modules && modules.projects &&
                      <NavItem>
-                        <NavLink
-                            className={this.state.activeTab === '19' ? 'active' : ''}
-                            onClick={(e) => {
-                                this.toggleTab('19', e)
-                            }}>
-                            {translations.projects}
-                        </NavLink>
-                    </NavItem>
+                         <NavLink
+                             className={this.state.activeTab === '19' ? 'active' : ''}
+                             onClick={(e) => {
+                                 this.toggleTab('19', e)
+                             }}>
+                             {translations.projects}
+                         </NavLink>
+                     </NavItem>
                     }
 
                     {modules && modules.companies &&
@@ -1441,7 +1441,7 @@ export default class Settings extends Component {
                         </Card>
                     </TabPane>
 
-                   <TabPane tabId="11">
+                    <TabPane tabId="11">
                         <Card>
                             <CardBody>
                                 <FormBuilder
@@ -1501,7 +1501,7 @@ export default class Settings extends Component {
                         </Card>
                     </TabPane>
 
-                   <TabPane tabId="14">
+                    <TabPane tabId="14">
                         <Card>
                             <CardBody>
                                 <FormBuilder

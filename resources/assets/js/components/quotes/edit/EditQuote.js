@@ -44,6 +44,7 @@ import InvoiceReducer from '../../invoice/InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
+import { getExchangeRateWithMap } from '../../utils/_money'
 
 class EditInvoice extends Component {
     constructor (props, context) {
@@ -96,7 +97,7 @@ class EditInvoice extends Component {
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.quoteModel.contacts
-            this.setState({ contacts: contacts })
+            this.setState({ contacts: contacts, changesMade: true })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -127,6 +128,7 @@ class EditInvoice extends Component {
             const contacts = this.quoteModel.contacts
 
             this.setState({
+                changesMade: true,
                 contacts: contacts,
                 modalOpen: true,
                 line_type: line_type,
@@ -153,7 +155,7 @@ class EditInvoice extends Component {
     handleContactChange (e) {
         const invitations = this.quoteModel.buildInvitations(e.target.value, e.target.checked)
         // update the state with the new array of options
-        this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
+        this.setState({ invitations: invitations, changesMade: true }, () => console.log('invitations', invitations))
     }
 
     handleInput (e) {
@@ -162,6 +164,7 @@ class EditInvoice extends Component {
             const customer_data = this.quoteModel.customerChange(e.target.value)
 
             this.setState({
+                changesMade: true,
                 customerName: customer_data.name,
                 contacts: customer_data.contacts,
                 address: customer_data.address
@@ -170,25 +173,31 @@ class EditInvoice extends Component {
             if (this.settings.convert_product_currency === true) {
                 const customer = new CustomerModel(customer_data.customer)
                 const currency_id = customer.currencyId
-                const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
-                const exchange_rate = currency[0].exchange_rate
+
+                const currencies = JSON.parse(localStorage.getItem('currencies'))
+                const exchange_rate = getExchangeRateWithMap(currencies, this.state.currency_id, currency_id)
                 this.setState({ exchange_rate: exchange_rate, currency_id: currency_id })
+
+                // const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === currency_id)
+                // const exchange_rate = currency[0].exchange_rate
             }
 
             if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
-                this.setState({ project_id: '' })
+                this.setState({ project_id: '', changesMade: true })
             }
         }
 
-        if (e.target.name === 'tax') {
+        if (e.target.name === 'tax' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
             const name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
             const rate = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
 
             this.setState({
-                tax: rate,
-                tax_rate_name: name
+                [e.target.name]: rate,
+                [tax_rate_name]: name,
+                changesMade: true
             }, () => {
-                localStorage.setItem('quoteForm', JSON.stringify(this.state))
+                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
                 this.calculateTotals()
             })
 
@@ -197,18 +206,19 @@ class EditInvoice extends Component {
 
         if (e.target.name === 'partial') {
             const has_partial = e.target.value.trim() !== ''
-            this.setState({ has_partial: has_partial, partial: e.target.value })
+            this.setState({ changesMade: true, has_partial: has_partial, partial: e.target.value })
             return
         }
 
         if (e.target.name === 'is_amount_discount') {
-            this.setState({ is_amount_discount: e.target.value === 'true' })
+            this.setState({ changesMade: true, is_amount_discount: e.target.value === 'true' })
             return
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
 
         this.setState({
+            changesMade: true,
             [e.target.name]: value
         }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
@@ -217,6 +227,7 @@ class EditInvoice extends Component {
         const value = (!e.target.value) ? ('') : ((e.target.type === 'checkbox') ? (e.target.checked) : (parseFloat(e.target.value)))
 
         this.setState({
+            changesMade: true,
             [e.target.name]: value
         }, () => this.calculateSurcharges())
     }
@@ -225,6 +236,7 @@ class EditInvoice extends Component {
         const surcharge_totals = CalculateSurcharges({ surcharges: this.state })
 
         this.setState({
+            changesMade: true,
             total_custom_values: surcharge_totals.total_custom_values,
             total_custom_tax: surcharge_totals.total_custom_tax
         }, () => this.calculateTotals())
@@ -253,6 +265,7 @@ class EditInvoice extends Component {
                 }
 
                 this.setState({
+                    changesMade: true,
                     line_items: arrLines,
                     total: total
                 }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
@@ -269,6 +282,7 @@ class EditInvoice extends Component {
             .then((r) => {
                 if (r.data) {
                     this.setState({
+                        changesMade: true,
                         line_items: r.data.line_items,
                         due_date: moment(r.data.due_date).format('YYYY-MM-DD'),
                         po_number: r.data.po_number,
@@ -290,6 +304,12 @@ class EditInvoice extends Component {
     }
 
     toggle () {
+        if (this.state.modalOpen && this.state.changesMade) {
+            if (!window.confirm('Your changes have not been saved?')) {
+                return false
+            }
+        }
+
         this.setState({
             modalOpen: !this.state.modalOpen,
             errors: []
@@ -310,6 +330,7 @@ class EditInvoice extends Component {
         const totals = CalculateTotal({ invoice: this.state })
 
         this.setState({
+            changesMade: true,
             total: totals.total,
             discount_total: totals.discount_total,
             tax_total: totals.tax_total,
@@ -325,11 +346,11 @@ class EditInvoice extends Component {
             invoice: this.state
         })
 
-        this.setState({ line_items: line_items }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+        this.setState({ changesMade: true, line_items: line_items }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {
-        this.setState({ line_items: line_items }, () => {
+        this.setState({ changesMade: true, line_items: line_items }, () => {
             this.calculateTotals()
             this.updatePriceData(row)
         })
@@ -355,7 +376,7 @@ class EditInvoice extends Component {
             return idx !== tIndex
         })
 
-        this.setState({ line_items: newTasks })
+        this.setState({ changesMade: true, line_items: newTasks })
     }
 
     setTotal (total) {
@@ -373,6 +394,10 @@ class EditInvoice extends Component {
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
             tax_rate_name: this.state.tax_rate_name,
+            tax_rate_name_2: this.state.tax_rate_name_2,
+            tax_2: this.state.tax_2,
+            tax_rate_name_3: this.state.tax_rate_name_3,
+            tax_3: this.state.tax_3,
             is_recurring: this.state.is_recurring,
             invoice_id: this.state.id,
             task_id: this.props.task_id,
@@ -435,12 +460,12 @@ class EditInvoice extends Component {
             const index = this.props.invoices.findIndex(invoice => invoice.id === this.state.id)
             this.props.invoices[index] = response
             this.props.action(this.props.invoices)
-            this.setState({ loading: false })
+            this.setState({ loading: false, changesMade: false })
         })
     }
 
     setRecurring (recurring) {
-        this.setState({ recurring: recurring })
+        this.setState({ recurring: recurring, changesMade: true })
     }
 
     buildForm () {

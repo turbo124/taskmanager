@@ -30,10 +30,17 @@ export default class ExpenseModel extends BaseModel {
             custom_value4: '',
             public_notes: '',
             private_notes: '',
+            tax_rate: 0,
+            tax_1: 0,
+            tax_2: 0,
+            tax_total: 0,
+            tax_rate_name_2: '',
+            tax_rate_name_3: '',
+            tax_rate_name: '',
             project_id: null,
             customer_id: '',
             currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
-            invoice_currency_id: null,
+            invoice_currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             payment_type_id: '',
             exchange_rate: 1,
             transaction_reference: '',
@@ -80,19 +87,40 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get convertedAmount () {
-        return parseFloat((this.fields.amount * this.fields.exchange_rate).toFixed(2))
+        return parseFloat((this.fields.amount * this.exchange_rate).toFixed(2))
     }
 
     get id () {
         return this.fields.id
     }
 
+    get exchange_rate () {
+        return !this.fields.exchange_rate ? 1 : this.fields.exchange_rate
+    }
+
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
     }
 
+    get amountWithTax () {
+        let total = this.fields.amount
+
+        if (this.fields.tax_rate && this.fields.tax_rate > 0) {
+            total += this.fields.amount * this.fields.tax_rate / 100
+        }
+        if (this.fields.tax_1 && this.fields.tax_1 > 0) {
+            total += this.fields.amount * this.fields.tax_1 / 100
+        }
+
+        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+            total += this.fields.amount * this.fields.tax_2 / 100
+        }
+
+        return Math.round(total, 2)
+    }
+
     get convertedAmountWithTax () {
-        return (this.fields.amountWithTax * this.fields.exchange_rate).toFixed(2)
+        return Math.round((this.amountWithTax * this.exchange_rate), 2)
     }
 
     get currencyId () {
@@ -131,6 +159,9 @@ export default class ExpenseModel extends BaseModel {
 
     getExchangeRateForCurrency (currency_id) {
         const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
+
+        console.log('currency', currency)
+
         return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
     }
 
@@ -143,6 +174,10 @@ export default class ExpenseModel extends BaseModel {
         actions.push('cloneExpense')
 
         return actions
+    }
+
+    get isConverted () {
+        return parseInt(this.fields.exchange_rate) !== 1 && parseInt(this.fields.exchange_rate) !== 0
     }
 
     async completeAction (data, action) {
@@ -207,5 +242,60 @@ export default class ExpenseModel extends BaseModel {
             this.handleError(e)
             return false
         }
+    }
+
+    calculateTotals (entity) {
+        let tax_total = 0
+
+        if (entity.tax_rate > 0) {
+            const a_total = parseFloat(entity.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_rate) / 100
+            tax_total += tax_percentage
+        }
+
+        if (entity.tax_2 && entity.tax_2 > 0) {
+            const a_total = parseFloat(entity.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_2) / 100
+            tax_total += tax_percentage
+        }
+
+        if (entity.tax_3 && entity.tax_3 > 0) {
+            const a_total = parseFloat(entity.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_3) / 100
+            tax_total += tax_percentage
+        }
+
+        return tax_total
+    }
+
+    calculateTaxes (usesInclusiveTaxes) {
+        let tax_total = 0
+
+        if (this.fields.tax_rate > 0) {
+            const a_total = parseFloat(this.fields.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_rate) / 100
+            tax_total += tax_percentage
+        }
+
+        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+            const a_total = parseFloat(this.fields.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_2) / 100
+            tax_total += tax_percentage
+        }
+
+        if (this.fields.tax_3 && this.fields.tax_3 > 0) {
+            const a_total = parseFloat(this.fields.amount)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_3) / 100
+            tax_total += tax_percentage
+        }
+
+        return Math.round(tax_total, 2)
+    }
+
+    calculateTax (tax_amount) {
+        const a_total = parseFloat(this.fields.total)
+        const tax_percentage = parseFloat(a_total) * parseFloat(tax_amount) / 100
+
+        return Math.round(tax_percentage, 2)
     }
 }

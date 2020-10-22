@@ -44,6 +44,10 @@ export default class InvoiceModel extends BaseModel {
             customerName: '',
             tax_rate_name: '',
             tax_rate: 0,
+            tax_rate_name_2: '',
+            tax_rate_name_3: '',
+            tax_2: 0,
+            tax_3: 0,
             company_id: '',
             status_id: null,
             tasks: [],
@@ -81,12 +85,13 @@ export default class InvoiceModel extends BaseModel {
             po_number: '',
             design_id: '',
             recurring_invoice_id: null,
-            currency_id: null,
+            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             exchange_rate: 1,
             success: false,
             showSuccessMessage: false,
             showErrorMessage: false,
-            loading: false
+            loading: false,
+            changesMade: false
         }
 
         this.approved = 4
@@ -439,5 +444,61 @@ export default class InvoiceModel extends BaseModel {
             address: address
 
         }
+    }
+
+    calculateTaxes (usesInclusiveTaxes) {
+        let tax_total = 0
+
+        if (this.fields.tax_rate > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_rate) / 100
+            tax_total += tax_percentage
+        }
+
+        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_2) / 100
+            tax_total += tax_percentage
+        }
+
+        if (this.fields.tax_3 && this.fields.tax_3 > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_3) / 100
+            tax_total += tax_percentage
+        }
+
+        this.fields.line_items.map((product) => {
+            const quantity = product.quantity === 0 ? 1 : product.quantity
+            let line_total = product.unit_price * quantity
+            let discount_total = 0
+
+            if (product.unit_discount > 0 && this.fields.discount === 0) {
+                const n = parseFloat(this.fields.total)
+
+                if (this.fields.is_amount_discount === true) {
+                    discount_total += parseFloat(product.unit_discount)
+                } else {
+                    const percentage = n * product.unit_discount / 100
+                    discount_total += percentage
+                    // lexieTotal -= discount_total
+                }
+
+                line_total -= discount_total
+            }
+
+            if (product.unit_tax > 0) {
+                const tax_percentage = line_total * product.unit_tax / 100
+                tax_total += tax_percentage
+            }
+        })
+
+        return Math.round(tax_total, 2)
+    }
+
+    calculateTax (tax_amount) {
+        const a_total = parseFloat(this.fields.total)
+        const tax_percentage = parseFloat(a_total) * parseFloat(tax_amount) / 100
+
+        return Math.round(tax_percentage, 2)
     }
 }

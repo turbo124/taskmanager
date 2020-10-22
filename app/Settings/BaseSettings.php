@@ -11,6 +11,42 @@ class BaseSettings
     protected array $validationFailures = [];
 
     protected array $account_settings = [
+        'show_transaction_fee'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'show_shipping_cost'                   => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'show_gateway_fee'                     => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'show_tax_rate1'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'show_tax_rate2'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'show_tax_rate3'                       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'task_automation_enabled'              => [
             'required'         => false,
             'translated_value' => '',
@@ -922,42 +958,6 @@ class BaseSettings
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
-        ],
-        'tax_name1'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => '',
-            'type'             => 'string'
-        ],
-        'tax_name2'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => '',
-            'type'             => 'string'
-        ],
-        'tax_name3'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => '',
-            'type'             => 'string'
-        ],
-        'tax_rate1'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => 0,
-            'type'             => 'float'
-        ],
-        'tax_rate2'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => 0,
-            'type'             => 'float'
-        ],
-        'tax_rate3'                            => [
-            'required'         => false,
-            'translated_value' => '',
-            'default_value'    => 0,
-            'type'             => 'float'
         ],
         'date_format'                          => [
             'required'         => false,

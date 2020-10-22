@@ -11,15 +11,25 @@ import ExpensePresenter from '../../presenters/ExpensePresenter'
 export default function Overview (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+    const header = props.model.isConverted
+        ? <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax}
+            heading_2={translations.converted} value_2={props.model.convertedAmountWithTax}/>
+        : <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax} />
+
     return <React.Fragment>
-        <ViewEntityHeader heading_1={translations.amount} value_1={props.entity.amount}
-            heading_2={translations.converted} value_2={props.convertedAmount}/>
+        {header}
 
         <ExpensePresenter entity={props.entity} field="status_field"/>
 
         {!!props.entity.private_notes.length &&
         <Row>
-            <InfoMessage message={props.entity.private_notes}/>
+            <InfoMessage icon={icons.lock} message={props.entity.private_notes}/>
+        </Row>
+        }
+
+        {!!props.entity.public_notes.length &&
+        <Row>
+            <InfoMessage message={props.entity.public_notes}/>
         </Row>
         }
 

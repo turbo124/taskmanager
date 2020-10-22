@@ -64,7 +64,13 @@ class InvoiceTransformable
             'audits'               => $this->transformAuditsForInvoice($invoice->audits),
             'files'                => $this->transformInvoiceFiles($invoice->files),
             'recurring_invoice_id' => $invoice->recurring_invoice_id,
-            'recurring'            => $invoice->recurring_invoice
+            'recurring'            => $invoice->recurring_invoice,
+            'tax_rate'             => (float)$invoice->tax_rate,
+            'tax_2'                => (float)$invoice->tax_2,
+            'tax_3'                => (float)$invoice->tax_3,
+            'tax_rate_name'        => $invoice->tax_rate_name,
+            'tax_rate_name_2'      => $invoice->tax_rate_name_2,
+            'tax_rate_name_3'      => $invoice->tax_rate_name_3,
         ];
     }
 

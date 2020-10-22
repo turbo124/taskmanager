@@ -60,7 +60,13 @@ trait RecurringInvoiceTransformable
             'files'                => $this->transformRecurringInvoiceFiles($invoice->files),
             'invitations'          => [],
             'invoices'             => $this->transformInvoicesCreated($invoice->invoices),
-            'schedule'             => $invoice->calculateDateRanges()
+            'schedule'             => $invoice->calculateDateRanges(),
+            'tax_rate'             => (float)$invoice->tax_rate,
+            'tax_2'                => (float)$invoice->tax_2,
+            'tax_3'                => (float)$invoice->tax_3,
+            'tax_rate_name'        => $invoice->tax_rate_name,
+            'tax_rate_name_2'      => $invoice->tax_rate_name_2,
+            'tax_rate_name_3'      => $invoice->tax_rate_name_3,
 
         ];
     }

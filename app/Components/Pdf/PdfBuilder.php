@@ -609,6 +609,10 @@ class PdfBuilder
         $tax_collection = collect([]);
 
         foreach ($line_items as $key => $line_item) {
+            if (empty($line_item->tax_total) || empty($line_item->tax_rate_name)) {
+                continue;
+            }
+
             $group_tax = [
                 'key'      => $key,
                 'total'    => $line_item->tax_total,
@@ -853,14 +857,14 @@ class PdfBuilder
             }
 
             $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
-            $this->line_items[$key][$table_type . '.notes'] = $item->notes ?: '';
+            $this->line_items[$key][$table_type . '.notes'] = !empty($item->notes) ? $item->notes : '';
 
             if (empty($this->line_items[$key][$table_type . '.notes']) && !empty($item->description)) {
                 $this->line_items[$key][$table_type . '.notes'] = $item->description;
             }
 
             $this->line_items[$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
-            $this->line_items[$key][$table_type . '.line_total'] = $this->formatCurrency($item->sub_total, $customer);
+            $this->line_items[$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency($item->sub_total, $customer) : 0;
 
             $this->line_items[$key][$table_type . '.discount'] = '';
 

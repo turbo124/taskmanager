@@ -5,6 +5,7 @@ import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import { icons } from '../../utils/_icons'
+import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'
 
 export default class SettingsForm extends React.Component {
     constructor (props) {
@@ -18,6 +19,10 @@ export default class SettingsForm extends React.Component {
         this.toggleCurrency = this.toggleCurrency.bind(this)
         this.togglePayment = this.togglePayment.bind(this)
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account_settings = user_account[0].account.settings
     }
 
     hasErrorFor (field) {
@@ -62,6 +67,36 @@ export default class SettingsForm extends React.Component {
             </CardHeader>
 
             <CardBody>
+                {this.account_settings.show_tax_rate1 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax_rate"
+                            handleInputChanges={this.props.handleInput}
+                        />
+                    </FormGroup>
+                }
+
+                {this.account_settings.show_tax_rate2 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax_2"
+                            handleInputChanges={this.props.handleInput}
+                        />
+                    </FormGroup>
+                }
+
+                {this.account_settings.show_tax_rate3 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax_3"
+                            handleInputChanges={this.props.handleInput}
+                        />
+                    </FormGroup>
+                }
+
                 <a href="#"
                     className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
@@ -165,9 +200,9 @@ export default class SettingsForm extends React.Component {
                         <Col md={6}>
                             <FormGroup>
                                 <Label for="exampleEmail">{translations.currency}</Label>
-                                <CurrencyDropdown currency_id={this.props.expense.currency_id}
+                                <CurrencyDropdown currency_id={this.props.expense.invoice_currency_id}
                                     handleInputChanges={this.props.handleInput}
-                                    name="currency_id"/>
+                                    name="invoice_currency_id"/>
                             </FormGroup>
                         </Col>
                         <Col md={6}>

@@ -57,7 +57,13 @@ trait PurchaseOrderTransformable
             'shipping_cost_tax'   => (bool)$po->shipping_cost_tax,
             'emails'              => $this->transformPurchaseOrderEmails($po->emails()),
             'audits'              => $this->transformAuditsForPurchaseOrder($po->audits),
-            'files'               => $this->transformPurchaseOrderFiles($po->files)
+            'files'               => $this->transformPurchaseOrderFiles($po->files),
+            'tax_rate'            => (float)$po->tax_rate,
+            'tax_2'               => (float)$po->tax_2,
+            'tax_3'               => (float)$po->tax_3,
+            'tax_rate_name'       => $po->tax_rate_name,
+            'tax_rate_name_2'     => $po->tax_rate_name_2,
+            'tax_rate_name_3'     => $po->tax_rate_name_3,
         ];
     }
 

@@ -138,6 +138,8 @@ export default class Invoice extends Component {
                 amount={this.state.entity.discount_total}/>
         }
 
+        const tax_total = this.invoiceModel.calculateTaxes(false)
+
         const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice', true) : (e) => this.toggleTab('6')
         const button_2_text = this.invoiceModel.isPaid ? translations.clone_invoice : translations.add_payment
 

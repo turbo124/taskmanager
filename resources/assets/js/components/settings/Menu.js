@@ -27,6 +27,7 @@ export default class Menu extends Component {
                     <MenuItem section="field-settings"/>
                     <MenuItem section="invoice-settings"/>
                     <MenuItem section="workflow-settings"/>
+                    <MenuItem section="tax-settings"/>
                     <MenuItem section="portal-settings"/>
                     <MenuItem section="email-settings"/>
                     <MenuItem section="template-settings"/>

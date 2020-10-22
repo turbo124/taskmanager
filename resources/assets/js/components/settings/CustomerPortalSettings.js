@@ -59,7 +59,7 @@ export default class CustomerPortalSettings extends Component {
 
     handleSettingsChange (event) {
         const name = event.target.name
-        const value = event.target.value
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
         this.setState(prevState => ({
             settings: {
@@ -233,15 +233,15 @@ export default class CustomerPortalSettings extends Component {
                 </NavLink>
             </NavItem>
 
-            <NavItem>
-                <NavLink
-                    className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={() => {
-                        this.toggle('3')
-                    }}>
-                    {translations.billing}
-                </NavLink>
-            </NavItem>
+            {/* <NavItem> */}
+            {/*    <NavLink */}
+            {/*        className={this.state.activeTab === '3' ? 'active' : ''} */}
+            {/*        onClick={() => { */}
+            {/*            this.toggle('3') */}
+            {/*        }}> */}
+            {/*        {translations.billing} */}
+            {/*    </NavLink> */}
+            {/* </NavItem> */}
         </Nav>
 
         return this.state.loaded === true ? (

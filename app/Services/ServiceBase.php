@@ -167,7 +167,9 @@ class ServiceBase
         $objInvoice
             ->setBalance($entity->balance)
             ->setInclusiveTaxes($entity->account->settings->inclusive_taxes)
-            ->setTaxRate($entity->tax_rate)
+            ->setTaxRate('tax_rate', $entity->tax_rate)
+            ->setTaxRate('tax_2', !empty($entity->tax_2) ? $entity->tax_2 : 0)
+            ->setTaxRate('tax_3', !empty($entity->tax_2) ? $entity->tax_2 : 0)
             ->setDiscountTotal(isset($entity->discount_total) ? $entity->discount_total : 0)
             ->setPartial($entity->partial)
             ->build();

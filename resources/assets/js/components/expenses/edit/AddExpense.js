@@ -9,6 +9,7 @@ import ExpenseModel from '../../models/ExpenseModel'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import { getExchangeRateWithMap } from '../../utils/_money'
 
 class AddExpense extends React.Component {
     constructor (props) {
@@ -43,9 +44,30 @@ class AddExpense extends React.Component {
     }
 
     handleInput (e) {
-        if (e.target.name === 'currency_id') {
-            const exchange_rate = this.expenseModel.getExchangeRateForCurrency(e.target.value)
+        if (e.target.name === 'currency_id' || e.target.name === 'invoice_currency_id') {
+            // const exchange_rate = this.expenseModel.getExchangeRateForCurrency(e.target.value)
+
+            const currencies = JSON.parse(localStorage.getItem('currencies'))
+            const exchange_rate = getExchangeRateWithMap(currencies, this.state.currency_id, e.target.value)
+
             this.setState({ exchange_rate: exchange_rate })
+        }
+
+        if (e.target.name === 'tax_rate' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
+            const name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
+            const rate = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax_rate' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
+
+            this.setState({
+                [e.target.name]: rate,
+                [tax_rate_name]: name,
+                changesMade: true
+            }, () => {
+                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
+                this.expenseModel.calculateTotals(this.state)
+            })
+
+            return
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -104,7 +126,14 @@ class AddExpense extends React.Component {
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
-            custom_value4: this.state.custom_value4
+            custom_value4: this.state.custom_value4,
+            tax_rate: this.state.tax_rate,
+            tax_2: this.state.tax_2,
+            tax_3: this.state.tax_3,
+            tax_rate_name_2: this.state.tax_rate_name_2,
+            tax_rate_name_3: this.state.tax_rate_name_3,
+            tax_rate_name: this.state.tax_rate_name,
+            tax_total: this.state.tax_total
         }
 
         this.expenseModel.save(data).then(response => {

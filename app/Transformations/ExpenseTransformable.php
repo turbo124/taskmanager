@@ -58,7 +58,11 @@ trait ExpenseTransformable
             'last_sent_date'        => $expense->last_sent_date ?: '',
             'next_send_date'        => $expense->next_send_date ?: '',
             'recurring_frequency'   => (int)$expense->recurring_frequency ?: '',
-            'category'              => $expense->category
+            'category'              => $expense->category,
+            'tax_2'                => (float)$expense->tax_2,
+            'tax_3'                => (float)$expense->tax_3,
+            'tax_rate_name_2'      => $expense->tax_rate_name_2,
+            'tax_rate_name_3'      => $expense->tax_rate_name_3,
         ];
     }
 

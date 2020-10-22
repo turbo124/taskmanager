@@ -67,11 +67,11 @@ const items = [
                 url: '/group-settings',
                 icon: `fa ${getSettingsIcon('group-settings')}`
             },
-            {
-                name: translations.tax_rates,
-                url: '/tax-rates',
-                icon: `fa ${getSettingsIcon('tax-rates')}`
-            },
+            // {
+            //     name: translations.tax_rates,
+            //     url: '/tax-rates',
+            //     icon: `fa ${getSettingsIcon('tax-rates')}`
+            // },
             {
                 name: translations.custom_fields,
                 url: '/field-settings',
@@ -106,6 +106,11 @@ const items = [
                 name: translations.workflow_settings,
                 url: '/workflow-settings',
                 icon: `fa ${getSettingsIcon('workflow-settings')}`
+            },
+            {
+                name: translations.tax_settings,
+                url: '/tax-settings',
+                icon: `fa ${getSettingsIcon('tax-settings')}`
             },
             {
                 name: translations.device_settings,

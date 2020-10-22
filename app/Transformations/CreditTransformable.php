@@ -64,7 +64,13 @@ trait CreditTransformable
             'shipping_cost_tax'   => (bool)$credit->shipping_cost_tax,
             'emails'              => $this->transformCreditEmails($credit->emails()),
             'audits'              => $this->transformAuditsForCredit($credit->audits),
-            'files'               => $this->transformCreditFiles($credit->files)
+            'files'               => $this->transformCreditFiles($credit->files),
+            'tax_rate'            => (float)$credit->tax_rate,
+            'tax_2'               => (float)$credit->tax_2,
+            'tax_3'               => (float)$credit->tax_3,
+            'tax_rate_name'       => $credit->tax_rate_name,
+            'tax_rate_name_2'     => $credit->tax_rate_name_2,
+            'tax_rate_name_3'     => $credit->tax_rate_name_3,
         ];
     }
 
