@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FormBuilder from '../../settings/FormBuilder'
 import {
+    Button,
     Card,
     CardBody,
     CardHeader,
@@ -41,126 +42,32 @@ export default class Settings extends Component {
         const rect3 = parent.previousSibling.getBoundingClientRect()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
+        const diff = window.innerWidth <= 768 ? 10 : 400
 
-        if (rect.left <= 10 || rect3.left <= 10) {
+        if (rect.left <= diff || rect3.left <= diff) {
             const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft -= widthScroll
         }
 
-        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+        if (rect.right >= winWidth - diff || rect2.right >= winWidth - diff) {
             const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft += widthScroll
         }
     }
 
-    getAddressFields () {
-        const settings = this.props.settings
-
-        return [
-            [
-                {
-                    name: 'address1',
-                    label: translations.address_1,
-                    type: 'text',
-                    placeholder: translations.address_1,
-                    value: settings.address1,
-                    group: 2
-                },
-                {
-                    name: 'address2',
-                    label: translations.address_2,
-                    type: 'text',
-                    placeholder: translations.address_2,
-                    value: settings.address2,
-                    group: 2
-                },
-                {
-                    name: 'city',
-                    label: translations.city,
-                    type: 'text',
-                    placeholder: translations.city,
-                    value: settings.city,
-                    group: 2
-                },
-                {
-                    name: 'state',
-                    label: translations.town,
-                    type: 'text',
-                    placeholder: translations.town,
-                    value: settings.state,
-                    group: 2
-                },
-                {
-                    name: 'postal_code',
-                    label: translations.postcode,
-                    type: 'text',
-                    placeholder: translations.postcode,
-                    value: settings.postal_code,
-                    group: 2
-                },
-                {
-                    name: 'country_id',
-                    label: translations.country,
-                    type: 'country',
-                    placeholder: translations.country,
-                    value: settings.country_id,
-                    group: 2
-                }
-            ]
-        ]
-    }
-
     getFormFields () {
         const settings = this.props.settings
 
+        console.log('settings', settings)
+
         const formFields = [
             [
-                {
-                    name: 'website',
-                    label: translations.website,
-                    type: 'text',
-                    placeholder: translations.website,
-                    value: settings.website,
-                    group: 1
-                },
-                {
-                    name: 'phone',
-                    label: translations.phone_number,
-                    type: 'text',
-                    placeholder: translations.phone_number,
-                    value: settings.phone,
-                    group: 1
-                },
-                {
-                    name: 'email',
-                    label: translations.email,
-                    type: 'text',
-                    placeholder: translations.email,
-                    value: settings.email,
-                    group: 1
-                },
-                {
-                    name: 'vat_number',
-                    label: translations.vat_number,
-                    type: 'text',
-                    placeholder: translations.vat_number,
-                    value: settings.vat_number,
-                    group: 1
-                },
                 {
                     name: 'language_id',
                     label: translations.language,
                     type: 'language',
                     placeholder: translations.language,
                     value: settings.language_id,
-                    group: 3
-                },
-                {
-                    name: 'currency_id',
-                    label: translations.currency,
-                    type: 'currency',
-                    placeholder: translations.currency,
-                    value: settings.currency_id,
                     group: 3
                 },
                 {
@@ -221,6 +128,15 @@ export default class Settings extends Component {
                             text: translations.no
                         }
                     ]
+                },
+                {
+                    name: 'autobilling_enabled',
+                    label: translations.auto_billing_enabled,
+                    type: 'switch',
+                    placeholder: translations.auto_billing_enabled,
+                    value: settings.auto_billing_enabled,
+                    help_text: translations.auto_billing_enabled_help_text,
+                    class_name: 'col-12'
                 },
                 {
                     name: 'should_send_email_for_manual_payment',
@@ -339,7 +255,7 @@ export default class Settings extends Component {
     }
 
     getDealFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -349,6 +265,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_deal,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -357,6 +274,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_deal,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -365,6 +283,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_deal,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -374,7 +293,7 @@ export default class Settings extends Component {
     }
 
     getCaseFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -407,7 +326,7 @@ export default class Settings extends Component {
     }
 
     getPaymentFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -462,7 +381,7 @@ export default class Settings extends Component {
     }
 
     getInvoiceFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -492,6 +411,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_invoice,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -500,6 +420,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_invoice,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -509,7 +430,7 @@ export default class Settings extends Component {
     }
 
     getOrderFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -519,6 +440,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_order,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -527,6 +449,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_order,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -535,6 +458,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_order,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -544,7 +468,7 @@ export default class Settings extends Component {
     }
 
     getLeadFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -554,6 +478,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_lead,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -562,6 +487,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_lead,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -570,6 +496,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_lead,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -579,7 +506,7 @@ export default class Settings extends Component {
     }
 
     getQuoteFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -589,6 +516,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_quote,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -597,6 +525,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_quote,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -605,6 +534,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_quote,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -614,7 +544,7 @@ export default class Settings extends Component {
     }
 
     getPurchaseOrderFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -624,6 +554,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.envelope}`,
                     type: 'switch',
                     value: settings.should_email_purchase_order,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -632,6 +563,7 @@ export default class Settings extends Component {
                     icon: `fa ${icons.archive}`,
                     type: 'switch',
                     value: settings.should_archive_purchase_order,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -641,7 +573,7 @@ export default class Settings extends Component {
     }
 
     getExpenseFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -652,6 +584,7 @@ export default class Settings extends Component {
                     type: 'switch',
                     value: settings.create_expense_invoice,
                     help_text: translations.create_expense_invoice_help,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -661,6 +594,7 @@ export default class Settings extends Component {
                     type: 'switch',
                     value: settings.include_expense_documents,
                     help_text: translations.include_expense_documents_help,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -670,6 +604,7 @@ export default class Settings extends Component {
                     type: 'switch',
                     value: settings.create_expense_payment,
                     help_text: translations.create_expense_payment_help,
+                    class_name: 'col-12',
                     group: 1
                 },
                 {
@@ -679,6 +614,7 @@ export default class Settings extends Component {
                     type: 'switch',
                     value: settings.convert_expense_currency,
                     help_text: translations.convert_expense_currency_help,
+                    class_name: 'col-12',
                     group: 1
                 }
             ]
@@ -688,7 +624,7 @@ export default class Settings extends Component {
     }
 
     getInvoiceNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         console.log('settings', settings)
 
@@ -716,7 +652,7 @@ export default class Settings extends Component {
     }
 
     getOrderNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         console.log('settings', settings)
 
@@ -744,7 +680,7 @@ export default class Settings extends Component {
     }
 
     getQuoteNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -795,7 +731,7 @@ export default class Settings extends Component {
     }
 
     getCreditNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -846,7 +782,7 @@ export default class Settings extends Component {
     }
 
     getPaymentNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -881,7 +817,7 @@ export default class Settings extends Component {
     }
 
     getProjectNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -905,7 +841,7 @@ export default class Settings extends Component {
     }
 
     getExpenseNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -929,7 +865,7 @@ export default class Settings extends Component {
     }
 
     getCompanyNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -953,7 +889,7 @@ export default class Settings extends Component {
     }
 
     getPurchaseOrderNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -977,7 +913,7 @@ export default class Settings extends Component {
     }
 
     getDealNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -1000,8 +936,8 @@ export default class Settings extends Component {
         ]
     }
 
-    getCaseNumberField () {
-        const { settings } = this.props
+    getCaseNumberFields () {
+        const settings = this.props.settings
 
         const formFields = [
             [
@@ -1027,7 +963,7 @@ export default class Settings extends Component {
     }
 
     getTaskNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -1051,7 +987,7 @@ export default class Settings extends Component {
     }
 
     getRecurringInvoiceNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -1075,7 +1011,7 @@ export default class Settings extends Component {
     }
 
     getRecurringQuoteNumberFields () {
-        const { settings } = this.props
+        const settings = this.props.settings
 
         return [
             [
@@ -1099,9 +1035,10 @@ export default class Settings extends Component {
     }
 
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
         return (
             <React.Fragment>
-                <Nav tabs className="nav-justified disable-scrollbars">
+                <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
@@ -1173,9 +1110,9 @@ export default class Settings extends Component {
                     {modules && modules.credits &&
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '9' ? 'active' : ''}
+                            className={this.state.activeTab === '7' ? 'active' : ''}
                             onClick={(e) => {
-                                this.toggleTab('9', e)
+                                this.toggleTab('7', e)
                             }}>
                             {translations.credits}
                         </NavLink>
@@ -1183,129 +1120,119 @@ export default class Settings extends Component {
                     }
 
                     {modules && modules.payments &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '10' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('10', e)
-                             }}>
-                             {translations.payments}
-                         </NavLink>
-                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '8' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('8', e)
+                            }}>
+                            {translations.payments}
+                        </NavLink>
+                    </NavItem>
                     }
 
                     {modules && modules.deals &&
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '11' ? 'active' : ''}
+                            className={this.state.activeTab === '9' ? 'active' : ''}
                             onClick={(e) => {
-                                this.toggleTab('11', e)
+                                this.toggleTab('9', e)
                             }}>
                             {translations.deals}
                         </NavLink>
                     </NavItem>
                     }
 
+                    {modules && modules.cases &&
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '10' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('10', e)
+                            }}>
+                            {translations.cases}
+                        </NavLink>
+                    </NavItem>
+                    }
+
+                    {modules && modules.purchase_orders &&
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '11' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('11', e)
+                            }}>
+                            {translations.pos}
+                        </NavLink>
+                    </NavItem>
+                    }
+
+                    {modules && modules.recurringInvoices &&
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '12' ? 'active' : ''}
                             onClick={(e) => {
                                 this.toggleTab('12', e)
                             }}>
-                            {translations.leads}
+                            {translations.recurring_invoices}
                         </NavLink>
                     </NavItem>
-
-                    {modules && modules.cases &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '13' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('13', e)
-                             }}>
-                             {translations.cases}
-                         </NavLink>
-                     </NavItem>
-                    }
-
-                    {modules && modules.purchase_orders &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '14' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('14', e)
-                             }}>
-                             {translations.pos}
-                         </NavLink>
-                     </NavItem>
-                    }
-
-                    {modules && modules.recurringInvoices &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '15' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('15', e)
-                             }}>
-                             {translations.recurring_invoices}
-                         </NavLink>
-                     </NavItem>
                     }
 
                     {modules && modules.recurringQuotes &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '16' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('16', e)
-                             }}>
-                             {translations.recurring_quotes}
-                         </NavLink>
-                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '13' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('13', e)
+                            }}>
+                            {translations.recurring_quotes}
+                        </NavLink>
+                    </NavItem>
                     }
 
                     {modules && modules.tasks &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '17' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('17', e)
-                             }}>
-                             {translations.tasks}
-                         </NavLink>
-                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '14' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('14', e)
+                            }}>
+                            {translations.tasks}
+                        </NavLink>
+                    </NavItem>
                     }
 
                     {modules && modules.expenses &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '18' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('18', e)
-                             }}>
-                             {translations.expenses}
-                         </NavLink>
-                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '15' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('15', e)
+                            }}>
+                            {translations.expenses}
+                        </NavLink>
+                    </NavItem>
                     }
 
                     {modules && modules.projects &&
-                     <NavItem>
-                         <NavLink
-                             className={this.state.activeTab === '19' ? 'active' : ''}
-                             onClick={(e) => {
-                                 this.toggleTab('19', e)
-                             }}>
-                             {translations.projects}
-                         </NavLink>
-                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '16' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('16', e)
+                            }}>
+                            {translations.projects}
+                        </NavLink>
+                    </NavItem>
                     }
 
                     {modules && modules.companies &&
                     <NavItem>
                         <NavLink
-                            className={this.state.activeTab === '20' ? 'active' : ''}
+                            className={this.state.activeTab === '17' ? 'active' : ''}
                             onClick={(e) => {
-                                this.toggleTab('20', e)
+                                this.toggleTab('17', e)
                             }}>
                             {translations.companies}
                         </NavLink>
@@ -1320,7 +1247,7 @@ export default class Settings extends Component {
                             <CardBody>
 
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getFormFields()}
                                 />
                             </CardBody>
@@ -1332,7 +1259,7 @@ export default class Settings extends Component {
                             <CardHeader>{translations.defaults}</CardHeader>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getDefaultFields()}
                                 />
                             </CardBody>
@@ -1343,7 +1270,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getInvoiceFields()}
                                 />
                             </CardBody>
@@ -1352,7 +1279,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getInvoiceNumberFields()}
                                 />
                             </CardBody>
@@ -1363,7 +1290,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getQuoteFields()}
                                 />
                             </CardBody>
@@ -1372,7 +1299,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getQuoteNumberFields()}
                                 />
                             </CardBody>
@@ -1383,7 +1310,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getLeadFields()}
                                 />
                             </CardBody>
@@ -1394,7 +1321,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getOrderFields()}
                                 />
                             </CardBody>
@@ -1403,8 +1330,39 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getOrderNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="7">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getCreditNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="8">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getPaymentNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1414,8 +1372,17 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCreditNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getDealFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getDealNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1425,8 +1392,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getCaseFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1434,8 +1401,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getCaseNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1445,8 +1412,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDealFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1454,8 +1421,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDealNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getPurchaseOrderNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1465,17 +1432,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getLeadFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getRecurringInvoiceNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1485,17 +1443,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getRecurringQuoteNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1505,17 +1454,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getTaskNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1525,8 +1465,17 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringInvoiceNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getExpenseNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1536,8 +1485,8 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringQuoteNumberFields()}
+                                    handleChange={this.props.handleSettingsChange}
+                                    formFieldsRows={this.getProjectNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1547,49 +1496,7 @@ export default class Settings extends Component {
                         <Card>
                             <CardBody>
                                 <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskNumberFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane tabId="18">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseNumberFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane tabId="19">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getProjectNumberFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane tabId="20">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
+                                    handleChange={this.props.handleSettingsChange}
                                     formFieldsRows={this.getCompanyNumberFields()}
                                 />
                             </CardBody>

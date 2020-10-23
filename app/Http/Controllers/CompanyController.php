@@ -12,7 +12,6 @@ use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;
 use App\Requests\SearchRequest;
 use App\Search\CompanySearch;
-use App\Settings\CompanySettings;
 use App\Traits\UploadableTrait;
 use App\Transformations\CompanyTransformable;
 use Exception;
@@ -65,18 +64,15 @@ class CompanyController extends Controller
     {
         $company = (new CompanyFactory)->create(auth()->user(), auth()->user()->account_user()->account);
 
+        if ($request->company_logo !== null) {
+            $company->logo = $this->uploadLogo($request->file('company_logo'));
+        }
+
         $company = $this->company_repo->save($request->except('logo'), $company);
 
         if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
         }
-
-        if ($request->company_logo !== null) {
-            $logo_path = $this->uploadLogo($request->file('company_logo'));
-            $settings['company_logo'] = $logo_path;
-        }
-
-        $company = (new CompanySettings)->save($company, (object)$settings);
 
         return response()->json($this->transformCompany($company));
     }
@@ -100,18 +96,14 @@ class CompanyController extends Controller
     {
         $company = $this->company_repo->findCompanyById($id);
 
+        if ($request->company_logo !== null && $request->company_logo !== 'null') {
+            $company->logo = $this->uploadLogo($request->file('company_logo'));
+        }
+
         $this->company_repo->save($request->all(), $company);
 
         if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
-        }
-
-        if ($request->company_logo !== null && $request->company_logo !== 'null') {
-            $logo_path = $this->uploadLogo($request->file('company_logo'));
-            $settings = $company->settings;
-            $settings->company_logo = $logo_path;
-
-            $company = (new CompanySettings)->save($company, (object)$settings);
         }
 
         return response()->json($this->transformCompany($company));

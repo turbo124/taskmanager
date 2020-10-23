@@ -23,6 +23,7 @@ export default class BaseModel {
         this.user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
         this.settings = this.user_account[0].account.settings
         this.custom_fields = this.user_account[0].account.custom_fields
+        this.tax_rates = JSON.parse(localStorage.getItem('tax_rates'))
     }
 
     handleError (error) {

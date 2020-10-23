@@ -29,6 +29,7 @@ trait CompanyTransformable
             'address_1'     => $company->address_1,
             'address_2'     => $company->address_2,
             'private_notes' => $company->private_notes ?: '',
+            'public_notes'  => $company->public_notes ?: '',
             'town'          => $company->town,
             'city'          => $company->city,
             'postcode'      => $company->postcode,

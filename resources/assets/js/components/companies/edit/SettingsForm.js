@@ -30,7 +30,7 @@ export default class SettingsForm extends React.Component {
             <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
                 <FormGroup>
-                    <Label for="postcode">Currency(*):</Label>
+                    <Label for="postcode">{translations.currency}(*):</Label>
                     <CurrencyDropdown
                         currency_id={this.props.company.currency_id}
                         errors={this.props.errors}
@@ -39,7 +39,7 @@ export default class SettingsForm extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="postcode">Industry:</Label>
+                    <Label for="postcode">{translations.industry}:</Label>
                     <IndustryDropdown
                         industry_id={this.props.company.industry_id}
                         errors={this.props.errors}

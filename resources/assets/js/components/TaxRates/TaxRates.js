@@ -52,6 +52,8 @@ export default class TaxRates extends Component {
         this.setState({
             taxRates: taxRates,
             cachedData: cachedData
+        }, () => {
+            localStorage.setItem('tax_rates', JSON.stringify(taxRates))
         })
     }
 

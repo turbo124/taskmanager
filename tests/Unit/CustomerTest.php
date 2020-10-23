@@ -146,7 +146,7 @@ class CustomerTest extends TestCase
     public function it_can_list_all_customers()
     {
         Customer::factory()->create();
-        $list = (new CustomerFilter(
+        $list = (new CustomerSearch(
             new CustomerRepository(
                 new Customer,
             )

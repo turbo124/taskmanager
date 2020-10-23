@@ -27,6 +27,7 @@ export default class CompanyModel extends BaseModel {
             custom_value3: '',
             custom_value4: '',
             private_notes: '',
+            public_notes: '',
             address_2: '',
             town: '',
             city: '',

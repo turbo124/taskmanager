@@ -79,6 +79,7 @@ class Login extends Component {
                     localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
                     localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
+                    localStorage.setItem('tax_rates', JSON.stringify(response.data.data.tax_rates))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
                     localStorage.setItem('access_token', userData.auth_token)
                     localStorage.setItem('expires', d2)

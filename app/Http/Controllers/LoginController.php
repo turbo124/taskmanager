@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\Language;
 use App\Models\PaymentGateway;
 use App\Models\PaymentMethod;
+use App\Models\TaxRate;
 use App\Models\User;
 use App\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -68,6 +69,7 @@ class LoginController extends Controller
                     'countries'     => Country::all()->toArray(),
                     'payment_types' => PaymentMethod::all()->toArray(),
                     'gateways'      => PaymentGateway::all()->toArray(),
+                    'tax_rates'     => TaxRate::all()->toArray(),
                     'users'         => User::where('is_active', '=', 1)->get(
                         ['first_name', 'last_name', 'phone_number', 'id']
                     )->toArray()
