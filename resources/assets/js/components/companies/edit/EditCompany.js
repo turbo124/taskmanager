@@ -91,6 +91,7 @@ class EditCompany extends React.Component {
         formData.append('custom_value3', this.state.custom_value3)
         formData.append('custom_value4', this.state.custom_value4)
         formData.append('private_notes', this.state.private_notes)
+        formData.append('public_notes', this.state.public_notes)
         formData.append('contacts', JSON.stringify(this.state.contacts))
         formData.append('_method', 'PUT')
 
@@ -238,7 +239,8 @@ class EditCompany extends React.Component {
                                 <SettingsForm errors={this.state.errors} company={this.state}
                                     handleInput={this.handleInput}/>
 
-                                <Notes handleInput={this.handleInput} errors={this.state.errors}
+                                <Notes handleInput={this.handleInput} public_notes={this.state.public_notes}
+                                    errors={this.state.errors}
                                     private_notes={this.state.private_notes}/>
                             </TabPane>
 

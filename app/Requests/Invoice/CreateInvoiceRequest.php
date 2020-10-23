@@ -3,10 +3,8 @@
 namespace App\Requests\Invoice;
 
 use App\Rules\Invoice\ValidateProjectCustomer;
-use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Factory as ValidationFactory;
 
 class CreateInvoiceRequest extends FormRequest
 {
@@ -60,14 +58,5 @@ class CreateInvoiceRequest extends FormRequest
             'task_id.required' => 'There was an unexpected error!',
             'user_id.required' => 'There was an unexpected error!',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-
-        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
-
-        $this->replace($input);
     }
 }

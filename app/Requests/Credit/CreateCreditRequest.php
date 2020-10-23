@@ -3,7 +3,6 @@
 namespace App\Requests\Credit;
 
 use App\Repositories\Base\BaseFormRequest;
-use App\Settings\LineItemSettings;
 use Illuminate\Validation\Rule;
 
 class CreateCreditRequest extends BaseFormRequest
@@ -33,13 +32,5 @@ class CreateCreditRequest extends BaseFormRequest
                 )
             ],
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
-
-        $this->replace($input);
     }
 }

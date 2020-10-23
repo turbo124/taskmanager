@@ -2,7 +2,6 @@
 
 namespace App\Requests\Order;
 
-use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOrderRequest extends FormRequest
@@ -48,13 +47,5 @@ class UpdateOrderRequest extends FormRequest
             'task_id.required' => 'There was an unexpected error!',
             'user_id.required' => 'There was an unexpected error!',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
-
-        $this->replace($input);
     }
 }

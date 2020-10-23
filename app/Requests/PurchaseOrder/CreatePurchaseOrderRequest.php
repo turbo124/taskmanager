@@ -2,7 +2,6 @@
 
 namespace App\Requests\PurchaseOrder;
 
-use App\Settings\LineItemSettings;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -57,13 +56,5 @@ class CreatePurchaseOrderRequest extends FormRequest
             'task_id.required' => 'There was an unexpected error!',
             'user_id.required' => 'There was an unexpected error!',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $input = $this->all();
-        $input['line_items'] = isset($input['line_items']) ? (new LineItemSettings)->save($input['line_items']) : [];
-
-        $this->replace($input);
     }
 }

@@ -358,6 +358,7 @@ class EditPurchaseOrder extends Component {
         this.setState((prevState, props) => {
             return {
                 line_items: this.state.line_items.concat({
+                    is_amount_discount: false,
                     unit_discount: 0,
                     unit_tax: 0,
                     quantity: 0,

@@ -18,6 +18,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
+        'logo',
         'number',
         'name',
         'website',
@@ -34,6 +35,7 @@ class Company extends Model
         'settings',
         'industry_id',
         'private_notes',
+        'public_notes',
         'assigned_to',
         'user_id',
         'account_id',

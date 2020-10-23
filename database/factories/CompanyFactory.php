@@ -30,6 +30,7 @@ class CompanyFactory extends Factory
             'account_id'       => 1,
             'settings'         => null,
             'private_notes'    => null,
+            'public_notes'    => null,
             'is_deleted'       => false,
             'assigned_to'      => null,
             'industry_id'      => 1,
