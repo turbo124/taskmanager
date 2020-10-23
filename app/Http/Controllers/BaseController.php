@@ -30,6 +30,7 @@ use App\Models\PaymentMethod;
 use App\Models\Quote;
 use App\Models\RecurringInvoice;
 use App\Models\RecurringQuote;
+use App\Models\TaxRate;
 use App\Models\User;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
@@ -528,6 +529,7 @@ class BaseController extends Controller
             'countries' => Country::all(),
             'payment_types' => PaymentMethod::all(),
             'gateways' => PaymentGateway::all(),
+            'tax_rates' => TaxRate::all(),
             'users' => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )

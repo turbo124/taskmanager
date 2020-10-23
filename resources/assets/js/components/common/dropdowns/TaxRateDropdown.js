@@ -35,7 +35,8 @@ export default class TaxRateDropdown extends Component {
     }
 
     getTaxRates () {
-        const taxRateRepository = new TaxRateRepository()
+        this.setState({ taxRates: JSON.parse(localStorage.getItem('tax_rates')) })
+        /* const taxRateRepository = new TaxRateRepository()
         taxRateRepository.get().then(response => {
             if (!response) {
                 alert('error')
@@ -44,7 +45,7 @@ export default class TaxRateDropdown extends Component {
             this.setState({ taxRates: response }, () => {
                 console.log('taxRates', this.state.taxRates)
             })
-        })
+        }) */
     }
 
     render () {

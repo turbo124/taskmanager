@@ -6,14 +6,12 @@ import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from '../utils/_money'
 import CompanyModel from '../models/CompanyModel'
 import { translations } from '../utils/_translations'
-import ExpenseModel from '../models/ExpenseModel'
 import { consts } from '../utils/_consts'
 import ProductRepository from '../repositories/ProductRepository'
 import TaxRateRepository from '../repositories/TaxRateRepository'
 import ExpenseRepository from '../repositories/ExpenseRepository'
 import TaskRepository from '../repositories/TaskRepository'
 import ProjectRepository from '../repositories/ProjectRepository'
-import ProjectModel from '../models/ProjectModel'
 import InvoiceReducer from '../invoice/InvoiceReducer'
 
 class LineItemEditor extends Component {
@@ -22,7 +20,7 @@ class LineItemEditor extends Component {
         this.state = {
             rowData: [],
             products: [],
-            taxRates: [],
+            tax_rates: [],
             tasks: [],
             projects: [],
             expenses: [],
@@ -47,7 +45,7 @@ class LineItemEditor extends Component {
 
     componentDidMount () {
         // this.loadAttributes()
-        this.loadTaxRates()
+        // this.loadTaxRates()
 
         if (this.props.line_type) {
             this.loadEntities(this.props.line_type)
@@ -131,7 +129,9 @@ class LineItemEditor extends Component {
     }
 
     loadEntities (line_type) {
-        this.setState({ line_type: line_type }, () => {
+        const tax_rates = JSON.parse(localStorage.getItem('tax_rates'))
+
+        this.setState({ tax_rates: tax_rates, line_type: line_type }, () => {
             if (line_type === consts.line_item_expense && !this.state.expenses.length) {
                 this.loadExpenses()
             }
@@ -162,8 +162,8 @@ class LineItemEditor extends Component {
         const row = e.target.dataset.line
 
         if (e.target.name === 'unit_tax') {
-            const index = this.state.taxRates.findIndex(taxRate => taxRate.id === parseInt(e.target.value))
-            const taxRate = this.state.taxRates[index]
+            const index = this.state.tax_rates.findIndex(taxRate => taxRate.id === parseInt(e.target.value))
+            const taxRate = this.state.tax_rates[index]
             rows[row].tax_rate_id = taxRate.id
             rows[row].tax_rate_name = taxRate.name
             rows[row].unit_tax = taxRate.rate
@@ -251,8 +251,6 @@ class LineItemEditor extends Component {
             if (customer.length && customerModel) {
                 const client_currency = customerModel.currencyId
 
-                alert(client_currency)
-
                 if (this.settings.convert_product_currency &&
                     client_currency !== parseInt(this.settings.currency_id)) {
                     const currencies = JSON.parse(localStorage.getItem('currencies'))
@@ -325,12 +323,12 @@ class LineItemEditor extends Component {
             return false
         }
 
-        const lineItemRows = variable.length && this.state.taxRates.length
+        const lineItemRows = variable.length && this.state.tax_rates.length
             ? <LineItem
                 invoice={this.props.invoice}
                 line_type={parseInt(this.state.line_type)}
                 rows={this.props.invoice.line_items}
-                tax_rates={this.state.taxRates}
+                tax_rates={this.state.tax_rates}
                 expenses={this.state.expenses}
                 projects={this.state.projects}
                 tasks={this.state.tasks}
