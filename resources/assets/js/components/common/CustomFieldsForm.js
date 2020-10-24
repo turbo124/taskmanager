@@ -9,7 +9,7 @@ export default function CustomFieldsForm (props) {
 
     if (customFields[0] && Object.keys(customFields[0]).length) {
         customFields[0].forEach((element, index, array) => {
-            customFields[0][index].value = props[element.name] && props[element.name].length ? props[element.name] : ''
+            customFields[0][index].value = props[element.name] && props[element.name].toString().length ? props[element.name] : ''
         })
 
         has_custom_field = customFields[0].filter(field => field.label.length && field.type.length).length

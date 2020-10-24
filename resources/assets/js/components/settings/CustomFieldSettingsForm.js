@@ -41,6 +41,7 @@ export default class CustomFieldSettingsForm extends React.Component {
                                     <option value={consts.textarea}>Textarea</option>
                                     <option value={consts.select}>Select List</option>
                                     <option value={consts.switch}>Switch</option>
+                                    <option value={consts.date}>Date</option>
                                 </Input>
                             </FormGroup>
                         </Col>

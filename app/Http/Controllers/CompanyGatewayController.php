@@ -10,7 +10,6 @@ use App\Requests\CompanyGateway\StoreCompanyGatewayRequest;
 use App\Requests\CompanyGateway\UpdateCompanyGatewayRequest;
 use App\Requests\SearchRequest;
 use App\Search\CompanyGatewaySearch;
-use App\Settings\GatewaySettings;
 use App\Transformations\CompanyGatewayTransformable;
 
 /**
@@ -47,12 +46,11 @@ class CompanyGatewayController extends Controller
 
     public function store(StoreCompanyGatewayRequest $request)
     {
-        $company_gateway =
-            CompanyGatewayFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id);
-        $company_gateway->fill($request->except('fees_and_limits'));
-        $company_gateway->save();
+        $company_gateway = $this->company_gateway_repo->save(
+            CompanyGatewayFactory::create(auth()->user()->account_user()->account_id, auth()->user()->id),
+            $request->all()
+        );
 
-        $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits[0]);
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
 
@@ -64,12 +62,7 @@ class CompanyGatewayController extends Controller
     public function update(UpdateCompanyGatewayRequest $request, int $id)
     {
         $company_gateway = $this->company_gateway_repo->findCompanyGatewayById($id);
-        $company_gateway->fill($request->except(['fees_and_limits', '_method']));
-        $company_gateway->save();
-
-        if ($request->has('fees_and_limits')) {
-            $company_gateway = (new GatewaySettings)->save($company_gateway, $request->fees_and_limits[0]);
-        }
+        $company_gateway = $this->company_gateway_repo->save($company_gateway, $request->all());
 
         return response()->json($this->transformCompanyGateway($company_gateway));
     }

@@ -1,17 +1,22 @@
 import React from 'react'
-import { Card, CardBody } from 'reactstrap'
+import { Card, CardBody, Col, FormGroup, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import FormBuilder from '../../settings/FormBuilder'
+import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'
 
 export default class FeesAndLimits extends React.Component {
     constructor (props) {
         super(props)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     getSettingFieldsSectionOne () {
         const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'min_limit',
@@ -31,14 +36,12 @@ export default class FeesAndLimits extends React.Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     getSettingFieldsSectionTwo () {
         const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'fee_amount',
@@ -66,8 +69,6 @@ export default class FeesAndLimits extends React.Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     render () {
@@ -87,6 +88,36 @@ export default class FeesAndLimits extends React.Component {
                         handleChange={this.props.updateFeesAndLimits}
                         formFieldsRows={this.getSettingFieldsSectionTwo()}
                     />
+
+                    {this.settings.show_tax_rate1 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax"
+                            handleInputChanges={this.props.updateFeesAndLimits}
+                        />
+                    </FormGroup>
+                    }
+
+                    {this.settings.show_tax_rate2 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax_2"
+                            handleInputChanges={this.props.updateFeesAndLimits}
+                        />
+                    </FormGroup>
+                    }
+
+                    {this.settings.show_tax_rate3 &&
+                    <FormGroup>
+                        <Label>{translations.tax}</Label>
+                        <TaxRateDropdown
+                            name="tax_3"
+                            handleInputChanges={this.props.updateFeesAndLimits}
+                        />
+                    </FormGroup>
+                    }
                 </CardBody>
             </Card>
         </React.Fragment>

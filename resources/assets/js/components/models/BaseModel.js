@@ -1,6 +1,6 @@
 import { consts } from '../utils/_consts'
 import { translations } from '../utils/_translations'
-import FormatDate from '../common/FormatDate'
+import FormatDate, { formatDate } from '../common/FormatDate'
 
 export const LineItem = {
     unit_discount: 0,
@@ -65,9 +65,9 @@ export default class BaseModel {
     formatCustomValue (entity, field, value) {
         switch (this.getCustomFieldType(field, entity)) {
             case consts.switch:
-                return value === 'yes' || value === 'true' || value === true ? translations.yes : translations.no
+                return value === 'yes' || value === 'true' || value === true || value === 1 || value === '1' ? translations.yes : translations.no
             case consts.date:
-                return <FormatDate date={value}/>
+                return formatDate(value)
             default:
                 return value
         }

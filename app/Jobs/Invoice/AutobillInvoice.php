@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Invoice;
 
+use App\Components\InvoiceCalculator\GatewayCalculator;
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
@@ -115,18 +116,24 @@ class AutobillInvoice implements ShouldQueue
         return null;
     }
 
+    /**
+     * @param CompanyGateway $company_gateway
+     * @param float $amount
+     * @return float
+     */
     private function calculateFee(CompanyGateway $company_gateway, float $amount)
     {
-        $fees_and_limits = $company_gateway->fees_and_limits[0];
-        $fee = 0;
+        $fee = $company_gateway->fees_and_limits[0];
 
-        if (!empty($fees_and_limits->fee_percent) && $fees_and_limits->fee_percent > 0) {
-            $fee += $amount * $fees_and_limits->fee_percent / 100;
-        }
-
-        if (!empty($fees_and_limits->fee_amount) && $fees_and_limits->fee_amount > 0) {
-            $fee += $fees_and_limits->fee_amount;
-        }
+        $fee = (new GatewayCalculator($company_gateway))
+            ->setSubTotal($amount)
+            ->setFeeAmount($fee->fee_amount)
+            ->setFeePercent($fee->fee_percent)
+            ->setTaxRate('tax_rate', !empty($fee->tax) ? $fee->tax : 0)
+            ->setTaxRate('tax_2', !empty($fee->tax_2) ? $fee->tax_2 : 0)
+            ->setTaxRate('tax_3', !empty($fee->tax_3) ? $fee->tax_3 : 0)
+            ->build()
+            ->getFeeTotal();
 
         if (!empty($fee)) {
             $amount += $fee;
