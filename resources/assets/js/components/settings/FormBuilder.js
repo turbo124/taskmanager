@@ -47,6 +47,7 @@ class FormBuilder extends React.Component {
 
     buildSwitch (field) {
         const class_name = field.class_name ? field.class_name : 'col-md-8'
+
         return (
             <a href="#"
                 className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>

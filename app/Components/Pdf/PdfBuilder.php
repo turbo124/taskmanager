@@ -16,6 +16,7 @@ use App\Models\Task;
 use App\Models\Timer;
 use App\Repositories\TimerRepository;
 use App\Traits\Money;
+use Carbon\Carbon;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;
@@ -75,6 +76,57 @@ class PdfBuilder
         return $this;
     }
 
+    private function convertDateFormat($date_format) {
+        switch($date_format) {
+            case 'DD/MMM/YYYY':
+                return 'D M Y';
+        }
+
+        return $date_format;
+    }
+
+    protected function formatCustomField($entity, $field, $value)
+    {
+        if (empty($value)) {
+            return '';
+        }
+
+        $custom_fields = $this->entity->account->custom_fields;
+
+        if (!isset($custom_fields->{$entity})) {
+            return '';
+        }
+
+        $new_array = array_filter(
+            $custom_fields->{$entity},
+            function ($obj) use ($field) {
+                if ($field === $obj->name) {
+                    return $obj;
+                }
+            }
+        );
+
+       $new_array = array_values($new_array);
+
+        $date_format = (!empty($this->entity->customer)) ? $this->entity->customer->getSetting('date_format') : ((!empty($this->entity->account)) ? $this->entity->account->settings->date_format : 'd-m-Y');
+        $date_format = $this->convertDateFormat($date_format);
+
+        switch ($new_array[0]->type) {
+            case 'date';
+            return Carbon::parse($value)->format($date_format);
+            break;
+            case 'select':
+            case 'text':
+            case 'textarea':
+                return (string)$value;
+            case 'switch':
+                return $value === true || $value === 1 || $value === '1' ? 'yes' : 'no';
+                break;
+        }
+
+        return $value;
+    }
+
     /**
      * @param $entity
      * @param $field
@@ -96,6 +148,8 @@ class PdfBuilder
                 }
             }
         );
+
+        $new_array = array_values($new_array);
 
         if (empty($new_array) || empty($new_array[0]->label)) {
             return '';
@@ -482,21 +536,22 @@ class PdfBuilder
     public function setInvoiceCustomValues(): self
     {
         $this->data['$' . $this->class . '.custom1'] = [
-            'value' => $this->entity->custom_value1 ?: '&nbsp;',
+            'value' => $this->formatCustomField('Invoice', 'custom_value1', $this->entity->custom_value1) ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value1')
         ];
         $this->data['$' . $this->class . '.custom2'] = [
-            'value' => $this->entity->custom_value2 ?: '&nbsp;',
+            'value' => $this->formatCustomField('Invoice', 'custom_value2', $this->entity->custom_value2) ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value2')
         ];
         $this->data['$' . $this->class . '.custom3'] = [
-            'value' => $this->entity->custom_value3 ?: '&nbsp;',
+            'value' => $this->formatCustomField('Invoice', 'custom_value3', $this->entity->custom_value3) ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value3')
         ];
         $this->data['$' . $this->class . '.custom4'] = [
-            'value' => $this->entity->custom_value4 ?: '&nbsp;',
+            'value' => $this->formatCustomField('Invoice', 'custom_value4', $this->entity->custom_value4) ?: '&nbsp;',
             'label' => $this->makeCustomField('Invoice', 'custom_value4')
         ];
+
         return $this;
     }
 
@@ -864,7 +919,10 @@ class PdfBuilder
             }
 
             $this->line_items[$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
-            $this->line_items[$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency($item->sub_total, $customer) : 0;
+            $this->line_items[$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency(
+                $item->sub_total,
+                $customer
+            ) : 0;
 
             $this->line_items[$key][$table_type . '.discount'] = '';
 
@@ -886,29 +944,5 @@ class PdfBuilder
         }
 
         return $this;
-    }
-
-    private function findCustomType($entity, $field)
-    {
-        $custom_fields = $entity->account->custom_fields;
-
-        if (!isset($custom_fields->{$entity})) {
-            return '';
-        }
-
-        $new_array = array_filter(
-            $custom_fields->{$entity},
-            function ($obj) use ($field) {
-                if ($field === $obj->name) {
-                    return $obj;
-                }
-            }
-        );
-
-        if (empty($new_array) || empty($new_array[0]->type)) {
-            return '';
-        }
-
-        return $new_array[0]->type;
     }
 }

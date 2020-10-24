@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Components\InvoiceCalculator\GatewayCalculator;
 use App\Models\CompanyGateway;
 use App\Repositories\Base\BaseRepository;
 
@@ -42,5 +43,48 @@ class CompanyGatewayRepository extends BaseRepository
     public function getCompanyGatewayByGatewayKey(string $gateway_key): ?CompanyGateway
     {
         return $this->model->where('gateway_key', '=', $gateway_key)->first();
+    }
+
+    /**
+     * @param CompanyGateway $company_gateway
+     * @param array $data
+     */
+    public function save(CompanyGateway $company_gateway, array $data) :?CompanyGateway
+    {
+        if (!empty($data['fees_and_limits'])) {
+            $data['fees_and_limits'] = $this->saveFees($company_gateway, $data['fees_and_limits']);
+        }
+
+        $company_gateway->fill($data);
+        $company_gateway->save();
+
+        return $company_gateway;
+    }
+
+    /**
+     * @param CompanyGateway $company_gateway
+     * @param $fees
+     * @return array
+     */
+    private function saveFees(CompanyGateway $company_gateway, $fees)
+    {
+        $gateways = [];
+
+        foreach ($fees as $fee) {
+            $gateways[] = (new GatewayCalculator($company_gateway))
+                ->setFeeAmount($fee->fee_amount)
+                ->setFeePercent($fee->fee_percent)
+                ->setTaxRate('tax_rate', $fee->tax)
+                ->setTaxRate('tax_2', $fee->tax_2)
+                ->setTaxRate('tax_3', $fee->tax_3)
+                ->setTaxRateName('tax_rate_name', $fee->tax_rate_name)
+                ->setTaxRateName('tax_rate_name_2', $fee->tax_rate_name_2)
+                ->setTaxRateName('tax_rate_name_3', $fee->tax_rate_name_3)
+                ->setMinLimit($fee->min_limit)
+                ->setMaxLimit($fee->max_limit)
+                ->toObject();
+        }
+
+        return $gateways;
     }
 }

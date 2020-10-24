@@ -44,12 +44,21 @@ class AddGateway extends React.Component {
         this.setState(prevState => ({ accepted_cards: prevState.accepted_cards.set(item, isChecked) }))
     }
 
-    updateFeesAndLimits (event) {
-        const name = event.target.name
-        const value = event.target.value
+    updateFeesAndLimits (e) {
+        const name = e.target.name
+        let value = e.target.value
 
         const fees_and_limits = [...this.state.fees_and_limits]
         const item = { ...fees_and_limits[0] }
+
+        if (e.target.name === 'tax' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
+            const tax_name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
+            value = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
+
+            item[tax_rate_name] = tax_name
+        }
+
         item[name] = value
         fees_and_limits[0] = item
         this.setState({ fees_and_limits }, () => {

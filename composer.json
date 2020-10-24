@@ -9,6 +9,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-zip": "*",
+        "asgrim/ofxparser": "^1.2",
         "ashallendesign/laravel-exchange-rates": "^3.2",
         "authorizenet/authorizenet": "^2.0",
         "barryvdh/laravel-dompdf": "^0.8.5",
