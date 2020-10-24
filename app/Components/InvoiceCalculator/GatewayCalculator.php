@@ -176,6 +176,24 @@ class GatewayCalculator extends BaseCalculator
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getSubTotal(): float
+    {
+        return $this->sub_total;
+    }
+
+    /**
+     * @param float $sub_total
+     * @return $this
+     */
+    public function setSubTotal(float $sub_total): self
+    {
+        $this->sub_total = $sub_total;
+        return $this;
+    }
+
 
     /**
      * @param string $tax_rate_name
