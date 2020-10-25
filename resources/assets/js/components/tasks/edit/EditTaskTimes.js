@@ -6,6 +6,7 @@ import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
 import { translations } from '../../utils/_translations'
+import TimePickerInput from '../../common/TimePickerInput'
 
 class EditTaskTimes extends Component {
     constructor (props, context) {
@@ -27,6 +28,7 @@ class EditTaskTimes extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleSave = this.handleSave.bind(this)
+        this.handleTimeChange = this.handleTimeChange.bind(this)
         this.addTaskTime = this.addTaskTime.bind(this)
     }
 
@@ -44,6 +46,13 @@ class EditTaskTimes extends Component {
             dropdownOpen: !this.state.dropdownOpen,
             dropdown2Open: !this.state.dropdown2Open
         })
+    }
+
+    handleTimeChange (e) {
+        const times = this.model.updateTaskTime(e.index, e.name, e.value)
+        this.setState({ times: times })
+        console.log('times', times)
+        console.log('time', e.value)
     }
 
     handleChange (e) {
@@ -120,6 +129,8 @@ class EditTaskTimes extends Component {
 
         const currentData = currentIndex !== null ? times[currentIndex] : null
 
+        const renderInput = props => <Input value={props.value} label={props.label}/>
+
         const form = currentData && Object.keys(currentData).length ? <React.Fragment>
             <FormGroup>
                 <Label>{translations.date}</Label>
@@ -130,14 +141,14 @@ class EditTaskTimes extends Component {
 
             <FormGroup>
                 <Label>{translations.start_time}</Label>
-                <Input data-id={currentIndex} value={currentData.start_time} type="text" name="start_time"
-                    onChange={this.handleChange}/>
+                <TimePickerInput name="start_time" index={currentIndex} value={currentData.start_time}
+                    setValue={this.handleTimeChange}/>
             </FormGroup>
 
             <FormGroup>
                 <Label>{translations.end_time}</Label>
-                <Input data-id={currentIndex} value={currentData.end_time} type="text" name="end_time"
-                    onChange={this.handleChange}/>
+                <TimePickerInput name="end_time" index={currentIndex} value={currentData.end_time}
+                    setValue={this.handleTimeChange}/>
             </FormGroup>
 
             <FormGroup>
