@@ -3,9 +3,9 @@ import moment from 'moment'
 import BaseModel from './BaseModel'
 
 const TaskTimeItem = {
-    date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+    date: moment(new Date()).format('YYYY-MM-DD'),
     start_time: moment().format('HH:MM:ss'),
-    end_time: ''
+    end_time: moment().add('1', 'hour').format('HH:MM:ss'),
 }
 
 export default class TaskModel extends BaseModel {

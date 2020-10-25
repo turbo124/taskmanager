@@ -8,7 +8,7 @@ import {
     DialogActions
 } from '@material-ui/core'
 import { TimePicker } from 'material-ui-time-picker'
-import moment from "moment";
+import moment from 'moment'
 
 export default class TimePickerInput extends Component {
     constructor (props) {
@@ -66,8 +66,20 @@ export default class TimePickerInput extends Component {
         return new Date(1970, 1, 1, splitParts[0], splitParts[1])
     }
 
+    convert12HourFormat (timeString) {
+        var hourEnd = timeString.indexOf(':')
+        var H = +timeString.substr(0, hourEnd)
+        var h = H % 12 || 12
+        var ampm = H < 12 ? 'AM' : 'PM'
+        timeString = h + timeString.substr(hourEnd, 3) + ' ' + ampm
+
+        return timeString
+    }
+
     render () {
-        const value = (!this.props.value || !this.props.value.length) && this.props.name === 'end_time' ? moment().add('1', 'hour').format('hh:mm:ss') : this.props.value
+        const value = (!this.props.value || !this.props.value.length) && this.props.name === 'end_time' ? moment().format('hh:mm') : this.props.value
+        // value = this.convert12HourFormat(value)
+
         return (
             <div>
                 <Input
@@ -83,7 +95,6 @@ export default class TimePickerInput extends Component {
                 />
                 <Dialog maxWidth="xs" open={this.state.is_open}>
                     <TimePicker
-                        mode="24h"
                         ampm
                         value={this.createDateFromTextValue(value)}
                         onChange={this.handleDialogTimeChange}
