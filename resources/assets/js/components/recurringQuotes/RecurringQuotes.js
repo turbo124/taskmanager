@@ -35,6 +35,7 @@ export default class RecurringQuotes extends Component {
             bulk: [],
             dropdownButtonActions: ['download', 'start_recurring', 'stop_recurring'],
             filters: {
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 status_id: 'Draft',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 project_id: queryString.parse(this.props.location.search).project_id || '',
@@ -151,8 +152,8 @@ export default class RecurringQuotes extends Component {
 
     render () {
         const { invoices, custom_fields, customers, allQuotes, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, end_date, project_id } = this.state.filters
-        const fetchUrl = `/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
+        const fetchUrl = `/api/recurring-quote?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <AddRecurringQuote
             allQuotes={allQuotes}
             entity_id={this.state.entity_id}
