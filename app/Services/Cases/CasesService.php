@@ -2,7 +2,10 @@
 
 namespace App\Services\Cases;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\TaskPdf;
 use App\Factory\CommentFactory;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Cases;
 use App\Models\User;
 use App\Services\ServiceBase;
@@ -52,7 +55,11 @@ class CasesService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->case, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->case->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new TaskPdf($this->case)), $this->case, $contact, $update, 'case');
     }
 
     /**

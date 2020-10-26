@@ -2,12 +2,14 @@
 
 namespace App\Services\Order;
 
+use App\Components\Pdf\InvoicePdf;
 use App\Components\Shipping\ShippoShipment;
 use App\Events\Order\OrderWasCancelled;
 use App\Events\Order\OrderWasDispatched;
 use App\Events\Order\OrderWasHeld;
 use App\Jobs\Inventory\ReverseInventory;
 use App\Jobs\Inventory\UpdateInventory;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -42,7 +44,11 @@ class OrderService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->order, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->order->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->order)), $this->order, $contact, $update);
     }
 
     /**

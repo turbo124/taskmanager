@@ -2,6 +2,8 @@
 
 namespace App\Jobs\Pdf;
 
+use App\Designs\PdfColumns;
+use App\Models\Design;
 use App\Traits\MakesInvoiceHtml;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,18 +31,21 @@ class CreatePdf implements ShouldQueue
     
     private $update = false;
 
+    private $entity_string = '';
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($objPdf, $entity, $contact = null, $disk = 'public', $update = false)
+    public function __construct($objPdf, $entity, $contact = null, $update = false, $entity_string = '', $disk = 'public')
     {
         $this->entity = $entity;
         $this->objPdf = $objPdf;
         $this->contact = $contact;
         $this->disk = $disk ?? config('filesystems.default');
         $this->update = $update;
+        $this->entity_string = $entity_string;
     }
 
     public function handle()
@@ -57,7 +62,7 @@ class CreatePdf implements ShouldQueue
         
         $design = Design::find($this->entity->getDesignId());
         
-        $entity = strtolower((new \ReflectionClass($this->entity))->getShortName());
+        $entity = empty($this->entity_string) ? strtolower((new \ReflectionClass($this->entity))->getShortName()) : $this->entity_string;
 
         $this->designer =
             new PdfColumns(
@@ -65,7 +70,6 @@ class CreatePdf implements ShouldQueue
             );   
 
         $this->build();
-       
 
         return $this->file_path;
     }

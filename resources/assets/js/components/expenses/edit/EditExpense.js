@@ -18,6 +18,7 @@ import { getExchangeRateWithMap } from '../../utils/_money'
 class EditExpense extends React.Component {
     constructor (props) {
         super(props)
+
         this.expenseModel = new ExpenseModel(this.props.expense, this.props.customers)
         this.initialState = this.expenseModel.fields
         this.state = this.initialState

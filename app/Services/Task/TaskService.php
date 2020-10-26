@@ -2,6 +2,8 @@
 
 namespace App\Services\Task;
 
+use App\Components\Pdf\TaskPdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Task;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceSum;
@@ -97,7 +99,11 @@ class TaskService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->task, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->task->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new TaskPdf($this->task)), $this->task, $contact, $update);
     }
 
     /**

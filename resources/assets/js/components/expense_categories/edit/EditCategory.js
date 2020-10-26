@@ -1,27 +1,27 @@
 import React from 'react'
 import { DropdownItem, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import ExpenseCategoryModel from '../../models/ExpenseCategoryModel'
 
 class EditCategory extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: this.props.category.name,
-            id: this.props.category.id,
-            loading: false,
-            errors: []
-        }
+
+        this.categoryModel = new ExpenseCategoryModel(this.props.category)
+        this.initialState = this.categoryModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.buildParentOptions = this.buildParentOptions.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     handleFileChange (e) {
@@ -50,19 +50,26 @@ class EditCategory extends React.Component {
         }
     }
 
+    getFormData () {
+        return {
+            name: this.state.name
+        }
+    }
+
     handleClick () {
-        axios.put(`/api/expense-categories/${this.state.id}`, { name: this.state.name })
-            .then((response) => {
-                this.toggle()
-                const index = this.props.categories.findIndex(category => category.id === this.state.id)
-                this.props.categories[index].name = this.state.name
-                this.props.action(this.props.categories)
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+        this.setState({ loading: true })
+        this.categoryModel.update(this.getFormData()).then(response => {
+            if (!response) {
+                this.setState({ errors: this.categoryModel.errors, message: this.categoryModel.error_message })
+                return
+            }
+
+            const index = this.props.categories.findIndex(expense => expense.id === this.state.id)
+            this.props.categories[index] = response
+            this.props.action(this.props.categories)
+            this.setState({ changesMade: false, loading: false })
+            this.toggle()
+        })
     }
 
     toggle () {
