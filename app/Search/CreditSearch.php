@@ -58,7 +58,7 @@ class CreditSearch extends BaseSearch
         }
 
         if ($request->filled('user_id')) {
-            $this->query->whereAssignedTo($request->user_id);
+            $this->query->where('assigned_to', '=', $request->user_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
