@@ -34,6 +34,7 @@ export default class Leads extends Component {
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -152,8 +153,8 @@ export default class Leads extends Component {
 
     render () {
         const { leads, users, custom_fields, ignoredColumns, view, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/leads?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, searchText, start_date, end_date, user_id } = this.state.filters
+        const fetchUrl = `/api/leads?search_term=${searchText}&user_id=${user_id}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const { error } = this.state
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
