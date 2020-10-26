@@ -34,6 +34,7 @@ export default class Expenses extends Component {
             dropdownButtonActions: ['generate_invoice'],
             filters: {
                 status_id: 'active',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 category_id: queryString.parse(this.props.location.search).category_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
@@ -194,8 +195,8 @@ export default class Expenses extends Component {
 
     render () {
         const { expenses, customers, custom_fields, view, companies, error, isOpen, error_message, success_message, show_success } = this.state
-        const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id } = this.state.filters
-        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
+        const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id, user_id } = this.state.filters
+        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&user_id=${user_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
         const addButton = customers.length ? <AddExpense
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}
