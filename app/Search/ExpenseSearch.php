@@ -62,6 +62,10 @@ class ExpenseSearch extends BaseSearch
             $this->query->whereCategoryId($request->category_id);
         }
 
+        if ($request->filled('user_id')) {
+            $this->query->where('assigned_to', '=', $request->user_id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }

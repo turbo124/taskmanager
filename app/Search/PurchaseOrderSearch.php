@@ -52,6 +52,10 @@ class PurchaseOrderSearch extends BaseSearch
             $this->query->whereProjectId($request->project_id);
         }
 
+        if ($request->filled('user_id')) {
+            $this->query->where('assigned_to', '=', $request->user_id);
+        }
+
         if ($request->filled('search_term')) {
             $this->query = $this->searchFilter($request->search_term);
         }

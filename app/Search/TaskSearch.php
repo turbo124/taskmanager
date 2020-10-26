@@ -53,6 +53,10 @@ class TaskSearch extends BaseSearch
             $this->query->whereProjectId($request->project_id);
         }
 
+        if ($request->filled('user_id')) {
+            $this->query->where('assigned_to', '=', $request->user_id);
+        }
+
         if ($request->filled('task_status')) {
             $this->status('tasks', $request->task_status, 'task_status');
         }

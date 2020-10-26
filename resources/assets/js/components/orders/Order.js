@@ -35,6 +35,7 @@ export default class Order extends Component {
             ignoredColumns: ['tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'invoice_id', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
                 start_date: '',
@@ -128,8 +129,8 @@ export default class Order extends Component {
 
     render () {
         const { orders, customers, custom_fields, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, customer_id, searchText, start_date, end_date, user_id } = this.state.filters
+        const fetchUrl = `/api/order?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditOrder
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}

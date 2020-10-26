@@ -41,6 +41,7 @@ export default class Invoice extends Component {
             ignoredColumns: ['tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
@@ -140,8 +141,8 @@ export default class Invoice extends Component {
 
     render () {
         const { invoices, customers, custom_fields, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
-        const { status_id, customer_id, searchText, start_date, end_date, project_id } = this.state.filters
-        const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
+        const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
+        const fetchUrl = `/api/invoice?search_term=${searchText}&status=${status_id}&user_id=${user_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = this.state.customers.length ? <EditInvoice
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}
