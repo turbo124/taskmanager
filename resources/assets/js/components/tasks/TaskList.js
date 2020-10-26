@@ -37,7 +37,7 @@ export default class TaskList extends Component {
                 project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
                 task_status: '',
-                user_id: '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 task_type: '',
                 searchText: '',
