@@ -2,8 +2,10 @@
 
 namespace App\Services\Invoice;
 
+use App\Components\Pdf\InvoicePdf;
 use App\Events\Invoice\InvoiceWasPaid;
 use App\Factory\InvoiceToRecurringInvoiceFactory;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\RecurringInvoice;
@@ -71,7 +73,11 @@ class InvoiceService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->invoice, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->invoice->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->invoice)), $this->invoice, $contact, $update);
     }
 
     /**

@@ -60,16 +60,15 @@ class ExpenseCategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param UpdateCategoryRequest $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateCategoryRequest $request, int $id)
     {
         $category = $this->category_repo->findCategoryById($id);
-        $update = new ExpenseCategoryRepository($category);
-        $update->save($request->except('_token', '_method'), $category);
+        $category = $this->category_repo->save($request->all(), $category);
+        return response()->json($category);
     }
 
     /**

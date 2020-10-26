@@ -2,6 +2,8 @@
 
 namespace App\Services\Lead;
 
+use App\Components\Pdf\LeadPdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use App\Services\ServiceBase;
@@ -61,7 +63,7 @@ class LeadService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->lead, $contact, $update))->execute();
+        return CreatePdf::dispatchNow((new LeadPdf($this->lead)), $this->lead, $contact, $update);
     }
 
 }

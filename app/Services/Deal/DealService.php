@@ -2,6 +2,9 @@
 
 namespace App\Services\Deal;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\TaskPdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Deal;
 use App\Services\ServiceBase;
 
@@ -45,7 +48,11 @@ class DealService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->deal, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->deal->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new TaskPdf($this->deal)), $this->deal, $contact, $update);
     }
 
 }

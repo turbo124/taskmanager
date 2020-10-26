@@ -2,9 +2,12 @@
 
 namespace App\Services\PurchaseOrder;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Components\Pdf\PurchaseOrderPdf;
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
 use App\Events\PurchaseOrder\PurchaseOrderWasEmailed;
 use App\Factory\QuoteToRecurringPurchaseOrderFactory;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -56,7 +59,11 @@ class PurchaseOrderService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->purchase_order, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->purchase_order->company->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new PurchaseOrderPdf($this->purchase_order)), $this->purchase_order, $contact, $update);
     }
 
     /**

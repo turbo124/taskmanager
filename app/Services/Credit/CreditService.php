@@ -2,6 +2,8 @@
 
 namespace App\Services\Credit;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Credit;
 use App\Services\ServiceBase;
 
@@ -22,9 +24,11 @@ class CreditService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        $get_credit_pdf = new GeneratePdf($this->credit, $contact, $update);
+        if (!$contact) {
+            $contact = $this->credit->customer->primary_contact()->first();
+        }
 
-        return $get_credit_pdf->execute();
+        return CreatePdf::dispatchNow((new InvoicePdf($this->credit)), $this->credit, $contact, $update);
     }
 
     /**

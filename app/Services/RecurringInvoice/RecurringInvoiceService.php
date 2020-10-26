@@ -2,6 +2,8 @@
 
 namespace App\Services\RecurringInvoice;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\RecurringInvoice;
 use App\Services\Customer\CustomerService;
 use App\Services\Invoice\ApplyNumber;
@@ -29,7 +31,11 @@ class RecurringInvoiceService extends ServiceBase
 
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->invoice, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->invoice->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->invoice)), $this->invoice, $contact, $update, 'invoice');
     }
 
     public function calculateInvoiceTotals(): RecurringInvoice

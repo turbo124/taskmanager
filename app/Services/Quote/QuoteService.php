@@ -2,9 +2,11 @@
 
 namespace App\Services\Quote;
 
+use App\Components\Pdf\InvoicePdf;
 use App\Events\Quote\PurchaseOrderWasApproved;
 use App\Events\Quote\QuoteWasApproved;
 use App\Factory\QuoteToRecurringQuoteFactory;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Quote;
@@ -61,7 +63,11 @@ class QuoteService extends ServiceBase
      */
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->quote, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->quote->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->quote)), $this->quote, $contact, $update);
     }
 
     /**

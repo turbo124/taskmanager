@@ -5,21 +5,20 @@ import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import ExpenseModel from '../../models/ExpenseModel'
+import ExpenseCategoryModel from '../../models/ExpenseCategoryModel'
 
 class AddCategory extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: '',
-            loading: false,
-            errors: []
-        }
+
+        this.categoryModel = new ExpenseCategoryModel(null)
+        this.initialState = this.categoryModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.buildParentOptions = this.buildParentOptions.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
     }
 
@@ -50,22 +49,16 @@ class AddCategory extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/expense-categories', { name: this.state.name })
-            .then((response) => {
-                this.toggle()
-                const newUser = response.data
-                this.props.categories.push(newUser)
-                this.props.action(this.props.categories)
-                this.setState({
-                    name: null
-                })
-            })
-            .catch((error) => {
-                alert(error)
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+        this.categoryModel.save({ name: this.state.name }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.categoryModel.errors, message: this.categoryModel.error_message })
+                return
+            }
+
+            this.props.categories.push(response)
+            this.props.action(this.props.categories)
+            this.setState(this.initialState)
+        })
     }
 
     toggle () {

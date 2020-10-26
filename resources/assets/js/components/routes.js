@@ -46,6 +46,7 @@ import ProductSettings from './settings/ProductSettings'
 import NumberSettings from './settings/NumberSettings'
 import Groups from './groups/Groups'
 import Expenses from './expenses/Expenses'
+import ExpenseCategories from './expense_categories/Categories'
 import Designs_backup from './designs/Designs'
 import Integrations from './settings/IntegrationSettings'
 import Notifications from './settings/Notifications'
@@ -162,6 +163,11 @@ const routes = [
         path: '/expenses',
         name: 'Expenses',
         component: Expenses
+    },
+    {
+        path: '/expense_categories',
+        name: 'Expense Categories',
+        component: ExpenseCategories
     },
     {
         path: '/purchase_orders',

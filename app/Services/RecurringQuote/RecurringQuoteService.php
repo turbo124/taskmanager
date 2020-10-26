@@ -2,6 +2,8 @@
 
 namespace App\Services\RecurringQuote;
 
+use App\Components\Pdf\InvoicePdf;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\RecurringQuote;
 use App\Services\Customer\CustomerService;
 use App\Services\Invoice\ApplyNumber;
@@ -29,7 +31,11 @@ class RecurringQuoteService extends ServiceBase
 
     public function generatePdf($contact = null, $update = false)
     {
-        return (new GeneratePdf($this->quote, $contact, $update))->execute();
+        if (!$contact) {
+            $contact = $this->quote->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->quote)), $this->quote, $contact, $update, 'quote');
     }
 
     public function calculateInvoiceTotals(): RecurringQuote
