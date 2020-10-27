@@ -11,83 +11,83 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 class EmailSettings extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             success_message: translations.settings_saved,
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             sigPad: {},
             settings: {},
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.getAccount = this.getAccount.bind(this)
-        this.trim = this.trim.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
+        this.trim = this.trim.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository()
-        accountRepository.getById(this.state.id).then(response => {
-            if (!response) {
-                alert('error')
+        const accountRepository = new AccountRepository ()
+        accountRepository.getById ( this.state.id ).then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({
+            this.setState ( {
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log(response)
-            })
-        })
+                console.log ( response )
+            } )
+        } )
     }
 
-    handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { [ event.target.name ]: event.target.value } )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
     trim () {
-        const value = this.state.sigPad.getTrimmedCanvas()
-            .toDataURL('image/png')
+        const value = this.state.sigPad.getTrimmedCanvas ()
+            .toDataURL ( 'image/png' )
 
-        return new Promise((resolve, reject) => {
-            this.setState(prevState => ({
+        return new Promise ( ( resolve, reject ) => {
+            this.setState ( prevState => ({
                 settings: {
                     ...prevState.settings,
                     email_signature: value
                 }
-            }), () => resolve(true))
-        })
+            }), () => resolve ( true ) )
+        } )
     }
 
-    handleSubmit (e) {
-        this.trim().then(result => {
-            axios.put(`/api/accounts/${this.state.id}`, { settings: JSON.stringify(this.state.settings) }, {}).then((response) => {
-                this.setState({ success: true })
-            }).catch((error) => {
-                this.setState({ error: true })
-            })
-        })
+    handleSubmit ( e ) {
+        this.trim ().then ( result => {
+            axios.put ( `/api/accounts/${this.state.id}`, { settings: JSON.stringify ( this.state.settings ) }, {} ).then ( ( response ) => {
+                this.setState ( { success: true } )
+            } ).catch ( ( error ) => {
+                this.setState ( { error: true } )
+            } )
+        } )
     }
 
     getFormFields () {
@@ -183,17 +183,17 @@ class EmailSettings extends Component {
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={this.state.success_message}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={this.state.success_message}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={this.state.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={this.state.settings_not_saved}/>
 
                 <Header title={translations.email_settings} handleSubmit={this.handleSubmit}/>
 
@@ -201,7 +201,7 @@ class EmailSettings extends Component {
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getFormFields()}
+                            formFieldsRows={this.getFormFields ()}
                         />
                     </CardBody>
                 </Card>
@@ -210,7 +210,7 @@ class EmailSettings extends Component {
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getAttachmentFormFields()}
+                            formFieldsRows={this.getAttachmentFormFields ()}
                         />
                     </CardBody>
                 </Card>
@@ -221,7 +221,7 @@ class EmailSettings extends Component {
                             <Label>Email Signature</Label>
                             <SignatureCanvas
                                 canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
-                                ref={(ref) => {
+                                ref={( ref ) => {
                                     this.state.sigPad = ref
                                 }}/>
                         </FormGroup>

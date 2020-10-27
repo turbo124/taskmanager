@@ -3,8 +3,8 @@ import React from 'react'
 import moment from 'moment'
 
 class ElapsedTime extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             secondsElapsed: '',
@@ -15,23 +15,24 @@ class ElapsedTime extends React.Component {
             visible: 'collapse'
         }
 
-        this.tick = this.tick.bind(this)
+        this.tick = this.tick.bind ( this )
     }
 
     componentDidMount () {
-        this.tick()
-        this.interval = setInterval(this.tick, 1000)
+        this.tick ()
+        this.interval = setInterval ( this.tick, 1000 )
     }
 
     tick () {
-        const formattedDate = moment(this.state.date + ' ' + this.state.currentStartTime)
-        const elapsedDuration = moment.duration(moment().diff(moment(formattedDate).format('YYYY-MM-DD hh:mm:ss')))
-        this.setState({ secondsElapsed: elapsedDuration })
+        const formattedDate = moment ( this.state.date + ' ' + this.state.currentStartTime )
+        const elapsedDuration = moment.duration ( moment ().diff ( moment ( formattedDate ).format ( 'YYYY-MM-DD hh:mm:ss' ) ) )
+        this.setState ( { secondsElapsed: elapsedDuration } )
     }
 
     render () {
-        return Object.keys(this.state.secondsElapsed).length
-            ? <small>{moment.utc(this.state.secondsElapsed.as('milliseconds')).format('HH:mm:ss')}</small> : null
+        return Object.keys ( this.state.secondsElapsed ).length
+            ?
+            <small>{moment.utc ( this.state.secondsElapsed.as ( 'milliseconds' ) ).format ( 'HH:mm:ss' )}</small> : null
     }
 }
 

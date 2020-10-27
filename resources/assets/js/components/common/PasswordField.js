@@ -4,8 +4,8 @@ import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 
 export default class PasswordField extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             password_obscured: true,
             check: false,
@@ -13,17 +13,17 @@ export default class PasswordField extends Component {
             showSuccessMessage: false,
             showErrorMessage: false,
             message: '',
-            account_id: Object.prototype.hasOwnProperty.call(localStorage, 'account_id') ? localStorage.getItem('account_id') : ''
+            account_id: Object.prototype.hasOwnProperty.call ( localStorage, 'account_id' ) ? localStorage.getItem ( 'account_id' ) : ''
         }
 
-        this.toggle = this.toggle.bind(this)
+        this.toggle = this.toggle.bind ( this )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             password_obscured: !this.state.password_obscured,
             errors: []
-        })
+        } )
     }
 
     render () {
@@ -35,15 +35,15 @@ export default class PasswordField extends Component {
                 </UncontrolledTooltip>
                 <Label>{translations.password}</Label>
                 <InputGroup>
-                    <Input className={this.props.hasErrorFor('password') ? 'is-invalid' : ''}
-                        onChange={this.props.handleChange} type={password_obscured ? 'password' : 'text'}
-                        name="password" value={this.props.password}
-                        placeholder="password"/>
+                    <Input className={this.props.hasErrorFor ( 'password' ) ? 'is-invalid' : ''}
+                           onChange={this.props.handleChange} type={password_obscured ? 'password' : 'text'}
+                           name="password" value={this.props.password}
+                           placeholder="password"/>
                     <InputGroupAddon addonType="append">
                         <span className="input-group-text" id="UncontrolledTooltipExample" onClick={this.toggle}><i
                             className={password_obscured ? `fa ${icons.visibility}` : `fa ${icons.visibility_off}`}/></span>
                     </InputGroupAddon>
-                    {this.props.renderErrorFor('password')}
+                    {this.props.renderErrorFor ( 'password' )}
                 </InputGroup>
             </React.Fragment>
         )

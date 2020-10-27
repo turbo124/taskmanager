@@ -11,10 +11,10 @@ export default class TaxRate extends Component {
                 <Row>
                     <ListGroup className="col-12">
                         <InfoItem icon={icons.building} value={this.props.entity.name}
-                            title={translations.name}/>
+                                  title={translations.name}/>
 
                         <InfoItem icon={icons.percent} value={this.props.entity.rate}
-                            title={translations.amount}/>
+                                  title={translations.amount}/>
                     </ListGroup>
                 </Row>
             </React.Fragment>

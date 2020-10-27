@@ -30,69 +30,69 @@ import Comments from '../../comments/Comments'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 
 export default class EditDeal extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.dealModel = new DealModel(this.props.deal, this.props.customers)
+        this.dealModel = new DealModel ( this.props.deal, this.props.customers )
         this.initialState = this.dealModel.fields
 
         this.state = this.initialState
 
-        this.handleSave = this.handleSave.bind(this)
-        this.handleDelete = this.handleDelete.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.handleSave = this.handleSave.bind ( this )
+        this.handleDelete = this.handleDelete.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
 
-        this.toggle = this.toggle.bind(this)
-        this.toggleMenu = this.toggleMenu.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.toggleMenu = this.toggleMenu.bind ( this )
     }
 
     componentDidMount () {
-        this.getSourceTypes()
+        this.getSourceTypes ()
     }
 
     getSourceTypes () {
-        axios.get('/api/tasks/source-types')
-            .then((r) => {
-                this.setState({
+        axios.get ( '/api/tasks/source-types' )
+            .then ( ( r ) => {
+                this.setState ( {
                     sourceTypes: r.data,
                     err: ''
-                })
-            })
-            .then((r) => {
-                console.warn(this.state.users)
-            })
-            .catch((e) => {
-                console.error(e)
-                this.setState({
+                } )
+            } )
+            .then ( ( r ) => {
+                console.warn ( this.state.users )
+            } )
+            .catch ( ( e ) => {
+                console.error ( e )
+                this.setState ( {
                     err: e
-                })
-            })
+                } )
+            } )
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
+        if ( this.state.modal && this.state.changesMade ) {
+            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
+                this.setState ( { ...this.initialState } )
             }
 
             return
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
-    toggleMenu (event) {
-        this.setState({
+    toggleMenu ( event ) {
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+    toggleTab ( tab ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab } )
         }
     }
 
@@ -105,7 +105,7 @@ export default class EditDeal extends Component {
             name: this.state.name,
             description: this.state.description,
             assigned_to: this.state.assigned_to,
-            due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
+            due_date: moment ( this.state.due_date ).format ( 'YYYY-MM-DD' ),
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
@@ -116,51 +116,51 @@ export default class EditDeal extends Component {
     }
 
     handleSave () {
-        this.dealModel.update(this.getFormData()).then(response => {
-            if (!response) {
-                this.setState({ errors: this.dealModel.errors, message: this.dealModel.error_message })
+        this.dealModel.update ( this.getFormData () ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: this.dealModel.errors, message: this.dealModel.error_message } )
                 return
             }
 
-            const index = this.props.deals.findIndex(deal => deal.id === this.props.deal.id)
-            this.props.deals[index] = response
-            this.props.action(this.props.deals)
-            this.setState({
+            const index = this.props.deals.findIndex ( deal => deal.id === this.props.deal.id )
+            this.props.deals[ index ] = response
+            this.props.action ( this.props.deals )
+            this.setState ( {
                 editMode: false,
                 changesMade: false
-            })
-            this.toggle()
-        })
+            } )
+            this.toggle ()
+        } )
     }
 
     handleDelete () {
-        this.setState({
+        this.setState ( {
             editMode: false
-        })
-        if (this.props.onDelete) {
-            this.props.onDelete(this.props.deal)
+        } )
+        if ( this.props.onDelete ) {
+            this.props.onDelete ( this.props.deal )
         }
     }
 
-    handleChange (e) {
+    handleChange ( e ) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        this.setState({
-            [e.target.name]: value,
+        this.setState ( {
+            [ e.target.name ]: value,
             changesMade: true
-        })
+        } )
     }
 
     render () {
         const email_editor = this.state.id
             ? <Emails width={400} model={this.dealModel} emails={this.state.emails} template="email_template_deal"
-                show_editor={true}
-                customers={this.props.customers} entity_object={this.state} entity="deal"
-                entity_id={this.state.id}/> : null
+                      show_editor={true}
+                      customers={this.props.customers} entity_object={this.state} entity="deal"
+                      entity_id={this.state.id}/> : null
 
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
             : null
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return <React.Fragment>
             {button}
@@ -173,7 +173,7 @@ export default class EditDeal extends Component {
                             <NavLink
                                 className={this.state.activeTab === '1' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleTab('1')
+                                    this.toggleTab ( '1' )
                                 }}>
                                 {translations.details}
                             </NavLink>
@@ -182,7 +182,7 @@ export default class EditDeal extends Component {
                             <NavLink
                                 className={this.state.activeTab === '2' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleTab('2')
+                                    this.toggleTab ( '2' )
                                 }}>
                                 {translations.comments}
                             </NavLink>
@@ -192,7 +192,7 @@ export default class EditDeal extends Component {
                             <NavLink
                                 className={this.state.activeTab === '3' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleTab('3')
+                                    this.toggleTab ( '3' )
                                 }}>
                                 {translations.documents}
                             </NavLink>
@@ -202,7 +202,7 @@ export default class EditDeal extends Component {
                             <NavLink
                                 className={this.state.activeTab === '4' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleTab('4')
+                                    this.toggleTab ( '4' )
                                 }}>
                                 {translations.email}
                             </NavLink>
@@ -211,28 +211,28 @@ export default class EditDeal extends Component {
 
                     <TabContent activeTab={this.state.activeTab}>
                         <TabPane tabId="1">
-                            <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
-                                model={this.dealModel}
-                                action={this.props.action}/>
+                            <DropdownMenuBuilder invoices={this.state} formData={this.getFormData ()}
+                                                 model={this.dealModel}
+                                                 action={this.props.action}/>
 
                             <Details sourceTypes={this.state.sourceTypes} deal={this.state}
-                                customers={this.props.customers}
-                                errors={this.state.errors}
-                                users={this.props.users} handleInput={this.handleChange}/>
+                                     customers={this.props.customers}
+                                     errors={this.state.errors}
+                                     users={this.props.users} handleInput={this.handleChange}/>
 
                             <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
-                                custom_value2={this.state.custom_value2}
-                                custom_value3={this.state.custom_value3}
-                                custom_value4={this.state.custom_value4}
-                                custom_fields={this.props.custom_fields}/>
+                                              custom_value2={this.state.custom_value2}
+                                              custom_value3={this.state.custom_value3}
+                                              custom_value4={this.state.custom_value4}
+                                              custom_fields={this.props.custom_fields}/>
 
                             <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                                handleInput={this.handleChange}/>
+                                   handleInput={this.handleChange}/>
                         </TabPane>
 
                         <TabPane tabId="2">
                             <Comments entity_type="Deal" entity={this.state}
-                                user_id={this.state.user_id}/>
+                                      user_id={this.state.user_id}/>
                         </TabPane>
 
                         <TabPane tabId="3">
@@ -240,7 +240,7 @@ export default class EditDeal extends Component {
                                 <CardHeader>{translations.documents}</CardHeader>
                                 <CardBody>
                                     <FileUploads entity_type="Deal" entity={this.state}
-                                        user_id={this.state.user_id}/>
+                                                 user_id={this.state.user_id}/>
                                 </CardBody>
                             </Card>
                         </TabPane>
@@ -251,8 +251,8 @@ export default class EditDeal extends Component {
                     </TabContent>
                 </ModalBody>
                 <DefaultModalFooter show_success={true} toggle={this.toggle}
-                    saveData={this.handleSave.bind(this)}
-                    loading={false}/>
+                                    saveData={this.handleSave.bind ( this )}
+                                    loading={false}/>
             </Modal>
         </React.Fragment>
     }

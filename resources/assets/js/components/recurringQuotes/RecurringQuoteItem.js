@@ -8,38 +8,38 @@ import UpdateRecurringQuote from './edit/UpdateRecurringQuote'
 import RecurringQuotePresenter from '../presenters/RecurringQuotePresenter'
 
 export default class RecurringQuoteItem extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.deleteInvoice = this.deleteInvoice.bind(this)
+        this.deleteInvoice = this.deleteInvoice.bind ( this )
     }
 
-    deleteInvoice (id, archive = false) {
+    deleteInvoice ( id, archive = false ) {
         const url = archive === true ? `/api/recurring-quote/archive/${id}` : `/api/recurring-quote/${id}`
         const self = this
-        axios.delete(url)
-            .then(function (response) {
+        axios.delete ( url )
+            .then ( function ( response ) {
                 const arrQuotes = [...self.props.invoices]
-                const index = arrQuotes.findIndex(payment => payment.id === id)
-                arrQuotes.splice(index, 1)
-                self.props.updateInvoice(arrQuotes)
-            })
-            .catch(function (error) {
-                self.setState(
+                const index = arrQuotes.findIndex ( payment => payment.id === id )
+                arrQuotes.splice ( index, 1 )
+                self.props.updateInvoice ( arrQuotes )
+            } )
+            .catch ( function ( error ) {
+                self.setState (
                     {
                         error: error.response.data
                     }
                 )
-            })
+            } )
     }
 
     render () {
         const { invoices, custom_fields, customers, allQuotes } = this.props
-        if (invoices && invoices.length && customers.length) {
-            return invoices.map(user => {
+        if ( invoices && invoices.length && customers.length ) {
+            return invoices.map ( user => {
                 const restoreButton = user.deleted_at
                     ? <RestoreModal id={user.id} entities={invoices} updateState={this.props.updateInvoice}
-                        url={`/api/recurringQuote/restore/${user.id}`}/> : null
+                                    url={`/api/recurringQuote/restore/${user.id}`}/> : null
                 const archiveButton = !user.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteInvoice} id={user.id}/> : null
 
@@ -58,32 +58,32 @@ export default class RecurringQuoteItem extends Component {
                     invoices={invoices}
                 /> : null
 
-                const columnList = Object.keys(user).filter(key => {
-                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
-                }).map(key => {
+                const columnList = Object.keys ( user ).filter ( key => {
+                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes ( key )
+                } ).map ( key => {
                     return <RecurringQuotePresenter key={key} customers={customers} edit={editButton}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={user}/>
-                })
+                                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                                    field={key} entity={user}/>
+                } )
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(user.id)
+                const isChecked = this.props.bulk.includes ( user.id )
                 const selectedRow = this.props.viewId === user.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                        restore={restoreButton}/> : null
+                                   restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={user.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
-                                onChange={this.props.onChangeBulk}/>
+                                   onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
                     </tr>
                 )
-            })
+            } )
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

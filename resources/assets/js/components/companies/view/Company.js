@@ -11,8 +11,8 @@ import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 
 export default class Company extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             entity: this.props.entity,
@@ -20,73 +20,73 @@ export default class Company extends Component {
             show_success: false
         }
 
-        this.companyModel = new CompanyModel(this.state.entity)
-        this.triggerAction = this.triggerAction.bind(this)
-        this.toggleTab = this.toggleTab.bind(this)
+        this.companyModel = new CompanyModel ( this.state.entity )
+        this.triggerAction = this.triggerAction.bind ( this )
+        this.toggleTab = this.toggleTab.bind ( this )
     }
 
-    triggerAction (action) {
-        if (action === 'newExpense') {
+    triggerAction ( action ) {
+        if ( action === 'newExpense' ) {
             location.href = `/#/expenses?entity_type=company&entity_id=${this.state.entity.id}`
         }
 
-        const paymentModel = new PaymentModel(null, this.state.entity)
-        paymentModel.completeAction(this.state.entity, action)
+        const paymentModel = new PaymentModel ( null, this.state.entity )
+        paymentModel.completeAction ( this.state.entity, action )
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+    toggleTab ( tab ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab } )
         }
     }
 
     render () {
         let user = null
 
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
+        if ( this.state.entity.assigned_to ) {
+            const assigned_user = JSON.parse ( localStorage.getItem ( 'users' ) ).filter ( user => user.id === parseInt ( this.state.entity.assigned_to ) )
             user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
+                                   title={`${assigned_user[ 0 ].first_name} ${assigned_user[ 0 ].last_name}`}
+                                   icon={icons.user}/>
         }
 
         const fields = []
 
-        if (this.companyModel.hasCurrency) {
+        if ( this.companyModel.hasCurrency ) {
             fields.currency =
-                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.companyModel.currencyId)[0].name
+                JSON.parse ( localStorage.getItem ( 'currencies' ) ).filter ( currency => currency.id === this.companyModel.currencyId )[ 0 ].name
         }
 
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.companyModel.getCustomFieldLabel('Company', 'custom_value1')
-            fields[label1] = this.companyModel.formatCustomValue(
+        if ( this.state.entity.custom_value1.length ) {
+            const label1 = this.companyModel.getCustomFieldLabel ( 'Company', 'custom_value1' )
+            fields[ label1 ] = this.companyModel.formatCustomValue (
                 'Company',
                 'custom_value1',
                 this.state.entity.custom_value1
             )
         }
 
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.companyModel.getCustomFieldLabel('Company', 'custom_value2')
-            fields[label2] = this.companyModel.formatCustomValue(
+        if ( this.state.entity.custom_value2.length ) {
+            const label2 = this.companyModel.getCustomFieldLabel ( 'Company', 'custom_value2' )
+            fields[ label2 ] = this.companyModel.formatCustomValue (
                 'Company',
                 'custom_value2',
                 this.state.entity.custom_value2
             )
         }
 
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.companyModel.getCustomFieldLabel('Company', 'custom_value3')
-            fields[label3] = this.companyModel.formatCustomValue(
+        if ( this.state.entity.custom_value3.length ) {
+            const label3 = this.companyModel.getCustomFieldLabel ( 'Company', 'custom_value3' )
+            fields[ label3 ] = this.companyModel.formatCustomValue (
                 'Company',
                 'custom_value3',
                 this.state.entity.custom_value3
             )
         }
 
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.companyModel.getCustomFieldLabel('Company', 'custom_value4')
-            fields[label4] = this.companyModel.formatCustomValue(
+        if ( this.state.entity.custom_value4.length ) {
+            const label4 = this.companyModel.getCustomFieldLabel ( 'Company', 'custom_value4' )
+            fields[ label4 ] = this.companyModel.formatCustomValue (
                 'Company',
                 'custom_value4',
                 this.state.entity.custom_value4
@@ -107,7 +107,7 @@ export default class Company extends Component {
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('1')
+                                this.toggleTab ( '1' )
                             }}
                         >
                             {translations.overview}
@@ -117,7 +117,7 @@ export default class Company extends Component {
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('2')
+                                this.toggleTab ( '2' )
                             }}
                         >
                             {translations.details}
@@ -128,7 +128,7 @@ export default class Company extends Component {
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('3')
+                                this.toggleTab ( '3' )
                             }}
                         >
                             {translations.documents} ({this.companyModel.fileCount})
@@ -152,7 +152,7 @@ export default class Company extends Component {
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
                                         <FileUploads entity_type="Company" entity={this.state.entity}
-                                            user_id={this.state.entity.user_id}/>
+                                                     user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -160,10 +160,10 @@ export default class Company extends Component {
                     </TabPane>
                 </TabContent>
 
-                <BottomNavigationButtons button1_click={(e) => this.triggerAction('archive')}
-                    button1={{ label: translations.archive }}
-                    button2_click={(e) => this.triggerAction('newExpense')}
-                    button2={{ label: translations.new_expense }}/>
+                <BottomNavigationButtons button1_click={( e ) => this.triggerAction ( 'archive' )}
+                                         button1={{ label: translations.archive }}
+                                         button2_click={( e ) => this.triggerAction ( 'newExpense' )}
+                                         button2={{ label: translations.new_expense }}/>
 
             </React.Fragment>
         )

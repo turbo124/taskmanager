@@ -4,24 +4,24 @@ import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class LearnMoreModal extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false
         }
 
-        this.toggle = this.toggle.bind(this)
+        this.toggle = this.toggle.bind ( this )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -34,8 +34,8 @@ export default class LearnMoreModal extends Component {
                 </span>
 
                 <Modal centered={true} backdrop="static" isOpen={this.state.modal} toggle={this.toggle}
-                    className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>{translations.restore.toUpperCase()}</ModalHeader>
+                       className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>{translations.restore.toUpperCase ()}</ModalHeader>
                     <ModalBody className={theme}>
                         {this.props.content}
                     </ModalBody>
@@ -56,8 +56,8 @@ export class LearnMoreUrl extends Component {
                     {translations.learn_more}
                 </UncontrolledTooltip>
 
-                <span id="UncontrolledTooltipExample" onClick={(e) => {
-                    e.preventDefault()
+                <span id="UncontrolledTooltipExample" onClick={( e ) => {
+                    e.preventDefault ()
                     window.location.href = this.props.url
                 }}
                 > <i className={`fa ${icons.help}`}/></span>

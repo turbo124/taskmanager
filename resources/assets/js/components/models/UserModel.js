@@ -7,8 +7,8 @@ export const user_pdf_fields = [
 ]
 
 export default class UserModel extends BaseModel {
-    constructor (data = null) {
-        super()
+    constructor ( data = null ) {
+        super ()
 
         this._url = '/api/users'
         this.entity = 'User'
@@ -23,7 +23,7 @@ export default class UserModel extends BaseModel {
             errors: []
         }
 
-        if (data !== null) {
+        if ( data !== null ) {
             this._fields = { ...this.fields, ...data }
         }
     }
@@ -39,12 +39,12 @@ export default class UserModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        if (!this.fields.is_deleted) {
-            actions.push('delete')
+        if ( !this.fields.is_deleted ) {
+            actions.push ( 'delete' )
         }
 
-        if (!this.fields.deleted_at) {
-            actions.push('archive')
+        if ( !this.fields.deleted_at ) {
+            actions.push ( 'archive' )
         }
 
         return actions
@@ -54,8 +54,8 @@ export default class UserModel extends BaseModel {
 
     }
 
-    async update (data) {
-        if (!this.fields.id) {
+    async update ( data ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -63,22 +63,22 @@ export default class UserModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
+            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async completeAction (data, action) {
-        if (!this.fields.id) {
+    async completeAction ( data, action ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -86,38 +86,38 @@ export default class UserModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async save (data) {
-        if (this.fields.id) {
-            return this.update(data)
+    async save ( data ) {
+        if ( this.fields.id ) {
+            return this.update ( data )
         }
 
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post(this.url, data)
+            const res = await axios.post ( this.url, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
@@ -127,18 +127,18 @@ export default class UserModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.get(this.url)
+            const res = await axios.get ( this.url )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
 
             this.users = res.data
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }

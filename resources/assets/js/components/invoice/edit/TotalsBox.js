@@ -2,28 +2,28 @@ import React from 'react'
 import { translations } from '../../utils/_translations'
 import FormatMoney from '../../common/FormatMoney'
 
-export default function TotalsBox (props) {
+export default function TotalsBox ( props ) {
     let total = props.invoice.sub_total - props.invoice.discount_total
 
     total += props.invoice.tax_total
 
     let tax_total = props.invoice.tax_total
 
-    if (props.invoice.total_custom_values && props.invoice.total_custom_values > 0) {
+    if ( props.invoice.total_custom_values && props.invoice.total_custom_values > 0 ) {
         total += props.invoice.total_custom_values
     }
 
-    if (props.invoice.gateway_fee && props.invoice.gateway_fee > 0) {
+    if ( props.invoice.gateway_fee && props.invoice.gateway_fee > 0 ) {
         let gateway_amount = props.invoice.gateway_fee
 
-        if (props.invoice.gateway_percentage === true) {
+        if ( props.invoice.gateway_percentage === true ) {
             gateway_amount = total * props.invoice.gateway_fee / 100
         }
 
         total += gateway_amount
     }
 
-    if (props.invoice.total_custom_tax && props.invoice.total_custom_tax > 0) {
+    if ( props.invoice.total_custom_tax && props.invoice.total_custom_tax > 0 ) {
         total += props.invoice.total_custom_tax
         tax_total += props.invoice.total_custom_tax
     }

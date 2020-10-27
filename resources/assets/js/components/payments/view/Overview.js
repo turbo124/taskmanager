@@ -9,12 +9,12 @@ import FieldGrid from '../../common/entityContainers/FieldGrid'
 import PaymentPresenter from '../../presenters/PaymentPresenter'
 import Paymentables from './Paymentables'
 
-export default function Overview (props) {
-    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+export default function Overview ( props ) {
+    const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
 
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.amount} value_1={props.entity.amount}
-            heading_2={translations.applied} value_2={props.entity.applied}/>
+                          heading_2={translations.applied} value_2={props.entity.applied}/>
 
         <PaymentPresenter entity={props.entity} field="status_field"/>
 
@@ -33,8 +33,8 @@ export default function Overview (props) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[0].name}
-                icon={icons.customer}/>
+            <EntityListTile entity={translations.customer} title={props.customer[ 0 ].name}
+                            icon={icons.customer}/>
         </Row>
 
         {!!props.user &&

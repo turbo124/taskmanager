@@ -10,10 +10,10 @@ import LineItem from '../../common/entityContainers/LineItem'
 import TotalsBox from '../../common/entityContainers/TotalsBox'
 import PurchaseOrderPresenter from '../../presenters/PurchaseOrderPresenter'
 
-export default function Overview (props) {
+export default function Overview ( props ) {
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.total} value_1={props.entity.total}
-            heading_2={translations.balance} value_2={props.entity.balance}/>
+                          heading_2={translations.balance} value_2={props.entity.balance}/>
 
         <PurchaseOrderPresenter entity={props.entity} field="status_field"/>
 
@@ -30,8 +30,8 @@ export default function Overview (props) {
         }
 
         <Row>
-            <EntityListTile entity={translations.company} title={props.company[0].name}
-                icon={icons.company}/>
+            <EntityListTile entity={translations.company} title={props.company[ 0 ].name}
+                            icon={icons.company}/>
         </Row>
 
         {!!props.user &&
@@ -44,9 +44,9 @@ export default function Overview (props) {
 
         <Row>
             <ListGroup className="col-12 mt-4">
-                {props.entity.line_items.map((line_item, index) => (
+                {props.entity.line_items.map ( ( line_item, index ) => (
                     <LineItem customers={props.companies} key={index} line_item={line_item}/>
-                ))}
+                ) )}
             </ListGroup>
         </Row>
 

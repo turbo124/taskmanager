@@ -22,7 +22,7 @@ class InvoiceWasCreated implements PerformsMetrics
     /**
      * @var Invoice
      */
-    public $invoice;
+    public Invoice $invoice;
     protected $meter = 'invoice-created';
 
     /**

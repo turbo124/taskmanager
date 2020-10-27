@@ -12,8 +12,8 @@ import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
 
 export default class TaskList extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             isOpen: window.innerWidth > 670,
@@ -34,11 +34,11 @@ export default class TaskList extends Component {
             error_message: translations.unexpected_error,
             success_message: translations.success_message,
             filters: {
-                project_id: queryString.parse(this.props.location.search).project_id || '',
+                project_id: queryString.parse ( this.props.location.search ).project_id || '',
                 status_id: 'active',
                 task_status: '',
-                user_id: queryString.parse(this.props.location.search).user_id || '',
-                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                user_id: queryString.parse ( this.props.location.search ).user_id || '',
+                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
                 task_type: '',
                 searchText: '',
                 start_date: '',
@@ -47,6 +47,8 @@ export default class TaskList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'task_sort_order',
+                'include_documents',
                 'design_id',
                 'assigned_to',
                 'invoice_id',
@@ -97,100 +99,100 @@ export default class TaskList extends Component {
             showRestoreButton: false
         }
 
-        this.addUserToState = this.addUserToState.bind(this)
-        this.userList = this.userList.bind(this)
-        this.filterTasks = this.filterTasks.bind(this)
-        this.getCustomers = this.getCustomers.bind(this)
-        this.getUsers = this.getUsers.bind(this)
+        this.addUserToState = this.addUserToState.bind ( this )
+        this.userList = this.userList.bind ( this )
+        this.filterTasks = this.filterTasks.bind ( this )
+        this.getCustomers = this.getCustomers.bind ( this )
+        this.getUsers = this.getUsers.bind ( this )
     }
 
     componentDidMount () {
-        this.getUsers()
-        this.getCustomers()
-        this.getCustomFields()
+        this.getUsers ()
+        this.getCustomers ()
+        this.getCustomFields ()
     }
 
-    addUserToState (tasks) {
-        this.setState({ tasks: tasks })
+    addUserToState ( tasks ) {
+        this.setState ( { tasks: tasks } )
     }
 
     handleClose () {
-        this.setState({ error: '', show_success: false })
+        this.setState ( { error: '', show_success: false } )
     }
 
-    filterTasks (filters) {
-        console.log('filters', filters)
-        this.setState({ filters: filters })
+    filterTasks ( filters ) {
+        console.log ( 'filters', filters )
+        this.setState ( { filters: filters } )
 
         return true
     }
 
-    userList (props) {
+    userList ( props ) {
         const { tasks, custom_fields, users, customers } = this.state
 
         return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} tasks={tasks} users={users}
-            custom_fields={custom_fields} customers={customers}
-            viewId={props.viewId}
-            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-            toggleViewedEntity={props.toggleViewedEntity}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+                         custom_fields={custom_fields} customers={customers}
+                         viewId={props.viewId}
+                         ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+                         toggleViewedEntity={props.toggleViewedEntity}
+                         bulk={props.bulk}
+                         onChangeBulk={props.onChangeBulk}/>
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Task')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/accounts/fields/Task' )
+            .then ( ( r ) => {
+                this.setState ( {
                     custom_fields: r.data.fields
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
     getUsers () {
-        const userRepository = new UserRepository()
-        userRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const userRepository = new UserRepository ()
+        userRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ users: response }, () => {
-                console.log('users', this.state.users)
-            })
-        })
+            this.setState ( { users: response }, () => {
+                console.log ( 'users', this.state.users )
+            } )
+        } )
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository()
-        customerRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const customerRepository = new CustomerRepository ()
+        customerRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ customers: response }, () => {
-                console.log('customers', this.state.customers)
-            })
-        })
+            this.setState ( { customers: response }, () => {
+                console.log ( 'customers', this.state.customers )
+            } )
+        } )
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    setError (message = null) {
-        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    setError ( message = null ) {
+        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
     }
 
-    setSuccess (message = null) {
-        this.setState({
+    setSuccess ( message = null ) {
+        this.setState ( {
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        })
+        } )
     }
 
     render () {
@@ -198,7 +200,7 @@ export default class TaskList extends Component {
         const { project_id, task_status, task_type, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
         const fetchUrl = `/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -219,10 +221,10 @@ export default class TaskList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
-                                    tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={this.state.filters} filter={this.filterTasks}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <TaskFilters setFilterOpen={this.setFilterOpen.bind ( this )} users={users}
+                                             tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                                             filters={this.state.filters} filter={this.filterTasks}
+                                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
                                 {addButton}
                             </CardBody>
@@ -230,7 +232,7 @@ export default class TaskList extends Component {
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -238,7 +240,7 @@ export default class TaskList extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -250,8 +252,8 @@ export default class TaskList extends Component {
                             <CardBody>
                                 <DataTable
                                     customers={customers}
-                                    setSuccess={this.setSuccess.bind(this)}
-                                    setError={this.setError.bind(this)}
+                                    setSuccess={this.setSuccess.bind ( this )}
+                                    setError={this.setError.bind ( this )}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Task"
                                     bulk_save_url="/api/task/bulk"

@@ -8,8 +8,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditCaseTemplate extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             name: this.props.template.name,
@@ -20,60 +20,60 @@ class EditCaseTemplate extends React.Component {
             errors: []
         }
 
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.handleInput = this.handleInput.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleInput = this.handleInput.bind ( this )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value
+        } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        axios.put(`/api/case_template/${this.state.id}`, {
+        axios.put ( `/api/case_template/${this.state.id}`, {
             name: this.state.name,
             description: this.state.description,
             send_on: this.state.send_on
-        })
-            .then((response) => {
-                this.toggle()
-                const index = this.props.templates.findIndex(template => template.id === this.state.id)
-                this.props.templates[index] = response.data
-                this.props.action(this.props.templates)
-            })
-            .catch((error) => {
-                this.setState({
+        } )
+            .then ( ( response ) => {
+                this.toggle ()
+                const index = this.props.templates.findIndex ( template => template.id === this.state.id )
+                this.props.templates[ index ] = response.data
+                this.props.action ( this.props.templates )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -84,12 +84,12 @@ class EditCaseTemplate extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details template={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
-                            renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
+                                 renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

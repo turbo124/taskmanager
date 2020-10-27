@@ -11,12 +11,12 @@ import LineItem from '../../common/entityContainers/LineItem'
 import TotalsBox from '../../common/entityContainers/TotalsBox'
 import RecurringInvoicePresenter from '../../presenters/RecurringInvoicePresenter'
 
-export default function Overview (props) {
-    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+export default function Overview ( props ) {
+    const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
 
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.total} value_1={props.entity.total}
-            heading_2={translations.balance} value_2={props.entity.balance}/>
+                          heading_2={translations.balance} value_2={props.entity.balance}/>
 
         <RecurringInvoicePresenter entity={props.entity} field="status_field"/>
 
@@ -27,7 +27,7 @@ export default function Overview (props) {
         {props.invoices && props.invoices.length &&
         <Row>
             <ListGroup className="col-12 mt-4">
-                {props.invoices.map((invoice, index) => (
+                {props.invoices.map ( ( invoice, index ) => (
                     <a key={index} href={`/#/invoice?number=${invoice.number}`}>
                         <ListGroupItem className={listClass}>
                             <ListGroupItemHeading
@@ -40,7 +40,7 @@ export default function Overview (props) {
                             </ListGroupItemText>
                         </ListGroupItem>
                     </a>
-                ))}
+                ) )}
             </ListGroup>
         </Row>
         }
@@ -58,8 +58,8 @@ export default function Overview (props) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[0].name}
-                icon={icons.customer}/>
+            <EntityListTile entity={translations.customer} title={props.customer[ 0 ].name}
+                            icon={icons.customer}/>
         </Row>
 
         {!!props.user &&
@@ -72,9 +72,9 @@ export default function Overview (props) {
 
         <Row>
             <ListGroup className="col-12 mt-4">
-                {props.entity.line_items.map((line_item, index) => (
+                {props.entity.line_items.map ( ( line_item, index ) => (
                     <LineItem customers={props.customers} key={index} line_item={line_item}/>
-                ))}
+                ) )}
             </ListGroup>
         </Row>
 

@@ -89,8 +89,8 @@ export const icons = {
     promocode: 'fa-badge-percent'
 }
 
-export function getEntityIcon (entity) {
-    switch (entity) {
+export function getEntityIcon ( entity ) {
+    switch ( entity ) {
         case 'Promocode':
             return icons.promocode
         case 'Deal':
@@ -131,8 +131,8 @@ export function getEntityIcon (entity) {
     }
 }
 
-export function getFileTypeIcon (type) {
-    switch (type) {
+export function getFileTypeIcon ( type ) {
+    switch ( type ) {
         case 'pdf':
             return icons.document
         case 'psd':
@@ -158,8 +158,8 @@ export function getFileTypeIcon (type) {
     }
 }
 
-export function getSettingsIcon (section) {
-    switch (section) {
+export function getSettingsIcon ( section ) {
+    switch ( section ) {
         case 'designs':
             return icons.pencil
         case 'integration-settings':

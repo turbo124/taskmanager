@@ -13,8 +13,8 @@ import CreditRepository from '../repositories/CreditRepository'
 import InvoiceRepository from '../repositories/InvoiceRepository'
 
 export default class Payments extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -36,11 +36,11 @@ export default class Payments extends Component {
             ignoredColumns: ['company_gateway_id', 'account_id', 'customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_to', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
             filters: {
                 status_id: 'active',
-                customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                searchText: queryString.parse(this.props.location.search).number || '',
+                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
+                searchText: queryString.parse ( this.props.location.search ).number || '',
                 start_date: '',
                 end_date: '',
-                gateway_id: queryString.parse(this.props.location.search).gateway_id || ''
+                gateway_id: queryString.parse ( this.props.location.search ).gateway_id || ''
             },
             invoices: [],
             credits: [],
@@ -48,115 +48,115 @@ export default class Payments extends Component {
             showRestoreButton: false
         }
 
-        this.updateCustomers = this.updateCustomers.bind(this)
-        this.customerList = this.customerList.bind(this)
-        this.getInvoices = this.getInvoices.bind(this)
-        this.getCredits = this.getCredits.bind(this)
-        this.filterPayments = this.filterPayments.bind(this)
+        this.updateCustomers = this.updateCustomers.bind ( this )
+        this.customerList = this.customerList.bind ( this )
+        this.getInvoices = this.getInvoices.bind ( this )
+        this.getCredits = this.getCredits.bind ( this )
+        this.filterPayments = this.filterPayments.bind ( this )
     }
 
     componentDidMount () {
-        this.getInvoices()
-        this.getCredits()
-        this.getCustomers()
-        this.getCustomFields()
+        this.getInvoices ()
+        this.getCredits ()
+        this.getCustomers ()
+        this.getCustomFields ()
     }
 
     handleClose () {
-        this.setState({ error: '', show_success: false })
+        this.setState ( { error: '', show_success: false } )
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Payment')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/accounts/fields/Payment' )
+            .then ( ( r ) => {
+                this.setState ( {
                     custom_fields: r.data.fields
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
     getInvoices () {
-        const invoiceRepository = new InvoiceRepository()
-        invoiceRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const invoiceRepository = new InvoiceRepository ()
+        invoiceRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ invoices: response }, () => {
-                console.log('invoices', this.state.invoices)
-            })
-        })
+            this.setState ( { invoices: response }, () => {
+                console.log ( 'invoices', this.state.invoices )
+            } )
+        } )
     }
 
     getCredits () {
-        const creditRepository = new CreditRepository()
-        creditRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const creditRepository = new CreditRepository ()
+        creditRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ credits: response }, () => {
-                console.log('credits', this.state.credits)
-            })
-        })
+            this.setState ( { credits: response }, () => {
+                console.log ( 'credits', this.state.credits )
+            } )
+        } )
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository()
-        customerRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const customerRepository = new CustomerRepository ()
+        customerRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ customers: response }, () => {
-                console.log('customers', this.state.customers)
-            })
-        })
+            this.setState ( { customers: response }, () => {
+                console.log ( 'customers', this.state.customers )
+            } )
+        } )
     }
 
-    updateCustomers (payments) {
+    updateCustomers ( payments ) {
         const cachedData = !this.state.cachedData.length ? payments : this.state.cachedData
-        this.setState({
+        this.setState ( {
             payments: payments,
             cachedData: cachedData
-        })
+        } )
     }
 
-    filterPayments (filters) {
-        this.setState({ filters: filters })
+    filterPayments ( filters ) {
+        this.setState ( { filters: filters } )
     }
 
-    customerList (props) {
+    customerList ( props ) {
         const { payments, custom_fields, invoices, credits, customers } = this.state
         return <PaymentItem showCheckboxes={props.showCheckboxes} payments={payments} customers={customers}
-            viewId={props.viewId}
-            credits={credits}
-            invoices={invoices} custom_fields={custom_fields}
-            ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
-            toggleViewedEntity={props.toggleViewedEntity}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+                            viewId={props.viewId}
+                            credits={credits}
+                            invoices={invoices} custom_fields={custom_fields}
+                            ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
+                            toggleViewedEntity={props.toggleViewedEntity}
+                            bulk={props.bulk}
+                            onChangeBulk={props.onChangeBulk}/>
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    setError (message = null) {
-        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    setError ( message = null ) {
+        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
     }
 
-    setSuccess (message = null) {
-        this.setState({
+    setSuccess ( message = null ) {
+        this.setState ( {
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        })
+        } )
     }
 
     render () {
@@ -170,7 +170,7 @@ export default class Payments extends Component {
             action={this.updateCustomers}
             payments={payments}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
@@ -179,18 +179,18 @@ export default class Payments extends Component {
                 <div className="topbar">
                     <Card>
                         <CardBody>
-                            <PaymentFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
-                                payments={payments} invoices={invoices}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                filters={filters} filter={this.filterPayments}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                            <PaymentFilters setFilterOpen={this.setFilterOpen.bind ( this )} customers={customers}
+                                            payments={payments} invoices={invoices}
+                                            updateIgnoredColumns={this.updateIgnoredColumns}
+                                            filters={filters} filter={this.filterPayments}
+                                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                             {addButton}
                         </CardBody>
                     </Card>
                 </div>
 
                 {error &&
-                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                     <Alert severity="danger">
                         {error_message}
                     </Alert>
@@ -198,7 +198,7 @@ export default class Payments extends Component {
                 }
 
                 {show_success &&
-                <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                     <Alert severity="success">
                         {success_message}
                     </Alert>
@@ -209,8 +209,8 @@ export default class Payments extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
-                                setSuccess={this.setSuccess.bind(this)}
-                                setError={this.setError.bind(this)}
+                                setSuccess={this.setSuccess.bind ( this )}
+                                setError={this.setError.bind ( this )}
                                 customers={customers}
                                 dropdownButtonActions={this.state.dropdownButtonActions}
                                 entity_type="Payment"

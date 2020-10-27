@@ -8,43 +8,43 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 export default class AddSubscription extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.subscriptionModel = new SubscriptionModel(null)
+        this.subscriptionModel = new SubscriptionModel ( null )
         this.initialState = this.subscriptionModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
     }
 
     componentDidMount () {
-        if (Object.prototype.hasOwnProperty.call(localStorage, 'subscriptionForm')) {
-            const storedValues = JSON.parse(localStorage.getItem('subscriptionForm'))
-            this.setState({ ...storedValues }, () => console.log('new state', this.state))
+        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'subscriptionForm' ) ) {
+            const storedValues = JSON.parse ( localStorage.getItem ( 'subscriptionForm' ) )
+            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
         }
     }
 
-    handleInput (e) {
+    handleInput ( e ) {
         const value = e.target.value
         const name = e.target.name
 
-        this.setState({
-            [name]: value
-        }, () => localStorage.setItem('subscriptionForm', JSON.stringify(this.state)))
+        this.setState ( {
+            [ name ]: value
+        }, () => localStorage.setItem ( 'subscriptionForm', JSON.stringify ( this.state ) ) )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -57,38 +57,38 @@ export default class AddSubscription extends React.Component {
             event_id: this.state.event_id
         }
 
-        this.subscriptionModel.save(data).then(response => {
-            if (!response) {
-                this.setState({
+        this.subscriptionModel.save ( data ).then ( response => {
+            if ( !response ) {
+                this.setState ( {
                     errors: this.subscriptionModel.errors,
                     message: this.subscriptionModel.error_message
-                })
+                } )
                 return
             }
 
-            this.props.subscriptions.push(response)
-            this.props.action(this.props.subscriptions)
-            localStorage.removeItem('subscriptionForm')
-            this.setState(this.initialState)
-        })
+            this.props.subscriptions.push ( response )
+            this.props.action ( this.props.subscriptions )
+            localStorage.removeItem ( 'subscriptionForm' )
+            this.setState ( this.initialState )
+        } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if (!this.state.modal) {
-                this.setState({
+            if ( !this.state.modal ) {
+                this.setState ( {
                     name: '',
                     target_url: ''
-                }, () => localStorage.removeItem('subscriptionForm'))
+                }, () => localStorage.removeItem ( 'subscriptionForm' ) )
             }
-        })
+        } )
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -98,12 +98,12 @@ export default class AddSubscription extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
-                            renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
+                                 renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind ( this )}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

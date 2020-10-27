@@ -15,8 +15,8 @@ import {
 import axios from 'axios'
 
 class EditPermission extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             loading: false,
@@ -29,62 +29,62 @@ class EditPermission extends React.Component {
         }
 
         this.initialState = this.state
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
     }
 
-    handleInput (e) {
-        this.setState({ [e.target.name]: e.target.value })
+    handleInput ( e ) {
+        this.setState ( { [ e.target.name ]: e.target.value } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        axios.put(`/api/permissions/${this.state.id}`, {
+        axios.put ( `/api/permissions/${this.state.id}`, {
             name: this.state.name,
             description: this.state.description
-        })
-            .then((response) => {
+        } )
+            .then ( ( response ) => {
                 this.initialState = this.state
-                const index = this.props.permissions.findIndex(permission => permission.id === this.props.permission.id)
-                this.props.permissions[index].name = this.state.name
-                this.props.permissions[index].description = this.state.description
-                this.props.action(this.props.permissions)
-                this.toggle()
-            })
-            .catch((error) => {
-                if (error.response.data.errors) {
-                    this.setState({
+                const index = this.props.permissions.findIndex ( permission => permission.id === this.props.permission.id )
+                this.props.permissions[ index ].name = this.state.name
+                this.props.permissions[ index ].description = this.state.description
+                this.props.action ( this.props.permissions )
+                this.toggle ()
+            } )
+            .catch ( ( error ) => {
+                if ( error.response.data.errors ) {
+                    this.setState ( {
                         errors: error.response.data.errors
-                    })
+                    } )
                 } else {
-                    this.setState({ message: error.response.data })
+                    this.setState ( { message: error.response.data } )
                 }
-            })
+            } )
     }
 
     toggle () {
-        if (this.state.modal) {
-            this.setState({ ...this.initialState })
+        if ( this.state.modal ) {
+            this.setState ( { ...this.initialState } )
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
@@ -108,9 +108,9 @@ class EditPermission extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                                value={this.state.name} onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('name')}
+                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text" name="name"
+                                   value={this.state.name} onChange={this.handleInput.bind ( this )}/>
+                            {this.renderErrorFor ( 'name' )}
                         </InputGroup>
 
                         <Label>Description</Label>
@@ -118,15 +118,15 @@ class EditPermission extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
-                                name="description" value={this.state.description}
-                                onChange={this.handleInput.bind(this)}/>
-                            {this.renderErrorFor('description')}
+                            <Input className={this.hasErrorFor ( 'description' ) ? 'is-invalid' : ''} type="text"
+                                   name="description" value={this.state.description}
+                                   onChange={this.handleInput.bind ( this )}/>
+                            {this.renderErrorFor ( 'description' )}
                         </InputGroup>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind(this)}>Update</Button>
+                        <Button color="primary" onClick={this.handleClick.bind ( this )}>Update</Button>
                         <Button color="secondary" onClick={this.toggle}>Close</Button>
                     </ModalFooter>
                 </Modal>

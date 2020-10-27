@@ -3,8 +3,8 @@ import ContactInputs from './ContactInputs'
 import { Button, Form } from 'reactstrap'
 
 export default class Contact extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             contacts: this.props.contacts && this.props.contacts.length ? this.props.contacts : [{
                 first_name: '',
@@ -15,19 +15,19 @@ export default class Contact extends Component {
             }]
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.addContact = this.addContact.bind(this)
-        this.removeContact = this.removeContact.bind(this)
+        this.handleChange = this.handleChange.bind ( this )
+        this.addContact = this.addContact.bind ( this )
+        this.removeContact = this.removeContact.bind ( this )
     }
 
-    handleChange (e) {
+    handleChange ( e ) {
         const contacts = [...this.state.contacts]
-        contacts[e.target.dataset.id][e.target.dataset.field] = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        this.setState({ contacts }, () => this.props.onChange(this.state.contacts))
+        contacts[ e.target.dataset.id ][ e.target.dataset.field ] = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+        this.setState ( { contacts }, () => this.props.onChange ( this.state.contacts ) )
     }
 
-    addContact (e) {
-        this.setState((prevState) => ({
+    addContact ( e ) {
+        this.setState ( ( prevState ) => ({
             contacts: [...prevState.contacts, {
                 is_primary: false,
                 first_name: '',
@@ -36,15 +36,15 @@ export default class Contact extends Component {
                 phone: '',
                 password: ''
             }]
-        }), () => this.props.onChange(this.state.contacts))
+        }), () => this.props.onChange ( this.state.contacts ) )
     }
 
-    removeContact (idx) {
-        this.setState({
-            contacts: this.state.contacts.filter(function (contact, sidx) {
+    removeContact ( idx ) {
+        this.setState ( {
+            contacts: this.state.contacts.filter ( function ( contact, sidx ) {
                 return sidx !== idx
-            })
-        }, () => this.props.onChange(this.state.contacts))
+            } )
+        }, () => this.props.onChange ( this.state.contacts ) )
     }
 
     render () {

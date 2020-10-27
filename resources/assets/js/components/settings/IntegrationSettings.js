@@ -7,72 +7,72 @@ import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 
 class IntegrationSettings extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             success_message: translations.settings_saved,
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             settings: {},
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.getAccount = this.getAccount.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
+        axios.get ( `api/accounts/${this.state.id}` )
+            .then ( ( r ) => {
+                this.setState ( {
                     loaded: true,
                     settings: r.data.settings
-                })
-            })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( { error: true } )
+            } )
     }
 
-    handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { [ event.target.name ]: event.target.value } )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         const value = event.target.value
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
-    handleSubmit (e) {
-        const formData = new FormData()
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('_method', 'PUT')
+    handleSubmit ( e ) {
+        const formData = new FormData ()
+        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
+        formData.append ( '_method', 'PUT' )
 
-        axios.post(`/api/accounts/${this.state.id}`, formData, {
+        axios.post ( `/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        })
-            .then((response) => {
-                this.setState({ success: true })
-            })
-            .catch((error) => {
-                this.setState({ error: true })
-            })
+        } )
+            .then ( ( response ) => {
+                this.setState ( { success: true } )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( { error: true } )
+            } )
     }
 
     getFields () {
@@ -100,17 +100,17 @@ class IntegrationSettings extends Component {
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={this.state.success_message}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={this.state.success_message}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={this.state.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={this.state.settings_not_saved}/>
 
                 <Header title={translations.integration_settings} handleSubmit={this.handleSubmit}/>
 
@@ -118,7 +118,7 @@ class IntegrationSettings extends Component {
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getFields()}
+                            formFieldsRows={this.getFields ()}
                         />
                     </CardBody>
                 </Card>

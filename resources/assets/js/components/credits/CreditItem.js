@@ -8,35 +8,35 @@ import EditCredit from './edit/EditCredit'
 import CreditPresenter from '../presenters/CreditPresenter'
 
 export default class CreditItem extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.deleteCredit = this.deleteCredit.bind(this)
+        this.deleteCredit = this.deleteCredit.bind ( this )
     }
 
-    deleteCredit (id, archive = false) {
+    deleteCredit ( id, archive = false ) {
         const url = archive === true ? `/api/credits/archive/${id}` : `/api/credits/${id}`
         const self = this
-        axios.delete(url)
-            .then(function (response) {
+        axios.delete ( url )
+            .then ( function ( response ) {
                 const arrPayments = [...self.props.credits]
-                const index = arrPayments.findIndex(payment => payment.id === id)
-                arrPayments.splice(index, 1)
-                self.props.updateCustomers(arrPayments)
-            })
-            .catch(function (error) {
-                self.setState(
+                const index = arrPayments.findIndex ( payment => payment.id === id )
+                arrPayments.splice ( index, 1 )
+                self.props.updateCustomers ( arrPayments )
+            } )
+            .catch ( function ( error ) {
+                self.setState (
                     {
                         error: error.response.data
                     }
                 )
-            })
+            } )
     }
 
     render () {
         const { credits, customers, custom_fields, ignoredColumns } = this.props
-        if (credits && credits.length && customers.length) {
-            return credits.map(credit => {
+        if ( credits && credits.length && customers.length ) {
+            return credits.map ( credit => {
                 const editButton = !credit.deleted_at ? <EditCredit
                     custom_fields={custom_fields}
                     credit={credit}
@@ -47,38 +47,38 @@ export default class CreditItem extends Component {
                 /> : null
                 const restoreButton = credit.deleted_at
                     ? <RestoreModal id={credit.id} entities={credits} updateState={this.props.updateCustomers}
-                        url={`/api/credits/restore/${credit.id}`}/> : null
+                                    url={`/api/credits/restore/${credit.id}`}/> : null
                 const archiveButton = !credit.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteCredit} id={credit.id}/> : null
                 const deleteButton = !credit.deleted_at
                     ? <DeleteModal archive={false} deleteFunction={this.deleteCredit} id={credit.id}/> : null
 
-                const columnList = Object.keys(credit).filter(key => {
-                    return ignoredColumns && !ignoredColumns.includes(key)
-                }).map(key => {
+                const columnList = Object.keys ( credit ).filter ( key => {
+                    return ignoredColumns && !ignoredColumns.includes ( key )
+                } ).map ( key => {
                     return <CreditPresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={credit} edit={editButton}/>
-                })
+                                            toggleViewedEntity={this.props.toggleViewedEntity}
+                                            field={key} entity={credit} edit={editButton}/>
+                } )
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(credit.id)
+                const isChecked = this.props.bulk.includes ( credit.id )
                 const selectedRow = this.props.viewId === credit.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                        restore={restoreButton}/> : null
+                                   restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={credit.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
-                                onChange={this.props.onChangeBulk}/>
+                                   onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
                     </tr>
                 )
-            })
+            } )
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

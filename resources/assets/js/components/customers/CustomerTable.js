@@ -8,24 +8,24 @@ import Directory from '../common/Directory'
 import Avatar from '../common/Avatar'
 
 export default class Customers extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             per_page: 5,
             customers: []
         }
 
-        this.updateCustomers = this.updateCustomers.bind(this)
-        this.customerList = this.customerList.bind(this)
+        this.updateCustomers = this.updateCustomers.bind ( this )
+        this.customerList = this.customerList.bind ( this )
     }
 
-    updateCustomers (customers) {
-        this.setState({ customers: customers })
+    updateCustomers ( customers ) {
+        this.setState ( { customers: customers } )
     }
 
     customerList () {
-        if (this.state.customers && this.state.customers.length) {
-            const list = this.state.customers.map(customer => {
+        if ( this.state.customers && this.state.customers.length ) {
+            const list = this.state.customers.map ( customer => {
                 return (
                     <li className="list-group-item">
                         <div className="row w-100">
@@ -44,28 +44,28 @@ export default class Customers extends Component {
                                     />
 
                                     <Button color="danger"
-                                        onClick={() => this.deleteCustomer(customer.id)}>Delete</Button>
+                                            onClick={() => this.deleteCustomer ( customer.id )}>Delete</Button>
 
                                 </span>
                                 <label className="name lead">{customer.name}</label>
                                 <br/>
                                 <span className="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title=""
-                                    data-original-title={this.displayCustomerAddress(customer.address)}/>
-                                <span className="text-muted">{this.displayCustomerAddress(customer.address)}</span>
+                                      data-original-title={this.displayCustomerAddress ( customer.address )}/>
+                                <span className="text-muted">{this.displayCustomerAddress ( customer.address )}</span>
                                 <br/>
                                 <span className="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title=""
-                                    data-original-title={this.displayCustomerPhone(customer.address)}/>
+                                      data-original-title={this.displayCustomerPhone ( customer.address )}/>
                                 <span
-                                    className="text-muted small">{this.displayCustomerPhone(customer.address)}</span>
+                                    className="text-muted small">{this.displayCustomerPhone ( customer.address )}</span>
                                 <br/>
                                 <span className="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"
-                                    data-original-title="" title=""/>
+                                      data-original-title="" title=""/>
                                 <span className="text-muted small text-truncate">{customer.email}</span>
                             </div>
                         </div>
                     </li>
                 )
-            })
+            } )
 
             return (
                 <div className="col-12 mt-3">
@@ -83,29 +83,29 @@ export default class Customers extends Component {
         }
     }
 
-    deleteCustomer (id) {
-        axios.delete(`/api/customers/${id}`).then(data => {
+    deleteCustomer ( id ) {
+        axios.delete ( `/api/customers/${id}` ).then ( data => {
             const arrCustomers = [...this.state.customers]
-            const index = arrCustomers.findIndex(customer => customer.id === id)
-            arrCustomers.splice(index, 1)
-            this.updateCustomers(arrCustomers)
-        })
+            const index = arrCustomers.findIndex ( customer => customer.id === id )
+            arrCustomers.splice ( index, 1 )
+            this.updateCustomers ( arrCustomers )
+        } )
     }
 
-    displayCustomerAddress (address) {
-        if (!address) {
+    displayCustomerAddress ( address ) {
+        if ( !address ) {
             return ''
         }
 
-        if (address.address_2) {
+        if ( address.address_2 ) {
             return `${address.address_1}, ${address.address_2}, ${address.zip}, ${address.city}`
         }
 
         return `${address.address_1}, ${address.zip}, ${address.city}`
     }
 
-    displayCustomerPhone (address) {
-        if (!address) {
+    displayCustomerPhone ( address ) {
+        if ( !address ) {
             return (<span/>)
         }
 

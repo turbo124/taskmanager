@@ -21,107 +21,107 @@ const Button = styled.button`
 `
 
 class Calendars extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
+            year: new Date ().getFullYear (),
+            month: new Date ().getMonth () + 1,
             events: [],
             filters: { status_id: 'active', task_id: '', user_id: '', customer_id: '' },
             calendar_type: 'month',
             custom_fields: []
         }
 
-        this.loadPrevMonth = this.loadPrevMonth.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.loadNextMonth = this.loadNextMonth.bind(this)
-        this.setEvents = this.setEvents.bind(this)
-        this.getEvents = this.getEvents.bind(this)
-        this.filterEvents = this.filterEvents.bind(this)
-        this.eventRender = this.eventRender.bind(this)
+        this.loadPrevMonth = this.loadPrevMonth.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.loadNextMonth = this.loadNextMonth.bind ( this )
+        this.setEvents = this.setEvents.bind ( this )
+        this.getEvents = this.getEvents.bind ( this )
+        this.filterEvents = this.filterEvents.bind ( this )
+        this.eventRender = this.eventRender.bind ( this )
     }
 
     componentDidMount () {
-        this.getEvents()
-        this.getCustomFields()
+        this.getEvents ()
+        this.getCustomFields ()
     }
 
-    setEvents (events) {
-        this.setState({ events: events })
+    setEvents ( events ) {
+        this.setState ( { events: events } )
     }
 
-    setMonth (month) {
-        this.setState({ month: month })
+    setMonth ( month ) {
+        this.setState ( { month: month } )
     }
 
-    filterEvents (filters) {
-        console.log('filters', filters)
-        this.setState({ filters: filters }, this.handleSubmit())
+    filterEvents ( filters ) {
+        console.log ( 'filters', filters )
+        this.setState ( { filters: filters }, this.handleSubmit () )
     }
 
     getEvents () {
         const url = (this.props.user_id) ? `/api/events/users/${this.props.user_id}` : (this.props.task_id) ? `/api/events/tasks/${this.props.task_id}` : '/api/events'
-        axios.get(url)
-            .then((r) => {
-                this.setState({
+        axios.get ( url )
+            .then ( ( r ) => {
+                this.setState ( {
                     events: r.data
-                })
-            })
-            .catch((e) => {
-                alert(e)
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                alert ( e )
+            } )
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Event')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/accounts/fields/Event' )
+            .then ( ( r ) => {
+                this.setState ( {
                     custom_fields: r.data.fields
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     err: e
-                })
-            })
+                } )
+            } )
     }
 
     handleSubmit () {
-        axios.post('/api/events/filterEvents',
-            this.state.filters)
-            .then((response) => {
-                this.setState({ events: response.data })
-            })
-            .catch((error) => {
-                alert(error)
-            })
+        axios.post ( '/api/events/filterEvents',
+            this.state.filters )
+            .then ( ( response ) => {
+                this.setState ( { events: response.data } )
+            } )
+            .catch ( ( error ) => {
+                alert ( error )
+            } )
     }
 
     /**
      *
      * @param year
      */
-    setYear (year) {
-        this.setState({ year: year })
+    setYear ( year ) {
+        this.setState ( { year: year } )
     }
 
     loadPrevMonth () {
         let prevMonth = this.state.month - 1
-        if (prevMonth < 1) {
-            this.setYear(this.state.year - 1)
+        if ( prevMonth < 1 ) {
+            this.setYear ( this.state.year - 1 )
             prevMonth = 12
         }
-        this.setMonth(prevMonth)
+        this.setMonth ( prevMonth )
     }
 
     loadNextMonth () {
         let nextMonth = this.state.month + 1
-        if (nextMonth > 12) {
-            this.setYear(this.state.year + 1)
+        if ( nextMonth > 12 ) {
+            this.setYear ( this.state.year + 1 )
             nextMonth = 1
         }
-        this.setMonth(nextMonth)
+        this.setMonth ( nextMonth )
     }
 
     renderErrorFor () {
@@ -129,10 +129,10 @@ class Calendars extends React.Component {
     }
 
     resetFilters () {
-        this.props.reset()
+        this.props.reset ()
     }
 
-    eventRender (event, i) {
+    eventRender ( event, i ) {
         const { events, custom_fields } = this.state
         return (
             <CalendarEvent
@@ -147,9 +147,9 @@ class Calendars extends React.Component {
         )
     }
 
-    setCalendarType (event) {
-        const type = event.target.getAttribute('data-type')
-        this.setState({ calendar_type: type })
+    setCalendarType ( event ) {
+        const type = event.target.getAttribute ( 'data-type' )
+        this.setState ( { calendar_type: type } )
     }
 
     render () {
@@ -183,13 +183,13 @@ class Calendars extends React.Component {
                 <Card>
                     <CardHeader>
                         <h2>Calendar</h2> <a data-type="week"
-                            onClick={this.setCalendarType.bind(this)}> Week </a> | <a
-                            data-type="month" onClick={this.setCalendarType.bind(this)}> Month </a>
+                                             onClick={this.setCalendarType.bind ( this )}> Week </a> | <a
+                        data-type="month" onClick={this.setCalendarType.bind ( this )}> Month </a>
 
                         <CalendarFilter events={events}
-                            updateIgnoredColumns={this.updateIgnoredColumns}
-                            filters={filters} filter={this.filterEvents}
-                            saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                        updateIgnoredColumns={this.updateIgnoredColumns}
+                                        filters={filters} filter={this.filterEvents}
+                                        saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                             <CreateEvent

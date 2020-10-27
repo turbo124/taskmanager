@@ -25,13 +25,13 @@ import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 import axios from 'axios'
 import config from '../../config'
 
-const Widget03 = lazy(() => import('../../views/Widgets/Widget03'))
+const Widget03 = lazy ( () => import('../../views/Widgets/Widget03') )
 
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
+const brandPrimary = getStyle ( '--primary' )
+const brandSuccess = getStyle ( '--success' )
+const brandInfo = getStyle ( '--info' )
+const brandWarning = getStyle ( '--warning' )
+const brandDanger = getStyle ( '--danger' )
 
 // Card Chart 1
 const cardChartData1 = {
@@ -73,8 +73,8 @@ const cardChartOpts1 = {
                 display: false,
                 ticks: {
                     display: false,
-                    min: Math.min.apply(Math, cardChartData1.datasets[0].data) - 5,
-                    max: Math.max.apply(Math, cardChartData1.datasets[0].data) + 5
+                    min: Math.min.apply ( Math, cardChartData1.datasets[ 0 ].data ) - 5,
+                    max: Math.max.apply ( Math, cardChartData1.datasets[ 0 ].data ) + 5
                 }
             }]
     },
@@ -130,8 +130,8 @@ const cardChartOpts2 = {
                 display: false,
                 ticks: {
                     display: false,
-                    min: Math.min.apply(Math, cardChartData2.datasets[0].data) - 5,
-                    max: Math.max.apply(Math, cardChartData2.datasets[0].data) + 5
+                    min: Math.min.apply ( Math, cardChartData2.datasets[ 0 ].data ) - 5,
+                    max: Math.max.apply ( Math, cardChartData2.datasets[ 0 ].data ) + 5
                 }
             }]
     },
@@ -235,8 +235,8 @@ const socialBoxData = [
     { data: [35, 23, 56, 22, 97, 23, 64], label: 'google' }
 ]
 
-const makeSocialBoxData = (dataSetNo) => {
-    const dataset = socialBoxData[dataSetNo]
+const makeSocialBoxData = ( dataSetNo ) => {
+    const dataset = socialBoxData[ dataSetNo ]
     const data = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
@@ -311,8 +311,8 @@ const sparkLineChartData = [
     }
 ]
 
-const makeSparkLineData = (dataSetNo, variant) => {
-    const dataset = sparkLineChartData[dataSetNo]
+const makeSparkLineData = ( dataSetNo, variant ) => {
+    const dataset = sparkLineChartData[ dataSetNo ]
     const data = {
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         datasets: [
@@ -363,32 +363,32 @@ const sparklineChartOpts = {
 // Main Chart
 
 // Random Numbers
-function random (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
+function random ( min, max ) {
+    return Math.floor ( Math.random () * (max - min + 1) + min )
 }
 
-var now = new Date()
-const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
-const currentMoment = moment().add(1, 'days')
-const endMoment = moment().add(daysInMonth, 'days')
+var now = new Date ()
+const daysInMonth = new Date ( now.getFullYear (), now.getMonth () + 1, 0 ).getDate ()
+const currentMoment = moment ().add ( 1, 'days' )
+const endMoment = moment ().add ( daysInMonth, 'days' )
 const dates = []
 
-while (currentMoment.isBefore(endMoment, 'day')) {
-    currentMoment.add(1, 'days')
-    dates.push(currentMoment.format('DD'))
+while ( currentMoment.isBefore ( endMoment, 'day' ) ) {
+    currentMoment.add ( 1, 'days' )
+    dates.push ( currentMoment.format ( 'DD' ) )
 }
 
 var data1 = []
 var data2 = []
 var data3 = []
 
-for (var i = 0; i <= dates.length; i++) {
-    data1.push(random(50, 200))
-    data2.push(random(80, 100))
-    data3.push(random(80, 100))
+for ( var i = 0; i <= dates.length; i++ ) {
+    data1.push ( random ( 50, 200 ) )
+    data2.push ( random ( 80, 100 ) )
+    data3.push ( random ( 80, 100 ) )
 }
 
-console.log('data', data1)
+console.log ( 'data', data1 )
 
 const chartData = [
     {
@@ -402,7 +402,7 @@ const chartData = [
         datasets: [
             {
                 label: 'Active',
-                backgroundColor: hexToRgba(brandInfo, 10),
+                backgroundColor: hexToRgba ( brandInfo, 10 ),
                 borderColor: brandInfo,
                 pointHoverBackgroundColor: '#fff',
                 borderWidth: 2,
@@ -438,7 +438,7 @@ const chartData = [
         datasets: [
             {
                 label: 'Active',
-                backgroundColor: hexToRgba(brandInfo, 10),
+                backgroundColor: hexToRgba ( brandInfo, 10 ),
                 borderColor: brandInfo,
                 pointHoverBackgroundColor: '#fff',
                 borderWidth: 2,
@@ -474,7 +474,7 @@ const chartData = [
         datasets: [
             {
                 label: 'Active',
-                backgroundColor: hexToRgba(brandInfo, 10),
+                backgroundColor: hexToRgba ( brandInfo, 10 ),
                 borderColor: brandInfo,
                 pointHoverBackgroundColor: '#fff',
                 borderWidth: 2,
@@ -510,7 +510,7 @@ const chartData = [
         datasets: [
             {
                 label: 'Active',
-                backgroundColor: hexToRgba(brandInfo, 10),
+                backgroundColor: hexToRgba ( brandInfo, 10 ),
                 borderColor: brandInfo,
                 pointHoverBackgroundColor: '#fff',
                 borderWidth: 2,
@@ -546,7 +546,7 @@ const chartData = [
         datasets: [
             {
                 label: 'Active',
-                backgroundColor: hexToRgba(brandInfo, 10),
+                backgroundColor: hexToRgba ( brandInfo, 10 ),
                 borderColor: brandInfo,
                 pointHoverBackgroundColor: '#fff',
                 borderWidth: 2,
@@ -578,7 +578,7 @@ const mainChart = {
     datasets: [
         {
             label: 'My First dataset',
-            backgroundColor: hexToRgba(brandInfo, 10),
+            backgroundColor: hexToRgba ( brandInfo, 10 ),
             borderColor: brandInfo,
             pointHoverBackgroundColor: '#fff',
             borderWidth: 2,
@@ -612,8 +612,8 @@ const mainChartOpts = {
         mode: 'index',
         position: 'nearest',
         callbacks: {
-            labelColor: function (tooltipItem, chart) {
-                return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
+            labelColor: function ( tooltipItem, chart ) {
+                return { backgroundColor: chart.data.datasets[ tooltipItem.datasetIndex ].borderColor }
             }
         }
     },
@@ -633,7 +633,7 @@ const mainChartOpts = {
                 ticks: {
                     beginAtZero: true,
                     maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
+                    stepSize: Math.ceil ( 250 / 5 ),
                     max: 250
                 }
             }]
@@ -649,11 +649,11 @@ const mainChartOpts = {
 }
 
 class Dashboard extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.toggle = this.toggle.bind(this)
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.onRadioBtnClick = this.onRadioBtnClick.bind ( this )
 
         this.state = {
             dropdownOpen: false,
@@ -666,45 +666,45 @@ class Dashboard extends Component {
     }
 
     componentDidMount () {
-        this.getDashboardData()
+        this.getDashboardData ()
     }
 
     getDashboardData () {
-        axios.get(`${config.API_URL}/api/dashboard`)
-            .then((r) => {
-                this.setState({
+        axios.get ( `${config.API_URL}/api/dashboard` )
+            .then ( ( r ) => {
+                this.setState ( {
                     dashboardData: r.data
-                })
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                console.error ( e )
+            } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
-    onRadioBtnClick (radioSelected) {
-        this.setState({
+    onRadioBtnClick ( radioSelected ) {
+        this.setState ( {
             radioSelected: radioSelected
-        })
+        } )
     }
 
     loading = () => <div
         className="animated fadeIn pt-1 text-center">Loading...</div>
 
     render () {
-        const charts = chartData.map((entry, index) => {
-            const buttons = Object.entries(entry.buttons).map(([key, value]) => {
+        const charts = chartData.map ( ( entry, index ) => {
+            const buttons = Object.entries ( entry.buttons ).map ( ( [key, value] ) => {
                 return <Button
                     key={key}
                     color="outline-secondary"
-                    onClick={() => this.onRadioBtnClick(key)}
+                    onClick={() => this.onRadioBtnClick ( key )}
                     active={this.state.radioSelected === key}>{`${key} £${value}`}</Button>
-            })
+            } )
 
             return (<Row>
                 <Col>
@@ -720,28 +720,28 @@ class Dashboard extends Component {
                                     </div>
                                 </Col>
                                 <Col sm="7"
-                                    className="d-none d-sm-inline-block">
+                                     className="d-none d-sm-inline-block">
                                     <Button color="primary"
-                                        className="float-right"><i
-                                            className="icon-cloud-download"/></Button>
+                                            className="float-right"><i
+                                        className="icon-cloud-download"/></Button>
                                     <ButtonToolbar
                                         className="float-right"
                                         aria-label="Toolbar with button groups">
                                         <ButtonGroup className="mr-3"
-                                            aria-label="First group">
+                                                     aria-label="First group">
                                             {buttons}
                                         </ButtonGroup>
                                     </ButtonToolbar>
                                 </Col>
                             </Row>
                             <div className="chart-wrapper"
-                                style={{
-                                    height: 300 + 'px',
-                                    marginTop: 40 + 'px'
-                                }}>
+                                 style={{
+                                     height: 300 + 'px',
+                                     marginTop: 40 + 'px'
+                                 }}>
                                 <Line data={entry}
-                                    options={mainChartOpts}
-                                    height={300}/>
+                                      options={mainChartOpts}
+                                      height={300}/>
                             </div>
                         </CardBody>
                         {/* <CardFooter> */}
@@ -806,7 +806,7 @@ class Dashboard extends Component {
                     </Card>
                 </Col>
             </Row>)
-        })
+        } )
 
         return (
             <div className="animated fadeIn">
@@ -816,12 +816,12 @@ class Dashboard extends Component {
                             <CardBody className="pb-0">
                                 <ButtonGroup className="float-right">
                                     <ButtonDropdown id='card1'
-                                        isOpen={this.state.card1}
-                                        toggle={() => {
-                                            this.setState({ card1: !this.state.card1 })
-                                        }}>
+                                                    isOpen={this.state.card1}
+                                                    toggle={() => {
+                                                        this.setState ( { card1: !this.state.card1 } )
+                                                    }}>
                                         <DropdownToggle caret className="p-0"
-                                            color="transparent">
+                                                        color="transparent">
                                             <i className="icon-settings"/>
                                         </DropdownToggle>
                                         <DropdownMenu right>
@@ -839,9 +839,9 @@ class Dashboard extends Component {
                                 <div>Members online</div>
                             </CardBody>
                             <div className="chart-wrapper mx-3"
-                                style={{ height: '70px' }}>
+                                 style={{ height: '70px' }}>
                                 <Line data={cardChartData2}
-                                    options={cardChartOpts2} height={70}/>
+                                      options={cardChartOpts2} height={70}/>
                             </div>
                         </Card>
                     </Col>
@@ -851,12 +851,12 @@ class Dashboard extends Component {
                             <CardBody className="pb-0">
                                 <ButtonGroup className="float-right">
                                     <Dropdown id='card2'
-                                        isOpen={this.state.card2}
-                                        toggle={() => {
-                                            this.setState({ card2: !this.state.card2 })
-                                        }}>
+                                              isOpen={this.state.card2}
+                                              toggle={() => {
+                                                  this.setState ( { card2: !this.state.card2 } )
+                                              }}>
                                         <DropdownToggle className="p-0"
-                                            color="transparent">
+                                                        color="transparent">
                                             <i className="icon-location-pin"/>
                                         </DropdownToggle>
                                         <DropdownMenu right>
@@ -872,9 +872,9 @@ class Dashboard extends Component {
                                 <div>Members online</div>
                             </CardBody>
                             <div className="chart-wrapper mx-3"
-                                style={{ height: '70px' }}>
+                                 style={{ height: '70px' }}>
                                 <Line data={cardChartData1}
-                                    options={cardChartOpts1} height={70}/>
+                                      options={cardChartOpts1} height={70}/>
                             </div>
                         </Card>
                     </Col>
@@ -884,12 +884,12 @@ class Dashboard extends Component {
                             <CardBody className="pb-0">
                                 <ButtonGroup className="float-right">
                                     <Dropdown id='card3'
-                                        isOpen={this.state.card3}
-                                        toggle={() => {
-                                            this.setState({ card3: !this.state.card3 })
-                                        }}>
+                                              isOpen={this.state.card3}
+                                              toggle={() => {
+                                                  this.setState ( { card3: !this.state.card3 } )
+                                              }}>
                                         <DropdownToggle caret className="p-0"
-                                            color="transparent">
+                                                        color="transparent">
                                             <i className="icon-settings"/>
                                         </DropdownToggle>
                                         <DropdownMenu right>
@@ -905,9 +905,9 @@ class Dashboard extends Component {
                                 <div>Members online</div>
                             </CardBody>
                             <div className="chart-wrapper"
-                                style={{ height: '70px' }}>
+                                 style={{ height: '70px' }}>
                                 <Line data={cardChartData3}
-                                    options={cardChartOpts3} height={70}/>
+                                      options={cardChartOpts3} height={70}/>
                             </div>
                         </Card>
                     </Col>
@@ -917,12 +917,12 @@ class Dashboard extends Component {
                             <CardBody className="pb-0">
                                 <ButtonGroup className="float-right">
                                     <ButtonDropdown id='card4'
-                                        isOpen={this.state.card4}
-                                        toggle={() => {
-                                            this.setState({ card4: !this.state.card4 })
-                                        }}>
+                                                    isOpen={this.state.card4}
+                                                    toggle={() => {
+                                                        this.setState ( { card4: !this.state.card4 } )
+                                                    }}>
                                         <DropdownToggle caret className="p-0"
-                                            color="transparent">
+                                                        color="transparent">
                                             <i className="icon-settings"/>
                                         </DropdownToggle>
                                         <DropdownMenu right>
@@ -938,9 +938,9 @@ class Dashboard extends Component {
                                 <div>Members online</div>
                             </CardBody>
                             <div className="chart-wrapper mx-3"
-                                style={{ height: '70px' }}>
+                                 style={{ height: '70px' }}>
                                 <Bar data={cardChartData4}
-                                    options={cardChartOpts4} height={70}/>
+                                     options={cardChartOpts4} height={70}/>
                             </div>
                         </Card>
                     </Col>
@@ -950,64 +950,64 @@ class Dashboard extends Component {
 
                 <Row>
                     <Col xs="6" sm="6" lg="3">
-                        <Suspense fallback={this.loading()}>
+                        <Suspense fallback={this.loading ()}>
                             <Widget03 dataBox={() => ({
                                 variant: 'facebook',
                                 friends: '89k',
                                 feeds: '459'
                             })}>
                                 <div className="chart-wrapper">
-                                    <Line data={makeSocialBoxData(0)}
-                                        options={socialChartOpts}
-                                        height={90}/>
+                                    <Line data={makeSocialBoxData ( 0 )}
+                                          options={socialChartOpts}
+                                          height={90}/>
                                 </div>
                             </Widget03>
                         </Suspense>
                     </Col>
 
                     <Col xs="6" sm="6" lg="3">
-                        <Suspense fallback={this.loading()}>
+                        <Suspense fallback={this.loading ()}>
                             <Widget03 dataBox={() => ({
                                 variant: 'twitter',
                                 followers: '973k',
                                 tweets: '1.792'
                             })}>
                                 <div className="chart-wrapper">
-                                    <Line data={makeSocialBoxData(1)}
-                                        options={socialChartOpts}
-                                        height={90}/>
+                                    <Line data={makeSocialBoxData ( 1 )}
+                                          options={socialChartOpts}
+                                          height={90}/>
                                 </div>
                             </Widget03>
                         </Suspense>
                     </Col>
 
                     <Col xs="6" sm="6" lg="3">
-                        <Suspense fallback={this.loading()}>
+                        <Suspense fallback={this.loading ()}>
                             <Widget03 dataBox={() => ({
                                 variant: 'linkedin',
                                 contacts: '500+',
                                 feeds: '292'
                             })}>
                                 <div className="chart-wrapper">
-                                    <Line data={makeSocialBoxData(2)}
-                                        options={socialChartOpts}
-                                        height={90}/>
+                                    <Line data={makeSocialBoxData ( 2 )}
+                                          options={socialChartOpts}
+                                          height={90}/>
                                 </div>
                             </Widget03>
                         </Suspense>
                     </Col>
 
                     <Col xs="6" sm="6" lg="3">
-                        <Suspense fallback={this.loading()}>
+                        <Suspense fallback={this.loading ()}>
                             <Widget03 dataBox={() => ({
                                 variant: 'google-plus',
                                 followers: '894',
                                 circles: '92'
                             })}>
                                 <div className="chart-wrapper">
-                                    <Line data={makeSocialBoxData(3)}
-                                        options={socialChartOpts}
-                                        height={90}/>
+                                    <Line data={makeSocialBoxData ( 3 )}
+                                          options={socialChartOpts}
+                                          height={90}/>
                                 </div>
                             </Widget03>
                         </Suspense>
@@ -1034,7 +1034,7 @@ class Dashboard extends Component {
                                                         className="h4">9,123</strong>
                                                     <div className="chart-wrapper">
                                                         <Line
-                                                            data={makeSparkLineData(0, brandPrimary)}
+                                                            data={makeSparkLineData ( 0, brandPrimary )}
                                                             options={sparklineChartOpts}
                                                             width={100} height={30}/>
                                                     </div>
@@ -1050,7 +1050,7 @@ class Dashboard extends Component {
                                                         className="h4">22,643</strong>
                                                     <div className="chart-wrapper">
                                                         <Line
-                                                            data={makeSparkLineData(1, brandDanger)}
+                                                            data={makeSparkLineData ( 1, brandDanger )}
                                                             options={sparklineChartOpts}
                                                             width={100} height={30}/>
                                                     </div>
@@ -1068,10 +1068,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="34"/>
+                                                          color="info" value="34"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="78"/>
+                                                          color="danger"
+                                                          value="78"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1084,10 +1084,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="56"/>
+                                                          color="info" value="56"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="94"/>
+                                                          color="danger"
+                                                          value="94"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1100,10 +1100,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="12"/>
+                                                          color="info" value="12"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="67"/>
+                                                          color="danger"
+                                                          value="67"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1116,10 +1116,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="43"/>
+                                                          color="info" value="43"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="91"/>
+                                                          color="danger"
+                                                          value="91"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1132,10 +1132,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="22"/>
+                                                          color="info" value="22"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="73"/>
+                                                          color="danger"
+                                                          value="73"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1148,10 +1148,10 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="53"/>
+                                                          color="info" value="53"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="82"/>
+                                                          color="danger"
+                                                          value="82"/>
                                             </div>
                                         </div>
                                         <div className="progress-group mb-4">
@@ -1164,20 +1164,20 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="progress-group-bars">
                                                 <Progress className="progress-xs"
-                                                    color="info" value="9"/>
+                                                          color="info" value="9"/>
                                                 <Progress className="progress-xs"
-                                                    color="danger"
-                                                    value="69"/>
+                                                          color="danger"
+                                                          value="69"/>
                                             </div>
                                         </div>
                                         <div className="legend text-center">
                                             <small>
                                                 <sup className="px-1"><Badge pill
-                                                    color="info">&nbsp;</Badge></sup>
+                                                                             color="info">&nbsp;</Badge></sup>
                                                 New clients
                                                 &nbsp;
                                                 <sup className="px-1"><Badge pill
-                                                    color="danger">&nbsp;</Badge></sup>
+                                                                             color="danger">&nbsp;</Badge></sup>
                                                 Recurring clients
                                             </small>
                                         </div>
@@ -1194,7 +1194,7 @@ class Dashboard extends Component {
                                                         className="h4">78,623</strong>
                                                     <div className="chart-wrapper">
                                                         <Line
-                                                            data={makeSparkLineData(2, brandWarning)}
+                                                            data={makeSparkLineData ( 2, brandWarning )}
                                                             options={sparklineChartOpts}
                                                             width={100} height={30}/>
                                                     </div>
@@ -1210,7 +1210,7 @@ class Dashboard extends Component {
                                                         className="h4">49,123</strong>
                                                     <div className="chart-wrapper">
                                                         <Line
-                                                            data={makeSparkLineData(3, brandSuccess)}
+                                                            data={makeSparkLineData ( 3, brandSuccess )}
                                                             options={sparklineChartOpts}
                                                             width={100} height={30}/>
                                                     </div>
@@ -1232,8 +1232,8 @@ class Dashboard extends Component {
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="warning"
-                                                        value="43"/>
+                                                              color="warning"
+                                                              value="43"/>
                                                 </div>
                                             </div>
                                             <div className="progress-group mb-5">
@@ -1249,8 +1249,8 @@ class Dashboard extends Component {
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="warning"
-                                                        value="37"/>
+                                                              color="warning"
+                                                              value="37"/>
                                                 </div>
                                             </div>
                                             <div className="progress-group">
@@ -1261,13 +1261,13 @@ class Dashboard extends Component {
                                                     <span className="title">Organic Search</span>
                                                     <span
                                                         className="ml-auto font-weight-bold">191,235 <span
-                                                            className="text-muted small">(56%)</span></span>
+                                                        className="text-muted small">(56%)</span></span>
                                                 </div>
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="success"
-                                                        value="56"/>
+                                                              color="success"
+                                                              value="56"/>
                                                 </div>
                                             </div>
                                             <div className="progress-group">
@@ -1279,13 +1279,13 @@ class Dashboard extends Component {
                                                         className="title">Facebook</span>
                                                     <span
                                                         className="ml-auto font-weight-bold">51,223 <span
-                                                            className="text-muted small">(15%)</span></span>
+                                                        className="text-muted small">(15%)</span></span>
                                                 </div>
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="success"
-                                                        value="15"/>
+                                                              color="success"
+                                                              value="15"/>
                                                 </div>
                                             </div>
                                             <div className="progress-group">
@@ -1297,13 +1297,13 @@ class Dashboard extends Component {
                                                         className="title">Twitter</span>
                                                     <span
                                                         className="ml-auto font-weight-bold">37,564 <span
-                                                            className="text-muted small">(11%)</span></span>
+                                                        className="text-muted small">(11%)</span></span>
                                                 </div>
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="success"
-                                                        value="11"/>
+                                                              color="success"
+                                                              value="11"/>
                                                 </div>
                                             </div>
                                             <div className="progress-group">
@@ -1315,42 +1315,42 @@ class Dashboard extends Component {
                                                         className="title">LinkedIn</span>
                                                     <span
                                                         className="ml-auto font-weight-bold">27,319 <span
-                                                            className="text-muted small">(8%)</span></span>
+                                                        className="text-muted small">(8%)</span></span>
                                                 </div>
                                                 <div
                                                     className="progress-group-bars">
                                                     <Progress className="progress-xs"
-                                                        color="success"
-                                                        value="8"/>
+                                                              color="success"
+                                                              value="8"/>
                                                 </div>
                                             </div>
                                             <div className="divider text-center">
                                                 <Button color="link" size="sm"
-                                                    className="text-muted"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title=""
-                                                    data-original-title="show more"><i
-                                                        className="icon-options"/></Button>
+                                                        className="text-muted"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title=""
+                                                        data-original-title="show more"><i
+                                                    className="icon-options"/></Button>
                                             </div>
                                         </ul>
                                     </Col>
                                 </Row>
                                 <br/>
                                 <Table hover responsive
-                                    className="table-outline mb-0 d-none d-sm-table">
+                                       className="table-outline mb-0 d-none d-sm-table">
                                     <thead className="thead-light">
-                                        <tr>
-                                            <th className="text-center"><i
-                                                className="icon-people"/></th>
-                                            <th>User</th>
-                                            <th>Usage</th>
-                                            <th>Activity</th>
-                                        </tr>
+                                    <tr>
+                                        <th className="text-center"><i
+                                            className="icon-people"/></th>
+                                        <th>User</th>
+                                        <th>Usage</th>
+                                        <th>Activity</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.dashboardData && this.state.dashboardData.recentUserActivity &&
-                                    this.state.dashboardData.recentUserActivity.map((user, index) => {
+                                    {this.state.dashboardData && this.state.dashboardData.recentUserActivity &&
+                                    this.state.dashboardData.recentUserActivity.map ( ( user, index ) => {
                                         return (<tr>
                                             <td className="text-center">
                                                 <div className="avatar">
@@ -1374,26 +1374,26 @@ class Dashboard extends Component {
                                             <td>
                                                 <div className="clearfix">
                                                     <div className="float-left">
-                                                        <strong>{Math.ceil(user.usage)}</strong>
+                                                        <strong>{Math.ceil ( user.usage )}</strong>
                                                     </div>
                                                     {/* <div className="float-right"> */}
                                                     {/*    <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small> */}
                                                     {/* </div> */}
                                                 </div>
                                                 <Progress className="progress-xs"
-                                                    color="success"
-                                                    value={Math.ceil(user.usage)}/>
+                                                          color="success"
+                                                          value={Math.ceil ( user.usage )}/>
                                             </td>
                                             <td>
                                                 <div
                                                     className="small text-muted">Last
                                                     login
                                                 </div>
-                                                <strong>{moment(user.loginTime).fromNow()}</strong>
+                                                <strong>{moment ( user.loginTime ).fromNow ()}</strong>
                                             </td>
                                         </tr>)
-                                    })
-                                        }
+                                    } )
+                                    }
 
                                     </tbody>
                                 </Table>

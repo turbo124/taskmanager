@@ -13,20 +13,20 @@ export default class Details extends Component {
             <React.Fragment>
                 <FormGroup>
                     <Label for="subject">{translations.subject} <span className="text-danger">*</span></Label>
-                    <Input className={this.props.hasErrorFor('subject') ? 'is-invalid' : ''} type="text"
-                        name="subject"
-                        id="subject" value={this.props.case.subject} placeholder={translations.subject}
-                        onChange={this.props.handleInput}/>
-                    {this.props.renderErrorFor('subject')}
+                    <Input className={this.props.hasErrorFor ( 'subject' ) ? 'is-invalid' : ''} type="text"
+                           name="subject"
+                           id="subject" value={this.props.case.subject} placeholder={translations.subject}
+                           onChange={this.props.handleInput}/>
+                    {this.props.renderErrorFor ( 'subject' )}
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="message">{translations.message}<span className="text-danger">*</span></Label>
-                    <Input className={this.props.hasErrorFor('message') ? 'is-invalid textarea-lg' : 'textarea-lg'}
-                        type="textarea" name="message"
-                        id="message" value={this.props.case.message} placeholder={translations.message}
-                        onChange={this.props.handleInput}/>
-                    {this.props.renderErrorFor('message')}
+                    <Input className={this.props.hasErrorFor ( 'message' ) ? 'is-invalid textarea-lg' : 'textarea-lg'}
+                           type="textarea" name="message"
+                           id="message" value={this.props.case.message} placeholder={translations.message}
+                           onChange={this.props.handleInput}/>
+                    {this.props.renderErrorFor ( 'message' )}
                 </FormGroup>
 
                 {/* <FormGroup> */}
@@ -43,14 +43,14 @@ export default class Details extends Component {
                 <FormGroup>
                     <Label for="examplePassword">{translations.due_date}</Label>
                     <Datepicker className="form-control" name="due_date" date={this.props.case.due_date}
-                        handleInput={this.props.handleInput}/>
+                                handleInput={this.props.handleInput}/>
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="examplePassword">{translations.private_notes}</Label>
                     <Input value={this.props.case.private_notes} type="textarea"
-                        name="private_notes"
-                        onChange={this.props.handleInput} id="private_notes"
+                           name="private_notes"
+                           onChange={this.props.handleInput} id="private_notes"
                     />
                 </FormGroup>
 

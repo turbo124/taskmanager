@@ -4,8 +4,8 @@ import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
 
 export default class ContactInputs extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             collapse: null,
             contacts: this.props.contacts,
@@ -15,12 +15,12 @@ export default class ContactInputs extends Component {
             message: ''
         }
 
-        this.toggle = this.toggle.bind(this)
+        this.toggle = this.toggle.bind ( this )
     }
 
-    toggle (e) {
+    toggle ( e ) {
         const event = e.currentTarget.dataset.event
-        this.setState({ collapse: this.state.collapse === Number(event) ? null : Number(event) })
+        this.setState ( { collapse: this.state.collapse === Number ( event ) ? null : Number ( event ) } )
     }
 
     render () {
@@ -29,7 +29,7 @@ export default class ContactInputs extends Component {
 
         return (
             <div className="container">
-                {contacts.map((contact, idx) => {
+                {contacts.map ( ( contact, idx ) => {
                     const icon = collapse === idx ? icons.angle_up : icons.angle_down
 
                     return (
@@ -51,10 +51,10 @@ export default class ContactInputs extends Component {
                                             <FormGroup>
                                                 <Label for="exampleEmail">{translations.first_name}</Label>
                                                 <Input type="text"
-                                                    onChange={this.props.handleChange}
-                                                    data-id={idx}
-                                                    value={contact.first_name}
-                                                    data-field="first_name"
+                                                       onChange={this.props.handleChange}
+                                                       data-id={idx}
+                                                       value={contact.first_name}
+                                                       data-field="first_name"
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -62,10 +62,10 @@ export default class ContactInputs extends Component {
                                             <FormGroup>
                                                 <Label for="examplePassword">{translations.last_name}</Label>
                                                 <Input type="text"
-                                                    onChange={this.props.handleChange}
-                                                    data-id={idx}
-                                                    value={contact.last_name}
-                                                    data-field="last_name"
+                                                       onChange={this.props.handleChange}
+                                                       data-id={idx}
+                                                       value={contact.last_name}
+                                                       data-field="last_name"
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -74,10 +74,10 @@ export default class ContactInputs extends Component {
                                             <FormGroup className="mt-4" check>
                                                 <Label check>
                                                     <Input type="checkbox"
-                                                        onChange={this.props.handleChange}
-                                                        data-id={idx}
-                                                        checked={contact.is_primary}
-                                                        data-field="is_primary"
+                                                           onChange={this.props.handleChange}
+                                                           data-id={idx}
+                                                           checked={contact.is_primary}
+                                                           data-field="is_primary"
                                                     />
                                                     {translations.primary_contact}
                                                 </Label>
@@ -90,10 +90,10 @@ export default class ContactInputs extends Component {
                                             <FormGroup>
                                                 <Label for="exampleEmail">{translations.email}</Label>
                                                 <Input type="text"
-                                                    onChange={this.props.handleChange}
-                                                    data-id={idx}
-                                                    value={contact.email}
-                                                    data-field="email"
+                                                       onChange={this.props.handleChange}
+                                                       data-id={idx}
+                                                       value={contact.email}
+                                                       data-field="email"
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -101,10 +101,10 @@ export default class ContactInputs extends Component {
                                             <FormGroup>
                                                 <Label for="examplePassword">{translations.phone_number}</Label>
                                                 <Input type="text"
-                                                    onChange={this.props.handleChange}
-                                                    data-id={idx}
-                                                    value={contact.phone}
-                                                    data-field="phone"
+                                                       onChange={this.props.handleChange}
+                                                       data-id={idx}
+                                                       value={contact.phone}
+                                                       data-field="phone"
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -113,23 +113,23 @@ export default class ContactInputs extends Component {
                                             <FormGroup>
                                                 <Label for="examplePassword">{translations.password}</Label>
                                                 <Input type="password"
-                                                    onChange={this.props.handleChange}
-                                                    data-id={idx}
-                                                    value={contact.password}
-                                                    data-field="password"
+                                                       onChange={this.props.handleChange}
+                                                       data-id={idx}
+                                                       value={contact.password}
+                                                       data-field="password"
                                                 />
                                             </FormGroup>
                                         </Col>
                                     </Row>
 
-                                    <Button color="danger" size="lg" block onClick={() => props.removeContact(idx)}>
+                                    <Button color="danger" size="lg" block onClick={() => props.removeContact ( idx )}>
                                         {translations.remove}
                                     </Button>
                                 </CardBody>
                             </Collapse>
                         </Card>
                     )
-                })}
+                } )}
             </div>
         )
     }

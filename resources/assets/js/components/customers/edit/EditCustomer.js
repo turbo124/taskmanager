@@ -10,8 +10,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditCustomer extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             modal: false,
@@ -23,61 +23,61 @@ class EditCustomer extends React.Component {
             showErrorMessage: false
         }
 
-        this.toggle = this.toggle.bind(this)
-        this.toggleMenu = this.toggleMenu.bind(this)
-        this.changeStatus = this.changeStatus.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.toggleMenu = this.toggleMenu.bind ( this )
+        this.changeStatus = this.changeStatus.bind ( this )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
-    toggleMenu (event) {
-        this.setState({
+    toggleMenu ( event ) {
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
-    changeStatus (action) {
-        if (!this.state.id) {
+    changeStatus ( action ) {
+        if ( !this.state.id ) {
             return false
         }
 
-        const data = this.getFormData()
-        axios.post(`/api/customer/${this.state.id}/${action}`, data)
-            .then((response) => {
-                if (action === 'download') {
-                    this.downloadPdf(response)
+        const data = this.getFormData ()
+        axios.post ( `/api/customer/${this.state.id}/${action}`, data )
+            .then ( ( response ) => {
+                if ( action === 'download' ) {
+                    this.downloadPdf ( response )
                 }
 
-                this.setState({ showSuccessMessage: true })
-            })
-            .catch((error) => {
-                this.setState({ showErrorMessage: true })
-                console.warn(error)
-            })
+                this.setState ( { showSuccessMessage: true } )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( { showErrorMessage: true } )
+                console.warn ( error )
+            } )
     }
 
     render () {
         const { submitSuccess, loading } = this.state
 
-        const sendEmailButton = <DropdownItem className="primary" onClick={() => this.changeStatus('email')}>Send
+        const sendEmailButton = <DropdownItem className="primary" onClick={() => this.changeStatus ( 'email' )}>Send
             Email</DropdownItem>
 
         const deleteButton = this.state.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+                            onClick={() => this.changeStatus ( 'delete' )}>Delete</DropdownItem> : null
 
         const archiveButton = this.state.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+                            onClick={() => this.changeStatus ( 'archive' )}>Archive</DropdownItem> : null
 
         const cloneButton =
             <DropdownItem className="primary"
-                onClick={() => this.changeStatus('clone_to_customer')}>Clone</DropdownItem>
+                          onClick={() => this.changeStatus ( 'clone_to_customer' )}>Clone</DropdownItem>
 
         const dropdownMenu = <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
             <DropdownToggle caret>
@@ -96,9 +96,9 @@ class EditCustomer extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
-        if (this.props.modal) {
+        if ( this.props.modal ) {
             return (
                 <React.Fragment>
                     <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
@@ -116,12 +116,12 @@ class EditCustomer extends React.Component {
                             {errorMessage}
 
                             <CustomerTabs custom_fields={this.props.custom_fields} toggle={this.toggle}
-                                customers={this.props.customers}
-                                customer={this.props.customer} action={this.props.action}/>
+                                          customers={this.props.customers}
+                                          customer={this.props.customer} action={this.props.action}/>
 
                         </ModalBody>
                         <DefaultModalFooter show_success={false} toggle={this.toggle}
-                            loading={loading}/>
+                                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )
@@ -134,7 +134,7 @@ class EditCustomer extends React.Component {
                         Customer's details has been edited successfully </div>
                 )}
                 <CustomerTabs customers={this.props.customers} customer={this.props.customer}
-                    action={this.props.action}/>
+                              action={this.props.action}/>
             </div>
         )
     }

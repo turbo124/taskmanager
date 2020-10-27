@@ -17,47 +17,47 @@ import {
 } from 'reactstrap'
 
 class Login extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             email: '',
             password: '',
             error: ''
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.dismissError = this.dismissError.bind(this)
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.dismissError = this.dismissError.bind ( this )
     }
 
     dismissError () {
-        this.setState({ error: '' })
+        this.setState ( { error: '' } )
     }
 
-    handleSubmit (evt) {
-        evt.preventDefault()
+    handleSubmit ( evt ) {
+        evt.preventDefault ()
 
-        if (!this.state.email) {
-            return this.setState({ error: 'Email is required' })
+        if ( !this.state.email ) {
+            return this.setState ( { error: 'Email is required' } )
         }
 
-        if (!this.state.password) {
-            return this.setState({ error: 'Password is required' })
+        if ( !this.state.password ) {
+            return this.setState ( { error: 'Password is required' } )
         }
 
-        axios.post('/api/login', {
+        axios.post ( '/api/login', {
             email: this.state.email,
             password: this.state.password
-        })
-            .then((response) => {
-                if (response.data.success === true) {
+        } )
+            .then ( ( response ) => {
+                if ( response.data.success === true ) {
                     const userData = {
                         name: response.data.data.name,
                         id: response.data.data.id,
                         email: response.data.data.email,
                         account_id: response.data.data.account_id,
                         auth_token: response.data.data.auth_token,
-                        timestamp: new Date().toString()
+                        timestamp: new Date ().toString ()
                     }
 
                     const appState = {
@@ -66,39 +66,39 @@ class Login extends Component {
                         accounts: response.data.data.accounts
                     }
 
-                    window.sessionStorage.setItem('authenticated', true)
+                    window.sessionStorage.setItem ( 'authenticated', true )
 
-                    var d1 = new Date()
-                    var d2 = new Date(d1)
-                    d2.setMinutes(d1.getMinutes() + 154.8)
+                    var d1 = new Date ()
+                    var d2 = new Date ( d1 )
+                    d2.setMinutes ( d1.getMinutes () + 154.8 )
 
                     // save app state with user date in local storage
-                    localStorage.appState = JSON.stringify(appState)
-                    localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
-                    localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
-                    localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
-                    localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
-                    localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
-                    localStorage.setItem('tax_rates', JSON.stringify(response.data.data.tax_rates))
-                    localStorage.setItem('users', JSON.stringify(response.data.data.users))
-                    localStorage.setItem('access_token', userData.auth_token)
-                    localStorage.setItem('expires', d2)
-                    localStorage.setItem('account_id', response.data.data.account_id)
-                    this.setState({
+                    localStorage.appState = JSON.stringify ( appState )
+                    localStorage.setItem ( 'currencies', JSON.stringify ( response.data.data.currencies ) )
+                    localStorage.setItem ( 'languages', JSON.stringify ( response.data.data.languages ) )
+                    localStorage.setItem ( 'countries', JSON.stringify ( response.data.data.countries ) )
+                    localStorage.setItem ( 'payment_types', JSON.stringify ( response.data.data.payment_types ) )
+                    localStorage.setItem ( 'gateways', JSON.stringify ( response.data.data.gateways ) )
+                    localStorage.setItem ( 'tax_rates', JSON.stringify ( response.data.data.tax_rates ) )
+                    localStorage.setItem ( 'users', JSON.stringify ( response.data.data.users ) )
+                    localStorage.setItem ( 'access_token', userData.auth_token )
+                    localStorage.setItem ( 'expires', d2 )
+                    localStorage.setItem ( 'account_id', response.data.data.account_id )
+                    this.setState ( {
                         isLoggedIn: appState.isLoggedIn,
                         user: appState.user
-                    })
+                    } )
                     window.location.href = '/'
                 } else {
-                    return this.setState({ error: 'Unable to log in' })
+                    return this.setState ( { error: 'Unable to log in' } )
                 }
-            })
+            } )
     }
 
-    handleChange (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    handleChange ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value
+        } )
     }
 
     render () {
@@ -115,7 +115,7 @@ class Login extends Component {
                                             {
                                                 this.state.error &&
                                                 <div className="alert alert-danger alert-dismissible" data-test="error"
-                                                    onClick={this.dismissError}>
+                                                     onClick={this.dismissError}>
                                                     <button type="button" className="close" aria-label="Close"><span
                                                         aria-hidden="true">×</span></button>
                                                     {this.state.error}
@@ -131,7 +131,7 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" name="email" placeholder="Email"
-                                                    autoComplete="email" onChange={this.handleChange.bind(this)}/>
+                                                       autoComplete="email" onChange={this.handleChange.bind ( this )}/>
                                             </InputGroup>
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
@@ -140,13 +140,13 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" name="password" placeholder="Password"
-                                                    autoComplete="current-password"
-                                                    onChange={this.handleChange.bind(this)}/>
+                                                       autoComplete="current-password"
+                                                       onChange={this.handleChange.bind ( this )}/>
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
                                                     <Button type="submit" color="primary"
-                                                        className="px-4">Login</Button>
+                                                            className="px-4">Login</Button>
                                                 </Col>
                                                 <Col xs="6" className="text-right">
                                                     <Button color="link" className="px-0">Forgot password?</Button>

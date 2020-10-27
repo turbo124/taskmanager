@@ -6,12 +6,12 @@ import ChatInput from './ChatInput'
 import axios from 'axios'
 
 class ChatPage extends Component {
-    constructor (props) {
-        super(props)
-        this.sendMessage = this.sendMessage.bind(this)
-        this.loadMessages = this.loadMessages.bind(this)
+    constructor ( props ) {
+        super ( props )
+        this.sendMessage = this.sendMessage.bind ( this )
+        this.loadMessages = this.loadMessages.bind ( this )
         this.state = {
-            userID: JSON.parse(localStorage.getItem('appState')).user.id,
+            userID: JSON.parse ( localStorage.getItem ( 'appState' ) ).user.id,
             friends: [],
             messages: [],
             chatActive: false,
@@ -20,60 +20,60 @@ class ChatPage extends Component {
     }
 
     componentDidMount () {
-        this.getCustomers()
+        this.getCustomers ()
     }
 
-    loadMessages (customer_id) {
-        axios.get(`/api/messages/${customer_id}`)
-            .then((r) => {
-                this.setState({
+    loadMessages ( customer_id ) {
+        axios.get ( `/api/messages/${customer_id}` )
+            .then ( ( r ) => {
+                this.setState ( {
                     customer_id: customer_id,
                     messages: r.data,
                     chatActive: true
-                })
-            })
-            .catch((e) => {
-                alert(e)
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                alert ( e )
+            } )
     }
 
     getCustomers () {
-        axios.get('/api/messages/customers')
-            .then((r) => {
-                this.setState({
+        axios.get ( '/api/messages/customers' )
+            .then ( ( r ) => {
+                this.setState ( {
                     friends: r.data
-                })
-            })
-            .catch((e) => {
-                alert(e)
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                alert ( e )
+            } )
     }
 
-    sendMessage (message) {
-        axios.post('/api/messages', message)
-            .then((r) => {
+    sendMessage ( message ) {
+        axios.post ( '/api/messages', message )
+            .then ( ( r ) => {
                 // for now this will let us know things work.  `console` will give us a
                 // warning though
-                this.setState(prevState => ({
+                this.setState ( prevState => ({
                     messages: [...prevState.messages, message]
-                }))
-            })
-            .catch((e) => {
-                alert(e)
-            })
+                }) )
+            } )
+            .catch ( ( e ) => {
+                alert ( e )
+            } )
     }
 
-    formatDate (dateString) {
+    formatDate ( dateString ) {
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
             'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
         ]
-        const d = new Date(dateString)
-        const dayName = days[d.getDay()]
-        const monthName = monthNames[d.getMonth()]
-        const hours = d.getHours()
-        const minutes = d.getMinutes()
-        const formattedDate = `${d.getDate()} ${monthName}`
+        const d = new Date ( dateString )
+        const dayName = days[ d.getDay () ]
+        const monthName = monthNames[ d.getMonth () ]
+        const hours = d.getHours ()
+        const minutes = d.getMinutes ()
+        const formattedDate = `${d.getDate ()} ${monthName}`
         return formattedDate
     }
 
@@ -93,33 +93,33 @@ class ChatPage extends Component {
                                         <input type="text" className="search-bar" placeholder="Search"/>
                                         <span className="input-group-addon">
                                             <button type="button"> <i className="fa fa-search"
-                                                aria-hidden="true"/> </button>
+                                                                      aria-hidden="true"/> </button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div className="inbox_chat">
-                                {this.state.friends.map(friend => (
+                                {this.state.friends.map ( friend => (
                                     <Friend
                                         formatDate={this.formatDate}
                                         selected_friend={this.state.customer_id}
                                         loadMessages={this.loadMessages}
                                         key={friend.name}
                                         friend={friend}/>
-                                ))}
+                                ) )}
 
                             </div>
                         </div>
 
                         <div className="mesgs">
                             <div className="msg_history">
-                                {this.state.messages.map(message => (
+                                {this.state.messages.map ( message => (
                                     <ChatMessage
                                         formatDate={this.formatDate}
                                         key={message.author + message.when}
                                         message={message}
                                     />
-                                ))}
+                                ) )}
                             </div>
 
                             <ChatInput

@@ -6,8 +6,8 @@ import Checkbox from '../../common/Checkbox'
 import { consts } from '../../utils/_consts'
 
 export default class Settings extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.card_types = [
             {
@@ -36,9 +36,9 @@ export default class Settings extends React.Component {
     getSettingFields () {
         const settings = this.props.gateway
 
-        const gateway = this.props.gateway.gateway_key.length ? JSON.parse(localStorage.getItem('gateways')).filter(gateway => gateway.key === this.props.gateway.gateway_key) : []
-        const is_offsite = gateway.length && parseInt(gateway[0].offsite_only) === 1
-        const supports_token_billing = [consts.stripe_gateway, consts.authorize_gateway].includes(this.props.gateway.gateway_key) || false
+        const gateway = this.props.gateway.gateway_key.length ? JSON.parse ( localStorage.getItem ( 'gateways' ) ).filter ( gateway => gateway.key === this.props.gateway.gateway_key ) : []
+        const is_offsite = gateway.length && parseInt ( gateway[ 0 ].offsite_only ) === 1
+        const supports_token_billing = [consts.stripe_gateway, consts.authorize_gateway].includes ( this.props.gateway.gateway_key ) || false
         const fields = [
             {
                 name: 'require_cvv',
@@ -61,8 +61,8 @@ export default class Settings extends React.Component {
             }
         ]
 
-        if (is_offsite === false) {
-            fields.push(
+        if ( is_offsite === false ) {
+            fields.push (
                 {
                     name: 'show_billing_address',
                     label: translations.show_billing_address,
@@ -75,7 +75,7 @@ export default class Settings extends React.Component {
                 }
             )
 
-            fields.push(
+            fields.push (
                 {
                     name: 'show_shipping_address',
                     label: translations.show_shipping_address,
@@ -89,8 +89,8 @@ export default class Settings extends React.Component {
             )
         }
 
-        if (supports_token_billing) {
-            fields.push(
+        if ( supports_token_billing ) {
+            fields.push (
                 {
                     name: 'should_store_card',
                     label: translations.store_card,
@@ -106,8 +106,8 @@ export default class Settings extends React.Component {
     }
 
     render () {
-        const gateway = this.props.gateway.gateway_key.length ? JSON.parse(localStorage.getItem('gateways')).filter(gateway => gateway.key === this.props.gateway.gateway_key) : []
-        const is_offsite = gateway.length && parseInt(gateway[0].offsite_only) === 1
+        const gateway = this.props.gateway.gateway_key.length ? JSON.parse ( localStorage.getItem ( 'gateways' ) ).filter ( gateway => gateway.key === this.props.gateway.gateway_key ) : []
+        const is_offsite = gateway.length && parseInt ( gateway[ 0 ].offsite_only ) === 1
 
         return <React.Fragment>
             <Card>
@@ -116,7 +116,7 @@ export default class Settings extends React.Component {
                     <FormBuilder
                         handleCheckboxChange={this.props.handleInput}
                         handleChange={this.props.handleInput}
-                        formFieldsRows={this.getSettingFields()}
+                        formFieldsRows={this.getSettingFields ()}
                     />
                 </CardBody>
             </Card>
@@ -129,16 +129,16 @@ export default class Settings extends React.Component {
                         <Row>
                             <Col sm={10}>
                                 {
-                                    this.card_types.map((item, index) => (
+                                    this.card_types.map ( ( item, index ) => (
                                         <div key={index} className="form-check">
                                             <Checkbox name={item.name}
-                                                checked={this.props.gateway.accepted_cards.get(item.name)}
-                                                onChange={this.props.updateCards}/>
+                                                      checked={this.props.gateway.accepted_cards.get ( item.name )}
+                                                      onChange={this.props.updateCards}/>
                                             <label className="form-check-label" htmlFor="gridRadios1">
                                                 {item.label}
                                             </label>
                                         </div>
-                                    ))
+                                    ) )
                                 }
                             </Col>
                         </Row>

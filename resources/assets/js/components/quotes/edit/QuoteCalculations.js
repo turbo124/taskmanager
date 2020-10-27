@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const CalculateTotal = (props) => {
+export const CalculateTotal = ( props ) => {
     let total = 0
     let discount_total = 0
     let tax_total = 0
@@ -8,7 +8,7 @@ export const CalculateTotal = (props) => {
     let lexieTotal = 0
     const { invoice } = props
 
-    invoice.data.map((product) => {
+    invoice.data.map ( ( product ) => {
         const quantity = product.quantity === 0 ? 1 : product.quantity
 
         const line_total = product.unit_price * quantity
@@ -16,27 +16,27 @@ export const CalculateTotal = (props) => {
         sub_total += line_total
         lexieTotal += line_total
 
-        if (product.unit_discount > 0 && invoice.discount === 0) {
-            const n = parseFloat(total)
+        if ( product.unit_discount > 0 && invoice.discount === 0 ) {
+            const n = parseFloat ( total )
             const percentage = n * product.unit_discount / 100
             discount_total += percentage
             lexieTotal -= discount_total
         }
 
-        if (product.unit_tax > 0 && invoice.tax === 0) {
+        if ( product.unit_tax > 0 && invoice.tax === 0 ) {
             const tax_percentage = lexieTotal * product.unit_tax / 100
             tax_total += tax_percentage
         }
-    })
+    } )
 
-    if (invoice.tax > 0) {
-        const a_total = invoice.total_custom_values > 0 ? parseFloat(invoice.total_custom_values) + parseFloat(invoice.total) : parseFloat(invoice.total)
-        const tax_percentage = parseFloat(a_total) * parseFloat(invoice.tax) / 100
+    if ( invoice.tax > 0 ) {
+        const a_total = invoice.total_custom_values > 0 ? parseFloat ( invoice.total_custom_values ) + parseFloat ( invoice.total ) : parseFloat ( invoice.total )
+        const tax_percentage = parseFloat ( a_total ) * parseFloat ( invoice.tax ) / 100
         tax_total += tax_percentage
     }
 
-    if (invoice.discount > 0) {
-        const discount_percentage = parseFloat(invoice.total) * parseFloat(invoice.discount) / 100
+    if ( invoice.discount > 0 ) {
+        const discount_percentage = parseFloat ( invoice.total ) * parseFloat ( invoice.discount ) / 100
         total -= discount_percentage
     }
 
@@ -48,38 +48,38 @@ export const CalculateTotal = (props) => {
     }
 }
 
-export const CalculateSurcharges = (props) => {
+export const CalculateSurcharges = ( props ) => {
     let total = 0
     let tax_total = 0
     const { surcharges } = props
-    const tax = parseFloat(surcharges.tax)
+    const tax = parseFloat ( surcharges.tax )
 
-    if (surcharges.transaction_fee && surcharges.transaction_fee > 0) {
+    if ( surcharges.transaction_fee && surcharges.transaction_fee > 0 ) {
         total += surcharges.transaction_fee
     }
 
-    if (surcharges.transaction_fee && surcharges.transaction_fee > 0 && surcharges.transaction_fee_tax === true && tax > 0) {
+    if ( surcharges.transaction_fee && surcharges.transaction_fee > 0 && surcharges.transaction_fee_tax === true && tax > 0 ) {
         tax_total += surcharges.transaction_fee * (tax / 100)
     }
 
-    if (surcharges.shipping_cost && surcharges.shipping_cost > 0) {
+    if ( surcharges.shipping_cost && surcharges.shipping_cost > 0 ) {
         total += surcharges.shipping_cost
     }
 
-    if (surcharges.shipping_cost && surcharges.shipping_cost > 0 && surcharges.shipping_cost_tax === true && tax > 0) {
+    if ( surcharges.shipping_cost && surcharges.shipping_cost > 0 && surcharges.shipping_cost_tax === true && tax > 0 ) {
         tax_total += surcharges.shipping_cost * (tax / 100)
     }
 
     return { total_custom_values: total, total_custom_tax: tax_total }
 }
 
-export const CalculateLineTotals = (props) => {
+export const CalculateLineTotals = ( props ) => {
     const { currentRow, settings, invoice } = props
 
     const price = currentRow.unit_price
     let lexieTotal = 0
 
-    if (price < 0) {
+    if ( price < 0 ) {
         return false
     }
 
@@ -90,23 +90,23 @@ export const CalculateLineTotals = (props) => {
 
     const quantity = currentRow.quantity
 
-    if (quantity > 0) {
+    if ( quantity > 0 ) {
         total = price * quantity
         lexieTotal += price * quantity
     }
 
-    if (unit_discount > 0 && invoice.discount === 0) {
-        const n = parseFloat(total)
+    if ( unit_discount > 0 && invoice.discount === 0 ) {
+        const n = parseFloat ( total )
         //
         const percentage = n * unit_discount / 100
         lexieTotal -= percentage
     }
 
-    if (unit_tax > 0 && invoice.tax === 0) {
+    if ( unit_tax > 0 && invoice.tax === 0 ) {
         const tax_percentage = lexieTotal * unit_tax / 100
         currentRow.tax_total = tax_percentage
 
-        if (uses_inclusive_taxes === false) {
+        if ( uses_inclusive_taxes === false ) {
             total += tax_percentage
         }
     }

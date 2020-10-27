@@ -8,55 +8,55 @@ import GroupModel from '../../models/GroupModel'
 import Settings from './Settings'
 
 class EditGroup extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.groupModel = new GroupModel(this.props.group)
+        this.groupModel = new GroupModel ( this.props.group )
         this.initialState = this.groupModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
         value = value === 'true' ? true : value
         value = value === 'false' ? false : value
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
-    handleFileChange (e) {
-        this.setState({
-            [e.target.name]: e.target.files[0]
-        })
+    handleFileChange ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.files[ 0 ]
+        } )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value,
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value,
             changesMade: true
-        })
+        } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -69,45 +69,45 @@ class EditGroup extends Component {
             settings: this.state.settings
         }
 
-        this.groupModel.save(formData).then(response => {
-            if (!response) {
-                this.setState({ errors: this.groupModel.errors, message: this.groupModel.error_message })
+        this.groupModel.save ( formData ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: this.groupModel.errors, message: this.groupModel.error_message } )
                 return
             }
 
-            if (this.props.groups && this.props.action) {
-                const index = this.props.groups.findIndex(group => group.id === this.state.id)
-                this.props.groups[index] = response
-                this.props.action(this.props.groups)
-                this.setState({
+            if ( this.props.groups && this.props.action ) {
+                const index = this.props.groups.findIndex ( group => group.id === this.state.id )
+                this.props.groups[ index ] = response
+                this.props.action ( this.props.groups )
+                this.setState ( {
                     editMode: false,
                     changesMade: false
-                })
-                this.toggle()
+                } )
+                this.toggle ()
             }
-        })
+        } )
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
+        if ( this.state.modal && this.state.changesMade ) {
+            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
+                this.setState ( { ...this.initialState } )
             }
 
             return
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
         const settings = <Settings hasErrorFor={this.hasErrorFor} group={this.state} settings={this.state.settings}
-            handleInput={this.handleInput.bind(this)} renderErrorFor={this.renderErrorFor}
-            handleSettingsChange={this.handleSettingsChange}
-            handleFileChange={this.handleFileChange}/>
+                                   handleInput={this.handleInput.bind ( this )} renderErrorFor={this.renderErrorFor}
+                                   handleSettingsChange={this.handleSettingsChange}
+                                   handleFileChange={this.handleFileChange}/>
         return this.props.modal ? (
             <React.Fragment>
                 <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
@@ -118,8 +118,8 @@ class EditGroup extends Component {
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         ) : settings

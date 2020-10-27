@@ -14,7 +14,7 @@ export default class AddButtons extends Component {
                 </UncontrolledTooltip>
 
                 <Button id="addButtonTooltip" style={{ position: 'absolute', top: '20px', right: '10px' }}
-                    className="d-none d-md-inline-block" color="primary" onClick={this.props.toggle}>+</Button>
+                        className="d-none d-md-inline-block" color="primary" onClick={this.props.toggle}>+</Button>
                 {/* <Button id="addButtonTooltip" className="d-md-none float" color="primary" onClick={this.props.toggle}><i */}
                 {/*    className={`fa ${icons.add} my-float`}/></Button> */}
                 <Fab

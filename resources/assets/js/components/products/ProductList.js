@@ -10,8 +10,8 @@ import { translations } from '../utils/_translations'
 import CompanyRepository from '../repositories/CompanyRepository'
 
 export default class ProductList extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -80,102 +80,102 @@ export default class ProductList extends Component {
             showRestoreButton: false
         }
 
-        this.addProductToState = this.addProductToState.bind(this)
-        this.userList = this.userList.bind(this)
-        this.filterProducts = this.filterProducts.bind(this)
-        this.getCompanies = this.getCompanies.bind(this)
+        this.addProductToState = this.addProductToState.bind ( this )
+        this.userList = this.userList.bind ( this )
+        this.filterProducts = this.filterProducts.bind ( this )
+        this.getCompanies = this.getCompanies.bind ( this )
     }
 
     componentDidMount () {
-        this.getCompanies()
-        this.getCategories()
-        this.getCustomFields()
+        this.getCompanies ()
+        this.getCategories ()
+        this.getCustomFields ()
     }
 
-    addProductToState (products) {
+    addProductToState ( products ) {
         const cachedData = !this.state.cachedData.length ? products : this.state.cachedData
-        this.setState({
+        this.setState ( {
             products: products,
             cachedData: cachedData
-        })
+        } )
     }
 
-    filterProducts (filters) {
-        this.setState({ filters: filters })
+    filterProducts ( filters ) {
+        this.setState ( { filters: filters } )
     }
 
     handleClose () {
-        this.setState({ error: '', show_success: false })
+        this.setState ( { error: '', show_success: false } )
     }
 
     getCompanies () {
-        const companyRepository = new CompanyRepository()
-        companyRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const companyRepository = new CompanyRepository ()
+        companyRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ companies: response }, () => {
-                console.log('companies', this.state.companies)
-            })
-        })
+            this.setState ( { companies: response }, () => {
+                console.log ( 'companies', this.state.companies )
+            } )
+        } )
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Product')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/accounts/fields/Product' )
+            .then ( ( r ) => {
+                this.setState ( {
                     custom_fields: r.data.fields
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
     getCategories () {
-        axios.get('/api/categories')
-            .then((r) => {
-                this.setState({
+        axios.get ( '/api/categories' )
+            .then ( ( r ) => {
+                this.setState ( {
                     categories: r.data
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
-    userList (props) {
+    userList ( props ) {
         const { products, custom_fields, companies, categories } = this.state
 
         return <ProductItem showCheckboxes={props.showCheckboxes} products={products} categories={categories}
-            viewId={props.viewId}
-            companies={companies} custom_fields={custom_fields}
-            ignoredColumns={props.ignoredColumns} addProductToState={this.addProductToState}
-            toggleViewedEntity={props.toggleViewedEntity}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+                            viewId={props.viewId}
+                            companies={companies} custom_fields={custom_fields}
+                            ignoredColumns={props.ignoredColumns} addProductToState={this.addProductToState}
+                            toggleViewedEntity={props.toggleViewedEntity}
+                            bulk={props.bulk}
+                            onChangeBulk={props.onChangeBulk}/>
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    setError (message = null) {
-        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    setError ( message = null ) {
+        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
     }
 
-    setSuccess (message = null) {
-        this.setState({
+    setSuccess ( message = null ) {
+        this.setState ( {
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        })
+        } )
     }
 
     render () {
@@ -189,7 +189,7 @@ export default class ProductList extends Component {
             products={products}
             action={this.addProductToState}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -199,18 +199,18 @@ export default class ProductList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ProductFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies}
-                                    products={products}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={filters} filter={this.filterProducts}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <ProductFilters setFilterOpen={this.setFilterOpen.bind ( this )} companies={companies}
+                                                products={products}
+                                                updateIgnoredColumns={this.updateIgnoredColumns}
+                                                filters={filters} filter={this.filterProducts}
+                                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -218,7 +218,7 @@ export default class ProductList extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -229,8 +229,8 @@ export default class ProductList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind(this)}
-                                    setError={this.setError.bind(this)}
+                                    setSuccess={this.setSuccess.bind ( this )}
+                                    setError={this.setError.bind ( this )}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Product"
                                     bulk_save_url="/api/product/bulk"

@@ -10,12 +10,12 @@ import { translations } from '../utils/_translations'
 import ViewPdf from './ViewPdf'
 
 export default class Emails extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             settings: [],
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             loaded: false,
             active_email_tab: '1',
             preview: null,
@@ -27,66 +27,66 @@ export default class Emails extends Component {
             template_name: 'Invoice'
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.toggleEmailTab = this.toggleEmailTab.bind(this)
-        this.getAccount = this.getAccount.bind(this)
-        this.getPreview = this.getPreview.bind(this)
-        this.buildPreviewData = this.buildPreviewData.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.toggleEmailTab = this.toggleEmailTab.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
+        this.getPreview = this.getPreview.bind ( this )
+        this.buildPreviewData = this.buildPreviewData.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
     async getAccount () {
-        return axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
+        return axios.get ( `api/accounts/${this.state.id}` )
+            .then ( ( r ) => {
+                this.setState ( {
                     loaded: true,
                     settings: r.data.settings
-                }, () => this.getPreview())
-            })
-            .catch((e) => {
-                alert('There was an issue updating the settings')
-            })
+                }, () => this.getPreview () )
+            } )
+            .catch ( ( e ) => {
+                alert ( 'There was an issue updating the settings' )
+            } )
     }
 
-    handleChange (event) {
+    handleChange ( event ) {
         const name = event.target.name
-        const template_name = name === 'template_type' ? event.target[event.target.selectedIndex].getAttribute('data-name') : null
-        this.setState({ [name]: event.target.value }, () => {
-            if (name === 'template_type') {
-                if (template_name !== null) {
-                    this.setState({ template_name: name })
+        const template_name = name === 'template_type' ? event.target[ event.target.selectedIndex ].getAttribute ( 'data-name' ) : null
+        this.setState ( { [ name ]: event.target.value }, () => {
+            if ( name === 'template_type' ) {
+                if ( template_name !== null ) {
+                    this.setState ( { template_name: name } )
                 }
 
-                this.getPreview()
+                this.getPreview ()
             }
-        })
+        } )
     }
 
-    handleSettingsChange (name, value) {
-        this.setState(prevState => ({
+    handleSettingsChange ( name, value ) {
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
         }), () => {
-            const { subject, body } = this.buildPreviewData()
-            this.setState({
+            const { subject, body } = this.buildPreviewData ()
+            this.setState ( {
                 subject: subject,
                 body: body
-            })
-        })
+            } )
+        } )
     }
 
     buildPreviewData () {
-        const subjectKey = this.state.template_type.replace('template', 'subject')
+        const subjectKey = this.state.template_type.replace ( 'template', 'subject' )
         const bodyKey = this.state.template_type
 
-        const subject = !this.state.settings[subjectKey] ? '' : this.state.settings[subjectKey]
-        const body = !this.state.settings[bodyKey] ? '' : this.state.settings[bodyKey]
+        const subject = !this.state.settings[ subjectKey ] ? '' : this.state.settings[ subjectKey ]
+        const body = !this.state.settings[ bodyKey ] ? '' : this.state.settings[ bodyKey ]
 
         return {
             subject: subject,
@@ -96,49 +96,49 @@ export default class Emails extends Component {
     }
 
     getPreview () {
-        this.setState({ showSpinner: true, showPreview: false })
-        const { subject, body, bodyKey } = this.buildPreviewData()
+        this.setState ( { showSpinner: true, showPreview: false } )
+        const { subject, body, bodyKey } = this.buildPreviewData ()
 
-        axios.post('api/template', {
+        axios.post ( 'api/template', {
             subject: subject,
             body: body,
             template: bodyKey,
             entity_id: this.props.entity_id,
             entity: this.props.entity
-        })
-            .then((r) => {
-                this.setState({
+        } )
+            .then ( ( r ) => {
+                this.setState ( {
                     preview: r.data,
                     showSpinner: false,
                     showPreview: true,
                     subject: subject,
                     body: body
-                })
-            })
-            .catch((e) => {
-                toast.error('There was an issue updating the settings')
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                toast.error ( 'There was an issue updating the settings' )
+            } )
     }
 
-    toggleEmailTab (tab) {
-        if (this.state.active_email_tab !== tab) {
-            this.setState({ active_email_tab: tab }, () => {
-                if (tab === '1') {
-                    this.getPreview()
+    toggleEmailTab ( tab ) {
+        if ( this.state.active_email_tab !== tab ) {
+            this.setState ( { active_email_tab: tab }, () => {
+                if ( tab === '1' ) {
+                    this.getPreview ()
                 }
-            })
+            } )
         }
     }
 
     render () {
-        const fields = this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
+        const fields = this.state.settings[ this.state.template_type ] && this.state.settings[ this.state.template_type ].length
             ? <EmailFields custom_only={true} return_form={false} settings={this.state.settings}
-                template_type={this.props.template}
-                handleSettingsChange={this.handleSettingsChange}
-                handleChange={this.handleChange}/> : null
-        const preview = this.state.showPreview && this.state.preview && Object.keys(this.state.preview).length && this.state.settings[this.state.template_type] && this.state.settings[this.state.template_type].length
+                           template_type={this.props.template}
+                           handleSettingsChange={this.handleSettingsChange}
+                           handleChange={this.handleChange}/> : null
+        const preview = this.state.showPreview && this.state.preview && Object.keys ( this.state.preview ).length && this.state.settings[ this.state.template_type ] && this.state.settings[ this.state.template_type ].length
             ? <EmailPreview preview={this.state.preview} entity={this.props.entity} entity_id={this.props.entity_id}
-                template_type={this.state.template_type}/> : null
+                            template_type={this.state.template_type}/> : null
         const editor = this.state.subject.length && this.state.body.length
             ? <EmailEditorForm
                 model={this.props.model}
@@ -162,7 +162,7 @@ export default class Emails extends Component {
                         <NavLink
                             className={this.state.active_email_tab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleEmailTab('1')
+                                this.toggleEmailTab ( '1' )
                             }}>
                             {translations.preview}
                         </NavLink>
@@ -172,7 +172,7 @@ export default class Emails extends Component {
                         <NavLink
                             className={this.state.active_email_tab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleEmailTab('2')
+                                this.toggleEmailTab ( '2' )
                             }}>
                             {translations.customise}
                         </NavLink>
@@ -182,7 +182,7 @@ export default class Emails extends Component {
                         <NavLink
                             className={this.state.active_email_tab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleEmailTab('3')
+                                this.toggleEmailTab ( '3' )
                             }}>
                             {translations.history}
                         </NavLink>
@@ -192,7 +192,7 @@ export default class Emails extends Component {
                         <NavLink
                             className={this.state.active_email_tab === '4' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleEmailTab('4')
+                                this.toggleEmailTab ( '4' )
                             }}>
                             {translations.pdf}
                         </NavLink>
@@ -226,9 +226,9 @@ export default class Emails extends Component {
                             <CardHeader>{translations.history}</CardHeader>
                             <CardBody>
                                 <ViewEmails template_type={this.state.template_type}
-                                    handleSettingsChange={this.handleSettingsChange}
-                                    active_id={this.state.active_id}
-                                    emails={this.props.emails}/>
+                                            handleSettingsChange={this.handleSettingsChange}
+                                            active_id={this.state.active_id}
+                                            emails={this.props.emails}/>
                             </CardBody>
                         </Card>
                     </TabPane>

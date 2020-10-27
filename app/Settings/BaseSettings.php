@@ -101,6 +101,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'include_task_documents'            => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'should_send_email_for_online_payment' => [
             'required'         => false,
             'translated_value' => '',

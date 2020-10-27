@@ -5,119 +5,119 @@ import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 
 export default class QuoteDropdownMenu extends Component {
-    constructor (props, context) {
-        super(props, context)
+    constructor ( props, context ) {
+        super ( props, context )
         this.state = {
             dropdownOpen: false,
             showSuccessMessage: false,
             showErrorMessage: false
         }
-        this.toggleMenu = this.toggleMenu.bind(this)
-        this.changeStatus = this.changeStatus.bind(this)
+        this.toggleMenu = this.toggleMenu.bind ( this )
+        this.changeStatus = this.changeStatus.bind ( this )
     }
 
-    downloadPdf (response, id) {
+    downloadPdf ( response, id ) {
         const linkSource = `data:application/pdf;base64,${response.data.data}`
-        const downloadLink = document.createElement('a')
+        const downloadLink = document.createElement ( 'a' )
         const fileName = `quote_${id}.pdf`
 
         downloadLink.href = linkSource
         downloadLink.download = fileName
-        downloadLink.click()
+        downloadLink.click ()
     }
 
-    changeStatus (action) {
-        if (!this.props.invoice_id) {
+    changeStatus ( action ) {
+        if ( !this.props.invoice_id ) {
             return false
         }
 
         const data = this.props.formData
-        axios.post(`/api/quote/${this.props.invoice_id}/${action}`, data)
-            .then((response) => {
+        axios.post ( `/api/quote/${this.props.invoice_id}/${action}`, data )
+            .then ( ( response ) => {
                 let message = `${action} completed successfully`
 
-                if (action === 'clone_to_quote') {
-                    this.props.invoices.push(response.data)
-                    this.props.action(this.props.invoices)
+                if ( action === 'clone_to_quote' ) {
+                    this.props.invoices.push ( response.data )
+                    this.props.action ( this.props.invoices )
                     message = `Quote was cloned successfully. Quote ${response.data.number} has been created`
                 }
 
-                if (action === 'download') {
-                    this.downloadPdf(response, this.props.invoice_id)
+                if ( action === 'download' ) {
+                    this.downloadPdf ( response, this.props.invoice_id )
                     message = 'The PDF file has been downloaded'
                 }
 
-                if (action === 'clone_to_invoice') {
+                if ( action === 'clone_to_invoice' ) {
                     message = `The quote was successfully converted to an invoice. Invoice ${response.data.number} has been created`
                 }
 
-                if (action === 'approve') {
+                if ( action === 'approve' ) {
                     message = 'The quote has been marked as approved'
                 }
 
-                if (action === 'mark_sent') {
-                    const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.invoice_id)
-                    this.props.invoices[index] = response.data
-                    this.props.action(this.props.invoices)
+                if ( action === 'mark_sent' ) {
+                    const index = this.props.invoices.findIndex ( invoice => invoice.id === this.props.invoice_id )
+                    this.props.invoices[ index ] = response.data
+                    this.props.action ( this.props.invoices )
                     message = 'The quote has been marked as sent'
                 }
 
-                if (action === 'email') {
+                if ( action === 'email' ) {
                     message = 'The email has been sent successfully'
                 }
 
-                this.setState({
+                this.setState ( {
                     showSuccessMessage: message,
                     showErrorMessage: false
-                })
-            })
-            .catch((error) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     showErrorMessage: true,
                     showSuccessMessage: false
-                })
-                console.warn(error)
-            })
+                } )
+                console.warn ( error )
+            } )
     }
 
-    toggleMenu (event) {
-        this.setState({
+    toggleMenu ( event ) {
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
     render () {
-        const changeStatusButton = <DropdownItem color="primary" onClick={() => this.changeStatus('mark_sent')}>Mark
+        const changeStatusButton = <DropdownItem color="primary" onClick={() => this.changeStatus ( 'mark_sent' )}>Mark
             Sent</DropdownItem>
 
         const approveButton = this.props.status_id !== 4
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('approve')}>Approve</DropdownItem> : null
+                            onClick={() => this.changeStatus ( 'approve' )}>Approve</DropdownItem> : null
 
         const sendEmailButton = this.props.status_id === 1
-            ? <DropdownItem className="primary" onClick={() => this.changeStatus('email')}>Send
+            ? <DropdownItem className="primary" onClick={() => this.changeStatus ( 'email' )}>Send
                 Email</DropdownItem> : null
 
         const downloadButton = <DropdownItem className="primary"
-            onClick={() => this.changeStatus('download')}>Download</DropdownItem>
+                                             onClick={() => this.changeStatus ( 'download' )}>Download</DropdownItem>
 
         const cloneInvoiceButton = <DropdownItem className="primary"
-            onClick={() => this.changeStatus('clone_to_invoice').bind(this)}>Convert
+                                                 onClick={() => this.changeStatus ( 'clone_to_invoice' ).bind ( this )}>Convert
             to
             Invoice</DropdownItem>
 
         const cloneButton = <DropdownItem className="primary"
-            onClick={() => this.changeStatus('clone_to_quote').bind(this)}>Clone
+                                          onClick={() => this.changeStatus ( 'clone_to_quote' ).bind ( this )}>Clone
             Quote
         </DropdownItem>
 
         const deleteButton = this.props.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+                            onClick={() => this.changeStatus ( 'delete' )}>Delete</DropdownItem> : null
 
         const archiveButton = this.props.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+                            onClick={() => this.changeStatus ( 'archive' )}>Archive</DropdownItem> : null
 
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null

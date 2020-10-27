@@ -12,8 +12,8 @@ import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
 
 export default class DealList extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             isOpen: window.innerWidth > 670,
@@ -37,8 +37,8 @@ export default class DealList extends Component {
                 // project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
                 task_status: '',
-                customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                user_id: queryString.parse(this.props.location.search).user_id || '',
+                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
+                user_id: queryString.parse ( this.props.location.search ).user_id || '',
                 // task_type: '',
                 searchText: '',
                 start_date: '',
@@ -74,99 +74,99 @@ export default class DealList extends Component {
             showRestoreButton: false
         }
 
-        this.addUserToState = this.addUserToState.bind(this)
-        this.userList = this.userList.bind(this)
-        this.filterDeals = this.filterDeals.bind(this)
-        this.getCustomers = this.getCustomers.bind(this)
-        this.getUsers = this.getUsers.bind(this)
+        this.addUserToState = this.addUserToState.bind ( this )
+        this.userList = this.userList.bind ( this )
+        this.filterDeals = this.filterDeals.bind ( this )
+        this.getCustomers = this.getCustomers.bind ( this )
+        this.getUsers = this.getUsers.bind ( this )
     }
 
     componentDidMount () {
-        this.getUsers()
-        this.getCustomers()
-        this.getCustomFields()
+        this.getUsers ()
+        this.getCustomers ()
+        this.getCustomFields ()
     }
 
-    addUserToState (deals) {
-        this.setState({ deals: deals })
+    addUserToState ( deals ) {
+        this.setState ( { deals: deals } )
     }
 
     handleClose () {
-        this.setState({ error: '', show_success: false })
+        this.setState ( { error: '', show_success: false } )
     }
 
-    filterDeals (filters) {
-        this.setState({ filters: filters })
+    filterDeals ( filters ) {
+        this.setState ( { filters: filters } )
 
         return true
     }
 
-    userList (props) {
+    userList ( props ) {
         const { deals, custom_fields, users, customers } = this.state
 
         return <DealItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} deals={deals} users={users}
-            custom_fields={custom_fields} customers={customers}
-            viewId={props.viewId}
-            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-            toggleViewedEntity={props.toggleViewedEntity}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+                         custom_fields={custom_fields} customers={customers}
+                         viewId={props.viewId}
+                         ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+                         toggleViewedEntity={props.toggleViewedEntity}
+                         bulk={props.bulk}
+                         onChangeBulk={props.onChangeBulk}/>
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Deal')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/accounts/fields/Deal' )
+            .then ( ( r ) => {
+                this.setState ( {
                     custom_fields: r.data.fields
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
     getUsers () {
-        const userRepository = new UserRepository()
-        userRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const userRepository = new UserRepository ()
+        userRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ users: response }, () => {
-                console.log('users', this.state.users)
-            })
-        })
+            this.setState ( { users: response }, () => {
+                console.log ( 'users', this.state.users )
+            } )
+        } )
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository()
-        customerRepository.get().then(response => {
-            if (!response) {
-                alert('error')
+        const customerRepository = new CustomerRepository ()
+        customerRepository.get ().then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({ customers: response }, () => {
-                console.log('customers', this.state.customers)
-            })
-        })
+            this.setState ( { customers: response }, () => {
+                console.log ( 'customers', this.state.customers )
+            } )
+        } )
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    setError (message = null) {
-        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    setError ( message = null ) {
+        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
     }
 
-    setSuccess (message = null) {
-        this.setState({
+    setSuccess ( message = null ) {
+        this.setState ( {
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        })
+        } )
     }
 
     render () {
@@ -175,7 +175,7 @@ export default class DealList extends Component {
         const fetchUrl = `/api/deals?search_term=${searchText}&task_status=${task_status}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
 
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -195,17 +195,17 @@ export default class DealList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <DealFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
-                                    deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={this.state.filters} filter={this.filterDeals}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <DealFilters setFilterOpen={this.setFilterOpen.bind ( this )} users={users}
+                                             deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
+                                             filters={this.state.filters} filter={this.filterDeals}
+                                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -213,7 +213,7 @@ export default class DealList extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -225,8 +225,8 @@ export default class DealList extends Component {
                             <CardBody>
                                 <DataTable
                                     customers={customers}
-                                    setSuccess={this.setSuccess.bind(this)}
-                                    setError={this.setError.bind(this)}
+                                    setSuccess={this.setSuccess.bind ( this )}
+                                    setError={this.setError.bind ( this )}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Deal"
                                     bulk_save_url="/api/deals/bulk"

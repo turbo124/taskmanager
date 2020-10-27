@@ -19,20 +19,20 @@ import ProjectDropdown from './dropdowns/ProjectDropdown'
 import DesignDropdown from './dropdowns/DesignDropdown'
 
 export default class NoteTabs extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             active_note_tab: '1',
             show_success: false
         }
 
-        this.toggleNoteTabs = this.toggleNoteTabs.bind(this)
+        this.toggleNoteTabs = this.toggleNoteTabs.bind ( this )
     }
 
-    toggleNoteTabs (tab) {
-        if (this.state.active_note_tab !== tab) {
-            this.setState({ active_note_tab: tab })
+    toggleNoteTabs ( tab ) {
+        if ( this.state.active_note_tab !== tab ) {
+            this.setState ( { active_note_tab: tab } )
         }
     }
 
@@ -45,7 +45,7 @@ export default class NoteTabs extends Component {
                             <NavLink
                                 className={this.state.active_note_tab === '1' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleNoteTabs('1')
+                                    this.toggleNoteTabs ( '1' )
                                 }}
                             >
                                 {translations.public_notes}
@@ -55,7 +55,7 @@ export default class NoteTabs extends Component {
                             <NavLink
                                 className={this.state.active_note_tab === '2' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleNoteTabs('2')
+                                    this.toggleNoteTabs ( '2' )
                                 }}
                             >
                                 {translations.private_notes}
@@ -66,7 +66,7 @@ export default class NoteTabs extends Component {
                             <NavLink
                                 className={this.state.active_note_tab === '3' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleNoteTabs('3')
+                                    this.toggleNoteTabs ( '3' )
                                 }}
                             >
                                 {translations.terms}
@@ -77,7 +77,7 @@ export default class NoteTabs extends Component {
                             <NavLink
                                 className={this.state.active_note_tab === '4' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleNoteTabs('4')
+                                    this.toggleNoteTabs ( '4' )
                                 }}
                             >
                                 {translations.footer}
@@ -88,7 +88,7 @@ export default class NoteTabs extends Component {
                             <NavLink
                                 className={this.state.active_note_tab === '5' ? 'active' : ''}
                                 onClick={() => {
-                                    this.toggleNoteTabs('5')
+                                    this.toggleNoteTabs ( '5' )
                                 }}
                             >
                                 {translations.settings}
@@ -168,7 +168,7 @@ export default class NoteTabs extends Component {
                                     <FormGroup>
                                         <Label for="postcode">{translations.design}:</Label>
                                         <DesignDropdown name="design_id" design={this.props.invoice.design_id}
-                                            handleChange={this.props.handleInput}/>
+                                                        handleChange={this.props.handleInput}/>
                                     </FormGroup>
                                 </Col>
                             </Row>

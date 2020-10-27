@@ -8,8 +8,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class AddBrand extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             name: '',
@@ -19,74 +19,74 @@ class AddBrand extends React.Component {
             errors: []
         }
 
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.handleFileChange = this.handleFileChange.bind(this)
-        this.handleInput = this.handleInput.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleFileChange = this.handleFileChange.bind ( this )
+        this.handleInput = this.handleInput.bind ( this )
     }
 
-    handleFileChange (e) {
-        this.setState({
-            [e.target.name]: e.target.files[0]
-        })
+    handleFileChange ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.files[ 0 ]
+        } )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value
+        } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        const formData = new FormData()
-        formData.append('cover', this.state.cover)
-        formData.append('name', this.state.name)
-        formData.append('description', this.state.description)
-        formData.append('status', this.state.status)
+        const formData = new FormData ()
+        formData.append ( 'cover', this.state.cover )
+        formData.append ( 'name', this.state.name )
+        formData.append ( 'description', this.state.description )
+        formData.append ( 'status', this.state.status )
 
-        axios.post('/api/brands', formData)
-            .then((response) => {
-                this.toggle()
+        axios.post ( '/api/brands', formData )
+            .then ( ( response ) => {
+                this.toggle ()
                 const newUser = response.data
-                this.props.brands.push(newUser)
-                this.props.action(this.props.brands)
-                this.setState({
+                this.props.brands.push ( newUser )
+                this.props.action ( this.props.brands )
+                this.setState ( {
                     name: null,
                     description: null
-                })
-            })
-            .catch((error) => {
-                alert(error)
-                this.setState({
+                } )
+            } )
+            .catch ( ( error ) => {
+                alert ( error )
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -96,12 +96,12 @@ class AddBrand extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details brand={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
-                            renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
+                                 renderErrorFor={this.renderErrorFor} handleFileChange={this.handleFileChange}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

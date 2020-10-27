@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 
 export default class PdfFields extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             selected: [],
             values: [],
             pdf_variables: [],
@@ -19,25 +19,25 @@ export default class PdfFields extends Component {
             }
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.handleRemove = this.handleRemove.bind(this)
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleRemove = this.handleRemove.bind ( this )
     }
 
     componentDidMount () {
         const arrSelected = []
         const arrTest = []
         const { columns } = this.props
-        const saved_columns = this.props.ignored_columns[this.props.section]
+        const saved_columns = this.props.ignored_columns[ this.props.section ]
 
-        columns.forEach(column => {
-            if (saved_columns && saved_columns.length && saved_columns.includes(column)) {
-                arrSelected.push({ label: column, value: column })
+        columns.forEach ( column => {
+            if ( saved_columns && saved_columns.length && saved_columns.includes ( column ) ) {
+                arrSelected.push ( { label: column, value: column } )
             } else {
-                arrTest.push({ label: column, value: column })
+                arrTest.push ( { label: column, value: column } )
             }
-        })
+        } )
 
-        this.setState({
+        this.setState ( {
             pdf_variables: this.props.ignored_columns,
             values: arrTest,
             initialState: arrTest,
@@ -45,12 +45,12 @@ export default class PdfFields extends Component {
         }, function () {
             // console.log('columns', this.state.values)
             // console.log('selected', this.state.selected)
-        })
+        } )
     }
 
-    update (new_values) {
+    update ( new_values ) {
         const ignored_columns = { ...this.props.ignored_columns }
-        ignored_columns[this.props.section] = new_values
+        ignored_columns[ this.props.section ] = new_values
 
         /* this.setState(prevState => ({
             settings: {
@@ -60,69 +60,69 @@ export default class PdfFields extends Component {
         }), () => this.handleSubmit()) */
     }
 
-    capitalizeFirstLetters (str) {
-        return str.toLowerCase().replace(/^\w|\s\w/g, function (letter) {
-            return letter.toUpperCase()
-        })
+    capitalizeFirstLetters ( str ) {
+        return str.toLowerCase ().replace ( /^\w|\s\w/g, function ( letter ) {
+            return letter.toUpperCase ()
+        } )
     }
 
-    handleChange (selected) {
+    handleChange ( selected ) {
         const pdf_variables = { ...this.props.ignored_columns }
-        const saved_columns = pdf_variables[this.props.section]
+        const saved_columns = pdf_variables[ this.props.section ]
         let items_to_remove = false
 
-        if (selected && selected.length) {
-            selected.forEach((user) => {
-                if (saved_columns && saved_columns.includes(user.value)) {
-                    const values = this.state.values.filter(item => item.value !== user.value)
+        if ( selected && selected.length ) {
+            selected.forEach ( ( user ) => {
+                if ( saved_columns && saved_columns.includes ( user.value ) ) {
+                    const values = this.state.values.filter ( item => item.value !== user.value )
 
-                    this.setState({ values: values })
+                    this.setState ( { values: values } )
                     items_to_remove = true
                 } else {
                     // alert('not in ignored ' + user.value)
                 }
-            })
+            } )
 
-            if (items_to_remove === true) {
-                this.handleRemove(selected)
+            if ( items_to_remove === true ) {
+                this.handleRemove ( selected )
             }
 
-            this.state.selected.forEach((user) => {
+            this.state.selected.forEach ( ( user ) => {
                 let found = false
-                selected.forEach((user2) => {
-                    if (user2.value === user.value) {
+                selected.forEach ( ( user2 ) => {
+                    if ( user2.value === user.value ) {
                         found = true
                     }
-                })
+                } )
 
-                if (!found) {
+                if ( !found ) {
                     const { values } = this.state
-                    values.push({ label: user.value, value: user.value })
-                    this.setState({ values: values })
-                    saved_columns.push(user.value)
+                    values.push ( { label: user.value, value: user.value } )
+                    this.setState ( { values: values } )
+                    saved_columns.push ( user.value )
                     // this.update(test)
                 }
-            })
+            } )
 
-            this.setState({ selected: selected })
+            this.setState ( { selected: selected } )
         } else {
-            alert('You must have at least one column')
+            alert ( 'You must have at least one column' )
             // this.props.onChange2([])
             // this.setState({ selected: this.state.initialState, values: this.state.initialState })
         }
     }
 
-    handleRemove (selected) {
+    handleRemove ( selected ) {
         const test = []
 
         const pdf_variables = { ...this.props.ignored_columns }
 
-        selected.map(column => {
-            test.push(column.value)
-        })
+        selected.map ( column => {
+            test.push ( column.value )
+        } )
 
-        pdf_variables[this.props.section] = test
-        this.props.onChange2(pdf_variables)
+        pdf_variables[ this.props.section ] = test
+        this.props.onChange2 ( pdf_variables )
     }
 
     render () {

@@ -8,13 +8,13 @@ import { icons } from '../../utils/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import ExpensePresenter from '../../presenters/ExpensePresenter'
 
-export default function Overview (props) {
-    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+export default function Overview ( props ) {
+    const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
 
     const header = props.model.isConverted
         ? <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax}
-            heading_2={translations.converted} value_2={props.model.convertedAmountWithTax}/>
-        : <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax} />
+                            heading_2={translations.converted} value_2={props.model.convertedAmountWithTax}/>
+        : <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax}/>
 
     return <React.Fragment>
         {header}
@@ -34,8 +34,8 @@ export default function Overview (props) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[0].name}
-                icon={icons.customer}/>
+            <EntityListTile entity={translations.customer} title={props.customer[ 0 ].name}
+                            icon={icons.customer}/>
         </Row>
 
         {!!props.user &&
@@ -46,7 +46,7 @@ export default function Overview (props) {
 
         <FieldGrid fields={props.fields}/>
 
-        {!!Object.keys(props.recurring).length &&
+        {!!Object.keys ( props.recurring ).length &&
         <div>
             <h5>{translations.recurring}</h5>
             <FieldGrid fields={props.recurring}/>

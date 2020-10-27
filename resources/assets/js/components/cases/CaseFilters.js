@@ -11,8 +11,8 @@ import { consts } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default class CaseFilters extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             isOpen: false,
             dropdownButtonActions: ['download'],
@@ -42,41 +42,41 @@ export default class CaseFilters extends Component {
             }
         ]
 
-        this.filterCases = this.filterCases.bind(this)
-        this.getFilters = this.getFilters.bind(this)
+        this.filterCases = this.filterCases.bind ( this )
+        this.getFilters = this.getFilters.bind ( this )
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    filterCases (event) {
-        if ('start_date' in event) {
-            this.setState(prevState => ({
+    filterCases ( event ) {
+        if ( 'start_date' in event ) {
+            this.setState ( prevState => ({
                 filters: {
                     ...prevState.filters,
                     start_date: event.start_date,
                     end_date: event.end_date
                 }
-            }), () => this.props.filter(this.state.filters))
+            }), () => this.props.filter ( this.state.filters ) )
             return
         }
 
         const column = event.target.name
         const value = event.target.value
 
-        if (value === 'all') {
-            const updatedRowState = this.state.filters.filter(filter => filter.column !== column)
-            this.setState({ filters: updatedRowState }, () => this.props.filter(this.state.filters))
+        if ( value === 'all' ) {
+            const updatedRowState = this.state.filters.filter ( filter => filter.column !== column )
+            this.setState ( { filters: updatedRowState }, () => this.props.filter ( this.state.filters ) )
             return true
         }
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             filters: {
                 ...prevState.filters,
-                [column]: value
+                [ column ]: value
             }
-        }), () => this.props.filter(this.state.filters))
+        }), () => this.props.filter ( this.state.filters ) )
     }
 
     getFilters () {
@@ -133,7 +133,7 @@ export default class CaseFilters extends Component {
     }
 
     render () {
-        const filters = this.getFilters()
+        const filters = this.getFilters ()
 
         return (<FilterTile setFilterOpen={this.props.setFilterOpen} filters={filters}/>)
     }

@@ -3,22 +3,22 @@ import BaseModel from './BaseModel'
 import { consts } from '../utils/_consts'
 
 export default class GatewayModel extends BaseModel {
-    constructor (data = null) {
-        super()
+    constructor ( data = null ) {
+        super ()
 
         this._url = '/api/company_gateways'
         this.entity = 'Gateway'
 
-        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
-        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(this.account_id))
-        this.settings = user_account[0].account.settings
+        this.account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
+        const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( this.account_id ) )
+        this.settings = user_account[ 0 ].account.settings
 
         this._fields = {
             modal: false,
             name: '',
             gateway_key: '',
             accepted_credit_cards: 0,
-            accepted_cards: new Map(),
+            accepted_cards: new Map (),
             require_cvv: false,
             show_billing_address: true,
             show_shipping_address: false,
@@ -31,7 +31,7 @@ export default class GatewayModel extends BaseModel {
             activeTab: '1'
         }
 
-        if (data !== null) {
+        if ( data !== null ) {
             this._fields = { ...this.fields, ...data }
         }
     }
@@ -48,7 +48,7 @@ export default class GatewayModel extends BaseModel {
         return this.settings.company_gateway_ids || ''
     }
 
-    set gateway_ids (ids) {
+    set gateway_ids ( ids ) {
         this.settings.company_gateway_ids = ids
         this.fields.company_gateways_ids = ids
     }
@@ -58,24 +58,24 @@ export default class GatewayModel extends BaseModel {
             kGatewayStripe,
             kGatewayAuthorizeNet,
             kGatewayCheckoutCom
-        ].includes(id)
+        ].includes ( id )
     }
 
     buildDropdownMenu () {
         const actions = []
 
-        if (!this.fields.is_deleted) {
-            actions.push('delete')
+        if ( !this.fields.is_deleted ) {
+            actions.push ( 'delete' )
         }
 
-        if (!this.fields.deleted_at) {
-            actions.push('archive')
+        if ( !this.fields.deleted_at ) {
+            actions.push ( 'archive' )
         }
 
         return actions
     }
 
-    supportsCard (cardType) {
+    supportsCard ( cardType ) {
         return this.fields.accepted_credit_cards & cardType > 0
     }
 
@@ -83,8 +83,8 @@ export default class GatewayModel extends BaseModel {
 
     }
 
-    async update (data) {
-        if (!this.fields.id) {
+    async update ( data ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -92,16 +92,16 @@ export default class GatewayModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post(`${this.url}/${this.fields.id}`, data)
+            const res = await axios.post ( `${this.url}/${this.fields.id}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
@@ -111,23 +111,23 @@ export default class GatewayModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.get(this.url)
+            const res = await axios.get ( this.url )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
 
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async completeAction (data, action) {
-        if (!this.fields.id) {
+    async completeAction ( data, action ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -135,44 +135,44 @@ export default class GatewayModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async save (data) {
-        if (this.fields.id) {
-            return this.update(data)
+    async save ( data ) {
+        if ( this.fields.id ) {
+            return this.update ( data )
         }
 
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post(this.url, data)
+            const res = await axios.post ( this.url, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    getClientUrl (gateway_key, customer_reference) {
-        switch (gateway_key) {
+    getClientUrl ( gateway_key, customer_reference ) {
+        switch ( gateway_key ) {
             case consts.stripe_gateway:
                 return `https://dashboard.stripe.com/customers/${customer_reference}`
             default:
@@ -180,8 +180,8 @@ export default class GatewayModel extends BaseModel {
         }
     }
 
-    getPaymentUrl (gateway_key, transaction_reference) {
-        switch (gateway_key) {
+    getPaymentUrl ( gateway_key, transaction_reference ) {
+        switch ( gateway_key ) {
             case consts.stripe_gateway:
                 return `https://dashboard.stripe.com/payments/${transaction_reference}`
             default:

@@ -5,11 +5,11 @@ import { translations } from '../utils/_translations'
 import { consts, frequencyOptions } from '../utils/_consts'
 
 class EmailFields extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             loaded: false,
             activeTab: '1',
             company_logo: null,
@@ -17,19 +17,19 @@ class EmailFields extends Component {
         }
     }
 
-    getFormFields (key = null) {
+    getFormFields ( key = null ) {
         const settings = this.props.settings
         const frequencies = []
 
-        Object.keys(frequencyOptions).map((frequency) => {
-            console.log('frequency', frequency)
-            frequencies.push(
+        Object.keys ( frequencyOptions ).map ( ( frequency ) => {
+            console.log ( 'frequency', frequency )
+            frequencies.push (
                 {
                     value: frequency,
-                    text: translations[frequencyOptions[frequency]]
+                    text: translations[ frequencyOptions[ frequency ] ]
                 }
             )
-        })
+        } )
 
         const formFields = {
             email_template_invoice: {
@@ -752,39 +752,39 @@ class EmailFields extends Component {
             }
         }
 
-        return key !== null ? formFields[key] : formFields
+        return key !== null ? formFields[ key ] : formFields
     }
 
     _buildTemplate () {
-        const allFields = this.getFormFields(this.props.template_type)
+        const allFields = this.getFormFields ( this.props.template_type )
         const test = []
 
-        if (!allFields) {
+        if ( !allFields ) {
             return test
         }
 
         const sectionFields = allFields.fields
 
-        test.push(sectionFields)
+        test.push ( sectionFields )
         return test
     }
 
     render () {
-        const fields = this.getFormFields()
+        const fields = this.getFormFields ()
 
-        const test2 = Object.keys(fields).filter(key2 => {
-            if (fields[key2].is_custom || fields[key2].is_reminder || key2 === this.props.template_type) {
-                return fields[key2]
+        const test2 = Object.keys ( fields ).filter ( key2 => {
+            if ( fields[ key2 ].is_custom || fields[ key2 ].is_reminder || key2 === this.props.template_type ) {
+                return fields[ key2 ]
             }
-        })
+        } )
 
-        const toMap = this.props.custom_only && this.props.custom_only === true ? test2 : Object.keys(fields)
+        const toMap = this.props.custom_only && this.props.custom_only === true ? test2 : Object.keys ( fields )
 
-        const options = toMap.map(key => {
-            return <option data-name={fields[key].name} key={key} value={key}>{fields[key].name}</option>
-        })
+        const options = toMap.map ( key => {
+            return <option data-name={fields[ key ].name} key={key} value={key}>{fields[ key ].name}</option>
+        } )
 
-        const test = this._buildTemplate()
+        const test = this._buildTemplate ()
         const form = this.props.return_form === true ? <FormBuilder
             handleChange={this.props.handleSettingsChange}
             formFieldsRows={test}
@@ -795,8 +795,8 @@ class EmailFields extends Component {
             <FormGroup>
                 <Label>{translations.template}</Label>
                 <Input type="select"
-                    name="template_type"
-                    onChange={this.props.handleChange}
+                       name="template_type"
+                       onChange={this.props.handleChange}
                 >
                     {options}
                 </Input>

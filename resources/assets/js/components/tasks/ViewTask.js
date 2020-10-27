@@ -6,42 +6,42 @@ import CompleteTask from '../CompleteTask'
 import axios from 'axios'
 
 class ViewTask extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             errors: []
         }
-        this.toggle = this.toggle.bind(this)
-        this.convertLead = this.convertLead.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.convertLead = this.convertLead.bind ( this )
     }
 
-    toggle (e) {
-        e.preventDefault()
-        this.setState({
+    toggle ( e ) {
+        e.preventDefault ()
+        this.setState ( {
             modal: !this.state.modal
         }, () => {
-            if (!this.state.modal) {
-                localStorage.removeItem('orderForm')
+            if ( !this.state.modal ) {
+                localStorage.removeItem ( 'orderForm' )
             }
-        })
+        } )
     }
 
     convertLead () {
-        axios.get(`/api/tasks/convertToDeal/${this.props.task.id}`)
-            .then(function (response) {
+        axios.get ( `/api/tasks/convertToDeal/${this.props.task.id}` )
+            .then ( function ( response ) {
                 const arrTasks = [...this.props.allTasks]
-                const index = arrTasks.findIndex(task => task.id === this.props.task.id)
-                arrTasks.splice(index, 1)
-                this.props.action(arrTasks)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+                const index = arrTasks.findIndex ( task => task.id === this.props.task.id )
+                arrTasks.splice ( index, 1 )
+                this.props.action ( arrTasks )
+            } )
+            .catch ( function ( error ) {
+                console.log ( error )
+            } )
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <div>

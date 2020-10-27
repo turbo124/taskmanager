@@ -5,8 +5,8 @@ import Config from './Config'
 import { consts } from '../../utils/_consts'
 
 export default class Details extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.providers = [
             {
@@ -25,9 +25,9 @@ export default class Details extends React.Component {
     }
 
     render () {
-        const options = Object.keys(this.providers).map((index) => {
-            return <option key={index} value={this.providers[index].key}>{this.providers[index].name}</option>
-        })
+        const options = Object.keys ( this.providers ).map ( ( index ) => {
+            return <option key={index} value={this.providers[ index ].key}>{this.providers[ index ].name}</option>
+        } )
         return (
             <Card>
                 <CardBody>
@@ -35,19 +35,19 @@ export default class Details extends React.Component {
                     <FormGroup>
                         <Label for="name">{translations.provider} <span className="text-danger">*</span></Label>
                         <Input value={this.props.gateway.gateway_key} onChange={this.props.handleInput} type="select"
-                            name="gateway_key" id="gateway_key">
+                               name="gateway_key" id="gateway_key">
                             <option value="">{translations.select_option}</option>
                             {options}
                         </Input>
-                        {this.props.renderErrorFor('name')}
+                        {this.props.renderErrorFor ( 'name' )}
                     </FormGroup>
                     }
 
                     <FormGroup>
                         <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
                         <Input value={this.props.gateway.name} onChange={this.props.handleInput} type="text"
-                            name="name" id="name"/>
-                        {this.props.renderErrorFor('name')}
+                               name="name" id="name"/>
+                        {this.props.renderErrorFor ( 'name' )}
                     </FormGroup>
 
                     <Config gateway={this.props.gateway} handleConfig={this.props.handleConfig}/>

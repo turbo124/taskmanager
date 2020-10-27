@@ -1,8 +1,8 @@
 import BaseModel from './BaseModel'
 
 export default class ErrorLogModel extends BaseModel {
-    constructor (data = null) {
-        super()
+    constructor ( data = null ) {
+        super ()
 
         this._fields = {
             data: '',
@@ -15,7 +15,7 @@ export default class ErrorLogModel extends BaseModel {
             customer_id: ''
         }
 
-        if (data !== null) {
+        if ( data !== null ) {
             this._fields = { ...this.fields, ...data }
         }
 
@@ -36,7 +36,7 @@ export default class ErrorLogModel extends BaseModel {
     }
 
     get category () {
-        switch (this.fields.error_type) {
+        switch ( this.fields.error_type ) {
             case this.PAYMENT:
                 return 'payment'
             case this.EMAIL:
@@ -47,7 +47,7 @@ export default class ErrorLogModel extends BaseModel {
     }
 
     get event () {
-        switch (this.fields.error_result) {
+        switch ( this.fields.error_result ) {
             case this.NEUTRAL:
                 return ''
             case this.SUCCESS:
@@ -60,7 +60,7 @@ export default class ErrorLogModel extends BaseModel {
     }
 
     get entity () {
-        switch (this.fields.entity) {
+        switch ( this.fields.entity ) {
             case this.ENTITY_PAYPAL:
                 return 'paypal'
             case this.ENTITY_STRIPE:

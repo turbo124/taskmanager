@@ -13,8 +13,8 @@ import ViewContacts from '../../common/entityContainers/ViewContacts'
 import Overview from './Overview'
 
 export default class Credit extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             entity: this.props.entity,
             activeTab: '1',
@@ -22,97 +22,97 @@ export default class Credit extends Component {
             show_success: false
         }
 
-        this.creditModel = new CreditModel(this.state.entity)
+        this.creditModel = new CreditModel ( this.state.entity )
 
-        this.toggleTab = this.toggleTab.bind(this)
-        this.loadPdf = this.loadPdf.bind(this)
-        this.triggerAction = this.triggerAction.bind(this)
-        this.refresh = this.refresh.bind(this)
+        this.toggleTab = this.toggleTab.bind ( this )
+        this.loadPdf = this.loadPdf.bind ( this )
+        this.triggerAction = this.triggerAction.bind ( this )
+        this.refresh = this.refresh.bind ( this )
     }
 
-    refresh (entity) {
-        this.creditModel = new CreditModel(entity)
-        this.setState({ entity: entity })
+    refresh ( entity ) {
+        this.creditModel = new CreditModel ( entity )
+        this.setState ( { entity: entity } )
     }
 
-    triggerAction (action, is_add = false) {
-        this.creditModel.completeAction(this.state.entity, action).then(response => {
-            this.setState({ show_success: true }, () => {
-                this.props.updateState(response, this.refresh, is_add)
-            })
+    triggerAction ( action, is_add = false ) {
+        this.creditModel.completeAction ( this.state.entity, action ).then ( response => {
+            this.setState ( { show_success: true }, () => {
+                this.props.updateState ( response, this.refresh, is_add )
+            } )
 
-            setTimeout(
+            setTimeout (
                 function () {
-                    this.setState({ show_success: false })
+                    this.setState ( { show_success: false } )
                 }
-                    .bind(this),
+                    .bind ( this ),
                 2000
             )
-        })
+        } )
     }
 
     loadPdf () {
-        this.creditModel.loadPdf().then(url => {
-            console.log('url', url)
-            this.setState({ obj_url: url }, () => URL.revokeObjectURL(url))
-        })
+        this.creditModel.loadPdf ().then ( url => {
+            console.log ( 'url', url )
+            this.setState ( { obj_url: url }, () => URL.revokeObjectURL ( url ) )
+        } )
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '5') {
-                    this.loadPdf()
+    toggleTab ( tab ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab }, () => {
+                if ( this.state.activeTab === '5' ) {
+                    this.loadPdf ()
                 }
-            })
+            } )
         }
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+        const customer = this.props.customers.filter ( customer => customer.id === parseInt ( this.state.entity.customer_id ) )
+        const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
 
         let user = null
 
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
+        if ( this.state.entity.assigned_to ) {
+            const assigned_user = JSON.parse ( localStorage.getItem ( 'users' ) ).filter ( user => user.id === parseInt ( this.state.entity.assigned_to ) )
             user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
+                                   title={`${assigned_user[ 0 ].first_name} ${assigned_user[ 0 ].last_name}`}
+                                   icon={icons.user}/>
         }
 
         const fields = []
 
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value1')
-            fields[label1] = this.creditModel.formatCustomValue(
+        if ( this.state.entity.custom_value1.length ) {
+            const label1 = this.creditModel.getCustomFieldLabel ( 'Credit', 'custom_value1' )
+            fields[ label1 ] = this.creditModel.formatCustomValue (
                 'Credit',
                 'custom_value1',
                 this.state.entity.custom_value1
             )
         }
 
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value2')
-            fields[label2] = this.creditModel.formatCustomValue(
+        if ( this.state.entity.custom_value2.length ) {
+            const label2 = this.creditModel.getCustomFieldLabel ( 'Credit', 'custom_value2' )
+            fields[ label2 ] = this.creditModel.formatCustomValue (
                 'Credit',
                 'custom_value2',
                 this.state.entity.custom_value2
             )
         }
 
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value3')
-            fields[label3] = this.creditModel.formatCustomValue(
+        if ( this.state.entity.custom_value3.length ) {
+            const label3 = this.creditModel.getCustomFieldLabel ( 'Credit', 'custom_value3' )
+            fields[ label3 ] = this.creditModel.formatCustomValue (
                 'Credit',
                 'custom_value3',
                 this.state.entity.custom_value3
             )
         }
 
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.creditModel.getCustomFieldLabel('Credit', 'custom_value4')
-            fields[label4] = this.creditModel.formatCustomValue(
+        if ( this.state.entity.custom_value4.length ) {
+            const label4 = this.creditModel.getCustomFieldLabel ( 'Credit', 'custom_value4' )
+            fields[ label4 ] = this.creditModel.formatCustomValue (
                 'Credit',
                 'custom_value4',
                 this.state.entity.custom_value4
@@ -121,13 +121,13 @@ export default class Credit extends Component {
 
         fields.date = <FormatDate date={this.state.entity.date}/>
 
-        if (this.state.entity.po_number && this.state.entity.po_number.length) {
+        if ( this.state.entity.po_number && this.state.entity.po_number.length ) {
             fields.po_number = this.state.entity.po_number
         }
 
-        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
+        if ( this.state.entity.discount_total && this.state.entity.discount_total.toString ().length ) {
             fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.state.entity.discount_total}/>
+                                           amount={this.state.entity.discount_total}/>
         }
 
         return (
@@ -137,7 +137,7 @@ export default class Credit extends Component {
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('1')
+                                this.toggleTab ( '1' )
                             }}
                         >
                             {translations.details}
@@ -148,7 +148,7 @@ export default class Credit extends Component {
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('2')
+                                this.toggleTab ( '2' )
                             }}
                         >
                             {translations.contacts}
@@ -159,7 +159,7 @@ export default class Credit extends Component {
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('3')
+                                this.toggleTab ( '3' )
                             }}
                         >
                             {translations.documents} ({this.creditModel.fileCount})
@@ -170,7 +170,7 @@ export default class Credit extends Component {
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab('4')
+                                this.toggleTab ( '4' )
                             }}
                         >
                             {translations.history}
@@ -180,7 +180,7 @@ export default class Credit extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Overview entity={this.state.entity} customer={customer} user={user} fields={fields}
-                            customers={this.props.customers}/>
+                                  customers={this.props.customers}/>
                     </TabPane>
 
                     <TabPane tabId="2">
@@ -198,7 +198,7 @@ export default class Credit extends Component {
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
                                         <FileUploads entity_type="Credit" entity={this.state.entity}
-                                            user_id={this.state.entity.user_id}/>
+                                                     user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -220,7 +220,7 @@ export default class Credit extends Component {
                                     <CardHeader>{translations.pdf}</CardHeader>
                                     <CardBody>
                                         <iframe style={{ width: '400px', height: '400px' }}
-                                            className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
+                                                className="embed-responsive-item" id="viewer" src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -234,10 +234,10 @@ export default class Credit extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
-                    button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_credit', true)}
-                    button2={{ label: translations.clone_credit }}/>
+                <BottomNavigationButtons button1_click={( e ) => this.toggleTab ( '5' )}
+                                         button1={{ label: translations.view_pdf }}
+                                         button2_click={( e ) => this.triggerAction ( 'clone_to_credit', true )}
+                                         button2={{ label: translations.clone_credit }}/>
 
             </React.Fragment>
 

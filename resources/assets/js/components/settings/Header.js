@@ -3,7 +3,7 @@ import { Card, CardBody } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import Menu from './Menu'
 
-export default function Header (props) {
+export default function Header ( props ) {
     return (
         <div className={`topbar ${props.className || ''}`}>
             <Card className="m-0">

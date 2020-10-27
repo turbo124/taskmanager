@@ -8,16 +8,16 @@ import GroupSettingsDropdown from '../../common/dropdowns/GroupSettingsDropdown'
 import PaymentTermsDropdown from '../../common/dropdowns/PaymentTermsDropdown'
 import { translations } from '../../utils/_translations'
 
-export default function SettingsForm (props) {
-    const hasErrorFor = (field) => {
-        return props.errors && !!props.errors[field]
+export default function SettingsForm ( props ) {
+    const hasErrorFor = ( field ) => {
+        return props.errors && !!props.errors[ field ]
     }
 
-    const renderErrorFor = (field) => {
-        if (hasErrorFor(field)) {
+    const renderErrorFor = ( field ) => {
+        if ( hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{props.errors[field][0]}</strong>
+                    <strong>{props.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -37,7 +37,7 @@ export default function SettingsForm (props) {
                         errors={props.errors}
                         handleInputChanges={props.onChange}
                     />
-                    {renderErrorFor('payment_terms')}
+                    {renderErrorFor ( 'payment_terms' )}
                 </FormGroup>
 
                 <FormGroup>

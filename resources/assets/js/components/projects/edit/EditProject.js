@@ -12,53 +12,53 @@ import Details from './Details'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 
 class EditProject extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.projectModel = new ProjectModel(this.props.project)
+        this.projectModel = new ProjectModel ( this.props.project )
         this.initialState = this.projectModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.getProject = this.getProject.bind(this)
-        this.toggleMenu = this.toggleMenu.bind(this)
-        this.changeStatus = this.changeStatus.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleClick = this.handleClick.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.getProject = this.getProject.bind ( this )
+        this.toggleMenu = this.toggleMenu.bind ( this )
+        this.changeStatus = this.changeStatus.bind ( this )
     }
 
     componentDidMount () {
-        this.getProject()
+        this.getProject ()
     }
 
-    toggleMenu (event) {
-        this.setState({
+    toggleMenu ( event ) {
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    handleChange (event) {
-        this.setState({ name: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { name: event.target.value } )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value,
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value,
             changesMade: true
-        })
+        } )
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -78,71 +78,71 @@ class EditProject extends React.Component {
         }
     }
 
-    changeStatus (action) {
-        if (!this.props.project_id) {
+    changeStatus ( action ) {
+        if ( !this.props.project_id ) {
             return false
         }
 
-        const data = this.getFormData()
-        axios.post(`/api/project/${this.props.project_id}/${action}`, data)
-            .then((response) => {
-                if (action === 'download') {
-                    this.downloadPdf(response)
+        const data = this.getFormData ()
+        axios.post ( `/api/project/${this.props.project_id}/${action}`, data )
+            .then ( ( response ) => {
+                if ( action === 'download' ) {
+                    this.downloadPdf ( response )
                 }
 
-                this.setState({ showSuccessMessage: true })
-            })
-            .catch((error) => {
-                this.setState({ showErrorMessage: true })
-                console.warn(error)
-            })
+                this.setState ( { showSuccessMessage: true } )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( { showErrorMessage: true } )
+                console.warn ( error )
+            } )
     }
 
-    handleClick (event) {
-        const data = this.getFormData()
+    handleClick ( event ) {
+        const data = this.getFormData ()
 
-        this.projectModel.save(data).then(response => {
-            if (!response) {
-                this.setState({ errors: this.projectModel.errors, message: this.projectModel.error_message })
+        this.projectModel.save ( data ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: this.projectModel.errors, message: this.projectModel.error_message } )
                 return
             }
 
-            const index = this.props.projects.findIndex(project => project.id === this.props.project.id)
-            this.props.projects[index] = response
-            this.props.action(this.props.projects)
-            this.setState({
+            const index = this.props.projects.findIndex ( project => project.id === this.props.project.id )
+            this.props.projects[ index ] = response
+            this.props.action ( this.props.projects )
+            this.setState ( {
                 editMode: false,
                 changesMade: false
-            })
-            this.toggle()
-        })
+            } )
+            this.toggle ()
+        } )
     }
 
     getProject () {
-        axios.get(`/api/projects/${this.props.project_id}`)
-            .then((r) => {
-                if (r.data) {
-                    this.setState(r.data)
+        axios.get ( `/api/projects/${this.props.project_id}` )
+            .then ( ( r ) => {
+                if ( r.data ) {
+                    this.setState ( r.data )
                 }
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+            } )
+            .catch ( ( e ) => {
+                console.error ( e )
+            } )
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
+        if ( this.state.modal && this.state.changesMade ) {
+            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
+                this.setState ( { ...this.initialState } )
             }
 
             return
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
@@ -155,7 +155,7 @@ class EditProject extends React.Component {
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <div>
@@ -164,19 +164,19 @@ class EditProject extends React.Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.edit_project}/>
 
                     <ModalBody className={theme}>
-                        <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
-                            model={this.projectModel}
-                            action={this.props.action}/>
+                        <DropdownMenuBuilder invoices={this.state} formData={this.getFormData ()}
+                                             model={this.projectModel}
+                                             action={this.props.action}/>
                         {successMessage}
                         {errorMessage}
 
                         <Details errors={this.state.errors} project={this.state}
-                            handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
-                            renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
+                                 handleInput={this.handleInput.bind ( this )} hasErrorFor={this.hasErrorFor}
+                                 renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </div>
         )

@@ -8,71 +8,71 @@ import EditUser from './edit/EditUser'
 import UserPresenter from '../presenters/UserPresenter'
 
 export default class UserItem extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
-        this.deleteUser = this.deleteUser.bind(this)
+        this.deleteUser = this.deleteUser.bind ( this )
     }
 
-    deleteUser (id, archive = false) {
+    deleteUser ( id, archive = false ) {
         const url = archive === true ? `/api/users/archive/${id}` : `/api/users/${id}`
         const self = this
-        axios.delete(url)
-            .then(function (response) {
+        axios.delete ( url )
+            .then ( function ( response ) {
                 const arrUsers = [...self.props.users]
-                const index = arrUsers.findIndex(user => user.id === id)
-                arrUsers.splice(index, 1)
-                self.props.addUserToState(arrUsers)
-            })
-            .catch(function (error) {
-                self.setState(
+                const index = arrUsers.findIndex ( user => user.id === id )
+                arrUsers.splice ( index, 1 )
+                self.props.addUserToState ( arrUsers )
+            } )
+            .catch ( function ( error ) {
+                self.setState (
                     {
                         error: error.response.data
                     }
                 )
-            })
+            } )
     }
 
     render () {
         const { users, departments, custom_fields, ignoredColumns } = this.props
 
-        if (users && users.length) {
-            return users.map(user => {
+        if ( users && users.length ) {
+            return users.map ( user => {
                 const restoreButton = user.deleted_at
                     ? <RestoreModal id={user.id} entities={users} updateState={this.props.addUserToState}
-                        url={`/api/users/restore/${user.id}`}/> : null
+                                    url={`/api/users/restore/${user.id}`}/> : null
                 const archiveButton = !user.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteUser} id={user.id}/> : null
                 const deleteButton = !user.deleted_at
                     ? <DeleteModal archive={false} deleteFunction={this.deleteUser} id={user.id}/> : null
                 const editButton = !user.deleted_at
                     ? <EditUser accounts={this.props.accounts} departments={departments} user_id={user.id}
-                        custom_fields={custom_fields} users={users}
-                        action={this.props.addUserToState}/> : null
+                                custom_fields={custom_fields} users={users}
+                                action={this.props.addUserToState}/> : null
 
-                const columnList = Object.keys(user).filter(key => {
-                    return ignoredColumns && !ignoredColumns.includes(key)
-                }).map(key => {
+                const columnList = Object.keys ( user ).filter ( key => {
+                    return ignoredColumns && !ignoredColumns.includes ( key )
+                } ).map ( key => {
                     return <UserPresenter key={key} edit={editButton} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={user}/>
-                })
+                                          field={key} entity={user}/>
+                } )
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(user.id)
+                const isChecked = this.props.bulk.includes ( user.id )
                 const selectedRow = this.props.viewId === user.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                        restore={restoreButton}/> : null
+                                   restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={user.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
+                               onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}
                 </tr>
-            })
+            } )
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

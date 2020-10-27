@@ -7,8 +7,8 @@ import { Button } from 'reactstrap'
 import DataTable from '../common/DataTable'
 
 export default class Departments extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             departments: [],
@@ -17,30 +17,30 @@ export default class Departments extends Component {
             error: ''
         }
 
-        this.addUserToState = this.addUserToState.bind(this)
-        this.userList = this.userList.bind(this)
+        this.addUserToState = this.addUserToState.bind ( this )
+        this.userList = this.userList.bind ( this )
         this.ignoredColumns = ['department_manager', 'parent_id']
     }
 
     componentDidMount () {
-        this.getUsers()
+        this.getUsers ()
     }
 
-    addUserToState (departments) {
-        this.setState({ departments: departments })
+    addUserToState ( departments ) {
+        this.setState ( { departments: departments } )
     }
 
     userList () {
-        if (this.state.departments && this.state.departments.length) {
-            return this.state.departments.map(department => {
-                const columnList = Object.keys(department).map(key => {
-                    if (this.ignoredColumns && !this.ignoredColumns.includes(key)) {
-                        return <td key={key}>{department[key]}</td>
+        if ( this.state.departments && this.state.departments.length ) {
+            return this.state.departments.map ( department => {
+                const columnList = Object.keys ( department ).map ( key => {
+                    if ( this.ignoredColumns && !this.ignoredColumns.includes ( key ) ) {
+                        return <td key={key}>{department[ key ]}</td>
                     }
-                })
+                } )
                 return <tr key={department.id}>
                     <td>
-                        <Button color="danger" onClick={() => this.deleteDepartment(department.id)}>Delete</Button>
+                        <Button color="danger" onClick={() => this.deleteDepartment ( department.id )}>Delete</Button>
                         <EditDepartment
                             users={this.state.users}
                             department={department}
@@ -51,7 +51,7 @@ export default class Departments extends Component {
 
                     {columnList}
                 </tr>
-            })
+            } )
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>
@@ -59,37 +59,37 @@ export default class Departments extends Component {
         }
     }
 
-    deleteDepartment (id) {
+    deleteDepartment ( id ) {
         const self = this
-        axios.delete('/api/departments/' + id)
-            .then(function (response) {
+        axios.delete ( '/api/departments/' + id )
+            .then ( function ( response ) {
                 const arrDepartments = [...self.state.departments]
-                const index = arrDepartments.findIndex(department => department.id === id)
-                arrDepartments.splice(index, 1)
-                self.addUserToState(arrDepartments)
-            })
-            .catch(function (error) {
-                self.setState(
+                const index = arrDepartments.findIndex ( department => department.id === id )
+                arrDepartments.splice ( index, 1 )
+                self.addUserToState ( arrDepartments )
+            } )
+            .catch ( function ( error ) {
+                self.setState (
                     {
                         error: error.response.data
                     }
                 )
-            })
+            } )
     }
 
     getUsers () {
-        axios.get('api/users')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/users' )
+            .then ( ( r ) => {
+                this.setState ( {
                     users: r.data
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     err: e
-                })
-            })
+                } )
+            } )
     }
 
     render () {
@@ -104,7 +104,7 @@ export default class Departments extends Component {
                 </div>}
 
                 <AddDepartment users={this.state.users} departments={this.state.departments}
-                    action={this.addUserToState}/>
+                               action={this.addUserToState}/>
 
                 <DataTable
                     disableSorting={['id']}

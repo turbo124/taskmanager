@@ -4,11 +4,11 @@ import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'
 
 export default class Config extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             settings: {}
         }
     }
@@ -187,19 +187,19 @@ export default class Config extends Component {
         return formFields
     }
 
-    getFormFields (key) {
-        switch (key) {
+    getFormFields ( key ) {
+        switch ( key ) {
             case '8ab2dce2':
-                return this.getAuthorizeConfig()
+                return this.getAuthorizeConfig ()
             case '64bcbdce':
-                return this.getPaypalConfig()
+                return this.getPaypalConfig ()
             case '13bb8d58':
-                return this.getStripeConfig()
+                return this.getStripeConfig ()
         }
     }
 
     render () {
-        const formFields = this.props.gateway.gateway_key && this.props.gateway.gateway_key.length ? this.getFormFields(this.props.gateway.gateway_key) : null
+        const formFields = this.props.gateway.gateway_key && this.props.gateway.gateway_key.length ? this.getFormFields ( this.props.gateway.gateway_key ) : null
 
         return formFields !== null ? <FormBuilder
             handleChange={this.props.handleConfig}

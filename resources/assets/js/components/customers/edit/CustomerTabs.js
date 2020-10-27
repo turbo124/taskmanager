@@ -12,77 +12,77 @@ import { translations } from '../../utils/_translations'
 import FileUploads from '../../documents/FileUploads'
 import CustomerModel from '../../models/CustomerModel'
 
-export default function CustomerTabs (props) {
+export default function CustomerTabs ( props ) {
     const setBilling = e => {
-        setBillingValues({
+        setBillingValues ( {
             ...billing,
-            [e.target.name]: e.target.value
-        })
+            [ e.target.name ]: e.target.value
+        } )
     }
 
     const setShipping = e => {
-        setShippingValues({
+        setShippingValues ( {
             ...shipping,
-            [e.target.name]: e.target.value
-        })
+            [ e.target.name ]: e.target.value
+        } )
     }
 
     const copyBilling = e => {
-        setShippingValues({
+        setShippingValues ( {
             address_1: billing.address_1 ? billing.address_1 : '',
             address_2: billing.address_2 ? billing.address_2 : '',
             zip: billing.zip ? billing.zip : '',
             city: billing.city ? billing.city : '',
             country_id: billing.country_id ? billing.country_id : 225
-        })
+        } )
     }
 
     const copyShipping = e => {
-        setBillingValues({
+        setBillingValues ( {
             address_1: shipping.address_1 ? shipping.address_1 : '',
             address_2: shipping.address_2 ? shipping.address_2 : '',
             zip: shipping.zip ? shipping.zip : '',
             city: shipping.city ? shipping.city : '',
             country_id: shipping.country_id ? shipping.country_id : 225
-        })
+        } )
     }
 
     const setSettings = e => {
-        if (e.target.dataset && e.target.dataset.namespace === 'settings') {
-            setSettingValues({
+        if ( e.target.dataset && e.target.dataset.namespace === 'settings' ) {
+            setSettingValues ( {
                 ...settings,
-                [e.target.name]: e.target.value
-            })
+                [ e.target.name ]: e.target.value
+            } )
 
             return
         }
 
-        setCustomer(e)
+        setCustomer ( e )
     }
 
     const setCustomer = e => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        setCustomerValues({
+        setCustomerValues ( {
             ...customer,
-            [e.target.name]: value
-        })
+            [ e.target.name ]: value
+        } )
     }
 
     const setContacts = contacts => {
-        setContactValues({
+        setContactValues ( {
             contacts: contacts
-        })
+        } )
     }
 
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState ( {} )
 
-    const [activeTab, setActiveTab] = useState('1')
+    const [activeTab, setActiveTab] = useState ( '1' )
 
-    const [contacts, setContactValues] = useState({
+    const [contacts, setContactValues] = useState ( {
         contacts: props.customer && props.customer.contacts ? props.customer.contacts : []
-    })
+    } )
 
-    const [customer, setCustomerValues] = useState({
+    const [customer, setCustomerValues] = useState ( {
         id: props.customer ? props.customer.id : null,
         name: props.customer ? props.customer.name : '',
         company_id: props.customer ? props.customer.company_id : '',
@@ -101,38 +101,38 @@ export default function CustomerTabs (props) {
         vat_number: props.customer ? props.customer.vat_number : '',
         size_id: props.customer ? props.customer.size_id : null,
         industry_id: props.customer ? props.customer.industry_id : null
-    })
+    } )
 
-    const [settings, setSettingValues] = useState({
+    const [settings, setSettingValues] = useState ( {
         payment_terms: props.customer ? props.customer.settings.payment_terms : ''
-    })
+    } )
 
-    const [billing, setBillingValues] = useState({
+    const [billing, setBillingValues] = useState ( {
         address_1: props.customer && props.customer.billing ? props.customer.billing.address_1 : '',
         address_2: props.customer && props.customer.billing ? props.customer.billing.address_2 : '',
         zip: props.customer && props.customer.billing ? props.customer.billing.zip : '',
         city: props.customer && props.customer.billing ? props.customer.billing.city : '',
         country_id: props.customer && props.customer.billing ? props.customer.billing.country_id : 225
-    })
+    } )
 
-    const [shipping, setShippingValues] = useState({
+    const [shipping, setShippingValues] = useState ( {
         address_1: props.customer && props.customer.shipping ? props.customer.shipping.address_1 : '',
         address_2: props.customer && props.customer.shipping ? props.customer.shipping.address_2 : '',
         zip: props.customer && props.customer.shipping ? props.customer.shipping.zip : '',
         city: props.customer && props.customer.shipping ? props.customer.shipping.city : '',
         country_id: props.customer && props.customer.shipping ? props.customer.shipping.country_id : 225
-    })
+    } )
 
     const cleanContacts = contacts => {
-        const removeEmpty = (obj) => {
-            Object.keys(obj).forEach(k =>
-                ((obj[k] && typeof obj[k] === 'object') && removeEmpty(obj[k])) ||
-                ((!obj[k] && obj[k] !== undefined) && delete obj[k])
+        const removeEmpty = ( obj ) => {
+            Object.keys ( obj ).forEach ( k =>
+                ((obj[ k ] && typeof obj[ k ] === 'object') && removeEmpty ( obj[ k ] )) ||
+                ((!obj[ k ] && obj[ k ] !== undefined) && delete obj[ k ])
             )
             return obj
         }
 
-        return removeEmpty(contacts).filter(value => Object.keys(value).length >= 4)
+        return removeEmpty ( contacts ).filter ( value => Object.keys ( value ).length >= 4 )
     }
 
     const updateForm = () => {
@@ -140,10 +140,10 @@ export default function CustomerTabs (props) {
         const innerObj = {}
         innerObj.billing = billing
         innerObj.shipping = shipping
-        addresses.push(innerObj)
+        addresses.push ( innerObj )
 
-        const cleanedContacts = contacts.contacts && contacts.contacts.length ? cleanContacts(contacts.contacts) : []
-        console.log('contacts 2', cleanedContacts)
+        const cleanedContacts = contacts.contacts && contacts.contacts.length ? cleanContacts ( contacts.contacts ) : []
+        console.log ( 'contacts 2', cleanedContacts )
 
         const formdata = {
             name: customer.name,
@@ -169,27 +169,27 @@ export default function CustomerTabs (props) {
             settings: settings
         }
 
-        if (contacts.contacts.length === 0) {
-            alert('You must create at least one contact')
+        if ( contacts.contacts.length === 0 ) {
+            alert ( 'You must create at least one contact' )
             return false
         }
 
-        const customerModel = new CustomerModel(customer)
-        customerModel.save(formdata).then(response => {
-            if (!response) {
-                this.setState({ errors: customerModel.errors, message: customerModel.error_message })
+        const customerModel = new CustomerModel ( customer )
+        customerModel.save ( formdata ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: customerModel.errors, message: customerModel.error_message } )
                 return
             }
 
-            const index = props.customers.findIndex(customer => parseInt(customer.id) === props.customer.id)
-            props.customers[index] = response
-            props.action(props.customers)
-            this.setState({
+            const index = props.customers.findIndex ( customer => parseInt ( customer.id ) === props.customer.id )
+            props.customers[ index ] = response
+            props.action ( props.customers )
+            this.setState ( {
                 editMode: false,
                 changesMade: false
-            })
-            props.toggle()
-        })
+            } )
+            props.toggle ()
+        } )
     }
 
     const submitForm = () => {
@@ -197,10 +197,10 @@ export default function CustomerTabs (props) {
         const innerObj = {}
         innerObj.billing = billing
         innerObj.shipping = shipping
-        addresses.push(innerObj)
+        addresses.push ( innerObj )
 
-        const cleanedContacts = contacts.contacts && contacts.contacts.length ? cleanContacts(contacts.contacts) : []
-        console.log('contacts 2', cleanedContacts)
+        const cleanedContacts = contacts.contacts && contacts.contacts.length ? cleanContacts ( contacts.contacts ) : []
+        console.log ( 'contacts 2', cleanedContacts )
 
         const formdata = {
             name: customer.name,
@@ -226,24 +226,24 @@ export default function CustomerTabs (props) {
             settings: settings
         }
 
-        if (contacts.contacts.length === 0) {
-            alert('You must create at least one contact')
+        if ( contacts.contacts.length === 0 ) {
+            alert ( 'You must create at least one contact' )
             return false
         }
 
-        const customerModel = new CustomerModel(null)
+        const customerModel = new CustomerModel ( null )
 
-        customerModel.save(formdata).then(response => {
-            if (!response) {
-                this.setState({ errors: customerModel.errors, message: customerModel.error_message })
+        customerModel.save ( formdata ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: customerModel.errors, message: customerModel.error_message } )
                 return
             }
 
-            props.customers.push(response)
-            props.action(props.customers)
-            toast.success('user mappings updated successfully')
-            props.toggle()
-        })
+            props.customers.push ( response )
+            props.action ( props.customers )
+            toast.success ( 'user mappings updated successfully' )
+            props.toggle ()
+        } )
     }
 
     const method = props.type === 'add' ? submitForm : updateForm
@@ -253,43 +253,43 @@ export default function CustomerTabs (props) {
         <React.Fragment>
             <Nav tabs>
                 <NavItem>
-                    <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>
+                    <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab ( '1' )}>
                         {translations.details}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}>
+                    <NavLink className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab ( '2' )}>
                         {translations.contacts}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab === '3' ? 'active' : ''} onClick={() => setActiveTab('3')}>
+                    <NavLink className={activeTab === '3' ? 'active' : ''} onClick={() => setActiveTab ( '3' )}>
                         {translations.notes}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab === '4' ? 'active' : ''} onClick={() => setActiveTab('4')}>
+                    <NavLink className={activeTab === '4' ? 'active' : ''} onClick={() => setActiveTab ( '4' )}>
                         {translations.settings}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab === '5' ? 'active' : ''} onClick={() => setActiveTab('5')}>
+                    <NavLink className={activeTab === '5' ? 'active' : ''} onClick={() => setActiveTab ( '5' )}>
                         {translations.billing_address}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab == '6' ? 'active' : ''} onClick={() => setActiveTab('6')}>
+                    <NavLink className={activeTab == '6' ? 'active' : ''} onClick={() => setActiveTab ( '6' )}>
                         {translations.shipping_address}
                     </NavLink>
                 </NavItem>
 
                 <NavItem>
-                    <NavLink className={activeTab == '7' ? 'active' : ''} onClick={() => setActiveTab('7')}>
+                    <NavLink className={activeTab == '7' ? 'active' : ''} onClick={() => setActiveTab ( '7' )}>
                         {translations.documents}
                     </NavLink>
                 </NavItem>
@@ -298,12 +298,12 @@ export default function CustomerTabs (props) {
             <TabContent activeTab={activeTab} className="bg-transparent">
                 <TabPane tabId="1">
                     <CustomerForm errors={errors} onChange={setCustomer}
-                        customer={customer}/>
+                                  customer={customer}/>
                     <CustomFieldsForm custom_value1={customer.custom_value1}
-                        custom_value2={customer.custom_value2}
-                        custom_value3={customer.custom_value3}
-                        custom_value4={customer.custom_value4} handleInput={setCustomer}
-                        custom_fields={props.custom_fields}/>
+                                      custom_value2={customer.custom_value2}
+                                      custom_value3={customer.custom_value3}
+                                      custom_value4={customer.custom_value4} handleInput={setCustomer}
+                                      custom_fields={props.custom_fields}/>
                 </TabPane>
 
                 <TabPane tabId="2">
@@ -317,8 +317,8 @@ export default function CustomerTabs (props) {
 
                 <TabPane tabId="3">
                     <Notes handleInput={setCustomer} custom_fields={props.custom_fields}
-                        public_notes={customer.public_notes}
-                        private_notes={customer.private_notes}/>
+                           public_notes={customer.public_notes}
+                           private_notes={customer.private_notes}/>
 
                     <Card>
                         <CardHeader>{translations.notes}</CardHeader>
@@ -338,7 +338,7 @@ export default function CustomerTabs (props) {
                         <CardBody>
                             <AddressForm errors={errors} onChange={setBilling} customer={billing}/>
                             <Button className="mt-2" onClick={copyShipping} color="primary" size="lg"
-                                block>{translations.copy_shipping}</Button>
+                                    block>{translations.copy_shipping}</Button>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -348,7 +348,7 @@ export default function CustomerTabs (props) {
                         <CardBody>
                             <AddressForm onChange={setShipping} customer={shipping}/>
                             <Button className="mt-2" onClick={copyBilling} color="primary" size="lg"
-                                block>{translations.copy_billing}</Button>
+                                    block>{translations.copy_billing}</Button>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -358,7 +358,7 @@ export default function CustomerTabs (props) {
                         <CardBody>
                             {props.customer && props.customer.user_id &&
                             <FileUploads entity_type="Customer" entity={props.customer}
-                                user_id={props.customer.user_id}/>}
+                                         user_id={props.customer.user_id}/>}
                         </CardBody>
                     </Card>
                 </TabPane>

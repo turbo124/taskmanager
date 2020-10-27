@@ -8,76 +8,76 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 class ProductSettings extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             settings: {},
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
-        this.getAccount = this.getAccount.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.handleCheckboxChange = this.handleCheckboxChange.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository()
-        accountRepository.getById(this.state.id).then(response => {
-            if (!response) {
-                alert('error')
+        const accountRepository = new AccountRepository ()
+        accountRepository.getById ( this.state.id ).then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({
+            this.setState ( {
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log(response)
-            })
-        })
+                console.log ( response )
+            } )
+        } )
     }
 
-    handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { [ event.target.name ]: event.target.value } )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
-    handleSubmit (e) {
-        const formData = new FormData()
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('_method', 'PUT')
+    handleSubmit ( e ) {
+        const formData = new FormData ()
+        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
+        formData.append ( '_method', 'PUT' )
 
-        axios.post(`/api/accounts/${this.state.id}`, formData, {
+        axios.post ( `/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        })
-            .then((response) => {
-                this.setState({ success: true })
-            })
-            .catch((error) => {
-                console.error(error)
-                this.setState({ error: true })
-            })
+        } )
+            .then ( ( response ) => {
+                this.setState ( { success: true } )
+            } )
+            .catch ( ( error ) => {
+                console.error ( error )
+                this.setState ( { error: true } )
+            } )
     }
 
     getInventoryFields () {
@@ -194,30 +194,30 @@ class ProductSettings extends Component {
         return formFields
     }
 
-    handleCheckboxChange (e) {
+    handleCheckboxChange ( e ) {
         const value = e.target.checked
         const name = e.target.name
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={translations.settings_not_saved}/>
 
                 <Header title={translations.product_settings} handleSubmit={this.handleSubmit}/>
 
@@ -226,7 +226,7 @@ class ProductSettings extends Component {
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getProductFields()}
+                            formFieldsRows={this.getProductFields ()}
                         />
                     </CardBody>
                 </Card>
@@ -236,7 +236,7 @@ class ProductSettings extends Component {
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getInventoryFields()}
+                            formFieldsRows={this.getInventoryFields ()}
                         />
                     </CardBody>
                 </Card>

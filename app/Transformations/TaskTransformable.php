@@ -63,7 +63,8 @@ trait TaskTransformable
             'recurring_frequency'  => (int)$task->recurring_frequency ?: '',
             'project'              => $task->project,
             'invoice_id'           => $task->invoice_id,
-            'invoice'              => $task->invoice
+            'invoice'              => $task->invoice,
+            'include_documents'    => (bool)$task->include_documents
         ];
     }
 

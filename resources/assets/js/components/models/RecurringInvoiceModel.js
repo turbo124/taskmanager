@@ -9,22 +9,22 @@ export const invoice_pdf_fields = ['$invoice.invoice_number', '$invoice.po_numbe
 ]
 
 export default class RecurringInvoiceModel extends BaseModel {
-    constructor (data = null, customers = []) {
-        super()
+    constructor ( data = null, customers = [] ) {
+        super ()
         this.customers = customers
         this._url = '/api/recurring-invoice'
         this.entity = 'RecurringInvoice'
 
         this._file_count = 0
 
-        if (data !== null && data.files) {
+        if ( data !== null && data.files ) {
             this.fileCount = data.files
         }
 
         this._fields = {
-            start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-            expiry_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-            due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            start_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            expiry_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
             frequency: 30,
             grace_period: 0,
             date_to_send: '',
@@ -40,7 +40,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             customer_id: '',
             project_id: '',
             user_id: null,
-            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
+            account_id: JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id,
             contacts: [],
             quantity: '',
             number: null,
@@ -63,9 +63,9 @@ export default class RecurringInvoiceModel extends BaseModel {
             tax_total: 0,
             sub_total: 0,
             data: [],
-            date: moment(new Date()).format('YYYY-MM-DD'),
+            date: moment ( new Date () ).format ( 'YYYY-MM-DD' ),
             partial: 0,
-            partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            partial_due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
             has_partial: false,
             auto_billing_enabled: this.settings.autobilling_enabled,
             public_notes: '',
@@ -89,7 +89,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             discount: 0,
             recurring: '',
             activeTab: '1',
-            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
+            currency_id: this.settings.currency_id.toString ().length ? this.settings.currency_id : consts.default_currency,
             po_number: '',
             design_id: '',
             success: false,
@@ -108,18 +108,18 @@ export default class RecurringInvoiceModel extends BaseModel {
 
         this.customer = null
 
-        if (data !== null) {
+        if ( data !== null ) {
             this._fields = { ...this.fields, ...data }
 
-            if (this.customers.length && this._fields.customer_id) {
-                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
-                this.customer = customer[0]
+            if ( this.customers.length && this._fields.customer_id ) {
+                const customer = this.customers.filter ( customer => customer.id === parseInt ( this._fields.customer_id ) )
+                this.customer = customer[ 0 ]
             }
         }
 
-        if (this.customer && this.customer.currency_id.toString().length) {
-            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
-            this.exchange_rate = currency[0].exchange_rate
+        if ( this.customer && this.customer.currency_id.toString ().length ) {
+            const currency = JSON.parse ( localStorage.getItem ( 'currencies' ) ).filter ( currency => currency.id === this.customer.currency_id )
+            this.exchange_rate = currency[ 0 ].exchange_rate
         }
     }
 
@@ -127,19 +127,19 @@ export default class RecurringInvoiceModel extends BaseModel {
         return this.fields.exchange_rate
     }
 
-    set exchange_rate (exchange_rate) {
+    set exchange_rate ( exchange_rate ) {
         this.fields.exchange_rate = exchange_rate
     }
 
     get isNew () {
-        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
+        return !this.fields.id || !this.fields.id.toString ().length || parseInt ( this.fields.id ) <= 0
     }
 
     get customer () {
         return this._customer
     }
 
-    set customer (customer) {
+    set customer ( customer ) {
         this._customer = customer
     }
 
@@ -152,23 +152,23 @@ export default class RecurringInvoiceModel extends BaseModel {
     }
 
     get isDraft () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_draft
+        return parseInt ( this.fields.status_id ) === consts.recurring_invoice_status_draft
     }
 
     get isStopped () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_stopped
+        return parseInt ( this.fields.status_id ) === consts.recurring_invoice_status_stopped
     }
 
     get isPending () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_pending
+        return parseInt ( this.fields.status_id ) === consts.recurring_invoice_status_pending
     }
 
     get isActive () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_active
+        return parseInt ( this.fields.status_id ) === consts.recurring_invoice_status_active
     }
 
     get isCompleted () {
-        return parseInt(this.fields.status_id) === consts.recurring_invoice_status_completed
+        return parseInt ( this.fields.status_id ) === consts.recurring_invoice_status_completed
     }
 
     get isDeleted () {
@@ -183,7 +183,7 @@ export default class RecurringInvoiceModel extends BaseModel {
         return this._file_count || 0
     }
 
-    set fileCount (files) {
+    set fileCount ( files ) {
         this._file_count = files ? files.length : 0
     }
 
@@ -199,7 +199,7 @@ export default class RecurringInvoiceModel extends BaseModel {
         return this.fields.customer_id
     }
 
-    set customer_id (customer_id) {
+    set customer_id ( customer_id ) {
         this.fields.customer_id = customer_id
     }
 
@@ -208,8 +208,8 @@ export default class RecurringInvoiceModel extends BaseModel {
     }
 
     get contacts () {
-        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
-        const customer = this.customers[index]
+        const index = this.customers.findIndex ( customer => customer.id === this.fields.customer_id )
+        const customer = this.customers[ index ]
         return customer.contacts ? customer.contacts : []
     }
 
@@ -217,17 +217,17 @@ export default class RecurringInvoiceModel extends BaseModel {
         return this._url
     }
 
-    buildInvitations (contact, add = false) {
+    buildInvitations ( contact, add = false ) {
         const invitations = this.fields.invitations
 
         // check if the check box is checked or unchecked
-        if (add) {
+        if ( add ) {
             // add the numerical value of the checkbox to options array
-            invitations.push({ contact_id: contact })
+            invitations.push ( { contact_id: contact } )
         } else {
             // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex(contact => contact.contact_id === contact)
-            invitations.splice(index, 1)
+            const index = invitations.findIndex ( contact => contact.contact_id === contact )
+            invitations.splice ( index, 1 )
         }
 
         return invitations
@@ -236,50 +236,50 @@ export default class RecurringInvoiceModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        if (this.fields.invitations.length) {
-            actions.push('pdf')
+        if ( this.fields.invitations.length ) {
+            actions.push ( 'pdf' )
         }
 
-        if (this.fields.customer_id !== '') {
-            actions.push('email')
+        if ( this.fields.customer_id !== '' ) {
+            actions.push ( 'email' )
         }
 
-        if (this.isDraft || this.isStopped) {
-            actions.push('start_recurring')
+        if ( this.isDraft || this.isStopped ) {
+            actions.push ( 'start_recurring' )
         }
 
-        if (this.isPending || this.isActive) {
-            actions.push('stop_recurring')
+        if ( this.isPending || this.isActive ) {
+            actions.push ( 'stop_recurring' )
         }
 
-        if (!this.fields.is_deleted) {
-            actions.push('delete')
+        if ( !this.fields.is_deleted ) {
+            actions.push ( 'delete' )
         }
 
-        if (!this.fields.deleted_at) {
-            actions.push('archive')
+        if ( !this.fields.deleted_at ) {
+            actions.push ( 'archive' )
         }
 
-        actions.push('cloneRecurringToInvoice')
+        actions.push ( 'cloneRecurringToInvoice' )
 
         return actions
     }
 
     addItem () {
         // const newArray = this.fields.line_items.slice()
-        this.fields.line_items.push(LineItem)
+        this.fields.line_items.push ( LineItem )
         return this.fields.line_items
     }
 
-    removeItem (index) {
+    removeItem ( index ) {
         const array = [...this.fields.line_items] // make a separate copy of the array
-        array.splice(index, 1)
+        array.splice ( index, 1 )
         this.fields.line_items = array
         return array
     }
 
-    async completeAction (data, action) {
-        if (!this.fields.id) {
+    async completeAction ( data, action ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -287,16 +287,16 @@ export default class RecurringInvoiceModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
@@ -305,24 +305,24 @@ export default class RecurringInvoiceModel extends BaseModel {
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
+            const res = await axios.post ( 'api/preview', { entity: this.entity, entity_id: this._fields.id } )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
 
             // Don't forget to return something
-            return this.buildPdf(res.data)
-        } catch (e) {
-            alert(e)
-            this.handleError(e)
+            return this.buildPdf ( res.data )
+        } catch ( e ) {
+            alert ( e )
+            this.handleError ( e )
             return false
         }
     }
 
-    async update (data) {
-        if (!this.fields.id) {
+    async update ( data ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -330,52 +330,52 @@ export default class RecurringInvoiceModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
+            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
     isLate () {
-        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
+        const dueDate = moment ( this._fields.due_date ).format ( 'YYYY-MM-DD HH::MM:SS' )
         const pending_statuses = [consts.invoice_status_draft, consts.invoice_status_sent, consts.invoice_status_partial]
 
-        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
+        return moment ().isAfter ( dueDate ) && pending_statuses.includes ( this._fields.status_id )
     }
 
-    async save (data) {
-        if (this.fields.id) {
-            return this.update(data)
+    async save ( data ) {
+        if ( this.fields.id ) {
+            return this.update ( data )
         }
 
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post(this.url, data)
+            const res = await axios.post ( this.url, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    customerChange (customer_id) {
-        const index = this.customers.findIndex(customer => customer.id === parseInt(customer_id))
-        const customer = this.customers[index]
+    customerChange ( customer_id ) {
+        const index = this.customers.findIndex ( customer => customer.id === parseInt ( customer_id ) )
+        const customer = this.customers[ index ]
         const address = customer.billing ? {
             line1: customer.billing.address_1,
             town: customer.billing.address_2,
@@ -394,21 +394,21 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
     }
 
-    recurringInvoiceStatsForInvoice (recurringInvoiceId, invoices) {
+    recurringInvoiceStatsForInvoice ( recurringInvoiceId, invoices ) {
         let countActive = 0
         let countArchived = 0
 
-        invoices.forEach((invoice, invoice_id) => {
-            if (invoice.recurring_invoice_id === parseInt(recurringInvoiceId)) {
-                if (!invoice.deleted_at || !invoice.deleted_at.toString().length) {
+        invoices.forEach ( ( invoice, invoice_id ) => {
+            if ( invoice.recurring_invoice_id === parseInt ( recurringInvoiceId ) ) {
+                if ( !invoice.deleted_at || !invoice.deleted_at.toString ().length ) {
                     countActive++
-                } else if (invoice.deleted_at && invoice.deleted_at.toString().length) {
+                } else if ( invoice.deleted_at && invoice.deleted_at.toString ().length ) {
                     countArchived++
                 }
             }
-        })
+        } )
 
-        const entityStats = new EntityStats(countActive, countArchived)
-        return entityStats.present()
+        const entityStats = new EntityStats ( countActive, countArchived )
+        return entityStats.present ()
     }
 }

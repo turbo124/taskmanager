@@ -13,63 +13,63 @@ import EditLeadForm from './leads/edit/EditLeadForm'
 
 class Task extends Component {
     componentWillReceiveProps () {
-        setTimeout(function () {
-            $('.mcell-task').draggable({
+        setTimeout ( function () {
+            $ ( '.mcell-task' ).draggable ( {
                 appendTo: 'body',
                 cursor: 'move',
                 helper: 'clone',
                 revert: 'invalid'
-            })
+            } )
 
-            $('.mcell').droppable({
+            $ ( '.mcell' ).droppable ( {
                 tolerance: 'intersect',
                 accept: '.mcell-task',
                 activeClass: 'ui-state-default',
                 hoverClass: 'ui-state-hover',
-                drop: function (event, ui) {
-                    event.preventDefault()
+                drop: function ( event, ui ) {
+                    event.preventDefault ()
 
-                    $(this).append($(ui.draggable))
-                    const id = $(ui.draggable).attr('id')
-                    const status = $(this).data('status')
+                    $ ( this ).append ( $ ( ui.draggable ) )
+                    const id = $ ( ui.draggable ).attr ( 'id' )
+                    const status = $ ( this ).data ( 'status' )
 
-                    axios.put(`/api/tasks/status/${id}`, {
+                    axios.put ( `/api/tasks/status/${id}`, {
                         task_status: status
-                    })
-                        .then((response) => {
-                        })
-                        .catch((error) => {
-                            alert(error)
-                        })
+                    } )
+                        .then ( ( response ) => {
+                        } )
+                        .catch ( ( error ) => {
+                            alert ( error )
+                        } )
                 }
-            })
-        }, 3000)
+            } )
+        }, 3000 )
     }
 
-    api (id) {
+    api ( id ) {
         const self = this
 
-        axios.delete('/api/tasks/' + id)
-            .then(function (response) {
-                const filteredArray = self.props.tasks.filter(item => item.id !== id)
-                self.props.action(filteredArray)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+        axios.delete ( '/api/tasks/' + id )
+            .then ( function ( response ) {
+                const filteredArray = self.props.tasks.filter ( item => item.id !== id )
+                self.props.action ( filteredArray )
+            } )
+            .catch ( function ( error ) {
+                console.log ( error )
+            } )
     }
 
-    deleteLead (id) {
+    deleteLead ( id ) {
         const self = this
 
-        axios.delete('/api/leads/' + id)
-            .then(function (response) {
-                const filteredArray = self.props.tasks.filter(item => item.id !== id)
-                self.props.action(filteredArray)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+        axios.delete ( '/api/leads/' + id )
+            .then ( function ( response ) {
+                const filteredArray = self.props.tasks.filter ( item => item.id !== id )
+                self.props.action ( filteredArray )
+            } )
+            .catch ( function ( error ) {
+                console.log ( error )
+            } )
     }
 
     render () {
@@ -77,32 +77,32 @@ class Task extends Component {
         const filter = column.id
 
         let content
-        if (loading) {
+        if ( loading ) {
             content = <div className="loader">
                 <Loader/>
             </div>
-        } else if (tasks && tasks.length) {
+        } else if ( tasks && tasks.length ) {
             content =
-                tasks.filter(i => i.task_status === Number(filter))
-                    .map((i, index) => {
+                tasks.filter ( i => i.task_status === Number ( filter ) )
+                    .map ( ( i, index ) => {
                         let contributors = ''
 
                         const deleteButton = !i.deleted_at
-                            ? <i id="delete" className="fa fa-times" onClick={() => this.api(i.id)}/>
+                            ? <i id="delete" className="fa fa-times" onClick={() => this.api ( i.id )}/>
                             : <RestoreModal id={i.id} entities={tasks} updateState={this.props.action}
-                                url={`/api/tasks/restore/${i.id}`}/>
+                                            url={`/api/tasks/restore/${i.id}`}/>
 
                         const deleteLeadButton = !i.deleted_at
-                            ? <i id="delete" className="fa fa-times" onClick={() => this.deleteLead(i.id)}/>
+                            ? <i id="delete" className="fa fa-times" onClick={() => this.deleteLead ( i.id )}/>
                             : <RestoreModal id={i.id} entities={tasks} updateState={this.props.action}
-                                url={`/api/leads/restore/${i.id}`}/>
+                                            url={`/api/leads/restore/${i.id}`}/>
 
-                        if (i.users && i.users.length) {
-                            contributors = i.users.map((user, index) => {
+                        if ( i.users && i.users.length ) {
+                            contributors = i.users.map ( ( user, index ) => {
                                 return (
                                     <Avatar key={index} inline={true} name={user.first_name + ' ' + user.last_name}/>
                                 )
-                            })
+                            } )
                         }
 
                         const description = this.props.task_type === 2 ? i.description : i.content
@@ -127,7 +127,7 @@ class Task extends Component {
 
                         return (
                             <div style={divStyle} data-task={i.id} id={i.id}
-                                className="col-12 col-md-12 mcell-task card" key={index}>
+                                 className="col-12 col-md-12 mcell-task card" key={index}>
 
                                 <span className="task-name">
                                     {edit}
@@ -140,9 +140,9 @@ class Task extends Component {
 
                                 <div>
                                     <span
-                                        className="task-due">Start: {moment(i.startDate).format('DD.MM.YYYY')}</span>
+                                        className="task-due">Start: {moment ( i.startDate ).format ( 'DD.MM.YYYY' )}</span>
                                     <span
-                                        className="task-due">Due: {moment(i.dueDate).format('DD.MM.YYYY')}</span>
+                                        className="task-due">Due: {moment ( i.dueDate ).format ( 'DD.MM.YYYY' )}</span>
                                     <span className="task-contributors">
                                         {contributors}
                                     </span>
@@ -150,15 +150,15 @@ class Task extends Component {
                                 <div className={i.color}/>
 
                                 <Subtasks task_id={i.id}
-                                    customers={this.props.customers}
-                                    users={this.props.users}
-                                    task_type={this.props.task_type}
-                                    allTasks={this.props.tasks}
-                                    action={this.props.action}
+                                          customers={this.props.customers}
+                                          users={this.props.users}
+                                          task_type={this.props.task_type}
+                                          allTasks={this.props.tasks}
+                                          action={this.props.action}
                                 />
                             </div>
                         )
-                    })
+                    } )
         }
         return (
             <div className="process">{content}</div>

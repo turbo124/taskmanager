@@ -18,111 +18,111 @@ import { icons } from '../utils/_icons'
 import BlockButton from '../common/BlockButton'
 
 class InvoiceSettings extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             settings: {},
             activeTab: '1',
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleColumnChange = this.handleColumnChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.getAccount = this.getAccount.bind(this)
-        this.toggle = this.toggle.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleColumnChange = this.handleColumnChange.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
+        this.toggle = this.toggle.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
-    toggle (tab, e) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+    toggle ( tab, e ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab } )
         }
 
         const parent = e.currentTarget.parentNode
-        const rect = parent.getBoundingClientRect()
-        const rect2 = parent.nextSibling.getBoundingClientRect()
-        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const rect = parent.getBoundingClientRect ()
+        const rect2 = parent.nextSibling.getBoundingClientRect ()
+        const rect3 = parent.previousSibling.getBoundingClientRect ()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
 
-        if (rect.left <= 10 || rect3.left <= 10) {
-            const container = document.getElementsByClassName('setting-tabs')[0]
+        if ( rect.left <= 10 || rect3.left <= 10 ) {
+            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
             container.scrollLeft -= widthScroll
         }
 
-        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
-            const container = document.getElementsByClassName('setting-tabs')[0]
+        if ( rect.right >= winWidth - 10 || rect2.right >= winWidth - 10 ) {
+            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
             container.scrollLeft += widthScroll
         }
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository()
-        accountRepository.getById(this.state.id).then(response => {
-            if (!response) {
-                alert('error')
+        const accountRepository = new AccountRepository ()
+        accountRepository.getById ( this.state.id ).then ( response => {
+            if ( !response ) {
+                alert ( 'error' )
             }
 
-            this.setState({
+            this.setState ( {
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log(response)
-            })
-        })
+                console.log ( response )
+            } )
+        } )
     }
 
-    handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { [ event.target.name ]: event.target.value } )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         const value = event.target.value
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
-        }))
+        }) )
     }
 
-    handleColumnChange (values) {
-        this.setState(prevState => ({
+    handleColumnChange ( values ) {
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
                 pdf_variables: values
             }
-        }), () => this.handleSubmit())
+        }), () => this.handleSubmit () )
     }
 
     handleSubmit () {
         const { settings } = this.state
-        const formData = new FormData()
-        formData.append('settings', JSON.stringify(settings))
-        formData.append('_method', 'PUT')
+        const formData = new FormData ()
+        formData.append ( 'settings', JSON.stringify ( settings ) )
+        formData.append ( '_method', 'PUT' )
 
-        axios.post(`/api/accounts/${this.state.id}`, formData, {
+        axios.post ( `/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        })
-            .then((response) => {
-                this.setState({ success: true })
-            })
-            .catch((error) => {
-                console.error(error)
-                this.setState({ error: true })
-            })
+        } )
+            .then ( ( response ) => {
+                this.setState ( { success: true } )
+            } )
+            .catch ( ( error ) => {
+                console.error ( error )
+                this.setState ( { error: true } )
+            } )
     }
 
     getSettingFields () {
@@ -354,17 +354,17 @@ class InvoiceSettings extends Component {
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
-        const modules = JSON.parse(localStorage.getItem('modules'))
+        const modules = JSON.parse ( localStorage.getItem ( 'modules' ) )
         const tabs = <Nav className="nav-justified setting-tabs disable-scrollbars" tabs>
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('1', e)
+                    onClick={( e ) => {
+                        this.toggle ( '1', e )
                     }}>
                     {translations.settings}
                 </NavLink>
@@ -373,8 +373,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('2', e)
+                    onClick={( e ) => {
+                        this.toggle ( '2', e )
                     }}>
                     {translations.invoice}
                 </NavLink>
@@ -383,8 +383,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('3', e)
+                    onClick={( e ) => {
+                        this.toggle ( '3', e )
                     }}>
                     {translations.customer}
                 </NavLink>
@@ -393,8 +393,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('4', e)
+                    onClick={( e ) => {
+                        this.toggle ( '4', e )
                     }}>
                     {translations.account}
                 </NavLink>
@@ -404,8 +404,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('5', e)
+                    onClick={( e ) => {
+                        this.toggle ( '5', e )
                     }}>
                     {translations.invoice}
                 </NavLink>
@@ -416,8 +416,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('6', e)
+                    onClick={( e ) => {
+                        this.toggle ( '6', e )
                     }}>
                     {translations.quote}
                 </NavLink>
@@ -428,8 +428,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('7', e)
+                    onClick={( e ) => {
+                        this.toggle ( '7', e )
                     }}>
                     {translations.order}
                 </NavLink>
@@ -440,8 +440,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('8', e)
+                    onClick={( e ) => {
+                        this.toggle ( '8', e )
                     }}>
                     {translations.POS}
                 </NavLink>
@@ -452,8 +452,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '9' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('9', e)
+                    onClick={( e ) => {
+                        this.toggle ( '9', e )
                     }}>
                     {translations.credit}
                 </NavLink>
@@ -463,8 +463,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '10' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('10', e)
+                    onClick={( e ) => {
+                        this.toggle ( '10', e )
                     }}>
                     {translations.product}
                 </NavLink>
@@ -474,8 +474,8 @@ class InvoiceSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '11' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('11', e)
+                    onClick={( e ) => {
+                        this.toggle ( '11', e )
                     }}>
                     {translations.task}
                 </NavLink>
@@ -485,25 +485,25 @@ class InvoiceSettings extends Component {
 
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={translations.settings_not_saved}/>
 
                 <Header title={translations.invoice_settings} handleSubmit={this.handleSubmit}
-                    tabs={tabs}/>
+                        tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">
                         <BlockButton icon={icons.link} button_text={translations.customize_and_preview}
-                            button_link="/#/designs"/>
+                                     button_link="/#/designs"/>
 
                         <Card className="border-0">
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSettingFields()}
+                                    formFieldsRows={this.getSettingFields ()}
                                 />
                             </CardBody>
                         </Card>
@@ -519,8 +519,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="client_details" columns={customer_pdf_fields}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="client_details" columns={customer_pdf_fields}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -529,8 +529,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="company_details" columns={account_pdf_fields}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="company_details" columns={account_pdf_fields}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -540,8 +540,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="invoice" columns={this.getInvoiceFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="invoice" columns={this.getInvoiceFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -552,8 +552,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="quote" columns={this.getQuoteFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="quote" columns={this.getQuoteFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -564,8 +564,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="order" columns={this.getOrderFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="order" columns={this.getOrderFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -576,8 +576,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="purchase_order" columns={this.getPurchaseOrderFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="purchase_order" columns={this.getPurchaseOrderFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -588,8 +588,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="credit" columns={this.getCreditFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="credit" columns={this.getCreditFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -599,8 +599,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="product_columns" columns={this.getProductFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="product_columns" columns={this.getProductFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -610,8 +610,8 @@ class InvoiceSettings extends Component {
                         <Card className="border-0">
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="task_columns" columns={this.getTaskFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
+                                           section="task_columns" columns={this.getTaskFields ()}
+                                           ignored_columns={this.state.settings.pdf_variables}/>
                             </CardBody>
                         </Card>
                     </TabPane>

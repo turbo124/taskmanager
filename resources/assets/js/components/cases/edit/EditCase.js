@@ -28,39 +28,39 @@ import { consts } from '../../utils/_consts'
 import Links from './Links'
 
 export default class EditCase extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         const data = this.props.case ? this.props.case : null
-        this.caseModel = new CaseModel(data, this.props.customers)
+        this.caseModel = new CaseModel ( data, this.props.customers )
         this.initialState = this.caseModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind(this)
-        this.handleInput = this.handleInput.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.handleContactChange = this.handleContactChange.bind(this)
-        this.openCase = this.openCase.bind(this)
-        this.closeCase = this.closeCase.bind(this)
+        this.toggle = this.toggle.bind ( this )
+        this.handleInput = this.handleInput.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleContactChange = this.handleContactChange.bind ( this )
+        this.openCase = this.openCase.bind ( this )
+        this.closeCase = this.closeCase.bind ( this )
     }
 
     componentDidMount () {
-        if (this.props.case && this.props.case.customer_id) {
+        if ( this.props.case && this.props.case.customer_id ) {
             const contacts = this.caseModel.contacts
-            this.setState({ contacts: contacts })
+            this.setState ( { contacts: contacts } )
         }
     }
 
-    handleInput (e) {
-        if (e.target.name === 'customer_id') {
-            const customer_data = this.caseModel.customerChange(e.target.value)
+    handleInput ( e ) {
+        if ( e.target.name === 'customer_id' ) {
+            const customer_data = this.caseModel.customerChange ( e.target.value )
 
-            this.setState({
+            this.setState ( {
                 customerName: customer_data.name,
                 contacts: customer_data.contacts,
                 address: customer_data.address
-            })
+            } )
 
             // if (this.settings.convert_product_currency === true) {
             //     const customer = new CustomerModel(customer_data.customer)
@@ -71,21 +71,21 @@ export default class EditCase extends React.Component {
             // }
         }
 
-        this.setState({
-            [e.target.name]: e.target.value,
+        this.setState ( {
+            [ e.target.name ]: e.target.value,
             changesMade: true
-        })
+        } )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -109,85 +109,85 @@ export default class EditCase extends React.Component {
         }
     }
 
-    handleContactChange (e) {
-        const invitations = this.caseModel.buildInvitations(e.target.value, e.target.checked)
+    handleContactChange ( e ) {
+        const invitations = this.caseModel.buildInvitations ( e.target.value, e.target.checked )
         // update the state with the new array of options
-        this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
+        this.setState ( { invitations: invitations }, () => console.log ( 'invitations', invitations ) )
     }
 
-    handleClick (action = 'save') {
-        const formData = this.getFormData()
+    handleClick ( action = 'save' ) {
+        const formData = this.getFormData ()
 
-        this.caseModel.update(formData).then(response => {
-            if (!response) {
-                this.setState({ errors: this.caseModel.errors, message: this.caseModel.error_message })
+        this.caseModel.update ( formData ).then ( response => {
+            if ( !response ) {
+                this.setState ( { errors: this.caseModel.errors, message: this.caseModel.error_message } )
                 return
             }
 
-            const index = this.props.cases.findIndex(cases => cases.id === this.props.case.id)
-            this.props.cases[index] = response
-            this.props.action(this.props.cases)
-            this.setState({
+            const index = this.props.cases.findIndex ( cases => cases.id === this.props.case.id )
+            this.props.cases[ index ] = response
+            this.props.action ( this.props.cases )
+            this.setState ( {
                 editMode: false,
                 changesMade: false
-            })
-            if (action === 'save') {
-                this.toggle()
+            } )
+            if ( action === 'save' ) {
+                this.toggle ()
             }
-        })
+        } )
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+    toggleTab ( tab ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab } )
         }
     }
 
     openCase () {
-        this.setState(
+        this.setState (
             {
                 status_id: consts.case_status_open
             }, () => {
-                this.handleClick('open')
+                this.handleClick ( 'open' )
             }
         )
     }
 
     closeCase () {
-        this.setState(
+        this.setState (
             {
                 status_id: consts.case_status_closed
             }, () => {
-                this.handleClick('close')
+                this.handleClick ( 'close' )
             }
         )
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
+        if ( this.state.modal && this.state.changesMade ) {
+            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
+                this.setState ( { ...this.initialState } )
             }
 
             return
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
     render () {
         const email_editor = this.state.id
             ? <Emails width={400} model={this.caseModel} emails={this.state.emails} template="email_template_case"
-                show_editor={true}
-                customers={this.props.customers} entity_object={this.state} entity="cases"
-                entity_id={this.state.id}/> : null
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+                      show_editor={true}
+                      customers={this.props.customers} entity_object={this.state} entity="cases"
+                      entity_id={this.state.id}/> : null
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         const extra_button = (this.state.status_id === 1) ? (<Button onClick={this.openCase}
-            color="primary">{translations.open_case}</Button>) : ((this.state.status_id === 2) ? (
+                                                                     color="primary">{translations.open_case}</Button>) : ((this.state.status_id === 2) ? (
             <Button onClick={this.closeCase} color="primary">{translations.close_case}</Button>) : null)
 
         return (
@@ -203,7 +203,7 @@ export default class EditCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('1')
+                                        this.toggleTab ( '1' )
                                     }}>
                                     {translations.details}
                                 </NavLink>
@@ -212,7 +212,7 @@ export default class EditCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('2')
+                                        this.toggleTab ( '2' )
                                     }}>
                                     {translations.comments}
                                 </NavLink>
@@ -222,7 +222,7 @@ export default class EditCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '3' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('3')
+                                        this.toggleTab ( '3' )
                                     }}>
                                     {translations.documents}
                                 </NavLink>
@@ -232,7 +232,7 @@ export default class EditCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '4' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('4')
+                                        this.toggleTab ( '4' )
                                     }}>
                                     {translations.email}
                                 </NavLink>
@@ -241,37 +241,37 @@ export default class EditCase extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <DropdownMenuBuilder invoices={this.props.cases} formData={this.getFormData()}
-                                    model={this.caseModel}
-                                    action={this.props.action}/>
+                                <DropdownMenuBuilder invoices={this.props.cases} formData={this.getFormData ()}
+                                                     model={this.caseModel}
+                                                     action={this.props.action}/>
 
                                 <Card>
                                     <CardBody>
                                         <Details cases={this.props.cases} customers={this.props.customers}
-                                            errors={this.state.errors}
-                                            hasErrorFor={this.hasErrorFor} case={this.state}
-                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                                 errors={this.state.errors}
+                                                 hasErrorFor={this.hasErrorFor} case={this.state}
+                                                 handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                                     </CardBody>
                                 </Card>
 
                                 <Contacts handleInput={this.handleInput} case={this.state} errors={this.state.errors}
-                                    contacts={this.state.contacts}
-                                    invitations={this.state.invitations}
-                                    handleContactChange={this.handleContactChange}/>
+                                          contacts={this.state.contacts}
+                                          invitations={this.state.invitations}
+                                          handleContactChange={this.handleContactChange}/>
 
                                 <Card>
                                     <CardBody>
                                         <Links cases={this.props.cases} customers={this.props.customers}
-                                            errors={this.state.errors}
-                                            hasErrorFor={this.hasErrorFor} case={this.state}
-                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                               errors={this.state.errors}
+                                               hasErrorFor={this.hasErrorFor} case={this.state}
+                                               handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                                     </CardBody>
                                 </Card>
                             </TabPane>
 
                             <TabPane tabId="2">
                                 <Comments entity_type="Cases" entity={this.state}
-                                    user_id={this.state.user_id}/>
+                                          user_id={this.state.user_id}/>
                             </TabPane>
 
                             <TabPane tabId="3">
@@ -279,7 +279,7 @@ export default class EditCase extends React.Component {
                                     <CardHeader>{translations.documents}</CardHeader>
                                     <CardBody>
                                         <FileUploads entity_type="Cases" entity={this.state}
-                                            user_id={this.state.user_id}/>
+                                                     user_id={this.state.user_id}/>
                                     </CardBody>
                                 </Card>
                             </TabPane>
@@ -291,8 +291,8 @@ export default class EditCase extends React.Component {
                     </ModalBody>
 
                     <DefaultModalFooter extra_button={extra_button} show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

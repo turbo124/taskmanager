@@ -8,11 +8,11 @@ import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 
 export default class LocalisationSettings extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
-            id: localStorage.getItem('account_id'),
+            id: localStorage.getItem ( 'account_id' ),
             settings: {},
             first_month_of_year: null,
             first_day_of_week: null,
@@ -21,66 +21,66 @@ export default class LocalisationSettings extends Component {
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.getAccount = this.getAccount.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
+        this.handleSubmit = this.handleSubmit.bind ( this )
+        this.getAccount = this.getAccount.bind ( this )
+        this.handleChange = this.handleChange.bind ( this )
     }
 
     componentDidMount () {
-        this.getAccount()
+        this.getAccount ()
     }
 
     getAccount () {
-        axios.get(`api/accounts/${this.state.id}`)
-            .then((r) => {
-                this.setState({
+        axios.get ( `api/accounts/${this.state.id}` )
+            .then ( ( r ) => {
+                this.setState ( {
                     loaded: true,
                     settings: r.data.settings
-                })
-            })
-            .catch((e) => {
-                this.setState({ error: true })
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( { error: true } )
+            } )
     }
 
-    handleSettingsChange (event) {
+    handleSettingsChange ( event ) {
         const name = event.target.name
         const value = event.target.value
 
-        if (name === 'currency_format') {
-            this.setState(prevState => ({
+        if ( name === 'currency_format' ) {
+            this.setState ( prevState => ({
                 settings: {
                     ...prevState.settings,
                     show_currency_code: value === 'code'
                 }
             }), () => {
-                const appState = JSON.parse(localStorage.getItem('appState'))
+                const appState = JSON.parse ( localStorage.getItem ( 'appState' ) )
                 const account_id = appState.user.account_id
-                const index = appState.accounts.findIndex(account => account.account_id === parseInt(account_id))
-                appState.accounts[index].account.settings.show_currency_code = value === 'code'
-                localStorage.setItem('appState', JSON.stringify(appState))
-                console.log('user account', appState.accounts[index].account.settings.show_currency_code)
-            })
+                const index = appState.accounts.findIndex ( account => account.account_id === parseInt ( account_id ) )
+                appState.accounts[ index ].account.settings.show_currency_code = value === 'code'
+                localStorage.setItem ( 'appState', JSON.stringify ( appState ) )
+                console.log ( 'user account', appState.accounts[ index ].account.settings.show_currency_code )
+            } )
 
             return
         }
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             settings: {
                 ...prevState.settings,
-                [name]: value
+                [ name ]: value
             }
         }), () => {
-            if (name === 'language_id') {
-                const appState = JSON.parse(localStorage.getItem('appState'))
+            if ( name === 'language_id' ) {
+                const appState = JSON.parse ( localStorage.getItem ( 'appState' ) )
                 const account_id = appState.user.account_id
-                const index = appState.accounts.findIndex(account => account.account_id === parseInt(account_id))
-                appState.accounts[index].account.settings.language_id = value
-                localStorage.setItem('appState', JSON.stringify(appState))
-                console.log('user account', appState.accounts[index].account.settings.language_id)
+                const index = appState.accounts.findIndex ( account => account.account_id === parseInt ( account_id ) )
+                appState.accounts[ index ].account.settings.language_id = value
+                localStorage.setItem ( 'appState', JSON.stringify ( appState ) )
+                console.log ( 'user account', appState.accounts[ index ].account.settings.language_id )
             }
-        })
+        } )
     }
 
     getLanguageFields () {
@@ -134,61 +134,61 @@ export default class LocalisationSettings extends Component {
         ]
     }
 
-    handleSubmit (e) {
-        const formData = new FormData()
-        formData.append('settings', JSON.stringify(this.state.settings))
-        formData.append('first_month_of_year', this.state.first_month_of_year)
-        formData.append('first_day_of_week', this.state.first_day_of_week)
-        formData.append('_method', 'PUT')
+    handleSubmit ( e ) {
+        const formData = new FormData ()
+        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
+        formData.append ( 'first_month_of_year', this.state.first_month_of_year )
+        formData.append ( 'first_day_of_week', this.state.first_day_of_week )
+        formData.append ( '_method', 'PUT' )
 
-        axios.post(`/api/accounts/${this.state.id}`, formData, {
+        axios.post ( `/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        })
-            .then((response) => {
-                this.setState({ success: true })
-            })
-            .catch((error) => {
-                this.setState({ error: true })
-            })
+        } )
+            .then ( ( response ) => {
+                this.setState ( { success: true } )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( { error: true } )
+            } )
     }
 
-    handleChange (event) {
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange ( event ) {
+        this.setState ( { [ event.target.name ]: event.target.value } )
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
         const { date_formats } = this.state
-        const days = moment.weekdays()
-        const months = moment.months()
+        const days = moment.weekdays ()
+        const months = moment.months ()
 
-        const month_list = months.map(function (item, i) {
-            console.log('test')
+        const month_list = months.map ( function ( item, i ) {
+            console.log ( 'test' )
             return <option key={i} value={item}>{item}</option>
-        })
+        } )
 
-        const day_list = days.map(function (item, i) {
-            console.log('test')
+        const day_list = days.map ( function ( item, i ) {
+            console.log ( 'test' )
             return <option key={i} value={item}>{item}</option>
-        })
+        } )
 
-        const date_format_list = date_formats && date_formats.length ? date_formats.map(date_format => {
+        const date_format_list = date_formats && date_formats.length ? date_formats.map ( date_format => {
             return <option key={date_format.id}
-                value={date_format.id}>{moment().format(date_format.format_moment)}</option>
-        }) : null
+                           value={date_format.id}>{moment ().format ( date_format.format_moment )}</option>
+        } ) : null
 
         return date_formats && date_formats.length ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={this.state.success_message}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={this.state.success_message}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={translations.settings_saved}/>
 
                 <Header title={translations.localisation_settings} handleSubmit={this.handleSubmit}/>
 
@@ -219,7 +219,7 @@ export default class LocalisationSettings extends Component {
 
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getLanguageFields()}
+                            formFieldsRows={this.getLanguageFields ()}
                         />
                     </CardBody>
                 </Card>
@@ -228,7 +228,7 @@ export default class LocalisationSettings extends Component {
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getCurrencyFields()}
+                            formFieldsRows={this.getCurrencyFields ()}
                         />
                     </CardBody>
                 </Card>

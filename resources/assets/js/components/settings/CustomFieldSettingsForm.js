@@ -50,18 +50,18 @@ export default class CustomFieldSettingsForm extends React.Component {
                     {this.props.type === 'select' &&
                     <div className="row col-12">
                         <DynamicOptionList showCorrectColumn={false}
-                            data-entity={this.props.entity}
-                            data-id={this.props.idx}
-                            canHaveOptionCorrect={false}
-                            canHaveOptionValue={true}
+                                           data-entity={this.props.entity}
+                                           data-id={this.props.idx}
+                                           canHaveOptionCorrect={false}
+                                           canHaveOptionValue={true}
                             // data={this.props.preview.state.data}
-                            updateElement={this.props.handleOptionChange}
+                                           updateElement={this.props.handleOptionChange}
                             // preview={this.props.preview}
-                            element={Object.assign(this.props.obj, {
-                                data_id: this.props.idx,
-                                data_entity: this.props.entity
-                            })}
-                            key={this.props.obj.options.length}/>
+                                           element={Object.assign ( this.props.obj, {
+                                               data_id: this.props.idx,
+                                               data_entity: this.props.entity
+                                           } )}
+                                           key={this.props.obj.options.length}/>
                     </div>
                     }
                 </Form>

@@ -4,18 +4,18 @@ import BaseModel from './BaseModel'
 import { consts } from '../utils/_consts'
 
 export default class ExpenseModel extends BaseModel {
-    constructor (data = null, customers = null) {
-        super()
+    constructor ( data = null, customers = null ) {
+        super ()
         this.customers = customers
         this.errors = []
         this.error_message = ''
-        this.currencies = JSON.parse(localStorage.getItem('currencies'))
+        this.currencies = JSON.parse ( localStorage.getItem ( 'currencies' ) )
         this._url = '/api/expense'
         this.entity = 'Expense'
 
         this._file_count = 0
 
-        if (data !== null && data.files) {
+        if ( data !== null && data.files ) {
             this.fileCount = data.files
         }
 
@@ -39,15 +39,15 @@ export default class ExpenseModel extends BaseModel {
             tax_rate_name: '',
             project_id: null,
             customer_id: '',
-            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
-            invoice_currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
+            currency_id: this.settings.currency_id.toString ().length ? this.settings.currency_id : consts.default_currency,
+            invoice_currency_id: this.settings.currency_id.toString ().length ? this.settings.currency_id : consts.default_currency,
             payment_type_id: '',
             exchange_rate: 1,
             transaction_reference: '',
-            payment_date: this.settings.create_expense_payment ? moment(new Date()).add(1, 'days').format('YYYY-MM-DD') : '',
+            payment_date: this.settings.create_expense_payment ? moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ) : '',
             include_documents: this.settings.include_expense_documents || false,
             create_invoice: this.settings.create_expense_invoice || false,
-            date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+            date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
             company_id: '',
             category_id: '',
             user_id: null,
@@ -71,9 +71,9 @@ export default class ExpenseModel extends BaseModel {
             recurring_frequency: 0
         }
 
-        if (data !== null) {
+        if ( data !== null ) {
             this._fields = { ...this.fields, ...data }
-            console.log('customer', this.customer)
+            console.log ( 'customer', this.customer )
             this.fields.currency_id = this.customer.length && this.customer.currency_id ? this.customer.currency_id : this.settings.currency_id
         }
     }
@@ -87,7 +87,7 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get convertedAmount () {
-        return parseFloat((this.fields.amount * this.exchange_rate).toFixed(2))
+        return parseFloat ( (this.fields.amount * this.exchange_rate).toFixed ( 2 ) )
     }
 
     get id () {
@@ -98,49 +98,49 @@ export default class ExpenseModel extends BaseModel {
         return !this.fields.exchange_rate ? 1 : this.fields.exchange_rate
     }
 
-    set customer_id (customer_id) {
+    set customer_id ( customer_id ) {
         this.fields.customer_id = customer_id
     }
 
     get amountWithTax () {
         let total = this.fields.amount
 
-        if (this.fields.tax_rate && this.fields.tax_rate > 0) {
+        if ( this.fields.tax_rate && this.fields.tax_rate > 0 ) {
             total += this.fields.amount * this.fields.tax_rate / 100
         }
-        if (this.fields.tax_1 && this.fields.tax_1 > 0) {
+        if ( this.fields.tax_1 && this.fields.tax_1 > 0 ) {
             total += this.fields.amount * this.fields.tax_1 / 100
         }
 
-        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+        if ( this.fields.tax_2 && this.fields.tax_2 > 0 ) {
             total += this.fields.amount * this.fields.tax_2 / 100
         }
 
-        return Math.round(total, 2)
+        return Math.round ( total, 2 )
     }
 
     get convertedAmountWithTax () {
-        return Math.round((this.amountWithTax * this.exchange_rate), 2)
+        return Math.round ( (this.amountWithTax * this.exchange_rate), 2 )
     }
 
     get currencyId () {
-        if (!this.fields.currency_id) {
+        if ( !this.fields.currency_id ) {
             return null
         }
 
-        return parseInt(this.fields.currency_id)
+        return parseInt ( this.fields.currency_id )
     }
 
     get fileCount () {
         return this._file_count || 0
     }
 
-    set fileCount (files) {
+    set fileCount ( files ) {
         this._file_count = files ? files.length : 0
     }
 
     get company () {
-        if (!this.fields.company_id.toString().length) {
+        if ( !this.fields.company_id.toString ().length ) {
             return null
         }
 
@@ -152,36 +152,36 @@ export default class ExpenseModel extends BaseModel {
         return this.customers &&
         this.customers.length &&
         this.fields.customer_id &&
-        this.fields.customer_id.toString().length
-            ? this.customers.filter(customer => customer.id === parseInt(this.fields.customer_id))[0]
+        this.fields.customer_id.toString ().length
+            ? this.customers.filter ( customer => customer.id === parseInt ( this.fields.customer_id ) )[ 0 ]
             : []
     }
 
-    getExchangeRateForCurrency (currency_id) {
-        const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
+    get isConverted () {
+        return parseInt ( this.fields.exchange_rate ) !== 1 && parseInt ( this.fields.exchange_rate ) !== 0
+    }
 
-        console.log('currency', currency)
+    getExchangeRateForCurrency ( currency_id ) {
+        const currency = this.currencies && this.currencies.length ? this.currencies.filter ( currency => currency.id === parseInt ( currency_id ) ) : []
 
-        return currency.length && currency[0].exchange_rate && currency[0].exchange_rate > 0 ? currency[0].exchange_rate : 1
+        console.log ( 'currency', currency )
+
+        return currency.length && currency[ 0 ].exchange_rate && currency[ 0 ].exchange_rate > 0 ? currency[ 0 ].exchange_rate : 1
     }
 
     buildDropdownMenu () {
         const actions = []
-        if (!this.fields.is_deleted) {
-            actions.push('newInvoice')
+        if ( !this.fields.is_deleted ) {
+            actions.push ( 'newInvoice' )
         }
 
-        actions.push('cloneExpense')
+        actions.push ( 'cloneExpense' )
 
         return actions
     }
 
-    get isConverted () {
-        return parseInt(this.fields.exchange_rate) !== 1 && parseInt(this.fields.exchange_rate) !== 0
-    }
-
-    async completeAction (data, action) {
-        if (!this.fields.id) {
+    async completeAction ( data, action ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -189,22 +189,22 @@ export default class ExpenseModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
+            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async update (data) {
-        if (!this.fields.id) {
+    async update ( data ) {
+        if ( !this.fields.id ) {
             return false
         }
 
@@ -212,90 +212,90 @@ export default class ExpenseModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
+            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    async save (data) {
+    async save ( data ) {
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post(this.url, data)
+            const res = await axios.post ( this.url, data )
 
-            if (res.status === 200) {
+            if ( res.status === 200 ) {
                 // test for status you want, etc
-                console.log(res.status)
+                console.log ( res.status )
             }
             // Don't forget to return something
             return res.data
-        } catch (e) {
-            this.handleError(e)
+        } catch ( e ) {
+            this.handleError ( e )
             return false
         }
     }
 
-    calculateTotals (entity) {
+    calculateTotals ( entity ) {
         let tax_total = 0
 
-        if (entity.tax_rate > 0) {
-            const a_total = parseFloat(entity.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_rate) / 100
+        if ( entity.tax_rate > 0 ) {
+            const a_total = parseFloat ( entity.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( entity.tax_rate ) / 100
             tax_total += tax_percentage
         }
 
-        if (entity.tax_2 && entity.tax_2 > 0) {
-            const a_total = parseFloat(entity.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_2) / 100
+        if ( entity.tax_2 && entity.tax_2 > 0 ) {
+            const a_total = parseFloat ( entity.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( entity.tax_2 ) / 100
             tax_total += tax_percentage
         }
 
-        if (entity.tax_3 && entity.tax_3 > 0) {
-            const a_total = parseFloat(entity.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(entity.tax_3) / 100
+        if ( entity.tax_3 && entity.tax_3 > 0 ) {
+            const a_total = parseFloat ( entity.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( entity.tax_3 ) / 100
             tax_total += tax_percentage
         }
 
         return tax_total
     }
 
-    calculateTaxes (usesInclusiveTaxes) {
+    calculateTaxes ( usesInclusiveTaxes ) {
         let tax_total = 0
 
-        if (this.fields.tax_rate > 0) {
-            const a_total = parseFloat(this.fields.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_rate) / 100
+        if ( this.fields.tax_rate > 0 ) {
+            const a_total = parseFloat ( this.fields.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_rate ) / 100
             tax_total += tax_percentage
         }
 
-        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
-            const a_total = parseFloat(this.fields.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_2) / 100
+        if ( this.fields.tax_2 && this.fields.tax_2 > 0 ) {
+            const a_total = parseFloat ( this.fields.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_2 ) / 100
             tax_total += tax_percentage
         }
 
-        if (this.fields.tax_3 && this.fields.tax_3 > 0) {
-            const a_total = parseFloat(this.fields.amount)
-            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_3) / 100
+        if ( this.fields.tax_3 && this.fields.tax_3 > 0 ) {
+            const a_total = parseFloat ( this.fields.amount )
+            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_3 ) / 100
             tax_total += tax_percentage
         }
 
-        return Math.round(tax_total, 2)
+        return Math.round ( tax_total, 2 )
     }
 
-    calculateTax (tax_amount) {
-        const a_total = parseFloat(this.fields.total)
-        const tax_percentage = parseFloat(a_total) * parseFloat(tax_amount) / 100
+    calculateTax ( tax_amount ) {
+        const a_total = parseFloat ( this.fields.total )
+        const tax_percentage = parseFloat ( a_total ) * parseFloat ( tax_amount ) / 100
 
-        return Math.round(tax_percentage, 2)
+        return Math.round ( tax_percentage, 2 )
     }
 }

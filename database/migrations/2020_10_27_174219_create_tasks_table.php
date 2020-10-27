@@ -54,6 +54,7 @@ class CreateTasksTable extends Migration
             $table->dateTime('recurring_due_date')->nullable();
             $table->integer('number')->nullable();
             $table->unsignedInteger('design_id')->nullable();
+            $table->tinyInteger('include_documents')->default(1);
         });
     }
 

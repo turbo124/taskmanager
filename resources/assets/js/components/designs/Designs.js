@@ -23,8 +23,8 @@ import SnackbarMessage from '../common/SnackbarMessage'
 import Header from '../settings/Header'
 
 class Designs extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             success: false,
             error: false,
@@ -49,92 +49,92 @@ class Designs extends React.Component {
             errors: []
         }
 
-        this.toggleTabs = this.toggleTabs.bind(this)
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.getPreview = this.getPreview.bind(this)
-        this.switchDesign = this.switchDesign.bind(this)
-        this.resetCounters = this.resetCounters.bind(this)
-        this.update = this.update.bind(this)
-        this.save = this.save.bind(this)
-        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+        this.toggleTabs = this.toggleTabs.bind ( this )
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.getPreview = this.getPreview.bind ( this )
+        this.switchDesign = this.switchDesign.bind ( this )
+        this.resetCounters = this.resetCounters.bind ( this )
+        this.update = this.update.bind ( this )
+        this.save = this.save.bind ( this )
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind ( this )
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange)
+        window.addEventListener ( 'resize', this.handleWindowSizeChange )
     }
 
     // make sure to remove the listener
     // when the component is not mounted anymore
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange)
+        window.removeEventListener ( 'resize', this.handleWindowSizeChange )
     }
 
     handleWindowSizeChange () {
-        this.setState({ is_mobile: window.innerWidth <= 768 })
+        this.setState ( { is_mobile: window.innerWidth <= 768 } )
     }
 
     componentDidMount () {
-        if (localStorage.hasOwnProperty('designForm')) {
-            const storedValues = JSON.parse(localStorage.getItem('designForm'))
-            this.setState({ ...storedValues }, () => console.log('new state', this.state))
+        if ( localStorage.hasOwnProperty ( 'designForm' ) ) {
+            const storedValues = JSON.parse ( localStorage.getItem ( 'designForm' ) )
+            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
         }
     }
 
-    toggleTabs (tab, e) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab }, () => {
-                if (this.state.activeTab === '2' && this.state.is_mobile) {
-                    alert('yes')
-                    this.getPreview()
+    toggleTabs ( tab, e ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab }, () => {
+                if ( this.state.activeTab === '2' && this.state.is_mobile ) {
+                    alert ( 'yes' )
+                    this.getPreview ()
                 }
-            })
+            } )
         }
 
         const parent = e.currentTarget.parentNode
-        const rect = parent.getBoundingClientRect()
-        const rect2 = parent.nextSibling.getBoundingClientRect()
-        const rect3 = parent.previousSibling.getBoundingClientRect()
+        const rect = parent.getBoundingClientRect ()
+        const rect2 = parent.nextSibling.getBoundingClientRect ()
+        const rect3 = parent.previousSibling.getBoundingClientRect ()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
 
-        if (rect.left <= 10 || rect3.left <= 10) {
-            const container = document.getElementsByClassName('setting-tabs')[0]
+        if ( rect.left <= 10 || rect3.left <= 10 ) {
+            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
             container.scrollLeft -= widthScroll
         }
 
-        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
-            const container = document.getElementsByClassName('setting-tabs')[0]
+        if ( rect.right >= winWidth - 10 || rect2.right >= winWidth - 10 ) {
+            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
             container.scrollLeft += widthScroll
         }
     }
 
-    handleChange (el) {
+    handleChange ( el ) {
         const inputName = el.target.name
         const inputValue = el.target.value
 
-        const statusCopy = Object.assign({}, this.state)
-        statusCopy.design[inputName].value = inputValue
+        const statusCopy = Object.assign ( {}, this.state )
+        statusCopy.design[ inputName ].value = inputValue
 
-        this.setState(statusCopy)
+        this.setState ( statusCopy )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        }, () => localStorage.setItem('designForm', JSON.stringify(this.state)))
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value
+        }, () => localStorage.setItem ( 'designForm', JSON.stringify ( this.state ) ) )
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
@@ -148,59 +148,59 @@ class Designs extends React.Component {
     }
 
     save () {
-        axios.post('/api/designs', this.getFormData())
-            .then((response) => {
+        axios.post ( '/api/designs', this.getFormData () )
+            .then ( ( response ) => {
                 const newUser = response.data
-                this.props.designs.push(newUser)
-                this.props.action(this.props.designs)
-                localStorage.removeItem('designForm')
-                this.setState({
+                this.props.designs.push ( newUser )
+                this.props.action ( this.props.designs )
+                localStorage.removeItem ( 'designForm' )
+                this.setState ( {
                     name: null
-                })
+                } )
                 // this.toggle ()
-            })
-            .catch((error) => {
-                this.setState({
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     update () {
-        axios.put(`/api/designs/${this.state.id}`, this.getFormData())
-            .then((response) => {
-                const index = this.props.designs.findIndex(design => design.id === parseInt(this.state.id))
-                this.props.designs[index] = response.data
-                this.props.action(this.props.designs)
-            })
-            .catch((error) => {
-                this.setState({
+        axios.put ( `/api/designs/${this.state.id}`, this.getFormData () )
+            .then ( ( response ) => {
+                const index = this.props.designs.findIndex ( design => design.id === parseInt ( this.state.id ) )
+                this.props.designs[ index ] = response.data
+                this.props.action ( this.props.designs )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     handleClick () {
-        if (this.state.id !== null) {
-            this.update()
+        if ( this.state.id !== null ) {
+            this.update ()
             return
         }
 
-        this.save()
+        this.save ()
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if (!this.state.modal) {
-                this.setState({
+            if ( !this.state.modal ) {
+                this.setState ( {
                     name: null,
                     icon: null
-                }, () => localStorage.removeItem('designForm'))
+                }, () => localStorage.removeItem ( 'designForm' ) )
             }
-        })
+        } )
     }
 
     getPreview () {
@@ -218,95 +218,95 @@ class Designs extends React.Component {
                 task: ''
             }
         }
-        axios.post('/api/preview', {
+        axios.post ( '/api/preview', {
             design: design
         }, {
             onUploadProgress: ProgressEvent => {
-                this.setState({
+                this.setState ( {
                     loaded: (ProgressEvent.loaded / ProgressEvent.total * 100)
-                })
+                } )
             }
-        })
-            .then((response) => {
+        } )
+            .then ( ( response ) => {
                 var base64str = response.data.data
 
                 // decode base64 string, remove space for IE compatibility
-                var binary = atob(base64str.replace(/\s/g, ''))
+                var binary = atob ( base64str.replace ( /\s/g, '' ) )
                 var len = binary.length
-                var buffer = new ArrayBuffer(len)
-                var view = new Uint8Array(buffer)
-                for (var i = 0; i < len; i++) {
-                    view[i] = binary.charCodeAt(i)
+                var buffer = new ArrayBuffer ( len )
+                var view = new Uint8Array ( buffer )
+                for ( var i = 0; i < len; i++ ) {
+                    view[ i ] = binary.charCodeAt ( i )
                 }
 
                 // create the blob object with content-type "application/pdf"
-                const blob = new Blob([view], { type: 'application/pdf' })
-                const url = URL.createObjectURL(blob)
+                const blob = new Blob ( [view], { type: 'application/pdf' } )
+                const url = URL.createObjectURL ( blob )
 
-                console.log('url', url)
+                console.log ( 'url', url )
 
                 /* const file = new Blob (
                  [ response.data.data ],
                  { type: 'application/pdf' } ) */
                 // const fileURL = URL.createObjectURL ( file )
 
-                this.setState({ loaded: 0, obj_url: url, is_loading: false }, () => URL.revokeObjectURL(url))
-            })
-            .catch((error) => {
-                this.setState({
+                this.setState ( { loaded: 0, obj_url: url, is_loading: false }, () => URL.revokeObjectURL ( url ) )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     resetCounters () {
-        this.setState({
+        this.setState ( {
             name: '',
             id: null,
             design: { header: '', body: '', footer: '' },
             obj_url: null,
             is_custom: true
-        })
+        } )
     }
 
-    switchDesign (design) {
-        this.setState({
-            design: design[0].design,
-            name: design[0].name,
-            id: design[0].id,
+    switchDesign ( design ) {
+        this.setState ( {
+            design: design[ 0 ].design,
+            name: design[ 0 ].name,
+            id: design[ 0 ].id,
             is_custom: false
         }, () => {
-            if (!this.state.is_mobile) {
-                this.getPreview()
+            if ( !this.state.is_mobile ) {
+                this.getPreview ()
             }
-        })
+        } )
     }
 
     handleClose () {
-        this.setState({ success: false, error: false })
+        this.setState ( { success: false, error: false } )
     }
 
     render () {
         const title = this.state.is_custom === true ? <FormGroup>
             <Label for="name">Name <span className="text-danger">*</span></Label>
-            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                id="name" value={this.state.name} placeholder="Name"
-                onChange={this.handleInput.bind(this)}/>
-            {this.renderErrorFor('name')}
+            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text" name="name"
+                   id="name" value={this.state.name} placeholder="Name"
+                   onChange={this.handleInput.bind ( this )}/>
+            {this.renderErrorFor ( 'name' )}
         </FormGroup> : <FormGroup>
             <Label for="name">Name <span className="text-danger">*</span></Label>
-            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
-                id="name" disabled="disabled" value={this.state.name} placeholder="Name"
-                onChange={this.handleInput.bind(this)}/>
-            {this.renderErrorFor('name')}
+            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text" name="name"
+                   id="name" disabled="disabled" value={this.state.name} placeholder="Name"
+                   onChange={this.handleInput.bind ( this )}/>
+            {this.renderErrorFor ( 'name' )}
         </FormGroup>
 
         const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('1', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '1', e )
                     }}>
                     {translations.settings}
                 </NavLink>
@@ -316,8 +316,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('2', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '2', e )
                     }}>
                     {translations.preview}
                 </NavLink>
@@ -327,8 +327,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('3', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '3', e )
                     }}>
                     {translations.header}
                 </NavLink>
@@ -337,8 +337,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('4', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '4', e )
                     }}>
                     {translations.body}
                 </NavLink>
@@ -347,8 +347,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('5', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '5', e )
                     }}>
                     {translations.total}
                 </NavLink>
@@ -357,8 +357,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('6', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '6', e )
                     }}>
                     {translations.footer}
                 </NavLink>
@@ -367,8 +367,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('7', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '7', e )
                     }}>
                     {translations.product}
                 </NavLink>
@@ -377,8 +377,8 @@ class Designs extends React.Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggleTabs('8', e)
+                    onClick={( e ) => {
+                        this.toggleTabs ( '8', e )
                     }}>
                     {translations.task}
                 </NavLink>
@@ -387,17 +387,17 @@ class Designs extends React.Component {
 
         return (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
-                    message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
+                                 message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
-                    message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
+                                 message={translations.settings_not_saved}/>
 
                 <Row>
                     <Col sm={7}>
 
                         <Header title={translations.designs} className="header-md"
-                            tabs={tabs}/>
+                                tabs={tabs}/>
 
                         <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                             <TabPane className="px-0" tabId="1">
@@ -409,7 +409,7 @@ class Designs extends React.Component {
                                             <Label for="name">{translations.design} <span
                                                 className="text-danger">*</span></Label>
                                             <DesignDropdown resetCounters={this.resetCounters}
-                                                handleInputChanges={this.switchDesign}/>
+                                                            handleInputChanges={this.switchDesign}/>
                                         </FormGroup>
                                     </CardBody>
                                 </Card>
@@ -432,7 +432,7 @@ class Designs extends React.Component {
                                     <CardBody>
                                         <div className="embed-responsive embed-responsive-21by9">
                                             <iframe className="embed-responsive-item" id="viewer"
-                                                src={this.state.obj_url}/>
+                                                    src={this.state.obj_url}/>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -448,23 +448,23 @@ class Designs extends React.Component {
                                             <Label for="name">{translations.header} <span
                                                 className="text-danger">*</span></Label>
                                             <Input type="textarea" style={{ height: '400px' }} size="lg"
-                                                value={this.state.design.header}
-                                                onChange={(e) => {
-                                                    const value = e.target.value
-                                                    this.setState(prevState => ({
-                                                        design: { // object that we want to update
-                                                            ...prevState.design, // keep all other key-value pairs
-                                                            header: value // update the value of specific key
-                                                        }
-                                                    }), () => {
-                                                        if (!this.state.is_loading && !this.state.is_mobile) {
-                                                            this.setState({ is_loading: true })
-                                                            setTimeout(() => {
-                                                                this.getPreview()
-                                                            }, 1000)
-                                                        }
-                                                    })
-                                                }}
+                                                   value={this.state.design.header}
+                                                   onChange={( e ) => {
+                                                       const value = e.target.value
+                                                       this.setState ( prevState => ({
+                                                           design: { // object that we want to update
+                                                               ...prevState.design, // keep all other key-value pairs
+                                                               header: value // update the value of specific key
+                                                           }
+                                                       }), () => {
+                                                           if ( !this.state.is_loading && !this.state.is_mobile ) {
+                                                               this.setState ( { is_loading: true } )
+                                                               setTimeout ( () => {
+                                                                   this.getPreview ()
+                                                               }, 1000 )
+                                                           }
+                                                       } )
+                                                   }}
                                             />
                                         </FormGroup>
                                     </CardBody>
@@ -478,23 +478,23 @@ class Designs extends React.Component {
                                         <FormGroup>
                                             <Label for="name">{translations.body} <span className="text-danger">*</span></Label>
                                             <Input type="textarea" style={{ height: '400px' }} size="lg"
-                                                value={this.state.design.body}
-                                                onChange={(e) => {
-                                                    const value = e.target.value
-                                                    this.setState(prevState => ({
-                                                        design: { // object that we want to update
-                                                            ...prevState.design, // keep all other key-value pairs
-                                                            body: value // update the value of specific key
-                                                        }
-                                                    }), () => {
-                                                        if (!this.state.is_loading && !this.state.is_mobile) {
-                                                            this.setState({ is_loading: true, obj_url: '' })
-                                                            setTimeout(() => {
-                                                                this.getPreview()
-                                                            }, 2000)
-                                                        }
-                                                    })
-                                                }}
+                                                   value={this.state.design.body}
+                                                   onChange={( e ) => {
+                                                       const value = e.target.value
+                                                       this.setState ( prevState => ({
+                                                           design: { // object that we want to update
+                                                               ...prevState.design, // keep all other key-value pairs
+                                                               body: value // update the value of specific key
+                                                           }
+                                                       }), () => {
+                                                           if ( !this.state.is_loading && !this.state.is_mobile ) {
+                                                               this.setState ( { is_loading: true, obj_url: '' } )
+                                                               setTimeout ( () => {
+                                                                   this.getPreview ()
+                                                               }, 2000 )
+                                                           }
+                                                       } )
+                                                   }}
                                             />
                                         </FormGroup>
                                     </CardBody>
@@ -509,23 +509,23 @@ class Designs extends React.Component {
                                             <Label for="name">{translations.total} <span
                                                 className="text-danger">*</span></Label>
                                             <Input type="textarea" style={{ height: '400px' }} size="lg"
-                                                value={this.state.design.totals}
-                                                onChange={(e) => {
-                                                    const value = e.target.value
-                                                    this.setState(prevState => ({
-                                                        design: { // object that we want to update
-                                                            ...prevState.design, // keep all other key-value pairs
-                                                            totals: value // update the value of specific key
-                                                        }
-                                                    }), () => {
-                                                        if (!this.state.is_loading && !this.state.is_mobile) {
-                                                            this.setState({ is_loading: true, obj_url: '' })
-                                                            setTimeout(() => {
-                                                                this.getPreview()
-                                                            }, 2000)
-                                                        }
-                                                    })
-                                                }}
+                                                   value={this.state.design.totals}
+                                                   onChange={( e ) => {
+                                                       const value = e.target.value
+                                                       this.setState ( prevState => ({
+                                                           design: { // object that we want to update
+                                                               ...prevState.design, // keep all other key-value pairs
+                                                               totals: value // update the value of specific key
+                                                           }
+                                                       }), () => {
+                                                           if ( !this.state.is_loading && !this.state.is_mobile ) {
+                                                               this.setState ( { is_loading: true, obj_url: '' } )
+                                                               setTimeout ( () => {
+                                                                   this.getPreview ()
+                                                               }, 2000 )
+                                                           }
+                                                       } )
+                                                   }}
                                             />
                                         </FormGroup>
                                     </CardBody>
@@ -540,23 +540,23 @@ class Designs extends React.Component {
                                             <Label for="name">{translations.footer} <span
                                                 className="text-danger">*</span></Label>
                                             <Input type="textarea" style={{ height: '400px' }} size="lg"
-                                                value={this.state.design.footer}
-                                                onChange={(e) => {
-                                                    const value = e.target.value
-                                                    this.setState(prevState => ({
-                                                        design: { // object that we want to update
-                                                            ...prevState.design, // keep all other key-value pairs
-                                                            footer: value // update the value of specific key
-                                                        }
-                                                    }), () => {
-                                                        if (!this.state.is_loading && !this.state.is_mobile) {
-                                                            this.setState({ is_loading: true, obj_url: '' })
-                                                            setTimeout(() => {
-                                                                this.getPreview()
-                                                            }, 2000)
-                                                        }
-                                                    })
-                                                }}
+                                                   value={this.state.design.footer}
+                                                   onChange={( e ) => {
+                                                       const value = e.target.value
+                                                       this.setState ( prevState => ({
+                                                           design: { // object that we want to update
+                                                               ...prevState.design, // keep all other key-value pairs
+                                                               footer: value // update the value of specific key
+                                                           }
+                                                       }), () => {
+                                                           if ( !this.state.is_loading && !this.state.is_mobile ) {
+                                                               this.setState ( { is_loading: true, obj_url: '' } )
+                                                               setTimeout ( () => {
+                                                                   this.getPreview ()
+                                                               }, 2000 )
+                                                           }
+                                                       } )
+                                                   }}
                                             />
                                         </FormGroup>
                                     </CardBody>
@@ -583,7 +583,7 @@ class Designs extends React.Component {
                     <Col md={5} className="mt-2 pl-0">
                         {this.state.loaded > 0 &&
                         <Progress max="100" color="success"
-                            value={this.state.loaded}>{Math.round(this.state.loaded, 2)}%</Progress>
+                                  value={this.state.loaded}>{Math.round ( this.state.loaded, 2 )}%</Progress>
                         }
 
                         <div style={{ minHeight: '600px' }} className="embed-responsive embed-responsive-21by9">

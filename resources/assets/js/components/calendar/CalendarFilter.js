@@ -7,8 +7,8 @@ import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
 import EventTypeDropdown from '../common/dropdowns/EventTypeDropdown'
 
 export default class CalendarFilter extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
 
             dropdownButtonActions: ['download'],
@@ -16,30 +16,30 @@ export default class CalendarFilter extends Component {
             filters: { status_id: 'active', task_id: '', user_id: '', customer_id: '' }
         }
 
-        this.getFilters = this.getFilters.bind(this)
-        this.filterEvents = this.filterEvents.bind(this)
+        this.getFilters = this.getFilters.bind ( this )
+        this.filterEvents = this.filterEvents.bind ( this )
     }
 
-    filterEvents (event) {
+    filterEvents ( event ) {
         const column = event.target.id
         const value = event.target.value
 
-        if (value === 'all') {
-            const updatedRowState = this.state.filters.filter(filter => filter.column !== column)
-            this.setState({ filters: updatedRowState }, function () {
-                this.props.filter(this.state.filters)
-            })
+        if ( value === 'all' ) {
+            const updatedRowState = this.state.filters.filter ( filter => filter.column !== column )
+            this.setState ( { filters: updatedRowState }, function () {
+                this.props.filter ( this.state.filters )
+            } )
             return true
         }
 
-        this.setState(prevState => ({
+        this.setState ( prevState => ({
             filters: {
                 ...prevState.filters,
-                [column]: value
+                [ column ]: value
             }
         }), function () {
-            this.props.filter(this.state.filters)
-        })
+            this.props.filter ( this.state.filters )
+        } )
 
         return true
     }
@@ -70,9 +70,9 @@ export default class CalendarFilter extends Component {
 
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Input type='select'
-                        onChange={this.filterEvents}
-                        id="status_id"
-                        name="status_id"
+                           onChange={this.filterEvents}
+                           id="status_id"
+                           name="status_id"
                     >
                         <option value="">Select Status</option>
                         <option value='active'>Active</option>
@@ -85,7 +85,7 @@ export default class CalendarFilter extends Component {
     }
 
     render () {
-        const filters = this.getFilters()
+        const filters = this.getFilters ()
 
         return (<FilterTile filters={filters}/>)
     }

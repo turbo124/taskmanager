@@ -2,7 +2,7 @@
 import React from 'react'
 import Comment from './Comment'
 
-export default function CommentList (props) {
+export default function CommentList ( props ) {
     return (
         <div className="commentList">
 
@@ -13,9 +13,9 @@ export default function CommentList (props) {
             ) : null}
 
             {
-                props.comments.map((comment, index) => (
+                props.comments.map ( ( comment, index ) => (
                     <Comment key={index} comment={comment}/>
-                ))
+                ) )
             }
         </div>
     )

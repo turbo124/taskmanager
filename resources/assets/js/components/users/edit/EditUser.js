@@ -28,8 +28,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditUser extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             modal: false,
             loading: false,
@@ -55,99 +55,99 @@ class EditUser extends React.Component {
         }
 
         this.initialState = this.state
-        this.account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        this.account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
 
-        this.toggleTab = this.toggleTab.bind(this)
-        this.toggle = this.toggle.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.handleMultiSelect = this.handleMultiSelect.bind(this)
-        this.handleAccountMultiSelect = this.handleAccountMultiSelect.bind(this)
-        this.setDate = this.setDate.bind(this)
-        this.handleInput = this.handleInput.bind(this)
-        this.toggleMenu = this.toggleMenu.bind(this)
-        this.setNotifications = this.setNotifications.bind(this)
-        this.setSelectedAccounts = this.setSelectedAccounts.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.toggleTab = this.toggleTab.bind ( this )
+        this.toggle = this.toggle.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
+        this.handleAccountMultiSelect = this.handleAccountMultiSelect.bind ( this )
+        this.setDate = this.setDate.bind ( this )
+        this.handleInput = this.handleInput.bind ( this )
+        this.toggleMenu = this.toggleMenu.bind ( this )
+        this.setNotifications = this.setNotifications.bind ( this )
+        this.setSelectedAccounts = this.setSelectedAccounts.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
     }
 
     componentDidMount () {
-        this.getUser()
+        this.getUser ()
     }
 
-    toggleMenu (event) {
-        this.setState({
+    toggleMenu ( event ) {
+        this.setState ( {
             dropdownOpen: !this.state.dropdownOpen
-        })
+        } )
     }
 
-    toggleTab (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab })
+    toggleTab ( tab ) {
+        if ( this.state.activeTab !== tab ) {
+            this.setState ( { activeTab: tab } )
         }
     }
 
-    hasErrorFor (field) {
-        return field === 'password' ? this.state.password_error.length : !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return field === 'password' ? this.state.password_error.length : !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (field === 'password') {
+    renderErrorFor ( field ) {
+        if ( field === 'password' ) {
             return this.state.password_error.length
                 ? <span className='invalid-feedback'>
                     <strong>{this.state.password_error}</strong>
                 </span> : null
         }
 
-        if (this.hasErrorFor(field)) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
     }
 
-    _validatePassword (value) {
+    _validatePassword ( value ) {
         const pattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'
-        const regExp = new RegExp(pattern)
+        const regExp = new RegExp ( pattern )
 
-        return regExp.test(value)
+        return regExp.test ( value )
     }
 
     _validate () {
         const { password } = this.state
 
-        if (!password.length || !password.trim().length) {
+        if ( !password.length || !password.trim ().length ) {
             return translations.please_enter_your_password
         }
 
-        if (password.length < 8) {
+        if ( password.length < 8 ) {
             return translations.password_is_too_short
         }
 
-        if (!this._validatePassword(password)) {
+        if ( !this._validatePassword ( password ) ) {
             return translations.password_is_too_easy
         }
 
         return true
     }
 
-    setNotifications (notifications) {
-        this.setState(prevState => ({
+    setNotifications ( notifications ) {
+        this.setState ( prevState => ({
             selectedAccounts: {
                 ...prevState.selectedAccounts,
                 notifications: { email: notifications },
                 account_id: this.account_id,
                 permissions: ''
             }
-        }))
+        }) )
     }
 
     getUser () {
-        axios.get(`/api/users/edit/${this.props.user_id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } })
-            .then((r) => {
-                this.setState({
+        axios.get ( `/api/users/edit/${this.props.user_id}`, { headers: { Authorization: `Bearer ${localStorage.getItem ( 'access_token' )}` } } )
+            .then ( ( r ) => {
+                this.setState ( {
                     roles: r.data.roles,
                     user: r.data.user,
                     gender: r.data.user.gender,
@@ -164,12 +164,12 @@ class EditUser extends React.Component {
                     custom_value4: r.data.user.custom_value4,
                     password: r.data.user.password,
                     selectedRoles: r.data.selectedIds,
-                    selectedAccounts: r.data.user.account_users[0]
-                })
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+                    selectedAccounts: r.data.user.account_users[ 0 ]
+                } )
+            } )
+            .catch ( ( e ) => {
+                console.error ( e )
+            } )
     }
 
     getFormData () {
@@ -193,77 +193,77 @@ class EditUser extends React.Component {
         }
     }
 
-    setSelectedAccounts (selectedAccounts) {
-        this.setState({ selectedAccounts: selectedAccounts })
+    setSelectedAccounts ( selectedAccounts ) {
+        this.setState ( { selectedAccounts: selectedAccounts } )
     }
 
     handleClick () {
-        const data = this.getFormData()
+        const data = this.getFormData ()
 
-        const is_valid = this._validate()
-        if (is_valid !== true && is_valid.length) {
-            this.setState({ password_error: is_valid })
+        const is_valid = this._validate ()
+        if ( is_valid !== true && is_valid.length ) {
+            this.setState ( { password_error: is_valid } )
             return false
         } else {
-            this.setState({ password_error: '' })
+            this.setState ( { password_error: '' } )
         }
 
-        axios.put(`/api/users/${this.state.user.id}`, data)
-            .then((response) => {
+        axios.put ( `/api/users/${this.state.user.id}`, data )
+            .then ( ( response ) => {
                 this.initialState = this.state
-                const index = this.props.users.findIndex(user => parseInt(user.id) === this.props.user_id)
-                this.props.users[index] = this.state.user
-                this.props.action(this.props.users)
-                this.setState({ message: '', changesMade: false })
-                this.toggle()
-            })
-            .catch((error) => {
-                if (error.response.data.errors) {
-                    this.setState({
+                const index = this.props.users.findIndex ( user => parseInt ( user.id ) === this.props.user_id )
+                this.props.users[ index ] = this.state.user
+                this.props.action ( this.props.users )
+                this.setState ( { message: '', changesMade: false } )
+                this.toggle ()
+            } )
+            .catch ( ( error ) => {
+                if ( error.response.data.errors ) {
+                    this.setState ( {
                         errors: error.response.data.errors
-                    })
+                    } )
                 } else {
-                    this.setState({ message: error.response.data })
+                    this.setState ( { message: error.response.data } )
                 }
-            })
+            } )
     }
 
-    setValues (values) {
-        this.setState({ user: { ...this.state.user, ...values } })
+    setValues ( values ) {
+        this.setState ( { user: { ...this.state.user, ...values } } )
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value,
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value,
             changesMade: true
-        })
+        } )
     }
 
-    handleMultiSelect (e) {
-        this.setState({ selectedRoles: Array.from(e.target.selectedOptions, (item) => item.value) })
+    handleMultiSelect ( e ) {
+        this.setState ( { selectedRoles: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
     }
 
-    handleAccountMultiSelect (e) {
-        this.setState({ selectedAccounts: Array.from(e.target.selectedOptions, (item) => item.value) }, () => console.log('accounts', this.state.selectedAccounts))
+    handleAccountMultiSelect ( e ) {
+        this.setState ( { selectedAccounts: Array.from ( e.target.selectedOptions, ( item ) => item.value ) }, () => console.log ( 'accounts', this.state.selectedAccounts ) )
     }
 
     toggle () {
-        if (this.state.modal && this.state.changesMade) {
-            if (window.confirm('Your changes have not been saved?')) {
-                this.setState({ ...this.initialState })
+        if ( this.state.modal && this.state.changesMade ) {
+            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
+                this.setState ( { ...this.initialState } )
             }
 
             return
         }
 
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
-        })
+        } )
     }
 
-    setDate (date) {
-        this.setValues({ dob: date })
+    setDate ( date ) {
+        this.setValues ( { dob: date } )
     }
 
     render () {
@@ -272,8 +272,8 @@ class EditUser extends React.Component {
         const errorMessage = this.state.showErrorMessage === true
             ? <ErrorMessage message="Something went wrong"/> : null
 
-        const notifications = this.state.selectedAccounts && Object.keys(this.state.selectedAccounts).length && this.state.selectedAccounts.notifications ? this.state.selectedAccounts.notifications.email : []
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const notifications = this.state.selectedAccounts && Object.keys ( this.state.selectedAccounts ).length && this.state.selectedAccounts.notifications ? this.state.selectedAccounts.notifications.email : []
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -284,7 +284,7 @@ class EditUser extends React.Component {
 
                     <ModalBody className={theme}>
 
-                        <UserDropdownMenu id={this.state.user.id} formData={this.getFormData()}/>
+                        <UserDropdownMenu id={this.state.user.id} formData={this.getFormData ()}/>
                         {successMessage}
                         {errorMessage}
 
@@ -293,7 +293,7 @@ class EditUser extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('1')
+                                        this.toggleTab ( '1' )
                                     }}>
                                     {translations.details}
                                 </NavLink>
@@ -302,7 +302,7 @@ class EditUser extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('2')
+                                        this.toggleTab ( '2' )
                                     }}>
                                     {translations.permissions}
                                 </NavLink>
@@ -312,7 +312,7 @@ class EditUser extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '3' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('3')
+                                        this.toggleTab ( '3' )
                                     }}>
                                     {translations.notifications}
                                 </NavLink>
@@ -322,7 +322,7 @@ class EditUser extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '4' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab('4')
+                                        this.toggleTab ( '4' )
                                     }}>
                                     {translations.settings}
                                 </NavLink>
@@ -331,18 +331,18 @@ class EditUser extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
-                                {Object.keys(this.state.user).length &&
+                                {Object.keys ( this.state.user ).length &&
                                 <React.Fragment>
                                     <DetailsForm user={this.state} setDate={this.setDate} errors={this.state.errors}
-                                        hasErrorFor={this.hasErrorFor} renderErrorFor={this.renderErrorFor}
-                                        handleInput={this.handleInput}/>
+                                                 hasErrorFor={this.hasErrorFor} renderErrorFor={this.renderErrorFor}
+                                                 handleInput={this.handleInput}/>
 
                                     <CustomFieldsForm handleInput={this.handleInput}
-                                        custom_value1={this.state.custom_value1}
-                                        custom_value2={this.state.custom_value2}
-                                        custom_value3={this.state.custom_value3}
-                                        custom_value4={this.state.custom_value4}
-                                        custom_fields={this.props.custom_fields}/>
+                                                      custom_value1={this.state.custom_value1}
+                                                      custom_value2={this.state.custom_value2}
+                                                      custom_value3={this.state.custom_value3}
+                                                      custom_value4={this.state.custom_value4}
+                                                      custom_fields={this.props.custom_fields}/>
                                 </React.Fragment>
 
                                 }
@@ -352,11 +352,11 @@ class EditUser extends React.Component {
                             <TabPane tabId="2">
                                 {this.state.username && this.state.username.length &&
                                 <PermissionsForm handleInput={this.handleInput} errors={this.state.errors}
-                                    setAccounts={this.setSelectedAccounts}
-                                    departments={this.props.departments} accounts={this.props.accounts}
-                                    selectedAccounts={this.state.selectedAccounts}
-                                    handleMultiSelect={this.handleMultiSelect}
-                                    selectedRoles={this.state.selectedRoles}/>
+                                                 setAccounts={this.setSelectedAccounts}
+                                                 departments={this.props.departments} accounts={this.props.accounts}
+                                                 selectedAccounts={this.state.selectedAccounts}
+                                                 handleMultiSelect={this.handleMultiSelect}
+                                                 selectedRoles={this.state.selectedRoles}/>
 
                                 }
 
@@ -368,7 +368,7 @@ class EditUser extends React.Component {
                                     <CardBody>
                                         <FormGroup>
                                             <Notifications notifications={notifications}
-                                                onChange={this.setNotifications}/>
+                                                           onChange={this.setNotifications}/>
                                         </FormGroup>
                                     </CardBody>
                                 </Card>
@@ -386,8 +386,8 @@ class EditUser extends React.Component {
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                        saveData={this.handleClick.bind(this)}
-                        loading={false}/>
+                                        saveData={this.handleClick.bind ( this )}
+                                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

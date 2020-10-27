@@ -9,8 +9,8 @@ import { translations } from '../utils/_translations'
 import DefaultModalHeader from '../common/ModalHeader'
 
 class CreateEvent extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             modal: false,
@@ -33,51 +33,51 @@ class CreateEvent extends React.Component {
             submitSuccess: false
         }
 
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.toggle = this.toggle.bind(this)
-        this.handleMultiSelect = this.handleMultiSelect.bind(this)
-        this.getUserList = this.getUserList.bind(this)
-        this.buildForm = this.buildForm.bind(this)
-        this.handleInput = this.handleInput.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind ( this )
+        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind ( this )
+        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
+        this.getUserList = this.getUserList.bind ( this )
+        this.buildForm = this.buildForm.bind ( this )
+        this.handleInput = this.handleInput.bind ( this )
     }
 
     componentDidMount () {
-        this.getUsers()
+        this.getUsers ()
 
-        if (Object.prototype.hasOwnProperty.call(localStorage, 'eventForm')) {
-            const storedValues = JSON.parse(localStorage.getItem('eventForm'))
-            this.setState({ ...storedValues }, () => console.log('new state', this.state))
+        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'eventForm' ) ) {
+            const storedValues = JSON.parse ( localStorage.getItem ( 'eventForm' ) )
+            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
         }
     }
 
-    hasErrorFor (field) {
-        return !!this.state.errors[field]
+    hasErrorFor ( field ) {
+        return !!this.state.errors[ field ]
     }
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
+    renderErrorFor ( field ) {
+        if ( this.hasErrorFor ( field ) ) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
+                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
                 </span>
             )
         }
     }
 
-    handleInput (e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        }, () => localStorage.setItem('eventForm', JSON.stringify(this.state)))
+    handleInput ( e ) {
+        this.setState ( {
+            [ e.target.name ]: e.target.value
+        }, () => localStorage.setItem ( 'eventForm', JSON.stringify ( this.state ) ) )
     }
 
-    handleClick (event) {
-        this.setState({
+    handleClick ( event ) {
+        this.setState ( {
             submitSuccess: false,
             loading: true
-        })
+        } )
 
-        axios.post('/api/events', {
+        axios.post ( '/api/events', {
             customer_id: this.state.customer_id,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
@@ -91,72 +91,72 @@ class CreateEvent extends React.Component {
             beginDate: this.state.beginDate,
             endDate: this.state.endDate,
             task_id: this.props.task_id ? this.props.task_id : 0
-        })
-            .then((response) => {
-                this.toggle()
-                this.setState({
+        } )
+            .then ( ( response ) => {
+                this.toggle ()
+                this.setState ( {
                     title: null,
                     content: null,
                     contributors: null,
                     due_date: null,
                     loading: false,
                     submitSuccess: true
-                })
+                } )
 
-                if (this.props.action) {
+                if ( this.props.action ) {
                     const firstEvent = response.data
-                    this.props.events.push(firstEvent)
-                    this.props.action(this.props.events)
+                    this.props.events.push ( firstEvent )
+                    this.props.action ( this.props.events )
                 }
 
-                localStorage.removeItem('eventForm')
-            })
-            .catch((error) => {
-                this.setState({
+                localStorage.removeItem ( 'eventForm' )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     getUsers () {
-        axios.get('/api/users')
-            .then((r) => {
-                console.log('users', r.data)
-                this.setState({
+        axios.get ( '/api/users' )
+            .then ( ( r ) => {
+                console.log ( 'users', r.data )
+                this.setState ( {
                     users: r.data
-                })
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+                } )
+            } )
+            .catch ( ( e ) => {
+                console.error ( e )
+            } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if (!this.state.modal) {
-                this.setState({
+            if ( !this.state.modal ) {
+                this.setState ( {
                     name: null,
                     icon: null
-                }, () => localStorage.removeItem('eventForm'))
+                }, () => localStorage.removeItem ( 'eventForm' ) )
             }
-        })
+        } )
     }
 
-    handleMultiSelect (e) {
-        this.setState({ selectedUsers: Array.from(e.target.selectedOptions, (item) => item.value) })
+    handleMultiSelect ( e ) {
+        this.setState ( { selectedUsers: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
     }
 
     getUserList () {
         let userList
-        if (!this.state.users.length) {
+        if ( !this.state.users.length ) {
             userList = <option value="">Loading...</option>
         } else {
-            userList = this.state.users.map((user, index) => (
+            userList = this.state.users.map ( ( user, index ) => (
                 <option key={index} value={user.id}>{user.first_name + ' ' + user.last_name}</option>
-            ))
+            ) )
         }
 
         return (
@@ -165,24 +165,24 @@ class CreateEvent extends React.Component {
                 <Input onChange={this.handleMultiSelect} type="select" name="users" id="users" multiple>
                     {userList}
                 </Input>
-                {this.renderErrorFor('users')}
+                {this.renderErrorFor ( 'users' )}
             </FormGroup>
         )
     }
 
-    handleStartDate (date) {
-        this.setState({ beginDate: date._d })
+    handleStartDate ( date ) {
+        this.setState ( { beginDate: date._d } )
     }
 
-    handleEndDate (date) {
-        this.setState({ endDate: date._d })
+    handleEndDate ( date ) {
+        this.setState ( { endDate: date._d } )
     }
 
     buildForm () {
-        const userList = this.getUserList()
+        const userList = this.getUserList ()
         const customFields = this.props.custom_fields ? this.props.custom_fields : []
         const customForm = customFields && customFields.length ? <FormBuilder
-            handleChange={this.handleInput.bind(this)}
+            handleChange={this.handleInput.bind ( this )}
             formFieldsRows={customFields}
         /> : null
 
@@ -190,46 +190,46 @@ class CreateEvent extends React.Component {
             <Form>
                 <FormGroup>
                     <Label for="title">{translations.title}(*):</Label>
-                    <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''}
-                        value={this.state.title}
-                        type="text" name="title"
-                        id="taskTitle" onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('title')}
+                    <Input className={this.hasErrorFor ( 'title' ) ? 'is-invalid' : ''}
+                           value={this.state.title}
+                           type="text" name="title"
+                           id="taskTitle" onChange={this.handleInput.bind ( this )}/>
+                    {this.renderErrorFor ( 'title' )}
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="description">{translations.description}(*):</Label>
-                    <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
-                        value={this.state.description}
-                        type="text" name="description"
-                        id="description" onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('description')}
+                    <Input className={this.hasErrorFor ( 'description' ) ? 'is-invalid' : ''}
+                           value={this.state.description}
+                           type="text" name="description"
+                           id="description" onChange={this.handleInput.bind ( this )}/>
+                    {this.renderErrorFor ( 'description' )}
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="location">{translations.location}:</Label>
-                    <Input className={this.hasErrorFor('location') ? 'is-invalid' : ''} type="text"
-                        value={this.state.location}
-                        name="location"
-                        id="location"
-                        onChange={this.handleInput.bind(this)}/>
-                    {this.renderErrorFor('location')}
+                    <Input className={this.hasErrorFor ( 'location' ) ? 'is-invalid' : ''} type="text"
+                           value={this.state.location}
+                           name="location"
+                           id="location"
+                           onChange={this.handleInput.bind ( this )}/>
+                    {this.renderErrorFor ( 'location' )}
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="beginDate">{translations.start_date}:</Label>
                     <DateTime dateFormat="YYYY-MM-DD" inputProps={{ name: 'beginDate' }}
-                        className={this.hasErrorFor('beginDate') ? 'is-invalid' : ''}
-                        onChange={this.handleStartDate.bind(this)}/>
-                    {this.renderErrorFor('beginDate')}
+                              className={this.hasErrorFor ( 'beginDate' ) ? 'is-invalid' : ''}
+                              onChange={this.handleStartDate.bind ( this )}/>
+                    {this.renderErrorFor ( 'beginDate' )}
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="endDate">{translations.end_date}:</Label>
                     <DateTime dateFormat="YYYY-MM-DD" inputProps={{ name: 'endDate' }}
-                        className={this.hasErrorFor('endDate') ? 'is-invalid' : ''}
-                        onChange={this.handleEndDate.bind(this)}/>
-                    {this.renderErrorFor('endDate')}
+                              className={this.hasErrorFor ( 'endDate' ) ? 'is-invalid' : ''}
+                              onChange={this.handleEndDate.bind ( this )}/>
+                    {this.renderErrorFor ( 'endDate' )}
                 </FormGroup>
 
                 <FormGroup>
@@ -258,11 +258,11 @@ class CreateEvent extends React.Component {
     }
 
     render () {
-        const form = this.buildForm()
-        const saveButton = <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
+        const form = this.buildForm ()
+        const saveButton = <Button color="primary" onClick={this.handleClick.bind ( this )}>{translations.save}</Button>
 
-        if (this.props.modal) {
-            const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        if ( this.props.modal ) {
+            const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
             return (
                 <React.Fragment>

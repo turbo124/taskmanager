@@ -4,23 +4,23 @@ import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class TableSearch extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.state = {
             query: ''
         }
 
-        this.handleSearchChange = this.handleSearchChange.bind(this)
-        this.reset = this.reset.bind(this)
+        this.handleSearchChange = this.handleSearchChange.bind ( this )
+        this.reset = this.reset.bind ( this )
     }
 
-    handleSearchChange (event) {
+    handleSearchChange ( event ) {
         const query = event.target.value
-        if (query.length === 0 || query.length > 3) {
-            this.props.onChange(event)
+        if ( query.length === 0 || query.length > 3 ) {
+            this.props.onChange ( event )
         }
 
-        this.setState({ query: query })
+        this.setState ( { query: query } )
     }
 
     reset () {
@@ -31,7 +31,7 @@ export default class TableSearch extends Component {
             }
         }
 
-        this.setState({ query: '' }, () => this.props.onChange(e))
+        this.setState ( { query: '' }, () => this.props.onChange ( e ) )
     }
 
     render () {
@@ -49,10 +49,10 @@ export default class TableSearch extends Component {
 
                 <InputGroup className="mb-3">
                     <Input id="searchText" name="searchText" type="text" placeholder="Search..." value={query}
-                        onChange={this.handleSearchChange}/>
+                           onChange={this.handleSearchChange}/>
                     <Button color="link" className="bg-transparent"
-                        style={{ marginLeft: '-40px', zIndex: 100, color: '#e4e7ea' }}
-                        onClick={() => this.reset()}>
+                            style={{ marginLeft: '-40px', zIndex: 100, color: '#e4e7ea' }}
+                            onClick={() => this.reset ()}>
                         <i id="clearSearch" className={`fa ${icons.clear}`}/>
                     </Button>
                 </InputGroup>

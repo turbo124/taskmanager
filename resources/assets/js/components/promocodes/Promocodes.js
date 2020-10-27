@@ -9,8 +9,8 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 
 export default class Promocodes extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             isOpen: window.innerWidth > 670,
@@ -37,77 +37,77 @@ export default class Promocodes extends Component {
             }
         }
 
-        this.addUserToState = this.addUserToState.bind(this)
-        this.userList = this.userList.bind(this)
-        this.filterPromocodes = this.filterPromocodes.bind(this)
+        this.addUserToState = this.addUserToState.bind ( this )
+        this.userList = this.userList.bind ( this )
+        this.filterPromocodes = this.filterPromocodes.bind ( this )
     }
 
-    addUserToState (promocodes) {
+    addUserToState ( promocodes ) {
         const cachedData = !this.state.cachedData.length ? promocodes : this.state.cachedData
-        this.setState({
+        this.setState ( {
             promocodes: promocodes,
             cachedData: cachedData
-        })
+        } )
     }
 
-    filterPromocodes (filters) {
-        this.setState({ filters: filters })
+    filterPromocodes ( filters ) {
+        this.setState ( { filters: filters } )
     }
 
     resetFilters () {
-        this.props.reset()
+        this.props.reset ()
     }
 
     handleClose () {
-        this.setState({ error: '', show_success: false })
+        this.setState ( { error: '', show_success: false } )
     }
 
-    userList (props) {
+    userList ( props ) {
         const { promocodes } = this.state
-        console.log('promocodes', promocodes)
+        console.log ( 'promocodes', promocodes )
         return <PromocodeItem showCheckboxes={props.showCheckboxes} promocodes={promocodes}
-            viewId={props.viewId}
-            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-            toggleViewedEntity={props.toggleViewedEntity}
-            bulk={props.bulk}
-            onChangeBulk={props.onChangeBulk}/>
+                              viewId={props.viewId}
+                              ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+                              toggleViewedEntity={props.toggleViewedEntity}
+                              bulk={props.bulk}
+                              onChangeBulk={props.onChangeBulk}/>
     }
 
     getUsers () {
-        axios.get('api/users')
-            .then((r) => {
-                this.setState({
+        axios.get ( 'api/users' )
+            .then ( ( r ) => {
+                this.setState ( {
                     users: r.data
-                })
-            })
-            .catch((e) => {
-                this.setState({
+                } )
+            } )
+            .catch ( ( e ) => {
+                this.setState ( {
                     loading: false,
                     error: e
-                })
-            })
+                } )
+            } )
     }
 
-    setFilterOpen (isOpen) {
-        this.setState({ isOpen: isOpen })
+    setFilterOpen ( isOpen ) {
+        this.setState ( { isOpen: isOpen } )
     }
 
-    setError (message = null) {
-        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
+    setError ( message = null ) {
+        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
     }
 
-    setSuccess (message = null) {
-        this.setState({
+    setSuccess ( message = null ) {
+        this.setState ( {
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        })
+        } )
     }
 
     render () {
         const { searchText, status, start_date, end_date, error } = this.state.filters
         const { view, promocodes, isOpen, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/promocodes?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date} `
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
@@ -118,9 +118,9 @@ export default class Promocodes extends Component {
                         <Card>
                             <CardBody>
                                 <PromocodeFilters setFilterOpen={this.props.setFilterOpen} promocodes={promocodes}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
-                                    filters={this.state.filters} filter={this.filterPromocodes}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                                  updateIgnoredColumns={this.updateIgnoredColumns}
+                                                  filters={this.state.filters} filter={this.filterPromocodes}
+                                                  saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddPromocode
                                     promocodes={promocodes}
@@ -131,7 +131,7 @@ export default class Promocodes extends Component {
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -139,7 +139,7 @@ export default class Promocodes extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -150,8 +150,8 @@ export default class Promocodes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind(this)}
-                                    setError={this.setError.bind(this)}
+                                    setSuccess={this.setSuccess.bind ( this )}
+                                    setError={this.setError.bind ( this )}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Promocode"
                                     bulk_save_url="/api/promocodes/bulk"

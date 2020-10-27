@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function Step2 (props) {
-    if (props.currentStep !== 2) {
+export default function Step2 ( props ) {
+    if ( props.currentStep !== 2 ) {
         return null
     }
     return (

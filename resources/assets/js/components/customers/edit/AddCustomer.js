@@ -8,8 +8,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class AddCustomer extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
         this.initialState = {
             modal: false,
             name: '',
@@ -34,11 +34,11 @@ class AddCustomer extends React.Component {
         }
 
         this.state = this.initialState
-        this.toggle = this.toggle.bind(this)
+        this.toggle = this.toggle.bind ( this )
     }
 
-    handleClick (event) {
-        this.setState({ loading: true })
+    handleClick ( event ) {
+        this.setState ( { loading: true } )
         const formData = {
             name: this.state.name,
             phone: this.state.phone,
@@ -55,40 +55,40 @@ class AddCustomer extends React.Component {
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4
         }
-        this.setState({
+        this.setState ( {
             submitSuccess: true,
             values: [...this.state.values, formData],
             loading: false
-        })
-        axios.post('/api/customers', formData)
-            .then((response) => {
-                this.toggle()
+        } )
+        axios.post ( '/api/customers', formData )
+            .then ( ( response ) => {
+                this.toggle ()
                 const newCustomer = response.data
-                this.props.customers.push(newCustomer)
-                this.props.action(this.props.customers)
-                this.setState(this.initialState)
-            })
-            .catch((error) => {
-                this.setState({
+                this.props.customers.push ( newCustomer )
+                this.props.action ( this.props.customers )
+                this.setState ( this.initialState )
+            } )
+            .catch ( ( error ) => {
+                this.setState ( {
                     errors: error.response.data.errors
-                })
-            })
+                } )
+            } )
     }
 
     toggle () {
-        this.setState({
+        this.setState ( {
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if (!this.state.modal) {
-                this.setState(this.initialState, () => localStorage.removeItem('customerForm'))
+            if ( !this.state.modal ) {
+                this.setState ( this.initialState, () => localStorage.removeItem ( 'customerForm' ) )
             }
-        })
+        } )
     }
 
     render () {
         const { submitSuccess, loading } = this.state
-        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -105,12 +105,12 @@ class AddCustomer extends React.Component {
                         )}
 
                         <CustomerTabs custom_fields={this.props.custom_fields} toggle={this.toggle}
-                            customers={this.props.customers} action={this.props.action}
-                            type="add"/>
+                                      customers={this.props.customers} action={this.props.action}
+                                      type="add"/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={false} toggle={this.toggle}
-                        loading={loading}/>
+                                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

@@ -4,18 +4,18 @@ import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 
 export default class ActionsMenu extends Component {
-    constructor (props) {
-        super(props)
+    constructor ( props ) {
+        super ( props )
 
         this.state = {
             isOpen: false
         }
 
-        this.toggle = this.toggle.bind(this)
+        this.toggle = this.toggle.bind ( this )
     }
 
     toggle () {
-        this.setState({ isOpen: !this.state.isOpen })
+        this.setState ( { isOpen: !this.state.isOpen } )
     }
 
     render () {

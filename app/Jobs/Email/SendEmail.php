@@ -5,10 +5,13 @@ namespace App\Jobs\Email;
 use App\Components\Pdf\InvoicePdf;
 use App\Components\Pdf\LeadPdf;
 use App\Components\Pdf\TaskPdf;
+use App\Events\EmailFailedToSend;
 use App\Factory\EmailFactory;
+use App\Factory\ErrorLogFactory;
 use App\Jobs\Invoice\CreateUbl;
 use App\Mail\SendMail;
 use App\Models\Email;
+use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Repositories\EmailRepository;
@@ -98,16 +101,7 @@ class SendEmail implements ShouldQueue
             $message->setBcc($settings->bcc_email);
         }
 
-        if ($settings->pdf_email_attachment && !in_array(
-                get_class($this->entity),
-                [
-                    'App\Models\Lead',
-                    'App\Models\Task',
-                    'App\Models\Deal',
-                    'App\Models\Payment',
-                    'App\Models\Cases'
-                ]
-            )) {
+        if ($settings->pdf_email_attachment) {
             $message->setAttachments(public_path($this->entity->service()->generatePdf($this->contact)));
         }
 
@@ -121,14 +115,34 @@ class SendEmail implements ShouldQueue
             $message->setAttachmentData($ubl_string, $file_name);
         }
 
-        Mail::to($this->contact->email, $this->contact->present()->name())
-            ->send($message);
+        try {
+            Mail::to($this->contact->email, $this->contact->present()->name())
+                ->send($message);
+        } catch (\Exception $e) {
+            event(new EmailFailedToSend($this->entity, $e->getMessage()));
+        }
 
         $sent_successfully = count(Mail::failures()) === 0;
+
+        if (!$sent_successfully) {
+            $this->createLogEntry(Mail::failures());
+        }
 
         $this->toDatabase($this->subject, $body, $sent_successfully);
 
         return $message;
+    }
+
+    private function createLogEntry($errors)
+    {
+        $user = $this->entity->user;
+        $error_log = ErrorLogFactory::create($this->entity->account, $user, $this->entity->customer);
+        $error_log->data = $errors;
+        $error_log->error_type = ErrorLog::EMAIL;
+        $error_log->error_result = ErrorLog::FAILURE;
+        $error_log->entity = get_class($this->entity);
+
+        $error_log->save();
     }
 
     private function buildMailMessageData($settings, $body, $design): array
@@ -161,7 +175,7 @@ class SendEmail implements ShouldQueue
         $user = auth()->user();
 
         if (empty($user)) {
-            $user = User::find(5)->first(); //TODO
+            $user = $this->entity->user;
         }
 
         $entity = get_class($this->entity);

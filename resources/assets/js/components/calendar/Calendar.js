@@ -33,37 +33,37 @@ const RowContainer = styled.div`
 `
 const Calendar = props => {
     const { year, month, events } = props
-    console.log('events second', events)
+    console.log ( 'events second', events )
     const weeks = []
-    const firstDayInMonth = new Date(year, month - 1, 1)
-    const lastDayInMonth = new Date(year, month, 0)
-    const firstDayInCalendar = new Date(
+    const firstDayInMonth = new Date ( year, month - 1, 1 )
+    const lastDayInMonth = new Date ( year, month, 0 )
+    const firstDayInCalendar = new Date (
         year,
         month - 1,
-        1 - firstDayInMonth.getDay()
+        1 - firstDayInMonth.getDay ()
     )
-    const lastDayInCalendar = new Date(
+    const lastDayInCalendar = new Date (
         year,
         month - 1,
-        lastDayInMonth.getDate() + 6 - lastDayInMonth.getDay()
+        lastDayInMonth.getDate () + 6 - lastDayInMonth.getDay ()
     )
     let currentDate = firstDayInCalendar
-    while (currentDate <= lastDayInCalendar) {
-        if (currentDate.getDay() === 0) {
-            weeks.push([])
+    while ( currentDate <= lastDayInCalendar ) {
+        if ( currentDate.getDay () === 0 ) {
+            weeks.push ( [] )
         }
-        weeks[weeks.length - 1].push(new Date(currentDate))
-        currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1))
+        weeks[ weeks.length - 1 ].push ( new Date ( currentDate ) )
+        currentDate = new Date ( currentDate.setDate ( currentDate.getDate () + 1 ) )
     }
     return (
         <Container>
             <Header>
                 <h1>
-                    {monthNames[month - 1]} {year}
+                    {monthNames[ month - 1 ]} {year}
                 </h1>
             </Header>
             <RowContainer>
-                {weeks.map((dates, i) => (
+                {weeks.map ( ( dates, i ) => (
                     <CalendarWeekRow
                         custom_fields={props.custom_fields}
                         year={year}
@@ -71,14 +71,14 @@ const Calendar = props => {
                         dates={dates}
                         action={props.action}
                         allEvents={events}
-                        events={events.filter(
+                        events={events.filter (
                             event =>
-                                new Date(Date.parse(event.beginDate)) <= dates[dates.length - 1] &&
-                                new Date(Date.parse(event.endDate)) >= dates[0]
+                                new Date ( Date.parse ( event.beginDate ) ) <= dates[ dates.length - 1 ] &&
+                                new Date ( Date.parse ( event.endDate ) ) >= dates[ 0 ]
                         )}
                         key={i}
                     />
-                ))}
+                ) )}
             </RowContainer>
         </Container>
     )
