@@ -161,13 +161,13 @@ class Invoice extends BaseCalculator
 
     private function applyGatewayFee(): ?bool
     {
-        if (empty($this->entity->gateway_fee) || $this->entity->gateway_fee_applied) {
+        if (\App\Models\Invoice::class !== get_class($this->entity) || empty($this->entity->gateway_fee) || $this->entity->gateway_fee_applied) {
             return true;
         }
 
         $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
         $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
-        $this->addChargeToLineItems($gateway_fee, trans('texts.gateway_fee'), $this->entity::GATEWAY_FEE_TYPE);
+        $this->addChargeToLineItems($gateway_fee, trans('texts.gateway_fee'), \App\Models\Invoice::GATEWAY_FEE_TYPE);
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
 
