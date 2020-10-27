@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LineItem from './LineItem'
-import { Button, FormGroup, Input, Label } from 'reactstrap'
+import { Button, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from '../utils/_money'
@@ -123,8 +123,7 @@ class LineItemEditor extends Component {
         } )
     }
 
-    handleLineTypeChange ( e ) {
-        const line_type = parseInt ( e.target.value )
+    handleLineTypeChange ( line_type ) {
         this.loadEntities ( line_type )
     }
 
@@ -316,52 +315,113 @@ class LineItemEditor extends Component {
     }
 
     render () {
-        const variable = this._getEntity ()
-
-        if ( !variable ) {
-            console.log ( `There are no ${this.state.line_type}` )
-            return false
-        }
-
-        const lineItemRows = variable.length && this.state.tax_rates.length
-            ? <LineItem
-                invoice={this.props.invoice}
-                line_type={parseInt ( this.state.line_type )}
-                rows={this.props.invoice.line_items}
-                tax_rates={this.state.tax_rates}
-                expenses={this.state.expenses}
-                projects={this.state.projects}
-                tasks={this.state.tasks}
-                products={this.state.products}
-                attributes={this.state.attributes}
-                new={true}
-                onChange={this.handleRowChange}
-                handleTaskChange={this.updateTasks}
-                onDelete={this.handleRowDelete}
-            />
-            : null
+        const products = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_product)
+        const tasks = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_task)
+        const expenses = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_expense)
 
         return (
             <React.Fragment>
 
-                <FormGroup>
-                    <Label>{translations.line_type}</Label>
-                    <Input name="line_type" type='select' value={this.state.line_type}
-                           onChange={this.handleLineTypeChange} className='pa2 mr2 f6 form-control'>
-                        <option value="">Select Line Type</option>
-                        <option value={consts.line_item_product}>{translations.product}</option>
-                        <option value={consts.line_item_project}>{translations.project}</option>
+                <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === consts.line_item_product ? 'active' : ''}
+                            onClick={() => {
+                                this.handleLineTypeChange (consts.line_item_product)
+                            }}>
+                                {translations.products}
+                        </NavLink>
+                    </NavItem>
 
-                        {this.props.model.entity === 'Invoice' &&
-                        <React.Fragment>
-                            <option value={consts.line_item_task}>{translations.task}</option>
-                            <option value={consts.line_item_expense}>{translations.expense}</option>
-                        </React.Fragment>
+                    {this.props.model.entity === 'Invoice' &&
+                    <NavItem>
+                       <NavLink
+                           className={this.state.activeTab === consts.line_item_task ? 'active' : ''}
+                           onClick={() => {
+                               this.handleLineTypeChange(consts.line_item_task)
+                           }}>
+                               {translations.tasks}
+                      </NavLink>
+                  </NavItem>
+                  }
+
+                  {this.props.model.entity === 'Invoice' &&
+                  <NavItem>
+                      <NavLink
+                          className={this.state.activeTab === consts.line_item_expense ? 'active' : ''}
+                          onClick={() => {
+                              this.handleLineTypeChange(consts.line_item_expense)
+                          }}>
+                          {translations.expenses}
+                      </NavLink>
+                  </NavItem>
+                  }
+              </Nav>
+
+              <TabContent className="" activeTab={this.state.line_type}>
+                    <TabPane tabId={consts.line_item_product}>
+                        {this.state.products.length && 
+                        <LineItem
+                            invoice={this.props.invoice}
+                            line_type={parseInt(this.state.line_type)}
+                            rows={products}
+                            tax_rates={this.state.tax_rates}
+                            expenses={this.state.expenses}
+                            projects={this.state.projects}
+                            tasks={this.state.tasks}
+                            products={this.state.products}
+                            attributes={this.state.attributes}
+                            new={true}
+                            onChange={this.handleRowChange}
+                            handleTaskChange={this.updateTasks}
+                            onDelete={this.handleRowDelete}
+                        />
+
                         }
-                    </Input>
+                    </TabPane>
 
-                </FormGroup>
-                {!!this.state.line_type && lineItemRows}
+                    <TabPane tabId={consts.line_item_task}>
+                        {this.state.tasks.length && 
+                        <LineItem
+                            invoice={this.props.invoice}
+                            line_type={parseInt(this.state.line_type)}
+                            rows={tasks}
+                            tax_rates={this.state.tax_rates}
+                            expenses={this.state.expenses}
+                            projects={this.state.projects}
+                            tasks={this.state.tasks}
+                            products={this.state.products}
+                            attributes={this.state.attributes}
+                            new={true}
+                            onChange={this.handleRowChange}
+                            handleTaskChange={this.updateTasks}
+                            onDelete={this.handleRowDelete}
+                        />
+
+                        }
+                    </TabPane>
+
+                    <TabPane tabId={consts.line_item_expense}>
+                        {this.state.tasks.length && 
+                        <LineItem
+                            invoice={this.props.invoice}
+                            line_type={parseInt(this.state.line_type)}
+                            rows={expenses}
+                            tax_rates={this.state.tax_rates}
+                            expenses={this.state.expenses}
+                            projects={this.state.projects}
+                            tasks={this.state.tasks}
+                            products={this.state.products}
+                            attributes={this.state.attributes}
+                            new={true}
+                            onChange={this.handleRowChange}
+                            handleTaskChange={this.updateTasks}
+                            onDelete={this.handleRowDelete}
+                        />
+
+                        }
+                    </TabPane>
+                </TabContent>
 
                 <Button color="success" onClick={this.handleRowAdd}
                         className='f6 link dim ph3 pv1 mb2 dib white bg-dark-green bn'>Add
