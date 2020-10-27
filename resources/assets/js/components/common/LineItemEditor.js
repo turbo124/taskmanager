@@ -329,7 +329,7 @@ class LineItemEditor extends Component {
                             onClick={() => {
                                 this.handleLineTypeChange (consts.line_item_product)
                             }}>
-                                {translations.products}
+                                {translations.products} {products.length}
                         </NavLink>
                     </NavItem>
 
@@ -340,7 +340,7 @@ class LineItemEditor extends Component {
                            onClick={() => {
                                this.handleLineTypeChange(consts.line_item_task)
                            }}>
-                               {translations.tasks}
+                               {translations.tasks} {tasks.length}
                       </NavLink>
                   </NavItem>
                   }
@@ -352,7 +352,7 @@ class LineItemEditor extends Component {
                           onClick={() => {
                               this.handleLineTypeChange(consts.line_item_expense)
                           }}>
-                          {translations.expenses}
+                          {translations.expenses} {expenses.length}
                       </NavLink>
                   </NavItem>
                   }
